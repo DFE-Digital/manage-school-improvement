@@ -55,7 +55,13 @@ class RiseHomePage {
         cy.getByTestId("clear-filters").click();
 
         return this;
-    } 
+    }
+    
+    public selectSchool(school : string): this {
+        cy.contains(school).click()
+
+        return this;
+    }
 }
 
 const riseHomePage = new RiseHomePage();
