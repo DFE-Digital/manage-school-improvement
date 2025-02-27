@@ -67,12 +67,16 @@ class RiseHomePage {
     {
         school = "Plymouth Grove Primary School"
 
+        cy.get('[data-cy="trust-name-0"]').contains(school)
+
         return this;
     }
 
     public hasURN(URN : string) : this
     {
         URN = '105443'
+
+        cy.get('#urn-0').contains(URN)
 
         return this;
     }
@@ -81,12 +85,16 @@ class RiseHomePage {
     {
         localAuthority = 'Manchester'
 
+        cy.get('[id^="localauthority-"]').eq(0).contains(localAuthority)
+
         return this;
     }
 
     public hasRegion(region : string) : this
     {
         region = 'North West'
+
+        cy.get('[id^="region-"]').eq(0).contains(region)
 
         return this;
     }
