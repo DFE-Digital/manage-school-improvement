@@ -10,8 +10,8 @@ public hasHeader(header : string) : this {
 public withSchoolName(school: string): this {
     cy.getById("SearchQuery").typeFast(school);
 
-    // reassign school from 'coo' to 'Commbe Dean School'
-    school = 'Coombe Dean School'
+    // reassign school from 'Plym' to 'Plymouth Grove Primary School'
+    school = 'Plymouth Grove Primary School'
 
     cy.contains(school).click()
 

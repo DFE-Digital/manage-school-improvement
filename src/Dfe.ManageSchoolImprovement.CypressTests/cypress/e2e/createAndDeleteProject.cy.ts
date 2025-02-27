@@ -7,7 +7,7 @@ import path from "path";
 
 
 describe("User navigates to the rise landing page", () => {
-    let school = 'Coom'
+    let school = 'Plym'
     let header = 'Which school needs help?'
     let URN = '105443'
     let localAuthority = 'Manchester'
