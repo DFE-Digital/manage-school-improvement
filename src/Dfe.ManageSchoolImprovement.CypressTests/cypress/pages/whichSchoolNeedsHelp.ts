@@ -1,5 +1,12 @@
 class WhichSchoolNeedsHelp {
 
+public hasHeader(header : string) : this {
+    
+    header = 'Which school needs help?'
+
+    return this;
+}
+
 public withSchoolName(school: string): this {
     cy.getById("SearchQuery").typeFast(school);
 
