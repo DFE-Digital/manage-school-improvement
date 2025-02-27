@@ -62,6 +62,34 @@ class RiseHomePage {
 
         return this;
     }
+
+    public hasSchoolName(school : string) : this
+    {
+        school = "Plymouth Grove Primary School"
+
+        return this;
+    }
+
+    public hasURN(URN : string) : this
+    {
+        URN = '105443'
+
+        return this;
+    }
+
+    public hasLocalAuthority(localAuthority : string) : this
+    {
+        localAuthority = 'Manchester'
+
+        return this;
+    }
+
+    public hasRegion(region : string) : this
+    {
+        region = 'North West'
+
+        return this;
+    }
 }
 
 const riseHomePage = new RiseHomePage();
