@@ -4,6 +4,8 @@ public hasHeader(header : string) : this {
     
     header = 'Which school needs help?'
 
+    cy.get('h1').contains(header)
+
     return this;
 }
 
