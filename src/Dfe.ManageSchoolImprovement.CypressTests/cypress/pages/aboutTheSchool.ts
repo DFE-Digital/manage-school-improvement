@@ -1,20 +1,17 @@
 class AboutTheSchool {
-    
-    public clickContinue(): this
-    {
-        cy.contains('Continue').click()
-    
-        return this
-    }
+  public clickContinue(): this {
+    cy.contains("Continue").click();
 
-    public deleteSchool(): this
-    {
-        cy.contains('Delete school').click({force: true})
+    return this;
+  }
 
-        return this
-    }
+  public deleteSchool(): this {
+    cy.contains("Delete school").click({ force: true });
+
+    return this;
+  }
 }
-    
-    const aboutTheSchool = new AboutTheSchool();
-    
-    export default aboutTheSchool;
+
+const aboutTheSchool = new AboutTheSchool();
+
+export default aboutTheSchool;
