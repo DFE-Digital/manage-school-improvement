@@ -107,11 +107,11 @@
                 </button>
 
                 <div class="govuk-form-group">
-                    <label class="govuk-label govuk-label--m" for="projects">
+                    <label class="govuk-label govuk-label--m" for="Title">
                         Search for schools
                     </label>
                     <span class="govuk-hint">You can search by school name, academy name and URN</span>
-                    <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input" aria-describedby="filter-project-title-hint"
+                    <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input" aria-describedby="Title"
                            data-cy="select-projectlist-filter-title">
 
                 </div>
@@ -157,13 +157,14 @@
                             <div class="govuk-accordion__section">
                                 <div class="govuk-accordion__section-header">
                                     <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button" id="accordion-regions-heading" data-cy="select-projectlist-filter-region">
+                                       
+                                        <label class="govuk-accordion__section-button" id="accordion-regions-heading" data-cy="select-projectlist-filter-region" for="filter-searches">
                                             Region
-                                        </span>
+                                        </label>
                                     </h2>
                                 </div>
-                                <div class="govuk-accordion__section-content" aria-labelledby="accordion-regions-heading">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter regions...">
+                                <div class="govuk-accordion__section-content">
+                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter regions..." aria-labelledby="accordion-regions-heading">
                                     <div class="govuk-checkboxes">
                                         @foreach (var region in Model.AvailableRegions)
                                         {
@@ -181,13 +182,13 @@
                             <div class="govuk-accordion__section">
                                 <div class="govuk-accordion__section-header">
                                     <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button" id="accordion-local-authorities-heading" data-cy="select-projectlist-filter-local-authority">
+                                        <label class="govuk-accordion__section-button" id="accordion-local-authorities-heading" data-cy="select-projectlist-filter-local-authority" for="filter-authority-searches">
                                             Local authority
-                                        </span>
+                                        </label>
                                     </h2>
                                 </div>
-                                <div class="govuk-accordion__section-content" aria-labelledby="accordion-local-authorities-heading">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter local authorities...">
+                                <div class="govuk-accordion__section-content">
+                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-authority-searches" placeholder="Type to filter local authorities..." aria-labelledby="accordion-local-authorities-heading">
                                     <div class="govuk-checkboxes">
                                         @foreach (var localAuthority in Model.AvailableLocalAuthorities)
                                         {
