@@ -6,16 +6,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.SchoolList;
 
-public class IndexModel : PageModel
+public class IndexModel(ISupportProjectQueryService supportProjectQueryService) : PageModel
 {
-
-    private readonly ISupportProjectQueryService _supportProjectQueryService;
-
-    public IndexModel(ISupportProjectQueryService supportProjectQueryService)
-    {
-        _supportProjectQueryService = supportProjectQueryService;
-    }
-
     public IEnumerable<SupportProjectViewModel> SupportProjects = [];
 
     [BindProperty]
@@ -33,7 +25,7 @@ public class IndexModel : PageModel
         Pagination.PagePath = "/SchoolList/Index";
 
         var result =
-           await _supportProjectQueryService.SearchForSupportProjects(
+           await supportProjectQueryService.SearchForSupportProjects(
                Filters.Title, Filters.SelectedStatuses, Filters.SelectedOfficers, Filters.SelectedRegions,
                Filters.SelectedLocalAuthorities, Pagination.PagePath, Pagination.CurrentPage, Pagination.PageSize,
                cancellationToken);
@@ -45,14 +37,14 @@ public class IndexModel : PageModel
             SupportProjects = result.Value?.Data.Select(SupportProjectViewModel.Create)!;
         }
 
-        var regionsResult = await _supportProjectQueryService.GetAllProjectRegions(cancellationToken);
+        var regionsResult = await supportProjectQueryService.GetAllProjectRegions(cancellationToken);
 
         if (regionsResult.IsSuccess && regionsResult.Value != null)
         {
             Filters.AvailableRegions = regionsResult.Value.ToList();
         }
 
-        var localAuthoritiesResult = await _supportProjectQueryService.GetAllProjectLocalAuthorities(cancellationToken);
+        var localAuthoritiesResult = await supportProjectQueryService.GetAllProjectLocalAuthorities(cancellationToken);
 
         if (localAuthoritiesResult.IsSuccess && localAuthoritiesResult.Value != null)
         {

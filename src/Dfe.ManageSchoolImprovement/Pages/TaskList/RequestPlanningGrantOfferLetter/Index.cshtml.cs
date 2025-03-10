@@ -15,7 +15,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [Display(Name = "date grant team contacted")]
     public DateTime? DateGrantTeamContacted { get; set; }
-    public string EmailAddress { get; set; }
+    public string EmailAddress { get; set; } = string.Empty;
 
     public bool ShowError { get; set; }
 

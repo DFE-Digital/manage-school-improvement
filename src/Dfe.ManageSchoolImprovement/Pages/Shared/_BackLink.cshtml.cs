@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 
 public class BackLink(string linkPage, Dictionary<string, string> linkRouteValues, string linkText = "Back")

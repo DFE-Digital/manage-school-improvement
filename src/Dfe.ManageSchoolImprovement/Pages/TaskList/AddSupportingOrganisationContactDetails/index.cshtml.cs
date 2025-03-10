@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -8,7 +7,6 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
 
@@ -18,7 +16,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,E
     [NameValidation]
     public string? Name  { get; set; }
     
-    [EmailAddress(ErrorMessage = "Email address must be in correct format")]
+    [EmailValidation(ErrorMessage = "Email address must be in correct format")]
     [BindProperty(Name = "email-address")]
     
     public string? EmailAddress  { get; set; }

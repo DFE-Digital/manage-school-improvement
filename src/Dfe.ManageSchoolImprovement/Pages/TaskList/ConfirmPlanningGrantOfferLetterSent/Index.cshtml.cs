@@ -3,7 +3,6 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc; 
 using System.ComponentModel.DataAnnotations;

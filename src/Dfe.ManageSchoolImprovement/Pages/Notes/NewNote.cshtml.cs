@@ -6,9 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Notes;
-
 
 public class NewNoteModel(ISupportProjectQueryService supportProjectQueryService,ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService,errorService)
 {

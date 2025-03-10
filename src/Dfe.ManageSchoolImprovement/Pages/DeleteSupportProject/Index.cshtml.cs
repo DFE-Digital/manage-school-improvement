@@ -4,9 +4,9 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.DeleteSupportProject
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.DeleteSupportProject
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {

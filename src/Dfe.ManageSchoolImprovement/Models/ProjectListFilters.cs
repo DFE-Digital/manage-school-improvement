@@ -1,10 +1,6 @@
 #nullable enable
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models;
 
@@ -29,7 +25,7 @@ public class ProjectListFilters
    public string? Title { get; set; }
 
    [BindProperty]
-   public string[] SelectedStatuses { get; set; } = Array.Empty<string>();
+   public string[] SelectedStatuses { get; set; } = [];
 
    [BindProperty]
    public string[] SelectedOfficers { get; set; } = Array.Empty<string>();
