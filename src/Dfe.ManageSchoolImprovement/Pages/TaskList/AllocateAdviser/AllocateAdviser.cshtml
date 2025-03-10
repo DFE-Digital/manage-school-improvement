@@ -32,7 +32,7 @@
                 </p>
                 <div class="govuk-form-group @(Model.AdviserEmailAddressError ? "govuk-form-group--error" : "")">
                     <h2 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--m" for="event-name">
+                        <label class="govuk-label govuk-label--m" for="email-label">
                             Email Address
                         </label>
                     </h2>
@@ -45,7 +45,7 @@
                             <span class="govuk-visually-hidden">Error:</span> Email must be in the format: rise.firstname.lastname@education.gov.uk
                         </p>
                     }
-                    <input class="govuk-input govuk-!-width-two-thirds @(Model.AdviserEmailAddressError ? "govuk-input--error" : "")" id="adviser-email-address" name="adviser-email-address" type="text" value="@Model.AdviserEmailAddress">
+                    <input class="govuk-input govuk-!-width-two-thirds @(Model.AdviserEmailAddressError ? "govuk-input--error" : "")" id="adviser-email-address" name="adviser-email-address" type="text" value="@Model.AdviserEmailAddress" aria-label="email-label">
                 </div>
             </div>
             <govuk-date-input heading-label="false" label="Enter date the adviser was allocated" id="date-adviser-allocated" name="date-adviser-allocated" asp-for="@Model.DateAdviserAllocated" hint="For example, 1 7 2024." />
