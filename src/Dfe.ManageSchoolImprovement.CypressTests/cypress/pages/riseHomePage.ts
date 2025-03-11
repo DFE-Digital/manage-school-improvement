@@ -71,7 +71,6 @@ class RiseHomePage {
   }
 
   public hasURN(URN: string): this {
-    URN = "105443";
 
     cy.get("#urn-0").contains(URN);
 
@@ -79,7 +78,6 @@ class RiseHomePage {
   }
 
   public hasLocalAuthority(localAuthority: string): this {
-    localAuthority = "Manchester";
 
     cy.get('[id^="localauthority-"]').eq(0).contains(localAuthority);
 
@@ -87,7 +85,6 @@ class RiseHomePage {
   }
 
   public hasRegion(region: string): this {
-    region = "North West";
 
     cy.get('[id^="region-"]').eq(0).contains(region);
 
