@@ -182,14 +182,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus RecordSupportDecisionTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorDecisionDate.HasValue
-            && supportProject.HasSchoolMatchedWithHighQualityOrganisation.HasValue
-            && supportProject.HasSchoolMatchedWithHighQualityOrganisation.Equals(true))
+            && supportProject.HasSchoolMatchedWithSupportingOrganisation.HasValue
+            && supportProject.HasSchoolMatchedWithSupportingOrganisation.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.RegionalDirectorDecisionDate.HasValue
-            && !supportProject.HasSchoolMatchedWithHighQualityOrganisation.HasValue)
+            && !supportProject.HasSchoolMatchedWithSupportingOrganisation.HasValue)
         {
             return TaskListStatus.NotStarted;
         }

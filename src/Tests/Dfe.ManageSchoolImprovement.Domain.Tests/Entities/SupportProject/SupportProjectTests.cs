@@ -253,20 +253,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasSchoolMatchedWithHighQualityOrganisation = false;
+            bool? hasSchoolMatchedWithSupportingOrganisation = false;
             DateTime? regionalDirectorDecisionDate = DateTime.UtcNow;
-            string? notMatchingSchoolWithHighQualityOrgNotes = "Notes only if choose no";
+            string? notMatchingSchoolWithSupportingOrgNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordMatchingDecision(
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithHighQualityOrganisation,
-                notMatchingSchoolWithHighQualityOrgNotes);
+                hasSchoolMatchedWithSupportingOrganisation,
+                notMatchingSchoolWithSupportingOrgNotes);
 
             // Assert
-            supportProject.HasSchoolMatchedWithHighQualityOrganisation.Should().Be(hasSchoolMatchedWithHighQualityOrganisation);
+            supportProject.HasSchoolMatchedWithSupportingOrganisation.Should().Be(hasSchoolMatchedWithSupportingOrganisation);
             supportProject.RegionalDirectorDecisionDate.Should().Be(regionalDirectorDecisionDate);
-            supportProject.NotMatchingSchoolWithHighQualityOrgNotes.Should().Be(notMatchingSchoolWithHighQualityOrgNotes);
+            supportProject.NotMatchingSchoolWithSupportingOrgNotes.Should().Be(notMatchingSchoolWithSupportingOrgNotes);
             mockRepository.VerifyAll();
         }
 
@@ -276,20 +276,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasSchoolMatchedWithHighQualityOrganisation = true;
+            bool? hasSchoolMatchedWithSupportingOrganisation = true;
             DateTime? regionalDirectorDecisionDate = DateTime.UtcNow;
-            string? notMatchingSchoolWithHighQualityOrgNotes = "Notes only if choose no";
+            string? notMatchingSchoolWithSupportingOrgNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordMatchingDecision(
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithHighQualityOrganisation,
-                notMatchingSchoolWithHighQualityOrgNotes);
+                hasSchoolMatchedWithSupportingOrganisation,
+                notMatchingSchoolWithSupportingOrgNotes);
 
             // Assert
-            supportProject.HasSchoolMatchedWithHighQualityOrganisation.Should().Be(hasSchoolMatchedWithHighQualityOrganisation);
+            supportProject.HasSchoolMatchedWithSupportingOrganisation.Should().Be(hasSchoolMatchedWithSupportingOrganisation);
             supportProject.RegionalDirectorDecisionDate.Should().Be(regionalDirectorDecisionDate);
-            supportProject.NotMatchingSchoolWithHighQualityOrgNotes.Should().Be(notMatchingSchoolWithHighQualityOrgNotes);
+            supportProject.NotMatchingSchoolWithSupportingOrgNotes.Should().Be(notMatchingSchoolWithSupportingOrgNotes);
             mockRepository.VerifyAll();
         }
 

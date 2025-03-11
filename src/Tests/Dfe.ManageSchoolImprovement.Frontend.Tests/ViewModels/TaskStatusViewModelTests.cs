@@ -207,11 +207,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
         [Theory, MemberData(nameof(RecordSupportDecisionTaskListStatusCases))]
-        public void RecordMatchingDecisionTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithHighQualityOrganisation, string? notMatchingSchoolWithHighQualityOrgNotes, TaskListStatus expectedTaskListStatus)
+        public void RecordMatchingDecisionTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithSupportingOrganisation, string? notMatchingSchoolWithSupportingOrgNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, RegionalDirectorDecisionDate: regionalDirectorDecisionDate, HasSchoolMatchedWithHighQualityOrganisation: hasSchoolMatchedWithHighQualityOrganisation,
-                NotMatchingSchoolWithHighQualityOrgNotes: notMatchingSchoolWithHighQualityOrgNotes));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, RegionalDirectorDecisionDate: regionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation: hasSchoolMatchedWithSupportingOrganisation,
+                NotMatchingSchoolWithSupportingOrgNotes: notMatchingSchoolWithSupportingOrgNotes));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.RecordSupportDecisionTaskListStatus(supportProjectModel);

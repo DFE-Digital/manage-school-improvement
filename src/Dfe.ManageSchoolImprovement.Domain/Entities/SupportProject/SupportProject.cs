@@ -105,9 +105,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? RegionalDirectorDecisionDate { get; private set; }
 
-    public bool? HasSchoolMatchedWithHighQualityOrganisation { get; private set; }
+    public bool? HasSchoolMatchedWithSupportingOrganisation { get; private set; }
 
-    public string? NotMatchingSchoolWithHighQualityOrgNotes { get; private set; }
+    public string? NotMatchingSchoolWithSupportingOrgNotes { get; private set; }
 
     public DateTime? DateSupportingOrganisationContactDetailsAdded { get; private set; }
 
@@ -263,11 +263,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportOrganisationIdNumber = supportOrganisationIdNumber;
     }
 
-    public void SetRecordMatchingDecision(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithHighQualityOrganisation, string? notMatchingSchoolWithHighQualityOrgNotes)
+    public void SetRecordMatchingDecision(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithSupportingOrganisation, string? notMatchingSchoolWithSupportingOrgNotes)
     {
         RegionalDirectorDecisionDate = regionalDirectorDecisionDate;
-        HasSchoolMatchedWithHighQualityOrganisation = hasSchoolMatchedWithHighQualityOrganisation;
-        NotMatchingSchoolWithHighQualityOrgNotes = notMatchingSchoolWithHighQualityOrgNotes;
+        HasSchoolMatchedWithSupportingOrganisation = hasSchoolMatchedWithSupportingOrganisation;
+        NotMatchingSchoolWithSupportingOrgNotes = notMatchingSchoolWithSupportingOrgNotes;
     }
 
     public void SetSupportingOrganisationContactDetails(DateTime? dateSupportingOrganisationContactDetailsAdded, string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
