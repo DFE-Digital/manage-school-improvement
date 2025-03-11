@@ -7,16 +7,16 @@ import path from "path";
 
 
 describe("User navigates to the rise landing page", () => {
-    let school = 'Plym'
-    let header = 'Which school needs help?'
-    let URN = '105443'
-    let localAuthority = 'Manchester'
-    let region = 'North West'
-    let schoolType = 'Community school'
-    let faithSchool = 'Does not apply'
-    let ofstedRating = 'Good'
-    let lastInspection = '16 January 2011'
-    let pfi = 'Does not apply'
+  let header = Cypress.env('header')
+  let school = Cypress.env('school')
+  let urn = Cypress.env('urn')
+  let localAuthority = Cypress.env('localAuthority')
+  let region = Cypress.env('region')
+  let schoolType = Cypress.env('schoolType')
+  let faithSchool = Cypress.env('faithSchool')
+  let ofstedRating = Cypress.env('ofstedRating')
+  let lastInspection = Cypress.env('lastInspection')
+  let pfi = Cypress.env('pfi')
 
     beforeEach(() => {
         cy.login()
@@ -37,7 +37,7 @@ describe("User navigates to the rise landing page", () => {
 
        checkSchoolDetails.hasHeader(header)
                          .hasSchoolName(school)
-                         .hasURN(URN)
+                         .hasURN(urn)
                          .hasLocalAuthority(localAuthority)
                          .hasSchoolType(schoolType)
                          .hasFaithSchool(faithSchool)
@@ -48,7 +48,7 @@ describe("User navigates to the rise landing page", () => {
        checkSchoolDetails.clickContinue()
 
        riseHomePage.hasSchoolName(school)
-                   .hasURN(URN)
+                   .hasURN(urn)
                    .hasLocalAuthority(localAuthority)
                    .hasRegion(region)
 
