@@ -2,7 +2,6 @@ import { last } from "cypress/types/lodash";
 
 class CheckSchoolDetails {
   public hasHeader(header: string): this {
-    header = "Check school details";
 
     cy.get("h1").contains(header);
 
@@ -18,7 +17,6 @@ class CheckSchoolDetails {
   }
 
   public hasURN(URN: string): this {
-    URN = "105443";
 
     cy.get(".govuk-summary-list__value").eq(1).contains(URN);
 
@@ -26,7 +24,6 @@ class CheckSchoolDetails {
   }
 
   public hasLocalAuthority(localAuthority: string): this {
-    localAuthority = "Manchester";
 
     cy.get(".govuk-summary-list__value").eq(3).contains(localAuthority);
 
@@ -34,7 +31,6 @@ class CheckSchoolDetails {
   }
 
   public hasSchoolType(schoolType: string): this {
-    schoolType = "Community school";
 
     cy.get(".govuk-summary-list__value").eq(5).contains(schoolType);
 
@@ -42,7 +38,6 @@ class CheckSchoolDetails {
   }
 
   public hasFaithSchool(faithSchool: string): this {
-    faithSchool = "Does not apply";
 
     cy.get(".govuk-summary-list__value").eq(7).contains(faithSchool);
 
@@ -50,7 +45,6 @@ class CheckSchoolDetails {
   }
 
   public hasOfstedRating(ofstedRating: string): this {
-    ofstedRating = "Good";
 
     cy.get(".govuk-summary-list__value").eq(9).contains(ofstedRating);
 
@@ -58,7 +52,6 @@ class CheckSchoolDetails {
   }
 
   public hasLastInspection(lastInspection: string): this {
-    lastInspection = "16 January 2011";
 
     cy.get(".govuk-summary-list__value").eq(11).contains(lastInspection);
 
@@ -66,7 +59,6 @@ class CheckSchoolDetails {
   }
 
   public hasPFI(pfi: string): this {
-    pfi = "Does not apply";
 
     cy.get(".govuk-summary-list__value").eq(13).contains(pfi);
 
