@@ -1,7 +1,0 @@
-class CarryOutDueDiligenceOnPreferredSupportingOrganisation {
-
-}
-
-const carryOutDueDiligenceOnPreferredSupportingOrganisation = new CarryOutDueDiligenceOnPreferredSupportingOrganisation();
-
-export default carryOutDueDiligenceOnPreferredSupportingOrganisation;
