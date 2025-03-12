@@ -25,14 +25,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var regionalDirectorDecisionDate = DateTime.UtcNow;
-            var hasSchoolMatchedWithHighQualityOrganisation = true;
-            var notMatchingSchoolWithHighQualityOrgNotes = "Random Notes";
+            var hasSchoolMatchedWithSupportingOrganisation = true;
+            var notMatchingSchoolWithSupportingOrgNotes = "Random Notes";
 
             var command = new SetRecordMatchingDecisionCommand(
                 _mockSupportProject.Id,
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithHighQualityOrganisation,
-                notMatchingSchoolWithHighQualityOrgNotes
+                hasSchoolMatchedWithSupportingOrganisation,
+                notMatchingSchoolWithSupportingOrgNotes
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetRecordMatchingDecisionCommandHandler(_mockSupportProjectRepository.Object);
@@ -71,14 +71,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var regionalDirectorDecisionDate = DateTime.UtcNow;
-            var hasSchoolMatchedWithHighQualityOrganisation = true;
-            var notMatchingSchoolWithHighQualityOrgNotes = "Random Notes";
+            var hasSchoolMatchedWithSupportingOrganisation = true;
+            var notMatchingSchoolWithSupportingOrgNotes = "Random Notes";
 
             var command = new SetRecordMatchingDecisionCommand(
                 _mockSupportProject.Id,
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithHighQualityOrganisation,
-                notMatchingSchoolWithHighQualityOrgNotes
+                hasSchoolMatchedWithSupportingOrganisation,
+                notMatchingSchoolWithSupportingOrgNotes
             );
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);

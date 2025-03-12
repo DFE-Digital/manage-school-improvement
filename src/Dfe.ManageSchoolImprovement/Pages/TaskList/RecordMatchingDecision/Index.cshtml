@@ -23,7 +23,7 @@
         <form method="post" novalidate>
             <p class="govuk-body" data-cy="confirm-matching-with-hqo">Confirm whether this school will be matched with a supporting organisation. A regional director must have approved this decision.</p>
             <govuk-radiobuttons-input heading="Record decision" heading-style="govuk-fieldset__legend--m" hint="If the school will not be matched with a supporting organisation, add details to explain why."
-                                      name="@nameof(Model.HasSchoolMatchedWithHighQualityOrganisation)" radio-buttons="@Model.RadioButtoons" asp-for="@Model.HasSchoolMatchedWithHighQualityOrganisation" />
+                                      name="@nameof(Model.HasSchoolMatchedWithSupportingOrganisation)" radio-buttons="@Model.RadioButtoons" asp-for="@Model.HasSchoolMatchedWithSupportingOrganisation" />
             <govuk-date-input heading-label="false" label="Enter date the regional director made this decision" id="decision-date" name="decision-date" asp-for="@Model.RegionalDirectorDecisionDate" hint="For example, 1 7 2024." />
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return

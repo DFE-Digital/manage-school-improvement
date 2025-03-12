@@ -17,11 +17,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         [Display(Name = "record matching decision")]
         public DateTime? RegionalDirectorDecisionDate { get; set; }
 
-        [BindProperty(Name = "HasSchoolMatchedWithHighQualityOrganisation")]
-        public bool? HasSchoolMatchedWithHighQualityOrganisation { get; set; }
+        [BindProperty(Name = "HasSchoolMatchedWithSupportingOrganisation")]
+        public bool? HasSchoolMatchedWithSupportingOrganisation { get; set; }
 
-        [BindProperty(Name = "NotMatchingSchoolWithHighQualityOrgNotes")]
-        public string? NotMatchingSchoolWithHighQualityOrgNotes { get; set; }
+        [BindProperty(Name = "NotMatchingSchoolWithSupportingOrgNotes")]
+        public string? NotMatchingSchoolWithSupportingOrgNotes { get; set; }
 
         public required IList<RadioButtonsLabelViewModel> RadioButtoons { get; set; }
 
@@ -40,15 +40,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasSchoolMatchedWithHighQualityOrganisation = SupportProject.HasSchoolMatchedWithHighQualityOrganisation;
+            HasSchoolMatchedWithSupportingOrganisation = SupportProject.HasSchoolMatchedWithSupportingOrganisation;
             RegionalDirectorDecisionDate = SupportProject.RegionalDirectorDecisionDate;
-            NotMatchingSchoolWithHighQualityOrgNotes = SupportProject.NotMatchingSchoolWithHighQualityOrgNotes;
+            NotMatchingSchoolWithSupportingOrgNotes = SupportProject.NotMatchingSchoolWithSupportingOrgNotes;
             RadioButtoons = RadioButtons;
             return Page();
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid || !IsNotMatchingSchoolWithHighQualityOrgNotesValid())
+            if (!ModelState.IsValid || !IsNotMatchingSchoolWithSupportingOrgNotesValid())
             {
                 RadioButtoons = RadioButtons;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -56,7 +56,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetRecordMatchingDecisionCommand(new SupportProjectId(id), RegionalDirectorDecisionDate, HasSchoolMatchedWithHighQualityOrganisation, NotMatchingSchoolWithHighQualityOrgNotes);
+            var request = new SetRecordMatchingDecisionCommand(new SupportProjectId(id), RegionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation, NotMatchingSchoolWithSupportingOrgNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -87,11 +87,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                         Value = "False",
                         Input = new TextAreaInputViewModel
                         {
-                            Id = nameof(NotMatchingSchoolWithHighQualityOrgNotes),
+                            Id = nameof(NotMatchingSchoolWithSupportingOrgNotes),
                             ValidationMessage = "You must add a note",
                             Paragraph = "Provide some details about why approval was not given.",
-                            Value = NotMatchingSchoolWithHighQualityOrgNotes,
-                            IsValid = IsNotMatchingSchoolWithHighQualityOrgNotesValid()
+                            Value = NotMatchingSchoolWithSupportingOrgNotes,
+                            IsValid = IsNotMatchingSchoolWithSupportingOrgNotesValid()
                         }
                     }
                 };
@@ -99,9 +99,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                 return list;
             }
         }
-        private bool IsNotMatchingSchoolWithHighQualityOrgNotesValid()
+        private bool IsNotMatchingSchoolWithSupportingOrgNotesValid()
         { 
-            if (HasSchoolMatchedWithHighQualityOrganisation == false && string.IsNullOrWhiteSpace(NotMatchingSchoolWithHighQualityOrgNotes))
+            if (HasSchoolMatchedWithSupportingOrganisation == false && string.IsNullOrWhiteSpace(NotMatchingSchoolWithSupportingOrgNotes))
             {
                 return false;
             }
