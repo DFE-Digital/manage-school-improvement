@@ -26,9 +26,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.Shared
 
         [Theory]
         [InlineData(404, "Page not found")]
-        [InlineData(500, "Internal server error")]
-        [InlineData(501, "Not implemented")]
-        [InlineData(99999, "Error 99999")]
+        [InlineData(500, "Sorry, there is a problem with the service")]
+        [InlineData(501, "Sorry, there is a problem with the service")]
+        [InlineData(99999, "Sorry, there is a problem with the service")]
         public void OnGet_WhenResponseHasAStatusCode_SetsMessageCorrectly(int statusCode, string expectedMessage)
         {
             _model.OnGet(statusCode);
@@ -66,9 +66,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.Shared
 
         [Theory]
         [InlineData(404, "Page not found")]
-        [InlineData(500, "Internal server error")]
-        [InlineData(501, "Not implemented")]
-        [InlineData(99999, "Error 99999")]
+        [InlineData(500, "Sorry, there is a problem with the service")]
+        [InlineData(501, "Sorry, there is a problem with the service")]
+        [InlineData(99999, "Sorry, there is a problem with the service")]
         public void OnPost_WhenResponseHasAStatusCode_SetsMessageCorrectly(int statusCode, string expectedMessage)
         {
             _model.OnPost(statusCode);
