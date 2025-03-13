@@ -29,9 +29,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Errors
             ErrorMessage = statusCode.Value switch
             {
                 404 => "Page not found",
-                500 => "Internal server error",
-                501 => "Not implemented",
-                _ => $"Error {statusCode}"
+                _ => ErrorMessage
             };
             ErrorCode = statusCode;
         }

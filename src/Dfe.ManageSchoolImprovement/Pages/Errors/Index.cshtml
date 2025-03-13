@@ -1,6 +1,7 @@
 ﻿@page
 @using System.Net
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Errors.IndexModel
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = @Model.ErrorMessage;
 }
@@ -15,10 +16,19 @@
             <p class="govuk-body">
                 If you pasted the web address, check you copied the entire address.
             </p>
+            <p class="govuk-body">
+                If the web address is correct, or you selected a link or button, you can <a class="govuk-link" href="@Configuration["SystemHelpLink"]" target="_blank">contact service support for help (opens in a new tab)</a>.
+            </p>
         }
         else
         {
             <p class="govuk-body">Try again later.</p>
+
+            <p class="govuk-body">
+                <a class="govuk-link" href="@Configuration["SystemHelpLink"]" target="_blank">
+                    Contact service support (opens in a new tab)
+                </a> if the problem continues.
+            </p>
         }
     </div>
 </div>

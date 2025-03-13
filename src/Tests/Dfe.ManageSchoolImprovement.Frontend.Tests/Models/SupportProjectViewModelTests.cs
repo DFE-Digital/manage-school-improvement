@@ -47,8 +47,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 SupportOrganisationName: "Support Org",
                 SupportOrganisationIdNumber: "SO123",
                 RegionalDirectorDecisionDate: DateTime.Now,
-                HasSchoolMatchedWithHighQualityOrganisation: true,
-                NotMatchingSchoolWithHighQualityOrgNotes: "Notes",
+                HasSchoolMatchedWithSupportingOrganisation: true,
+                NotMatchingSchoolWithSupportingOrgNotes: "Notes",
                 CheckOrganisationHasCapacityAndWillingToProvideSupport: true,
                 CheckChoiceWithTrustRelationshipManagerOrLaLead: true,
                 DiscussChoiceWithSfso: true,
@@ -119,8 +119,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.SupportOrganisationName, viewModel.SupportOrganisationName);
             Assert.Equal(supportProjectDto.SupportOrganisationIdNumber, viewModel.SupportOrganisationIdNumber);
             Assert.Equal(supportProjectDto.RegionalDirectorDecisionDate, viewModel.RegionalDirectorDecisionDate);
-            Assert.Equal(supportProjectDto.HasSchoolMatchedWithHighQualityOrganisation, viewModel.HasSchoolMatchedWithHighQualityOrganisation);
-            Assert.Equal(supportProjectDto.NotMatchingSchoolWithHighQualityOrgNotes, viewModel.NotMatchingSchoolWithHighQualityOrgNotes);
+            Assert.Equal(supportProjectDto.HasSchoolMatchedWithSupportingOrganisation, viewModel.HasSchoolMatchedWithSupportingOrganisation);
+            Assert.Equal(supportProjectDto.NotMatchingSchoolWithSupportingOrgNotes, viewModel.NotMatchingSchoolWithSupportingOrgNotes);
             Assert.Equal(supportProjectDto.CheckOrganisationHasCapacityAndWillingToProvideSupport, viewModel.CheckOrganisationHasCapacityAndWillingToProvideSupport);
             Assert.Equal(supportProjectDto.CheckChoiceWithTrustRelationshipManagerOrLaLead, viewModel.CheckChoiceWithTrustRelationshipManagerOrLaLead);
             Assert.Equal(supportProjectDto.DiscussChoiceWithSfso, viewModel.DiscussChoiceWithSfso);
