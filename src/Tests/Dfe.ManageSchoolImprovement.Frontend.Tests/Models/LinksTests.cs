@@ -245,11 +245,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
         public void ProjectAssignment_Index_ShouldHaveCorrectValues()
         {
             // Arrange & Act
-            var linkItem = ProjectAssignment.Index;
+            var linkItem = AssignDeliveryOfficer.Index;
 
             // Assert
             Assert.NotNull(linkItem);
-            Assert.Equal("/ProjectAssignment/Index", linkItem.Page);
+            Assert.Equal("/AssignDeliveryOfficer/Index", linkItem.Page);
             Assert.Equal("Back", linkItem.BackText);
         }
     }

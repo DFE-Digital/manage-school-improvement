@@ -166,6 +166,26 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateAdviserAllocated.Should().Be(dateAdviserAllocated);
             mockRepository.VerifyAll();
         }
+        
+        [Fact]
+        public void SetDeliveryOfficerDetails_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            string? deliveryOfficerEmailAddress = "test@Email.com";
+            string? deliveryOfficerName = "Test Name";
+
+            // Act
+            supportProject.SetDeliveryOfficer(
+                deliveryOfficerName,
+                deliveryOfficerEmailAddress);
+
+            // Assert
+            supportProject.AssignedDeliveryOfficerEmailAddress.Should().Be(deliveryOfficerEmailAddress);
+            supportProject.AssignedDeliveryOfficerFullName.Should().Be(deliveryOfficerName);
+            mockRepository.VerifyAll();
+        }
 
         private static Domain.Entities.SupportProject.SupportProject CreateSupportProject(
             string schoolName = "Default School",

@@ -45,6 +45,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AssignedAdviserFullName { get; private set; }
 
     public string? AssignedAdviserEmailAddress { get; private set; }
+    
+    public string? AssignedDeliveryOfficerFullName { get; private set; }
+    
+
+    public string? AssignedDeliveryOfficerEmailAddress { get; private set; }
 
     public IEnumerable<SupportProjectNote> Notes => _notes.AsReadOnly();
 
@@ -178,6 +183,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         AssignedAdviserFullName = assignedAdviserFullName;
         AssignedAdviserEmailAddress = assignedAdviserEmailAddress;
+    }
+    
+    public void SetDeliveryOfficer(string assignedDeliveryOfficerFullName, string assignedDeliveryOfficerEmailAddress)
+    {
+        AssignedDeliveryOfficerFullName = assignedDeliveryOfficerFullName;
+        AssignedDeliveryOfficerEmailAddress = assignedDeliveryOfficerEmailAddress;
     }
 
     public void AddNote(SupportProjectNoteId id, string note, string author, DateTime date, SupportProjectId supportProjectId)
