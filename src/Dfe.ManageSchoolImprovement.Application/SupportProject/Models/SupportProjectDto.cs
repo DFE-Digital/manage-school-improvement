@@ -10,6 +10,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string Region = "",
         string AssignedAdviserFullName = "",
         string AssignedAdviserEmailAddress = "",
+        string AssignedDeliveryOfficerFullName = "",
+        string AssignedDeliveryOfficerEmailAddress = "",
         bool FindSchoolEmailAddress = false,
         bool UseTheNotificationLetterToCreateEmail = false,
         bool AttachRiseInfoToEmail = false,
