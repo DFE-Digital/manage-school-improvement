@@ -130,9 +130,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
         
-        public bool DeliveryOfficerAssigned { get; set; }
-        
-        public bool DeliveryOfficerUnassigned { get; set; }
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
