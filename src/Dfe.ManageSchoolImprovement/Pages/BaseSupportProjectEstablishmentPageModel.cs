@@ -17,22 +17,23 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
     {
         return await GetProject(id,cancellationToken);
     }
+
     protected async Task<IActionResult> GetProject(int id, CancellationToken cancellationToken)
-    {
-        
+    { 
         var result = await _supportProjectQueryService.GetSupportProject(id, cancellationToken);
         
         if (result.IsSuccess && result.Value != null)
         {
             SupportProject = SupportProjectViewModel.Create(result.Value);
             
-            DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto establishment = await _getEstablishment.GetEstablishmentByUrn(result.Value.SchoolUrn);
+            var establishment = await _getEstablishment.GetEstablishmentByUrn(result.Value.SchoolUrn);
             
             SupportProject.QualityOfEducation = establishment.MISEstablishment.QualityOfEducation;
             SupportProject.LastInspectionDate = establishment.OfstedLastInspection;
             SupportProject.BehaviourAndAttitudes = establishment.MISEstablishment.BehaviourAndAttitudes;
             SupportProject.PersonalDevelopment = establishment.MISEstablishment.PersonalDevelopment;
             SupportProject.LeadershipAndManagement = establishment.MISEstablishment.EffectivenessOfLeadershipAndManagement;
+            SupportProject.OftedReportWeblink = establishment.MISEstablishment.Weblink;
         }
         
         if (!result.IsSuccess)

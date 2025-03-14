@@ -28,6 +28,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string PersonalDevelopment { get; set; }
 
         public string LeadershipAndManagement { get; set; }
+
+        public string OftedReportWeblink { get; set; }
+        
         public string LastInspectionDate { get; set; }
 
         public bool? FindSchoolEmailAddress { get; private set; }

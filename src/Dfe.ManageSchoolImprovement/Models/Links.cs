@@ -39,6 +39,10 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/AboutTheSchool/Index");
     }
+    public static class OfstedReports
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/OfstedReports/Index");
+    }
 
     public static class TaskList
     {

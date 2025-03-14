@@ -8,6 +8,13 @@
     <ul class="moj-sub-navigation__list govuk-!-margin-top-6">
         <li class="moj-sub-navigation__item">
             <sub-menu-link class="moj-sub-navigation__link"
+                           asp-page="@Links.TaskList.Index.Page"
+                           asp-route-id="@id">
+                Task list
+            </sub-menu-link>
+        </li>
+        <li class="moj-sub-navigation__item">
+            <sub-menu-link class="moj-sub-navigation__link"
                            asp-page="@Links.AboutTheSchool.Index.Page"
                            asp-route-id="@id">
                 About the school
@@ -15,9 +22,9 @@
         </li>
         <li class="moj-sub-navigation__item">
             <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.TaskList.Index.Page"
+                           asp-page="@Links.OfstedReports.Index.Page"
                            asp-route-id="@id">
-                Task list
+                Ofsted reports
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
