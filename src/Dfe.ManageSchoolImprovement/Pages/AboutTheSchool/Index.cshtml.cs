@@ -17,7 +17,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
-
+        
+        
         ReturnPage = @Links.SchoolList.Index.Page;
         
         await base.GetSupportProject(id, cancellationToken);

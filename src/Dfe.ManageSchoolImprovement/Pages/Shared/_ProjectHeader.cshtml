@@ -15,7 +15,31 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-xl" data-cy=".govuk-caption-xl">URN: @Model.SchoolUrn</span>
+      @if (Model.DeliveryOfficerAssigned || Model.DeliveryOfficerUnassigned)
+      {
+          <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+              <div class="govuk-notification-banner__header">
+                  <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                      Success
+                  </h2>
+              </div>
+             <div class="govuk-notification-banner__content">
+                @if (Model.DeliveryOfficerAssigned)
+                {
+                   <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                      Delivery officer assigned
+                   </h3>
+                }
+                else
+                {
+                   <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                      Delivery officer unassigned
+                   </h3>
+                }
+             </div>
+          </div>
+      }
+      <span class="govuk-caption-xl" data-cy=".govuk-caption-xl">URN: @Model.SchoolUrn</span>
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-2" data-cy="select-heading">
          @Model.SchoolName
       </h1> 
@@ -54,23 +78,27 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
+                    Assigned to
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span data-id="assigned-user">@((Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AssignedDeliveryOfficerEmailAddress)) ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change</a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
                     Advised by
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    @if (@Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AdviserEmailAddress))
-                    {
-                        <span data-id="assigned-user" class="empty">Empty</span>
-                    }
-                    else
-                    {
-                        <a data-id="assigned-user">@Model.AdviserEmailAddress</a>
-                    }
+                    <span data-id="assigned-user">@((Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AdviserEmailAddress)) ? "Empty" : Model.AdviserEmailAddress)</span> 
                 </dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change</a>
                 </dd>
             </div>
-        </dl>
+        </dl> 
         @if (User.IsInRole(Role.Support))
         {
             <p class="govuk-body govuk-!-margin-top-3">

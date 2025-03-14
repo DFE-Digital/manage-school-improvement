@@ -33,6 +33,8 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
             SupportProject.BehaviourAndAttitudes = establishment.MISEstablishment.BehaviourAndAttitudes;
             SupportProject.PersonalDevelopment = establishment.MISEstablishment.PersonalDevelopment;
             SupportProject.LeadershipAndManagement = establishment.MISEstablishment.EffectivenessOfLeadershipAndManagement;
+            SupportProject.DeliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
+            SupportProject.DeliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
             SupportProject.OftedReportWeblink = establishment.MISEstablishment.Weblink;
         }
         

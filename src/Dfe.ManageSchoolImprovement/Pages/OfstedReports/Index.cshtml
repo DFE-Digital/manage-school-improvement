@@ -23,59 +23,69 @@
 <partial name="_ProjectHeader" model="Model.SupportProject" />
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="prepare-project-doc">Most recent Ofsted report</h2>
-        <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Date of last inspection
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @((Model.SupportProject.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.SupportProject.LastInspectionDate)) ? "Unknown" : lastInspectionDate.ToDateString())
-                </dd>
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="ofsted-report">Ofsted report</h2>
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">
+                    Most recent Ofsted report
+                </h2>
             </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Quality of education
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <partial name="_OfstedJudgement" model="Model.SupportProject.QualityOfEducation" />
-                </dd>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Date of last inspection
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @((Model.SupportProject.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.SupportProject.LastInspectionDate)) ? "Unknown" : lastInspectionDate.ToDateString())
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Quality of education
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.SupportProject.QualityOfEducation" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Behaviour and attitudes
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.SupportProject.BehaviourAndAttitudes" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Personal development
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.SupportProject.PersonalDevelopment" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Leadership and management
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.SupportProject.LeadershipAndManagement" />
+                        </dd>
+                    </div>
+                </dl>
             </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Behaviour and attitudes
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <partial name="_OfstedJudgement" model="Model.SupportProject.BehaviourAndAttitudes" />
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Personal development
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <partial name="_OfstedJudgement" model="Model.SupportProject.PersonalDevelopment" />
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Leadership and management
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <partial name="_OfstedJudgement" model="Model.SupportProject.LeadershipAndManagement" />
-                </dd>
-            </div>
-        </dl>
+        </div>
+        
 
-        <details class="govuk-details" open="">
+        <details class="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
                     Where this information came from
                 </span>
             </summary>
             <div class="govuk-details__text">
-                <p>Information taken from Ofsted on 25 February 2025.</p>
+                <p>Information taken from Ofsted @DateTime.Now.ToDateString().</p>
                 <p>You can <a href="@Model.SupportProject.OftedReportWeblink" target="_blank">read this school's inspection reports in full (opens in new tab)</a> on the Ofsted website.</p>
             </div>
         </details>

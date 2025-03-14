@@ -82,9 +82,9 @@ public static class Links
         public static readonly LinkItem EditNote = AddLinkItem(backText: "Back", page: "/Notes/EditNote");
     }
 
-    public static class ProjectAssignment
+    public static class AssignDeliveryOfficer
     {
-        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProjectAssignment/Index");
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/AssignDeliveryOfficer/Index");
 
     }
     public static class Public

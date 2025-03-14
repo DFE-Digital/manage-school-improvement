@@ -20,6 +20,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string AssignedAdviserFullName { get; set; }
 
         public string AssignedAdviserEmailAddress { get; set; }
+        
+        public string AssignedDeliveryOfficerFullName { get; set; }
+
+        public string AssignedDeliveryOfficerEmailAddress { get; set; }
 
         public string QualityOfEducation { get; set; }
 
@@ -128,7 +132,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
-
+        
+        public bool DeliveryOfficerAssigned { get; set; }
+        
+        public bool DeliveryOfficerUnassigned { get; set; }
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
@@ -199,7 +206,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateTeamContactedForRequestingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter,
                 DateTeamContactedForRequestingImprovementGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingImprovementGrantOfferLetter,
                 DateTeamContactedForConfirmingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForConfirmingPlanningGrantOfferLetter,
-                DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent
+                DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
+                AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
+                AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
             };
         }
     }

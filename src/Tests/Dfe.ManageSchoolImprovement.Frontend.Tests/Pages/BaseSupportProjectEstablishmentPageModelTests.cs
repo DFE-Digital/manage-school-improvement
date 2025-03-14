@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
 {
@@ -15,16 +16,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
         private readonly Mock<IGetEstablishment> _mockGetEstablishment;
         private readonly Mock<ErrorService> _mockErrorService;
         private readonly BaseSupportProjectEstablishmentPageModel _pageModel;
+        private readonly Mock<ITempDataDictionary> _mockTempData;
 
         public BaseSupportProjectEstablishmentPageModelTests()
         {
             _mockQueryService = new Mock<ISupportProjectQueryService>();
             _mockGetEstablishment = new Mock<IGetEstablishment>();
             _mockErrorService = new Mock<ErrorService>();
+            _mockTempData = new Mock<ITempDataDictionary>();
             _pageModel = new BaseSupportProjectEstablishmentPageModel(
                 _mockQueryService.Object,
                 _mockGetEstablishment.Object,
-                _mockErrorService.Object);
+                _mockErrorService.Object)
+            {
+                TempData = _mockTempData.Object
+            };
         }
 
         [Fact]
