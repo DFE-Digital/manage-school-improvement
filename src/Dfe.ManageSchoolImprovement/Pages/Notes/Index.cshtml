@@ -3,12 +3,8 @@
 @using Dfe.ManageSchoolImprovement.Utils
 @using System.Globalization
 
-
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Notes.IndexModel
 @{
-    
-    
-    
     string DisplayDate(DateTime date) =>
         $"{date:dd} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToString("MMMM"))} {date:yyyy} at {date:hh:mm tt}".ToLower();
     ViewData["Title"] = "Notes";

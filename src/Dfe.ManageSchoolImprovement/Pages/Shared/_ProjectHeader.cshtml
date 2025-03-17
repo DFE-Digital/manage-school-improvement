@@ -17,7 +17,7 @@
 }
 
 <div class="govuk-grid-row">
-   <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
       @if (deliveryOfficerAssigned || deliveryOfficerUnassigned)
       {
           <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -45,79 +45,72 @@
       <span class="govuk-caption-xl" data-cy=".govuk-caption-xl">URN: @Model.SchoolUrn</span>
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-2" data-cy="select-heading">
          @Model.SchoolName
-      </h1>
-   </div>
-
-   <div class="govuk-grid-column-full">
-      
-      <p class="govuk-body govuk-!-margin-bottom-1">
-         <b>Date added:</b>
-         <a>@createdDate.ToDateString()</a>
-      </p>
-      <p class="govuk-body govuk-!-margin-bottom-1">
-        <b>Date of last inspection:</b>
-         @if (@Model.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.LastInspectionDate))
-         {
-            <span data-id="last-inspection" class="empty">Unknown</span>
-         }
-         else
-         {
-            <a data-id="last-inspection">@lastInspectionDate.ToDateString()</a>
-         }
-      </p>
-      <p class="govuk-body govuk-!-margin-bottom-1">
-         <b>Quality of education:</b>
-         <partial name="_OfstedJudgement" model="Model.QualityOfEducation"/>
-      </p>
-      <p class="govuk-body govuk-!-margin-bottom-1">
-         <b>Behaviour and attitudes:</b>
-         <partial name="_OfstedJudgement" model="Model.BehaviourAndAttitudes"/>
-      </p>
-      <p class="govuk-body govuk-!-margin-bottom-1">
-         <b>Personal development:</b>
-         <partial name="_OfstedJudgement" model="Model.PersonalDevelopment"/>
-      </p>
-      <p class="govuk-body govuk-!-margin-bottom-1">
-         <b>Leadership and management:</b>
-         <partial name="_OfstedJudgement" model="Model.LeadershipAndManagement"/>
-      </p>
-      <p class="govuk-body govuk-!-margin-bottom-1">
-               <b>Assigned to:</b>
-               @if (@Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AssignedDeliveryOfficerEmailAddress))
-               {
-                  <span data-id="assigned-user" class="empty">Empty</span>
-               }
-               else
-               {
-                  <a data-id="assigned-user">@Model.AssignedDeliveryOfficerFullName</a>
-               }
-      
-                  <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change</a>
-              </p>
-      
-      <p class="govuk-body govuk-!-margin-bottom-1">
-         <b>Advised by:</b>
-         @if (@Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AdviserEmailAddress))
-         {
-            <span data-id="assigned-user" class="empty">Empty</span>
-         }
-         else
-         {
-            <a data-id="assigned-user">@Model.AdviserEmailAddress</a>
-         }
-
-            <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change</a>
-        </p>
-
+      </h1> 
+      <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Date added
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @createdDate.ToDateString()
+                </dd> 
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Date of last OFSTED inspection
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @((Model.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.LastInspectionDate)) ? "Unknown" : lastInspectionDate.ToDateString())
+                </dd> 
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Quality of education
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <partial name="_OfstedJudgement" model="Model.QualityOfEducation" />
+                </dd> 
+            </div> 
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Leadership and management
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <partial name="_OfstedJudgement" model="Model.LeadershipAndManagement" />
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Assigned to
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span data-id="assigned-user">@((Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AssignedDeliveryOfficerEmailAddress)) ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change</a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Advised by
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span data-id="assigned-user">@((Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(@Model.AdviserEmailAddress)) ? "Empty" : Model.AdviserEmailAddress)</span> 
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change</a>
+                </dd>
+            </div>
+        </dl> 
         @if (User.IsInRole(Role.Support))
         {
             <p class="govuk-body govuk-!-margin-top-3">
                 <a class="govuk-button govuk-button--warning" asp-page="@Links.DeleteProject.ConfirmToDeleteProject.Page" asp-route-id="@Model.Id">Delete school</a>
             </p>
-        } 
+        }
+
    </div>
-     <div class="govuk-grid-column-full">
-         <partial name="_SubMenu" model="@Model"/>
-      </div>
-   
+   <div class="govuk-grid-column-full">
+        <partial name="_SubMenu" model="@Model"/>
+   </div>   
 </div>

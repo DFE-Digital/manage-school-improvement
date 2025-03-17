@@ -5,8 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Models; 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
 {
