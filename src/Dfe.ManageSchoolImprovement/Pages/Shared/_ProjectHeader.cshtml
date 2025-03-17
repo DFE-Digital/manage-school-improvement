@@ -11,11 +11,14 @@
    {
       lastInspectionDate = DateTime.ParseExact(Model.LastInspectionDate, "dd/mm/yyyy", CultureInfo.CurrentCulture);
    }
+   
+   bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
+   bool deliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      @if (Model.DeliveryOfficerAssigned || Model.DeliveryOfficerUnassigned)
+      @if (deliveryOfficerAssigned || deliveryOfficerUnassigned)
       {
           <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
               <div class="govuk-notification-banner__header">
@@ -24,7 +27,7 @@
                   </h2>
               </div>
              <div class="govuk-notification-banner__content">
-                @if (Model.DeliveryOfficerAssigned)
+                @if (deliveryOfficerAssigned)
                 {
                    <h3 class="govuk-notification-banner__heading" id="project-note-added">
                       Delivery officer assigned
