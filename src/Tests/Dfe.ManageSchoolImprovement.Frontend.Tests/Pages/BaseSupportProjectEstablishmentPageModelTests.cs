@@ -51,7 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
                 
                 ReligiousCharacter = new NameAndCodeDto()
                 {
-                    Name = "TestReli",
+                    Name = "TestReligion",
                     Code = "3"
                 },
                 
@@ -87,6 +87,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             Assert.Equal("Good", _pageModel.SupportProject.PersonalDevelopment);
             Assert.Equal("Good", _pageModel.SupportProject.LeadershipAndManagement);
             Assert.Equal("2022-06-01", _pageModel.SupportProject.LastInspectionDate);
+            Assert.Equal("TestDiocese",_pageModel.SupportProject.Diocese);
+            Assert.Equal("TestPhase",_pageModel.SupportProject.SchoolPhase);
+            Assert.Equal("TestReligion",_pageModel.SupportProject.ReligiousCharacter);
+            Assert.Equal("1234", _pageModel.SupportProject.NumbersOnRoll);
         }
 
         [Fact]
