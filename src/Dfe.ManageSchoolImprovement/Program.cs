@@ -162,7 +162,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/", context =>
     {
-        context.Response.Redirect("schools-requiring-improvement", false);
+        context.Response.Redirect("schools-identified-for-targeted-intervention", false);
         return Task.CompletedTask;
     });
     endpoints.MapRazorPages();
