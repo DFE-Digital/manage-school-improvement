@@ -8,8 +8,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
     {
         public LinksTests()
         {
-            var fieldInfo = typeof(Links).GetField("_links", BindingFlags.NonPublic | BindingFlags.Static); 
-            var links = (List<LinkItem>)fieldInfo?.GetValue(null)!; 
+            var fieldInfo = typeof(Links).GetField("_links", BindingFlags.NonPublic | BindingFlags.Static);
+            var links = (List<LinkItem>)fieldInfo?.GetValue(null)!;
             links.Clear();
         }
 
@@ -102,11 +102,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             // Act
             var accessibilityLink = Public.Accessibility;
             var cookiePreferencesLink = Public.CookiePreferences;
+            var privacyLink = Public.Privacy;
             var cookiePreferencesURLLink = Public.CookiePreferencesURL;
 
             // Assert
             Assert.Equal("/Public/AccessibilityStatement", accessibilityLink.Page);
             Assert.Equal("/Public/CookiePreferences", cookiePreferencesLink.Page);
+            Assert.Equal("/Public/Privacy", privacyLink.Page);
             Assert.Equal("/public/cookie-Preferences", cookiePreferencesURLLink.Page);
         }
 

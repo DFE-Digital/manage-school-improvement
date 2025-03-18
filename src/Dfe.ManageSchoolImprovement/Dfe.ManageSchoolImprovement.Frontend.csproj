@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -54,6 +54,7 @@
     
     <ItemGroup>
       <None Include="Areas\MicrosoftIdentity\Pages\Account\AccessDenied.cshtml" />
+      <None Include="Pages\Public\Privacy.cshtml" />
       <None Include="Pages\Public\AccessibilityStatement.cshtml" />
       <None Include="Pages\Public\CookiePreferences.cshtml" />
       <None Include="Pages\Public\Maintenance.cshtml" />
