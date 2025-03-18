@@ -1,4 +1,5 @@
-﻿using Dfe.ManageSchoolImprovement.Application.Common.Models;
+﻿using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
+using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Pages;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -35,6 +36,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             var mockProject = new SupportProjectDto(projectId, DateTime.Now, "schoolName", "URN234", "local Authority", "Region");
             var mockEstablishment = new DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
+                
+                Diocese = new NameAndCodeDto()
+                {
+                    Name = "TestDiocese",
+                    Code = "1"
+                },
+                
+                PhaseOfEducation = new NameAndCodeDto()
+                {
+                    Name = "TestPhase",
+                    Code = "2"
+                },
+                
+                ReligiousCharacter = new NameAndCodeDto()
+                {
+                    Name = "TestReli",
+                    Code = "3"
+                },
+                
+                Census = new CensusDto()
+                {
+                    NumberOfPupils = "1234"
+                },
+                
                 MISEstablishment = new()
                 {
                     QualityOfEducation = "Good",

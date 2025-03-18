@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
 using Moq;
 using System.Net.Http;
 using System.Security.Policy;
+using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
 {
@@ -41,6 +42,29 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             };
             _mockGetEstablishment.Setup(x => x.GetEstablishmentByUrn(_urn)).ReturnsAsync(new DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
+                Diocese = new NameAndCodeDto()
+                {
+                    Name = "TestDiocese",
+                    Code = "1"
+                },
+                
+                PhaseOfEducation = new NameAndCodeDto()
+                {
+                    Name = "TestPhase",
+                    Code = "2"
+                },
+                
+                ReligiousCharacter = new NameAndCodeDto()
+                {
+                    Name = "TestReli",
+                    Code = "3"
+                },
+                
+                Census = new CensusDto()
+                {
+                    NumberOfPupils = "1234"
+                },
+                
                 MISEstablishment = new DfE.CoreLibs.Contracts.Academies.V4.Establishments.MisEstablishmentDto
                 {
                     QualityOfEducation = "Good",
