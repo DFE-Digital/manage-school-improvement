@@ -9,7 +9,7 @@ ARG NODEJS_VERSION_MAJOR=22
 FROM node:${NODEJS_VERSION_MAJOR}-bullseye-slim AS assets
 WORKDIR /app
 COPY ./src/Dfe.ManageSchoolImprovement/wwwroot .
-RUN npm ci --ignore-scripts && npm run build
+RUN npm ci --ignore-scripts && npm run postinstall && npm run build
 
 # ==============================================
 # .NET SDK Build Stage
