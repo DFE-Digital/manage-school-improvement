@@ -16,9 +16,9 @@
         "Route": "/Public/Maintenance",
         "ExpectedSecurity": "AllowAnonymous"
       },
-      {
-        "Route": "/Privacy",
-        "ExpectedSecurity": "AllowAnonymous"
-      }
+    {
+      "Route": "/Public/Privacy",
+      "ExpectedSecurity": "AllowAnonymous"
+    }
    ]
 }
