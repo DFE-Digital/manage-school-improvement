@@ -1,6 +1,6 @@
 ﻿using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
-using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject; 
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 {
@@ -17,8 +17,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 SchoolUrn: "123456",
                 LocalAuthority: "Local Authority",
                 Region: "Region",
-                AssignedAdviserFullName: "John Doe",
-                AssignedAdviserEmailAddress: "john.doe@example.com",
                 FindSchoolEmailAddress: true,
                 UseTheNotificationLetterToCreateEmail: true,
                 AttachRiseInfoToEmail: true,
@@ -84,8 +82,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             // Assert
             Assert.Equal(supportProjectDto.Id, viewModel.Id);
             Assert.Equal(supportProjectDto.CreatedOn, viewModel.CreatedOn);
-            Assert.Equal(supportProjectDto.AssignedAdviserFullName, viewModel.AssignedAdviserFullName);
-            Assert.Equal(supportProjectDto.AssignedAdviserEmailAddress, viewModel.AssignedAdviserEmailAddress);
             Assert.Equal(supportProjectDto.LocalAuthority, viewModel.LocalAuthority);
             Assert.Equal(supportProjectDto.Region, viewModel.Region);
             Assert.Equal(supportProjectDto.SchoolName, viewModel.SchoolName);
