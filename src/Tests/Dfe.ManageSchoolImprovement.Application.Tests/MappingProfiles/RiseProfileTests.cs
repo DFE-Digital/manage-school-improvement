@@ -48,13 +48,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.MappingProfiles
         public void Should_Map_SupportProject_To_SupportProjectDto()
         {
             // Arrange
-            var supportProject = new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(123), "School Name", "Urn", "Local Authority", "Region", "John Smith", "john.smith@eduction.gov.uk"); 
+            var supportProject = new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(123), "School Name", "Urn", "Local Authority", "Region");
 
             // Act
             var result = _mapper.Map<SupportProjectDto>(supportProject);
 
             // Assert
-            Assert.Equal(123, result.Id); 
+            Assert.Equal(123, result.Id);
         }
     }
 }

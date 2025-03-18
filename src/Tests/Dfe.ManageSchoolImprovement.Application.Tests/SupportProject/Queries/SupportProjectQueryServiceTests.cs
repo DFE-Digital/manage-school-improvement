@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using AutoFixture;
+using AutoMapper;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
-using Moq;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using AutoFixture;
+using Moq;
 using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
@@ -64,7 +64,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             foreach (var supportProjectDto in supportProjectDtos)
             {
                 _mockMapper.Setup(m => m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>())).Returns(supportProjectDto);
-            } 
+            }
 
             // Act
             var result = await _service.SearchForSupportProjects(null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
@@ -74,7 +74,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.NotNull(result.Value);
             Assert.Equal(projects.Count, result.Value.Data.Count());
             VerifySupportProjectProperties(result.Value.Data!, projects);
-        } 
+        }
 
         [Fact]
         public async Task GetSupportProject_ShouldReturnMappedDto_WhenProjectExists()
@@ -178,7 +178,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             {
                 for (int i = 0; i < count; i++)
                 {
-                    projects.Add(new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(i+1), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), $"{fixture.Create<string>()}@email.com"));
+                    projects.Add(new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(i + 1), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>()));
                 }
                 return projects;
             }
@@ -189,7 +189,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var supportProjectDto = new List<SupportProjectDto>();
             foreach (var project in supportProjects)
             {
-                supportProjectDto.Add(new SupportProjectDto(project.Id.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region, project.AssignedAdviserFullName!, project.AssignedAdviserFullName!));
+                supportProjectDto.Add(new SupportProjectDto(project.Id.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region));
             }
             return supportProjectDto;
         }
@@ -197,9 +197,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         private static void VerifySupportProjectProperties(IEnumerable<SupportProjectDto> schools, IList<Domain.Entities.SupportProject.SupportProject> projects)
         {
             foreach (var item in schools)
-            { 
+            {
                 var project = projects.FirstOrDefault(p => p.Id.Value == item.Id);
-                Assert.NotNull(project); 
+                Assert.NotNull(project);
                 Assert.Equal(item.Id, project.Id.Value);
                 Assert.Equal(item.SchoolName, project.SchoolName);
                 Assert.Equal(item.SchoolUrn, project.SchoolUrn);
