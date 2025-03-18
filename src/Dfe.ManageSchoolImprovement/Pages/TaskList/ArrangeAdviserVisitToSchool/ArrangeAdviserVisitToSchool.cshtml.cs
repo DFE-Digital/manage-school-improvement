@@ -13,7 +13,6 @@ public class ArrangeAdviserVisitToSchoolModel(ISupportProjectQueryService suppor
 {
     
     [BindProperty(Name = "adviser-visit-date", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(Dfe.ManageSchoolImprovement.Frontend.Services.DateRangeValidationService.DateRange.FutureOrToday)]
     [Display(Name = "Adviser visit date")]
     
     public DateTime? AdviserVisitDate  { get; set; }
