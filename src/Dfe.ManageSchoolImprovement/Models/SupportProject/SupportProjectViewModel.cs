@@ -16,6 +16,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string LocalAuthority { get; set; }
 
         public string Region { get; set; }
+        
+        public string Diocese { get; set; }
+        
+        public string SchoolPhase { get; set; }
+        
+        public string ReligiousCharacter { get; set; }
+        
+        
+        public string NumbersOnRoll { get; set; }
 
         public string AssignedDeliveryOfficerFullName { get; set; }
 

@@ -34,6 +34,10 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
             SupportProject.PersonalDevelopment = establishment.MISEstablishment.PersonalDevelopment;
             SupportProject.LeadershipAndManagement = establishment.MISEstablishment.EffectivenessOfLeadershipAndManagement;
             SupportProject.OftedReportWeblink = establishment.MISEstablishment.Weblink;
+            SupportProject.Diocese = establishment.Diocese.Name ?? "Not applicable";
+            SupportProject.SchoolPhase = establishment.PhaseOfEducation.Name;
+            SupportProject.ReligiousCharacter = establishment.ReligiousCharacter.Name;
+            SupportProject.NumbersOnRoll = establishment.Census.NumberOfPupils;
         }
         
         if (!result.IsSuccess)
