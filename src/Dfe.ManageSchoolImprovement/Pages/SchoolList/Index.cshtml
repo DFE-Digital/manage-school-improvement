@@ -1,17 +1,19 @@
-@page "/schools-requiring-improvement"
+@page "/schools-identified-for-targeted-intervention"
 @using Microsoft.Extensions.Configuration
 @model IndexModel
 @inject IConfiguration Configuration
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Schools requiring improvement";
+    ViewData["Title"] = "Schools identified for targeted intervention";
 }
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl" data-cy="select-heading">
-            Schools requiring improvement
+            Schools identified for targeted intervention
         </h1>
+        <p class="govuk-body">This list may include schools that are no longer eligible due to a recent inspection result.</p>
+        <p class="govuk-body">You can add more schools to this list.</p>        
         <a asp-page="/AddSchool/WhichSchoolNeedsHelp" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-cy="create_new_conversion_btn">
             Add a school
         </a>
