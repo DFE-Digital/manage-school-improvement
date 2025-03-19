@@ -1,0 +1,31 @@
+@page "/task-list/funding-history/{id:int}"
+@model IndexModel
+@{
+    ViewData["Title"] = "Has the school received any funnding in the last 2 financial yea";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+   <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Has the school received any funnding in the last 2 financial years?
+        </h1>
+        <form method="post" novalidate>
+            <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
+                                      name="@nameof(Model.HasSchoolReceivedFundingInLastTwoYears)" radio-buttons="@Model.RadioButtons" asp-for="@Model.HasSchoolReceivedFundingInLastTwoYears" />
+             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>

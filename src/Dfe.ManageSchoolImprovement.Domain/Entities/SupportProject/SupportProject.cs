@@ -149,6 +149,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DateImprovementGrantOfferLetterSent { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedBy { get; private set; }
+    public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
+
 
     #endregion
 
@@ -341,6 +343,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         DeletedAt = DateTime.UtcNow;
         DeletedBy = deletedBy;
+    }
+
+    public void SetHasReceivedFundingInThelastTwoYearsCommand(bool? hasReceivedFundingInThelastTwoYearsCommand)
+    {
+        HasReceivedFundingInThelastTwoYears = hasReceivedFundingInThelastTwoYearsCommand;
     }
     #endregion
 }

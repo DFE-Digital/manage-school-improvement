@@ -16,14 +16,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string LocalAuthority { get; set; }
 
         public string Region { get; set; }
-        
+
         public string Diocese { get; set; }
-        
+
         public string SchoolPhase { get; set; }
-        
+
         public string ReligiousCharacter { get; set; }
-        
-        
+
+
         public string NumbersOnRoll { get; set; }
 
         public string AssignedDeliveryOfficerFullName { get; set; }
@@ -137,6 +137,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
+        public bool? HasReceivedFundingInThelastTwoYears { get; set; }
+
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -207,6 +209,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
+                HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears
             };
         }
     }
