@@ -56,6 +56,7 @@ Cypress.Commands.add("login", (params) => {
     // Means we don't have to use azure to authenticate
     new AuthenticationInterceptor().register(params);
     cy.visit("/");
+    cy.url().should('contains', 'schools-identified-for-targeted-intervention')
 });
 
 Cypress.Commands.add("executeAccessibilityTests", (ruleOverride?: RuleObject) => {
