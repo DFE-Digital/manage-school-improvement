@@ -27,18 +27,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             DateTime? schoolResponseDate = DateTime.Now;
-            bool? hasAcceeptedTargetedSupport = true;
+            bool? hasAcceptedTargetedSupport = true;
             bool? hasSavedSchoolResponseinSharePoint = true;
 
             // Act
             supportProject.SetSchoolResponse(
                 schoolResponseDate,
-                hasAcceeptedTargetedSupport,
+                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint);
 
             // Assert
             supportProject.SchoolResponseDate.Should().Be(schoolResponseDate);
-            supportProject.HasAcceeptedTargetedSupport.Should().Be(hasAcceeptedTargetedSupport);
+            supportProject.HasAcceptedTargetedSupport.Should().Be(hasAcceptedTargetedSupport);
             supportProject.HasSavedSchoolResponseinSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
             mockRepository.VerifyAll();
         }
@@ -354,20 +354,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasConfirmedSupportingOrgnaisationAppointment = false;
+            bool? hasConfirmedSupportingOrganisationAppointment = false;
             DateTime? regionalDirectorAppointmentDate = DateTime.UtcNow;
-            string? disapprovingSupportingOrgnaisationAppointmentNotes = "Notes only if choose no";
+            string? disapprovingSupportingOrganisationAppointmentNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordSupportingOrganisationAppointment(
                 regionalDirectorAppointmentDate,
-                hasConfirmedSupportingOrgnaisationAppointment,
-                disapprovingSupportingOrgnaisationAppointmentNotes);
+                hasConfirmedSupportingOrganisationAppointment,
+                disapprovingSupportingOrganisationAppointmentNotes);
 
             // Assert
-            supportProject.HasConfirmedSupportingOrgnaisationAppointment.Should().Be(hasConfirmedSupportingOrgnaisationAppointment);
+            supportProject.HasConfirmedSupportingOrganisationAppointment.Should().Be(hasConfirmedSupportingOrganisationAppointment);
             supportProject.RegionalDirectorAppointmentDate.Should().Be(regionalDirectorAppointmentDate);
-            supportProject.DisapprovingSupportingOrgnaisationAppointmentNotes.Should().Be(disapprovingSupportingOrgnaisationAppointmentNotes);
+            supportProject.DisapprovingSupportingOrganisationAppointmentNotes.Should().Be(disapprovingSupportingOrganisationAppointmentNotes);
             mockRepository.VerifyAll();
         }
 
@@ -377,20 +377,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasConfirmedSupportingOrgnaisationAppointment = true;
+            bool? hasConfirmedSupportingOrganisationAppointment = true;
             DateTime? regionalDirectorAppointmentDate = DateTime.UtcNow;
-            string? disapprovingSupportingOrgnaisationAppointmentNotes = "Notes only if choose no";
+            string? disapprovingSupportingOrganisationAppointmentNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordSupportingOrganisationAppointment(
                 regionalDirectorAppointmentDate,
-                hasConfirmedSupportingOrgnaisationAppointment,
-                disapprovingSupportingOrgnaisationAppointmentNotes);
+                hasConfirmedSupportingOrganisationAppointment,
+                disapprovingSupportingOrganisationAppointmentNotes);
 
             // Assert
-            supportProject.HasConfirmedSupportingOrgnaisationAppointment.Should().Be(hasConfirmedSupportingOrgnaisationAppointment);
+            supportProject.HasConfirmedSupportingOrganisationAppointment.Should().Be(hasConfirmedSupportingOrganisationAppointment);
             supportProject.RegionalDirectorAppointmentDate.Should().Be(regionalDirectorAppointmentDate);
-            supportProject.DisapprovingSupportingOrgnaisationAppointmentNotes.Should().Be(disapprovingSupportingOrgnaisationAppointmentNotes);
+            supportProject.DisapprovingSupportingOrganisationAppointmentNotes.Should().Be(disapprovingSupportingOrganisationAppointmentNotes);
             mockRepository.VerifyAll();
         }
 

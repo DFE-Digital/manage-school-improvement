@@ -62,7 +62,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? SchoolResponseDate { get; set; }
 
-        public bool? HasAcceeptedTargetedSupport { get; set; }
+        public bool? HasAcceptedTargetedSupport { get; set; }
 
         public bool? HasSavedSchoolResponseinSharePoint { get; set; }
 
@@ -108,9 +108,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? DateDueDiligenceCompleted { get; set; }
 
-        public bool? HasConfirmedSupportingOrgnaisationAppointment { get; set; }
+        public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
-        public string? DisapprovingSupportingOrgnaisationAppointmentNotes { get; set; }
+        public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
 
 
         public DateTime? DateSupportingOrganisationContactDetailsAdded { get; set; }
@@ -160,7 +160,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
                 DateConflictsOfInterestWereChecked = supportProjectDto.DateConflictsOfInterestWereChecked,
                 SchoolResponseDate = supportProjectDto.SchoolResponseDate,
-                HasAcceeptedTargetedSupport = supportProjectDto.HasAcceeptedTargetedSupport,
+                HasAcceptedTargetedSupport = supportProjectDto.HasAcceptedTargetedSupport,
                 HasSavedSchoolResponseinSharePoint = supportProjectDto.HasSavedSchoolResponseinSharePoint,
                 HasShareEmailTemplateWithAdviser = supportProjectDto.HasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
@@ -188,8 +188,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 CheckTheOrganisationHasAVendorAccount = supportProjectDto.CheckTheOrganisationHasAVendorAccount,
                 DateDueDiligenceCompleted = supportProjectDto.DateDueDiligenceCompleted,
                 RegionalDirectorAppointmentDate = supportProjectDto.RegionalDirectorAppointmentDate,
-                HasConfirmedSupportingOrgnaisationAppointment = supportProjectDto.HasConfirmedSupportingOrgnaisationAppointment,
-                DisapprovingSupportingOrgnaisationAppointmentNotes = supportProjectDto.DisapprovingSupportingOrgnaisationAppointmentNotes,
+                HasConfirmedSupportingOrganisationAppointment = supportProjectDto.HasConfirmedSupportingOrganisationAppointment,
+                DisapprovingSupportingOrganisationAppointmentNotes = supportProjectDto.DisapprovingSupportingOrganisationAppointmentNotes,
                 DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,

@@ -17,11 +17,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         [Display(Name = "record supporting organisation appointment")]
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
 
-        [BindProperty(Name = "HasConfirmedSupportingOrgnaisationAppointment")]
-        public bool? HasConfirmedSupportingOrgnaisationAppointment { get; set; }
+        [BindProperty(Name = "HasConfirmedSupportingOrganisationAppointment")]
+        public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
 
-        [BindProperty(Name = "DisapprovingSupportingOrgnaisationAppointmentNotes")]
-        public string? DisapprovingSupportingOrgnaisationAppointmentNotes { get; set; }
+        [BindProperty(Name = "DisapprovingSupportingOrganisationAppointmentNotes")]
+        public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
 
         public required IList<RadioButtonsLabelViewModel> RadioButtoons { get; set; }
 
@@ -40,15 +40,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasConfirmedSupportingOrgnaisationAppointment = SupportProject.HasConfirmedSupportingOrgnaisationAppointment;
+            HasConfirmedSupportingOrganisationAppointment = SupportProject.HasConfirmedSupportingOrganisationAppointment;
             RegionalDirectorAppointmentDate = SupportProject.RegionalDirectorAppointmentDate;
-            DisapprovingSupportingOrgnaisationAppointmentNotes = SupportProject.DisapprovingSupportingOrgnaisationAppointmentNotes;
+            DisapprovingSupportingOrganisationAppointmentNotes = SupportProject.DisapprovingSupportingOrganisationAppointmentNotes;
             RadioButtoons = RadioButtons;
             return Page();
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid || !IsDisapprovingSupportingOrgnaisationAppointmentNotesValid())
+            if (!ModelState.IsValid || !IsDisapprovingSupportingOrganisationAppointmentNotesValid())
             {
                 RadioButtoons = RadioButtons;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -56,7 +56,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id), RegionalDirectorAppointmentDate, HasConfirmedSupportingOrgnaisationAppointment, DisapprovingSupportingOrgnaisationAppointmentNotes);
+            var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id), RegionalDirectorAppointmentDate, HasConfirmedSupportingOrganisationAppointment, DisapprovingSupportingOrganisationAppointmentNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -87,11 +87,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                         Value = "False",
                         Input = new TextAreaInputViewModel
                         {
-                            Id = nameof(DisapprovingSupportingOrgnaisationAppointmentNotes),
+                            Id = nameof(DisapprovingSupportingOrganisationAppointmentNotes),
                             ValidationMessage = "You must add a note",
                             Paragraph = "Provide some details about why approval was not given.",
-                            Value = DisapprovingSupportingOrgnaisationAppointmentNotes,
-                            IsValid = IsDisapprovingSupportingOrgnaisationAppointmentNotesValid()
+                            Value = DisapprovingSupportingOrganisationAppointmentNotes,
+                            IsValid = IsDisapprovingSupportingOrganisationAppointmentNotesValid()
                         }
                     }
                 };
@@ -99,9 +99,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                 return list;
             }
         }
-        private bool IsDisapprovingSupportingOrgnaisationAppointmentNotesValid()
+        private bool IsDisapprovingSupportingOrganisationAppointmentNotesValid()
         {
-            if (HasConfirmedSupportingOrgnaisationAppointment == false && string.IsNullOrWhiteSpace(DisapprovingSupportingOrgnaisationAppointmentNotes))
+            if (HasConfirmedSupportingOrganisationAppointment == false && string.IsNullOrWhiteSpace(DisapprovingSupportingOrganisationAppointmentNotes))
             {
                 return false;
             }

@@ -29,14 +29,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel SupportProject)
     {
         if (SupportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
-            SupportProject.HasAcceeptedTargetedSupport.Equals(true) &&
+            SupportProject.HasAcceptedTargetedSupport.Equals(true) &&
             SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
         if (!SupportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
-            !SupportProject.HasAcceeptedTargetedSupport.HasValue &&
+            !SupportProject.HasAcceptedTargetedSupport.HasValue &&
             !SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.NotStarted;
@@ -245,14 +245,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorAppointmentDate.HasValue
-            && supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue
-            && supportProject.HasConfirmedSupportingOrgnaisationAppointment.Equals(true))
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.RegionalDirectorAppointmentDate.HasValue
-            && !supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue)
+            && !supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue)
         {
             return TaskListStatus.NotStarted;
         }

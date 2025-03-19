@@ -37,10 +37,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
         [Theory, MemberData(nameof(RecordTheSchoolResponseTaskStatusCases))]
-        public void RecordTheSchoolResponseTaskStatusShouldReturnCorrectStatus(bool? hasSavedSchoolResponseinSharePoint, bool? hasAcceeptedTargetedSupport, DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
+        public void RecordTheSchoolResponseTaskStatusShouldReturnCorrectStatus(bool? hasSavedSchoolResponseinSharePoint, bool? hasAcceptedTargetedSupport, DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SchoolResponseDate: schoolResponseDate, HasAcceeptedTargetedSupport: hasAcceeptedTargetedSupport,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SchoolResponseDate: schoolResponseDate, HasAcceptedTargetedSupport: hasAcceptedTargetedSupport,
                 HasSavedSchoolResponseinSharePoint: hasSavedSchoolResponseinSharePoint));
 
             //Action 
@@ -282,11 +282,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
         [Theory, MemberData(nameof(RecordSupportingDecisionTaskListStatusCases))]
-        public void RecordSupportingOrganisationAppointmentTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrgnaisationAppointment, string? disapprovingSupportingOrgnaisationAppointmentNotes, TaskListStatus expectedTaskListStatus)
+        public void RecordSupportingOrganisationAppointmentTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, RegionalDirectorAppointmentDate: regionalDirectorAppointmentDate,
-                HasConfirmedSupportingOrgnaisationAppointment: hasConfirmedSupportingOrgnaisationAppointment, DisapprovingSupportingOrgnaisationAppointmentNotes: disapprovingSupportingOrgnaisationAppointmentNotes));
+                HasConfirmedSupportingOrganisationAppointment: hasConfirmedSupportingOrganisationAppointment, DisapprovingSupportingOrganisationAppointmentNotes: disapprovingSupportingOrganisationAppointmentNotes));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(supportProjectModel);

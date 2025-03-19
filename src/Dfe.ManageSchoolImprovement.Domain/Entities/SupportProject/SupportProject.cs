@@ -65,7 +65,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? SchoolResponseDate { get; private set; }
 
-    public bool? HasAcceeptedTargetedSupport { get; private set; }
+    public bool? HasAcceptedTargetedSupport { get; private set; }
 
     public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
@@ -123,8 +123,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DateDueDiligenceCompleted { get; set; }
 
     public DateTime? RegionalDirectorAppointmentDate { get; private set; }
-    public bool? HasConfirmedSupportingOrgnaisationAppointment { get; private set; }
-    public string? DisapprovingSupportingOrgnaisationAppointmentNotes { get; private set; }
+    public bool? HasConfirmedSupportingOrganisationAppointment { get; private set; }
+    public string? DisapprovingSupportingOrganisationAppointmentNotes { get; private set; }
 
     public bool? SendTheTemplateToTheSupportingOrganisation { get; private set; }
     public bool? SendTheTemplateToTheSchoolsResponsibleBody { get; private set; }
@@ -151,6 +151,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? DeletedBy { get; private set; }
     public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
 
+    public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
+
+    private readonly List<FundingHistory> _fundingHistories = new();
 
     #endregion
 
@@ -207,10 +210,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SaveCompletedConflictOfinterestFormInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
         DateConflictsOfInterestWereChecked = dateConflictsOfInterestWereChecked;
     }
-    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcceeptedTargetedSupport, bool? hasSavedSchoolResponseinSharePoint)
+    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcceptedTargetedSupport, bool? hasSavedSchoolResponseinSharePoint)
     {
         SchoolResponseDate = schoolResponseDate;
-        HasAcceeptedTargetedSupport = hasAcceeptedTargetedSupport;
+        HasAcceptedTargetedSupport = hasAcceptedTargetedSupport;
         HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
     }
 
@@ -286,11 +289,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateDueDiligenceCompleted = dateDueDiligenceCompleted;
     }
 
-    public void SetRecordSupportingOrganisationAppointment(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrgnaisationAppointment, string? disapprovingSupportingOrgnaisationAppointmentNotes)
+    public void SetRecordSupportingOrganisationAppointment(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes)
     {
         RegionalDirectorAppointmentDate = regionalDirectorAppointmentDate;
-        HasConfirmedSupportingOrgnaisationAppointment = hasConfirmedSupportingOrgnaisationAppointment;
-        DisapprovingSupportingOrgnaisationAppointmentNotes = disapprovingSupportingOrgnaisationAppointmentNotes;
+        HasConfirmedSupportingOrganisationAppointment = hasConfirmedSupportingOrganisationAppointment;
+        DisapprovingSupportingOrganisationAppointmentNotes = disapprovingSupportingOrganisationAppointmentNotes;
     }
 
     public void SetRecordImprovementPlanDecision(DateTime? regionalDirectorImprovementPlanDecisionDate, bool? hasApprovedImprovementPlanDecision, string? disapprovingImprovementPlanDecisionNotes)
@@ -348,6 +351,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetHasReceivedFundingInThelastTwoYearsCommand(bool? hasReceivedFundingInThelastTwoYearsCommand)
     {
         HasReceivedFundingInThelastTwoYears = hasReceivedFundingInThelastTwoYearsCommand;
+    }
+
+    public void AddFundingHistory(FundingHistoryId id,
+            SupportProjectId supportProjectId,
+            string fundingType,
+            double fundingAmount,
+            string financialYear,
+            int fundingRounds,
+            string comments)
+    {
+        _fundingHistories.Add(new FundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear, fundingRounds, comments));
     }
     #endregion
 }
