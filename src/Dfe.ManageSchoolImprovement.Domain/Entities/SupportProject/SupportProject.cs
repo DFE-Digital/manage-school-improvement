@@ -363,5 +363,23 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         _fundingHistories.Add(new FundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear, fundingRounds, comments));
     }
+
+    public void EditFundingHistory(FundingHistoryId id,
+            string fundingType,
+            double fundingAmount,
+            string financialYear,
+            int fundingRounds,
+            string comments)
+    {
+        var fundingHistory = _fundingHistories.SingleOrDefault(x => x.Id == id);
+        if (fundingHistory != null)
+        {
+            fundingHistory.SetValues(fundingType,
+             fundingAmount,
+             financialYear,
+             fundingRounds,
+             comments);
+        }
+    }
     #endregion
 }

@@ -36,5 +36,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string FinancialYear { get; private set; }
         public int FundingRounds { get; private set; }
         public string Comments { get; private set; }
+
+        internal void SetValues(string fundingType, double fundingAmount, string financialYear, int fundingRounds, string comments)
+        {
+            FundingType = fundingType;
+            FundingAmount = fundingAmount;
+            FinancialYear = financialYear;
+            FundingRounds = fundingRounds;
+            Comments = comments;
+        }
     }
 }
