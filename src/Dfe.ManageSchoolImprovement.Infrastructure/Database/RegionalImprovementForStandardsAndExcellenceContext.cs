@@ -19,6 +19,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
     
     public DbSet<SupportProjectNote> ProjectNotes { get; set; } = null!;
 
+    public DbSet<SupportProjectContact> Contacts { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -34,6 +36,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
     {
         modelBuilder.Entity<SupportProject>(ConfigureSupportProject);
         modelBuilder.Entity<SupportProjectNote>(ConfigureSupportProjectNotes);
+        modelBuilder.Entity<SupportProjectContact>(ConfigureSupportProjectContacts);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -53,6 +56,12 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey("SupportProjectId")
             .IsRequired();
+
+        supportProjectConfiguration
+            .HasMany(a => a.Contacts)
+            .WithOne()
+            .HasForeignKey("SupportProjectId")
+            .IsRequired();
         supportProjectConfiguration
             .HasQueryFilter(p => p.DeletedAt == null);
     }
@@ -65,6 +74,17 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new SupportProjectNoteId(v));
+    }
+
+    private static void ConfigureSupportProjectContacts(EntityTypeBuilder<SupportProjectContact> supportProjectContactsConfiguration)
+    {
+        supportProjectContactsConfiguration.ToTable("SupportProjectContacts", DefaultSchema, b => b.IsTemporal());
+        supportProjectContactsConfiguration.HasKey(a => a.Id);
+
+        supportProjectContactsConfiguration.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new SupportProjectContactId(v));
     }
 
     public override int SaveChanges()

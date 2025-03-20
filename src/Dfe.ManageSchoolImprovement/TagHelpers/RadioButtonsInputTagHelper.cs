@@ -11,7 +11,7 @@ public class RadioButtonsInputTagHelper(IHtmlHelper htmlHelper) : InputTagHelper
     public IList<RadioButtonsLabelViewModel> RadioButtons { get; set; } = [];
     protected override async Task<IHtmlContent> RenderContentAsync()
     {
-        RadioButtonViewModel model = new() { Name = Name, Heading = Heading, Value = For.Model?.ToString(), RadioButtons = RadioButtons, Hint = Hint, HeadingStyle = HeadingStyle };
+        RadioButtonViewModel model = new() { Name = Name, Heading = Heading, Value = For.Model?.ToString(), RadioButtons = RadioButtons, Hint = Hint, HeadingStyle = HeadingStyle, ErrorMessage = ErrorMessage };
 
         return await _htmlHelper.PartialAsync("_RadioButtons", model);
     }

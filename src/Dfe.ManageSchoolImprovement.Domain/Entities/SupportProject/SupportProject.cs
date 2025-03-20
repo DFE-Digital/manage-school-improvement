@@ -44,8 +44,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AssignedDeliveryOfficerEmailAddress { get; private set; }
 
     public IEnumerable<SupportProjectNote> Notes => _notes.AsReadOnly();
+    public IEnumerable<SupportProjectContact> Contacts => _contacts.AsReadOnly(); 
 
     private readonly List<SupportProjectNote> _notes = new();
+    private readonly List<SupportProjectContact> _contacts = new();
 
     public bool? FindSchoolEmailAddress { get; private set; }
 
@@ -180,6 +182,20 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void AddNote(SupportProjectNoteId id, string note, string author, DateTime date, SupportProjectId supportProjectId)
     {
         _notes.Add(new SupportProjectNote(id, note, author, date, supportProjectId));
+    }
+
+    public void AddContact(SupportProjectContactId id, string name, RolesIds roleId, string otherRoleName, string organisation, string email, string phone, string author, DateTime createOn, SupportProjectId supportProjectId)
+    {
+        _contacts.Add(new SupportProjectContact(id, name, roleId, otherRoleName, organisation, email, phone, author, createOn, supportProjectId));
+    }
+
+    public void EditContact(SupportProjectContactId id, string name, RolesIds roleId, string otherRoleName, string organisation, string email, string phone, string author, DateTime lastModifiedOn)
+    {
+        var contactToUpdate = _contacts.SingleOrDefault(x => x.Id == id);
+        if (contactToUpdate != null)
+        {
+            contactToUpdate.SetContact(name, roleId, otherRoleName, organisation, email, phone, author, lastModifiedOn);
+        }
     }
 
     public void EditSupportProjectNote(SupportProjectNoteId id, string note, string author, DateTime date)
