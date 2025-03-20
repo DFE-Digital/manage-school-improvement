@@ -16,11 +16,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string LocalAuthority { get; set; }
 
         public string Region { get; set; }
-
-        public string AssignedAdviserFullName { get; set; }
-
-        public string AssignedAdviserEmailAddress { get; set; }
         
+        public string Diocese { get; set; }
+        
+        public string SchoolPhase { get; set; }
+        
+        public string ReligiousCharacter { get; set; }
+        
+        
+        public string NumbersOnRoll { get; set; }
+
         public string AssignedDeliveryOfficerFullName { get; set; }
 
         public string AssignedDeliveryOfficerEmailAddress { get; set; }
@@ -34,7 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string LeadershipAndManagement { get; set; }
 
         public string OftedReportWeblink { get; set; }
-        
+
         public string LastInspectionDate { get; set; }
 
         public bool? FindSchoolEmailAddress { get; private set; }
@@ -134,17 +139,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
-        
+
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
             {
                 Id = supportProjectDto.Id,
                 CreatedOn = supportProjectDto.CreatedOn,
-                // ToDo: we will repurpose these fields as the assigned delivery officer
-                AssignedAdviserFullName = supportProjectDto.AssignedAdviserFullName,
-                AssignedAdviserEmailAddress = supportProjectDto.AssignedAdviserEmailAddress,
-                // ***
                 LocalAuthority = supportProjectDto.LocalAuthority,
                 Region = supportProjectDto.Region,
                 SchoolName = supportProjectDto.SchoolName,

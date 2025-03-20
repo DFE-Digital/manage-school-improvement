@@ -56,8 +56,9 @@ builder.Services.AddRazorPages(options =>
             options.Conventions.AllowAnonymousToPage("/public/maintenance");
             options.Conventions.AllowAnonymousToPage("/public/accessibilitystatement");
             options.Conventions.AllowAnonymousToPage("/public/cookiepreferences");
+            options.Conventions.AllowAnonymousToPage("/public/privacy");
+            options.Conventions.AllowAnonymousToPage("/public/privacy1");
             options.Conventions.AllowAnonymousToPage("/AccessDenied");
-            options.Conventions.AllowAnonymousToPage("/Privacy");
         })
         .AddViewOptions(options =>
         {
@@ -162,7 +163,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/", context =>
     {
-        context.Response.Redirect("schools-requiring-improvement", false);
+        context.Response.Redirect("schools-identified-for-targeted-intervention", false);
         return Task.CompletedTask;
     });
     endpoints.MapRazorPages();

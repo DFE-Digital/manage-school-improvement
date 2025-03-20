@@ -12,17 +12,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string schoolName,
         string schoolUrn,
         string localAuthority,
-        string region,
-        string assignedAdviserFullName,
-        string assignedAdviserEmailAddress)
+        string region)
     {
         Id = id;
         SchoolName = schoolName;
         SchoolUrn = schoolUrn;
         LocalAuthority = localAuthority;
         Region = region;
-        AssignedAdviserFullName = assignedAdviserFullName;
-        AssignedAdviserEmailAddress = assignedAdviserEmailAddress;
     }
     #region Properties
     public SupportProjectId Id { get; private set; }
@@ -43,12 +39,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public string? LastModifiedBy { get; set; }
 
-    public string? AssignedAdviserFullName { get; private set; }
-
-    public string? AssignedAdviserEmailAddress { get; private set; }
-    
     public string? AssignedDeliveryOfficerFullName { get; private set; }
-    
+
 
     public string? AssignedDeliveryOfficerEmailAddress { get; private set; }
 
@@ -182,12 +174,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     #region Methods
-    public void SetAdviser(string assignedAdviserFullName, string assignedAdviserEmailAddress)
-    {
-        AssignedAdviserFullName = assignedAdviserFullName;
-        AssignedAdviserEmailAddress = assignedAdviserEmailAddress;
-    }
-    
     public void SetDeliveryOfficer(string assignedDeliveryOfficerFullName, string assignedDeliveryOfficerEmailAddress)
     {
         AssignedDeliveryOfficerFullName = assignedDeliveryOfficerFullName;

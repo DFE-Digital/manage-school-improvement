@@ -22,25 +22,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetAdviser_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-            string assignedAdviserFullName = "testName";
-            string assignedAdviserEmailAddress = "Test@Email.com";
-
-            // Act
-            supportProject.SetAdviser(
-                assignedAdviserFullName,
-                assignedAdviserEmailAddress);
-
-            // Assert
-            supportProject.AssignedAdviserFullName.Should().Be(assignedAdviserFullName);
-            supportProject.AssignedAdviserEmailAddress.Should().Be(assignedAdviserEmailAddress);
-            mockRepository.VerifyAll();
-        }
-
-        [Fact]
         public void SetSchoolResponse_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -166,7 +147,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateAdviserAllocated.Should().Be(dateAdviserAllocated);
             mockRepository.VerifyAll();
         }
-        
+
         [Fact]
         public void SetDeliveryOfficerDetails_WithValidDetails_SetsTheCorrectProperties()
         {

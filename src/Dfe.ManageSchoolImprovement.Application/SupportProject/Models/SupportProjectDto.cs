@@ -8,8 +8,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string SchoolUrn = "",
         string LocalAuthority = "",
         string Region = "",
-        string AssignedAdviserFullName = "",
-        string AssignedAdviserEmailAddress = "",
         string AssignedDeliveryOfficerFullName = "",
         string AssignedDeliveryOfficerEmailAddress = "",
         bool FindSchoolEmailAddress = false,

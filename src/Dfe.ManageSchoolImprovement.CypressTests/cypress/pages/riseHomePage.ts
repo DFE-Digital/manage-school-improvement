@@ -7,7 +7,7 @@ class RiseHomePage {
     }
    
     public hasAddSchool(): this { 
-        cy.get('[data-cy="select-heading"]').should('contain.text', 'Schools requiring improvement')
+        cy.get('[data-cy="select-heading"]').should('contain.text', 'Schools identified for targeted intervention')
         cy.contains("Add a school").should('be.visible')
         return this;
     }

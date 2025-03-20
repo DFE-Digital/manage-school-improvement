@@ -1,6 +1,7 @@
 @page "/about-the-school/{id:int}"
 @using Dfe.ManageSchoolImprovement.Frontend.Models
 @using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
+@using Dfe.Academisation.ExtensionMethods
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.AboutTheSchool.IndexModel
 @{
     Model.SetErrorPage(Links.SchoolList.Index.Page);
@@ -20,14 +21,77 @@
 <partial name="_ProjectHeader" model="Model.SupportProject" />
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="prepare-project-doc">School details</h2>
-        <dl class="govuk-summary-list">
-            <govuk-summary-list-row name="school-name" label="School name" asp-for="@Model.SupportProject.SchoolName" />
-            <govuk-summary-list-row name="urn" label="URN" asp-for="@Model.SupportProject.SchoolUrn" />
-            <govuk-summary-list-row name="trust" label="Trust" value="Not Applicable" />
-            <govuk-summary-list-row name="local-authority" label="Local authority" asp-for="@Model.SupportProject.LocalAuthority" />
-            <govuk-summary-list-row name="region" label="Region" asp-for="@Model.SupportProject.Region" />
-        </dl>
+<div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="ofsted-report">About the school</h2>
+    <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                School overview
+            </h2>
+        </div>
+        <div class="govuk-summary-card__content">
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Region
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SupportProject.Region
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Local authority
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SupportProject.LocalAuthority
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        School phase
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SupportProject.SchoolPhase
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Religious character
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SupportProject.ReligiousCharacter
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Diocese
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SupportProject.Diocese
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Number on roll (NOR)
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SupportProject.NumbersOnRoll
+                    </dd>
+                </div>
+            </dl>
+        </div>
     </div>
+      
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Where this information came from
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p>School information taken from Get information about schools on @DateTime.Now.ToDateString()</p>
+            </div>
+        </details>
+</div>
 </div>

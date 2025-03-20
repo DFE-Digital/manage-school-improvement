@@ -5,8 +5,7 @@ import path from "path";
 
 describe("User navigates to the rise landing page", () => {
     beforeEach(() => {
-        cy.login();
-        cy.url().should('contains', 'schools-requiring-improvement')   
+        cy.login();   
     });
 
     it("Should be able to see Add a school option and school list", () => {
@@ -14,5 +13,7 @@ describe("User navigates to the rise landing page", () => {
          .hasAddSchool()
          .hasProjectCount()
          .hasProjectFilter()
+         
+         cy.executeAccessibilityTests()
     });
 });
