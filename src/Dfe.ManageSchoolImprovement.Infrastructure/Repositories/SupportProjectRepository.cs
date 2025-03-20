@@ -112,7 +112,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
         private IQueryable<SupportProject> DefaultIncludes()
         {
-            return DbSet().Include(x => x.Notes).AsQueryable();
+            return DbSet().Include(x => x.Notes).Include(x => x.Contacts).AsQueryable();
         }
     }
 }

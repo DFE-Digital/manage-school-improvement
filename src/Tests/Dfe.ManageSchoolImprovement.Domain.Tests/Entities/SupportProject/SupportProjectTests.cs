@@ -627,8 +627,97 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 projectNote.CreatedBy.Should().Be(author);
                 projectNote.CreatedOn.Should().Be(date);
                 projectNote.SupportProjectId.Should().Be(supportProjectId);
-                projectNote.Id.Should().Be(supportProjectNoteId); 
+                projectNote.Id.Should().Be(supportProjectNoteId);
+            }
+        }
+
+        [Fact]
+        public void AddContact_SetsContact()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
+            var name = "John";
+            var author = "Author";
+            var organisation = "Organisation";
+            var email = "john@school.gov.uk";
+            var phone = "0123456789";
+            var roleId = RolesIds.DirectorOfEducation;
+            var otherRoleName = "Other Role";
+            var supportProjectId = new SupportProjectId(1);
+            var createdOn = DateTime.UtcNow;
+
+            // Act
+            supportProject.AddContact(supportProjectContactId, name, roleId, otherRoleName, organisation, email, phone, author, createdOn, supportProjectId);
+
+            // Assert
+            supportProject.Contacts.Should().NotBeNull();
+            foreach (var contact in supportProject.Contacts)
+            { 
+                contact.Name.Should().Be(name);
+                contact.RoleId.Should().Be(roleId);
+                contact.OtherRoleName.Should().Be(otherRoleName);
+                contact.Organisation.Should().Be(organisation);
+                contact.Email.Should().Be(email);
+                contact.Phone.Should().Be(phone);
+                contact.CreatedOn.Should().Be(createdOn);
+                contact.CreatedBy.Should().Be(author);
+                contact.SupportProjectId.Should().Be(supportProjectId);
+                contact.Id.Should().Be(supportProjectContactId);
+                contact.LastModifiedBy.Should().BeNullOrWhiteSpace();
+                contact.LastModifiedOn.Should().BeNull();
             } 
+        }
+
+        [Fact]
+        public void EditContact_SetsContact()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var name = "John";
+            var author = "Author";
+            var organisation = "Organisation";
+            var email = "john@school.gov.uk";
+            var phone = "0123456789";
+            var createdOn = DateTime.UtcNow;
+
+            var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
+            supportProject.AddContact(
+                supportProjectContactId,
+                name,
+                RolesIds.ChairOfGovernors,
+                "",
+               organisation,
+                email,
+                phone,
+                author,
+                createdOn,
+                supportProject.Id);
+            
+            var roleId = RolesIds.Other;
+            var otherRoleName = "Other Role"; 
+            var lastModifiedOn = DateTime.UtcNow;
+
+            // Act
+            supportProject.EditContact(supportProjectContactId, name, roleId, otherRoleName, organisation, email, phone, author, lastModifiedOn);
+
+            // Assert
+            supportProject.Contacts.Should().NotBeNull();
+            foreach (var contact in supportProject.Contacts)
+            {
+                contact.Name.Should().Be(name);
+                contact.RoleId.Should().Be(roleId);
+                contact.OtherRoleName.Should().Be(otherRoleName);
+                contact.Organisation.Should().Be(organisation);
+                contact.Email.Should().Be(email);
+                contact.Phone.Should().Be(phone);
+                contact.CreatedOn.Should().Be(createdOn);
+                contact.CreatedBy.Should().Be(author);
+                contact.SupportProjectId.Should().Be(supportProject.Id);
+                contact.Id.Should().Be(supportProjectContactId);
+                contact.LastModifiedBy.Should().Be(author);
+                contact.LastModifiedOn.Should().Be(lastModifiedOn);
+            }
         }
     }
 }

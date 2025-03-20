@@ -85,13 +85,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                         Id = "no",
                         Name = "No, school will not be matched",
                         Value = "False",
-                        Input = new TextAreaInputViewModel
+                        Input = new TextFieldInputViewModel
                         {
                             Id = nameof(NotMatchingSchoolWithSupportingOrgNotes),
                             ValidationMessage = "You must add a note",
                             Paragraph = "Provide some details about why approval was not given.",
                             Value = NotMatchingSchoolWithSupportingOrgNotes,
-                            IsValid = IsNotMatchingSchoolWithSupportingOrgNotesValid()
+                            IsValid = IsNotMatchingSchoolWithSupportingOrgNotesValid(),
+                            IsTextArea = true
                         }
                     }
                 };

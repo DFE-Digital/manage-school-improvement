@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -24,7 +23,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,E
     public bool ShowError { get; set; }
     
     [BindProperty(Name = "date-supporting-organisation-details-added", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(Dfe.ManageSchoolImprovement.Frontend.Services.DateRangeValidationService.DateRange.PastOrToday)]
+    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     
     public DateTime? DateSupportingOrganisationDetailsAdded  { get; set; }
     

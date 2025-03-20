@@ -85,13 +85,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
                         Id = "no",
                         Name = "No",
                         Value = "False",
-                        Input = new TextAreaInputViewModel
+                        Input = new TextFieldInputViewModel
                         {
                             Id = nameof(DisapprovingImprovementPlanDecisionNotes),
                             ValidationMessage = "You must add a note",
                             Paragraph = "Provide some details about why approval was not given.",
                             Value = DisapprovingImprovementPlanDecisionNotes,
-                            IsValid = IsDisapprovingImprovementPlanDecisionNotesValid()
+                            IsValid = IsDisapprovingImprovementPlanDecisionNotesValid(),
+                            IsTextArea = true
                         }
                     }
                 };

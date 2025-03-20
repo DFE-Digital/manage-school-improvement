@@ -55,6 +55,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public IEnumerable<SupportProjectNote> Notes { get; set; }
 
+        public IEnumerable<SupportProjectContact> Contacts { get; set; }  
+
         public DateTime? SchoolResponseDate { get; set; }
 
         public bool? HasAcceeptedTargetedSupport { get; set; }
@@ -206,6 +208,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
+                Contacts = supportProjectDto.Contacts
             };
         }
     }

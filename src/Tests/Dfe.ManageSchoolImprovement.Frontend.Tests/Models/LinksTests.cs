@@ -264,5 +264,60 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("/AssignDeliveryOfficer/Index", linkItem.Page);
             Assert.Equal("Back", linkItem.BackText);
         }
+        [Fact]
+        public void Contacts_Index_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = Contacts.Index;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/Contacts/Index", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
+        [Fact]
+        public void Contacts_AddContact_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = Contacts.AddContact;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/Contacts/AddContact", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
+        [Fact]
+        public void Contacts_AddContactDetail_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = Contacts.AddContactDetail;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/Contacts/AddContactDetail", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
+        [Fact]
+        public void Contacts_EditContactDetail_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = Contacts.EditContactDetail;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/Contacts/EditContactDetail", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
+        [Fact]
+        public void Contacts_EditContact_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = Contacts.EditContact;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/Contacts/EditContact", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
     }
 }

@@ -37,12 +37,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                         Name = "Option 1",
                         Id = "option1",
                         Value = "value1",
-                        Input = new TextAreaInputViewModel
+                        Input = new TextFieldInputViewModel
                         {
                             Id = "textarea1",
                             ValidationMessage = "This is required.",
                             Paragraph = "Please provide input for option 1.",
-                            Value = "Some text"
+                            Value = "Some text",
+                            IsTextArea = true
                         }
                     },
                     new RadioButtonsLabelViewModel
@@ -50,12 +51,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                         Name = "Option 2",
                         Id = "option2",
                         Value = "value2",
-                        Input = new TextAreaInputViewModel
+                        Input = new TextFieldInputViewModel
                         {
                             Id = "textarea2",
                             ValidationMessage = "This is required.",
                             Paragraph = "Please provide input for option 2.",
-                            Value = "Another text"
+                            Value = "Another text",
+                            IsTextArea = true
                         }
                     }
                 ],
@@ -123,12 +125,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 Name = "Option 1",
                 Id = "option1",
                 Value = "value1",
-                Input = new TextAreaInputViewModel
+                Input = new TextFieldInputViewModel
                 {
                     Id = "textarea1",
                     ValidationMessage = "This is required.",
                     Paragraph = "Please provide input for option 1.",
-                    Value = "Some text"
+                    Value = "Some text",
+                    IsTextArea = true
                 }
             };
 
@@ -148,12 +151,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         public void TextAreaInputViewModel_ShouldHaveDefaultValues()
         {
             // Arrange & Act
-            var model = new TextAreaInputViewModel
+            var model = new TextFieldInputViewModel
             {
                 Id = "textarea1",
                 ValidationMessage = "This is required.",
                 Paragraph = "Please provide input.",
-                Value = "Some input"
+                Value = "Some input",
+                IsTextArea = true
             };
 
             // Assert
@@ -168,12 +172,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         public void TextAreaInputViewModel_ShouldSetAndGetValues()
         {
             // Arrange
-            var model = new TextAreaInputViewModel
+            var model = new TextFieldInputViewModel
             {
                 Id = "textarea1",
                 ValidationMessage = "This is required.",
                 Paragraph = "Please provide input.",
-                Value = "Test input"
+                Value = "Test input",
+                IsTextArea = true
             };
 
             // Act & Assert
@@ -187,12 +192,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         public void TextAreaInputViewModel_ShouldAllowNullValue()
         {
             // Arrange
-            var model = new TextAreaInputViewModel
+            var model = new TextFieldInputViewModel
             {
                 Id = "textarea1",
                 ValidationMessage = "This is required.",
                 Paragraph = "Please provide input.",
-                Value = null
+                Value = null,
+                IsTextArea = true
             };
 
             // Act & Assert
