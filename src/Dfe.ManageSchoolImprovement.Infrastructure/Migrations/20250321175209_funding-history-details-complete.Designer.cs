@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    [Migration("20250319170609_funding-histories-and-fixed-field-name-typos")]
-    partial class fundinghistoriesandfixedfieldnametypos
+    [Migration("20250321175209_funding-history-details-complete")]
+    partial class fundinghistorydetailscomplete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
@@ -70,6 +69,12 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
+
+                    b.Property<int>("ReadableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReadableId"));
 
                     b.Property<int>("SupportProjectId")
                         .HasColumnType("int");
@@ -189,6 +194,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool?>("FindSchoolEmailAddress")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("FundingHistoryDetailsComplete")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("GiveTheAdviserTheNoteOfVisitTemplate")

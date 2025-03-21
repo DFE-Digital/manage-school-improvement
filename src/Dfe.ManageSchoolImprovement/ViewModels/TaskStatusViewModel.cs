@@ -394,4 +394,25 @@ public static class TaskStatusViewModel
 
         return TaskListStatus.InProgress;
     }
+
+    public static TaskListStatus FundingHistoryTaskListStatus(SupportProjectViewModel supportProject)
+    {
+        if (supportProject.HasReceivedFundingInThelastTwoYears.HasValue && !supportProject.HasReceivedFundingInThelastTwoYears.Value)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (supportProject.HasReceivedFundingInThelastTwoYears.HasValue && supportProject.HasReceivedFundingInThelastTwoYears.Value
+            && supportProject.FundingHistoryDetailsComplete.HasValue && supportProject.FundingHistoryDetailsComplete.Value)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (!supportProject.HasReceivedFundingInThelastTwoYears.HasValue)
+        {
+            return TaskListStatus.NotStarted;
+        }
+
+        return TaskListStatus.InProgress;
+    }
 }

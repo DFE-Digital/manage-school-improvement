@@ -27,11 +27,20 @@
             <ul class="app-task-list__items govuk-!-padding-left-0">
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
-                        <a class="govuk-link" asp-page="@Links.TaskList.FundingHistory.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
-                            Enter the funding history
-                        </a>
+                        @if (Model.SupportProject.FundingHistories.Any())
+                        {
+                            <a class="govuk-link" asp-page="@Links.TaskList.FundingHistoryDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
+                                Enter the funding history
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="govuk-link" asp-page="@Links.TaskList.FundingHistory.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
+                                Enter the funding history
+                            </a>
+                        }
                     </span>
-                    <partial name="Shared/_TaskListStatus" model="@Model.ContactTheSchoolTaskListStatus" />
+                    <partial name="Shared/_TaskListStatus" model="@Model.FundingHistoryStatus" />
                 </li>
             </ul>
         </div>

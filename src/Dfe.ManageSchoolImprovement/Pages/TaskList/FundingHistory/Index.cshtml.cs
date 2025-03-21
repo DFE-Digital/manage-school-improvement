@@ -45,7 +45,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
                 return await base.GetSupportProject(id, cancellationToken); ;
             }
 
-            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+            var redirectPage = (HasSchoolReceivedFundingInLastTwoYears.HasValue && HasSchoolReceivedFundingInLastTwoYears.Value) ? RedirectToPage(@Links.TaskList.FundingHistoryAdd.Page, new { id }) : RedirectToPage(@Links.TaskList.Index.Page, new { id }); ;
+            return redirectPage;
         }
 
 

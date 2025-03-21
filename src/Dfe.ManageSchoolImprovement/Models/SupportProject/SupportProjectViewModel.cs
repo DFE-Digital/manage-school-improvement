@@ -138,6 +138,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
         public bool? HasReceivedFundingInThelastTwoYears { get; set; }
+        public bool? FundingHistoryDetailsComplete { get; set; }
         public IEnumerable<FundingHistoryViewModel> FundingHistories { get; set; }
 
 
@@ -212,10 +213,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
+                FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,
                 FundingHistories = supportProjectDto.FundingHistories.Select(x => new FundingHistoryViewModel()
                 {
                     Id = x.id,
                     SupportProjectId = x.supportProjectId,
+                    ReadableId = x.readableId,
                     FundingType = x.fundingType,
                     FinancialYear = x.financialYear,
                     FundingAmount = x.fundingAmount,

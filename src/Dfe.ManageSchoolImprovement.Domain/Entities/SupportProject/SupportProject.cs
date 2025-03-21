@@ -150,6 +150,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedBy { get; private set; }
     public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
+    public bool? FundingHistoryDetailsComplete { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
@@ -380,6 +381,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
              fundingRounds,
              comments);
         }
+    }
+
+    public void SetFundingHistoryComplete(bool? isComplete)
+    {
+        FundingHistoryDetailsComplete = isComplete;
     }
     #endregion
 }

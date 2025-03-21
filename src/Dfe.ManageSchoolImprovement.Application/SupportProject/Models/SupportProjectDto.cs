@@ -67,6 +67,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter = null,
         DateTime? DateImprovementGrantOfferLetterSent = null,
         bool? HasReceivedFundingInThelastTwoYears = null,
+        bool? FundingHistoryDetailsComplete = null,
         IEnumerable<SupportProjectNote> Notes = null!,
         IEnumerable<FundingHistoryDto> FundingHistories = null!
     )

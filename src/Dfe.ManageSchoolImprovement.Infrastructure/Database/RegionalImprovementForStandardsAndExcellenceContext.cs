@@ -78,6 +78,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
     {
         fundingHistoryConfiguration.ToTable("FundingHistories", DefaultSchema, b => b.IsTemporal());
         fundingHistoryConfiguration.HasKey(a => a.Id);
+        fundingHistoryConfiguration.Property(e => e.ReadableId).UseIdentityColumn();
         fundingHistoryConfiguration.Property(e => e.Id)
             .HasConversion(
                 v => v!.Value,

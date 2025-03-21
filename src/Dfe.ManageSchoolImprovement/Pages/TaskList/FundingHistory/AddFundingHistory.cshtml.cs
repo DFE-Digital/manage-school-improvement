@@ -4,11 +4,11 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.FundingHistory.EditFundingHistory;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.FundingHistory.AddFundingHistory;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
-    public class EditFundingHistoryModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class AddFundingHistoryModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "funding-type")]
         public string? FundingType { get; set; }
@@ -20,32 +20,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         public string? AdditionalComments { get; set; }
         [BindProperty(Name = "funding-amount")]
         public double? FundingAmount { get; set; }
-
         [BindProperty(Name = "funding-history-Id")]
         public Guid FundingHistoryId { get; set; }
 
-
         public bool ShowError { get; set; }
 
-        public async Task<IActionResult> OnGet(int id, int readableFundingHistoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            if (readableFundingHistoryId != null)
-            {
-                var fundingHistory = SupportProject.FundingHistories.SingleOrDefault(x => x.ReadableId == readableFundingHistoryId);
-                if (fundingHistory != null)
-                {
-                    FundingHistoryId = fundingHistory.Id;
-                    FundingType = fundingHistory.FundingType;
-                    FinancialYear = fundingHistory.FinancialYear;
-                    FundingRounds = fundingHistory.FundingRounds;
-                    FundingAmount = fundingHistory.FundingAmount;
-                    AdditionalComments = fundingHistory.Comments;
-                }
-            }
+
             return Page();
         }
-        public async Task<IActionResult> OnPost(int id, int readableFundingHistoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             }
             IRequest<FundingHistoryId> request;
 
-            request = new EditFundingHistoryCommand(new FundingHistoryId(FundingHistoryId), new SupportProjectId(id), FundingType, FundingAmount.Value, FinancialYear, FundingRounds.Value, AdditionalComments);
+            request = new AddFundingHistoryCommand(new SupportProjectId(id), FundingType, FundingAmount.Value, FinancialYear, FundingRounds.Value, AdditionalComments);
 
             var result = await mediator.Send(request, cancellationToken);
 

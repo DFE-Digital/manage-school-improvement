@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public int SupportProjectId { get; set; }
+        public int ReadableId { get; set; }
         public string FundingType { get; set; }
         public double FundingAmount { get; set; }
         public string FinancialYear { get; set; }

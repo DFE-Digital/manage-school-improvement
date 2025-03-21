@@ -55,6 +55,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+                    ReadableId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "FundingHistoriesHistory")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
                     SupportProjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalHistoryTableName", "FundingHistoriesHistory")
@@ -109,7 +116,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalHistoryTableName", "FundingHistoriesHistory")
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")

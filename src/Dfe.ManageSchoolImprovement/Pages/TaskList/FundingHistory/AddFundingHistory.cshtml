@@ -1,5 +1,5 @@
-@page "/task-list/edit-funding-history/{id:int}/{readableFundingHistoryId:int}"
-@model EditFundingHistoryModel
+@page "/task-list/add-funding-history/{id:int}"
+@model AddFundingHistoryModel
 @{
     ViewData["Title"] = "What funding has the school received?";
 }
@@ -21,7 +21,6 @@
             What funding has the school received?
         </h1>
         <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.FundingHistoryId" id="funding-history-Id" name="funding-history-Id" />
             <govuk-text-input heading-label="true" label="Funding type" additional-label-css="govuk-label--m" id="funding-type" name="funding-type" asp-for="@Model.FundingType" width="35" />
             <govuk-text-input heading-label="true" label="Funding amount" is-money="true" additional-label-css="govuk-label--m" id="funding-amount" name="funding-amount" asp-for="@Model.FundingAmount" width="10" />
             <govuk-text-input heading-label="true" label="Financial year" additional-label-css="govuk-label--m" id="financial-year" name="financial-year"

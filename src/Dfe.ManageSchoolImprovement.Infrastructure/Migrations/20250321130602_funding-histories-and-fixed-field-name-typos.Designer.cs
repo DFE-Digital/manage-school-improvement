@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250321130602_funding-histories-and-fixed-field-name-typos")]
+    partial class fundinghistoriesandfixedfieldnametypos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,9 +194,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool?>("FindSchoolEmailAddress")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("FundingHistoryDetailsComplete")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("GiveTheAdviserTheNoteOfVisitTemplate")

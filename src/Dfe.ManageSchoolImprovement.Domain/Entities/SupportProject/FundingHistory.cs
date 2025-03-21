@@ -24,7 +24,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             Comments = comments;
 
         }
-        public FundingHistoryId? Id { get; private set; }
+        public FundingHistoryId Id { get; private set; }
+        public int ReadableId { get; private set; }
         public SupportProjectId SupportProjectId { get; private set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
@@ -35,7 +36,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public double FundingAmount { get; private set; }
         public string FinancialYear { get; private set; }
         public int FundingRounds { get; private set; }
-        public string Comments { get; private set; }
+        public string? Comments { get; private set; }
 
         internal void SetValues(string fundingType, double fundingAmount, string financialYear, int fundingRounds, string comments)
         {
