@@ -21,7 +21,7 @@
             Record the school's response
         </h1> 
         <form method="post" novalidate>
-            <p class="govuk-body" data-cy="school-confirmtion-target-support">Confirm if the school wants to get targeted support or not.</p>
+            <p class="govuk-body" data-cy="school-confirmtion-target-support">Confirm if the school wants to get targeted intervention or not.</p>
             <govuk-radiobuttons-input name="@nameof(Model.HasAcceeptedTargetedSupport)" radio-buttons="@Model.TargetedSupportRadioButtoons" asp-for="@Model.HasAcceeptedTargetedSupport" />
             <govuk-checkbox-input heading="Save the school's response in SharePoint" heading-style="govuk-fieldset__legend--m" label="School's response saved in SharePoint" id="has-saved-school-response-in-sharepoint" name="has-saved-school-response-in-sharepoint" asp-for="@Model.HasSavedSchoolResponseinSharePoint" />
             <govuk-date-input heading-label="false" label="Enter date the school's response was saved in SharePoint" id="school-response-date" name="school-response-date" asp-for="@Model.SchoolResponseDate" hint="For example, 1 7 2024." />
