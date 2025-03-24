@@ -349,7 +349,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DeletedBy = deletedBy;
     }
 
-    public void SetHasReceivedFundingInThelastTwoYearsCommand(bool? hasReceivedFundingInThelastTwoYearsCommand)
+    public void SetHasReceivedFundingInThelastTwoYears(bool? hasReceivedFundingInThelastTwoYearsCommand)
     {
         HasReceivedFundingInThelastTwoYears = hasReceivedFundingInThelastTwoYearsCommand;
 

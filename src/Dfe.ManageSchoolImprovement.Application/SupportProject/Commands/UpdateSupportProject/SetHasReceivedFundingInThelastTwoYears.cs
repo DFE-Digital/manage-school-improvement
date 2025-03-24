@@ -22,7 +22,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetHasReceivedFundingInThelastTwoYearsCommand(request.HasReceivedFundingInThelastTwoYearsCommand);
+            supportProject.SetHasReceivedFundingInThelastTwoYears(request.HasReceivedFundingInThelastTwoYearsCommand);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
