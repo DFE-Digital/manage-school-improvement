@@ -151,6 +151,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DateImprovementGrantOfferLetterSent { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedBy { get; private set; }
+    
+    public SupportProjectStatus? SupportProjectStatus { get; private set; }
+    
+    public string? SchoolIsNotEligibleNotes { get; private set; }
 
     #endregion
 
@@ -351,6 +355,21 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetConfirmImprovementGrantOfferLetterDetails(DateTime? dateImprovementGrantOfferLetterSent)
     {
         DateImprovementGrantOfferLetterSent = dateImprovementGrantOfferLetterSent;
+    }
+    
+    public void SetEligibility(bool? schoolIsEligible, string? schoolIsNotEligibleNotes)
+    {
+        if (schoolIsEligible == true)
+        {
+            SupportProjectStatus = ValueObjects.SupportProjectStatus.EligibleForSupport;
+        }
+        
+        if(schoolIsEligible == false)
+        {
+            SupportProjectStatus = ValueObjects.SupportProjectStatus.NotEligibleForSupport;
+        }
+
+        SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
     }
 
     public void SetSoftDeleted(string deletedBy)

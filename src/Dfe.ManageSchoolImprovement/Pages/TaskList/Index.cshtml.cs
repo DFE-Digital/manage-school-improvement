@@ -10,6 +10,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 {
     public string ReturnPage { get; set; }
 
+    public TaskListStatus ConfirmEligibilityTaskListStatus { get; set; }
     public TaskListStatus ContactTheSchoolTaskListStatus { get; set; }
     public TaskListStatus RecordTheSchoolResponseTaskListStatus { get; set; }
     public TaskListStatus CheckThePotentialAdviserConflictsOfInterestTaskListStatus { get; set; }
@@ -80,6 +81,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             TaskStatusViewModel.ReviewTheImprovementPlanTaskListStatus(SupportProject);
         RequestImprovementGrantOfferLetterTaskListStatus = TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(SupportProject);
         ConfirmImprovementGrantOfferLetterTaskListStatus = TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
+        ConfirmEligibilityTaskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
         return Page();
+       
     }
 }

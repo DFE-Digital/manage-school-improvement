@@ -570,6 +570,41 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateImprovementGrantOfferLetterSent.Should().Be(dateLetterConfirmed);
             mockRepository.VerifyAll();
         }
+        
+        
+        [Fact]
+        public void SetEligibility_WithValidDetails_Eligible_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? isEligible = true;
+            string note = "note";
+            // Act
+            supportProject.SetEligibility(isEligible,note);
+
+            // Assert
+            supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.EligibleForSupport);
+            supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
+            mockRepository.VerifyAll();
+        }
+        
+        [Fact]
+        public void SetEligibility_WithValidDetails_NotEligible_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? isEligible = false;
+            string note = "note";
+            // Act
+            supportProject.SetEligibility(isEligible,note);
+
+            // Assert
+            supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.NotEligibleForSupport);
+            supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
+            mockRepository.VerifyAll();
+        }
 
         [Fact]
         public void SetSoftDeleted_SetsProjectSoftDeleted()

@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
 {
@@ -66,6 +67,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter = null,
         DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter = null,
         DateTime? DateImprovementGrantOfferLetterSent = null,
+        SupportProjectStatus? SupportProjectStatus = null,
+        string? SchoolIsNotEligibleNotes = null,
         IEnumerable<SupportProjectContact> Contacts = null!,
         IEnumerable<SupportProjectNote> Notes = null!
     )

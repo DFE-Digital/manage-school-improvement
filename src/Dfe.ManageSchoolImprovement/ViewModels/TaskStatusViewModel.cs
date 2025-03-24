@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 
@@ -150,6 +151,7 @@ public static class TaskStatusViewModel
 
         return TaskListStatus.InProgress;
     }
+
     public static TaskListStatus RecordVisitDateToVisitSchoolTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.SchoolVisitDate.HasValue)
@@ -179,6 +181,7 @@ public static class TaskStatusViewModel
 
         return TaskListStatus.InProgress;
     }
+
     public static TaskListStatus RecordSupportDecisionTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorDecisionDate.HasValue
@@ -197,24 +200,25 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(
+        SupportProjectViewModel supportProject)
     {
         if (supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.HasValue &&
-           supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
-           supportProject.DiscussChoiceWithSfso.HasValue &&
-           supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
-           supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
-           supportProject.DateDueDiligenceCompleted.HasValue)
+            supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
+            supportProject.DiscussChoiceWithSfso.HasValue &&
+            supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
+            supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
+            supportProject.DateDueDiligenceCompleted.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.HasValue &&
-           !supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
-           !supportProject.DiscussChoiceWithSfso.HasValue &&
-           !supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
-           !supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
-           !supportProject.DateDueDiligenceCompleted.HasValue)
+            !supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
+            !supportProject.DiscussChoiceWithSfso.HasValue &&
+            !supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
+            !supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
+            !supportProject.DateDueDiligenceCompleted.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
@@ -242,7 +246,8 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus SetRecordSupportingOrganisationAppointmentTaskListStatus(
+        SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorAppointmentDate.HasValue
             && supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue
@@ -299,7 +304,8 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus SendAgreedImprovementPlanForApprovalTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus SendAgreedImprovementPlanForApprovalTaskListStatus(
+        SupportProjectViewModel supportProject)
     {
         if (supportProject.HasSavedImprovementPlanInSharePoint.HasValue
             && supportProject.HasSavedImprovementPlanInSharePoint.Equals(true)
@@ -317,6 +323,7 @@ public static class TaskStatusViewModel
 
         return TaskListStatus.InProgress;
     }
+
     public static TaskListStatus RequestPlanningGrantOfferLetterTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.HasValue)
@@ -350,7 +357,8 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus RequestImprovementGrantOfferLetterTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus RequestImprovementGrantOfferLetterTaskListStatus(
+        SupportProjectViewModel supportProject)
     {
         if (supportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter.HasValue)
         {
@@ -380,7 +388,8 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus ConfirmImprovementGrantOfferLetterTaskListStatus(
+        SupportProjectViewModel supportProject)
     {
         if (supportProject.DateImprovementGrantOfferLetterSent.HasValue)
         {
@@ -394,4 +403,16 @@ public static class TaskStatusViewModel
 
         return TaskListStatus.InProgress;
     }
+
+    public static TaskListStatus ConfirmEligibilityTaskListStatus(SupportProjectViewModel supportProject)
+    {
+        if (supportProject.SupportProjectStatus.HasValue)
+        {
+            return TaskListStatus.Complete;
+        }
+
+
+        return TaskListStatus.NotStarted;
+    }
+
 }
