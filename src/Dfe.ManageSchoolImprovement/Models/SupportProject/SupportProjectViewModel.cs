@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
@@ -138,8 +139,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
-        public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
+        public DateTime? DateImprovementGrantOfferLetterSent { get; set;  }
 
+        public string? SchoolIsNotEligibleNotes { get; set;  }
+        public SupportProjectStatus? SupportProjectStatus { get; set; }
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
@@ -209,6 +212,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
+                SupportProjectStatus = supportProjectDto.SupportProjectStatus,
+                SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
                 Contacts = supportProjectDto.Contacts
             };
         }
