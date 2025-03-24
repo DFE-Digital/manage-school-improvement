@@ -20,7 +20,12 @@ public class AddFundingHistory
     {
         public async Task<FundingHistoryId> Handle(AddFundingHistoryCommand request, CancellationToken cancellationToken)
         {
-            var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
+            var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
+
+            if (supportProject == null)
+            {
+                throw new KeyNotFoundException($"Support project with id {request.SupportProjectId} not found");
+            }
 
             var fundingHistoryId = new FundingHistoryId(Guid.NewGuid());
 

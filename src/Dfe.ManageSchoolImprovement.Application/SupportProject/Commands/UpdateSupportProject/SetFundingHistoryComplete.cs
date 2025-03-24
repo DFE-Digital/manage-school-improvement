@@ -1,6 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
@@ -12,16 +11,16 @@ public class SetFundingHistoryComplete
             bool? IsComplete
     ) : IRequest<bool>;
 
-    public class SetFundingHistoryCompleteCommandHandler(ISupportProjectRepository supportProjectRepository, IDateTimeProvider _dateTimeProvider)
+    public class SetFundingHistoryCompleteCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetFundingHistoryCompleteCommand, bool>
     {
         public async Task<bool> Handle(SetFundingHistoryCompleteCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 
-            if (supportProject == null)
+            if (supportProject is null)
             {
-                throw new ArgumentException($"Support project with id {request.SupportProjectId} not found");
+                return false;
             }
 
             supportProject.SetFundingHistoryComplete(request.IsComplete);
