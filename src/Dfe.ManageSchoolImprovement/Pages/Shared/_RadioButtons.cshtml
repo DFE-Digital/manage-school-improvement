@@ -1,7 +1,14 @@
 @using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.ViewModels.RadioButtonViewModel
 
-<div class="govuk-form-group">
+<div class="govuk-form-group @(Model.HasError ? "govuk-form-group--error" : "")">
+    @if (Model.HasError)
+    {
+    <p id="(@Model.Name)-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
+    </p>
+    }
+
     <div class="govuk-radios" data-module="govuk-radios">
         @if (!string.IsNullOrEmpty(Model.Heading))
         {

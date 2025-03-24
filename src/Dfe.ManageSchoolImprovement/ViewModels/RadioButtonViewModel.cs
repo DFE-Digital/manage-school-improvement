@@ -7,9 +7,11 @@ public class RadioButtonViewModel
     public string? Heading { get; set; } = null;
     public string? HeadingStyle { get; set; } = null;
     public string? Hint { get; set; } = null;
-    public string? Name { get; set; }= null;
+    public string? Name { get; set; } = null;
     public IList<RadioButtonsLabelViewModel> RadioButtons { get; set; } = [];
     public string? Value { get; set; } = null;
+    public bool HasError { get; set; } = false;
+    public string? ErrorMessage { get; set; } = null;
 }
 public class RadioButtonsLabelViewModel
 {

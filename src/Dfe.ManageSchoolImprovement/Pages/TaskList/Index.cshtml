@@ -27,7 +27,7 @@
             <ul class="app-task-list__items govuk-!-padding-left-0">
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
-                        @if (Model.SupportProject.FundingHistories.Any())
+                        @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears ?? false)
                         {
                             <a class="govuk-link" asp-page="@Links.TaskList.FundingHistoryDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
                                 Enter the funding history

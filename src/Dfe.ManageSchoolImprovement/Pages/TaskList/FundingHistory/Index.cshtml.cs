@@ -6,13 +6,18 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "HasSchoolReceivedFundingInLastTwoYears")]
+        [Required]
+        [Display(Name = "Has the school received any funnding in the last 2 financial years")]
         public bool? HasSchoolReceivedFundingInLastTwoYears { get; set; }
+
+        public bool HasSchoolReceivedFundingInLastTwoYearsError { get; set; } = false;
 
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
@@ -27,8 +32,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || HasSchoolReceivedFundingInLastTwoYears == null)
             {
+                if (HasSchoolReceivedFundingInLastTwoYears == null)
+                {
+                    HasSchoolReceivedFundingInLastTwoYearsError = true;
+                    _errorService.AddError("HasSchoolReceivedFundingInLastTwoYears", "You must select an answer");
+                }
+
                 RadioButtons = RadioButtonModel;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;

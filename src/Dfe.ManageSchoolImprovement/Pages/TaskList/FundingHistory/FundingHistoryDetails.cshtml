@@ -41,7 +41,7 @@
                                     Funding Amount
                                 </dt>
                                 <dd class="govuk-summary-list__value">
-                                    @fundingHistory.FundingAmount
+                                    @($"{fundingHistory.FundingAmount.ToString("C", new System.Globalization.CultureInfo("en-GB"))}")
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">

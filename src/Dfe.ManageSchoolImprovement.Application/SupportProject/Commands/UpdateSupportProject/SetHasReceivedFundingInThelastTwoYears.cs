@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
         public async Task<bool> Handle(SetHasReceivedFundingInThelastTwoYearsCommand request,
             CancellationToken cancellationToken)
         {
-            var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
+            var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 
             if (supportProject is null)
             {

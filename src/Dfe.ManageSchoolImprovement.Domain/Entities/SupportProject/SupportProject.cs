@@ -352,6 +352,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetHasReceivedFundingInThelastTwoYearsCommand(bool? hasReceivedFundingInThelastTwoYearsCommand)
     {
         HasReceivedFundingInThelastTwoYears = hasReceivedFundingInThelastTwoYearsCommand;
+
+        if (hasReceivedFundingInThelastTwoYearsCommand != true)
+        {
+            _fundingHistories.Clear();
+        }
     }
 
     public void AddFundingHistory(FundingHistoryId id,
