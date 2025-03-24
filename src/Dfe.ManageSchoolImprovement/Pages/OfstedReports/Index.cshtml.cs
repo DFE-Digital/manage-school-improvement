@@ -15,8 +15,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.OfstedReports
         }
         public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
         {
-            ReturnPage = @Links.OfstedReports.Index.Page;
-            
+            ReturnPage = @Links.SchoolList.Index.Page;
+
             await base.GetSupportProject(id, cancellationToken);
 
             return Page();

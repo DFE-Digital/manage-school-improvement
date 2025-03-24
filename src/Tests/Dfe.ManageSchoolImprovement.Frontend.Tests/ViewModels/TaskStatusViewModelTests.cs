@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
@@ -481,6 +482,26 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
 
             //Action 
             var taskListStatus = TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(supportProjectModel);
+
+            //Assert
+            Assert.Equal(expectedTaskListStatus, taskListStatus);
+        }
+        
+        public static readonly TheoryData<SupportProjectStatus?, TaskListStatus> ConfirmEligibilityTaskListStatusCases = new()
+        {
+            { SupportProjectStatus.EligibleForSupport, TaskListStatus.Complete },
+            { SupportProjectStatus.NotEligibleForSupport, TaskListStatus.Complete },
+            {null, TaskListStatus.NotStarted },
+        };
+
+        [Theory, MemberData(nameof(ConfirmEligibilityTaskListStatusCases))]
+        public void ConfirmEligibilityTaskListStatusShouldReturnCorrectStatus(SupportProjectStatus? isEligible, TaskListStatus expectedTaskListStatus)
+        {
+            // Arrange
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SupportProjectStatus: isEligible));
+
+            //Action 
+            var taskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

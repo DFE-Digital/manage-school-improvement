@@ -25,6 +25,14 @@
         <h3 class="app-task-list__section govuk-!-margin-top-8">Before you start</h3>
         <div class="app-task-list">
             <ul class="app-task-list__items govuk-!-padding-left-0">
+              <li class="app-task-list__item">
+                <span class="app-task-list__task-name" data-cy="task-name">
+                    <a class="govuk-link" asp-page="@Links.TaskList.CheckEligibility.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_project_dates">
+                        Confirm eligibility
+                    </a>
+                </span>
+                <partial name="Shared/_TaskListStatus" model="@Model.ConfirmEligibilityTaskListStatus"/>
+            </li>
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears ?? false)

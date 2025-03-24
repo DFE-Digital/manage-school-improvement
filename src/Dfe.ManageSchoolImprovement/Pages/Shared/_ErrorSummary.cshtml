@@ -28,7 +28,15 @@
                             {
                                 <a id="@($"{error.Key}-error-link")" href=@error.Key data-element-type="error-link" data-cy="error-message-@errorCount+=">@error.Message</a>
                             }
-                             else @if (error.Key?.Contains("/update-trust") ?? false)
+                            else @if (error.Key?.Contains("/update-trust") ?? false)
+                            {
+                                <a id="@($"{error.Key}-error-link")" href=@error.Key data-element-type="error-link" data-cy="error-message-@errorCount+=">@error.Message</a>
+                            }
+                            else @if (error.Key?.Contains("contact-roleId") ?? false)
+                            {
+                                <a id="@($"{error.Key}-error-link")" href=@error.Key data-element-type="error-link" data-cy="error-message-@errorCount+=">@error.Message</a>
+                            }
+                            else @if (error.Key?.Contains("contact-otherRole") ?? false)
                             {
                                 <a id="@($"{error.Key}-error-link")" href=@error.Key data-element-type="error-link" data-cy="error-message-@errorCount+=">@error.Message</a>
                             }

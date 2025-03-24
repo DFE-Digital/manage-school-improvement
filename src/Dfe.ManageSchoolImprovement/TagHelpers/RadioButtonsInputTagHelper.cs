@@ -14,7 +14,7 @@ public class RadioButtonsInputTagHelper(IHtmlHelper htmlHelper) : InputTagHelper
     public string? ErrorMessage { get; set; } = null;
     protected override async Task<IHtmlContent> RenderContentAsync()
     {
-        RadioButtonViewModel model = new() { Name = Name, Heading = Heading, Value = For.Model?.ToString(), RadioButtons = RadioButtons, Hint = Hint, HeadingStyle = HeadingStyle, HasError = HasError, ErrorMessage = ErrorMessage };
+        RadioButtonViewModel model = new() { Name = Name, Heading = Heading, Value = For.Model?.ToString(), RadioButtons = RadioButtons, Hint = Hint, HeadingStyle = HeadingStyle, ErrorMessage = ErrorMessage };
 
         return await _htmlHelper.PartialAsync("_RadioButtons", model);
     }

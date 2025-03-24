@@ -289,6 +289,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<DateTime?>("SavedAssessmentTemplateInSharePointDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SchoolIsNotEligibleNotes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SchoolName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -318,6 +321,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<string>("SupportOrganisationName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SupportProjectStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("SupportingOrganisationContactEmailAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -334,6 +340,78 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.ToTable(tb => tb.IsTemporal(ttb =>
                             {
                                 ttb.UseHistoryTable("SupportProjectHistory", "RISE");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProjectContact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Organisation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OtherRoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SupportProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupportProjectId");
+
+                    b.ToTable("SupportProjectContacts", "RISE");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("SupportProjectContactsHistory", "RISE");
                                 ttb
                                     .HasPeriodStart("PeriodStart")
                                     .HasColumnName("PeriodStart");
@@ -396,6 +474,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                             }));
                 });
 
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProjectContact", b =>
+                {
+                    b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", null)
+                        .WithMany("Contacts")
+                        .HasForeignKey("SupportProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.FundingHistory", b =>
                 {
                     b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", null)
@@ -416,6 +503,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", b =>
                 {
+                    b.Navigation("Contacts");
+
                     b.Navigation("FundingHistories");
 
                     b.Navigation("Notes");

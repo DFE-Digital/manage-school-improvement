@@ -1,0 +1,32 @@
+﻿@page "/add-contact-details/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts.AddContactDetailModel
+@{
+    ViewData["Title"] = "Add contact details";
+}
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-xl">
+            Add contact details
+        </h1>  
+        <form method="post" novalidate>
+            <input type="hidden" asp-for="@Model.RoleId" />
+            <input type="hidden" asp-for="@Model.OtherRole" />
+            <govuk-text-input heading-label="true" label="Name" id="name" name="name" asp-for="@Model.Name" width="30" />
+            <govuk-text-input heading-label="true" label="Organisation" id="organisation" name="organisation" asp-for="@Model.Organisation" width="30" />
+            <govuk-text-input heading-label="true" label="Email" id="email-address" name="email-address" asp-for="@Model.EmailAddress" width="30" />
+            <govuk-text-input heading-label="true" label="Phone" id="phone" name="phone" asp-for="@Model.Phone" width="30" />
+            <button class="govuk-button" id="add-contact-button" data-module="govuk-button" data-cy="add-contact-submitbutton">
+                Add contact
+            </button>
+        </form>
+    </div>
+</div>

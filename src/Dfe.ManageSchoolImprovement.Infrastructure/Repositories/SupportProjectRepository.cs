@@ -114,6 +114,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             return DbSet()
                 .Include(x => x.Notes)
+                .Include(x => x.Contacts)
                 .Include(x => x.FundingHistories)
                 .AsQueryable();
         }

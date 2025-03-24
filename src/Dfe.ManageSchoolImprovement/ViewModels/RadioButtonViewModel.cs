@@ -7,20 +7,19 @@ public class RadioButtonViewModel
     public string? Heading { get; set; } = null;
     public string? HeadingStyle { get; set; } = null;
     public string? Hint { get; set; } = null;
+    public string? ErrorMessage { get; set; } = null;
     public string? Name { get; set; } = null;
     public IList<RadioButtonsLabelViewModel> RadioButtons { get; set; } = [];
     public string? Value { get; set; } = null;
-    public bool HasError { get; set; } = false;
-    public string? ErrorMessage { get; set; } = null;
 }
 public class RadioButtonsLabelViewModel
 {
     public required string Name { get; set; }
     public required string Id { get; set; }
     public string? Value { get; set; }
-    public TextAreaInputViewModel? Input { get; set; }
+    public TextFieldInputViewModel? Input { get; set; }
 }
-public class TextAreaInputViewModel
+public class TextFieldInputViewModel
 {
     public required string Id { get; set; }
     public bool IsValid { get; set; } = true;
@@ -28,4 +27,5 @@ public class TextAreaInputViewModel
     public required string Paragraph { get; set; }
     [HtmlAttributeName("Value")]
     public required string? Value { get; set; }
+    public bool IsTextArea { get; set; } = true;
 }

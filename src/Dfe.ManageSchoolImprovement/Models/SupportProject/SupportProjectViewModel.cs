@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
@@ -59,6 +60,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
 
         public IEnumerable<SupportProjectNote> Notes { get; set; }
+
+        public IEnumerable<SupportProjectContact> Contacts { get; set; }
 
         public DateTime? SchoolResponseDate { get; set; }
 
@@ -141,8 +144,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? FundingHistoryDetailsComplete { get; set; }
         public IEnumerable<FundingHistoryViewModel> FundingHistories { get; set; }
 
-
-
+        public string? SchoolIsNotEligibleNotes { get; set; }
+        public SupportProjectStatus? SupportProjectStatus { get; set; }
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
@@ -212,6 +215,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
+                SupportProjectStatus = supportProjectDto.SupportProjectStatus,
+                SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
+                Contacts = supportProjectDto.Contacts,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
                 FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,
                 FundingHistories = supportProjectDto.FundingHistories?.Select(x => new FundingHistoryViewModel()

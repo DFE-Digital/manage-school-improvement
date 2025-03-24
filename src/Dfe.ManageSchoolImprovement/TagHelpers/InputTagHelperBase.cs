@@ -49,6 +49,9 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
 
     [HtmlAttributeName("heading-style")]
     public string HeadingStyle { get; set; }
+    [HtmlAttributeName("error-message")]
+    public string ErrorMessage { get; set; }
+    
 
     [ViewContext]
     public ViewContext ViewContext { get; set; }

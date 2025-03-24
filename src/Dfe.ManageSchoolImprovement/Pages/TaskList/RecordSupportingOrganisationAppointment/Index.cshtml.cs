@@ -85,13 +85,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                         Id = "no",
                         Name = "No",
                         Value = "False",
-                        Input = new TextAreaInputViewModel
+                        Input = new TextFieldInputViewModel
                         {
                             Id = nameof(DisapprovingSupportingOrganisationAppointmentNotes),
                             ValidationMessage = "You must add a note",
                             Paragraph = "Provide some details about why approval was not given.",
                             Value = DisapprovingSupportingOrganisationAppointmentNotes,
-                            IsValid = IsDisapprovingSupportingOrganisationAppointmentNotesValid()
+                            IsValid = IsDisapprovingSupportingOrganisationAppointmentNotesValid(),
+                            IsTextArea = true
                         }
                     }
                 };

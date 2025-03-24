@@ -35,6 +35,15 @@ public static class Links
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/SchoolList/Index");
     }
 
+    public static class Contacts
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/Contacts/Index");
+        public static readonly LinkItem AddContact = AddLinkItem(backText: "Back", page: "/Contacts/AddContact");
+        public static readonly LinkItem AddContactDetail = AddLinkItem(backText: "Back", page: "/Contacts/AddContactDetail");
+        public static readonly LinkItem EditContact = AddLinkItem(backText: "Back", page: "/Contacts/EditContact");
+        public static readonly LinkItem EditContactDetail = AddLinkItem(backText: "Back", page: "/Contacts/EditContactDetail");
+    }
+
     public static class AboutTheSchool
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/AboutTheSchool/Index");
@@ -47,6 +56,7 @@ public static class Links
     public static class TaskList
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/TaskList/Index");
+        public static readonly LinkItem CheckEligibility = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmEligibility/Index");
         public static readonly LinkItem ContactTheSchool = AddLinkItem(backText: "Back", page: "/TaskList/ContactTheSchool/ContactTheSchool");
         public static readonly LinkItem RecordTheSchoolResponse = AddLinkItem(backText: "Back", page: "/TaskList/RecordTheSchoolResponse/Index");
         public static readonly LinkItem CheckPotentialAdviserConflictsOfInterest = AddLinkItem(backText: "Back", page: "/TaskList/AdviserConflictOfInterest/AdviserConflictOfInterest");
