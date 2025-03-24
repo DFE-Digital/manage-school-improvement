@@ -214,7 +214,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
                 FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,
-                FundingHistories = supportProjectDto.FundingHistories.Select(x => new FundingHistoryViewModel()
+                FundingHistories = supportProjectDto.FundingHistories?.Select(x => new FundingHistoryViewModel()
                 {
                     Id = x.id,
                     SupportProjectId = x.supportProjectId,
@@ -224,7 +224,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     FundingAmount = x.fundingAmount,
                     FundingRounds = x.fundingRounds,
                     Comments = x.comments
-                })
+                }) ?? new List<FundingHistoryViewModel>()
             };
         }
     }

@@ -485,5 +485,29 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
+
+        public static readonly TheoryData<bool?, bool?, TaskListStatus> FundingHistoryTaskListStatusCases = new()
+        {
+            { null, null, TaskListStatus.NotStarted },
+            { true, null, TaskListStatus.InProgress },
+            { true, false, TaskListStatus.InProgress },
+            { true, true, TaskListStatus.Complete },
+            { false, null, TaskListStatus.Complete }
+        };
+
+        [Theory, MemberData(nameof(FundingHistoryTaskListStatusCases))]
+        public void FundingHistoryTaskListStatusShouldReturnCorrectStatus(bool? hasReceivedFunding, bool? fundingHistoryComplete, TaskListStatus expectedTaskListStatus)
+        {
+            // Arrange
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                HasReceivedFundingInThelastTwoYears: hasReceivedFunding,
+                FundingHistoryDetailsComplete: fundingHistoryComplete));
+
+            //Action 
+            var taskListStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(supportProjectModel);
+
+            //Assert
+            Assert.Equal(expectedTaskListStatus, taskListStatus);
+        }
     }
 }
