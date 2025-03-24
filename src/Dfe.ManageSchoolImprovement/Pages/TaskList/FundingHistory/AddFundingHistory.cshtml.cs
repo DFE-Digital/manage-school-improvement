@@ -52,9 +52,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
-            IRequest<FundingHistoryId> request;
 
-            request = new AddFundingHistoryCommand(new SupportProjectId(id), FundingType, FundingAmount.Value, FinancialYear, FundingRounds.Value, AdditionalComments);
+            var request = new AddFundingHistoryCommand(new SupportProjectId(id), FundingType, FundingAmount.Value, FinancialYear, FundingRounds.Value, AdditionalComments);
 
             var result = await mediator.Send(request, cancellationToken);
 
