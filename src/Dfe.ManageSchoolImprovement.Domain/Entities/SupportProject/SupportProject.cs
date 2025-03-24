@@ -366,7 +366,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         
         if(schoolIsEligible == false)
         {
-            SupportProjectStatus = ValueObjects.SupportProjectStatus.NotEligibleForSupport;;
+            SupportProjectStatus = ValueObjects.SupportProjectStatus.NotEligibleForSupport;
         }
 
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
