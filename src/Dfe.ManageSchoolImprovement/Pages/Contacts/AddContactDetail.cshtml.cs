@@ -18,7 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         [BindProperty(Name = "name")]
         [Required(ErrorMessage = "You must enter a name")]
         public string Name { get; set; } = null!;
-        [Required(ErrorMessage = "You must enter an organsiation")]
+        [Required(ErrorMessage = "You must enter an organisation")]
         [BindProperty(Name = "organisation")]
         public string Organisation { get; set; } = null!;
 

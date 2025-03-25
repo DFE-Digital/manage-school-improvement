@@ -14,7 +14,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         [BindProperty(Name = "otherRole")]
         public string? OtherRole { get; set; } 
-        public string? ErrorMessage { get; set; }    
+        public string? ErrorMessage { get; set; }  
+        
+        public bool ShowError { get; set; }
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
           
         public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
@@ -37,7 +39,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (!RoleId.HasValue)
             {
                 RadioButtons = ContactsUtil.GetRadioButtons(OtherRole);
-                ErrorMessage = "You must select a role"; 
+                ErrorMessage = "You must select a role";
+                ShowError = true;
+                _errorService.AddError("-hint", ErrorMessage);
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();
             }
@@ -45,6 +49,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (!hasOtherRoleName && RoleId == RolesIds.Other.GetHashCode())
             { 
                 ErrorMessage = "You must enter a role";
+                ShowError = true;
+                _errorService.AddError("-hint", ErrorMessage);
                 RadioButtons = ContactsUtil.GetRadioButtons(OtherRole, hasOtherRoleName);
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();
