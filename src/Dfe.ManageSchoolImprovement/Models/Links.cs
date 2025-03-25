@@ -79,6 +79,10 @@ public static class Links
         public static readonly LinkItem ReviewTheImprovementPlan = AddLinkItem(backText: "Back", page: "/TaskList/ReviewTheImprovementPlan/Index");
         public static readonly LinkItem RequestImprovementGrantOfferLetter = AddLinkItem(backText: "Back", page: "/TaskList/RequestImprovementGrantOfferLetter/Index");
         public static readonly LinkItem ConfirmImprovementGrantOfferLetterSent = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmImprovementGrantOfferLetterSent/Index");
+        public static readonly LinkItem FundingHistory = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/Index");
+        public static readonly LinkItem FundingHistoryAdd = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/AddFundingHistory");
+        public static readonly LinkItem FundingHistoryEdit = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/EditFundingHistory");
+        public static readonly LinkItem FundingHistoryDetails = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/FundingHistoryDetails");
     }
 
     public static class DeleteProject

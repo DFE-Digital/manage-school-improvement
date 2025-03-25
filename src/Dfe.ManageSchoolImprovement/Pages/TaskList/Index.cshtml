@@ -22,10 +22,10 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="prepare-project-doc">Task list</h2>
-    <h3 class="app-task-list__section govuk-!-margin-top-8">Before you start</h3>
-    <div class="app-task-list">
-        <ul class="app-task-list__items govuk-!-padding-left-0">
-            <li class="app-task-list__item">
+        <h3 class="app-task-list__section govuk-!-margin-top-8">Before you start</h3>
+        <div class="app-task-list">
+            <ul class="app-task-list__items govuk-!-padding-left-0">
+              <li class="app-task-list__item">
                 <span class="app-task-list__task-name" data-cy="task-name">
                     <a class="govuk-link" asp-page="@Links.TaskList.CheckEligibility.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_project_dates">
                         Confirm eligibility
@@ -33,9 +33,26 @@
                 </span>
                 <partial name="Shared/_TaskListStatus" model="@Model.ConfirmEligibilityTaskListStatus"/>
             </li>
-        </ul>
-    </div>
-    <h3 class="app-task-list__section govuk-!-margin-top-8">Begin the project</h3>
+                <li class="app-task-list__item">
+                    <span class="app-task-list__task-name" data-cy="task-name">
+                        @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears ?? false)
+                        {
+                            <a class="govuk-link" asp-page="@Links.TaskList.FundingHistoryDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
+                                Enter the funding history
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="govuk-link" asp-page="@Links.TaskList.FundingHistory.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
+                                Enter the funding history
+                            </a>
+                        }
+                    </span>
+                    <partial name="Shared/_TaskListStatus" model="@Model.FundingHistoryStatus" />
+                </li>
+            </ul>
+        </div>
+        <h3 class="app-task-list__section govuk-!-margin-top-8">Begin the project</h3>
         <div class="app-task-list">
             <ul class="app-task-list__items govuk-!-padding-left-0">
                 <li class="app-task-list__item">
@@ -179,7 +196,7 @@
                             Confirm planning grant offer letter sent
                         </a>
                     </span>
-                    <partial name="Shared/_TaskListStatus" model="@Model.ConfirmPlanningGrantOfferLetterTaskListStatus"/>
+                    <partial name="Shared/_TaskListStatus" model="@Model.ConfirmPlanningGrantOfferLetterTaskListStatus" />
                 </li>
             </ul>
         </div>
@@ -195,13 +212,13 @@
                     <partial name="Shared/_TaskListStatus" model="@Model.ShareTheImprovementPlanTemplateTaskListStatus" />
                 </li>
                 <li class="app-task-list__item">
-                                    <span class="app-task-list__task-name" data-cy="task-name">
-                                        <a class="govuk-link" asp-page="@Links.TaskList.ReviewTheImprovementPlan.Page" asp-route-id="@Model.SupportProject.Id" data-cy="review-the-improvement-plan">
-                                            Review the improvement plan
-                                        </a>
-                                    </span>
-                                    <partial name="Shared/_TaskListStatus" model="@Model.ReviewTheImprovementPlanTaskListStatus" />
-                                </li>
+                    <span class="app-task-list__task-name" data-cy="task-name">
+                        <a class="govuk-link" asp-page="@Links.TaskList.ReviewTheImprovementPlan.Page" asp-route-id="@Model.SupportProject.Id" data-cy="review-the-improvement-plan">
+                            Review the improvement plan
+                        </a>
+                    </span>
+                    <partial name="Shared/_TaskListStatus" model="@Model.ReviewTheImprovementPlanTaskListStatus" />
+                </li>
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.SendAgreedImprovementPlanForApproval.Page" asp-route-id="@Model.SupportProject.Id" data-cy="send-agreed-improvement-plan">

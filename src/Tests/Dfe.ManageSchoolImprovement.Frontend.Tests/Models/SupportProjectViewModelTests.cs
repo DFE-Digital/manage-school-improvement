@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 SaveCompletedConflictOfinterestFormInSharePoint: true,
                 DateConflictsOfInterestWereChecked: DateTime.Now,
                 SchoolResponseDate: DateTime.Now,
-                HasAcceeptedTargetedSupport: true,
+                HasAcceptedTargetedSupport: true,
                 HasSavedSchoolResponseinSharePoint: true,
                 DateAdviserAllocated: DateTime.Now,
                 AdviserEmailAddress: "adviser@example.com",
@@ -54,8 +54,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 CheckTheOrganisationHasAVendorAccount: true,
                 DateDueDiligenceCompleted: DateTime.Now,
                 RegionalDirectorAppointmentDate: DateTime.Now,
-                HasConfirmedSupportingOrgnaisationAppointment: true,
-                DisapprovingSupportingOrgnaisationAppointmentNotes: "Notes",
+                HasConfirmedSupportingOrganisationAppointment: true,
+                DisapprovingSupportingOrganisationAppointmentNotes: "Notes",
                 DateSupportingOrganisationContactDetailsAdded: DateTime.Now,
                 SupportingOrganisationContactName: "Contact Name",
                 SupportingOrganisationContactEmailAddress: "contact@example.com",
@@ -96,7 +96,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);
             Assert.Equal(supportProjectDto.DateConflictsOfInterestWereChecked, viewModel.DateConflictsOfInterestWereChecked);
             Assert.Equal(supportProjectDto.SchoolResponseDate, viewModel.SchoolResponseDate);
-            Assert.Equal(supportProjectDto.HasAcceeptedTargetedSupport, viewModel.HasAcceeptedTargetedSupport);
+            Assert.Equal(supportProjectDto.HasAcceptedTargetedSupport, viewModel.HasAcceptedTargetedSupport);
             Assert.Equal(supportProjectDto.HasSavedSchoolResponseinSharePoint, viewModel.HasSavedSchoolResponseinSharePoint);
             Assert.Equal(supportProjectDto.HasShareEmailTemplateWithAdviser, viewModel.HasShareEmailTemplateWithAdviser);
             Assert.Equal(supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail, viewModel.RemindAdviserToCopyRiseTeamWhenSentEmail);
@@ -124,8 +124,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.CheckTheOrganisationHasAVendorAccount, viewModel.CheckTheOrganisationHasAVendorAccount);
             Assert.Equal(supportProjectDto.DateDueDiligenceCompleted, viewModel.DateDueDiligenceCompleted);
             Assert.Equal(supportProjectDto.RegionalDirectorAppointmentDate, viewModel.RegionalDirectorAppointmentDate);
-            Assert.Equal(supportProjectDto.HasConfirmedSupportingOrgnaisationAppointment, viewModel.HasConfirmedSupportingOrgnaisationAppointment);
-            Assert.Equal(supportProjectDto.DisapprovingSupportingOrgnaisationAppointmentNotes, viewModel.DisapprovingSupportingOrgnaisationAppointmentNotes);
+            Assert.Equal(supportProjectDto.HasConfirmedSupportingOrganisationAppointment, viewModel.HasConfirmedSupportingOrganisationAppointment);
+            Assert.Equal(supportProjectDto.DisapprovingSupportingOrganisationAppointmentNotes, viewModel.DisapprovingSupportingOrganisationAppointmentNotes);
             Assert.Equal(supportProjectDto.DateSupportingOrganisationContactDetailsAdded, viewModel.DateSupportingOrganisationContactDetailsAdded);
             Assert.Equal(supportProjectDto.SupportingOrganisationContactName, viewModel.SupportingOrganisationContactName);
             Assert.Equal(supportProjectDto.SupportingOrganisationContactEmailAddress, viewModel.SupportingOrganisationContactEmailAddress);

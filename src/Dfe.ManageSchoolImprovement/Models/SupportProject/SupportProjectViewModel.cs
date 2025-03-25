@@ -17,14 +17,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string LocalAuthority { get; set; }
 
         public string Region { get; set; }
-        
+
         public string Diocese { get; set; }
-        
+
         public string SchoolPhase { get; set; }
-        
+
         public string ReligiousCharacter { get; set; }
-        
-        
+
+
         public string NumbersOnRoll { get; set; }
 
         public string AssignedDeliveryOfficerFullName { get; set; }
@@ -61,11 +61,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public IEnumerable<SupportProjectNote> Notes { get; set; }
 
-        public IEnumerable<SupportProjectContact> Contacts { get; set; }  
+        public IEnumerable<SupportProjectContact> Contacts { get; set; }
 
         public DateTime? SchoolResponseDate { get; set; }
 
-        public bool? HasAcceeptedTargetedSupport { get; set; }
+        public bool? HasAcceptedTargetedSupport { get; set; }
 
         public bool? HasSavedSchoolResponseinSharePoint { get; set; }
 
@@ -111,9 +111,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? DateDueDiligenceCompleted { get; set; }
 
-        public bool? HasConfirmedSupportingOrgnaisationAppointment { get; set; }
+        public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
-        public string? DisapprovingSupportingOrgnaisationAppointmentNotes { get; set; }
+        public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
 
 
         public DateTime? DateSupportingOrganisationContactDetailsAdded { get; set; }
@@ -139,9 +139,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
-        public DateTime? DateImprovementGrantOfferLetterSent { get; set;  }
+        public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
+        public bool? HasReceivedFundingInThelastTwoYears { get; set; }
+        public bool? FundingHistoryDetailsComplete { get; set; }
+        public IEnumerable<FundingHistoryViewModel> FundingHistories { get; set; }
 
-        public string? SchoolIsNotEligibleNotes { get; set;  }
+        public string? SchoolIsNotEligibleNotes { get; set; }
         public SupportProjectStatus? SupportProjectStatus { get; set; }
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -163,7 +166,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
                 DateConflictsOfInterestWereChecked = supportProjectDto.DateConflictsOfInterestWereChecked,
                 SchoolResponseDate = supportProjectDto.SchoolResponseDate,
-                HasAcceeptedTargetedSupport = supportProjectDto.HasAcceeptedTargetedSupport,
+                HasAcceptedTargetedSupport = supportProjectDto.HasAcceptedTargetedSupport,
                 HasSavedSchoolResponseinSharePoint = supportProjectDto.HasSavedSchoolResponseinSharePoint,
                 HasShareEmailTemplateWithAdviser = supportProjectDto.HasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
@@ -191,8 +194,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 CheckTheOrganisationHasAVendorAccount = supportProjectDto.CheckTheOrganisationHasAVendorAccount,
                 DateDueDiligenceCompleted = supportProjectDto.DateDueDiligenceCompleted,
                 RegionalDirectorAppointmentDate = supportProjectDto.RegionalDirectorAppointmentDate,
-                HasConfirmedSupportingOrgnaisationAppointment = supportProjectDto.HasConfirmedSupportingOrgnaisationAppointment,
-                DisapprovingSupportingOrgnaisationAppointmentNotes = supportProjectDto.DisapprovingSupportingOrgnaisationAppointmentNotes,
+                HasConfirmedSupportingOrganisationAppointment = supportProjectDto.HasConfirmedSupportingOrganisationAppointment,
+                DisapprovingSupportingOrganisationAppointmentNotes = supportProjectDto.DisapprovingSupportingOrganisationAppointmentNotes,
                 DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
@@ -214,7 +217,20 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
                 SupportProjectStatus = supportProjectDto.SupportProjectStatus,
                 SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
-                Contacts = supportProjectDto.Contacts
+                Contacts = supportProjectDto.Contacts,
+                HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
+                FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,
+                FundingHistories = supportProjectDto.FundingHistories?.Select(x => new FundingHistoryViewModel()
+                {
+                    Id = x.id,
+                    SupportProjectId = x.supportProjectId,
+                    ReadableId = x.readableId,
+                    FundingType = x.fundingType,
+                    FinancialYear = x.financialYear,
+                    FundingAmount = x.fundingAmount,
+                    FundingRounds = x.fundingRounds,
+                    Comments = x.comments
+                }) ?? new List<FundingHistoryViewModel>()
             };
         }
     }

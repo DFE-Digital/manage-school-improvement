@@ -16,7 +16,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
     const string DefaultSchema = "RISE";
 
     public DbSet<SupportProject> SupportProjects { get; set; } = null!;
-    
+
     public DbSet<SupportProjectNote> ProjectNotes { get; set; } = null!;
 
     public DbSet<SupportProjectContact> Contacts { get; set; } = null!;
@@ -37,6 +37,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<SupportProject>(ConfigureSupportProject);
         modelBuilder.Entity<SupportProjectNote>(ConfigureSupportProjectNotes);
         modelBuilder.Entity<SupportProjectContact>(ConfigureSupportProjectContacts);
+        modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -50,7 +51,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new SupportProjectId(v));
-        
+
         supportProjectConfiguration
             .HasMany(a => a.Notes)
             .WithOne()
@@ -63,6 +64,12 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasForeignKey("SupportProjectId")
             .IsRequired();
         supportProjectConfiguration
+            .HasMany(a => a.FundingHistories)
+            .WithOne()
+            .HasForeignKey("SupportProjectId")
+            .IsRequired();
+
+        supportProjectConfiguration
             .HasQueryFilter(p => p.DeletedAt == null);
     }
 
@@ -74,6 +81,16 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new SupportProjectNoteId(v));
+    }
+    private static void ConfigureFundingHistory(EntityTypeBuilder<FundingHistory> fundingHistoryConfiguration)
+    {
+        fundingHistoryConfiguration.ToTable("FundingHistories", DefaultSchema, b => b.IsTemporal());
+        fundingHistoryConfiguration.HasKey(a => a.Id);
+        fundingHistoryConfiguration.Property(e => e.ReadableId).UseIdentityColumn();
+        fundingHistoryConfiguration.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new FundingHistoryId(v));
     }
 
     private static void ConfigureSupportProjectContacts(EntityTypeBuilder<SupportProjectContact> supportProjectContactsConfiguration)

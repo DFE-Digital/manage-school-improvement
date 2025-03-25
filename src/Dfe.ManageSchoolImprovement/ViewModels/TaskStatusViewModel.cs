@@ -30,14 +30,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel SupportProject)
     {
         if (SupportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
-            SupportProject.HasAcceeptedTargetedSupport.Equals(true) &&
+            SupportProject.HasAcceptedTargetedSupport.Equals(true) &&
             SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
         if (!SupportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
-            !SupportProject.HasAcceeptedTargetedSupport.HasValue &&
+            !SupportProject.HasAcceptedTargetedSupport.HasValue &&
             !SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.NotStarted;
@@ -250,14 +250,14 @@ public static class TaskStatusViewModel
         SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorAppointmentDate.HasValue
-            && supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue
-            && supportProject.HasConfirmedSupportingOrgnaisationAppointment.Equals(true))
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.RegionalDirectorAppointmentDate.HasValue
-            && !supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue)
+            && !supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
@@ -415,4 +415,25 @@ public static class TaskStatusViewModel
         return TaskListStatus.NotStarted;
     }
 
+
+    public static TaskListStatus FundingHistoryTaskListStatus(SupportProjectViewModel supportProject)
+    {
+        if (supportProject.HasReceivedFundingInThelastTwoYears.HasValue && !supportProject.HasReceivedFundingInThelastTwoYears.Value)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (supportProject.HasReceivedFundingInThelastTwoYears.HasValue && supportProject.HasReceivedFundingInThelastTwoYears.Value
+            && supportProject.FundingHistoryDetailsComplete.HasValue && supportProject.FundingHistoryDetailsComplete.Value)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (!supportProject.HasReceivedFundingInThelastTwoYears.HasValue)
+        {
+            return TaskListStatus.NotStarted;
+        }
+
+        return TaskListStatus.InProgress;
+    }
 }

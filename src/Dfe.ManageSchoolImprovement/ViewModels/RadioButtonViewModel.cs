@@ -8,7 +8,7 @@ public class RadioButtonViewModel
     public string? HeadingStyle { get; set; } = null;
     public string? Hint { get; set; } = null;
     public string? ErrorMessage { get; set; } = null;
-    public string? Name { get; set; }= null;
+    public string? Name { get; set; } = null;
     public IList<RadioButtonsLabelViewModel> RadioButtons { get; set; } = [];
     public string? Value { get; set; } = null;
 }
@@ -26,6 +26,6 @@ public class TextFieldInputViewModel
     public required string ValidationMessage { get; set; }
     public required string Paragraph { get; set; }
     [HtmlAttributeName("Value")]
-    public required string? Value { get; set; } 
+    public required string? Value { get; set; }
     public bool IsTextArea { get; set; } = true;
 }

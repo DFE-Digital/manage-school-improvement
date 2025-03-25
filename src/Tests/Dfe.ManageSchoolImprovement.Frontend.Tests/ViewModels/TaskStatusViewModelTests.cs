@@ -38,10 +38,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
         [Theory, MemberData(nameof(RecordTheSchoolResponseTaskStatusCases))]
-        public void RecordTheSchoolResponseTaskStatusShouldReturnCorrectStatus(bool? hasSavedSchoolResponseinSharePoint, bool? hasAcceeptedTargetedSupport, DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
+        public void RecordTheSchoolResponseTaskStatusShouldReturnCorrectStatus(bool? hasSavedSchoolResponseinSharePoint, bool? hasAcceptedTargetedSupport, DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SchoolResponseDate: schoolResponseDate, HasAcceeptedTargetedSupport: hasAcceeptedTargetedSupport,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SchoolResponseDate: schoolResponseDate, HasAcceptedTargetedSupport: hasAcceptedTargetedSupport,
                 HasSavedSchoolResponseinSharePoint: hasSavedSchoolResponseinSharePoint));
 
             //Action 
@@ -283,11 +283,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
         [Theory, MemberData(nameof(RecordSupportingDecisionTaskListStatusCases))]
-        public void RecordSupportingOrganisationAppointmentTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrgnaisationAppointment, string? disapprovingSupportingOrgnaisationAppointmentNotes, TaskListStatus expectedTaskListStatus)
+        public void RecordSupportingOrganisationAppointmentTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, RegionalDirectorAppointmentDate: regionalDirectorAppointmentDate,
-                HasConfirmedSupportingOrgnaisationAppointment: hasConfirmedSupportingOrgnaisationAppointment, DisapprovingSupportingOrgnaisationAppointmentNotes: disapprovingSupportingOrgnaisationAppointmentNotes));
+                HasConfirmedSupportingOrganisationAppointment: hasConfirmedSupportingOrganisationAppointment, DisapprovingSupportingOrganisationAppointmentNotes: disapprovingSupportingOrganisationAppointmentNotes));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(supportProjectModel);
@@ -502,6 +502,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
 
             //Action 
             var taskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(supportProjectModel);
+
+            //Assert
+            Assert.Equal(expectedTaskListStatus, taskListStatus);
+        }
+
+        public static readonly TheoryData<bool?, bool?, TaskListStatus> FundingHistoryTaskListStatusCases = new()
+        {
+            { null, null, TaskListStatus.NotStarted },
+            { true, null, TaskListStatus.InProgress },
+            { true, false, TaskListStatus.InProgress },
+            { true, true, TaskListStatus.Complete },
+            { false, null, TaskListStatus.Complete }
+        };
+
+        [Theory, MemberData(nameof(FundingHistoryTaskListStatusCases))]
+        public void FundingHistoryTaskListStatusShouldReturnCorrectStatus(bool? hasReceivedFunding, bool? fundingHistoryComplete, TaskListStatus expectedTaskListStatus)
+        {
+            // Arrange
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                HasReceivedFundingInThelastTwoYears: hasReceivedFunding,
+                FundingHistoryDetailsComplete: fundingHistoryComplete));
+
+            //Action 
+            var taskListStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

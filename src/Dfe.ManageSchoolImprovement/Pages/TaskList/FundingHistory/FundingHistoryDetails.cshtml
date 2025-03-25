@@ -1,0 +1,87 @@
+@page "/task-list/funding-history-details/{id:int}"
+@model FundingHistoryDetailsModel
+@{
+    ViewData["Title"] = "Check funding details";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Check funding details
+        </h1>
+        <form method="post" novalidate>
+            @foreach (var fundingHistory in @Model.SupportProject.FundingHistories)
+            {
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">
+                            @fundingHistory.FundingType
+                        </h2>
+                        <ul class="govuk-summary-card__actions">
+                            <li class="govuk-summary-card__action">
+                                <a asp-page="@Links.TaskList.FundingHistoryEdit.Page" asp-route-id="@Model.SupportProject.Id" asp-route-readableFundingHistoryId="@fundingHistory.ReadableId" class="govuk-link">Change<span class="govuk-visually-hidden"> @fundingHistory.FundingType funding history</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Funding Amount
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @($"{fundingHistory.FundingAmount.ToString("C", new System.Globalization.CultureInfo("en-GB"))}")
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Financial Year
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @fundingHistory.FinancialYear
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Funding rounds
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @fundingHistory.FundingRounds
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Comments
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @fundingHistory.Comments
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            }
+            <govuk-checkbox-input label="Mark this section as complete, you can still make changes later" id="funding-history-details-complete" name="funding-history-details-complete" asp-for="@Model.IsComplete" />
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+                <a asp-page="@Links.TaskList.FundingHistoryAdd.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Add more funding
+                </a>
+                <a asp-page="@Links.TaskList.FundingHistory.Page" asp-route-id="@Model.SupportProject.Id">Change answer</a>
+            </div>
+        </form>
+    </div>
+</div>
