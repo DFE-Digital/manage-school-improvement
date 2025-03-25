@@ -1,5 +1,6 @@
 @page "/task-list/edit-funding-history/{id:int}/{readableFundingHistoryId:int}"
 @model EditFundingHistoryModel
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "What funding has the school received?";
 }
@@ -20,10 +21,11 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             What funding has the school received?
         </h1>
+        <p class="govuk-body">Use the <a href="@Configuration["PreviousFundingChecksSpreadsheetLink"]" class="govuk-link" rel="noreferrer noopener" target="_blank">previous funding checks spreadsheet (opens in new tab)</a> to find out how much a school has received.</p>
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.FundingHistoryId" id="funding-history-Id" name="funding-history-Id" />
             <govuk-text-input heading-label="true" label="Funding type" additional-label-css="govuk-label--m" id="funding-type" name="funding-type" asp-for="@Model.FundingType" width="35" />
-            <govuk-text-input heading-label="true" label="Funding amount" is-money="true" additional-label-css="govuk-label--m" id="funding-amount" name="funding-amount" asp-for="@Model.FundingAmount" width="10" />
+            <govuk-decimal-input heading-label="true" label="Funding amount" isMonetary="true" id="funding-amount" name="funding-amount" asp-for="@Model.FundingAmount" width="10" />
             <govuk-text-input heading-label="true" label="Financial year" additional-label-css="govuk-label--m" id="financial-year" name="financial-year"
                               hint="Enter the financial year the funding was paid. Like, 2023/24." asp-for="@Model.FinancialYear" width="10" />
             <govuk-text-input heading-label="true" label="Funding rounds" additional-label-css="govuk-label--m" id="funding-rounds" name="funding-rounds"

@@ -9,7 +9,7 @@ public class AddFundingHistory
     public record AddFundingHistoryCommand(
             SupportProjectId SupportProjectId,
             string FundingType,
-            double FundingAmount,
+            decimal FundingAmount,
             string FinancialYear,
             int FundingRounds,
             string Comments

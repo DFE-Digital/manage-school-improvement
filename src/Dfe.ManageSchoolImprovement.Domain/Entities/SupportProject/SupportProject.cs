@@ -44,7 +44,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AssignedDeliveryOfficerEmailAddress { get; private set; }
 
     public IEnumerable<SupportProjectNote> Notes => _notes.AsReadOnly();
-    public IEnumerable<SupportProjectContact> Contacts => _contacts.AsReadOnly(); 
+    public IEnumerable<SupportProjectContact> Contacts => _contacts.AsReadOnly();
 
     private readonly List<SupportProjectNote> _notes = new();
     private readonly List<SupportProjectContact> _contacts = new();
@@ -151,9 +151,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DateImprovementGrantOfferLetterSent { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedBy { get; private set; }
-    
+
     public SupportProjectStatus? SupportProjectStatus { get; private set; }
-    
+
     public string? SchoolIsNotEligibleNotes { get; private set; }
 
     public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
@@ -363,15 +363,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         DateImprovementGrantOfferLetterSent = dateImprovementGrantOfferLetterSent;
     }
-    
+
     public void SetEligibility(bool? schoolIsEligible, string? schoolIsNotEligibleNotes)
     {
         if (schoolIsEligible == true)
         {
             SupportProjectStatus = ValueObjects.SupportProjectStatus.EligibleForSupport;
         }
-        
-        if(schoolIsEligible == false)
+
+        if (schoolIsEligible == false)
         {
             SupportProjectStatus = ValueObjects.SupportProjectStatus.NotEligibleForSupport;
         }
@@ -398,7 +398,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void AddFundingHistory(FundingHistoryId id,
             SupportProjectId supportProjectId,
             string fundingType,
-            double fundingAmount,
+            decimal fundingAmount,
             string financialYear,
             int fundingRounds,
             string comments)
@@ -408,7 +408,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public void EditFundingHistory(FundingHistoryId id,
             string fundingType,
-            double fundingAmount,
+            decimal fundingAmount,
             string financialYear,
             int fundingRounds,
             string comments)

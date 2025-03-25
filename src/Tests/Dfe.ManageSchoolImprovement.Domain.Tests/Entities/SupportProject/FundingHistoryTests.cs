@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var id = new FundingHistoryId(Guid.NewGuid());
             var fundingType = "funding type";
-            var fundingAmount = 100.10;
+            var fundingAmount = (decimal)100.10;
             var financialYear = "financial year";
             var fundingRounds = 10;
             var comments = "comments";
@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Act
             fundingType = "funding type 1";
-            fundingAmount = 111.10;
+            fundingAmount = (decimal)111.10;
             financialYear = "financial year 1";
             fundingRounds = 11;
             comments = "comments 1";

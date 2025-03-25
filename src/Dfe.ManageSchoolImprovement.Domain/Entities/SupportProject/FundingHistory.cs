@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             FundingHistoryId id,
             SupportProjectId supportProjectId,
             string fundingType,
-            double fundingAmount,
+            decimal fundingAmount,
             string financialYear,
             int fundingRounds,
             string comments
@@ -33,12 +33,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? LastModifiedBy { get; set; }
 
         public string FundingType { get; private set; }
-        public double FundingAmount { get; private set; }
+        public decimal FundingAmount { get; private set; }
         public string FinancialYear { get; private set; }
         public int FundingRounds { get; private set; }
         public string? Comments { get; private set; }
 
-        public void SetValues(string fundingType, double fundingAmount, string financialYear, int fundingRounds, string comments)
+        public void SetValues(string fundingType, decimal fundingAmount, string financialYear, int fundingRounds, string comments)
         {
             FundingType = fundingType;
             FundingAmount = fundingAmount;

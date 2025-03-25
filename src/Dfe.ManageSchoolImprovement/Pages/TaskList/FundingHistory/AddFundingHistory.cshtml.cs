@@ -17,8 +17,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 
         [BindProperty(Name = "funding-amount")]
         [Required(ErrorMessage = "You must enter the total funding amount")]
-        [RegularExpression(@"^\£?\d+(\.\d{1,2})?$", ErrorMessage = "Funding amount must be a number greater than zero with up to 2 decimal places")]
-        public double? FundingAmount { get; set; }
+        [RegularExpression(@"^\£?\d+(\.\d{1,2})?$", ErrorMessage = "Funding amount must be a number. It can be a decimal, to represent pounds and pence.")]
+        public decimal? FundingAmount { get; set; }
 
         [BindProperty(Name = "financial-year")]
         [Required(ErrorMessage = "You must enter the financial year payment was made")]
