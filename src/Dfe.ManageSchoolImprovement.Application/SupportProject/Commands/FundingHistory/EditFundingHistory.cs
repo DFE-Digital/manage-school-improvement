@@ -10,7 +10,7 @@ public class EditFundingHistory
             FundingHistoryId Id,
             SupportProjectId SupportProjectId,
             string FundingType,
-            double FundingAmount,
+            decimal FundingAmount,
             string FinancialYear,
             int FundingRounds,
             string Comments

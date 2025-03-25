@@ -570,8 +570,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateImprovementGrantOfferLetterSent.Should().Be(dateLetterConfirmed);
             mockRepository.VerifyAll();
         }
-        
-        
+
+
         [Fact]
         public void SetEligibility_WithValidDetails_Eligible_SetsTheCorrectProperties()
         {
@@ -581,14 +581,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? isEligible = true;
             string note = "note";
             // Act
-            supportProject.SetEligibility(isEligible,note);
+            supportProject.SetEligibility(isEligible, note);
 
             // Assert
             supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.EligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
-        
+
         [Fact]
         public void SetEligibility_WithValidDetails_NotEligible_SetsTheCorrectProperties()
         {
@@ -598,7 +598,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? isEligible = false;
             string note = "note";
             // Act
-            supportProject.SetEligibility(isEligible,note);
+            supportProject.SetEligibility(isEligible, note);
 
             // Assert
             supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.NotEligibleForSupport);
@@ -686,7 +686,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             var id = new FundingHistoryId(Guid.NewGuid());
             var fundingType = "funding type";
-            var fundingAmount = 100.10;
+            var fundingAmount = (decimal)100.10;
             var financialYear = "financial year";
             var fundingRounds = 10;
             var comments = "comments";
@@ -730,7 +730,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Assert
             supportProject.Contacts.Should().NotBeNull();
             foreach (var contact in supportProject.Contacts)
-            { 
+            {
                 contact.Name.Should().Be(name);
                 contact.RoleId.Should().Be(roleId);
                 contact.OtherRoleName.Should().Be(otherRoleName);
@@ -743,7 +743,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 contact.Id.Should().Be(supportProjectContactId);
                 contact.LastModifiedBy.Should().BeNullOrWhiteSpace();
                 contact.LastModifiedOn.Should().BeNull();
-            } 
+            }
         }
 
         [Fact]
@@ -770,9 +770,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 author,
                 createdOn,
                 supportProject.Id);
-            
+
             var roleId = RolesIds.Other;
-            var otherRoleName = "Other Role"; 
+            var otherRoleName = "Other Role";
             var lastModifiedOn = DateTime.UtcNow;
 
             // Act

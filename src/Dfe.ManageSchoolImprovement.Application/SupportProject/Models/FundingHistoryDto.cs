@@ -4,7 +4,7 @@
             int readableId,
             int supportProjectId,
             string fundingType,
-            double fundingAmount,
+            decimal fundingAmount,
             string financialYear,
             int fundingRounds,
             string comments)

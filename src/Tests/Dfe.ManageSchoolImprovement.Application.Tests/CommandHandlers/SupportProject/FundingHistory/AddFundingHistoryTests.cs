@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
         {
             // Arrange
             var fundingType = "funding type";
-            var fundingAmount = 100.10;
+            var fundingAmount = (decimal)100.10;
             var financialYear = "financial year";
             var fundingRounds = 10;
             var comments = "comments";
@@ -79,7 +79,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
             // Arrange
             // Arrange
             var fundingType = "funding type";
-            var fundingAmount = 100.10;
+            var fundingAmount = (decimal)100.10;
             var financialYear = "financial year";
             var fundingRounds = 10;
             var comments = "comments";

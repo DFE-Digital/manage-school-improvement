@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         [Display(Name = "Has the school received any funnding in the last 2 financial years")]
         public bool? HasSchoolReceivedFundingInLastTwoYears { get; set; }
 
-        public bool HasSchoolReceivedFundingInLastTwoYearsError { get; set; } = false;
+        public string? HasSchoolReceivedFundingInLastTwoYearsErrorMessage { get; set; } = null;
 
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
@@ -36,7 +36,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             {
                 if (HasSchoolReceivedFundingInLastTwoYears == null)
                 {
-                    HasSchoolReceivedFundingInLastTwoYearsError = true;
+                    HasSchoolReceivedFundingInLastTwoYearsErrorMessage = "Select an answer";
                     _errorService.AddError("HasSchoolReceivedFundingInLastTwoYears", "You must select an answer");
                 }
 

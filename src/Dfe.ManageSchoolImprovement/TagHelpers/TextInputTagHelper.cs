@@ -15,9 +15,6 @@ public class TextInputTagHelper : InputTagHelperBase
     public int Width { get; set; }
 
     public bool HeadingLabel { get; set; }
-    public bool IsMoney { get; set; }
-
-    public string AdditionalLabelCss { get; set; }
 
     protected override async Task<IHtmlContent> RenderContentAsync()
     {
@@ -29,10 +26,7 @@ public class TextInputTagHelper : InputTagHelperBase
             Value = For.Model?.ToString()!,
             Width = Width,
             Hint = Hint,
-            HeadingLabel = HeadingLabel,
-            AdditionalLabelCss = AdditionalLabelCss,
-            IsMoney = IsMoney
-
+            HeadingLabel = HeadingLabel
         };
 
         if (ViewContext.ModelState.TryGetValue(Name, out ModelStateEntry entry) && entry.Errors.Count > 0)

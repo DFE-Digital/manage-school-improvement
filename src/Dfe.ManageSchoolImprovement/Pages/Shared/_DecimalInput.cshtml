@@ -1,8 +1,8 @@
-@model Dfe.ManageSchoolImprovement.Frontend.ViewModels.TextInputViewModel
+﻿@using Dfe.ManageSchoolImprovement.Frontend.ViewModels
+@model DecimalInputViewModel
 @{
     var showHint = !string.IsNullOrWhiteSpace(Model.Hint);
     var showError = !string.IsNullOrWhiteSpace(Model.ErrorMessage);
-    var width = Model.Width > 0 ? $"govuk-input--width-{Model.Width}" : "";
 }
 <div class="govuk-form-group @(showError ? "govuk-form-group--error" : "")">
     @if (!string.IsNullOrWhiteSpace(Model.Label))
@@ -34,10 +34,19 @@
             <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
         </span>
     }
-    <input class="govuk-input @width @(showError ? "govuk-input--error" : "")"
-           id="@Model.Id"
-           name="@Model.Name"
-           value="@Model.Value"
-           type="text"
-    @(showHint ? $"aria-describedby=\"{Model.Id}-hint\"" : "")>
+
+    @if (Model.IsMonetary)
+    {
+        <div class="govuk-input__wrapper">
+            <div class="govuk-input__prefix" aria-hidden="true">£</div>
+            <input class="govuk-input govuk-input--width-10" id="@Model.Id" name="@Model.Name" type="text" value="@Model.Value">
+        </div>
+    }
+    else
+    {
+        <div class="govuk-input__wrapper">
+            <input class="govuk-input govuk-input--width-10" id="@Model.Id" name="@Model.Name" type="text" value="@Model.Value">
+            <div class="govuk-input__suffix" id="@Model.Name-suffix" aria-hidden="true">@Model.Suffix</div>
+        </div>
+    }
 </div>
