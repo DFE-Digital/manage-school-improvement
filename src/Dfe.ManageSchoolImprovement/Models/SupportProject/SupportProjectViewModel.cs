@@ -144,6 +144,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public string? SchoolIsNotEligibleNotes { get; set; }
         public SupportProjectStatus? SupportProjectStatus { get; set; }
+        public string? PreviousUrn { get; set; }
+
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
