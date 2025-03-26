@@ -23,15 +23,15 @@
         </h1>
         <p class="govuk-body">Use the <a href="@Configuration["PreviousFundingChecksSpreadsheetLink"]" class="govuk-link" rel="noreferrer noopener" target="_blank">previous funding checks spreadsheet (opens in new tab)</a> to find out how much a school has received.</p>
         <form method="post" novalidate>
-            <govuk-text-input heading-label="true" label="Funding type" additional-label-css="govuk-label--m" id="funding-type" name="funding-type" asp-for="@Model.FundingType" width="35" />
-            <govuk-decimal-input heading-label="true" label="Funding amount" isMonetary="true" id="funding-amount" name="funding-amount" asp-for="@Model.FundingAmount" width="10" />
-            <govuk-text-input heading-label="true" label="Financial year" additional-label-css="govuk-label--m" id="financial-year" name="financial-year"
+            <govuk-text-input heading-label="true" label="Funding type" id="funding-type" name="funding-type" asp-for="@Model.FundingType" width="35" />
+            <govuk-decimal-input heading-label="true" label="Funding amount" id="funding-amount" name="funding-amount" asp-for="@Model.FundingAmount" width="10" isMonetary="true" />
+            <govuk-text-input heading-label="true" label="Financial year" id="financial-year-input" name="financial-year-input"
                               hint="Enter the financial year the funding was paid. Like, 2023/24." asp-for="@Model.FinancialYear" width="10" />
-            <govuk-text-input heading-label="true" label="Funding rounds" additional-label-css="govuk-label--m" id="funding-rounds" name="funding-rounds"
+            <govuk-text-input heading-label="true" label="Funding rounds" id="funding-rounds" name="funding-rounds"
                               hint="Enter the number of payments that were made over the financial year." asp-for="@Model.FundingRounds" width="10" />
 
             <div class="govuk-form-group">
-                <label class="govuk-label govuk-label--l" for="@Model.AdditionalComments">
+                <label class="govuk-label govuk-label--l" for="additional-comments">
                      Any additional comments
                 </label>
                 <div id="additional-comments-hint" class="govuk-hint">

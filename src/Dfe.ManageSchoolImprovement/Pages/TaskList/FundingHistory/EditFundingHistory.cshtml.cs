@@ -20,7 +20,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         [RegularExpression(@"^\£?\d+(\.\d{1,2})?$", ErrorMessage = "Funding amount must be a number. It can be a decimal, to represent pounds and pence.")]
         public decimal? FundingAmount { get; set; }
 
-        [BindProperty(Name = "financial-year")]
+        [BindProperty(Name = "financial-year-input")]
         [Required(ErrorMessage = "You must enter the financial year payment was made")]
         public string? FinancialYear { get; set; }
 
