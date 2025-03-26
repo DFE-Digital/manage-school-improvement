@@ -37,12 +37,12 @@
                         </label>
                     </h2>
                     <div id="email-hint" class="govuk-hint">
-                        It will be formatted like rise.firstname.lastname@education.gov.uk.
+                        It will be formatted like firstname.lastname-rise@education.gov.uk.
                     </div>
                     @if (Model.AdviserEmailAddressError)
                     {
                         <p id="event-name-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> Email must be in the format: rise.firstname.lastname@education.gov.uk
+                            <span class="govuk-visually-hidden">Error:</span> Email must be in the format: firstname.lastname-rise@education.gov.uk
                         </p>
                     }
                     <input class="govuk-input govuk-!-width-two-thirds @(Model.AdviserEmailAddressError ? "govuk-input--error" : "")" id="adviser-email-address" name="adviser-email-address" type="text" value="@Model.AdviserEmailAddress" aria-label="email-label">
