@@ -3,18 +3,18 @@ using AutoFixture;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Moq;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetContactTheSchoolDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetContactTheResponsibleBodyDetails;
 
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject;
 
-public class SetContactTheSchoolDetailsTests
+public class SetContactTheResponsibleBodyDetailsTests
 {
     private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
     private readonly Domain.Entities.SupportProject.SupportProject _mockSupportProject;
     private readonly CancellationToken _cancellationToken;
     
-    public SetContactTheSchoolDetailsTests()
+    public SetContactTheResponsibleBodyDetailsTests()
     { 
         
         _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
@@ -27,23 +27,22 @@ public class SetContactTheSchoolDetailsTests
     public async Task Handle_ValidCommand_UpdatesSupportProject()
     {
         // Arrange
-        bool? schoolEmailAddressFound =  true;
-        bool? useTheNotificationLetterToCreateEmail = true; 
-        bool? attachRiseInfoToEmail = true;
-        DateTime? schoolContactedDate = DateTime.UtcNow;
+        bool? discussTheBestApproach =  true;
+        bool? emailTheResponsibleBody = true; 
+        DateTime? responsibleBodyContactedDate = DateTime.UtcNow;
 
-        var command = new SetContactTheSchoolDetailsCommand(
+        var command = new SetContactTheResponsibleBodyDetailsCommand(
             _mockSupportProject.Id,
-            schoolEmailAddressFound,
-            useTheNotificationLetterToCreateEmail,
-            attachRiseInfoToEmail,
-            schoolContactedDate
+            discussTheBestApproach,
+            emailTheResponsibleBody,
+            responsibleBodyContactedDate
+           
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        var setContactTheSchoolDetailsCommandHandler = new SetContactTheSchoolDetailsCommandHandler(_mockSupportProjectRepository.Object);
+        var setContactTheResponsibleBodyDetailsCommandHandler = new SetContactTheResponsibleBodyDetailsCommandHandler(_mockSupportProjectRepository.Object);
         
         // Act
-        var result = await setContactTheSchoolDetailsCommandHandler.Handle(command, _cancellationToken);
+        var result = await setContactTheResponsibleBodyDetailsCommandHandler.Handle(command, _cancellationToken);
         
         // Verify
         Assert.True(result);
@@ -54,18 +53,17 @@ public class SetContactTheSchoolDetailsTests
     public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
     {
         // Arrange
-        var command = new SetContactTheSchoolDetailsCommand(
+        var command = new SetContactTheResponsibleBodyDetailsCommand(
             _mockSupportProject.Id,
-            null,
             null,
             null,
             null
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        var setContactTheSchoolDetailsCommandHandler = new SetContactTheSchoolDetailsCommandHandler(_mockSupportProjectRepository.Object);
+        var setContactTheResponsibleBodyDetailsCommandHandler = new SetContactTheResponsibleBodyDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act
-        var result = await setContactTheSchoolDetailsCommandHandler.Handle(command, _cancellationToken);
+        var result = await setContactTheResponsibleBodyDetailsCommandHandler.Handle(command, _cancellationToken);
 
         // Verify
         Assert.True(result);
@@ -76,23 +74,21 @@ public class SetContactTheSchoolDetailsTests
     public async Task Handle_ProjectNotFound_ReturnsFalse()
     {
         // Arrange
-        // Arrange
         
-        bool? schoolEmailAddressFound =  true;
-        bool? useTheNotificationLetterToCreateEmail = true; 
-        bool? attachRiseInfoToEmail = true;
-        DateTime? schoolContactedDate = DateTime.UtcNow;
+        
+        bool? discussTheBestApproach =  true;
+        bool? emailTheResponsibleBody = true;
+        DateTime? responsibleBodyContactedDate = DateTime.UtcNow;
 
-        var command = new SetContactTheSchoolDetailsCommand(
+        var command = new SetContactTheResponsibleBodyDetailsCommand(
             _mockSupportProject.Id,
-            schoolEmailAddressFound,
-            useTheNotificationLetterToCreateEmail,
-            attachRiseInfoToEmail,
-            schoolContactedDate
+            discussTheBestApproach,
+            emailTheResponsibleBody,
+            responsibleBodyContactedDate
         );
 
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-        var setAdviserConflictOfInterestDetailsCommandHandler = new SetContactTheSchoolDetailsCommandHandler(_mockSupportProjectRepository.Object);
+        var setAdviserConflictOfInterestDetailsCommandHandler = new SetContactTheResponsibleBodyDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act
         var result = await setAdviserConflictOfInterestDetailsCommandHandler.Handle(command, _cancellationToken);

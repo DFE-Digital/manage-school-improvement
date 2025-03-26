@@ -6,20 +6,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 public static class TaskStatusViewModel
 {
-    public static TaskListStatus ContactedTheSchoolTaskStatus(SupportProjectViewModel SupportProject)
+    public static TaskListStatus ContactedTheResponsibleBodyTaskStatus(SupportProjectViewModel SupportProject)
     {
-        if (SupportProject.AttachRiseInfoToEmail.Equals(true) &&
-            SupportProject.FindSchoolEmailAddress.Equals(true) &&
-            SupportProject.UseTheNotificationLetterToCreateEmail.Equals(true) &&
-            SupportProject.ContactedTheSchoolDate.HasValue)
+        if (SupportProject.DiscussTheBestApproach.Equals(true) &&
+            SupportProject.EmailTheResponsibleBody.Equals(true) &&
+            SupportProject.ContactedTheResponsibleBodyDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (SupportProject.AttachRiseInfoToEmail.Equals(false) &&
-            SupportProject.FindSchoolEmailAddress.Equals(false) &&
-            SupportProject.UseTheNotificationLetterToCreateEmail.Equals(false) &&
-            !SupportProject.ContactedTheSchoolDate.HasValue)
+        if (SupportProject.DiscussTheBestApproach.Equals(null) &&
+            SupportProject.EmailTheResponsibleBody.Equals(null) &&
+            !SupportProject.ContactedTheResponsibleBodyDate.HasValue)
         {
             return TaskListStatus.NotStarted;
         }

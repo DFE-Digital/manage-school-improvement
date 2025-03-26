@@ -57,11 +57,11 @@
             <ul class="app-task-list__items govuk-!-padding-left-0">
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
-                        <a class="govuk-link" asp-page="@Links.TaskList.ContactTheSchool.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_project_dates">
-                            Contact the school
+                        <a class="govuk-link" asp-page="@Links.TaskList.ContactTheResponsibleBody.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_responsible_body">
+                            Contact the responsible body
                         </a>
                     </span>
-                    <partial name="Shared/_TaskListStatus" model="@Model.ContactTheSchoolTaskListStatus" />
+                    <partial name="Shared/_TaskListStatus" model="@Model.ContactTheResponsibleBodyTaskListStatus" />
                 </li>
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">

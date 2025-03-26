@@ -42,14 +42,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string OftedReportWeblink { get; set; }
 
         public string LastInspectionDate { get; set; }
+        
+        public bool? DiscussTheBestApproach { get; private set; }
 
-        public bool? FindSchoolEmailAddress { get; private set; }
+        public bool? EmailTheResponsibleBody { get; private set; }
 
-        public bool? UseTheNotificationLetterToCreateEmail { get; private set; }
-
-        public bool? AttachRiseInfoToEmail { get; private set; }
-
-        public DateTime? ContactedTheSchoolDate { get; private set; }
+        public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
 
         public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
 
@@ -157,10 +155,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 SchoolName = supportProjectDto.SchoolName,
                 SchoolUrn = supportProjectDto.SchoolUrn,
                 Notes = supportProjectDto.Notes,
-                FindSchoolEmailAddress = supportProjectDto.FindSchoolEmailAddress,
-                UseTheNotificationLetterToCreateEmail = supportProjectDto.UseTheNotificationLetterToCreateEmail,
-                AttachRiseInfoToEmail = supportProjectDto.AttachRiseInfoToEmail,
-                ContactedTheSchoolDate = supportProjectDto.ContactedTheSchoolDate,
+                DiscussTheBestApproach = supportProjectDto.discussTheBestApproach,
+                EmailTheResponsibleBody = supportProjectDto.emailTheResponsibleBody,
+                ContactedTheResponsibleBodyDate = supportProjectDto.contactedTheResponsibleBodyDate,
                 SendConflictOfInterestFormToProposedAdviserAndTheSchool = supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool,
                 ReceiveCompletedConflictOfInterestForm = supportProjectDto.ReceiveCompletedConflictOfInterestForm,
                 SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
