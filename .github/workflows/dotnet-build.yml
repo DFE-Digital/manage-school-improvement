@@ -3,13 +3,7 @@ name: .NET
 on:
   push:
     branches: [ main ]
-    paths:
-    - 'src/**'
   pull_request:
-    branches: [ main ]
-    types: [opened, synchronize, reopened]
-    paths:
-    - 'src/**'
 
 env:
   JAVA_VERSION: '21'
