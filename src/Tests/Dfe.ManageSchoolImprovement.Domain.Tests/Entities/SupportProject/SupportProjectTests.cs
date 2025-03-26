@@ -27,18 +27,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             DateTime? schoolResponseDate = DateTime.Now;
-            bool? hasAcceeptedTargetedSupport = true;
+            bool? hasAcceptedTargetedSupport = true;
             bool? hasSavedSchoolResponseinSharePoint = true;
 
             // Act
             supportProject.SetSchoolResponse(
                 schoolResponseDate,
-                hasAcceeptedTargetedSupport,
+                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint);
 
             // Assert
             supportProject.SchoolResponseDate.Should().Be(schoolResponseDate);
-            supportProject.HasAcceeptedTargetedSupport.Should().Be(hasAcceeptedTargetedSupport);
+            supportProject.HasAcceptedTargetedSupport.Should().Be(hasAcceptedTargetedSupport);
             supportProject.HasSavedSchoolResponseinSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
             mockRepository.VerifyAll();
         }
@@ -182,28 +182,25 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetContactTheSchool_WithValidDetails_SetsTheCorrectProperties()
+        public void SetContactTheResponsibleBody_WithValidDetails_SetsTheCorrectProperties()
         {
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? schoolEmailAddressFound = true;
-            bool? useTheNotificationLetterToCreateEmail = true;
-            bool? attachRiseInfoToEmail = true;
-            DateTime? schoolContactedDate = DateTime.UtcNow;
+            bool? discussTheBestApproach = true;
+            bool? emailTheResponsibleBody = true;
+            DateTime? responsibleBodyContactedDate = DateTime.UtcNow;
 
             // Act
-            supportProject.SetContactTheSchoolDetails(
-                schoolEmailAddressFound,
-                useTheNotificationLetterToCreateEmail,
-                attachRiseInfoToEmail,
-                schoolContactedDate);
+            supportProject.SetContactTheResponsibleBodyDetails(
+                discussTheBestApproach,
+                emailTheResponsibleBody,
+                responsibleBodyContactedDate);
 
             // Assert
-            supportProject.FindSchoolEmailAddress.Should().Be(schoolEmailAddressFound);
-            supportProject.UseTheNotificationLetterToCreateEmail.Should().Be(useTheNotificationLetterToCreateEmail);
-            supportProject.AttachRiseInfoToEmail.Should().Be(attachRiseInfoToEmail);
-            supportProject.ContactedTheSchoolDate.Should().Be(schoolContactedDate);
+            supportProject.DiscussTheBestApproach.Should().Be(discussTheBestApproach);
+            supportProject.EmailTheResponsibleBody.Should().Be(emailTheResponsibleBody);
+            supportProject.ContactedTheResponsibleBodyDate.Should().Be(responsibleBodyContactedDate);
             mockRepository.VerifyAll();
         }
 
@@ -354,20 +351,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasConfirmedSupportingOrgnaisationAppointment = false;
+            bool? hasConfirmedSupportingOrganisationAppointment = false;
             DateTime? regionalDirectorAppointmentDate = DateTime.UtcNow;
-            string? disapprovingSupportingOrgnaisationAppointmentNotes = "Notes only if choose no";
+            string? disapprovingSupportingOrganisationAppointmentNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordSupportingOrganisationAppointment(
                 regionalDirectorAppointmentDate,
-                hasConfirmedSupportingOrgnaisationAppointment,
-                disapprovingSupportingOrgnaisationAppointmentNotes);
+                hasConfirmedSupportingOrganisationAppointment,
+                disapprovingSupportingOrganisationAppointmentNotes);
 
             // Assert
-            supportProject.HasConfirmedSupportingOrgnaisationAppointment.Should().Be(hasConfirmedSupportingOrgnaisationAppointment);
+            supportProject.HasConfirmedSupportingOrganisationAppointment.Should().Be(hasConfirmedSupportingOrganisationAppointment);
             supportProject.RegionalDirectorAppointmentDate.Should().Be(regionalDirectorAppointmentDate);
-            supportProject.DisapprovingSupportingOrgnaisationAppointmentNotes.Should().Be(disapprovingSupportingOrgnaisationAppointmentNotes);
+            supportProject.DisapprovingSupportingOrganisationAppointmentNotes.Should().Be(disapprovingSupportingOrganisationAppointmentNotes);
             mockRepository.VerifyAll();
         }
 
@@ -377,20 +374,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasConfirmedSupportingOrgnaisationAppointment = true;
+            bool? hasConfirmedSupportingOrganisationAppointment = true;
             DateTime? regionalDirectorAppointmentDate = DateTime.UtcNow;
-            string? disapprovingSupportingOrgnaisationAppointmentNotes = "Notes only if choose no";
+            string? disapprovingSupportingOrganisationAppointmentNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordSupportingOrganisationAppointment(
                 regionalDirectorAppointmentDate,
-                hasConfirmedSupportingOrgnaisationAppointment,
-                disapprovingSupportingOrgnaisationAppointmentNotes);
+                hasConfirmedSupportingOrganisationAppointment,
+                disapprovingSupportingOrganisationAppointmentNotes);
 
             // Assert
-            supportProject.HasConfirmedSupportingOrgnaisationAppointment.Should().Be(hasConfirmedSupportingOrgnaisationAppointment);
+            supportProject.HasConfirmedSupportingOrganisationAppointment.Should().Be(hasConfirmedSupportingOrganisationAppointment);
             supportProject.RegionalDirectorAppointmentDate.Should().Be(regionalDirectorAppointmentDate);
-            supportProject.DisapprovingSupportingOrgnaisationAppointmentNotes.Should().Be(disapprovingSupportingOrgnaisationAppointmentNotes);
+            supportProject.DisapprovingSupportingOrganisationAppointmentNotes.Should().Be(disapprovingSupportingOrganisationAppointmentNotes);
             mockRepository.VerifyAll();
         }
 
@@ -570,8 +567,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateImprovementGrantOfferLetterSent.Should().Be(dateLetterConfirmed);
             mockRepository.VerifyAll();
         }
-        
-        
+
+
         [Fact]
         public void SetEligibility_WithValidDetails_Eligible_SetsTheCorrectProperties()
         {
@@ -581,14 +578,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? isEligible = true;
             string note = "note";
             // Act
-            supportProject.SetEligibility(isEligible,note);
+            supportProject.SetEligibility(isEligible, note);
 
             // Assert
             supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.EligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
-        
+
         [Fact]
         public void SetEligibility_WithValidDetails_NotEligible_SetsTheCorrectProperties()
         {
@@ -598,7 +595,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? isEligible = false;
             string note = "note";
             // Act
-            supportProject.SetEligibility(isEligible,note);
+            supportProject.SetEligibility(isEligible, note);
 
             // Assert
             supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.NotEligibleForSupport);
@@ -648,6 +645,69 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
+        public void SetHasReceivedFundingInThelastTwoYears_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? hasReceivedFundingInThelastTwoYears = true;
+
+            // Act
+            supportProject.SetHasReceivedFundingInThelastTwoYears(
+                hasReceivedFundingInThelastTwoYears);
+
+            // Assert
+            supportProject.HasReceivedFundingInThelastTwoYears.Should().Be(hasReceivedFundingInThelastTwoYears);
+            supportProject.FundingHistories.Count().Should().Be(0);
+            supportProject.FundingHistoryDetailsComplete.Should().BeNull();
+            mockRepository.VerifyAll();
+        }
+        [Fact]
+        public void SetSetFundingHistoryComplete_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? fundingHistoryComplete = true;
+
+            // Act
+            supportProject.SetFundingHistoryComplete(
+                fundingHistoryComplete);
+
+            // Assert
+            supportProject.FundingHistoryDetailsComplete.Should().Be(fundingHistoryComplete);
+            mockRepository.VerifyAll();
+        }
+        [Fact]
+        public void AddFundingHistory_SetsFundingHistories()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var id = new FundingHistoryId(Guid.NewGuid());
+            var fundingType = "funding type";
+            var fundingAmount = (decimal)100.10;
+            var financialYear = "financial year";
+            var fundingRounds = 10;
+            var comments = "comments";
+            var supportProjectId = new SupportProjectId(1);
+            // Act
+            supportProject.AddFundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear, fundingRounds, comments);
+
+            // Assert
+            supportProject.FundingHistories.Should().NotBeNull();
+            supportProject.FundingHistories.Count().Should().Be(1);
+
+            var fundingHistory = supportProject.FundingHistories.First();
+
+            fundingHistory.FundingType.Should().Be(fundingType);
+            fundingHistory.FundingAmount.Should().Be(fundingAmount);
+            fundingHistory.FinancialYear.Should().Be(financialYear);
+            fundingHistory.FundingRounds.Should().Be(fundingRounds);
+            fundingHistory.Comments.Should().Be(comments);
+
+        }
+
+        [Fact]
         public void AddContact_SetsContact()
         {
             // Arrange
@@ -669,7 +729,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Assert
             supportProject.Contacts.Should().NotBeNull();
             foreach (var contact in supportProject.Contacts)
-            { 
+            {
                 contact.Name.Should().Be(name);
                 contact.RoleId.Should().Be(roleId);
                 contact.OtherRoleName.Should().Be(otherRoleName);
@@ -682,7 +742,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 contact.Id.Should().Be(supportProjectContactId);
                 contact.LastModifiedBy.Should().BeNullOrWhiteSpace();
                 contact.LastModifiedOn.Should().BeNull();
-            } 
+            }
         }
 
         [Fact]
@@ -709,9 +769,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 author,
                 createdOn,
                 supportProject.Id);
-            
+
             var roleId = RolesIds.Other;
-            var otherRoleName = "Other Role"; 
+            var otherRoleName = "Other Role";
             var lastModifiedOn = DateTime.UtcNow;
 
             // Act

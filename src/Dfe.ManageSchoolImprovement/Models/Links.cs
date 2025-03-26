@@ -57,7 +57,7 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/TaskList/Index");
         public static readonly LinkItem CheckEligibility = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmEligibility/Index");
-        public static readonly LinkItem ContactTheSchool = AddLinkItem(backText: "Back", page: "/TaskList/ContactTheSchool/ContactTheSchool");
+        public static readonly LinkItem ContactTheResponsibleBody = AddLinkItem(backText: "Back", page: "/TaskList/ContactTheResponsibleBody/index");
         public static readonly LinkItem RecordTheSchoolResponse = AddLinkItem(backText: "Back", page: "/TaskList/RecordTheSchoolResponse/Index");
         public static readonly LinkItem CheckPotentialAdviserConflictsOfInterest = AddLinkItem(backText: "Back", page: "/TaskList/AdviserConflictOfInterest/AdviserConflictOfInterest");
         public static readonly LinkItem AllocateAdviser = AddLinkItem(backText: "Back", page: "/TaskList/AllocateAdviser/AllocateAdviser");
@@ -79,6 +79,10 @@ public static class Links
         public static readonly LinkItem ReviewTheImprovementPlan = AddLinkItem(backText: "Back", page: "/TaskList/ReviewTheImprovementPlan/Index");
         public static readonly LinkItem RequestImprovementGrantOfferLetter = AddLinkItem(backText: "Back", page: "/TaskList/RequestImprovementGrantOfferLetter/Index");
         public static readonly LinkItem ConfirmImprovementGrantOfferLetterSent = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmImprovementGrantOfferLetterSent/Index");
+        public static readonly LinkItem FundingHistory = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/Index");
+        public static readonly LinkItem FundingHistoryAdd = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/AddFundingHistory");
+        public static readonly LinkItem FundingHistoryEdit = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/EditFundingHistory");
+        public static readonly LinkItem FundingHistoryDetails = AddLinkItem(backText: "Back", page: "/TaskList/FundingHistory/FundingHistoryDetails");
     }
 
     public static class DeleteProject

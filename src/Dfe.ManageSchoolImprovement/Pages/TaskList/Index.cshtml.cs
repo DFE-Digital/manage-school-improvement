@@ -11,7 +11,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public string ReturnPage { get; set; }
 
     public TaskListStatus ConfirmEligibilityTaskListStatus { get; set; }
-    public TaskListStatus ContactTheSchoolTaskListStatus { get; set; }
+    public TaskListStatus ContactTheResponsibleBodyTaskListStatus { get; set; }
     public TaskListStatus RecordTheSchoolResponseTaskListStatus { get; set; }
     public TaskListStatus CheckThePotentialAdviserConflictsOfInterestTaskListStatus { get; set; }
     public TaskListStatus SendIntroductoryEmailTaskListStatus { get; set; }
@@ -41,6 +41,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public TaskListStatus RequestImprovementGrantOfferLetterTaskListStatus { get; set; }
     public TaskListStatus ConfirmImprovementGrantOfferLetterTaskListStatus { get; set; }
+    public TaskListStatus FundingHistoryStatus { get; set; }
 
     public void SetErrorPage(string errorPage)
     {
@@ -55,7 +56,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         await base.GetSupportProject(id, cancellationToken);
 
-        ContactTheSchoolTaskListStatus = TaskStatusViewModel.ContactedTheSchoolTaskStatus(SupportProject);
+        ContactTheResponsibleBodyTaskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
         RecordTheSchoolResponseTaskListStatus = TaskStatusViewModel.RecordTheSchoolResponseTaskStatus(SupportProject);
         CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskStatusViewModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus(SupportProject);
         AllocateAdviserTaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
@@ -82,6 +83,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         RequestImprovementGrantOfferLetterTaskListStatus = TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(SupportProject);
         ConfirmImprovementGrantOfferLetterTaskListStatus = TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
         ConfirmEligibilityTaskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
+        FundingHistoryStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
         return Page();
        
     }

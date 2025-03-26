@@ -22,6 +22,78 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.FundingHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FinancialYear")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("FundingAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("FundingRounds")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FundingType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<int>("ReadableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReadableId"));
+
+                    b.Property<int>("SupportProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupportProjectId");
+
+                    b.ToTable("FundingHistories", "RISE");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("FundingHistoriesHistory", "RISE");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", b =>
                 {
                     b.Property<int>("Id")
@@ -45,9 +117,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<string>("AssignedDeliveryOfficerFullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("AttachRiseInfoToEmail")
-                        .HasColumnType("bit");
-
                     b.Property<bool?>("CheckChoiceWithTrustRelationshipManagerOrLaLead")
                         .HasColumnType("bit");
 
@@ -60,7 +129,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("CheckTheOrganisationHasAVendorAccount")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ContactedTheSchoolDate")
+                    b.Property<DateTime?>("ContactedTheResponsibleBodyDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -112,19 +181,25 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<string>("DisapprovingImprovementPlanDecisionNotes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DisapprovingSupportingOrgnaisationAppointmentNotes")
+                    b.Property<string>("DisapprovingSupportingOrganisationAppointmentNotes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("DiscussChoiceWithSfso")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("FindSchoolEmailAddress")
+                    b.Property<bool?>("DiscussTheBestApproach")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("EmailTheResponsibleBody")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("FundingHistoryDetailsComplete")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("GiveTheAdviserTheNoteOfVisitTemplate")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("HasAcceeptedTargetedSupport")
+                    b.Property<bool?>("HasAcceptedTargetedSupport")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("HasApprovedImprovementPlanDecision")
@@ -133,10 +208,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("HasCompleteAssessmentTemplate")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("HasConfirmedSupportingOrgnaisationAppointment")
+                    b.Property<bool?>("HasConfirmedSupportingOrganisationAppointment")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("HasEmailedAgreedPlanToRegionalDirectorForApproval")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("HasReceivedFundingInThelastTwoYears")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("HasSavedImprovementPlanInSharePoint")
@@ -251,9 +329,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<string>("SupportingOrganisationContactName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("UseTheNotificationLetterToCreateEmail")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -396,6 +471,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                             }));
                 });
 
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.FundingHistory", b =>
+                {
+                    b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", null)
+                        .WithMany("FundingHistories")
+                        .HasForeignKey("SupportProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProjectContact", b =>
                 {
                     b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", null)
@@ -417,6 +501,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", b =>
                 {
                     b.Navigation("Contacts");
+
+                    b.Navigation("FundingHistories");
 
                     b.Navigation("Notes");
                 });

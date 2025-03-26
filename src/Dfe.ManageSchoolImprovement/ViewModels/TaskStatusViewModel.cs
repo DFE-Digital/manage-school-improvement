@@ -6,20 +6,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 public static class TaskStatusViewModel
 {
-    public static TaskListStatus ContactedTheSchoolTaskStatus(SupportProjectViewModel SupportProject)
+    public static TaskListStatus ContactedTheResponsibleBodyTaskStatus(SupportProjectViewModel SupportProject)
     {
-        if (SupportProject.AttachRiseInfoToEmail.Equals(true) &&
-            SupportProject.FindSchoolEmailAddress.Equals(true) &&
-            SupportProject.UseTheNotificationLetterToCreateEmail.Equals(true) &&
-            SupportProject.ContactedTheSchoolDate.HasValue)
+        if (SupportProject.DiscussTheBestApproach.Equals(true) &&
+            SupportProject.EmailTheResponsibleBody.Equals(true) &&
+            SupportProject.ContactedTheResponsibleBodyDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (SupportProject.AttachRiseInfoToEmail.Equals(false) &&
-            SupportProject.FindSchoolEmailAddress.Equals(false) &&
-            SupportProject.UseTheNotificationLetterToCreateEmail.Equals(false) &&
-            !SupportProject.ContactedTheSchoolDate.HasValue)
+        if (SupportProject.DiscussTheBestApproach.Equals(null) &&
+            SupportProject.EmailTheResponsibleBody.Equals(null) &&
+            !SupportProject.ContactedTheResponsibleBodyDate.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
@@ -30,14 +28,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel SupportProject)
     {
         if (SupportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
-            SupportProject.HasAcceeptedTargetedSupport.Equals(true) &&
+            SupportProject.HasAcceptedTargetedSupport.Equals(true) &&
             SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
         if (!SupportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
-            !SupportProject.HasAcceeptedTargetedSupport.HasValue &&
+            !SupportProject.HasAcceptedTargetedSupport.HasValue &&
             !SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.NotStarted;
@@ -250,14 +248,14 @@ public static class TaskStatusViewModel
         SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorAppointmentDate.HasValue
-            && supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue
-            && supportProject.HasConfirmedSupportingOrgnaisationAppointment.Equals(true))
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.RegionalDirectorAppointmentDate.HasValue
-            && !supportProject.HasConfirmedSupportingOrgnaisationAppointment.HasValue)
+            && !supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
@@ -415,4 +413,25 @@ public static class TaskStatusViewModel
         return TaskListStatus.NotStarted;
     }
 
+
+    public static TaskListStatus FundingHistoryTaskListStatus(SupportProjectViewModel supportProject)
+    {
+        if (supportProject.HasReceivedFundingInThelastTwoYears.HasValue && !supportProject.HasReceivedFundingInThelastTwoYears.Value)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (supportProject.HasReceivedFundingInThelastTwoYears.HasValue && supportProject.HasReceivedFundingInThelastTwoYears.Value
+            && supportProject.FundingHistoryDetailsComplete.HasValue && supportProject.FundingHistoryDetailsComplete.Value)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (!supportProject.HasReceivedFundingInThelastTwoYears.HasValue)
+        {
+            return TaskListStatus.NotStarted;
+        }
+
+        return TaskListStatus.InProgress;
+    }
 }

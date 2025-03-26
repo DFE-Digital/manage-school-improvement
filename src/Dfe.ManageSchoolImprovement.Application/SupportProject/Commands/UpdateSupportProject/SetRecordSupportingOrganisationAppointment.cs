@@ -7,8 +7,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     public record SetRecordSupportingOrganisationAppointmentCommand(
         SupportProjectId SupportProjectId,
         DateTime? RegionalDirectorAppointmentDate,
-        bool? HasConfirmedSupportingOrgnaisationAppointment,
-        string? DisapprovingSupportingOrgnaisationAppointmentNotes
+        bool? HasConfirmedSupportingOrganisationAppointment,
+        string? DisapprovingSupportingOrganisationAppointmentNotes
     ) : IRequest<bool>;
 
     public class SetRecordSupportingOrganisationAppointmentCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetRecordSupportingOrganisationAppointment(request.RegionalDirectorAppointmentDate, request.HasConfirmedSupportingOrgnaisationAppointment, request.DisapprovingSupportingOrgnaisationAppointmentNotes);
+            supportProject.SetRecordSupportingOrganisationAppointment(request.RegionalDirectorAppointmentDate, request.HasConfirmedSupportingOrganisationAppointment, request.DisapprovingSupportingOrganisationAppointmentNotes);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

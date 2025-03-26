@@ -26,13 +26,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
-            var hasAcceeptedTargetedSupport = true;
+            var hasAcceptedTargetedSupport = true;
             var hasSavedSchoolResponseinSharePoint = true;
 
             var command = new SetSchoolResponseCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasAcceeptedTargetedSupport,
+                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -72,13 +72,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
-            var hasAcceeptedTargetedSupport = true;
+            var hasAcceptedTargetedSupport = true;
             var hasSavedSchoolResponseinSharePoint = true;
 
             var command = new SetSchoolResponseCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasAcceeptedTargetedSupport,
+                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint
             );
 

@@ -19,6 +19,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
         public Guid ContactId { get; set; }
+        
+        public bool ShowError { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id, Guid contactId, CancellationToken cancellationToken)
         {
@@ -52,6 +54,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (!hasOtherRoleName && RoleId == RolesIds.Other.GetHashCode())
             {
                 ErrorMessage = "You must enter a role"; 
+                ShowError = true;
+                _errorService.AddError("-hint", ErrorMessage);
                 RadioButtons = ContactsUtil.GetRadioButtons(OtherRole, hasOtherRoleName);
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();

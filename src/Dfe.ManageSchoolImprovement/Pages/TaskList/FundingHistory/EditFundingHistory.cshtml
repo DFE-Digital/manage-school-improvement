@@ -1,0 +1,56 @@
+@page "/task-list/edit-funding-history/{id:int}/{readableFundingHistoryId:int}"
+@model EditFundingHistoryModel
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "What funding has the school received?";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.TaskList.FundingHistoryDetails.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            What funding has the school received?
+        </h1>
+        <p class="govuk-body">Use the <a href="@Configuration["PreviousFundingChecksSpreadsheetLink"]" class="govuk-link" rel="noreferrer noopener" target="_blank">previous funding checks spreadsheet (opens in new tab)</a> to find out how much a school has received.</p>
+        <form method="post" novalidate>
+            <input type="hidden" asp-for="@Model.FundingHistoryId" id="funding-history-Id" name="funding-history-Id" />
+
+            <govuk-text-input heading-label="true" label="Funding type" id="funding-type" name="funding-type" asp-for="@Model.FundingType" width="35" />
+            <govuk-decimal-input heading-label="true" label="Funding amount" id="funding-amount" name="funding-amount" asp-for="@Model.FundingAmount" width="10" isMonetary="true" />
+            <govuk-text-input heading-label="true" label="Financial year" id="financial-year-input" name="financial-year-input"
+                              hint="Enter the financial year the funding was paid. Like, 2023/24." asp-for="@Model.FinancialYear" width="10" />
+            <govuk-text-input heading-label="true" label="Funding rounds" id="funding-rounds" name="funding-rounds"
+                              hint="Enter the number of payments that were made over the financial year." asp-for="@Model.FundingRounds" width="10" />
+
+            <div class="govuk-form-group">
+                <label class="govuk-label govuk-label--l" for="additional-comments">
+                     Any additional comments
+                </label>
+                <div id="additional-comments-hint" class="govuk-hint">
+                    Do not include any personal or financial information.
+                </div>
+                <textarea id="additional-comments"
+                          name="additional-comments"
+                          class="govuk-textarea"
+                          cols="40"
+                          rows="5"
+                          maxlength="2000" aria-describedby="additional-comments-hint" asp-for="@Model.AdditionalComments"
+                aria-describedby="additional-comments-hint"></textarea>
+            </div>
+
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                Save and continue
+            </button>
+        </form>
+    </div>
+</div>

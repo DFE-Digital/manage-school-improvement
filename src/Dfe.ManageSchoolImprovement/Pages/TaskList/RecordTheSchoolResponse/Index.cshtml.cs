@@ -17,13 +17,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
         [Display(Name = "school response")]
         public DateTime? SchoolResponseDate { get; set; }
 
-        [BindProperty(Name = "HasAcceeptedTargetedSupport")]
-        public bool? HasAcceeptedTargetedSupport { get; set; }
+        [BindProperty(Name = "HasAcceptedTargetedSupport")]
+        public bool? HasAcceptedTargetedSupport { get; set; }
 
         [BindProperty(Name = "has-saved-school-response-in-sharepoint")]
         public bool? HasSavedSchoolResponseinSharePoint { get; set; }
 
-        public required IList<RadioButtonsLabelViewModel> TargetedSupportRadioButtoons{ get; set; }
+        public required IList<RadioButtonsLabelViewModel> TargetedSupportRadioButtoons { get; set; }
 
         public bool ShowError { get; set; }
 
@@ -40,7 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasAcceeptedTargetedSupport = SupportProject.HasAcceeptedTargetedSupport;
+            HasAcceptedTargetedSupport = SupportProject.HasAcceptedTargetedSupport;
             HasSavedSchoolResponseinSharePoint = SupportProject.HasSavedSchoolResponseinSharePoint;
             SchoolResponseDate = SupportProject.SchoolResponseDate;
             TargetedSupportRadioButtoons = GetRadioButtons();
@@ -56,7 +56,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetSchoolResponseCommand(new SupportProjectId(id), SchoolResponseDate, HasAcceeptedTargetedSupport, HasSavedSchoolResponseinSharePoint);
+            var request = new SetSchoolResponseCommand(new SupportProjectId(id), SchoolResponseDate, HasAcceptedTargetedSupport, HasSavedSchoolResponseinSharePoint);
 
             var result = await mediator.Send(request, cancellationToken);
 

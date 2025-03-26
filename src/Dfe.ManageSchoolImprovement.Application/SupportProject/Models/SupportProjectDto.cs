@@ -11,16 +11,15 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string Region = "",
         string AssignedDeliveryOfficerFullName = "",
         string AssignedDeliveryOfficerEmailAddress = "",
-        bool FindSchoolEmailAddress = false,
-        bool UseTheNotificationLetterToCreateEmail = false,
-        bool AttachRiseInfoToEmail = false,
-        DateTime? ContactedTheSchoolDate = null,
+        bool? discussTheBestApproach = null,
+        bool? emailTheResponsibleBody = null,
+        DateTime? contactedTheResponsibleBodyDate = null,
         bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool = null,
         bool? ReceiveCompletedConflictOfInterestForm = null,
         bool? SaveCompletedConflictOfinterestFormInSharePoint = null,
         DateTime? DateConflictsOfInterestWereChecked = null,
         DateTime? SchoolResponseDate = null,
-        bool? HasAcceeptedTargetedSupport = null,
+        bool? HasAcceptedTargetedSupport = null,
         bool? HasSavedSchoolResponseinSharePoint = null,
         DateTime? DateAdviserAllocated = null,
         string? AdviserEmailAddress = null,
@@ -48,8 +47,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? CheckTheOrganisationHasAVendorAccount = null,
         DateTime? DateDueDiligenceCompleted = null,
         DateTime? RegionalDirectorAppointmentDate = null,
-        bool? HasConfirmedSupportingOrgnaisationAppointment = null,
-        string? DisapprovingSupportingOrgnaisationAppointmentNotes = null,
+        bool? HasConfirmedSupportingOrganisationAppointment = null,
+        string? DisapprovingSupportingOrganisationAppointmentNotes = null,
         DateTime? DateSupportingOrganisationContactDetailsAdded = null,
         string? SupportingOrganisationContactName = null,
         string SupportingOrganisationContactEmailAddress = "",
@@ -70,7 +69,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         SupportProjectStatus? SupportProjectStatus = null,
         string? SchoolIsNotEligibleNotes = null,
         IEnumerable<SupportProjectContact> Contacts = null!,
-        IEnumerable<SupportProjectNote> Notes = null!
+        IEnumerable<SupportProjectNote> Notes = null!,
+        bool? HasReceivedFundingInThelastTwoYears = null,
+        bool? FundingHistoryDetailsComplete = null,
+        IEnumerable<FundingHistoryDto> FundingHistories = null!
     )
     { }
 }

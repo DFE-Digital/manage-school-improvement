@@ -12,7 +12,7 @@ public class EmailValidationAttribute : ValidationAttribute
     {
         if (value is string email && !EmailFormatRegex.IsMatch(email))
         {
-            return new ValidationResult("Email address must be in the correct format.");
+            return new ValidationResult("Email address must be in the correct format");
         }
 
         return ValidationResult.Success;

@@ -2,10 +2,10 @@ using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
-{ 
+{
     public class SupportProjectRepository(RegionalImprovementForStandardsAndExcellenceContext dbContext)
         : Repository<SupportProject, RegionalImprovementForStandardsAndExcellenceContext>(dbContext), ISupportProjectRepository
     {
@@ -112,7 +112,11 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
         private IQueryable<SupportProject> DefaultIncludes()
         {
-            return DbSet().Include(x => x.Notes).Include(x => x.Contacts).AsQueryable();
+            return DbSet()
+                .Include(x => x.Notes)
+                .Include(x => x.Contacts)
+                .Include(x => x.FundingHistories)
+                .AsQueryable();
         }
     }
 }
