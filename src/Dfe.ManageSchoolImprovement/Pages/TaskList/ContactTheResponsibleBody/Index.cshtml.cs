@@ -70,7 +70,7 @@ public class ContactTheResponsibleBodyModel(ISupportProjectQueryService supportP
         if (result != true)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);;
+            return await base.GetSupportProject(id, cancellationToken);
         }
         
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
