@@ -8,22 +8,22 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
 {
     public class TaskStatusViewModelTests
     {
-        public static readonly TheoryData<bool, bool, bool, DateTime?, TaskListStatus> ContactedTheSchoolTaskStatusCases = new()
+        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus> ContactedTheResponsibleBodyTaskStatusCases = new()
         {
-            {false, false, false, null, TaskListStatus.NotStarted },
-            {false, true, false, null, TaskListStatus.InProgress},
-            {true, true, true, DateTime.Now, TaskListStatus.Complete }
+            {null, null, null, TaskListStatus.NotStarted },
+            {true, false, null, TaskListStatus.InProgress},
+            {true, true, DateTime.Now, TaskListStatus.Complete }
         };
 
-        [Theory, MemberData(nameof(ContactedTheSchoolTaskStatusCases))]
-        public void ContactedTheSchoolTaskStatusShouldReturnCorrectStatus(bool attachRiseInfoToEmail, bool findSchoolEmailAddress, bool useTheNotificationLetterToCreateEmail, DateTime? contactedTheSchoolDate, TaskListStatus expectedTaskListStatus)
+        [Theory, MemberData(nameof(ContactedTheResponsibleBodyTaskStatusCases))]
+        public void ContactedTheResponsibleBodyTaskStatusShouldReturnCorrectStatus( bool? discussTheBestApproach, bool? emailTheResponsibleBody, DateTime? contactedResponsibleBodyDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, FindSchoolEmailAddress: findSchoolEmailAddress, UseTheNotificationLetterToCreateEmail: useTheNotificationLetterToCreateEmail,
-                AttachRiseInfoToEmail: attachRiseInfoToEmail!, ContactedTheSchoolDate: contactedTheSchoolDate));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, discussTheBestApproach: discussTheBestApproach, emailTheResponsibleBody: emailTheResponsibleBody,
+                 contactedTheResponsibleBodyDate:  contactedResponsibleBodyDate));
 
             //Action 
-            var taskListStatus = TaskStatusViewModel.ContactedTheSchoolTaskStatus(supportProjectModel);
+            var taskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

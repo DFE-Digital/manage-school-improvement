@@ -48,14 +48,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<SupportProjectNote> _notes = new();
     private readonly List<SupportProjectContact> _contacts = new();
+    
 
-    public bool? FindSchoolEmailAddress { get; private set; }
+    public bool? DiscussTheBestApproach { get; private set; }
 
-    public bool? UseTheNotificationLetterToCreateEmail { get; private set; }
+    public bool? EmailTheResponsibleBody { get; private set; }
 
-    public bool? AttachRiseInfoToEmail { get; private set; }
-
-    public DateTime? ContactedTheSchoolDate { get; private set; }
+    public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
 
     public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
 
@@ -217,12 +216,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             noteToUpdate.SetNote(note, author, date);
         }
     }
-    public void SetContactTheSchoolDetails(bool? findSchoolEmailAddress, bool? useTheNotificationLetterToCreateEmail, bool? attachRiseInfoToEmail, DateTime? schoolContactedDate)
+    public void SetContactTheResponsibleBodyDetails(bool? discussTheBestApproach, bool? emailTheResponsibleBody, DateTime? responsibleBodyContactedDate)
     {
-        FindSchoolEmailAddress = findSchoolEmailAddress;
-        UseTheNotificationLetterToCreateEmail = useTheNotificationLetterToCreateEmail;
-        AttachRiseInfoToEmail = attachRiseInfoToEmail;
-        ContactedTheSchoolDate = schoolContactedDate;
+        DiscussTheBestApproach = discussTheBestApproach;
+        EmailTheResponsibleBody = emailTheResponsibleBody;
+        ContactedTheResponsibleBodyDate = responsibleBodyContactedDate;
     }
 
     public void SetAdviserConflictOfInterestDetails(bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool, bool? receiveCompletedConflictOfInterestForm, bool? saveCompletedConflictOfinterestFormInSharePoint, DateTime? dateConflictsOfInterestWereChecked)

@@ -4,20 +4,19 @@ using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
-public record SetContactTheSchoolDetailsCommand(
+public record SetContactTheResponsibleBodyDetailsCommand(
     SupportProjectId SupportProjectId,
-    bool? FindSchoolEmailAddress,
-    bool? UseTheNotificationLetterToCreateEmail,
-    bool? AttachRiseInfoToEmail,
-    DateTime? SchoolContactedDate
+    bool? discussTheBestApproach,
+    bool? emailTheResponsibleBody,
+    DateTime? responsibleBodyContactedDate
 ) : IRequest<bool>;
 
-public class SetContactTheSchoolDetails
+public class SetContactTheResponsibleBodyDetails
 {
-    public class SetContactTheSchoolDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
-        : IRequestHandler<SetContactTheSchoolDetailsCommand, bool>
+    public class SetContactTheResponsibleBodyDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
+        : IRequestHandler<SetContactTheResponsibleBodyDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetContactTheSchoolDetailsCommand request,
+        public async Task<bool> Handle(SetContactTheResponsibleBodyDetailsCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
@@ -27,7 +26,7 @@ public class SetContactTheSchoolDetails
                 return false;
             }
             
-            supportProject.SetContactTheSchoolDetails(request.FindSchoolEmailAddress, request.UseTheNotificationLetterToCreateEmail,request.AttachRiseInfoToEmail, request.SchoolContactedDate);
+            supportProject.SetContactTheResponsibleBodyDetails(request.discussTheBestApproach, request.emailTheResponsibleBody,request.responsibleBodyContactedDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
