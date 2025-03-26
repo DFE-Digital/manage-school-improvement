@@ -7,26 +7,24 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ContactTheSchool;
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ContactTheResponsibleBody;
 
-public class ContactTheSchoolModel(ISupportProjectQueryService supportProjectQueryService,ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService,errorService),IDateValidationMessageProvider
+public class ContactTheResponsibleBodyModel(ISupportProjectQueryService supportProjectQueryService,ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService,errorService),IDateValidationMessageProvider
 {
     
-    [BindProperty(Name = "school-contacted-date", BinderType = typeof(DateInputModelBinder))]
+    [BindProperty(Name = "responsible-body-contacted-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(Dfe.ManageSchoolImprovement.Frontend.Services.DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Contacted the school")]
-    public DateTime? SchoolContactedDate  { get; set; }
+    [Display(Name = "Enter the date of contact")]
+    public DateTime? ResponsibleBodyContactedDate  { get; set; }
     
-    [BindProperty(Name = "school-email-address-found")]
-    public bool? SchoolEmailAddressFound { get; set; }
+    [BindProperty(Name = "discuss-best-approach")]
+    public bool? DiscussBestApproach{ get; set; }
     
-    [BindProperty(Name = "notification-letter-to-create-email")]
+    [BindProperty(Name = "email-responsible-body")]
     
-    public bool? UseTheNotificationLetterToCreateEmail { get; set; }
+    public bool? EmailResponsibleBody { get; set; }
     
-    [BindProperty(Name = "attach-rise-info-to-email")]
-    
-    public bool? AttachRiseInfoToEmail { get; set; }
+  
     
     public bool ShowError { get; set; }
     
@@ -45,13 +43,11 @@ public class ContactTheSchoolModel(ISupportProjectQueryService supportProjectQue
         
         await base.GetSupportProject(id, cancellationToken);
         
-        SchoolContactedDate = SupportProject.ContactedTheSchoolDate ?? null;
+        ResponsibleBodyContactedDate = SupportProject.ContactedTheResponsibleBodyDate ?? null;
 
-        SchoolEmailAddressFound = SupportProject.FindSchoolEmailAddress;
+        DiscussBestApproach = SupportProject.DiscussTheBestApproach;
 
-        UseTheNotificationLetterToCreateEmail = SupportProject.UseTheNotificationLetterToCreateEmail;
-
-        AttachRiseInfoToEmail = SupportProject.AttachRiseInfoToEmail;
+        EmailResponsibleBody = SupportProject.EmailTheResponsibleBody;
         
         return Page(); 
     }
@@ -67,7 +63,7 @@ public class ContactTheSchoolModel(ISupportProjectQueryService supportProjectQue
             return await base.GetSupportProject(id, cancellationToken);
         }
         
-        var request = new SetContactTheSchoolDetailsCommand(new SupportProjectId(id),  SchoolEmailAddressFound ,UseTheNotificationLetterToCreateEmail,AttachRiseInfoToEmail,SchoolContactedDate );
+        var request = new SetContactTheResponsibleBodyDetailsCommand(new SupportProjectId(id),  DiscussBestApproach ,EmailResponsibleBody,ResponsibleBodyContactedDate );
 
         var result = await mediator.Send(request, cancellationToken);
        

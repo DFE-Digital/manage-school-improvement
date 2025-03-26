@@ -17,10 +17,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 SchoolUrn: "123456",
                 LocalAuthority: "Local Authority",
                 Region: "Region",
-                FindSchoolEmailAddress: true,
-                UseTheNotificationLetterToCreateEmail: true,
-                AttachRiseInfoToEmail: true,
-                ContactedTheSchoolDate: DateTime.Now,
+                discussTheBestApproach: true,
+                emailTheResponsibleBody: true,
+                contactedTheResponsibleBodyDate: DateTime.Now,
                 SendConflictOfInterestFormToProposedAdviserAndTheSchool: true,
                 ReceiveCompletedConflictOfInterestForm: true,
                 SaveCompletedConflictOfinterestFormInSharePoint: true,
@@ -87,10 +86,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.SchoolName, viewModel.SchoolName);
             Assert.Equal(supportProjectDto.SchoolUrn, viewModel.SchoolUrn);
             Assert.Equal(supportProjectDto.Notes, viewModel.Notes);
-            Assert.Equal(supportProjectDto.FindSchoolEmailAddress, viewModel.FindSchoolEmailAddress);
-            Assert.Equal(supportProjectDto.UseTheNotificationLetterToCreateEmail, viewModel.UseTheNotificationLetterToCreateEmail);
-            Assert.Equal(supportProjectDto.AttachRiseInfoToEmail, viewModel.AttachRiseInfoToEmail);
-            Assert.Equal(supportProjectDto.ContactedTheSchoolDate, viewModel.ContactedTheSchoolDate);
+            Assert.Equal(supportProjectDto.discussTheBestApproach, viewModel.DiscussTheBestApproach);
+            Assert.Equal(supportProjectDto.emailTheResponsibleBody, viewModel.EmailTheResponsibleBody);
+            Assert.Equal(supportProjectDto.contactedTheResponsibleBodyDate, viewModel.ContactedTheResponsibleBodyDate);
             Assert.Equal(supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool, viewModel.SendConflictOfInterestFormToProposedAdviserAndTheSchool);
             Assert.Equal(supportProjectDto.ReceiveCompletedConflictOfInterestForm, viewModel.ReceiveCompletedConflictOfInterestForm);
             Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);
