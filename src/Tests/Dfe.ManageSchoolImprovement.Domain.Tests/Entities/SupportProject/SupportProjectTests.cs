@@ -658,6 +658,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Assert
             supportProject.HasReceivedFundingInThelastTwoYears.Should().Be(hasReceivedFundingInThelastTwoYears);
+            supportProject.FundingHistories.Count().Should().Be(0);
+            supportProject.FundingHistoryDetailsComplete.Should().BeNull();
             mockRepository.VerifyAll();
         }
         [Fact]

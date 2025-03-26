@@ -389,6 +389,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
         if (hasReceivedFundingInThelastTwoYearsCommand != true)
         {
+            FundingHistoryDetailsComplete = null;
             _fundingHistories.Clear();
         }
     }
