@@ -56,6 +56,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
                     _errorService.AddError("eligibilityquestion", ErrorMessage);
                 }
                 
+                if (!SchoolIsNotEligible())
+                {
+                    _errorService.AddError("radiobuttontextinput","You must add a note");
+                }
+
+                
                 RadioButtons = EligibilityRadioButtons;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
