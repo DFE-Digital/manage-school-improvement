@@ -62,22 +62,24 @@
                         @if(radioButton.Input.IsTextArea)
                         {
                            
-                            <label class="govuk-label" for="@radioButton.Input.Id"></label>
-                            <textarea id="@radioButton.Input.Id"
+                            <div id="radiobuttontextinput">
+                                <textarea id="@radioButton.Input.Id"
                                       name="@radioButton.Input.Id"
                                       class="govuk-textarea"
                                       cols="40"
                                       rows="5"
                                       maxlength="2000">@radioButton.Input.Value</textarea>
+                                </div>
                         }
                         else
                         {
-                            <label class="govuk-label" for="@radioButton.Input.Id"></label>
-                            <input id="@radioButton.Input.Id"
-                                   name="@radioButton.Input.Id"
-                                   type="text"
-                                   class="govuk-input"
-                                   value="@radioButton.Input.Value" />
+                            <div id="radiobuttontextinput">
+                                <input id="@radioButton.Input.Id"
+                                       name="@radioButton.Input.Id"
+                                       type="text"
+                                       class="govuk-input"
+                                       value="@radioButton.Input.Value" />
+                                </div>
                         }
                         
                     </div>

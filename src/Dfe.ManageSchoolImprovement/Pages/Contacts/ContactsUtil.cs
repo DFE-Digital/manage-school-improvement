@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                                 {
                                     Id = "OtherRole",
                                     ValidationMessage = "You must enter a role",
-                                    Paragraph = null!,
+                                    Paragraph = "Please enter a role",
                                     Value = otherRole,
                                     IsValid = isValid,
                                     IsTextArea = false
