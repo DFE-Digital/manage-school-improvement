@@ -74,13 +74,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
             var list = new List<RadioButtonsLabelViewModel>
             {
                 new() {
-                    Id = "accepted-support",
-                    Name = "Accepted Support",
+                    Id = "accepted-intervention",
+                    Name = "Accepted intervention",
                     Value = "True"
                 },
                 new() {
-                    Id = "declined-support",
-                    Name = "Declined Support",
+                    Id = "declined-intervention",
+                    Name = "Declined intervention",
                     Value = "False"
                 }
             };
