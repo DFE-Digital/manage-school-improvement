@@ -105,7 +105,7 @@
                     <span class="@(displayAssignedTo? "empty": "")" data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
                 </dd>
                 <dd class="govuk-summary-list__actions">
-                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change</a>
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -116,7 +116,7 @@
                     <span class="@(displayAdvisedBy? "empty": "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserEmailAddress)</span>
                 </dd>
                 <dd class="govuk-summary-list__actions">
-                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change</a>
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
                 </dd>
             </div>
         </dl> 
