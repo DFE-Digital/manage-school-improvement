@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
     {
         [BindProperty(Name = "HasSchoolReceivedFundingInLastTwoYears")]
         [Required]
-        [Display(Name = "Has the school received any funnding in the last 2 financial years")]
+        [Display(Name = "Has the school received any funding in the last 2 financial years")]
         public bool? HasSchoolReceivedFundingInLastTwoYears { get; set; }
 
         public string? HasSchoolReceivedFundingInLastTwoYearsErrorMessage { get; set; } = null;
