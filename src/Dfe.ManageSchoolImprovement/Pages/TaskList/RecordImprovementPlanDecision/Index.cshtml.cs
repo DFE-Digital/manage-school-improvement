@@ -50,6 +50,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
         {
             if (!ModelState.IsValid || !IsDisapprovingImprovementPlanDecisionNotesValid())
             {
+                if (!IsDisapprovingImprovementPlanDecisionNotesValid())
+                {
+                    _errorService.AddError("radiobuttontextinput","You must add a note");
+                }
+                
                 RadioButtoons = RadioButtons;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
@@ -63,7 +68,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken);
             }
 
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
