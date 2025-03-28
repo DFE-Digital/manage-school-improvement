@@ -9,7 +9,7 @@
 
     if (@Model.LastInspectionDate != null || !string.IsNullOrWhiteSpace(@Model.LastInspectionDate))
     {
-        lastInspectionDate = DateTime.ParseExact(Model.LastInspectionDate, "dd/mm/yyyy", CultureInfo.CurrentCulture);
+        lastInspectionDate = DateTime.ParseExact(Model.LastInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
     }
 
     bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
