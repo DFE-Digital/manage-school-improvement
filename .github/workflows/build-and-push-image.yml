@@ -68,7 +68,7 @@ jobs:
           - stage: "initcontainer"
             tag-prefix: "init-"
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.0.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.1.0
         with:
           build-target: ${{ matrix.stage }}
           build-args: CI=true
@@ -76,7 +76,7 @@ jobs:
           tag-prefix: ${{ matrix.tag-prefix }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.0.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.1.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -98,7 +98,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.0.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.1.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
