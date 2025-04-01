@@ -57,7 +57,7 @@
             {
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                 <div class="app-notes__note">
-                    <span class="govuk-caption-m" id="@("project-note-date-" + index)">@DisplayDate(note.CreatedOn)</span>
+                    <span class="govuk-caption-m" id="@("project-note-date-" + index)">@DisplayDate(note.CreatedOn.ToLocalTime())</span>
                     <h3 class="govuk-heading-m" id="@("project-note-date-" + index)">@note.CreatedBy.FullNameFromEmail()</h3>
                     <p class="govuk-body-m">@note.Note</p>
                     @if(User.Identity != null && note.CreatedBy == User.Identity.Name){
