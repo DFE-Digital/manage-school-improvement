@@ -37,6 +37,13 @@ builder.Services.AddHttpClient(DfeHttpClientFactory.AcademiesClientName, (sp, cl
 
 });
 
+builder.Services.AddDistributedSqlServerCache(options =>
+{
+    options.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection"); ;
+    options.SchemaName = "dbo";
+    options.TableName = "SessionState";
+});
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = new TimeSpan(10000);
@@ -151,6 +158,7 @@ else
 app.UseStatusCodePagesWithReExecute("/Errors", "?statusCode={0}");
 
 app.UseSecurityHeaders(SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment()));
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
