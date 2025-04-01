@@ -182,28 +182,25 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetContactTheSchool_WithValidDetails_SetsTheCorrectProperties()
+        public void SetContactTheResponsibleBody_WithValidDetails_SetsTheCorrectProperties()
         {
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? schoolEmailAddressFound = true;
-            bool? useTheNotificationLetterToCreateEmail = true;
-            bool? attachRiseInfoToEmail = true;
-            DateTime? schoolContactedDate = DateTime.UtcNow;
+            bool? discussTheBestApproach = true;
+            bool? emailTheResponsibleBody = true;
+            DateTime? responsibleBodyContactedDate = DateTime.UtcNow;
 
             // Act
-            supportProject.SetContactTheSchoolDetails(
-                schoolEmailAddressFound,
-                useTheNotificationLetterToCreateEmail,
-                attachRiseInfoToEmail,
-                schoolContactedDate);
+            supportProject.SetContactTheResponsibleBodyDetails(
+                discussTheBestApproach,
+                emailTheResponsibleBody,
+                responsibleBodyContactedDate);
 
             // Assert
-            supportProject.FindSchoolEmailAddress.Should().Be(schoolEmailAddressFound);
-            supportProject.UseTheNotificationLetterToCreateEmail.Should().Be(useTheNotificationLetterToCreateEmail);
-            supportProject.AttachRiseInfoToEmail.Should().Be(attachRiseInfoToEmail);
-            supportProject.ContactedTheSchoolDate.Should().Be(schoolContactedDate);
+            supportProject.DiscussTheBestApproach.Should().Be(discussTheBestApproach);
+            supportProject.EmailTheResponsibleBody.Should().Be(emailTheResponsibleBody);
+            supportProject.ContactedTheResponsibleBodyDate.Should().Be(responsibleBodyContactedDate);
             mockRepository.VerifyAll();
         }
 
@@ -661,6 +658,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Assert
             supportProject.HasReceivedFundingInThelastTwoYears.Should().Be(hasReceivedFundingInThelastTwoYears);
+            supportProject.FundingHistories.Count().Should().Be(0);
+            supportProject.FundingHistoryDetailsComplete.Should().BeNull();
             mockRepository.VerifyAll();
         }
         [Fact]

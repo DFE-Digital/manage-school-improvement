@@ -57,7 +57,7 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/TaskList/Index");
         public static readonly LinkItem CheckEligibility = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmEligibility/Index");
-        public static readonly LinkItem ContactTheSchool = AddLinkItem(backText: "Back", page: "/TaskList/ContactTheSchool/ContactTheSchool");
+        public static readonly LinkItem ContactTheResponsibleBody = AddLinkItem(backText: "Back", page: "/TaskList/ContactTheResponsibleBody/index");
         public static readonly LinkItem RecordTheSchoolResponse = AddLinkItem(backText: "Back", page: "/TaskList/RecordTheSchoolResponse/Index");
         public static readonly LinkItem CheckPotentialAdviserConflictsOfInterest = AddLinkItem(backText: "Back", page: "/TaskList/AdviserConflictOfInterest/AdviserConflictOfInterest");
         public static readonly LinkItem AllocateAdviser = AddLinkItem(backText: "Back", page: "/TaskList/AllocateAdviser/AllocateAdviser");

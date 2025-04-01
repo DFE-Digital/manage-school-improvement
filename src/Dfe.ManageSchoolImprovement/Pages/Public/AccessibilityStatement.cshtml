@@ -35,22 +35,34 @@
             <a class="govuk-link" target="_blank" href="https://mcmw.abilitynet.org.uk/" rel="noopener">AbilityNet (opens in a new tab)</a> has advice on making your device easier to use if you have a disability.
         </p>
 
+      <h2 class="govuk-heading-l">How accessible this website is</h2>
+
+      <p class="govuk-body">We know some parts of this website are not fully accessible:</p>
+
+      <ol class="govuk-list govuk-list--number">
+        <li>Task statuses are not read out by some screen readers. This means that some people using screen readers may miss some important information that other users can get through visual association.</li>
+        <li>Only the task links on the task list are selectable, rather than the whole row. This can make it harder for some users to open a task.</li>
+        <li>Main headings on some pages are contained within groups of elements. This means they may not be read out correctly by some screen readers.</li>
+        <li>Details components are used to provide additional guidance and information that is useful to some users but not essential for all. There is a known accessibility issue with the details component. It is a button that appears as a link. Some voice assist software might require the user to specifically refer to the link to show more details as a button in order to interact with it.</li>
+        <li>The "Apply filters" button is at the top of the list of filters on the list of schools page. Users have to scroll back up or navigate back up the page with keyboard commands to select it. This makes it cumbersome to filter information.</li>
+        <li>When allocating an advisor and entering an email address, an error message appears if the user does not enter "rise." at the beginning of the email address. Hint text here could be clearer. This may cause confusion for some users.</li>
+      </ol>
+
       <h2 class="govuk-heading-l">Feedback and contact information </h2>
       <p class="govuk-body-m">
          If you need information on this website in a different format like accessible PDF, large print, easy read, audio recording or braille:
       </p>
-      <p class="govuk-body-m">
-            <span>email <a class="govuk-link" href="mailto:@Configuration["SupportEmail"]?subject=Prepare%20conversions%20and%20transfers:%20support%20query">@Configuration["SupportEmail"]</a></span>
-            <br />
-            <span>call 0370 000 2288</span>
-         </p> 
+      <ul class="govuk-list govuk-list--bullet">
+            <li>email <a class="govuk-link" href="mailto:regionalservices.rg@education.gov.uk?subject=Manage%20school%20improvement:%20support%20query">regionalservices.rg@education.gov.uk</a></li>
+            <li>call 0370 000 2288</li>
+      </ul> 
       <p class="govuk-body">
             We'll consider your request and get back to you in 2 working days.
         </p>
 
         <h2 class="govuk-heading-l">Reporting accessibility problems with this website</h2>
       <p class="govuk-body">
-            We're always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we're not meeting accessibility requirements, contact us using the details provided above.
+            We're always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we're not meeting accessibility requirements, email our service support team on <a class="govuk-link" href="mailto:regionalservices.rg@education.gov.uk?subject=Manage%20school%20improvement:%20support%20query">regionalservices.rg@education.gov.uk</a> or call 0370 000 2288.
         </p>
 
         <h2 class="govuk-heading-l">Enforcement procedure</h2>
@@ -68,7 +80,7 @@
 
       <h2 class="govuk-heading-l">Compliance status</h2>
       <p class="govuk-body">
-            This website is partially compliant with the WCAG (Web Content Accessibility Guidelines) version 2.1AA standard, due to the following non-compliances and the following exemptions.
+            This website is partially compliant with the WCAG (Web Content Accessibility Guidelines) version 2.2 AA standard, due to the following non-compliances and the following exemptions.
         </p>
 
       <h3 class="govuk-heading-m">Non-accessible content</h3>
@@ -79,27 +91,46 @@
             Non-compliance with the accessibility regulations
         </h4>
       <ul class="govuk-list govuk-list--bullet">
-            <li>information and relationships that are implied by visual formatting may not be read out correctly by some screen readers. This fails WCAG 2.1 AA success criteria 1.3.1 (Info and Relationships) </li>
-            <li>on the project lists pages the project status is not provided in the same reading order for assistive technology users compared to sighted users. This fails WCAG 2.1 AA success criteria 1.3.2 (Meaningful Sequence) and 2.4.3 (Focus Order) </li>
-            <li>on some pages the link text doesn't explain the purpose of the link. This fails WCAG 2.1 AA success criteria 2.4.4 (Link Purpose, In Context) </li>
-            <li>main headings on some pages are contained within groups of elements and so may not be read out correctly by some screen readers. This fails WCAG 2.1 AA success criteria 2.4.6 (Headings and Labels) </li>
-            <li>some information that is available to sighted users is not given to assistive technology users. This fails WCAG 2.1 AA success criteria 4.1.2 (Name, Role, Value) </li>
+            <li>information and relationships that are implied by visual formatting may not be read out correctly by some screen readers. This fails WCAG 2.1 AA success criteria 1.3.1 (Info and Relationships)</li>
+            <li>on the task list page the task status is not provided in the same reading order for assistive technology users compared to sighted users. This fails WCAG 2.1 AA success criteria 1.3.2 (Meaningful Sequence) and 2.4.3 (Focus Order)</li>
+            <li>some information that is available to sighted users is not given to assistive technology users. This fails WCAG 2.1 AA success criteria 4.1.2 (Name, Role, Value)</li>
+            <li>main headings on some pages are contained within groups of elements and so may not be read out correctly by some screen readers. This fails WCAG 2.1 AA success criteria 2.4.6 (Headings and Labels)</li>
       </ul>
         <h2 class="govuk-heading-m">What we're doing to improve accessibility</h2>
       <p class="govuk-body">
-            We are looking into the non-compliances mentioned previously and aim to resolve these in a future iteration of the website.
+            We are looking into the non-compliances and aim to fix them in a future iteration of the website.
         </p>
-
+      <p class="govuk-body">
+            We have work in our backlog to:
+        </p>
+      <ul class="govuk-list govuk-list--bullet">
+            <li>make screen readers announce task status when reading out the task link on the task list</li>
+            <li>enable entire rows of the task list to be selectable</li>
+            <li>ensure all headings are readable by screen readers</li>
+            <li>explore different design options for content in details components</li>
+            <li>move the "Apply filters" button to the bottom of the list of filters and feed this back to the DfE patterns and components working group</li>
+            <li>clarify hint text in the Allocate an adviser task to make the required email format clearer to users</li>
+      </ul>
         <h2 class="govuk-heading-m">Preparation of this accessibility statement</h2>
       <p class="govuk-body">
-            This statement was prepared on 19 August 2022. It was last reviewed on 19 November 2024.
+            This statement was prepared on 26 March 2025. It was last reviewed on 28 March 2025.
         </p>
-        <p class="govuk-body">This website was last tested in August 2023. The test was carried out by <a target="_blank" href="https://nexerdigital.com" rel="noopener" class="govuk-link">Nexer Digital Ltd</a>.</p>
       <p class="govuk-body">
-            They tested the most frequently used pages within the website.
+        This website was last tested on 26 March 2025. The test was carried out by DfE's Technology Operations team.
         </p>
-        <p class="govuk-body">
-            Accessibility statement version: 2.0.0
+      <p class="govuk-body">
+        Each page was reviewed against WCAG 2.2 guidelines, utilising accessibility software to ensure users with disabilities can view and interact with page content.
+        </p>
+      <p class="govuk-body">
+        Software used:
+        </p>
+      <ul class="govuk-list govuk-list--bullet">
+            <li>Dragon NaturallySpeaking (V16.1)</li>
+            <li>JAWS (2025)</li>
+            <li>Zoomtext (2025)</li>
+      </ul>
+      <p class="govuk-body">
+        In order to comply with the current legislation, the standard browser used for testing was Edge. Testing was done on a Surface device using Windows 11.
         </p>
    </div>
 </div>

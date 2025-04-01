@@ -26,6 +26,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         public required IList<RadioButtonsLabelViewModel> RadioButtoons { get; set; }
 
         public bool ShowError { get; set; }
+        
+        public string? ErrorMessage { get; set; }  
 
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
         {
@@ -48,8 +50,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
+            
+            
             if (!ModelState.IsValid || !IsNotMatchingSchoolWithSupportingOrgNotesValid())
             {
+                if (!IsNotMatchingSchoolWithSupportingOrgNotesValid())
+                {
+                    _errorService.AddError("radiobuttontextinput","You must add a note");
+                }
+
                 RadioButtoons = RadioButtons;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
@@ -63,7 +72,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken);
             }
 
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
