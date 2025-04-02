@@ -1,0 +1,20 @@
+@model TaskListStatus
+
+@{
+    string output;
+    
+    switch (Model)
+    {
+        case TaskListStatus.Complete:
+            output = "Completed";
+            break;
+        case TaskListStatus.InProgress:
+            output = "In Progress";
+            break;
+        default:
+            output = "Not Started";
+            break;
+    }
+}
+
+<span class="govuk-visually-hidden">@output</span>
