@@ -32,7 +32,7 @@ describe("User navigates to the rise landing page", () => {
 
   beforeEach(() => {
     cy.login();
-    cy.url().should("contains", "schools-requiring-improvement");
+    cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
   it("Should be able to add a school and add it to the list", () => {
