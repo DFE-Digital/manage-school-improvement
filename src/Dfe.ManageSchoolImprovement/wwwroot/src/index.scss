@@ -12,8 +12,8 @@ $govuk-font-family: "Inter", blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans
 @import "./css/task-list.scss";
 @import "./css/cookie-banner.scss";
 
-.moj-sub-navigation__link {
-	font-weight: bold;
+.moj-sub-navigation__item {
+	margin-bottom: 0;
 }
 
 .app-align-right {
