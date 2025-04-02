@@ -12,50 +12,82 @@ class RiseHomePage {
         return this;
     }
 
-    public hasProjectCount(): this { 
-        cy.get('[data-cy="select-projectlist-filter-count"]')
-            .should("contain.text", 'schools found');
-        return this;
-    }
+  public hasProjectCount(): this {
+    cy.get('[data-cy="select-projectlist-filter-count"]').should(
+      "contain.text",
+      "schools found"
+    );
+    return this;
+  }
 
-    public withProjectFilter(project: string): this {
-        cy.getByTestId("search-by-project").typeFast(project);
+  public withProjectFilter(project: string): this {
+    cy.getByTestId("search-by-project").typeFast(project);
 
-        return this;
-    }
+    return this;
+  }
 
-    public hasProjectFilter(): this {
-        cy.get('.moj-filter__options')
-            .should('be.visible');
+  public hasProjectFilter(): this {
+    cy.get(".moj-filter__options").should("be.visible");
 
-        return this;
-    }
+    return this;
+  }
 
-    public hasRegionFilter(region: string): this {
-        cy.getByTestId(`${region}-option`).should("be.checked");
+  public hasRegionFilter(region: string): this {
+    cy.getByTestId(`${region}-option`).should("be.checked");
 
-        return this;
-    }
+    return this;
+  }
 
+  public hasLocalAuthorityFilter(localAuthority: string): this {
+    cy.getByTestId(`${localAuthority}-option`).click();
 
-    public hasLocalAuthorityFilter(localAuthority: string): this {
-        cy.getByTestId(`${localAuthority}-option`).click()
+    return this;
+  }
 
-        return this;
-    }
+  public applyFilters(): this {
+    cy.get('[data-cy="select-projectlist-filter-apply"]').click();
 
+    return this;
+  }
 
-    public applyFilters(): this {
-        cy.get('[data-cy="select-projectlist-filter-apply"]').click();
+  public clearFilters(): this {
+    cy.getByTestId("clear-filters").click();
 
-        return this;
-    }
+    return this;
+  }
 
-    public clearFilters(): this {
-        cy.getByTestId("clear-filters").click();
+  public selectSchool(school: string): this {
+    cy.contains(school).click();
 
-        return this;
-    } 
+    return this;
+  }
+
+  public hasSchoolName(school: string = "Plymouth Grove Primary School"): this {
+    cy.get('[data-cy="trust-name-0"]').contains(school);
+
+    return this;
+  }
+
+  public hasURN(URN: string): this {
+
+    cy.get("#urn-0").contains(URN);
+
+    return this;
+  }
+
+  public hasLocalAuthority(localAuthority: string): this {
+
+    cy.get('[id^="localauthority-"]').eq(0).contains(localAuthority);
+
+    return this;
+  }
+
+  public hasRegion(region: string): this {
+
+    cy.get('[id^="region-"]').eq(0).contains(region);
+
+    return this;
+  }
 }
 
 const riseHomePage = new RiseHomePage();
