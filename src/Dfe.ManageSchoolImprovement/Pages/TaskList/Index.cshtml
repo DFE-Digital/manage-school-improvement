@@ -28,7 +28,7 @@
               <li class="app-task-list__item">
                 <span class="app-task-list__task-name" data-cy="task-name">
                     <a class="govuk-link" asp-page="@Links.TaskList.CheckEligibility.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_project_dates">
-                        Confirm eligibility
+                        Confirm eligibility <span class="govuk-visually-hidden">@Model.ConfirmEligibilityTaskListStatus</span>
                     </a>
                 </span>
                 <partial name="Shared/_TaskListStatus" model="@Model.ConfirmEligibilityTaskListStatus"/>
@@ -38,13 +38,13 @@
                         @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears ?? false)
                         {
                             <a class="govuk-link" asp-page="@Links.TaskList.FundingHistoryDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
-                                Enter the funding history
+                                Enter the funding history <span class="govuk-visually-hidden">@Model.FundingHistoryStatus</span>
                             </a>
                         }
                         else
                         {
                             <a class="govuk-link" asp-page="@Links.TaskList.FundingHistory.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
-                                Enter the funding history
+                                Enter the funding history <span class="govuk-visually-hidden">@Model.FundingHistoryStatus</span>
                             </a>
                         }
                     </span>
@@ -58,7 +58,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ContactTheResponsibleBody.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_responsible_body">
-                            Contact the responsible body
+                            Contact the responsible body <span class="govuk-visually-hidden">@Model.ContactTheResponsibleBodyTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.ContactTheResponsibleBodyTaskListStatus" />
@@ -66,7 +66,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordTheSchoolResponse.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-school-response">
-                            Record the school's response
+                            Record the school's response <span class="govuk-visually-hidden">@Model.RecordTheSchoolResponseTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.RecordTheSchoolResponseTaskListStatus" />
@@ -74,7 +74,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.CheckPotentialAdviserConflictsOfInterest.Page" asp-route-id="@Model.SupportProject.Id" data-cy="CheckPotentialAdviserConflictsOfInterest">
-                            Check potential adviser conflicts of interest
+                            Check potential adviser conflicts of interest <span class="govuk-visually-hidden">@Model.CheckThePotentialAdviserConflictsOfInterestTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.CheckThePotentialAdviserConflictsOfInterestTaskListStatus" />
@@ -82,7 +82,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.SupportProject.Id" data-cy="AllocateAdviser">
-                            Allocate an adviser
+                            Allocate an adviser <span class="govuk-visually-hidden">@Model.AllocateAdviserTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.AllocateAdviserTaskListStatus" />
@@ -95,7 +95,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.SendIntroductoryEmail.Page" asp-route-id="@Model.SupportProject.Id" data-cy="send-introductory-email-request-improvement-plan">
-                            Send introductory email
+                            Send introductory email <span class="govuk-visually-hidden">@Model.SendIntroductoryEmailTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.SendIntroductoryEmailTaskListStatus" />
@@ -103,7 +103,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ArrangeAdviserVisitToSchool.Page" asp-route-id="@Model.SupportProject.Id" data-cy="adviser-school-visit">
-                            Arrange adviser visit to school
+                            Arrange adviser visit to school <span class="govuk-visually-hidden">@Model.AdviserVisitToSchoolTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.AdviserVisitToSchoolTaskListStatus" />
@@ -111,7 +111,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordVisitDateToVisitSchool.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-school-visit-date">
-                            Record date of visit to school
+                            Record date of visit to school <span class="govuk-visually-hidden">@Model.RecordVisitDateToVisitSchoolTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.RecordVisitDateToVisitSchoolTaskListStatus" />
@@ -119,7 +119,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-note-of-visit">
                         <a class="govuk-link" asp-page="@Links.TaskList.NoteOfVisit.Page" asp-route-id="@Model.SupportProject.Id" data-cy="note-of-visit">
-                            Write and save the Note of Visit
+                            Write and save the Note of Visit <span class="govuk-visually-hidden">@Model.NoteOfVisitTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.NoteOfVisitTaskListStatus" />
@@ -127,7 +127,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.CompleteAndSaveAssessmentTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="complate-save-assessment-template">
-                            Complete and save the assessment template
+                            Complete and save the assessment template <span class="govuk-visually-hidden">@Model.CompleteAndSaveAssessmentTemplateTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.CompleteAndSaveAssessmentTemplateTaskListStatus" />
@@ -135,7 +135,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordMatchingDecision.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-support-decision">
-                            Record matching decision
+                            Record matching decision <span class="govuk-visually-hidden">@Model.RecordSupportDecisionTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.RecordSupportDecisionTaskListStatus" />
@@ -148,7 +148,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisation.Page" asp-route-id="@Model.SupportProject.Id" data-cy="choose-preferred-supporting-organisation">
-                            Choose preferred supporting organisation
+                            Choose preferred supporting organisation <span class="govuk-visually-hidden">@Model.ChosePreferredSupportingOrganisationTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.ChosePreferredSupportingOrganisationTaskListStatus" />
@@ -156,7 +156,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.DueDiligenceOnPreferredSupportingOrganisation.Page" asp-route-id="@Model.SupportProject.Id" data-cy="due-diligence-on-preferred-supporting-organisation">
-                            Carry out due diligence on preferred supporting organisation
+                            Carry out due diligence on preferred supporting organisation <span class="govuk-visually-hidden">@Model.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus" />
@@ -164,7 +164,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordSupportingOrganisationAppointment.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-supporting-organisation-appointment">
-                            Record supporting organisation appointment
+                            Record supporting organisation appointment <span class="govuk-visually-hidden">@Model.SetRecordSupportingOrganisationAppointment</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.SetRecordSupportingOrganisationAppointment" />
@@ -172,7 +172,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.AddSupportingOrganisationContactDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="add-supporting-organisation-contact-details">
-                            Add supporting organisation contact details
+                            Add supporting organisation contact details <span class="govuk-visually-hidden">@Model.SupportingOrganisationContactDetailsTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.SupportingOrganisationContactDetailsTaskListStatus" />
@@ -185,7 +185,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RequestPlanningGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-planning-grant-offer-letter">
-                            Request planning grant offer letter
+                            Request planning grant offer letter <span class="govuk-visually-hidden">@Model.RequestPlanningGrantOfferLetterTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.RequestPlanningGrantOfferLetterTaskListStatus" />
@@ -193,7 +193,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ConfirmPlanningGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-planning-grant-offer-letter">
-                            Confirm planning grant offer letter sent
+                            Confirm planning grant offer letter sent <span class="govuk-visually-hidden">@Model.ConfirmPlanningGrantOfferLetterTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.ConfirmPlanningGrantOfferLetterTaskListStatus" />
@@ -206,7 +206,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ShareTheImprovementPlanTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="share-the-improvement-plan-templatesation">
-                            Share the improvement plan template
+                            Share the improvement plan template <span class="govuk-visually-hidden">@Model.ShareTheImprovementPlanTemplateTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.ShareTheImprovementPlanTemplateTaskListStatus" />
@@ -214,7 +214,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ReviewTheImprovementPlan.Page" asp-route-id="@Model.SupportProject.Id" data-cy="review-the-improvement-plan">
-                            Review the improvement plan
+                            Review the improvement plan <span class="govuk-visually-hidden">@Model.ReviewTheImprovementPlanTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.ReviewTheImprovementPlanTaskListStatus" />
@@ -222,7 +222,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.SendAgreedImprovementPlanForApproval.Page" asp-route-id="@Model.SupportProject.Id" data-cy="send-agreed-improvement-plan">
-                            Send the agreed improvement plan for approval
+                            Send the agreed improvement plan for approval <span class="govuk-visually-hidden">@Model.SendAgreedImprovementPlanForApprovalTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.SendAgreedImprovementPlanForApprovalTaskListStatus" />
@@ -230,7 +230,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordImprovementPlanDecision.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-improvement-plan-decision">
-                            Record improvement plan decision
+                            Record improvement plan decision <span class="govuk-visually-hidden">@Model.RecordImprovementPlanDecisionTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.RecordImprovementPlanDecisionTaskListStatus" />
@@ -243,7 +243,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RequestImprovementGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-improvement-grant-offer-letter">
-                            Request improvement grant offer letter
+                            Request improvement grant offer letter <span class="govuk-visually-hidden">@Model.RequestImprovementGrantOfferLetterTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.RequestImprovementGrantOfferLetterTaskListStatus" />
@@ -251,7 +251,7 @@
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ConfirmImprovementGrantOfferLetterSent.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm-improvement-grant-offer-letter">
-                            Confirm improvement grant offer letter
+                            Confirm improvement grant offer letter <span class="govuk-visually-hidden">@Model.ConfirmImprovementGrantOfferLetterTaskListStatus</span>
                         </a>
                     </span>
                     <partial name="Shared/_TaskListStatus" model="@Model.ConfirmImprovementGrantOfferLetterTaskListStatus" />
