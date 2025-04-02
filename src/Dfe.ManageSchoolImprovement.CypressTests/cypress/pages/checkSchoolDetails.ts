@@ -1,5 +1,5 @@
 class CheckSchoolDetails {
-  public hasHeader(header: string): this {
+  public hasHeader(header: string = "Check school details"): this {
 
     cy.get("h1").contains(header);
 

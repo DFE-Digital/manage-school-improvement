@@ -41,14 +41,14 @@ describe("User navigates to the rise landing page", () => {
     cy.executeAccessibilityTests();
 
     whichSchoolNeedsHelp
-      .hasHeader(header)
+      .hasHeader("Which school needs help?")
       .withSchoolName(school)
       .clickContinue();
 
     cy.executeAccessibilityTests();
 
     checkSchoolDetails
-      .hasHeader(header)
+      .hasHeader("Check school details")
       .hasSchoolName(school)
       .hasURN(urn)
       .hasLocalAuthority(localAuthority)
