@@ -1,5 +1,3 @@
-import { last } from "cypress/types/lodash";
-
 class CheckSchoolDetails {
   public hasHeader(header: string): this {
 
