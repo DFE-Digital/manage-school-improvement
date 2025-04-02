@@ -9,9 +9,6 @@
 
     <ItemGroup>
         <Compile Remove="Validators\**" />
-		<None Update="Program.cs">
-			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
-		</None>
         <Content Remove="Validators\**" />
         <EmbeddedResource Remove="Validators\**" />
         <None Remove="Validators\**" />

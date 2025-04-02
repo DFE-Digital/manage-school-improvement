@@ -24,10 +24,4 @@
     <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Domain\Dfe.ManageSchoolImprovement.Domain.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<None Update="Migrations\**\*.cs">
-			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
-		</None>
-	</ItemGroup>
-
 </Project>
