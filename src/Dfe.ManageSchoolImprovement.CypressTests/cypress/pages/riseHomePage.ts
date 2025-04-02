@@ -62,9 +62,7 @@ class RiseHomePage {
     return this;
   }
 
-  public hasSchoolName(school: string): this {
-    school = "Plymouth Grove Primary School";
-
+  public hasSchoolName(school: string = "Plymouth Grove Primary School"): this {
     cy.get('[data-cy="trust-name-0"]').contains(school);
 
     return this;
