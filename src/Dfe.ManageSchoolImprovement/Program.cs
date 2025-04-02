@@ -39,7 +39,7 @@ builder.Services.AddHttpClient(DfeHttpClientFactory.AcademiesClientName, (sp, cl
 
 builder.Services.AddDistributedSqlServerCache(options =>
 {
-    options.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection"); ;
+    options.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.SchemaName = "dbo";
     options.TableName = "SessionState";
 });
