@@ -1,9 +1,6 @@
-import { Logger } from "cypress/common/logger";
 import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import riseHomePage from "cypress/pages/riseHomePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
-import aboutTheSchool from "cypress/pages/aboutTheSchool";
-import path from "path";
 
 
 describe("User navigates to the rise landing page", () => {
