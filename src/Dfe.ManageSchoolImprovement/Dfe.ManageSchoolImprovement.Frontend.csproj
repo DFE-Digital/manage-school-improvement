@@ -9,6 +9,9 @@
 
     <ItemGroup>
         <Compile Remove="Validators\**" />
+		<None Update="Program.cs">
+			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+		</None>
         <Content Remove="Validators\**" />
         <EmbeddedResource Remove="Validators\**" />
         <None Remove="Validators\**" />
@@ -63,12 +66,6 @@
 	
 	<ItemGroup>
 		<InternalsVisibleTo Include="Dfe.ManageSchoolImprovement.Frontend.Tests" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Include="Program.cs">
-			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
-		</Compile>
 	</ItemGroup>
 
 </Project>

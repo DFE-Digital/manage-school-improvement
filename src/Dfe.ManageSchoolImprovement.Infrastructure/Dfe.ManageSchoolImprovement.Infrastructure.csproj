@@ -25,9 +25,9 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Migrations\*.cs">
+		<None Update="Migrations\**\*.cs">
 			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
-		</Compile>
+		</None>
 	</ItemGroup>
 
 </Project>
