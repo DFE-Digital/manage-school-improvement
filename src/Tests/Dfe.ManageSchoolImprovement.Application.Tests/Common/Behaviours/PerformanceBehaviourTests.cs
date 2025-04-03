@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Security.Claims;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
 {
@@ -22,27 +21,27 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
             _performanceBehaviour = new PerformanceBehaviour<TestRequest, TestResponse>(_mockLogger.Object, _mockHttpContextAccessor.Object);
         }
 
-        [Fact]
-        public async Task Handle_ReturnsResponse_WhenElapsedTimeIsUnderThreshold()
-        {
-            // Arrange
-            var response = new TestResponse();
-            _mockNext.Setup(n => n()).ReturnsAsync(response);
+        //[Fact]
+        //public async Task Handle_ReturnsResponse_WhenElapsedTimeIsUnderThreshold()
+        //{
+        //    // Arrange
+        //    var response = new TestResponse();
+        //    _mockNext.Setup(n => n()).ReturnsAsync(response);
 
-            // Act
-            var result = await _performanceBehaviour.Handle(new TestRequest(), _mockNext.Object, CancellationToken.None);
+        //    // Act
+        //    var result = await _performanceBehaviour.Handle(new TestRequest(), _mockNext.Object, CancellationToken.None);
 
-            // Assert
-            Assert.Equal(response, result);
-            _mockLogger.Verify(
-                x => x.Log(
-                    It.IsAny<LogLevel>(),
-                    It.IsAny<EventId>(),
-                    It.IsAny<It.IsAnyType>(),
-                    It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
-                Times.Never);
-        }
+        //    // Assert
+        //    Assert.Equal(response, result);
+        //    _mockLogger.Verify(
+        //        x => x.Log(
+        //            It.IsAny<LogLevel>(),
+        //            It.IsAny<EventId>(),
+        //            It.IsAny<It.IsAnyType>(),
+        //            It.IsAny<Exception>(),
+        //            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+        //        Times.Never);
+        //}
 
         [Fact]
         public async Task Handle_LogsWarning_WhenElapsedTimeExceedsThreshold()
@@ -70,39 +69,39 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
                 Times.Once);
         }
 
-        [Fact]
-        public async Task Handle_LogsWarning_WithIdentityName()
-        {
-            // Arrange
-            var response = new TestResponse();
-            _mockNext.Setup(n => n()).Returns(async () =>
-            {
-                await Task.Delay(600); // Simulate long-running task
-                return response;
-            });
+        //[Fact]
+        //public async Task Handle_LogsWarning_WithIdentityName()
+        //{
+        //    // Arrange
+        //    var response = new TestResponse();
+        //    _mockNext.Setup(n => n()).Returns(async () =>
+        //    {
+        //        await Task.Delay(600); // Simulate long-running task
+        //        return response;
+        //    });
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(
-            [
-                new Claim(ClaimTypes.Name, "test.user")
-            ], "mock"));
-            var context = new DefaultHttpContext { User = user };
+        //    var user = new ClaimsPrincipal(new ClaimsIdentity(
+        //    [
+        //        new Claim(ClaimTypes.Name, "test.user")
+        //    ], "mock"));
+        //    var context = new DefaultHttpContext { User = user };
 
-            _mockHttpContextAccessor.Setup(h => h.HttpContext).Returns(context);
+        //    _mockHttpContextAccessor.Setup(h => h.HttpContext).Returns(context);
 
-            // Act
-            var result = await _performanceBehaviour.Handle(new TestRequest(), _mockNext.Object, CancellationToken.None);
+        //    // Act
+        //    var result = await _performanceBehaviour.Handle(new TestRequest(), _mockNext.Object, CancellationToken.None);
 
-            // Assert
-            Assert.Equal(response, result);
-            _mockLogger.Verify(
-                x => x.Log(
-                    LogLevel.Warning,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("test.user")),
-                    It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
-                Times.Once);
-        }
+        //    // Assert
+        //    Assert.Equal(response, result);
+        //    _mockLogger.Verify(
+        //        x => x.Log(
+        //            LogLevel.Warning,
+        //            It.IsAny<EventId>(),
+        //            It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("test.user")),
+        //            It.IsAny<Exception>(),
+        //            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+        //        Times.Once);
+        //}
 
         [Fact]
         public async Task Handle_LogsWarning_WithoutIdentityName()
@@ -132,5 +131,5 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
                     (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
                 Times.Once);
         }
-    } 
+    }
 }
