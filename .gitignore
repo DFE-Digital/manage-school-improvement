@@ -2,6 +2,7 @@
 bin/
 obj/
 BuildOutput/
+TestResults/
 
 # User-specific files
 *.user
@@ -79,4 +80,3 @@ backend.vars
 # govuk frontend stuff
 src/Dfe.ManageSchoolImprovement/wwwroot/assets
 src/Dfe.ManageSchoolImprovement/wwwroot/dist
-

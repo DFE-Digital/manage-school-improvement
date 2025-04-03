@@ -3,6 +3,7 @@
 	<Property Name="sonar.host.url">https://sonarcloud.io</Property>
 	<Property Name="sonar.qualitygate.wait">true</Property>
 	<Property Name="sonar.scanner.skipJreProvisioning">true</Property>
+	<Property Name="sonar.coverageReportPaths">./src/CoverageReport/SonarQube.xml</Property>
 
 	<!-- analysis exclusions -->
 	<Property Name="sonar.exclusions">**/src/Dfe.ManageSchoolImprovement/**/*.cshtml,**/Migrations/**</Property>
