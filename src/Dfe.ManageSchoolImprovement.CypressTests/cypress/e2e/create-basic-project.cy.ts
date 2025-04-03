@@ -17,7 +17,6 @@ describe("User navigates to the rise landing page", () => {
 
   before(() => {
     cy.fixture('school-data').then((data) => {
-      header = data.header;
       school = data.school;
       urn = data.urn;
       localAuthority = data.localAuthority;
