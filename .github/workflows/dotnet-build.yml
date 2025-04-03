@@ -55,6 +55,6 @@ jobs:
       run: |
         dotnet-sonarscanner begin /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /o:dfe-digital /k:DFE-Digital_regional-improvement-for-standards-and-excellence /s:${{ github.workspace }}/SonarQube.Analysis.xml  
         dotnet build Dfe.ManageSchoolImprovement.sln --no-restore
-        dotnet test Dfe.ManageSchoolImprovement.sln --no-build --verbosity detailed --no-parallel --collect:"XPlat Code Coverage"
+        dotnet test Dfe.ManageSchoolImprovement.sln --no-build --verbosity detailed -m:1 --collect:"XPlat Code Coverage"
         reportgenerator -reports:"./**/coverage.cobertura.xml" -targetdir:./src/CoverageReport -reporttypes:SonarQube
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
