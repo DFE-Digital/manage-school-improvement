@@ -17,7 +17,6 @@ describe("User navigates to the rise landing page", () => {
 
   before(() => {
     cy.fixture('school-data').then((data) => {
-      header = data.header;
       school = data.school;
       urn = data.urn;
       localAuthority = data.localAuthority;
@@ -32,7 +31,7 @@ describe("User navigates to the rise landing page", () => {
 
   beforeEach(() => {
     cy.login();
-    cy.url().should("contains", "schools-requiring-improvement");
+    cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
   it("Should be able to add a school and add it to the list", () => {
@@ -41,14 +40,14 @@ describe("User navigates to the rise landing page", () => {
     cy.executeAccessibilityTests();
 
     whichSchoolNeedsHelp
-      .hasHeader(header)
+      .hasHeader("Which school needs help?")
       .withSchoolName(school)
       .clickContinue();
 
     cy.executeAccessibilityTests();
 
     checkSchoolDetails
-      .hasHeader(header)
+      .hasHeader("Check school details")
       .hasSchoolName(school)
       .hasURN(urn)
       .hasLocalAuthority(localAuthority)

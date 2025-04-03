@@ -6,9 +6,9 @@ class WhichSchoolNeedsHelp {
     return this;
   }
 
-  public withSchoolName(school: string = "Plymouth Grove Primary School"): this {
+  public withSchoolName(school: string = "Plym"): this {
     cy.getById("SearchQuery").typeFast(school);
-    cy.contains(school).click();
+    cy.contains("Plymouth Grove Primary School").click();
 
     return this;
   }
