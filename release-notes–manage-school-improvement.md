@@ -4,7 +4,7 @@ Welcome to the release notes for **Manage School Improvement**. Here you'll find
 
 ---
 
-## 📅 [v0.2.0] – 2025-04-06
+## 📅 [v0.2.0] – Sprint 7 - 2025-04-06
 
 ### 📌 User Stories
 - **207641** – Removed heading references from the accessibility statement (user story).
@@ -16,6 +16,6 @@ Welcome to the release notes for **Manage School Improvement**. Here you'll find
 
 ---
 
-## 📅 [v0.1.0 – Public Beta] – 2025-04-01
+## 📅 [v0.1.0 – Public Beta] - Sprint 6 – 2025-04-01
 
 🎉 **Initial Public Beta release** of Manage School Improvement. We’re excited to open things up for wider use and feedback.
