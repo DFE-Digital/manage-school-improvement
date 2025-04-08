@@ -4,16 +4,44 @@
 @inject IConfiguration Configuration
 
 @{
+    string PageOrPages()
+    {
+        if (Model.Pagination.TotalPages == 1)
+        {
+            return "page";
+        }
+        return "pages";
+    }
+    
     Layout = "_Layout";
     ViewData["Title"] = "Schools identified for targeted intervention";
 }
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+@if (Model.Filters.IsVisible)
+{
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Success
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <h3 class="govuk-notification-banner__heading">
+                Filters applied
+            </h3>
+            <p class="govuk-body">
+                @Model.TotalProjects schools found on @Model.Pagination.TotalPages @PageOrPages() of results
+            </p>
+        </div>
+    </div>  
+}
         <h1 class="govuk-heading-xl" data-cy="select-heading">
             Schools identified for targeted intervention
         </h1>
         <p class="govuk-body">This list may include schools that are no longer eligible due to a recent inspection result.</p>
-        <p class="govuk-body">You can add more schools to this list.</p>        
+        <p class="govuk-body">You can add more schools to this list.</p>
         <a asp-page="/AddSchool/WhichSchoolNeedsHelp" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-cy="create_new_conversion_btn">
             Add a school
         </a>
