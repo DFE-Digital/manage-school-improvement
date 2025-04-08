@@ -88,6 +88,12 @@ class RiseHomePage {
 
     return this;
   }
+
+  public hasSuccessNotification(): this {
+    cy.get('.govuk-notification-banner--success').should("be.visible");
+
+    return this;
+  }
 }
 
 const riseHomePage = new RiseHomePage();
