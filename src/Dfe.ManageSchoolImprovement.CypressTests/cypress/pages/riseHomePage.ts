@@ -44,6 +44,13 @@ class RiseHomePage {
     return this;
   }
 
+  public selectEastMidlandsRegionFilter(): this {
+    cy.get('[data-cy="select-projectlist-filter-region"]').click();
+    cy.get('[data-cy="select-projectlist-filter-region-East Midlands"]').click();
+
+    return this;
+  }
+
   public applyFilters(): this {
     cy.get('[data-cy="select-projectlist-filter-apply"]').click();
 

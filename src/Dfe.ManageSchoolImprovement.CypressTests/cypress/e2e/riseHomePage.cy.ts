@@ -20,6 +20,7 @@ describe("User navigates to the rise landing page", () => {
     it("Should show the success notification banner when a filter is applied", () => {
         riseHomePage
             .hasProjectFilter()
+            .selectEastMidlandsRegionFilter()
             .applyFilters()
             .hasSuccessNotification()
     });
