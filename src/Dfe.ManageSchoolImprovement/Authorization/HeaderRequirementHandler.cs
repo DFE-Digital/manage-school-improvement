@@ -26,8 +26,8 @@ public class HeaderRequirementHandler(IHostEnvironment environment,
                                                IHttpContextAccessor httpContextAccessor,
                                                IConfiguration configuration)
     {
-        //Header authorisation not applicable for production
-        if (!hostEnvironment.IsStaging() && !hostEnvironment.IsDevelopment())
+        //Header authorisation not applicable for production - and include Test - (Thanks Paddy Clark!)
+        if (!hostEnvironment.IsStaging() && !hostEnvironment.IsEnvironment("Test") && !hostEnvironment.IsDevelopment())
         {
             return false;
         }
