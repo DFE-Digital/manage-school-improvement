@@ -1,12 +1,14 @@
-using Microsoft.EntityFrameworkCore.Design;
+using Dfe.ManageSchoolImprovement.Infrastructure.Security;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using Dfe.ManageSchoolImprovement.Infrastructure.Security;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Database
 {
+    [ExcludeFromCodeCoverage]
     public class RegionalImprovementForStandardsAndExcellenceContextFactory : IDesignTimeDbContextFactory<RegionalImprovementForStandardsAndExcellenceContext>
     {
         public RegionalImprovementForStandardsAndExcellenceContext CreateDbContext(string[] args)

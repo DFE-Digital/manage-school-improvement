@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<DataCollectionRunSettings>
+		<DataCollectors>
+			<DataCollector friendlyName="XPlat code coverage">
+				<Configuration>
+					<ExcludeByFile>**/src/Dfe.ManageSchoolImprovement/**/*.cshtml,**/src/Dfe.ManageSchoolImprovement/**/*.cshtml.cs,**/Migrations/**,**/src/Dfe.ManageSchoolImprovement/wwwroot/**,**/Tests/**,**.Program.cs</ExcludeByFile>
+				</Configuration>
+			</DataCollector>
+		</DataCollectors>
+	</DataCollectionRunSettings>
+</RunSettings>
