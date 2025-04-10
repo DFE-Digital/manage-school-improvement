@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Net.Http.Headers;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Authorization;
 
+[ExcludeFromCodeCoverage]
 //Handler is registered from the method RequireAuthenticatedUser()
 public class HeaderRequirementHandler(IHostEnvironment environment,
                                 IHttpContextAccessor httpContextAccessor,
