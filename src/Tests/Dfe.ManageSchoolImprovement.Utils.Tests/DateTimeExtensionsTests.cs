@@ -49,8 +49,14 @@ namespace Dfe.ManageSchoolImprovement.Utils.Tests
             var date = new DateTime(2025, 3, 14, 6, 26, 0, DateTimeKind.Utc);
             var result = date.UtcDateTimeToGdsDateTimeString();
 
-            var match = Regex.Match(result, @"^\d{2} [A-Z][a-z]+ \d{4} at \d{1,2}:\d{2}(am|pm)$");
+            var match = GdsDateTimeFormatRegex.Match(result);
             Assert.True(match.Success);
         }
+
+        private static readonly Regex GdsDateTimeFormatRegex = new(
+            @"^\d{2} [A-Z][a-z]+ \d{4} at \d{1,2}:\d{2}(am|pm)$",
+            RegexOptions.None,
+            TimeSpan.FromMilliseconds(200)
+        );
     }
 }
