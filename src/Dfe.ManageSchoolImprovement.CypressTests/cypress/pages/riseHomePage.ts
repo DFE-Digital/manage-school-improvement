@@ -94,7 +94,6 @@ class RiseHomePage {
 
     return this;
   }
-}
 
   public withFilterRegions(): this {
     // Check if the Region accordion section is not expanded
