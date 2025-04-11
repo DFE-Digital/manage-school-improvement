@@ -21,10 +21,15 @@ namespace Dfe.ManageSchoolImprovement.Utils
             var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
             var dateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, timeZone);
             var formatted = dateTime.ToString("dd MMMM yyyy 'at' h:mmtt", CultureInfo.InvariantCulture);
-            formatted = Regex.Replace(formatted, "AM|PM", m => m.Value.ToLower());
+            formatted = RegexHelpers.AmPmRegex().Replace(formatted, m => m.Value.ToLower());
 
             return formatted;
         }
 
+    }
+    public static partial class RegexHelpers
+    {
+        [GeneratedRegex("AM|PM", RegexOptions.None, matchTimeoutMilliseconds: 200)]
+        public static partial Regex AmPmRegex();
     }
 }
