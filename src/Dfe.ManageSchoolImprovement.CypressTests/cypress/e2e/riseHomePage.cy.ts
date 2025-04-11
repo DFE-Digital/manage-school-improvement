@@ -16,4 +16,12 @@ describe("User navigates to the rise landing page", () => {
          
          cy.executeAccessibilityTests()
     });
+
+    it("Should show the success notification banner when a filter is applied", () => {
+        riseHomePage
+            .hasProjectFilter()
+            .selectEastMidlandsRegionFilter()
+            .applyFilters()
+            .hasSuccessNotification()
+    });
 });
