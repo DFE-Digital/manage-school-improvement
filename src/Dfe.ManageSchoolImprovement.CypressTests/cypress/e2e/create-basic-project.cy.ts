@@ -4,7 +4,6 @@ import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 
 
 describe("User navigates to the rise landing page", () => {
-  let header;
   let school;
   let urn;
   let localAuthority;
@@ -41,14 +40,14 @@ describe("User navigates to the rise landing page", () => {
 
     whichSchoolNeedsHelp
       .hasHeader("Which school needs help?")
-      .withSchoolName(school)
+      .withSchoolName("Plymouth Grove Primary")
       .clickContinue();
 
     cy.executeAccessibilityTests();
 
     checkSchoolDetails
       .hasHeader("Check school details")
-      .hasSchoolName(school)
+      .hasSchoolName("Plymouth Grove Primary")
       .hasURN(urn)
       .hasLocalAuthority(localAuthority)
       .hasSchoolType(schoolType)
