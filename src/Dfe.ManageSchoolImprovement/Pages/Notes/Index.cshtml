@@ -5,19 +5,19 @@
 
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Notes.IndexModel
 @{
-    string DisplayDate(DateTime date)
-    {
-        var info = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
-        var isBritishSummerTime = info.IsDaylightSavingTime(date);
+    // string DisplayDate(DateTime date)
+    // {
+    //     var info = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+    //     var isBritishSummerTime = info.IsDaylightSavingTime(date);
         
-        var correctDateTime = date;
+    //     var correctDateTime = date;
 
-        if (isBritishSummerTime)
-        {
-            correctDateTime = correctDateTime.AddHours(1);
-        }
-        return $"{correctDateTime:dd} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(correctDateTime.ToString("MMMM"))} {correctDateTime:yyyy} at {correctDateTime:hh:mm tt}".ToLower();
-    }
+    //     if (isBritishSummerTime)
+    //     {
+    //         correctDateTime = correctDateTime.AddHours(1);
+    //     }
+    //     return $"{correctDateTime:dd} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(correctDateTime.ToString("MMMM"))} {correctDateTime:yyyy} at {correctDateTime:hh:mm tt}".ToLower();
+    // }
         
     ViewData["Title"] = "Notes";
     TempData["AssignmentReferrer"] = @Links.Notes.Index.Page;
@@ -69,7 +69,7 @@
             {
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                 <div class="app-notes__note">
-                    <span class="govuk-caption-m" id="@("project-note-date-" + index)">@DisplayDate(note.CreatedOn)</span>
+                    <span class="govuk-caption-m" id="@("project-note-date-" + index)">@note.CreatedOn.UtcDateTimeToGdsDateTimeString()</span>
                     <h3 class="govuk-heading-m" id="@("project-note-date-" + index)">@note.CreatedBy.FullNameFromEmail()</h3>
                     <p class="govuk-body-m">@note.Note</p>
                     @if(User.Identity != null && note.CreatedBy == User.Identity.Name){
