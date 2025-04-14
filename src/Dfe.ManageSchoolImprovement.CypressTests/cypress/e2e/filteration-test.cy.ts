@@ -12,9 +12,16 @@ describe("Filteration Tests", { tags: ["@dev", "@stage"] }, () => {
     Logger.log("Testing we can filter projects by region...");
     riseHomePage.withFilterRegions()
     riseHomePage.hasFilterRegions()
-    //cy.executeAccessibilityTests() -- COMMENTED OUT AS AXE THROWING ARIA-EXPANDED FALSE-POSITIVE
     Logger.log("Clearing Filters...");
     riseHomePage.clearFilters()
-    //cy.executeAccessibilityTests() -- COMMENTED OUT AS AXE THROWING ARIA-EXPANDED FALSE-POSITIVE
+  });
+
+  it("Should filter projects by school name", () => {
+    cy.executeAccessibilityTests()
+    Logger.log("Testing we can filter projects by inputting schoolname...");
+    riseHomePage.withProjectFilter("Outwood Academy")
+    riseHomePage.hasSchoolName("Outwood Academy Shafton")
+    Logger.log("Clearing Filters...");
+    riseHomePage.clearFilters()
   });
 });

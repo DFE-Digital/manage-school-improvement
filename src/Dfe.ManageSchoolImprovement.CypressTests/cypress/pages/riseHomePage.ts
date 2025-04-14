@@ -23,8 +23,9 @@ class RiseHomePage {
   }
 
   public withProjectFilter(project: string): this {
-    cy.getByTestId("search-by-project").typeFast(project);
-
+    cy.get('[data-cy="select-projectlist-filter-title"]').typeFast(project);
+    cy.get('[data-cy="select-projectlist-filter-apply"]').click();
+    
     return this;
   }
 
@@ -55,7 +56,7 @@ class RiseHomePage {
 
   public applyFilters(): this {
     cy.get('[data-cy="select-projectlist-filter-apply"]').click();
-
+    
     return this;
   }
 
@@ -65,7 +66,7 @@ class RiseHomePage {
     return this;
   }
 
-  public hasSchoolName(school: string = "Plymouth Grove Primary School"): this {
+  public hasSchoolName(school: string) : this {
     cy.get('[data-cy="trust-name-0"]').contains(school);
 
     return this;
