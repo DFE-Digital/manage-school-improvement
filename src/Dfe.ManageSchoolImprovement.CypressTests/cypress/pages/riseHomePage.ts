@@ -90,8 +90,14 @@ class RiseHomePage {
     return this;
   }
 
-  public hasSuccessNotification(): this {
-    cy.get('.govuk-notification-banner--success').should("be.visible");
+  public hasFilterSuccessNotification(): this {
+    cy.get('[data-cy="filter-success-notification"]').should("be.visible");
+
+    return this;
+  }
+
+  public hasAddSchoolSuccessNotification(): this {
+    cy.get('[data-cy="add-school-success-notification"]').should("be.visible");
 
     return this;
   }

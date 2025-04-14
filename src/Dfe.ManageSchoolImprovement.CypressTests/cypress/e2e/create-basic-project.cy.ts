@@ -62,6 +62,7 @@ describe("User navigates to the rise landing page", () => {
       .hasSchoolName(school)
       .hasURN(urn)
       .hasLocalAuthority(localAuthority)
-      .hasRegion(region);
+      .hasRegion(region)
+      .hasAddSchoolSuccessNotification();
   });
 });

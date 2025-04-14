@@ -22,6 +22,6 @@ describe("User navigates to the rise landing page", () => {
             .hasProjectFilter()
             .selectEastMidlandsRegionFilter()
             .applyFilters()
-            .hasSuccessNotification()
+            .hasFilterSuccessNotification()
     });
 });
