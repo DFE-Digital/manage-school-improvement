@@ -28,6 +28,7 @@ public class SummaryModel(IGetEstablishment getEstablishment, IMediator mediator
 
         if (id != null)
         {
+            TempData["schoolAdded"] = true;
             return RedirectToPage(Links.SchoolList.Index.Page);
         }
 

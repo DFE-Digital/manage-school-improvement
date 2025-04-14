@@ -13,6 +13,8 @@
         return "pages";
     }
 
+    bool schoolAdded = (bool)(TempData["schoolAdded"] ?? false);
+
     Layout = "_Layout";
     ViewData["Title"] = "Schools identified for targeted intervention";
 }
@@ -37,6 +39,22 @@
                 </div>
             </div>
         }
+        @if (schoolAdded)
+        {
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Success
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading">
+                        School added
+                    </h3>
+                </div>
+            </div>
+        }
+
         <h1 class="govuk-heading-xl" data-cy="select-heading">
             Schools identified for targeted intervention
         </h1>

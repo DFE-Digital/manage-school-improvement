@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool;
 
 public class WhichSchoolNeedsHelpModel(IGetEstablishment getEstablishment, ErrorService errorService, ISupportProjectQueryService supportProjectQueryService) : PageModel
 {
-    private const string SEARCH_LABEL = "Enter school name or URN (Unique Reference Number).";
+    private const string SEARCH_LABEL = "Find the school using its name or URN.";
     private const string SEARCH_ENDPOINT = "/which-school-needs-help?handler=Search&searchQuery=";
 
     [BindProperty]
