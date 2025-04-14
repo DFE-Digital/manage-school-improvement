@@ -39,7 +39,7 @@ describe("User navigates to the rise landing page", () => {
     cy.executeAccessibilityTests();
 
     whichSchoolNeedsHelp
-      .hasHeader("Which school needs help?")
+      .hasHeader("Select school")
       .withSchoolName("Plymouth Grove Primary")
       .clickContinue();
 

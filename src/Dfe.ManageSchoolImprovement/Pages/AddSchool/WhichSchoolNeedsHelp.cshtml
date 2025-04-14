@@ -6,7 +6,7 @@
 
 @{
     Layout = "_Layout";
-    ViewBag.Title = (!ViewData.ModelState.IsValid ? "Error: " : "") + "Which school requires help?";
+    ViewBag.Title = (!ViewData.ModelState.IsValid ? "Error: " : "") + "Select school";
     var routeParams = new Dictionary<string, string>
     {
         { "ukprn", Request.Query["ukprn"] }
