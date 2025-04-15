@@ -11,6 +11,9 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
     protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
     protected readonly ErrorService _errorService = errorService;
     public SupportProjectViewModel SupportProject { get; set; }
+    
+    [TempData]
+    public bool TaskUpdated { get; set; }
 
     public virtual async Task<IActionResult> GetSupportProject(int id, CancellationToken cancellationToken)
     {

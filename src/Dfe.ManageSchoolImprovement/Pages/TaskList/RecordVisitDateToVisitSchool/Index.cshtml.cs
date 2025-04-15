@@ -47,6 +47,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
                 return await base.GetSupportProject(id, cancellationToken); ;
             }
 
+            TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
 

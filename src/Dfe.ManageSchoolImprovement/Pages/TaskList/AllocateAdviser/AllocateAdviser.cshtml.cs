@@ -76,6 +76,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
             return await base.GetSupportProject(id, cancellationToken); 
         }
         
+        TaskUpdated = true;
         return RedirectToPage(referrer, new { id });
     }
 
