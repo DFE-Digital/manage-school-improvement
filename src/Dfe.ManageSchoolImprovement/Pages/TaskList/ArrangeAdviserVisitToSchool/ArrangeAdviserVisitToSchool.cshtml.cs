@@ -59,6 +59,7 @@ public class ArrangeAdviserVisitToSchoolModel(ISupportProjectQueryService suppor
             return await base.GetSupportProject(id, cancellationToken);
         }
         
+        TempData["taskUpdated"] = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
     }
 }

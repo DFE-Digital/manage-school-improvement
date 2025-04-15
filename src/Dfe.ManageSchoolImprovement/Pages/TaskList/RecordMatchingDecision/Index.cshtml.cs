@@ -75,6 +75,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
+            TempData["taskUpdated"] = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
 

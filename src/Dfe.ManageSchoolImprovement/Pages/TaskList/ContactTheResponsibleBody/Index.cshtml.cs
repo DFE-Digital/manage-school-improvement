@@ -54,8 +54,6 @@ public class ContactTheResponsibleBodyModel(ISupportProjectQueryService supportP
 
     public async Task<IActionResult> OnPost(int id,CancellationToken cancellationToken)
     {
-      
-        
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -73,6 +71,7 @@ public class ContactTheResponsibleBodyModel(ISupportProjectQueryService supportP
             return await base.GetSupportProject(id, cancellationToken);;
         }
         
+        TempData["taskUpdated"] = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
     }
 
