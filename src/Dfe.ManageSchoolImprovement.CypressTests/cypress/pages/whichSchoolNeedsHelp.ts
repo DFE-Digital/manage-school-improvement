@@ -1,5 +1,5 @@
 class WhichSchoolNeedsHelp {
-  public hasHeader(header: string = "Which school needs help?"): this {
+  public hasHeader(header: string = "Select school"): this {
 
     cy.get("h1").contains(header);
 

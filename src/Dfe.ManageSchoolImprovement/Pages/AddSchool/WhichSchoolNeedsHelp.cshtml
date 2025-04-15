@@ -6,7 +6,7 @@
 
 @{
     Layout = "_Layout";
-    ViewBag.Title = (!ViewData.ModelState.IsValid ? "Error: " : "") + "Which school requires help?";
+    ViewBag.Title = (!ViewData.ModelState.IsValid ? "Error: " : "") + "Select school";
     var routeParams = new Dictionary<string, string>
     {
         { "ukprn", Request.Query["ukprn"] }
@@ -25,7 +25,7 @@
         <div class="govuk-form-group @ModelState.GetErrorStyleClass()">
             <h1 class="govuk-label-wrapper">
                 <label class="govuk-label govuk-label--xl" for="SearchQuery">
-                    Which school needs help?
+                    Select school
                 </label>
             </h1>
             <partial name="_AutoComplete" model="@Model.AutoCompleteSearchModel" />
