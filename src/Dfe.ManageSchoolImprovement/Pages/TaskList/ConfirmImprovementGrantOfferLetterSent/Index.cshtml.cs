@@ -56,7 +56,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken); ;
         }
 
-        TempData["taskUpdated"] = true;
+        TaskUpdated = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
     }
 
