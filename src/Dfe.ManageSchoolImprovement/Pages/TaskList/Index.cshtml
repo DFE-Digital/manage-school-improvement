@@ -40,7 +40,7 @@
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="prepare-project-doc">Task list</h2>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Before you start</h3>
         <div>
-            <ul class="app-task-list">
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.CheckEligibility.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm-eligibility">
@@ -74,7 +74,7 @@
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Begin the project</h3>
         <div>
-            <ul class="app-task-list">
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ContactTheResponsibleBody.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_responsible_body">
@@ -118,8 +118,8 @@
             </ul>
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Establish support needs</h3>
-        <div class="app-task-list">
-            <ul class="app-task-list__items govuk-!-padding-left-0">
+        <div>
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.SendIntroductoryEmail.Page" asp-route-id="@Model.SupportProject.Id" data-cy="send-introductory-email-request-improvement-plan">
@@ -184,7 +184,7 @@
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Find possible supporting organisation</h3>
         <div>
-            <ul class="app-task-list">
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisation.Page" asp-route-id="@Model.SupportProject.Id" data-cy="choose-preferred-supporting-organisation">
@@ -228,8 +228,8 @@
             </ul>
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Send planning grant offer letter</h3>
-        <div class="app-task-list">
-            <ul class="app-task-list__items govuk-!-padding-left-0">
+        <div>
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RequestPlanningGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-planning-grant-offer-letter">
@@ -253,8 +253,8 @@
             </ul>
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Create the improvement plan</h3>
-        <div class="app-task-list">
-            <ul class="app-task-list__items govuk-!-padding-left-0">
+        <div>
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ShareTheImprovementPlanTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="share-the-improvement-plan-template">
@@ -298,8 +298,8 @@
             </ul>
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Send improvement grant offer letter</h3>
-        <div class="app-task-list">
-            <ul class="app-task-list__items govuk-!-padding-left-0">
+        <div>
+            <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RequestImprovementGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-improvement-grant-offer-letter">
