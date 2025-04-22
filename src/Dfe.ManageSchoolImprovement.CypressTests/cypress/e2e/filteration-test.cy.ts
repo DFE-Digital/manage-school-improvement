@@ -19,7 +19,7 @@ describe("Filteration Tests", { tags: ["@dev", "@stage"] }, () => {
   it("Should filter projects by school name", () => {
     cy.executeAccessibilityTests()
     Logger.log("Testing we can filter projects by inputting schoolname...");
-    riseHomePage.withProjectFilter("Outwood Academy")
+    riseHomePage.withProjectFilter("Outwood Academy Shafton")
     riseHomePage.hasSchoolName("Outwood Academy Shafton")
     Logger.log("Clearing Filters...");
     riseHomePage.clearFilters()

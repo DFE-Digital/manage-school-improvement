@@ -21,6 +21,10 @@
 
                 <div class="moj-filter__heading-title">
                     <h2 class="govuk-heading-m">Selected filters</h2>
+                    @if (!Model.IsVisible)
+                    {
+                        <p class="govuk-body">No filters selected.</p>
+                    }
                 </div>
 
                 <div class="moj-filter__heading-action">
@@ -102,25 +106,23 @@
 
         <div class="moj-filter__options">
             <form method="get" class="form">
-                <button class="govuk-button" data-module="govuk-button" data-test-id="submit-button" data-cy='select-projectlist-filter-apply'>
-                    Apply filters
-                </button>
 
                 <div class="govuk-form-group">
                     <label class="govuk-label govuk-label--m" for="Title">
-                        Search for schools
+                        Find a school
                     </label>
-                    <span class="govuk-hint">You can search by school name, academy name and URN</span>
-                    <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input" aria-describedby="Title"
-                           data-cy="select-projectlist-filter-title">
-
+                    <span class="govuk-hint">You can filter by school name or URN (unique reference number).</span>
+                    <div class="govuk-!-margin-top-2">
+                        <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input" aria-describedby="Title"
+                               data-cy="select-projectlist-filter-title">
+                    </div>
                 </div>
 
                 <div class="govuk-form-group">
 
                     <fieldset class="govuk-fieldset">
                         <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-@*                             <div class="govuk-accordion__section">
+                            @*                             <div class="govuk-accordion__section">
                                 <div class="govuk-accordion__section-header">
                                     <h2 class="govuk-accordion__section-heading">
                                         <span class="govuk-accordion__section-button" id="accordion-officers-heading">
@@ -170,7 +172,7 @@
                                         {
                                             <div class="govuk-checkboxes__item">
                                                 <input class="govuk-checkboxes__input" id="filter-project-region-@region.Stub()" name="selectedRegions" type="checkbox" value="@region" data-cy="select-projectlist-filter-region-@region"
-                                                @(Model.SelectedRegions.Contains(region) ? "checked" : null) />
+                                                       @(Model.SelectedRegions.Contains(region) ? "checked" : null) />
                                                 <label class="govuk-label govuk-checkboxes__label" for="filter-project-region-@region.Stub()">
                                                     @region
                                                 </label>
@@ -194,7 +196,7 @@
                                         {
                                             <div class="govuk-checkboxes__item">
                                                 <input class="govuk-checkboxes__input" id="filter-project-local-authority-@localAuthority.Stub()" name="selectedLocalAuthorities" type="checkbox" value="@localAuthority" data-cy="select-projectlist-filter-local-authority-@localAuthority"
-                                                @(Model.SelectedLocalAuthorities.Contains(localAuthority) ? "checked" : null) />
+                                                       @(Model.SelectedLocalAuthorities.Contains(localAuthority) ? "checked" : null) />
                                                 <label class="govuk-label govuk-checkboxes__label" for="filter-project-local-authority-@localAuthority.Stub()">
                                                     @localAuthority
                                                 </label>
@@ -203,7 +205,7 @@
                                     </div>
                                 </div>
                             </div>
-   @*                          <div class="govuk-accordion__section">
+                            @*                          <div class="govuk-accordion__section">
                                 <div class="govuk-accordion__section-header">
                                     <h2 class="govuk-accordion__section-heading">
                                         <span class="govuk-accordion__section-button" id="accordion-project-statuses-heading" data-cy="select-projectlist-filter-project-status">
@@ -256,6 +258,12 @@
                     </fieldset>
 
                 </div>
+                <div class="govuk-!-margin-top-2">
+                    <button class="govuk-button" data-module="govuk-button" data-test-id="submit-button" data-cy='select-projectlist-filter-apply'>
+                        Apply filters
+                    </button> 
+                </div>
+
             </form>
         </div>
 
