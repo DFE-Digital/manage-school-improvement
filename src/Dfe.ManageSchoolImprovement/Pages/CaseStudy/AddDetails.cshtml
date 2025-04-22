@@ -1,0 +1,47 @@
+@page "/case-study/add-details/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.CaseStudy.AddDetailsModel
+
+@{
+    ViewData["Title"] = "Case study candidates";
+}
+
+@if (Model.ShowError)
+{
+   <partial name="_ErrorSummary"/>
+}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <form method="post">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                            Case study candidates
+                        </h1>
+                    </legend>
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="case-study-candidate" name="case-study-candidate" type="checkbox" value="case-study-candidate" data-aria-controls="conditional-case-study-candidate">
+                            <label class="govuk-label govuk-checkboxes__label" for="case-study-candidate">
+                                Case study candidate
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-case-study-candidate">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="contact-by-email">
+                                    Enter details about why this school would be a good candidate for a case study
+                                </label>
+                                <input class="govuk-input govuk-!-width-one-third" id="case-study-details" name="case-study-details" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>
+    

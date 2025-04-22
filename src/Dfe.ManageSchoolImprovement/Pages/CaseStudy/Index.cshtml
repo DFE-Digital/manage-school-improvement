@@ -1,0 +1,85 @@
+@page "/case-study/{id:int}"
+@model IndexModel
+@{
+    ViewData["Title"] = "Case Study";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+}
+@* 
+@if (Model.NewNote || Model.EditNote)
+{
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Success
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            @if (Model.NewNote)
+            {
+                <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                    Note added
+                </h3>
+            }
+            @if (Model.EditNote)
+            {
+                <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                    Note edited
+                </h3>
+            }
+        </div>
+    </div>
+} *@
+
+<partial name="_ProjectHeader" model="Model.SupportProject" />
+
+<div class="govuk-grid-column-two-thirds-full">
+    <h2 class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Case Study</h2>
+@*     @if (Model.SupportProject.CaseStudy.HasValue)
+    {
+        <a asp-page="@Links.CaseStudy.EditDetails.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+            Change case study details
+        </a>
+        <p class="govuk-body">DfE want to identify schools that have had particularly good or bad experiences of the RISE intervention.</p>
+        <p class="govuk-body">If you think this school is a useful example, enter details about its progress. </p>
+        <p class="govuk-body">This will be used by the department to understand how to improve the process.</p>
+    }
+    else {
+        <a asp-page="@Links.CaseStudy.AddDetails.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+            Enter case study details
+        </a>
+        <p class="govuk-body">DfE want to identify schools that have had particularly good or bad experiences of the RISE intervention.</p>
+        <p class="govuk-body">If you think this school is a useful example, enter details about its progress. </p>
+        <p class="govuk-body">This will be used by the department to understand how to improve the process.</p>
+    } *@
+    <a asp-page="@Links.CaseStudy.AddDetails.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+        Enter case study details
+    </a>
+    <p class="govuk-body">DfE want to identify schools that have had particularly good or bad experiences of the RISE intervention.</p>
+    <p class="govuk-body">If you think this school is a useful example, enter details about its progress. </p>
+    <p class="govuk-body">This will be used by the department to understand how to improve the process.</p>
+</div>
+@* <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-notes">
+            @{ var index = 0; }
+            @foreach (SupportProjectNote note in Model.SupportProject.Notes.OrderByDescending(x => x.CreatedOn))
+            {
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                <div class="app-notes__note">
+                    <span class="govuk-caption-m" id="@("project-note-date-" + index)">@note.CreatedOn.UtcDateTimeToGdsDateTimeString()</span>
+                    <h3 class="govuk-heading-m" id="@("project-note-date-" + index)">@note.CreatedBy.FullNameFromEmail()</h3>
+                    <p class="govuk-body-m">@note.Note</p>
+                    @if(User.Identity != null && note.CreatedBy == User.Identity.Name){
+                        <p class="govuk-body govuk-!-font-size-16"><a class="govuk-link" asp-page="@Links.Notes.EditNote.Page" asp-route-id="@note.SupportProjectId.Value" asp-route-noteid="@note.Id.Value">Edit note</a></p>
+                     }
+                </div>
+                index++;
+            }
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        </div>
+    </div>
+</div> *@
