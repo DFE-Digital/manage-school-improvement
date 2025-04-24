@@ -42,7 +42,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string OftedReportWeblink { get; set; }
 
         public string LastInspectionDate { get; set; }
-        
+
         public bool? DiscussTheBestApproach { get; private set; }
 
         public bool? EmailTheResponsibleBody { get; private set; }
@@ -149,6 +149,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SchoolIsNotEligibleNotes { get; set; }
         public SupportProjectStatus? SupportProjectStatus { get; set; }
         public string? PreviousUrn { get; set; }
+        public bool? CaseStudyCandidate { get; set; }
+        public string? CaseStudyDetails { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -237,7 +239,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     FundingAmount = x.fundingAmount,
                     FundingRounds = x.fundingRounds,
                     Comments = x.comments
-                }) ?? new List<FundingHistoryViewModel>()
+                }) ?? new List<FundingHistoryViewModel>(),
+                CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
+                CaseStudyDetails = supportProjectDto.CaseStudyDetails
             };
         }
     }

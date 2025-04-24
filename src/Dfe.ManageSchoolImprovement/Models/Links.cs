@@ -96,6 +96,12 @@ public static class Links
         public static readonly LinkItem EditNote = AddLinkItem(backText: "Back", page: "/Notes/EditNote");
     }
 
+    public static class CaseStudy
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/CaseStudy/Index");
+        public static readonly LinkItem SetDetails = AddLinkItem(backText: "Back", page: "/CaseStudy/SetDetails");
+    }
+
     public static class AssignDeliveryOfficer
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/AssignDeliveryOfficer/Index");
