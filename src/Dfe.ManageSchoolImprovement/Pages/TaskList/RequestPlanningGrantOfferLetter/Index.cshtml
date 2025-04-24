@@ -25,7 +25,37 @@
         </h1>
         <p class="govuk-body">Email the grant team at <a class="govuk-link" href="mailto:@Model.EmailAddress">@Model.EmailAddress</a> and ask them to send the planning grant offer letter to the supporting organisation and responsible body.</p>
         <form method="post" novalidate>
-            <govuk-date-input heading-label="false" label="Enter date grant team contacted" id="date-grant-team-contacted" name="date-grant-team-contacted" asp-for="@Model.DateGrantTeamContacted" hint="For example, 1 7 2024." />
+            <govuk-checkbox-input label-hint="Make sure you add the contacts the grant team need to this project." label="Include the required contact details in the email" id="include-contact-details" name="include-contact-details" asp-for="@Model.IncludeContactDetails"/>
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        Contacts needed
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <p>You must add the following contact details for the supporting organisation's chief accounting officer:</p>
+                    <ul>
+                        <li>name</li>
+                        <li>email address</li>
+                        <li>postal address</li>
+                    </ul>
+                    <p>For local authority maintained schools, you must include a name and email address for:</p>
+                    <ul>
+                        <li>Headteacher</li>
+                        <li>Chair of Governors</li>
+                    </ul>
+                    <p>For academies, you must include a name and email address for:</p>
+                    <ul>
+                        <li>Headteacher</li>
+                        <li>Trust CEO</li>
+                    </ul>
+                </div>
+            </details>
+            
+            <govuk-checkbox-input label-hint="This will always be £3,000." label="Confirm the amount of funding requested" id="confirm-amount-funding" name="confirm-amount-funding" asp-for="@Model.ConfirmAmountOfFunding"/>
+            <govuk-checkbox-input label-hint="You may need to copy in the regional director's office rather than them personally." label="Copy the regional director in to the email" id="copy-regional-director" name="copy-regional-director" asp-for="@Model.CopyInRegionalDirector"/>
+            <govuk-checkbox-input label="Send email to the RISE grant team" id="email-rise-grant-team" name="email-rise-grant-team" asp-for="@Model.EmailRiseGrantTeam"/>
+            <govuk-date-input heading-label="false" label="Enter date grant team contacted" id="date-grant-team-contacted" name="date-grant-team-contacted" asp-for="@Model.DateGrantTeamContacted" hint="For example, 1 7 2024."/>
             <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return
             </button>

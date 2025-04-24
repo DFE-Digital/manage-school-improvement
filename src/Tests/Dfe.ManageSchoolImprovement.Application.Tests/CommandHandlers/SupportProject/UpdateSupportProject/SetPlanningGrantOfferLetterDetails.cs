@@ -33,7 +33,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             var command = new SetRequestPlanningGrantOfferLetterDetailsCommand(
                 _mockSupportProject.Id,
-                dateRequested
+                dateRequested,
+                true,
+                true,
+                false,
+                false
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var SetRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
@@ -50,7 +54,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetRequestPlanningGrantOfferLetterDetailsCommand(_mockSupportProject.Id, null);
+            var command = new SetRequestPlanningGrantOfferLetterDetailsCommand(_mockSupportProject.Id, null, false, false, false, false);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var SetRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
@@ -71,7 +75,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             var command = new SetRequestPlanningGrantOfferLetterDetailsCommand(
                 _mockSupportProject.Id,
-                dateRequested
+                dateRequested,
+                false,
+                false,
+                false,
+                false
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
             var SetRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);

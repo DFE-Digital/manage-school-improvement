@@ -138,6 +138,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? HasEmailedAgreedPlanToRegionalDirectorForApproval { get; private set; }
 
     public DateTime? DateTeamContactedForRequestingPlanningGrantOfferLetter { get; private set; }
+    public bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam { get; set; }
+    public bool? IncludeContactDetailsRequestingPlanningGrantOfferEmail { get; set; }
+    public bool? CopyInRegionalDirectorRequestingPlanningGrantOfferEmail { get; set; }
+    public bool? ConfirmAmountOfPlanningGrantFundingRequested { get; set; }
 
     public DateTime? ImprovementPlanReceivedDate { get; private set; }
 
@@ -340,9 +344,18 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         HasEmailedAgreedPlanToRegionalDirectorForApproval = hasEmailedAgreedPlanToRegionalDirectorForApproval;
     }
 
-    public void SetRequestPlanningGrantOfferLetterDetails(DateTime? dateTeamContactedForRequestingPlanningGrantOfferLetter)
+    public void SetRequestPlanningGrantOfferLetterDetails(
+        DateTime? dateTeamContactedForRequestingPlanningGrantOfferLetter,
+        bool? includeContactDetails,
+        bool? confirmAmountOfFunding,
+        bool? copyInRegionalDirector,
+        bool? emailRiseGrantTeam)
     {
         DateTeamContactedForRequestingPlanningGrantOfferLetter = dateTeamContactedForRequestingPlanningGrantOfferLetter;
+        IncludeContactDetailsRequestingPlanningGrantOfferEmail = includeContactDetails;
+        ConfirmAmountOfPlanningGrantFundingRequested = confirmAmountOfFunding;
+        CopyInRegionalDirectorRequestingPlanningGrantOfferEmail = copyInRegionalDirector;
+        SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = emailRiseGrantTeam;
     }
 
     public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, bool? reviewImprovementPlanWithTeam)
