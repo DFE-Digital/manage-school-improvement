@@ -8,7 +8,11 @@ public class SetRequestPlanningGrantOfferLetterDetails
 {
     public record SetRequestPlanningGrantOfferLetterDetailsCommand(
         SupportProjectId SupportProjectId,
-        DateTime? DateGrantTeamContacted
+        DateTime? DateGrantTeamContacted,
+        bool? IncludeContactDetails,
+        bool? ConfirmAmountOfFunding,
+        bool? CopyInRegionalDirector,
+        bool? EmailRiseGrantTeam
     ) : IRequest<bool>;
 
     public class SetRequestPlanningGrantOfferLetterDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -24,7 +28,12 @@ public class SetRequestPlanningGrantOfferLetterDetails
                 return false;
             }
 
-            supportProject.SetRequestPlanningGrantOfferLetterDetails(request.DateGrantTeamContacted);
+            supportProject.SetRequestPlanningGrantOfferLetterDetails(
+                request.DateGrantTeamContacted, 
+                request.IncludeContactDetails, 
+                request.ConfirmAmountOfFunding, 
+                request.CopyInRegionalDirector, 
+                request.EmailRiseGrantTeam);
 
             await supportProjectRepository.UpdateAsync(supportProject);
 

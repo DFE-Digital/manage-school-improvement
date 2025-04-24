@@ -528,10 +528,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             DateTime? dateGrantTeamContacted = DateTime.UtcNow;
 
             // Act
-            supportProject.SetRequestPlanningGrantOfferLetterDetails(dateGrantTeamContacted);
+            supportProject.SetRequestPlanningGrantOfferLetterDetails(dateGrantTeamContacted, true, false, false, false);
 
             // Assert
             supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.Should().Be(dateGrantTeamContacted);
+            supportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail.Should().BeTrue();
+            supportProject.ConfirmAmountOfPlanningGrantFundingRequested.Should().BeFalse();
+            supportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail.Should().BeFalse();
+            supportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam.Should().BeFalse();
             mockRepository.VerifyAll();
         }
 
