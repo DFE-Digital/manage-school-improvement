@@ -8,10 +8,7 @@ public class CheckboxInputModelBinder : IModelBinder
 {
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        if (bindingContext == null)
-        {
-            throw new ArgumentNullException(nameof(bindingContext));
-        }
+        ArgumentNullException.ThrowIfNull(bindingContext);
 
         Type modelType = bindingContext.ModelType;
         if (modelType != typeof(bool) && modelType != typeof(bool?))

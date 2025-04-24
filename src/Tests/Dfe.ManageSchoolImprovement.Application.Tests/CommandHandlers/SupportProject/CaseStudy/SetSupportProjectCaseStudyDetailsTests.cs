@@ -71,7 +71,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetSupportProjectCaseStudyDetailsCommand(
                 _mockSupportProject.Id, caseStudyCandidate, caseStudyDetails
             );
-            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id), It.IsAny<CancellationToken>())).ReturnsAsync(null as Domain.Entities.SupportProject.SupportProject);
             var setSupportProjectCaseStudyDetailsCommandHandler = new SetSupportProjectCaseStudyDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
