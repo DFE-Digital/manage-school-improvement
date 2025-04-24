@@ -137,6 +137,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
+        public bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam { get; set; }
+        public bool? IncludeContactDetailsRequestingPlanningGrantOfferEmail { get; set; }
+        public bool? CopyInRegionalDirectorRequestingPlanningGrantOfferEmail { get; set; }
+        public bool? ConfirmAmountOfPlanningGrantFundingRequested { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
         public bool? HasReceivedFundingInThelastTwoYears { get; set; }
         public bool? FundingHistoryDetailsComplete { get; set; }
@@ -209,6 +213,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlanReceivedDate = supportProjectDto.ImprovementPlanReceivedDate,
                 ReviewImprovementPlanWithTeam = supportProjectDto.ReviewImprovementPlanWithTeam,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter,
+                IncludeContactDetailsRequestingPlanningGrantOfferEmail = supportProjectDto.IncludeContactDetailsRequestingPlanningGrantOfferEmail,
+                ConfirmAmountOfPlanningGrantFundingRequested = supportProjectDto.ConfirmAmountOfPlanningGrantFundingRequested,
+                CopyInRegionalDirectorRequestingPlanningGrantOfferEmail = supportProjectDto.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail,
+                SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = supportProjectDto.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam,
                 DateTeamContactedForRequestingImprovementGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingImprovementGrantOfferLetter,
                 DateTeamContactedForConfirmingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForConfirmingPlanningGrantOfferLetter,
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
