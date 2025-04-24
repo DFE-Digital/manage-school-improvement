@@ -38,7 +38,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var result = await setSupportProjectCaseStudyDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
-            Assert.NotNull(result);
             Assert.IsType<bool>(result);
             Assert.True(result);
             _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(It.Is<Domain.Entities.SupportProject.SupportProject>(x => x.CaseStudyCandidate == caseStudyCandidate && x.CaseStudyDetails == caseStudyDetails), It.IsAny<CancellationToken>()), Times.Once);
@@ -58,7 +57,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var result = await setSupportProjectCaseStudyDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
-            Assert.NotNull(result);
             Assert.IsType<bool>(result);
             Assert.True(result);
             _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(It.Is<Domain.Entities.SupportProject.SupportProject>(x => x.CaseStudyCandidate == null && x.CaseStudyDetails == null), It.IsAny<CancellationToken>()), Times.Once);
@@ -80,7 +78,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var result = await setSupportProjectCaseStudyDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
-            Assert.NotNull(result);
             Assert.IsType<bool>(result);
             Assert.False(result);
             _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(It.IsAny<Domain.Entities.SupportProject.SupportProject>(), It.IsAny<CancellationToken>()), Times.Never);

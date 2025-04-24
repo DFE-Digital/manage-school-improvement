@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
+[ExcludeFromCodeCoverage]
 public class CheckboxInputModelBinder : IModelBinder
 {
     public Task BindModelAsync(ModelBindingContext bindingContext)
