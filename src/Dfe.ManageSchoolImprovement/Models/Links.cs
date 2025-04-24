@@ -99,8 +99,7 @@ public static class Links
     public static class CaseStudy
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/CaseStudy/Index");
-        public static readonly LinkItem AddDetails = AddLinkItem(backText: "Back", page: "/CaseStudy/AddDetails");
-        public static readonly LinkItem EditDetails = AddLinkItem(backText: "Back", page: "/CaseStudy/EditDetails");
+        public static readonly LinkItem SetDetails = AddLinkItem(backText: "Back", page: "/CaseStudy/SetDetails");
     }
 
     public static class AssignDeliveryOfficer

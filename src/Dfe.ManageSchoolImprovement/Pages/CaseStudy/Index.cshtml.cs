@@ -9,15 +9,18 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 {
     public string ReturnPage { get; set; }
 
-    //public bool NewNote { get; set; }
-    //public bool EditNote { get; set; }
+    [TempData]
+    public bool? CaseStudyAdded { get; set; }
+
+    [TempData]
+    public bool? CaseStudyRemoved { get; set; }
+
+    [TempData]
+    public bool? CaseStudyUpdated { get; set; }
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
-
-        //NewNote = (bool)(TempData["newNote"] ?? false);
-
-        //EditNote = (bool)(TempData["editNote"] ?? false);
 
         ReturnPage = @Links.SchoolList.Index.Page;
 

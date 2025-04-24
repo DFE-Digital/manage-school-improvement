@@ -19,11 +19,14 @@ public class SetSupportProjectCaseStudyDetails
         public async Task<bool> Handle(SetSupportProjectCaseStudyDetailsCommand request, CancellationToken cancellationToken)
         {
 
-            var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
+            var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 
-            var supportProjectNoteId = new SupportProjectNoteId(Guid.NewGuid());
+            if (supportProject is null)
+            {
+                return false;
+            }
 
-            //supportProject.SetCaseStudyDetails(supportProjectNoteId, request.CaseStudyCandidate, request.CaseStudyDetails);
+            supportProject.SetCaseStudyDetails(request.CaseStudyCandidate, request.CaseStudyDetails);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

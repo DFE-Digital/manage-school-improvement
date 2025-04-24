@@ -48,7 +48,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<SupportProjectNote> _notes = new();
     private readonly List<SupportProjectContact> _contacts = new();
-    
+
 
     public bool? DiscussTheBestApproach { get; private set; }
 
@@ -157,6 +157,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
     public bool? FundingHistoryDetailsComplete { get; private set; }
+
+    public string? CaseStudyDetails { get; private set; }
+
+    public bool? CaseStudyCandidate { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
@@ -426,6 +430,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetFundingHistoryComplete(bool? isComplete)
     {
         FundingHistoryDetailsComplete = isComplete;
+    }
+
+    public void SetCaseStudyDetails(bool? caseStudyCandidate, string? caseStudyDetails)
+    {
+        CaseStudyCandidate = caseStudyCandidate;
+        CaseStudyDetails = caseStudyDetails;
     }
     #endregion
 }
