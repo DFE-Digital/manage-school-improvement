@@ -1,6 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
@@ -13,7 +12,7 @@ public class SetSupportProjectCaseStudyDetails
         string? CaseStudyDetails
     ) : IRequest<bool>;
 
-    public class SetSupportProjectCaseStudyDetailsCommandHandler(ISupportProjectRepository supportProjectRepository, IDateTimeProvider _dateTimeProvider)
+    public class SetSupportProjectCaseStudyDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetSupportProjectCaseStudyDetailsCommand, bool>
     {
         public async Task<bool> Handle(SetSupportProjectCaseStudyDetailsCommand request, CancellationToken cancellationToken)

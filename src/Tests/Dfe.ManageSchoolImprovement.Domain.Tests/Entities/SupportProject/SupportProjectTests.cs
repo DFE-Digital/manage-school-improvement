@@ -795,5 +795,24 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 contact.LastModifiedOn.Should().Be(lastModifiedOn);
             }
         }
+
+        [Fact]
+        public void SetCaseStudyCandidateDetials_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? caseStudyCandidate = true;
+            string? caseStudyDetails = "test details";
+
+            // Act
+            supportProject.SetCaseStudyDetails(
+                caseStudyCandidate, caseStudyDetails);
+
+            // Assert
+            supportProject.CaseStudyCandidate.Should().Be(caseStudyCandidate);
+            supportProject.CaseStudyDetails.Should().Be(caseStudyDetails);
+            mockRepository.VerifyAll();
+        }
     }
 }
