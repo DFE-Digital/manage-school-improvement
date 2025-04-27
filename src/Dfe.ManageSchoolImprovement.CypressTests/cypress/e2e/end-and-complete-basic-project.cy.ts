@@ -1,0 +1,66 @@
+import { Logger } from "cypress/common/logger";
+import { faker } from "@faker-js/faker";
+import riseHomePage from "cypress/pages/riseHomePage";
+import aboutTheSchool from "cypress/pages/aboutTheSchool";
+import taskList from "cypress/pages/taskList";
+
+describe("User completes their newly created project", () => {
+  let school: string;
+  let urn: string;
+  let localAuthority: string;
+  let region: string;
+  let schoolType: string;
+  let faithSchool: string;
+  let ofstedRating: string;
+  let lastInspection: string;
+  let pfi: string;
+  let dateAdded: string;
+  let qualityOfEducation: string;
+  let leadershipAndManagement: string;
+  let assignedTo: string;
+  let advisedBy: string;
+
+  before(() => {
+    cy.fixture("school-data").then((data) => {
+      school = data.school;
+      urn = data.urn;
+      localAuthority = data.localAuthority;
+      region = data.region;
+      schoolType = data.schoolType;
+      faithSchool = data.faithSchool;
+      ofstedRating = data.ofstedRating;
+      lastInspection = data.lastInspection;
+      pfi = data.pfi;
+
+      // 👇 Generate today's date
+      const today = new Date();
+      dateAdded = today.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+
+      qualityOfEducation = data.qualityOfEducation;
+      leadershipAndManagement = data.leadershipAndManagement;
+      assignedTo = data.assignedTo;
+      advisedBy = data.advisedBy;
+    });
+  });
+
+  beforeEach(() => {
+    cy.login();
+    cy.url().should("contains", "schools-identified-for-targeted-intervention");
+  });
+
+  it("Should complete end-to-end complete project", () => {
+    Logger.log("Seleting previously created project");
+    riseHomePage.selectSchoolName(school);
+
+    cy.executeAccessibilityTests();
+
+    taskList.hasHeader(school);
+
+    // Example: if you want to log or use today's date anywhere:
+    Logger.log("Today's date (dateAdded): " + dateAdded);
+  });
+});
