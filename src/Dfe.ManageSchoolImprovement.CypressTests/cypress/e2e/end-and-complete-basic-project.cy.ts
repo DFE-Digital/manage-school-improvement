@@ -1,5 +1,4 @@
 import { Logger } from "cypress/common/logger";
-import { faker } from "@faker-js/faker";
 import riseHomePage from "cypress/pages/riseHomePage";
 import aboutTheSchool from "cypress/pages/aboutTheSchool";
 import taskList from "cypress/pages/taskList";
@@ -58,9 +57,27 @@ describe("User completes their newly created project", () => {
 
     cy.executeAccessibilityTests();
 
-    taskList.hasHeader(school);
+    taskList.hasHeader(school)
+
+            .hasDateAdded(dateAdded)
+            .hasInspectionDate(lastInspection)
+            .hasQualityOfEducation(qualityOfEducation)
+            .hasLeadershipAndManagement(leadershipAndManagement)
+            .hasAssignedTo(assignedTo)
+            .hasAdvisedBy(advisedBy)
+
+            .hasChangeLinks()
+
+            .hasNav()
+
+            .hasTasks()
+
+
 
     // Example: if you want to log or use today's date anywhere:
     Logger.log("Today's date (dateAdded): " + dateAdded);
   });
+
+
+
 });
