@@ -99,32 +99,43 @@ public hasTasks() : this {
   return this;
 }
 
-public tasksNotStartedElementsPresent() : this {
-  cy.contains("Not Started").eq(0);
-  cy.contains("Not Started").eq(1);
-  cy.contains("Not Started").eq(2);
-  cy.contains("Not Started").eq(3);
-  cy.contains("Not Started").eq(4);
-  cy.contains("Not Started").eq(5);
-  cy.contains("Not Started").eq(6);
-  cy.contains("Not Started").eq(7);
-  cy.contains("Not Started").eq(8);
-  cy.contains("Not Started").eq(9);
-  cy.contains("Not Started").eq(10);
-  cy.contains("Not Started").eq(11);
-  cy.contains("Not Started").eq(12);
-  cy.contains("Not Started").eq(13);
-  cy.contains("Not Started").eq(14);
-  cy.contains("Not Started").eq(15);
-  cy.contains("Not Started").eq(16);
-  cy.contains("Not Started").eq(17);
-  cy.contains("Not Started").eq(18);
-  cy.contains("Not Started").eq(19);
-  cy.contains("Not Started").eq(20);
-  cy.contains("Not Started").eq(21);
-  cy.contains("Not Started").eq(22);
-  cy.contains("Not Started").eq(23);
+public hasTasksNotStartedElementsPresent() : this {
+  //cy.get("#confirm-eligibility-status").contains('Not Started');
+  cy.get('#funding_history_status').contains("Not Started");
+  cy.get('#confirm_responsible_body_status').contains('Not Started');
+  cy.get('#record-school-response_status').contains("Not Started");
+  cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains("Not Started");
+  cy.get('#AllocateAdviser_status').contains("Not Started");
+  cy.get('#send-introductory-email-request-improvement-plan_status').contains("Not Started");
+  cy.get('#adviser-school-visit_status').contains("Not Started");
+  cy.get('#record-school-visit-date_status').contains("Not Started");
+  cy.get('#note-of-visit_status').contains("Not Started");
+  cy.get('#complate-save-assessment-template_status').contains("Not Started");
+  cy.get('#record-support-decision_status').contains('Not Started');
+  cy.get('#choose-preferred-supporting-organisation-status').contains('Not Started');
+  cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains('Not Started');
+  cy.get('#record-supporting-organisation-appointment-status').contains("Not Started");
+  cy.get('#add-supporting-organisation-contact-details-status').contains("Not Started");
+  cy.get('#request-planning-grant-offer-letter_status').contains("Not Started");
+  cy.get('#confirm-planning-grant-offer-letter_status').contains("Not Started");
+  cy.get('#share-the-improvement-plan-template_status').contains("Not Started");
+  cy.get('#review-the-improvement-plan_status').contains('Not Started');
+  cy.get("#send-agreed-improvement-plan_status").contains('Not Started');
+  cy.get("#record-improvement-plan-decision_status").contains('Not Started');
+  cy.get('#request-improvement-grant-offer-letter_status').contains("Not Started");
+  cy.get("#confirm-improvement-grant-offer-letter_status").contains('Not Started');
 
+  return this;
+}
+
+public selectConfirmEligibility() {
+  cy.contains("Confirm eligibility").click()
+
+  return this;
+}
+
+public verifyConfirmEligilityTaskComplete() {
+  cy.get("#confirm-eligibility-status").contains("Completed");
 
   return this;
 }

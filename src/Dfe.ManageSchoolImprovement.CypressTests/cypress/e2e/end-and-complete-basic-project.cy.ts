@@ -2,6 +2,7 @@ import { Logger } from "cypress/common/logger";
 import riseHomePage from "cypress/pages/riseHomePage";
 import aboutTheSchool from "cypress/pages/aboutTheSchool";
 import taskList from "cypress/pages/taskList";
+import confirmEligibility from "cypress/pages/tasks/confirmEligibility";
 
 describe("User completes their newly created project", () => {
   let school: string;
@@ -71,9 +72,16 @@ describe("User completes their newly created project", () => {
 
       .hasNav()
 
-      .hasTasks();
+      .hasTasks()
+      .hasTasksNotStartedElementsPresent();
 
-    // Example: if you want to log or use today's date anywhere:
-    Logger.log("Today's date (dateAdded): " + dateAdded);
+    Logger.log("Selecting 'Confirm eligiblity' task");
+    taskList.selectConfirmEligibility();
+
+    //cy.executeAccessibilityTests(); COMMENTED OUT AS AXE FALSE POSITIVE ARIA-EXPANDED RADIO BUTTON THING
+
+    confirmEligibility.hasHeader("Is this school still eligible for targeted intervention?");
+    
+    confirmEligibility.selectYesAndContinue();
   });
 });
