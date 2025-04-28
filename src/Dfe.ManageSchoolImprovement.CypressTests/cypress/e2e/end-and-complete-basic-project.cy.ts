@@ -11,7 +11,7 @@ describe("User completes their newly created project", () => {
   let schoolType: string;
   let faithSchool: string;
   let ofstedRating: string;
-  let lastInspection: string;
+  let lastInspectionAboutSchool: string;
   let pfi: string;
   let dateAdded: string;
   let qualityOfEducation: string;
@@ -28,7 +28,7 @@ describe("User completes their newly created project", () => {
       schoolType = data.schoolType;
       faithSchool = data.faithSchool;
       ofstedRating = data.ofstedRating;
-      lastInspection = data.lastInspection;
+      lastInspectionAboutSchool = data.lastInspectionAboutSchool;
       pfi = data.pfi;
 
       // 👇 Generate today's date
@@ -57,27 +57,23 @@ describe("User completes their newly created project", () => {
 
     cy.executeAccessibilityTests();
 
-    taskList.hasHeader(school)
+    taskList
+      .hasHeader(school)
 
-            .hasDateAdded(dateAdded)
-            .hasInspectionDate(lastInspection)
-            .hasQualityOfEducation(qualityOfEducation)
-            .hasLeadershipAndManagement(leadershipAndManagement)
-            .hasAssignedTo(assignedTo)
-            .hasAdvisedBy(advisedBy)
+      .hasDateAdded(dateAdded)
+      .hasInspectionDate(lastInspectionAboutSchool)
+      .hasQualityOfEducation(qualityOfEducation)
+      .hasLeadershipAndManagement(leadershipAndManagement)
+      .hasAssignedTo(assignedTo)
+      .hasAdvisedBy(advisedBy)
 
-            .hasChangeLinks()
+      .hasChangeLinks()
 
-            .hasNav()
+      .hasNav()
 
-            .hasTasks()
-
-
+      .hasTasks();
 
     // Example: if you want to log or use today's date anywhere:
     Logger.log("Today's date (dateAdded): " + dateAdded);
   });
-
-
-
 });

@@ -10,7 +10,7 @@ describe("User creates a basic project", () => {
   let schoolType: string;
   let faithSchool: string;
   let ofstedRating: string;
-  let lastInspection: string;
+  let lastInspectionCheckDetails: string;
   let pfi: string;
 
   before(() => {
@@ -22,7 +22,7 @@ describe("User creates a basic project", () => {
       schoolType = data.schoolType;
       faithSchool = data.faithSchool;
       ofstedRating = data.ofstedRating;
-      lastInspection = data.lastInspection;
+      lastInspectionCheckDetails = data.lastInspectionCheckDetails;
       pfi = data.pfi;
     });
   });
@@ -52,7 +52,7 @@ describe("User creates a basic project", () => {
       .hasSchoolType(schoolType)
       .hasFaithSchool(faithSchool)
       .hasOfstedRating(ofstedRating)
-      .hasLastInspection(lastInspection)
+      .hasLastInspection(lastInspectionCheckDetails)
       .hasPFI(pfi);
 
     checkSchoolDetails.clickContinue();
