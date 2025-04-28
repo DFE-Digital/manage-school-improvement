@@ -95,6 +95,12 @@ public static class Links
         public static readonly LinkItem NewNote = AddLinkItem(backText: "Back", page: "/Notes/NewNote");
         public static readonly LinkItem EditNote = AddLinkItem(backText: "Back", page: "/Notes/EditNote");
     }
+    
+    public static class EngagementConcern
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/EngagementConcern/Index");
+        public static readonly LinkItem RecordEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordEngagementConcern");
+    }
 
     public static class CaseStudy
     {

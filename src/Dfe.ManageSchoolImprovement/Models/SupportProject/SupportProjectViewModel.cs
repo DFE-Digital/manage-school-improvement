@@ -151,6 +151,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? PreviousUrn { get; set; }
         public bool? CaseStudyCandidate { get; set; }
         public string? CaseStudyDetails { get; set; }
+        
+        public bool? EngagementConcernRecorded { get; set; }
+        
+        public string? EngagementConcernDetails { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -241,7 +245,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     Comments = x.comments
                 }) ?? new List<FundingHistoryViewModel>(),
                 CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
-                CaseStudyDetails = supportProjectDto.CaseStudyDetails
+                CaseStudyDetails = supportProjectDto.CaseStudyDetails,
+                EngagementConcernRecorded = supportProjectDto.EngagementConcernRecorded,
+                EngagementConcernDetails = supportProjectDto.EngagementConcernDetails
             };
         }
     }

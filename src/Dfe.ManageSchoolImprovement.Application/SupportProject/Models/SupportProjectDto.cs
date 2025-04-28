@@ -78,7 +78,9 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? FundingHistoryDetailsComplete = null,
         IEnumerable<FundingHistoryDto> FundingHistories = null!,
         bool? CaseStudyCandidate = null,
-        string? CaseStudyDetails = null
+        string? CaseStudyDetails = null,
+        bool? EngagementConcernRecorded = null,
+        string? EngagementConcernDetails = null
     )
     { }
 }
