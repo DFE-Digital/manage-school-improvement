@@ -28,7 +28,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             bool? checkOrganisationHasCapacityAndWillingToProvideSupport = true;
             bool? checkChoiceWithTrustRelationshipManagerOrLaLead = false;
             bool? discussChoiceWithSfso = true;
-            bool? checkFinancialConcernsAtSupportingOrganisation = null;
             bool? checkTheOrganisationHasAVendorAccount = true;
             DateTime? dateDueDiligenceCompleted = DateTime.UtcNow;
 
@@ -37,7 +36,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 checkOrganisationHasCapacityAndWillingToProvideSupport,
                 checkChoiceWithTrustRelationshipManagerOrLaLead,
                 discussChoiceWithSfso,
-                checkFinancialConcernsAtSupportingOrganisation,
                 checkTheOrganisationHasAVendorAccount, dateDueDiligenceCompleted
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -55,7 +53,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange 
-            var command = new SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommand(_mockSupportProject.Id, null, null, null, null, null, null);
+            var command = new SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommand(_mockSupportProject.Id, null, null, null, null, null);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var setDueDiligenceOnPreferredSupportingOrganisationDetailsCommandHandler = new SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommandHandler(_mockSupportProjectRepository.Object);
@@ -75,7 +73,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             bool? checkOrganisationHasCapacityAndWillingToProvideSupport = true;
             bool? checkChoiceWithTrustRelationshipManagerOrLaLead = false;
             bool? discussChoiceWithSfso = true;
-            bool? checkFinancialConcernsAtSupportingOrganisation = null;
             bool? checkTheOrganisationHasAVendorAccount = true;
             DateTime? dateDueDiligenceCompleted = DateTime.UtcNow;
 
@@ -84,7 +81,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 checkOrganisationHasCapacityAndWillingToProvideSupport,
                 checkChoiceWithTrustRelationshipManagerOrLaLead,
                 discussChoiceWithSfso,
-                checkFinancialConcernsAtSupportingOrganisation,
                 checkTheOrganisationHasAVendorAccount, dateDueDiligenceCompleted
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);

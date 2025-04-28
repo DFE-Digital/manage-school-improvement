@@ -11,7 +11,6 @@ public class SetDueDiligenceOnPreferredSupportingOrganisationDetails
          bool? CheckOrganisationHasCapacityAndWillingToProvideSupport,
          bool? CheckChoiceWithTrustRelationshipManagerOrLaLead,
          bool? DiscussChoiceWithSfso,
-         bool? CheckFinancialConcernsAtSupportingOrganisation,
          bool? CheckTheOrganisationHasAVendorAccount,
          DateTime? DateDueDiligenceCompleted
     ) : IRequest<bool>;
@@ -33,7 +32,6 @@ public class SetDueDiligenceOnPreferredSupportingOrganisationDetails
                 request.CheckOrganisationHasCapacityAndWillingToProvideSupport,
                 request.CheckChoiceWithTrustRelationshipManagerOrLaLead,
                 request.DiscussChoiceWithSfso,
-                request.CheckFinancialConcernsAtSupportingOrganisation,
                 request.CheckTheOrganisationHasAVendorAccount,
                 request.DateDueDiligenceCompleted);
 

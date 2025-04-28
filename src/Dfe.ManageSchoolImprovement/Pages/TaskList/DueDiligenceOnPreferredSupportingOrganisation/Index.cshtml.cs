@@ -20,9 +20,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [BindProperty(Name = "discuss-choice-with-sfso")]
     public bool? DiscussChoiceWithSfso { get; set; }
 
-    [BindProperty(Name = "check-financial-concerns-at-supporting-organisation")]
-    public bool? CheckFinancialConcernsAtSupportingOrganisation { get; set; }
-
     [BindProperty(Name = "check-the-organisation-has-a-vendor-account")]
     public bool? CheckTheOrganisationHasAVendorAccount { get; set; }
 
@@ -50,7 +47,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         CheckOrganisationHasCapacityAndWillingToProvideSupport = SupportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport;
         CheckChoiceWithTrustRelationshipManagerOrLaLead = SupportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead;
         DiscussChoiceWithSfso = SupportProject.DiscussChoiceWithSfso;
-        CheckFinancialConcernsAtSupportingOrganisation = SupportProject.CheckFinancialConcernsAtSupportingOrganisation;
         CheckTheOrganisationHasAVendorAccount = SupportProject.CheckTheOrganisationHasAVendorAccount;
         DateDueDiligenceCompleted = SupportProject.DateDueDiligenceCompleted;
 
@@ -71,7 +67,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             CheckOrganisationHasCapacityAndWillingToProvideSupport,
             CheckChoiceWithTrustRelationshipManagerOrLaLead,
             DiscussChoiceWithSfso,
-            CheckFinancialConcernsAtSupportingOrganisation,
             CheckTheOrganisationHasAVendorAccount,
             DateDueDiligenceCompleted);
 

@@ -332,14 +332,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 checkOrganisationHasCapacityAndWillingToProvideSupport,
                 checkChoiceWithTrustRelationshipManagerOrLaLead,
                 discussChoiceWithSfso,
-                checkFinancialConcernsAtSupportingOrganisation,
                 checkTheOrganisationHasAVendorAccount, dateDueDiligenceCompleted);
 
             // Assert
             supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.Should().Be(checkOrganisationHasCapacityAndWillingToProvideSupport);
             supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.Should().Be(checkChoiceWithTrustRelationshipManagerOrLaLead);
             supportProject.DiscussChoiceWithSfso.Should().Be(discussChoiceWithSfso);
-            supportProject.CheckFinancialConcernsAtSupportingOrganisation.Should().Be(checkFinancialConcernsAtSupportingOrganisation);
             supportProject.CheckTheOrganisationHasAVendorAccount.Should().Be(checkTheOrganisationHasAVendorAccount);
             supportProject.DateDueDiligenceCompleted.Should().Be(dateDueDiligenceCompleted);
             this.mockRepository.VerifyAll();

@@ -43,7 +43,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? CheckOrganisationHasCapacityAndWillingToProvideSupport = null,
         bool? CheckChoiceWithTrustRelationshipManagerOrLaLead = null,
         bool? DiscussChoiceWithSfso = null,
-        bool? CheckFinancialConcernsAtSupportingOrganisation = null,
         bool? CheckTheOrganisationHasAVendorAccount = null,
         DateTime? DateDueDiligenceCompleted = null,
         DateTime? RegionalDirectorAppointmentDate = null,
