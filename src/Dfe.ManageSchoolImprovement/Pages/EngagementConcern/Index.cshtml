@@ -1,0 +1,54 @@
+@page "/engagement-concern/{id:int}"
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Engagement concern";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true)
+    {
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" cy-data="task-updated-success-notification">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <h3 class="govuk-notification-banner__heading" id="case-study-message">
+                    @(Model.EngagementConcernRecorded is true ? "Engagement concern recorded" : "")
+                    @(Model.EngagementConcernUpdated is true ? "Engagement concern updated" : "")
+                    @(Model.EngagementConcernRemoved is true ? "Engagement concern removed" : "")
+                </h3>
+            </div>
+        </div>
+    }
+}
+<partial name="_ProjectHeader" model="Model.SupportProject"/>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Engagement concern</h2>
+        @if (Model.SupportProject.EngagementConcernRecorded is true)
+        {
+            <div class="govuk-inset-text">
+                An engagement concern has been recorded.
+            </div>
+            <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2>
+            <p class="govuk-body">@Model.SupportProject.EngagementConcernDetails</p>
+            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                Update concern
+            </a>
+        }
+        else
+        {
+            <p class="govuk-body">
+                Enter details about situations where a school or responsible body does not respond to you.
+            </p>
+            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                Record engagement concern
+            </a>
+        }
+    </div>
+</div>

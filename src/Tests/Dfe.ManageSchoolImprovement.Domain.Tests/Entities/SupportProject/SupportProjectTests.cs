@@ -818,5 +818,24 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.CaseStudyDetails.Should().Be(caseStudyDetails);
             mockRepository.VerifyAll();
         }
+        
+        [Fact]
+        public void SetEngagementConcernDetails_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? engagementConcernRecorded = true;
+            string? engagementConcernDetails = "test details";
+
+            // Act
+            supportProject.SetEngagementConcernDetails(
+                engagementConcernRecorded, engagementConcernDetails);
+
+            // Assert
+            supportProject.EngagementConcernRecorded.Should().Be(engagementConcernRecorded);
+            supportProject.EngagementConcernDetails.Should().Be(engagementConcernDetails);
+            mockRepository.VerifyAll();
+        }
     }
 }

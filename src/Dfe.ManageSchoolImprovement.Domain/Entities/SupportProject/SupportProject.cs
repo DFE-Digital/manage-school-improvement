@@ -165,6 +165,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? CaseStudyDetails { get; private set; }
 
     public bool? CaseStudyCandidate { get; private set; }
+    
+    public bool? EngagementConcernRecorded { get; private set; }
+    
+    public string? EngagementConcernDetails { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
@@ -449,6 +453,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         CaseStudyCandidate = caseStudyCandidate;
         CaseStudyDetails = caseStudyDetails;
+    }
+
+    public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails)
+    {
+        EngagementConcernRecorded = engagementConcernRecorded;
+        EngagementConcernDetails = engagementConcernDetails;
     }
     #endregion
 }
