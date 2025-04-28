@@ -40,7 +40,7 @@ jobs:
           "edge"
         ]
     container:
-      image: cypress/browsers:22.13.1@sha256:914c9814a9567f32660203db7ecd610b8f8fede6e9103885728b3bd3f6dca4ff
+      image: cypress/browsers:22.15.0@sha256:8b804ab8ec5f25d20ebce9002b85a55ece068ef0f67b6d8f5acd2b32c48d9417
     defaults:
       run:
         working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
