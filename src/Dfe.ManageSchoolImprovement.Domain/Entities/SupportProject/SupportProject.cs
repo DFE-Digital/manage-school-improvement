@@ -119,7 +119,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }
 
     public bool? DiscussChoiceWithSfso { get; set; }
-    public bool? CheckFinancialConcernsAtSupportingOrganisation { get; set; }
     public bool? CheckTheOrganisationHasAVendorAccount { get; set; }
     public DateTime? DateDueDiligenceCompleted { get; set; }
 
@@ -311,12 +310,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportingOrganisationContactEmailAddress = supportingOrganisationContactEmailAddress;
     }
 
-    public void SetDueDiligenceOnPreferredSupportingOrganisationDetails(bool? checkOrganisationHasCapacityAndWillingToProvideSupport, bool? checkChoiceWithTrustRelationshipManagerOrLaLead, bool? discussChoiceWithSfso, bool? checkFinancialConcernsAtSupportingOrganisation, bool? checkTheOrganisationHasAVendorAccount, DateTime? dateDueDiligenceCompleted)
+    public void SetDueDiligenceOnPreferredSupportingOrganisationDetails(bool? checkOrganisationHasCapacityAndWillingToProvideSupport, bool? checkChoiceWithTrustRelationshipManagerOrLaLead, bool? discussChoiceWithSfso, bool? checkTheOrganisationHasAVendorAccount, DateTime? dateDueDiligenceCompleted)
     {
         CheckOrganisationHasCapacityAndWillingToProvideSupport = checkOrganisationHasCapacityAndWillingToProvideSupport;
         CheckChoiceWithTrustRelationshipManagerOrLaLead = checkChoiceWithTrustRelationshipManagerOrLaLead;
         DiscussChoiceWithSfso = discussChoiceWithSfso;
-        CheckFinancialConcernsAtSupportingOrganisation = checkFinancialConcernsAtSupportingOrganisation;
         CheckTheOrganisationHasAVendorAccount = checkTheOrganisationHasAVendorAccount;
         DateDueDiligenceCompleted = dateDueDiligenceCompleted;
     }

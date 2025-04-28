@@ -49,7 +49,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 CheckOrganisationHasCapacityAndWillingToProvideSupport: true,
                 CheckChoiceWithTrustRelationshipManagerOrLaLead: true,
                 DiscussChoiceWithSfso: true,
-                CheckFinancialConcernsAtSupportingOrganisation: true,
                 CheckTheOrganisationHasAVendorAccount: true,
                 DateDueDiligenceCompleted: DateTime.Now,
                 RegionalDirectorAppointmentDate: DateTime.Now,
@@ -118,7 +117,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.CheckOrganisationHasCapacityAndWillingToProvideSupport, viewModel.CheckOrganisationHasCapacityAndWillingToProvideSupport);
             Assert.Equal(supportProjectDto.CheckChoiceWithTrustRelationshipManagerOrLaLead, viewModel.CheckChoiceWithTrustRelationshipManagerOrLaLead);
             Assert.Equal(supportProjectDto.DiscussChoiceWithSfso, viewModel.DiscussChoiceWithSfso);
-            Assert.Equal(supportProjectDto.CheckFinancialConcernsAtSupportingOrganisation, viewModel.CheckFinancialConcernsAtSupportingOrganisation);
             Assert.Equal(supportProjectDto.CheckTheOrganisationHasAVendorAccount, viewModel.CheckTheOrganisationHasAVendorAccount);
             Assert.Equal(supportProjectDto.DateDueDiligenceCompleted, viewModel.DateDueDiligenceCompleted);
             Assert.Equal(supportProjectDto.RegionalDirectorAppointmentDate, viewModel.RegionalDirectorAppointmentDate);

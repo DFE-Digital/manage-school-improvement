@@ -204,7 +204,6 @@ public static class TaskStatusViewModel
         if (supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.HasValue &&
             supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
             supportProject.DiscussChoiceWithSfso.HasValue &&
-            supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
             supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
             supportProject.DateDueDiligenceCompleted.HasValue)
         {
@@ -214,7 +213,6 @@ public static class TaskStatusViewModel
         if (!supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.HasValue &&
             !supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
             !supportProject.DiscussChoiceWithSfso.HasValue &&
-            !supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
             !supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
             !supportProject.DateDueDiligenceCompleted.HasValue)
         {
