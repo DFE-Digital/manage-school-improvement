@@ -323,7 +323,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? checkOrganisationHasCapacityAndWillingToProvideSupport = true;
             bool? checkChoiceWithTrustRelationshipManagerOrLaLead = false;
             bool? discussChoiceWithSfso = true;
-            bool? checkFinancialConcernsAtSupportingOrganisation = null;
             bool? checkTheOrganisationHasAVendorAccount = true;
             DateTime? dateDueDiligenceCompleted = DateTime.UtcNow;
 
