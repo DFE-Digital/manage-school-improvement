@@ -1,19 +1,11 @@
 import { Logger } from "cypress/common/logger";
 import riseHomePage from "cypress/pages/riseHomePage";
-import aboutTheSchool from "cypress/pages/aboutTheSchool";
 import taskList from "cypress/pages/taskList";
 import confirmEligibility from "cypress/pages/tasks/confirmEligibility";
 
 describe("User completes their newly created project", () => {
   let school: string;
-  let urn: string;
-  let localAuthority: string;
-  let region: string;
-  let schoolType: string;
-  let faithSchool: string;
-  let ofstedRating: string;
   let lastInspectionAboutSchool: string;
-  let pfi: string;
   let dateAdded: string;
   let qualityOfEducation: string;
   let leadershipAndManagement: string;
@@ -23,14 +15,7 @@ describe("User completes their newly created project", () => {
   before(() => {
     cy.fixture("school-data").then((data) => {
       school = data.school;
-      urn = data.urn;
-      localAuthority = data.localAuthority;
-      region = data.region;
-      schoolType = data.schoolType;
-      faithSchool = data.faithSchool;
-      ofstedRating = data.ofstedRating;
       lastInspectionAboutSchool = data.lastInspectionAboutSchool;
-      pfi = data.pfi;
 
       // 👇 Generate today's date
       const today = new Date();
