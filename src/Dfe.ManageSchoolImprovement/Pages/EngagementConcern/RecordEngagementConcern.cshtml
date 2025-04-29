@@ -5,10 +5,16 @@
     ViewData["Title"] = "Record engagement concern";
 }
 
+@section BeforeMain
+{
+    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
 @if (Model.ShowError)
 {
     <partial name="_ErrorSummary" />
 }
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
@@ -29,7 +35,7 @@
                                    value="true"
                                    type="checkbox"
                             @(Model.RecordEngagementConcern == true ? "checked" : "")
-                                   data-aria-controls="conditional-record-engagement-concern" />
+                                   />
                             <label class="govuk-label govuk-checkboxes__label" for="record-engagement-concern">
                                 Record engagement concern with this school
                             </label>
