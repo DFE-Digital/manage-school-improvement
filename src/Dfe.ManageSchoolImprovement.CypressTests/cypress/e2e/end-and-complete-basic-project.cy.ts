@@ -83,5 +83,8 @@ describe("User completes their newly created project", () => {
     confirmEligibility.hasHeader("Is this school still eligible for targeted intervention?");
     
     confirmEligibility.selectYesAndContinue();
+
+    taskList.hasFilterSuccessNotification()
+            .hasTaskStatusConfirmEligilityCompleted();
   });
 });

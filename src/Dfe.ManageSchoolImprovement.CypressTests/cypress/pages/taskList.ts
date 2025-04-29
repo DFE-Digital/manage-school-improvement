@@ -134,7 +134,13 @@ public selectConfirmEligibility() {
   return this;
 }
 
-public verifyConfirmEligilityTaskComplete() {
+public hasFilterSuccessNotification(): this {
+  cy.get('[data-cy="filter-success-notification"]').should("be.visible");
+
+  return this;
+}
+
+public hasTaskStatusConfirmEligilityCompleted() {
   cy.get("#confirm-eligibility-status").contains("Completed");
 
   return this;
