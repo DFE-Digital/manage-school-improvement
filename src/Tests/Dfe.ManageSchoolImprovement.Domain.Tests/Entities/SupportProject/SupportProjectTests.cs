@@ -323,7 +323,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? checkOrganisationHasCapacityAndWillingToProvideSupport = true;
             bool? checkChoiceWithTrustRelationshipManagerOrLaLead = false;
             bool? discussChoiceWithSfso = true;
-            bool? checkFinancialConcernsAtSupportingOrganisation = null;
             bool? checkTheOrganisationHasAVendorAccount = true;
             DateTime? dateDueDiligenceCompleted = DateTime.UtcNow;
 
@@ -332,14 +331,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 checkOrganisationHasCapacityAndWillingToProvideSupport,
                 checkChoiceWithTrustRelationshipManagerOrLaLead,
                 discussChoiceWithSfso,
-                checkFinancialConcernsAtSupportingOrganisation,
                 checkTheOrganisationHasAVendorAccount, dateDueDiligenceCompleted);
 
             // Assert
             supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.Should().Be(checkOrganisationHasCapacityAndWillingToProvideSupport);
             supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.Should().Be(checkChoiceWithTrustRelationshipManagerOrLaLead);
             supportProject.DiscussChoiceWithSfso.Should().Be(discussChoiceWithSfso);
-            supportProject.CheckFinancialConcernsAtSupportingOrganisation.Should().Be(checkFinancialConcernsAtSupportingOrganisation);
             supportProject.CheckTheOrganisationHasAVendorAccount.Should().Be(checkTheOrganisationHasAVendorAccount);
             supportProject.DateDueDiligenceCompleted.Should().Be(dateDueDiligenceCompleted);
             this.mockRepository.VerifyAll();
@@ -528,10 +525,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             DateTime? dateGrantTeamContacted = DateTime.UtcNow;
 
             // Act
-            supportProject.SetRequestPlanningGrantOfferLetterDetails(dateGrantTeamContacted);
+            supportProject.SetRequestPlanningGrantOfferLetterDetails(dateGrantTeamContacted, true, false, false, false);
 
             // Assert
             supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.Should().Be(dateGrantTeamContacted);
+            supportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail.Should().BeTrue();
+            supportProject.ConfirmAmountOfPlanningGrantFundingRequested.Should().BeFalse();
+            supportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail.Should().BeFalse();
+            supportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam.Should().BeFalse();
             mockRepository.VerifyAll();
         }
 
@@ -794,6 +795,44 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 contact.LastModifiedBy.Should().Be(author);
                 contact.LastModifiedOn.Should().Be(lastModifiedOn);
             }
+        }
+
+        [Fact]
+        public void SetCaseStudyCandidateDetials_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? caseStudyCandidate = true;
+            string? caseStudyDetails = "test details";
+
+            // Act
+            supportProject.SetCaseStudyDetails(
+                caseStudyCandidate, caseStudyDetails);
+
+            // Assert
+            supportProject.CaseStudyCandidate.Should().Be(caseStudyCandidate);
+            supportProject.CaseStudyDetails.Should().Be(caseStudyDetails);
+            mockRepository.VerifyAll();
+        }
+        
+        [Fact]
+        public void SetEngagementConcernDetails_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            bool? engagementConcernRecorded = true;
+            string? engagementConcernDetails = "test details";
+
+            // Act
+            supportProject.SetEngagementConcernDetails(
+                engagementConcernRecorded, engagementConcernDetails);
+
+            // Assert
+            supportProject.EngagementConcernRecorded.Should().Be(engagementConcernRecorded);
+            supportProject.EngagementConcernDetails.Should().Be(engagementConcernDetails);
+            mockRepository.VerifyAll();
         }
     }
 }

@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250423114918_case-study")]
+    partial class casestudy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,20 +129,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("CheckChoiceWithTrustRelationshipManagerOrLaLead")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("CheckFinancialConcernsAtSupportingOrganisation")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("CheckOrganisationHasCapacityAndWillingToProvideSupport")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("CheckTheOrganisationHasAVendorAccount")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("ConfirmAmountOfPlanningGrantFundingRequested")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("ContactedTheResponsibleBodyDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool?>("CopyInRegionalDirectorRequestingPlanningGrantOfferEmail")
-                        .HasColumnType("bit");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -202,12 +202,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("EmailTheResponsibleBody")
                         .HasColumnType("bit");
 
-                    b.Property<string>("EngagementConcernDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("EngagementConcernRecorded")
-                        .HasColumnType("bit");
-
                     b.Property<bool?>("FundingHistoryDetailsComplete")
                         .HasColumnType("bit");
 
@@ -249,9 +243,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<DateTime?>("ImprovementPlanReceivedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool?>("IncludeContactDetailsRequestingPlanningGrantOfferEmail")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("IntroductoryEmailSentDate")
                         .HasColumnType("datetime2");
@@ -325,9 +316,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("SendConflictOfInterestFormToProposedAdviserAndTheSchool")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("SendRequestingPlanningGrantOfferEmailToRiseGrantTeam")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("SendTheTemplateToTheSchoolsResponsibleBody")

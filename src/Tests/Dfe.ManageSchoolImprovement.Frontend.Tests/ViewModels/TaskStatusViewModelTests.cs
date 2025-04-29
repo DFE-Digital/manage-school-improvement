@@ -242,11 +242,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, bool?, bool?, bool?, bool?, bool?, TaskListStatus> DueDiligenceOnPreferredSupportingOrganisationTaskListStatusCases = new()
+        public static readonly TheoryData<DateTime?, bool?, bool?, bool?, bool?, TaskListStatus> DueDiligenceOnPreferredSupportingOrganisationTaskListStatusCases = new()
         {
-            { null, null, null, null, null, null, TaskListStatus.NotStarted },
-            { DateTime.Now, true, true, true, true, true, TaskListStatus.Complete },
-            { DateTime.Now, null, true, true, true, true,  TaskListStatus.InProgress }
+            { null, null, null, null, null, TaskListStatus.NotStarted },
+            { DateTime.Now, true, true, true, true, TaskListStatus.Complete },
+            { DateTime.Now, null, true, true, true,  TaskListStatus.InProgress }
         };
 
         [Theory, MemberData(nameof(DueDiligenceOnPreferredSupportingOrganisationTaskListStatusCases))]
@@ -255,7 +255,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
          bool? checkOrganisationHasCapacityAndWillingToProvideSupport,
          bool? checkChoiceWithTrustRelationshipManagerOrLaLead,
          bool? discussChoiceWithSfso,
-         bool? checkFinancialConcernsAtSupportingOrganisation,
          bool? checkTheOrganisationHasAVendorAccount,
          TaskListStatus expectedTaskListStatus)
         {
@@ -264,7 +263,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 CheckOrganisationHasCapacityAndWillingToProvideSupport: checkOrganisationHasCapacityAndWillingToProvideSupport,
                 CheckChoiceWithTrustRelationshipManagerOrLaLead: checkChoiceWithTrustRelationshipManagerOrLaLead,
                 DiscussChoiceWithSfso: discussChoiceWithSfso,
-                CheckFinancialConcernsAtSupportingOrganisation: checkFinancialConcernsAtSupportingOrganisation,
                 CheckTheOrganisationHasAVendorAccount: checkTheOrganisationHasAVendorAccount,
                 DateDueDiligenceCompleted: dateDueDiligenceCompleted));
 
@@ -390,17 +388,32 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, TaskListStatus> RequestPlanningGrantOfferLetterTaskListStatusCases = new()
+        public static readonly TheoryData<DateTime?, bool?, bool?, bool?, bool?, TaskListStatus> RequestPlanningGrantOfferLetterTaskListStatusCases = new()
         {
-            { null, TaskListStatus.NotStarted },
-            { DateTime.UtcNow, TaskListStatus.Complete }
+            { null, false, false, false, false, TaskListStatus.NotStarted },
+            { DateTime.UtcNow, true, false, false, true, TaskListStatus.InProgress },
+            { DateTime.UtcNow, true, true, true, true, TaskListStatus.Complete }
         };
 
         [Theory, MemberData(nameof(RequestPlanningGrantOfferLetterTaskListStatusCases))]
-        public void RequestPlanningGrantOfferLetterTaskListStatusShouldReturnCorrectStatus(DateTime? dateGrantsTeamContacted, TaskListStatus expectedTaskListStatus)
+        public void RequestPlanningGrantOfferLetterTaskListStatusShouldReturnCorrectStatus(
+            DateTime? dateGrantsTeamContacted, 
+            bool? includeContactDetails,
+            bool? amountFundingRequested,
+            bool? copyRegionalDirector,
+            bool? emailRiseGrantTeam,
+            TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTeamContactedForRequestingPlanningGrantOfferLetter: dateGrantsTeamContacted));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(
+                1, 
+                DateTime.Now,
+                DateTeamContactedForRequestingPlanningGrantOfferLetter: dateGrantsTeamContacted,
+                IncludeContactDetailsRequestingPlanningGrantOfferEmail: includeContactDetails,
+                ConfirmAmountOfPlanningGrantFundingRequested: amountFundingRequested,
+                CopyInRegionalDirectorRequestingPlanningGrantOfferEmail: copyRegionalDirector,
+                SendRequestingPlanningGrantOfferEmailToRiseGrantTeam: emailRiseGrantTeam
+                ));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.RequestPlanningGrantOfferLetterTaskListStatus(supportProjectModel);

@@ -16,6 +16,18 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [Display(Name = "date grant team contacted")]
     public DateTime? DateGrantTeamContacted { get; set; }
     public string EmailAddress { get; set; } = string.Empty;
+    
+    [BindProperty(Name = "include-contact-details")]
+    public bool? IncludeContactDetails { get; set; }
+    
+    [BindProperty(Name = "confirm-amount-funding")]
+    public bool? ConfirmAmountOfFunding { get; set; }
+    
+    [BindProperty(Name = "copy-regional-director")]
+    public bool? CopyInRegionalDirector { get; set; }
+    
+    [BindProperty(Name = "email-rise-grant-team")]
+    public bool? EmailRiseGrantTeam { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -34,7 +46,15 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         await base.GetSupportProject(id, cancellationToken);
 
         DateGrantTeamContacted = SupportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter;
+        IncludeContactDetails = SupportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail;
+        ConfirmAmountOfFunding = SupportProject.ConfirmAmountOfPlanningGrantFundingRequested;
+        CopyInRegionalDirector = SupportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail;
+        EmailRiseGrantTeam = SupportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam;
+        
         EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
+        
+        Console.WriteLine($"xyz9876 {SupportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail}");
+        Console.WriteLine($"rst567 {SupportProject.ConfirmAmountOfPlanningGrantFundingRequested}");
         return Page();
     }
 
@@ -47,7 +67,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetRequestPlanningGrantOfferLetterDetailsCommand(new SupportProjectId(id), DateGrantTeamContacted);
+        var request = new SetRequestPlanningGrantOfferLetterDetailsCommand(new SupportProjectId(id), DateGrantTeamContacted, IncludeContactDetails, ConfirmAmountOfFunding, CopyInRegionalDirector, EmailRiseGrantTeam);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -56,7 +76,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken); ;
         }
-
+        
         TaskUpdated = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
     }

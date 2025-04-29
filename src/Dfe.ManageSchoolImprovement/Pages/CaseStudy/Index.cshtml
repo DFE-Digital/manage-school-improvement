@@ -1,0 +1,51 @@
+@page "/case-study/{id:int}"
+@model IndexModel
+@{
+    ViewData["Title"] = "Case Study";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    @if (Model.CaseStudyAdded is true || Model.CaseStudyUpdated is true || Model.CaseStudyRemoved is true)
+    {
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" cy-data="task-updated-success-notification">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <h3 class="govuk-notification-banner__heading" id="case-study-message">
+                    @(Model.CaseStudyAdded is true ? "School identified as a case study candidate" : "")
+                    @(Model.CaseStudyUpdated is true ? "Case study details updated" : "")
+                    @(Model.CaseStudyRemoved is true ? "School removed as a case study" : "")
+                </h3>
+            </div>
+        </div>
+    }
+}
+<partial name="_ProjectHeader" model="Model.SupportProject" />
+<div class="govuk-grid-column-two-thirds-full">
+    <h2 class="govuk-heading-l govuk-!-margin-bottom">Case Study</h2>
+    @if (Model.SupportProject.CaseStudyCandidate is true)
+    {
+        <div class="govuk-inset-text">
+            School identified as a case study candidate.
+        </div>
+        <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2>
+        <p class="govuk-body">@Model.SupportProject.CaseStudyDetails</p>
+        <a asp-page="@Links.CaseStudy.SetDetails.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+            Change case study details
+        </a>
+    }
+    else
+    {
+        <p class="govuk-body">DfE want to identify schools that have had particularly good or bad experiences of the RISE intervention.</p>
+        <p class="govuk-body">If you think this school is a useful example, enter details about its progress. </p>
+        <p class="govuk-body">This will be used by the department to understand how to improve the process.</p>
+        <a asp-page="@Links.CaseStudy.SetDetails.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+            Enter case study details
+        </a>
+    }
+</div>

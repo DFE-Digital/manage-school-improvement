@@ -204,7 +204,6 @@ public static class TaskStatusViewModel
         if (supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.HasValue &&
             supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
             supportProject.DiscussChoiceWithSfso.HasValue &&
-            supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
             supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
             supportProject.DateDueDiligenceCompleted.HasValue)
         {
@@ -214,7 +213,6 @@ public static class TaskStatusViewModel
         if (!supportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport.HasValue &&
             !supportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead.HasValue &&
             !supportProject.DiscussChoiceWithSfso.HasValue &&
-            !supportProject.CheckFinancialConcernsAtSupportingOrganisation.HasValue &&
             !supportProject.CheckTheOrganisationHasAVendorAccount.HasValue &&
             !supportProject.DateDueDiligenceCompleted.HasValue)
         {
@@ -324,12 +322,20 @@ public static class TaskStatusViewModel
 
     public static TaskListStatus RequestPlanningGrantOfferLetterTaskListStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.HasValue)
+        if (supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.HasValue
+            && supportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail.Equals(true)
+            && supportProject.ConfirmAmountOfPlanningGrantFundingRequested.Equals(true)
+            && supportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail.Equals(true)
+            && supportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.HasValue)
+        if (!supportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter.HasValue
+            && !supportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail.Equals(true)
+            && !supportProject.ConfirmAmountOfPlanningGrantFundingRequested.Equals(true)
+            && !supportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail.Equals(true)
+            && !supportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam.Equals(true))
         {
             return TaskListStatus.NotStarted;
         }

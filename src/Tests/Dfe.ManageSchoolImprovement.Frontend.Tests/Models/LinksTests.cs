@@ -321,5 +321,28 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("/Contacts/EditContact", linkItem.Page);
             Assert.Equal("Back", linkItem.BackText);
         }
+
+        [Fact]
+        public void EngagementConcern_Index_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = EngagementConcern.Index;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/EngagementConcern/Index", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
+        [Fact]
+        public void EngagementConcern_RecordEngagementConcern_ShouldHaveCorrectValues()
+        {
+            // Arrange & Act
+            var linkItem = EngagementConcern.RecordEngagementConcern;
+
+            // Assert
+            Assert.NotNull(linkItem);
+            Assert.Equal("/EngagementConcern/RecordEngagementConcern", linkItem.Page);
+            Assert.Equal("Back", linkItem.BackText);
+        }
     }
 }

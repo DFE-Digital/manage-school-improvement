@@ -43,7 +43,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? CheckOrganisationHasCapacityAndWillingToProvideSupport = null,
         bool? CheckChoiceWithTrustRelationshipManagerOrLaLead = null,
         bool? DiscussChoiceWithSfso = null,
-        bool? CheckFinancialConcernsAtSupportingOrganisation = null,
         bool? CheckTheOrganisationHasAVendorAccount = null,
         DateTime? DateDueDiligenceCompleted = null,
         DateTime? RegionalDirectorAppointmentDate = null,
@@ -61,6 +60,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? HasSavedImprovementPlanInSharePoint = null,
         bool? HasEmailedAgreedPlanToRegionalDirectorForApproval = null,
         DateTime? DateTeamContactedForRequestingPlanningGrantOfferLetter = null,
+        bool? IncludeContactDetailsRequestingPlanningGrantOfferEmail = null,
+        bool? ConfirmAmountOfPlanningGrantFundingRequested = null,
+        bool? CopyInRegionalDirectorRequestingPlanningGrantOfferEmail = null,
+        bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = null,
         DateTime? ImprovementPlanReceivedDate = null,
         bool? ReviewImprovementPlanWithTeam = null,
         DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter = null,
@@ -72,7 +75,11 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         IEnumerable<SupportProjectNote> Notes = null!,
         bool? HasReceivedFundingInThelastTwoYears = null,
         bool? FundingHistoryDetailsComplete = null,
-        IEnumerable<FundingHistoryDto> FundingHistories = null!
+        IEnumerable<FundingHistoryDto> FundingHistories = null!,
+        bool? CaseStudyCandidate = null,
+        string? CaseStudyDetails = null,
+        bool? EngagementConcernRecorded = null,
+        string? EngagementConcernDetails = null
     )
     { }
 }

@@ -42,7 +42,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string OftedReportWeblink { get; set; }
 
         public string LastInspectionDate { get; set; }
-        
+
         public bool? DiscussTheBestApproach { get; private set; }
 
         public bool? EmailTheResponsibleBody { get; private set; }
@@ -103,8 +103,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public bool? DiscussChoiceWithSfso { get; set; }
 
-        public bool? CheckFinancialConcernsAtSupportingOrganisation { get; set; }
-
         public bool? CheckTheOrganisationHasAVendorAccount { get; set; }
 
         public DateTime? DateDueDiligenceCompleted { get; set; }
@@ -137,6 +135,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
+        public bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam { get; set; }
+        public bool? IncludeContactDetailsRequestingPlanningGrantOfferEmail { get; set; }
+        public bool? CopyInRegionalDirectorRequestingPlanningGrantOfferEmail { get; set; }
+        public bool? ConfirmAmountOfPlanningGrantFundingRequested { get; set; }
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
         public bool? HasReceivedFundingInThelastTwoYears { get; set; }
         public bool? FundingHistoryDetailsComplete { get; set; }
@@ -145,6 +147,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SchoolIsNotEligibleNotes { get; set; }
         public SupportProjectStatus? SupportProjectStatus { get; set; }
         public string? PreviousUrn { get; set; }
+        public bool? CaseStudyCandidate { get; set; }
+        public string? CaseStudyDetails { get; set; }
+        
+        public bool? EngagementConcernRecorded { get; set; }
+        
+        public string? EngagementConcernDetails { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -189,7 +197,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 CheckOrganisationHasCapacityAndWillingToProvideSupport = supportProjectDto.CheckOrganisationHasCapacityAndWillingToProvideSupport,
                 CheckChoiceWithTrustRelationshipManagerOrLaLead = supportProjectDto.CheckChoiceWithTrustRelationshipManagerOrLaLead,
                 DiscussChoiceWithSfso = supportProjectDto.DiscussChoiceWithSfso,
-                CheckFinancialConcernsAtSupportingOrganisation = supportProjectDto.CheckFinancialConcernsAtSupportingOrganisation,
                 CheckTheOrganisationHasAVendorAccount = supportProjectDto.CheckTheOrganisationHasAVendorAccount,
                 DateDueDiligenceCompleted = supportProjectDto.DateDueDiligenceCompleted,
                 RegionalDirectorAppointmentDate = supportProjectDto.RegionalDirectorAppointmentDate,
@@ -209,6 +216,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlanReceivedDate = supportProjectDto.ImprovementPlanReceivedDate,
                 ReviewImprovementPlanWithTeam = supportProjectDto.ReviewImprovementPlanWithTeam,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter,
+                IncludeContactDetailsRequestingPlanningGrantOfferEmail = supportProjectDto.IncludeContactDetailsRequestingPlanningGrantOfferEmail,
+                ConfirmAmountOfPlanningGrantFundingRequested = supportProjectDto.ConfirmAmountOfPlanningGrantFundingRequested,
+                CopyInRegionalDirectorRequestingPlanningGrantOfferEmail = supportProjectDto.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail,
+                SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = supportProjectDto.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam,
                 DateTeamContactedForRequestingImprovementGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingImprovementGrantOfferLetter,
                 DateTeamContactedForConfirmingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForConfirmingPlanningGrantOfferLetter,
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
@@ -229,7 +240,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     FundingAmount = x.fundingAmount,
                     FundingRounds = x.fundingRounds,
                     Comments = x.comments
-                }) ?? new List<FundingHistoryViewModel>()
+                }) ?? new List<FundingHistoryViewModel>(),
+                CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
+                CaseStudyDetails = supportProjectDto.CaseStudyDetails,
+                EngagementConcernRecorded = supportProjectDto.EngagementConcernRecorded,
+                EngagementConcernDetails = supportProjectDto.EngagementConcernDetails
             };
         }
     }
