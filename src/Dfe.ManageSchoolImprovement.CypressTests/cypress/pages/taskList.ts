@@ -100,7 +100,7 @@ public hasTasks() : this {
 }
 
 public hasTasksNotStartedElementsPresent() : this {
-  //cy.get("#confirm-eligibility-status").contains('Not Started');
+  cy.get("#confirm-eligibility-status").contains('Not Started');
   cy.get('#funding_history_status').contains("Not Started");
   cy.get('#confirm_responsible_body_status').contains('Not Started');
   cy.get('#record-school-response_status').contains("Not Started");
@@ -135,7 +135,7 @@ public selectConfirmEligibility() {
 }
 
 public hasFilterSuccessNotification(): this {
-  cy.get('[data-cy="filter-success-notification"]').should("be.visible");
+  cy.get('[cy-data="task-updated-success-notification"]').should("be.visible");
 
   return this;
 }

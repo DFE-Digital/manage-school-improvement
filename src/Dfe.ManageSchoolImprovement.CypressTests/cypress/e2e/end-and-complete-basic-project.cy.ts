@@ -84,6 +84,8 @@ describe("User completes their newly created project", () => {
     
     confirmEligibility.selectYesAndContinue();
 
+    cy.executeAccessibilityTests();
+
     taskList.hasFilterSuccessNotification()
             .hasTaskStatusConfirmEligilityCompleted();
   });
