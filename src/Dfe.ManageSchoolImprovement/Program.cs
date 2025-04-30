@@ -133,6 +133,8 @@ builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>()
 builder.Services.AddApplicationDependencyGroup(builder.Configuration);
 builder.Services.AddInfrastructureDependencyGroup(builder.Configuration);
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 var app = builder.Build();
 
 var forwardOptions = new ForwardedHeadersOptions
