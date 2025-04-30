@@ -2,17 +2,16 @@ import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import riseHomePage from "cypress/pages/riseHomePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 
-
-describe("User navigates to the rise landing page", () => {
-  let school;
-  let urn;
-  let localAuthority;
-  let region;
-  let schoolType;
-  let faithSchool;
-  let ofstedRating;
-  let lastInspection;
-  let pfi;
+describe("User creates a basic project", () => {
+  let school: string;
+  let urn: string;
+  let localAuthority: string;
+  let region: string;
+  let schoolType: string;
+  let faithSchool: string;
+  let ofstedRating: string;
+  let lastInspectionCheckDetails: string;
+  let pfi: string;
 
   before(() => {
     cy.fixture('school-data').then((data) => {
@@ -23,7 +22,7 @@ describe("User navigates to the rise landing page", () => {
       schoolType = data.schoolType;
       faithSchool = data.faithSchool;
       ofstedRating = data.ofstedRating;
-      lastInspection = data.lastInspection;
+      lastInspectionCheckDetails = data.lastInspectionCheckDetails;
       pfi = data.pfi;
     });
   });
@@ -53,7 +52,7 @@ describe("User navigates to the rise landing page", () => {
       .hasSchoolType(schoolType)
       .hasFaithSchool(faithSchool)
       .hasOfstedRating(ofstedRating)
-      .hasLastInspection(lastInspection)
+      .hasLastInspection(lastInspectionCheckDetails)
       .hasPFI(pfi);
 
     checkSchoolDetails.clickContinue();

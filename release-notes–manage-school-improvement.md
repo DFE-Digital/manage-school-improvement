@@ -4,6 +4,16 @@ Welcome to the release notes for **Manage School Improvement**. Here you'll find
 
 ---
 
+## 📅 [v0.4.0] - Q1 – Sprint 2 (Part 1) - 2025-04-30
+
+### 📌 User Stories
+- **210784** - DEV: How might we show that a school is not engaging?
+- **210785** - DEV: Record which schools are good candidates for case studies
+- **210786** - DEV: Updates to 'Request planning grant offer letter task'
+- **211017** - DEV: Remove a checkbox from 'Carry out due diligence on preferred supporting organisation' task
+
+---
+
 ## 📅 [v0.3.0] - Q1 – Sprint 1 - 2025-04-23
 
 ### 📌 User Stories
