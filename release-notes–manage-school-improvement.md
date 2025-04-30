@@ -42,6 +42,6 @@ Welcome to the release notes for **Manage School Improvement**. Here you'll find
 
 ---
 
-## 📅 [v0.1.0 – Public Beta] - Q4 - Sprint 6 – 2025-04-01
+## 📅 [v0.1.0 – Private Beta] - Q4 - Sprint 6 – 2025-04-01
 
-🎉 **Initial Public Beta release** of Manage School Improvement. We’re excited to open things up for wider use and feedback.
+🎉 **Initial Private Beta release** of Manage School Improvement. We’re excited to open things up for wider use and feedback.
