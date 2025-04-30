@@ -17,6 +17,7 @@
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
     var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
     var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
+    bool engagementConcern = Model.EngagementConcernRecorded ?? false;
 }
 
 <div class="govuk-grid-row">
@@ -119,6 +120,17 @@
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
                 </dd>
             </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Engagement concern
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  @(engagementConcern ? "Yes" : "No")
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                  <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden">record an engagement concern</span></a>
+              </dd>
+          </div>
         </dl> 
         @if (User.IsInRole(Role.Support))
         {
