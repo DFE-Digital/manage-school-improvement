@@ -1,31 +1,20 @@
 import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import riseHomePage from "cypress/pages/riseHomePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
+import * as schoolData from "cypress/fixtures/school-data.json";
 
 describe("User creates a basic project", () => {
-  let school: string;
-  let urn: string;
-  let localAuthority: string;
-  let region: string;
-  let schoolType: string;
-  let faithSchool: string;
-  let ofstedRating: string;
-  let lastInspectionCheckDetails: string;
-  let pfi: string;
-
-  before(() => {
-    cy.fixture('school-data').then((data) => {
-      school = data.school;
-      urn = data.urn;
-      localAuthority = data.localAuthority;
-      region = data.region;
-      schoolType = data.schoolType;
-      faithSchool = data.faithSchool;
-      ofstedRating = data.ofstedRating;
-      lastInspectionCheckDetails = data.lastInspectionCheckDetails;
-      pfi = data.pfi;
-    });
-  });
+  const {
+    school,
+    urn,
+    localAuthority,
+    region,
+    schoolType,
+    faithSchool,
+    ofstedRating,
+    lastInspectionCheckDetails,
+    pfi
+   } = schoolData;
 
   beforeEach(() => {
     cy.login();

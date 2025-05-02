@@ -41,110 +41,114 @@ class TaskList {
     return this; // Return this to allow method chaining
   }
 
-public hasChangeLinks() : this {
-    // Get all links that have the visible text 'Change'
-    cy.get('a')
-    .filter(':visible')
-    .contains('Change')
-    .eq(0)
-    .should('have.attr', 'href')
-    .and('include', 'delivery-officer');
+  public hasChangeLinks() : this {
+      // Get all links that have the visible text 'Change'
+      cy.get('a')
+      .filter(':visible')
+      .contains('Change')
+      .eq(0)
+      .should('have.attr', 'href')
+      .and('include', 'delivery-officer');
 
-  cy.get(':nth-child(6) > .govuk-summary-list__actions > .govuk-link')
-    .filter(':visible')
-    .contains('Change')
-    .should('have.attr', 'href')
-    .and('include', 'adviser');
+    cy.get(':nth-child(6) > .govuk-summary-list__actions > .govuk-link')
+      .filter(':visible')
+      .contains('Change')
+      .should('have.attr', 'href')
+      .and('include', 'adviser');
 
-  return this;
-}
+    return this;
+  }
 
-public hasNav() : this {
-  cy.contains("Task list").first().should('have.attr', 'aria-current')
-  cy.contains("About the school")
-  cy.contains("Ofsted reports")
-  cy.contains("Contacts")
-  cy.contains("Case Study")
-  cy.contains("Notes")
+  public hasNav() : this {
+    cy.contains("Task list").first().should('have.attr', 'aria-current')
+    cy.contains("About the school")
+    cy.contains("Ofsted reports")
+    cy.contains("Contacts")
+    cy.contains("Case Study")
+    cy.contains("Notes")
 
-  return this;
-}
+    return this;
+  }
 
-public hasTasks() : this {
-  cy.contains('Confirm eligibility');
-  cy.contains('Enter the funding history');
-  cy.contains('Contact the responsible body');
-  cy.contains('Record the school\'s response');
-  cy.contains('Check potential adviser conflicts of interest');
-  cy.contains('Allocate an adviser');
-  cy.contains('Send introductory email');
-  cy.contains('Arrange adviser visit to school');
-  cy.contains('Record date of visit to school');
-  cy.contains('Write and save the Note of Visit');
-  cy.contains('Complete and save the assessment template');
-  cy.contains('Record matching decision');
-  cy.contains('Choose preferred supporting organisation');
-  cy.contains('Carry out due diligence on preferred supporting organisation');
-  cy.contains('Record supporting organisation appointment');
-  cy.contains('Add supporting organisation contact details');
-  cy.contains('Request planning grant offer letter');
-  cy.contains('Confirm planning grant offer letter sent');
-  cy.contains('Share the improvement plan template');
-  cy.contains('Review the improvement plan');
-  cy.contains('Send the agreed improvement plan for approval');
-  cy.contains('Record improvement plan decision');
-  cy.contains('Request improvement grant offer letter');
-  cy.contains('Confirm improvement grant offer letter sent');
+  public hasTasks() : this {
+    cy.contains('Confirm eligibility');
+    cy.contains('Enter the funding history');
+    cy.contains('Contact the responsible body');
+    cy.contains('Record the school\'s response');
+    cy.contains('Check potential adviser conflicts of interest');
+    cy.contains('Allocate an adviser');
+    cy.contains('Send introductory email');
+    cy.contains('Arrange adviser visit to school');
+    cy.contains('Record date of visit to school');
+    cy.contains('Write and save the Note of Visit');
+    cy.contains('Complete and save the assessment template');
+    cy.contains('Record matching decision');
+    cy.contains('Choose preferred supporting organisation');
+    cy.contains('Carry out due diligence on preferred supporting organisation');
+    cy.contains('Record supporting organisation appointment');
+    cy.contains('Add supporting organisation contact details');
+    cy.contains('Request planning grant offer letter');
+    cy.contains('Confirm planning grant offer letter sent');
+    cy.contains('Share the improvement plan template');
+    cy.contains('Review the improvement plan');
+    cy.contains('Send the agreed improvement plan for approval');
+    cy.contains('Record improvement plan decision');
+    cy.contains('Request improvement grant offer letter');
+    cy.contains('Confirm improvement grant offer letter sent');
 
-  return this;
-}
+    return this;
+  }
 
-public hasTasksNotStartedElementsPresent() : this {
-  cy.get("#confirm-eligibility-status").contains('Not Started');
-  cy.get('#funding_history_status').contains("Not Started");
-  cy.get('#confirm_responsible_body_status').contains('Not Started');
-  cy.get('#record-school-response_status').contains("Not Started");
-  cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains("Not Started");
-  cy.get('#AllocateAdviser_status').contains("Not Started");
-  cy.get('#send-introductory-email-request-improvement-plan_status').contains("Not Started");
-  cy.get('#adviser-school-visit_status').contains("Not Started");
-  cy.get('#record-school-visit-date_status').contains("Not Started");
-  cy.get('#note-of-visit_status').contains("Not Started");
-  cy.get('#complate-save-assessment-template_status').contains("Not Started");
-  cy.get('#record-support-decision_status').contains('Not Started');
-  cy.get('#choose-preferred-supporting-organisation-status').contains('Not Started');
-  cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains('Not Started');
-  cy.get('#record-supporting-organisation-appointment-status').contains("Not Started");
-  cy.get('#add-supporting-organisation-contact-details-status').contains("Not Started");
-  cy.get('#request-planning-grant-offer-letter_status').contains("Not Started");
-  cy.get('#confirm-planning-grant-offer-letter_status').contains("Not Started");
-  cy.get('#share-the-improvement-plan-template_status').contains("Not Started");
-  cy.get('#review-the-improvement-plan_status').contains('Not Started');
-  cy.get("#send-agreed-improvement-plan_status").contains('Not Started');
-  cy.get("#record-improvement-plan-decision_status").contains('Not Started');
-  cy.get('#request-improvement-grant-offer-letter_status').contains("Not Started");
-  cy.get("#confirm-improvement-grant-offer-letter_status").contains('Not Started');
+  public hasTasksNotStartedElementsPresent() : this {
+    cy.get("#confirm-eligibility-status").contains('Not Started');
+    cy.get('#funding_history_status').contains("Not Started");
+    cy.get('#confirm_responsible_body_status').contains('Not Started');
+    cy.get('#record-school-response_status').contains("Not Started");
+    cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains("Not Started");
+    cy.get('#AllocateAdviser_status').contains("Not Started");
+    cy.get('#send-introductory-email-request-improvement-plan_status').contains("Not Started");
+    cy.get('#adviser-school-visit_status').contains("Not Started");
+    cy.get('#record-school-visit-date_status').contains("Not Started");
+    cy.get('#note-of-visit_status').contains("Not Started");
+    cy.get('#complate-save-assessment-template_status').contains("Not Started");
+    cy.get('#record-support-decision_status').contains('Not Started');
+    cy.get('#choose-preferred-supporting-organisation-status').contains('Not Started');
+    cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains('Not Started');
+    cy.get('#record-supporting-organisation-appointment-status').contains("Not Started");
+    cy.get('#add-supporting-organisation-contact-details-status').contains("Not Started");
+    cy.get('#request-planning-grant-offer-letter_status').contains("Not Started");
+    cy.get('#confirm-planning-grant-offer-letter_status').contains("Not Started");
+    cy.get('#share-the-improvement-plan-template_status').contains("Not Started");
+    cy.get('#review-the-improvement-plan_status').contains('Not Started');
+    cy.get("#send-agreed-improvement-plan_status").contains('Not Started');
+    cy.get("#record-improvement-plan-decision_status").contains('Not Started');
+    cy.get('#request-improvement-grant-offer-letter_status').contains("Not Started");
+    cy.get("#confirm-improvement-grant-offer-letter_status").contains('Not Started');
 
-  return this;
-}
+    return this;
+  }
 
-public selectConfirmEligibility() {
-  cy.contains("Confirm eligibility").click()
+  public hasFilterSuccessNotification(): this {
+    cy.get('[cy-data="task-updated-success-notification"]').should("be.visible");
 
-  return this;
-}
+    return this;
+  }
 
-public hasFilterSuccessNotification(): this {
-  cy.get('[cy-data="task-updated-success-notification"]').should("be.visible");
+  public hasTaskStatusCompleted(id: string) {
+    cy.get(`#${id}`).contains("Completed");
 
-  return this;
-}
+    return this;
+  }
 
-public hasTaskStatusConfirmEligilityCompleted() {
-  cy.get("#confirm-eligibility-status").contains("Completed");
+  public hasTaskStatusInProgress(id: string) {
+    cy.get(`#${id}`).contains("In Progress");
+  }
 
-  return this;
-}
+  public selectTask(taskName:string) {
+    cy.contains(taskName).click();
+
+    return this;
+  }
 
   public deleteSchool(): this {
     cy.contains("Delete school").click({ force: true });
