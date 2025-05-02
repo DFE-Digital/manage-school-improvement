@@ -8,6 +8,7 @@ export default defineConfig({
   video: false,
   retries: 1,
   userAgent: 'RegionalImprovementForStandardsAndExcellence/1.0 Cypress',
+  redirectionLimit: 100,
   reporter: "cypress-multi-reporters",
   reporterOptions: {
       reporterEnabled: "mochawesome",
