@@ -1,10 +1,16 @@
 # 🚀 Release Notes – Manage School Improvement
 
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
+---
+
+## 📅 [v0.5.0] - Q1 – Sprint 2 (Part 2) - 2025-05-01
+
+### 📌 User Stories
+- **212253** - DEV: Connect AppInsights In Production
 
 ---
 
-## 📅 [v0.4.0] - Q1 – Sprint 2 (Part 1) - 2025-04-30
+## 📅 [v0.4.0 - Public Beta] - Q1 – Sprint 2 (Part 1) - 2025-04-30
 
 ### 📌 User Stories
 - **210784** - DEV: How might we show that a school is not engaging?
@@ -42,6 +48,6 @@ Welcome to the release notes for **Manage School Improvement**. Here you'll find
 
 ---
 
-## 📅 [v0.1.0 – Public Beta] - Q4 - Sprint 6 – 2025-04-01
+## 📅 [v0.1.0 – Private Beta] - Q4 - Sprint 6 – 2025-04-01
 
-🎉 **Initial Public Beta release** of Manage School Improvement. We’re excited to open things up for wider use and feedback.
+🎉 **Initial Private Beta release** of Manage School Improvement. We’re excited to open things up for wider use and feedback.
