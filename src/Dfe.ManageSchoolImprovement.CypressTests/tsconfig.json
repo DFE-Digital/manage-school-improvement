@@ -100,7 +100,7 @@
         // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
         "skipLibCheck": true /* Skip type checking all .d.ts files. */,
         "baseUrl": "./",
-
+        "moduleResolution": "node",
         "lib": ["esnext", "dom"],
         "types": ["cypress", "cypress-axe", "node", "xlsx","@cypress/grep"]
     }

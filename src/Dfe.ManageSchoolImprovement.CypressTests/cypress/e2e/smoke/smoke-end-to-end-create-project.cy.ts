@@ -37,7 +37,7 @@ describe("User completes their newly created project", () => {
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
-  it("Should be able to add a school and add it to the list", () => {
+  it("Should be able to add a school and add it to the list", { tags: ['@smoke'] }, () => {
     riseHomePage.AddSchool();
 
     cy.executeAccessibilityTests();
