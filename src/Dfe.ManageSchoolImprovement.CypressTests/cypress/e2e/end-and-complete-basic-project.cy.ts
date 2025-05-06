@@ -296,6 +296,8 @@ describe("User completes their newly created project", () => {
       .hasTaskStatusInProgress("review-the-improvement-plan_status");
     taskList.selectTask("Review the improvement plan");
     taskListActions.selectButtonOrCheckbox("review-improvement-plan-with-team");
+    taskListActions.selectButtonOrCheckbox("send-improvement-plan-to-rise");
+    taskListActions.selectButtonOrCheckbox("confirm-plan-cleared-by-rise")
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("review-the-improvement-plan_status");
