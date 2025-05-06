@@ -12,4 +12,6 @@ public class CheckboxInputViewModel
     public string ErrorMessage { get; set; } = null!;
 
     public string Hint { get; set; } = null!;
+    
+    public string Email { get; set; } = null!;
 }

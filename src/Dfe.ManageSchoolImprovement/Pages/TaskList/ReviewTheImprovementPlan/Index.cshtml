@@ -24,7 +24,29 @@
         <form method="post" novalidate>
             <govuk-date-input label="Enter date improvement plan received" id="date-improvement-plan-received" name="date-improvement-plan-received" asp-for="@Model.DateImprovementPlanReceived"  hint="For example, 1 7 2024."/>
             <br>
-            <govuk-checkbox-input label="Review improvement plan with rest of the team" id="review-improvement-plan-with-team" name="review-improvement-plan-with-team" asp-for="@Model.ReviewImprovementPlanWithTeam" /> 
+            <govuk-checkbox-input label="Review the plan with the advisor and regional team" id="review-improvement-plan-with-team" name="review-improvement-plan-with-team" asp-for="@Model.ReviewImprovementPlanWithTeam" />
+            <govuk-checkbox-input 
+                label="Send the draft improvement and expenditure plans to the RISE grant team for review" 
+                label-hint="You must include the name of the supporting organisation and the school. Send the plans to " 
+                email="rise.grant@education.goc.uk"
+                id="send-improvement-plan-to-rise" 
+                name="send-improvement-plan-to-rise" 
+                asp-for="@Model.SendImprovementPlanToRiseGrantTeam" />
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        What to do if the plans need changing
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <p>The RISE grant team will tell you if any changes are needed to the plans.</p>
+                    <p>When this happens, give the feedback to the supporting organisation and responsible body.</p>
+                    <p>They should then update and resubmit the improvement and expenditure plans.</p>
+                    <p>You only need to record the date the first version of the plans were sent.</p>
+                </div>
+            </details>
+            <govuk-checkbox-input label="Confirm plan has been cleared by the RISE grant team" id="confirm-plan-cleared-by-rise" name="confirm-plan-cleared-by-rise" asp-for="@Model.ConfirmPlanClearedByRiseGrantTeam" />
+
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return
             </button>

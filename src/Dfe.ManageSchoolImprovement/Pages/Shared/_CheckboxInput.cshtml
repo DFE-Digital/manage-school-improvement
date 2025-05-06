@@ -17,6 +17,10 @@
                     <br />
                     <span id="@Model.Id-hint" class="govuk-hint">
                         @Model.LabelHint
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <a class='govuk-link' href='mailto:@Model.Email?subject=Manage%20school%20improvement:%20support%20query'>@Model.Email</a>
+                        }
                     </span>
                 }
             </label>

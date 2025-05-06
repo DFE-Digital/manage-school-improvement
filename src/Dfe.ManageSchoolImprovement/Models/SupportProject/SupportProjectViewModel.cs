@@ -132,6 +132,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? ImprovementPlanReceivedDate { get; set; }
 
         public bool? ReviewImprovementPlanWithTeam { get; set; }
+        
+        public bool? SendImprovementPlanToRiseGrantTeam { get; set; }
+        
+        public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
 
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
@@ -215,6 +219,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DisapprovingImprovementPlanDecisionNotes = supportProjectDto.DisapprovingImprovementPlanDecisionNotes,
                 ImprovementPlanReceivedDate = supportProjectDto.ImprovementPlanReceivedDate,
                 ReviewImprovementPlanWithTeam = supportProjectDto.ReviewImprovementPlanWithTeam,
+                SendImprovementPlanToRiseGrantTeam = supportProjectDto.SendImprovementPlanToRiseGrantTeam,
+                ConfirmPlanClearedByRiseGrantTeam = supportProjectDto.ConfirmPlanClearedByRiseGrantTeam,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter,
                 IncludeContactDetailsRequestingPlanningGrantOfferEmail = supportProjectDto.IncludeContactDetailsRequestingPlanningGrantOfferEmail,
                 ConfirmAmountOfPlanningGrantFundingRequested = supportProjectDto.ConfirmAmountOfPlanningGrantFundingRequested,

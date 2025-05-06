@@ -17,6 +17,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         [BindProperty(Name = "review-improvement-plan-with-team")]
         public bool? ReviewImprovementPlanWithTeam { get; set; } 
         
+        [BindProperty(Name = "send-improvement-plan-to-rise")]
+        public bool? SendImprovementPlanToRiseGrantTeam { get; set; } 
+
+        [BindProperty(Name = "confirm-plan-cleared-by-rise")]
+        public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; } 
+        
         public bool ShowError { get; set; }
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
         {
@@ -33,6 +39,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             await base.GetSupportProject(id, cancellationToken);
             DateImprovementPlanReceived = SupportProject.ImprovementPlanReceivedDate;
             ReviewImprovementPlanWithTeam = SupportProject.ReviewImprovementPlanWithTeam;
+            SendImprovementPlanToRiseGrantTeam = SupportProject.SendImprovementPlanToRiseGrantTeam;
+            ConfirmPlanClearedByRiseGrantTeam = SupportProject.ConfirmPlanClearedByRiseGrantTeam;
             return Page();
         }
         
@@ -44,8 +52,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
-            
-            var request = new SetReviewTheImprovementPlanCommand(new SupportProjectId(id), DateImprovementPlanReceived, ReviewImprovementPlanWithTeam);
+
+            var request = new SetReviewTheImprovementPlanCommand(new SupportProjectId(id), DateImprovementPlanReceived,
+                ReviewImprovementPlanWithTeam, SendImprovementPlanToRiseGrantTeam, ConfirmPlanClearedByRiseGrantTeam);
 
             var result = await mediator.Send(request, cancellationToken);
 
