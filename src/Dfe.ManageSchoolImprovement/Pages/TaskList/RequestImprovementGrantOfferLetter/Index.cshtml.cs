@@ -16,6 +16,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
         [Display(Name = "grant team contacted date")]
         public DateTime? GrantTeamContactedDate { get; set; }
 
+        [BindProperty(Name = "include-contact-details")]
+        public bool? IncludeContactDetails { get; set; }
+
+        [BindProperty(Name = "attach-school-improvement-plan")]
+        public bool? AttachSchoolImprovementPlan { get; set; }
+
+        [BindProperty(Name = "copy-in-regional-director")]
+        public bool? CopyInRegionalDirector { get; set; }
+
+        [BindProperty(Name = "send-email-to-grant-team")]
+        public bool? SendEmailToGrantTeam { get; set; }
+
         public string? EmailAddress { get; set; }
 
         public bool ShowError { get; set; }

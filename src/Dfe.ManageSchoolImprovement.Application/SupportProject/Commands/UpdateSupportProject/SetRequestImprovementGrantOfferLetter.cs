@@ -5,8 +5,12 @@ using MediatR;
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
 {
     public record SetRequestImprovementGrantOfferLetterCommand(
-        SupportProjectId SupportProjectId,
-        DateTime? GrantTeamContactedDate
+            SupportProjectId SupportProjectId,
+            DateTime? GrantTeamContactedDate,
+            bool? IncludeContactDetails,
+            bool? AttachSchoolImprovementPlan,
+            bool? CopyInRegionalDirector,
+            bool? SendEmailToGrantTeam
     ) : IRequest<bool>;
 
     public class SetRequestImprovementGrantOfferLetterCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -22,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetRequestImprovementGrantOfferLetter(request.GrantTeamContactedDate);
+            supportProject.SetRequestImprovementGrantOfferLetter(request.GrantTeamContactedDate, IncludeContactDetails, AttachSchoolImprovementPlan, CopyInRegionalDirector, SendEmailToGrantTeam);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
