@@ -439,8 +439,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, ImprovementPlanReceivedDate: improvementPlanReceivedDate,
-                ReviewImprovementPlanWithTeam: reviewImprovementPlanWithTeam));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                ImprovementPlanReceivedDate: improvementPlanReceivedDate,
+                ReviewImprovementPlanWithTeam: reviewImprovementPlanWithTeam,
+                SendImprovementPlanToRiseGrantTeam: sendImprovementPlanToRiseGrantTeam,
+                ConfirmPlanClearedByRiseGrantTeam: confirmPlanClearedByRiseGrantTeam));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.ReviewTheImprovementPlanTaskListStatus(supportProjectModel);

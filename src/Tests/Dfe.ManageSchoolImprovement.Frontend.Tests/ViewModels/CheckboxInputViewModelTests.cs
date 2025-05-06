@@ -19,7 +19,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Null(model.Heading);
             Assert.Null(model.HeadingStyle);
             Assert.Null(model.ErrorMessage);
-            Assert.Null(model.Email);
         }
 
         [Fact]
@@ -34,7 +33,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             var expectedHeading = "Terms and Conditions";
             var expectedLabelHint = "Please read the terms and conditions before agreeing.";
             var expectedErrorMessage = "You must agree to the terms.";
-            var expectedEmail = "rise@education.gov.uk";
+
             // Action
             var model = new CheckboxInputViewModel
             {
@@ -46,7 +45,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 HeadingStyle = expectedHeadingStyle,
                 Label = expectedLabel,
                 LabelHint = expectedLabelHint,
-                Email = expectedEmail
             };
 
             // Assert
@@ -58,7 +56,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedHeading, model.Heading);
             Assert.Equal(expectedLabelHint, model.LabelHint);
             Assert.Equal(expectedErrorMessage, model.ErrorMessage);
-            Assert.Equal(expectedEmail, model.Email);
         } 
     }
 
