@@ -23,6 +23,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         [BindProperty(Name = "confirm-plan-cleared-by-rise")]
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; } 
         
+        public string EmailAddress { get; set; } = "rise.grant@education.gov.uk";
+        
         public bool ShowError { get; set; }
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
         {
