@@ -1,4 +1,3 @@
-using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 
@@ -368,12 +367,20 @@ public static class TaskStatusViewModel
     public static TaskListStatus RequestImprovementGrantOfferLetterTaskListStatus(
         SupportProjectViewModel supportProject)
     {
-        if (supportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter.HasValue)
+        if (supportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter.HasValue
+            && supportProject.IncludeContactDetails.Equals(true)
+            && supportProject.AttachSchoolImprovementPlan.Equals(true)
+            && supportProject.CopyInRegionalDirector.Equals(true)
+            && supportProject.SendEmailToGrantTeam.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter.HasValue)
+        if (!supportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter.HasValue
+            && !supportProject.IncludeContactDetails.Equals(true)
+            && !supportProject.AttachSchoolImprovementPlan.Equals(true)
+            && !supportProject.CopyInRegionalDirector.Equals(true)
+            && !supportProject.SendEmailToGrantTeam.Equals(true))
         {
             return TaskListStatus.NotStarted;
         }

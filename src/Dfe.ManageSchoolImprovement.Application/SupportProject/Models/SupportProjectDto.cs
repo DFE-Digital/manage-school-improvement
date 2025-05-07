@@ -81,7 +81,11 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? CaseStudyCandidate = null,
         string? CaseStudyDetails = null,
         bool? EngagementConcernRecorded = null,
-        string? EngagementConcernDetails = null
+        string? EngagementConcernDetails = null,
+        bool? IncludeContactDetails = null,
+        bool? AttachSchoolImprovementPlan = null,
+        bool? CopyInRegionalDirector = null,
+        bool? SendEmailToGrantTeam = null
     )
     { }
 }

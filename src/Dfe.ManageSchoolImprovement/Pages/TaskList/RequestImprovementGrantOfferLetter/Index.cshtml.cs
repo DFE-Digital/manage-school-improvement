@@ -51,7 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetRequestImprovementGrantOfferLetterCommand(new SupportProjectId(id), GrantTeamContactedDate);
+            var request = new SetRequestImprovementGrantOfferLetterCommand(new SupportProjectId(id), GrantTeamContactedDate, IncludeContactDetails, AttachSchoolImprovementPlan, CopyInRegionalDirector, SendEmailToGrantTeam);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -69,6 +69,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
         {
             await base.GetSupportProject(id, cancellationToken);
             GrantTeamContactedDate = SupportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter;
+            IncludeContactDetails = SupportProject.IncludeContactDetails;
+            AttachSchoolImprovementPlan = SupportProject.AttachSchoolImprovementPlan;
+            CopyInRegionalDirector = SupportProject.CopyInRegionalDirector;
+            SendEmailToGrantTeam = SupportProject.SendEmailToGrantTeam;
+
             EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
             return Page();
         }

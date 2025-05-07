@@ -26,11 +26,20 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var grantTeamContactedDate = DateTime.Now;
+            bool? includeContactDetails = true;
+            bool? attachSchoolImprovementPlan = true;
+            bool? copyInRegionalDirector = true;
+            bool? sendEmailToGrantTeam = true;
 
             var command = new SetRequestImprovementGrantOfferLetterCommand(
                 _mockSupportProject.Id,
-                grantTeamContactedDate
+                grantTeamContactedDate,
+                includeContactDetails,
+                attachSchoolImprovementPlan,
+                copyInRegionalDirector,
+                sendEmailToGrantTeam
             );
+
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetRequestImprovementGrantOfferLetterCommandHandler(_mockSupportProjectRepository.Object);
 
@@ -48,6 +57,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetRequestImprovementGrantOfferLetterCommand(
                 _mockSupportProject.Id,
+                null,
+                null,
+                null,
+                null,
                 null
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -66,10 +79,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var grantTeamContactedDate = DateTime.Now;
+            bool? includeContactDetails = true;
+            bool? attachSchoolImprovementPlan = true;
+            bool? copyInRegionalDirector = true;
+            bool? sendEmailToGrantTeam = true;
 
             var command = new SetRequestImprovementGrantOfferLetterCommand(
                 _mockSupportProject.Id,
-                grantTeamContactedDate
+                grantTeamContactedDate,
+                includeContactDetails,
+                attachSchoolImprovementPlan,
+                copyInRegionalDirector,
+                sendEmailToGrantTeam
             );
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);

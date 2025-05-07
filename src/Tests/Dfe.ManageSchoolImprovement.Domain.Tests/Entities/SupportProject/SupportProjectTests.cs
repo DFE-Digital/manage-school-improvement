@@ -508,12 +508,23 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
 
             DateTime? dateTeamContactedForRequestingImprovementGrantOfferLetter = DateTime.Now;
+            bool? includeContactDetails = true;
+            bool? attachSchoolImprovementPlan = true;
+            bool? copyInRegionalDirector = true;
+            bool? sendEmailToGrantTeam = true;
 
             // Act
-            supportProject.SetRequestImprovementGrantOfferLetter(dateTeamContactedForRequestingImprovementGrantOfferLetter);
+            supportProject.SetRequestImprovementGrantOfferLetter(dateTeamContactedForRequestingImprovementGrantOfferLetter, includeContactDetails,
+                attachSchoolImprovementPlan,
+                copyInRegionalDirector,
+                sendEmailToGrantTeam);
 
             // Assert
             supportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter.Should().Be(dateTeamContactedForRequestingImprovementGrantOfferLetter);
+            supportProject.IncludeContactDetails.Should().Be(includeContactDetails);
+            supportProject.AttachSchoolImprovementPlan.Should().Be(attachSchoolImprovementPlan);
+            supportProject.CopyInRegionalDirector.Should().Be(copyInRegionalDirector);
+            supportProject.SendEmailToGrantTeam.Should().Be(sendEmailToGrantTeam);
             mockRepository.VerifyAll();
         }
         [Fact]
@@ -815,7 +826,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.CaseStudyDetails.Should().Be(caseStudyDetails);
             mockRepository.VerifyAll();
         }
-        
+
         [Fact]
         public void SetEngagementConcernDetails_WithValidDetails_SetsTheCorrectProperties()
         {

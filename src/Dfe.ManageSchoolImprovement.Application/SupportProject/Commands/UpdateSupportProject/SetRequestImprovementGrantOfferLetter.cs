@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetRequestImprovementGrantOfferLetter(request.GrantTeamContactedDate, IncludeContactDetails, AttachSchoolImprovementPlan, CopyInRegionalDirector, SendEmailToGrantTeam);
+            supportProject.SetRequestImprovementGrantOfferLetter(request.GrantTeamContactedDate, request.IncludeContactDetails, request.AttachSchoolImprovementPlan, request.CopyInRegionalDirector, request.SendEmailToGrantTeam);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
