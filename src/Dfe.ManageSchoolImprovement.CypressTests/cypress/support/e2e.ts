@@ -16,8 +16,11 @@
 // Import commands.js using ES2015 syntax:
 import { AuthenticationInterceptorParams } from "cypress/auth/authenticationInterceptor";
 import "./commands";
+import 'cypress-axe'
 import { RuleObject } from "axe-core";
 import {EnvAuthKey} from "../constants/cypressConstants";
+import registerCypressGrep from '@cypress/grep';
+registerCypressGrep(); 
 
 declare global {
     namespace Cypress {
