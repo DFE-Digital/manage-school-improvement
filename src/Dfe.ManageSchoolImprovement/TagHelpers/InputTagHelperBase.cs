@@ -52,6 +52,8 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     [HtmlAttributeName("error-message")]
     public string ErrorMessage { get; set; }
     
+    [HtmlAttributeName("email")]
+    public string Email { get; set; }    
 
     [ViewContext]
     public ViewContext ViewContext { get; set; }

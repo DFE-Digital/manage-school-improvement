@@ -33,6 +33,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             var expectedHeading = "Terms and Conditions";
             var expectedLabelHint = "Please read the terms and conditions before agreeing.";
             var expectedErrorMessage = "You must agree to the terms.";
+
             // Action
             var model = new CheckboxInputViewModel
             {
@@ -43,7 +44,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 Heading = expectedHeading,
                 HeadingStyle = expectedHeadingStyle,
                 Label = expectedLabel,
-                LabelHint = expectedLabelHint
+                LabelHint = expectedLabelHint,
             };
 
             // Assert

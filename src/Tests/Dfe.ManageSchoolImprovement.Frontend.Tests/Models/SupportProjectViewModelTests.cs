@@ -67,6 +67,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 HasEmailedAgreedPlanToRegionalDirectorForApproval: true,
                 ImprovementPlanReceivedDate: DateTime.Now,
                 ReviewImprovementPlanWithTeam: true,
+                SendImprovementPlanToRiseGrantTeam: true,
+                ConfirmPlanClearedByRiseGrantTeam: true,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter: DateTime.Now,
                 DateTeamContactedForRequestingImprovementGrantOfferLetter: DateTime.Now,
                 DateTeamContactedForConfirmingPlanningGrantOfferLetter: DateTime.Now,
@@ -135,6 +137,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.DisapprovingImprovementPlanDecisionNotes, viewModel.DisapprovingImprovementPlanDecisionNotes);
             Assert.Equal(supportProjectDto.ImprovementPlanReceivedDate, viewModel.ImprovementPlanReceivedDate);
             Assert.Equal(supportProjectDto.ReviewImprovementPlanWithTeam, viewModel.ReviewImprovementPlanWithTeam);
+            Assert.Equal(supportProjectDto.SendImprovementPlanToRiseGrantTeam, viewModel.SendImprovementPlanToRiseGrantTeam);
+            Assert.Equal(supportProjectDto.ConfirmPlanClearedByRiseGrantTeam, viewModel.ConfirmPlanClearedByRiseGrantTeam);
             Assert.Equal(supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter, viewModel.DateTeamContactedForRequestingPlanningGrantOfferLetter);
             Assert.Equal(supportProjectDto.DateTeamContactedForRequestingImprovementGrantOfferLetter, viewModel.DateTeamContactedForRequestingImprovementGrantOfferLetter);
             Assert.Equal(supportProjectDto.DateTeamContactedForConfirmingPlanningGrantOfferLetter, viewModel.DateTeamContactedForConfirmingPlanningGrantOfferLetter);
