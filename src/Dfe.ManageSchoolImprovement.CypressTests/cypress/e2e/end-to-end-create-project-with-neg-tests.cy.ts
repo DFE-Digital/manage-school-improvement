@@ -9,7 +9,8 @@ import * as schoolData from "cypress/fixtures/school-data.json";
 
 describe("User completes their newly created project", () => {
   const {
-    school,
+    schoolShort,
+    schoolLong,
     lastInspectionAboutSchool,
     qualityOfEducation,
     leadershipAndManagement,
@@ -42,9 +43,73 @@ describe("User completes their newly created project", () => {
 
     cy.executeAccessibilityTests();
 
+    // ADD NEG-TEST FOR ADDING A NULLSTRING SCHOOL
+    whichSchoolNeedsHelp
+      .withShortSchoolName(" ")
+      .clickContinue()
+      .hasValidation("Enter the school name or URN");
+
+    cy.executeAccessibilityTests();
+
+    // ADD NEG-TEST FOR ADDING INVALID SCHOOLNAME
+    whichSchoolNeedsHelp
+      .withShortSchoolName("POTATO")
+      .clickContinue()
+      .hasValidation("We could not find any schools matching your search criteria");
+  
+      cy.executeAccessibilityTests();
+
+    //GO BACK AND COME BACK IN AGAIN TO GET ROUND AUTOCOMPLETE FAILING TO APPEAR
+    whichSchoolNeedsHelp.clickBack();
+    riseHomePage.AddSchool();
+
+    // ADD NEG-TEST FOR ADDING ALREADY EXISTING SCHOOL
+    whichSchoolNeedsHelp
+      .withShortSchoolName("Inta")
+      .withLongSchoolName("Intake Primary School")
+      .clickContinue()
+      .hasValidation("This school is already getting support, choose a different school");
+
+   whichSchoolNeedsHelp.clickBack();
+   riseHomePage.AddSchool();
+
+    // ADD NEG-TEST FOR SQL INJECTION ATTEMPT
+    whichSchoolNeedsHelp
+      .withShortSchoolName("' OR 1=1--'")
+      .clickContinue()
+      .hasValidation("We could not find any schools matching your search criteria");
+
+    cy.executeAccessibilityTests();
+
+    // ADD NEG-TEST FOR CROSS-SITE SCRIPTING ATTEMPT
+    whichSchoolNeedsHelp
+      .withShortSchoolName("<script>window.alert('Hello World')</script>")
+      .clickContinue()
+      .hasValidation("We could not find a school matching your search criteria");
+  
+      cy.executeAccessibilityTests();
+
+    // RELOAD PAGE OR GO BACK TO GET PAST MISSING TEXTFIELD AFTER XSS BLOWS IT UP!
+    whichSchoolNeedsHelp.clickBack();
+    riseHomePage.AddSchool();
+
+    // ADD NEG-TEST FOR BASH SCRIPTING ATTEMPT
+    whichSchoolNeedsHelp
+      .withShortSchoolName('echo ${username}')
+      .clickContinue()
+      .hasValidation("We could not find any schools matching your search criteria");
+
+    cy.executeAccessibilityTests();
+
+    //GO BACK AND COME BACK IN AGAIN TO GET ROUND AUTOCOMPLETE FAILING TO APPEAR
+    whichSchoolNeedsHelp.clickBack();
+    riseHomePage.AddSchool();
+
+    // CONTINUE HAPPYPATH FLOW
     whichSchoolNeedsHelp
       .hasHeader("Select school")
-      .withSchoolName("Plymouth Grove Primary")
+      .withShortSchoolName("Plym")
+      .withLongSchoolName("Plymouth Grove Primary School")
       .clickContinue();
 
     cy.executeAccessibilityTests();
@@ -63,19 +128,19 @@ describe("User completes their newly created project", () => {
     checkSchoolDetails.clickContinue();
 
     riseHomePage
-      .hasSchoolName(school)
+      .hasSchoolName("Plymouth Grove Primary")
       .hasURN(urn)
       .hasLocalAuthority(localAuthority)
       .hasRegion(region)
       .hasAddSchoolSuccessNotification();
 
     Logger.log("Seleting previously created project");
-    riseHomePage.selectSchoolName(school);
+    riseHomePage.selectSchoolName(schoolLong);
 
     cy.executeAccessibilityTests();
 
     taskList
-      .hasHeader(school)
+      .hasHeader("Plymouth Grove Primary")
       .hasDateAdded(dateAdded)
       .hasInspectionDate(lastInspectionAboutSchool)
       .hasQualityOfEducation(qualityOfEducation)
@@ -254,7 +319,7 @@ describe("User completes their newly created project", () => {
       .hasTaskStatusInProgress("due-diligence-on-preferred-supporting-organisation-status");
     taskList.selectTask("Carry out due diligence on preferred supporting organisation");
     taskListActions.selectButtonOrCheckbox("speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice");
-    taskListActions.selectButtonOrCheckbox("discuss-choice-with-sfso");
+    taskListActions.selectButtonOrCheckbox("contact-sfso-for-financial-check");
     taskListActions.selectButtonOrCheckbox("check-the-organisation-has-a-vendor-account");
     taskListActions.enterDate("due-diligence-completed-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
