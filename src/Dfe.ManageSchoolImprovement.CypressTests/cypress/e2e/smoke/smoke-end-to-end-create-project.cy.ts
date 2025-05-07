@@ -1,5 +1,7 @@
 import { Logger } from "cypress/common/logger";
 import riseHomePage from "cypress/pages/riseHomePage";
+import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
+import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import taskList from "cypress/pages/taskList";
 import fundingHistory from "cypress/pages/tasks/fundingHistory";
 import taskListActions from "cypress/pages/tasks/taskListActions";
@@ -13,6 +15,14 @@ describe("User completes their newly created project", () => {
     leadershipAndManagement,
     assignedTo,
     advisedBy,
+    urn,
+    localAuthority,
+    region,
+    schoolType,
+    faithSchool,
+    ofstedRating,
+    lastInspectionCheckDetails,
+    pfi
   } = schoolData;
 
   const today = new Date();
@@ -27,7 +37,38 @@ describe("User completes their newly created project", () => {
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
-  it("Should complete end-to-end complete project", () => {
+  it("Should be able to add a school and add it to the list", { tags: ['@smoke'] }, () => {
+    riseHomePage.AddSchool();
+
+    cy.executeAccessibilityTests();
+
+    whichSchoolNeedsHelp
+      .hasHeader("Select school")
+      .withSchoolName("Plymouth Grove Primary")
+      .clickContinue();
+
+    cy.executeAccessibilityTests();
+
+    checkSchoolDetails
+      .hasHeader("Check school details")
+      .hasSchoolName("Plymouth Grove Primary")
+      .hasURN(urn)
+      .hasLocalAuthority(localAuthority)
+      .hasSchoolType(schoolType)
+      .hasFaithSchool(faithSchool)
+      .hasOfstedRating(ofstedRating)
+      .hasLastInspection(lastInspectionCheckDetails)
+      .hasPFI(pfi);
+
+    checkSchoolDetails.clickContinue();
+
+    riseHomePage
+      .hasSchoolName(school)
+      .hasURN(urn)
+      .hasLocalAuthority(localAuthority)
+      .hasRegion(region)
+      .hasAddSchoolSuccessNotification();
+
     Logger.log("Seleting previously created project");
     riseHomePage.selectSchoolName(school);
 
