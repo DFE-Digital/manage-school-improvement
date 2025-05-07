@@ -28,8 +28,10 @@ public class SetReviewTheImprovementPlanTests
             // Arrange
             var reviewTheImprovementPlanDate = DateTime.UtcNow;
             var improvementPlanSharedWithTeam = true;
+            var sendImprovementPlanToRiseGrantTeam = true;
+            var confirmPlanClearedByRiseGrantTeam = true;
 
-            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, reviewTheImprovementPlanDate,improvementPlanSharedWithTeam);
+            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, reviewTheImprovementPlanDate,improvementPlanSharedWithTeam, sendImprovementPlanToRiseGrantTeam, confirmPlanClearedByRiseGrantTeam);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetReviewTheImprovementPlanCommandHandler(_mockSupportProjectRepository.Object);
@@ -46,7 +48,7 @@ public class SetReviewTheImprovementPlanTests
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, null,null);
+            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, null,null, null, null);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetReviewTheImprovementPlanCommandHandler(_mockSupportProjectRepository.Object);
@@ -65,11 +67,15 @@ public class SetReviewTheImprovementPlanTests
             // Arrange
             var reviewTheImprovementPlanDate = DateTime.UtcNow;
             var improvementPlanSharedWithTeam = true;
+            var sendImprovementPlanToRiseGrantTeam = true;
+            var confirmPlanClearedByRiseGrantTeam = true;
 
             var command = new SetReviewTheImprovementPlanCommand(
                 _mockSupportProject.Id,
                 reviewTheImprovementPlanDate,
-                improvementPlanSharedWithTeam 
+                improvementPlanSharedWithTeam,
+                sendImprovementPlanToRiseGrantTeam,
+                confirmPlanClearedByRiseGrantTeam
             );
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);

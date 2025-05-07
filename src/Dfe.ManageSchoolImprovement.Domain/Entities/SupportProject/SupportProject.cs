@@ -145,6 +145,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? ImprovementPlanReceivedDate { get; private set; }
 
     public bool? ReviewImprovementPlanWithTeam { get; private set; }
+    
+    public bool? SendImprovementPlanToRiseGrantTeam { get; private set; }
+    
+    public bool? ConfirmPlanClearedByRiseGrantTeam { get; private set; }
 
     public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; private set; }
 
@@ -368,10 +372,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = emailRiseGrantTeam;
     }
 
-    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, bool? reviewImprovementPlanWithTeam)
+    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, bool? reviewImprovementPlanWithTeam, bool? sendImprovementPlanToRiseGrantTeam, bool? confirmPlanClearedByRiseGrantTeam)
     {
         ImprovementPlanReceivedDate = improvementPlanReceivedDate;
         ReviewImprovementPlanWithTeam = reviewImprovementPlanWithTeam;
+        SendImprovementPlanToRiseGrantTeam = sendImprovementPlanToRiseGrantTeam;
+        ConfirmPlanClearedByRiseGrantTeam = confirmPlanClearedByRiseGrantTeam;
     }
 
     public void SetRequestImprovementGrantOfferLetter(DateTime? dateTeamContactedForRequestingImprovementGrantOfferLetter,
