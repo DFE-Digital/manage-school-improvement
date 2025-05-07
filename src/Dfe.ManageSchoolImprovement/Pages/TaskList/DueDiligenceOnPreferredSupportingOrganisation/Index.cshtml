@@ -25,11 +25,89 @@
         </h1>
         <p class="govuk-body">Make sure the organisation can provide the necessary support. You can add a project note if you need to capture any details.</p>
         <form method="post" novalidate>
-            <govuk-checkbox-input label="Check the organisation has capacity and is willing to provide support to this school" id="check-organisation-has-capacity-and-willing-to-provide-support" name="check-organisation-has-capacity-and-willing-to-provide-support" asp-for="@Model.CheckOrganisationHasCapacityAndWillingToProvideSupport" />
-            <govuk-checkbox-input label="Speak to trust relationship manager or local authority lead to check choice" id="speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice" name="speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice" asp-for="@Model.CheckChoiceWithTrustRelationshipManagerOrLaLead" />
-            <govuk-checkbox-input label="Discuss choice with SFSO (Schools Financial Support and Oversight)" id="discuss-choice-with-sfso" name="discuss-choice-with-sfso" asp-for="@Model.DiscussChoiceWithSfso" />
-            <govuk-checkbox-input label="Check the organisation has a vendor account so they can be paid" id="check-the-organisation-has-a-vendor-account" name="check-the-organisation-has-a-vendor-account" asp-for="@Model.CheckTheOrganisationHasAVendorAccount" />
-            <govuk-date-input heading-label="false" label="Enter date due diligence completed" id="due-diligence-completed-date" name="due-diligence-completed-date" asp-for="@Model.DateDueDiligenceCompleted" hint="For example, 1 7 2024." />
+            <govuk-checkbox-input 
+                label="Check the organisation has capacity and is willing to provide support to this school" 
+                id="check-organisation-has-capacity-and-willing-to-provide-support" 
+                name="check-organisation-has-capacity-and-willing-to-provide-support" 
+                asp-for="@Model.CheckOrganisationHasCapacityAndWillingToProvideSupport" />
+            <govuk-checkbox-input 
+                label="Speak to trust relationship manager or local authority lead to check choice" 
+                id="speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice" 
+                name="speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice" 
+                asp-for="@Model.CheckChoiceWithTrustRelationshipManagerOrLaLead" />
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="contact-sfso-for-financial-check-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input" id="contact-sfso-for-financial-check" name="contact-sfso-for-financial-check" type="checkbox" value="true"
+                               checked="@Model.ContactSfsoForFinancialCheck"
+                        >
+                        <label class="govuk-label govuk-checkboxes__label" for="contact-sfso-for-financial-check">
+                            Contact SFSO (Schools Financial Support and Oversight) so they can complete financial check on supporting organisation
+                            <br />
+                            <span id="contact-sfso-for-financial-check-hint" class="govuk-hint">
+                                <a
+                                    class="govuk-link"
+                                    href="https://forms.office.com/pages/responsepage.aspx?id=yXfS-grGoU2187O4s0qC-YuBOAolASxHohL1eqzSacxUREk5Mkw2UUZRWUk3R0k2MkZSSTVFOEgxUi4u&route=shorturl"
+                                    rel="noreferrer noopener" 
+                                    target="_blank">
+                                    Use the commissioning form (opens in new tab)
+                                </a> to raise the request with SFSO.                                
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="check-the-organisation-has-a-vendor-account-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input" id="check-the-organisation-has-a-vendor-account" name="check-the-organisation-has-a-vendor-account" type="checkbox" value="true"
+                               checked="@Model.CheckTheOrganisationHasAVendorAccount"
+                        >
+                        <label class="govuk-label govuk-checkboxes__label" for="check-the-organisation-has-a-vendor-account">
+                            Check the supporting organisation has a vendor account
+                            <br />
+                            <span id="check-the-organisation-has-a-vendor-account-hint" class="govuk-hint">
+                                You can 
+                                <a
+                                    class="govuk-link"
+                                    href="https://educationgovuk.sharepoint.com/sites/lvedfe00083/SitePages/Set-up-and-mainta.aspx"
+                                    rel="noreferrer noopener"
+                                    target="_blank">
+                                    check if the supporting organisation has a vendor account (opens in new tab)
+                                </a> on SharePoint.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        How to set up a vendor account
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <p>The organisation receiving the grant must have a vendor account. They cannot be paid without one.</p>
+                    <p>They can 
+                        <a
+                            class="govuk-link"
+                            href="https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe"
+                            rel="noreferrer noopener"
+                            target="_blank">set up a vendor account (opens in new tab) </a>
+                        when they provide information about their banking and payments to Department for Education.</p>
+                    <p>Share the link with them so they can register if needed.</p>
+                    <p>It can take 15 to 20 days for an account to be created.</p>
+                </div>
+            </details>
+            <govuk-date-input 
+                heading-label="false" 
+                label="Enter date due diligence completed" 
+                id="due-diligence-completed-date" 
+                name="due-diligence-completed-date" 
+                asp-for="@Model.DateDueDiligenceCompleted" 
+                hint="For example, 1 7 2024." />
             <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return
             </button>
