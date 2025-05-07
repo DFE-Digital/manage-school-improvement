@@ -17,8 +17,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [BindProperty(Name = "speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice")]
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }
 
-    [BindProperty(Name = "discuss-choice-with-sfso")]
-    public bool? DiscussChoiceWithSfso { get; set; }
+    [BindProperty(Name = "contact-sfso-for-financial-check")]
+    public bool? ContactSfsoForFinancialCheck { get; set; }
 
     [BindProperty(Name = "check-the-organisation-has-a-vendor-account")]
     public bool? CheckTheOrganisationHasAVendorAccount { get; set; }
@@ -46,7 +46,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         CheckOrganisationHasCapacityAndWillingToProvideSupport = SupportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport;
         CheckChoiceWithTrustRelationshipManagerOrLaLead = SupportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead;
-        DiscussChoiceWithSfso = SupportProject.DiscussChoiceWithSfso;
+        ContactSfsoForFinancialCheck = SupportProject.DiscussChoiceWithSfso;
         CheckTheOrganisationHasAVendorAccount = SupportProject.CheckTheOrganisationHasAVendorAccount;
         DateDueDiligenceCompleted = SupportProject.DateDueDiligenceCompleted;
 
@@ -66,7 +66,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             new SupportProjectId(id),
             CheckOrganisationHasCapacityAndWillingToProvideSupport,
             CheckChoiceWithTrustRelationshipManagerOrLaLead,
-            DiscussChoiceWithSfso,
+            ContactSfsoForFinancialCheck,
             CheckTheOrganisationHasAVendorAccount,
             DateDueDiligenceCompleted);
 
