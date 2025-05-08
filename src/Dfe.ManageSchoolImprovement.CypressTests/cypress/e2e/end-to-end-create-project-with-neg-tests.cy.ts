@@ -108,7 +108,7 @@ describe("User completes their newly created project", () => {
     // CONTINUE HAPPYPATH FLOW
     whichSchoolNeedsHelp
       .hasHeader("Select school")
-      .withShortSchoolName("Plym")
+      .withShortSchoolName(schoolShort)
       .withLongSchoolName("Plymouth Grove Primary School")
       .clickContinue();
 

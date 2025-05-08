@@ -45,7 +45,7 @@ describe("User completes their newly created project", () => {
 
     whichSchoolNeedsHelp
       .hasHeader("Select school")
-      .withShortSchoolName("Plym")
+      .withShortSchoolName(schoolShort)
       .withLongSchoolName("Plymouth Grove Primary")
       .clickContinue();
 
