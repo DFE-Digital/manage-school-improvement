@@ -10,7 +10,7 @@
     DateTime? lastInspectionDate = null;
     if (@Model.SupportProject.LastInspectionDate != null || !string.IsNullOrWhiteSpace(@Model.SupportProject.LastInspectionDate))
     {
-        lastInspectionDate = DateTime.ParseExact(Model.SupportProject.LastInspectionDate, "dd/mm/yyyy", CultureInfo.CurrentCulture);
+        lastInspectionDate = DateTime.ParseExact(Model.SupportProject.LastInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
     }
 } 
 @section BeforeMain
