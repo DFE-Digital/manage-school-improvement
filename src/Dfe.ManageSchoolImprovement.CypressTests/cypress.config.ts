@@ -34,7 +34,7 @@ export default defineConfig({
           return null;
         },
       });
-
+      require('@cypress/grep/src/plugin')(config);
       config.baseUrl = config.env.url;
       return config;
     },
