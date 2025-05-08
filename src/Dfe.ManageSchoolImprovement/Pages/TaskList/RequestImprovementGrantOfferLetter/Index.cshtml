@@ -22,6 +22,27 @@
         </h1>
         <p class="govuk-body" data-cy="instruction-to-adviser">Email the grant team at <a class="govuk-link" href="mailto:@Model.EmailAddress">@Model.EmailAddress</a> and ask them to send the improvement grant offer letter to the school's responsible body.</p>
         <form method="post" novalidate>
+            <govuk-checkbox-input label="Include the required contact details in the email" label-hint="Make sure you add the contacts the grant team need to this project." id="include-contact-details" name="include-contact-details" asp-for="@Model.IncludeContactDetails" />
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        Contacts needed
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <p>You must add name and email address for:</p>
+                    <ul>
+                        <li>headteacher</li>
+                        <li>Supporting organisation</li>
+                    </ul>
+                    <p>You must add name, email and postal address for the responsible body.</p>
+                    <p>For local authority maintained schools that is the chair of givernors.</p>
+                    <p>For academies, it is the trust's accounting officer.</p>
+                </div>
+            </details>
+            <govuk-checkbox-input label="Attach the school improvement plan Excel template including the expenditure plan" label-hint="The RISE grant team will use this to check the costed activities." id="attach-school-improvement-plan" name="attach-school-improvement-plan" asp-for="@Model.AttachSchoolImprovementPlan" />
+            <govuk-checkbox-input label="Copy the regional director in to the email" label-hint="You may need to copy in the regional director's office rather than them personally." id="copy-in-regional-director" name="copy-in-regional-director" asp-for="@Model.CopyInRegionalDirector" />
+            <govuk-checkbox-input label="Send email to the RISE grant team" id="send-email-to-grant-team" name="send-email-to-grant-team" asp-for="@Model.SendEmailToGrantTeam" />
             <govuk-date-input heading-label="false" label="Enter date grant team contacted" id="grant-team-contacted-date" name="grant-team-contacted-date" asp-for="@Model.GrantTeamContactedDate" hint="For example, 1 7 2024." />
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return

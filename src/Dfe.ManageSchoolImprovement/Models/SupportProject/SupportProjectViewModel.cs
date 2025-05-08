@@ -132,9 +132,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? ImprovementPlanReceivedDate { get; set; }
 
         public bool? ReviewImprovementPlanWithTeam { get; set; }
-        
+
         public bool? SendImprovementPlanToRiseGrantTeam { get; set; }
-        
+
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
 
@@ -153,10 +153,17 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? PreviousUrn { get; set; }
         public bool? CaseStudyCandidate { get; set; }
         public string? CaseStudyDetails { get; set; }
-        
+
         public bool? EngagementConcernRecorded { get; set; }
-        
+
         public string? EngagementConcernDetails { get; set; }
+        public bool? IncludeContactDetails { get; set; }
+
+        public bool? AttachSchoolImprovementPlan { get; set; }
+
+        public bool? CopyInRegionalDirector { get; set; }
+
+        public bool? SendEmailToGrantTeam { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -250,7 +257,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
                 CaseStudyDetails = supportProjectDto.CaseStudyDetails,
                 EngagementConcernRecorded = supportProjectDto.EngagementConcernRecorded,
-                EngagementConcernDetails = supportProjectDto.EngagementConcernDetails
+                EngagementConcernDetails = supportProjectDto.EngagementConcernDetails,
+                IncludeContactDetails = supportProjectDto.IncludeContactDetails,
+                AttachSchoolImprovementPlan = supportProjectDto.AttachSchoolImprovementPlan,
+                CopyInRegionalDirector = supportProjectDto.CopyInRegionalDirector,
+                SendEmailToGrantTeam = supportProjectDto.SendEmailToGrantTeam
             };
         }
     }

@@ -168,14 +168,22 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? CaseStudyDetails { get; private set; }
 
     public bool? CaseStudyCandidate { get; private set; }
-    
+
     public bool? EngagementConcernRecorded { get; private set; }
-    
+
     public string? EngagementConcernDetails { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
     private readonly List<FundingHistory> _fundingHistories = new();
+
+    public bool? IncludeContactDetails { get; private set; }
+
+    public bool? AttachSchoolImprovementPlan { get; private set; }
+
+    public bool? CopyInRegionalDirector { get; private set; }
+
+    public bool? SendEmailToGrantTeam { get; private set; }
 
     #endregion
 
@@ -372,9 +380,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         ConfirmPlanClearedByRiseGrantTeam = confirmPlanClearedByRiseGrantTeam;
     }
 
-    public void SetRequestImprovementGrantOfferLetter(DateTime? dateTeamContactedForRequestingImprovementGrantOfferLetter)
+    public void SetRequestImprovementGrantOfferLetter(DateTime? dateTeamContactedForRequestingImprovementGrantOfferLetter,
+            bool? includeContactDetails,
+            bool? attachSchoolImprovementPlan,
+            bool? copyInRegionalDirector,
+            bool? sendEmailToGrantTeam)
     {
         DateTeamContactedForRequestingImprovementGrantOfferLetter = dateTeamContactedForRequestingImprovementGrantOfferLetter;
+        IncludeContactDetails = includeContactDetails;
+        AttachSchoolImprovementPlan = attachSchoolImprovementPlan;
+        CopyInRegionalDirector = copyInRegionalDirector;
+        SendEmailToGrantTeam = sendEmailToGrantTeam;
     }
 
     public void SetConfirmPlanningGrantOfferLetterDate(DateTime? dateTeamContactedForConfirmingPlanningGrantOfferLetter)

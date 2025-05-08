@@ -16,6 +16,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
         [Display(Name = "grant team contacted date")]
         public DateTime? GrantTeamContactedDate { get; set; }
 
+        [BindProperty(Name = "include-contact-details")]
+        public bool? IncludeContactDetails { get; set; }
+
+        [BindProperty(Name = "attach-school-improvement-plan")]
+        public bool? AttachSchoolImprovementPlan { get; set; }
+
+        [BindProperty(Name = "copy-in-regional-director")]
+        public bool? CopyInRegionalDirector { get; set; }
+
+        [BindProperty(Name = "send-email-to-grant-team")]
+        public bool? SendEmailToGrantTeam { get; set; }
+
         public string? EmailAddress { get; set; }
 
         public bool ShowError { get; set; }
@@ -39,7 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetRequestImprovementGrantOfferLetterCommand(new SupportProjectId(id), GrantTeamContactedDate);
+            var request = new SetRequestImprovementGrantOfferLetterCommand(new SupportProjectId(id), GrantTeamContactedDate, IncludeContactDetails, AttachSchoolImprovementPlan, CopyInRegionalDirector, SendEmailToGrantTeam);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -57,6 +69,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
         {
             await base.GetSupportProject(id, cancellationToken);
             GrantTeamContactedDate = SupportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter;
+            IncludeContactDetails = SupportProject.IncludeContactDetails;
+            AttachSchoolImprovementPlan = SupportProject.AttachSchoolImprovementPlan;
+            CopyInRegionalDirector = SupportProject.CopyInRegionalDirector;
+            SendEmailToGrantTeam = SupportProject.SendEmailToGrantTeam;
+
             EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
             return Page();
         }

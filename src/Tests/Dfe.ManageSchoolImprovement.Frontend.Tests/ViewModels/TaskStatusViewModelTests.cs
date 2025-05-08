@@ -16,11 +16,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
         [Theory, MemberData(nameof(ContactedTheResponsibleBodyTaskStatusCases))]
-        public void ContactedTheResponsibleBodyTaskStatusShouldReturnCorrectStatus( bool? discussTheBestApproach, bool? emailTheResponsibleBody, DateTime? contactedResponsibleBodyDate, TaskListStatus expectedTaskListStatus)
+        public void ContactedTheResponsibleBodyTaskStatusShouldReturnCorrectStatus(bool? discussTheBestApproach, bool? emailTheResponsibleBody, DateTime? contactedResponsibleBodyDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, discussTheBestApproach: discussTheBestApproach, emailTheResponsibleBody: emailTheResponsibleBody,
-                 contactedTheResponsibleBodyDate:  contactedResponsibleBodyDate));
+                 contactedTheResponsibleBodyDate: contactedResponsibleBodyDate));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(supportProjectModel);
@@ -397,7 +397,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
 
         [Theory, MemberData(nameof(RequestPlanningGrantOfferLetterTaskListStatusCases))]
         public void RequestPlanningGrantOfferLetterTaskListStatusShouldReturnCorrectStatus(
-            DateTime? dateGrantsTeamContacted, 
+            DateTime? dateGrantsTeamContacted,
             bool? includeContactDetails,
             bool? amountFundingRequested,
             bool? copyRegionalDirector,
@@ -406,7 +406,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(
-                1, 
+                1,
                 DateTime.Now,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter: dateGrantsTeamContacted,
                 IncludeContactDetailsRequestingPlanningGrantOfferEmail: includeContactDetails,
@@ -432,10 +432,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
 
         [Theory, MemberData(nameof(ReviewTheImprovementPlanTaskListStatusCases))]
         public void ReviewTheImprovementPlanTaskListStatusShouldReturnCorrectStatus(
-            DateTime? improvementPlanReceivedDate, 
-            bool? reviewImprovementPlanWithTeam, 
-            bool? sendImprovementPlanToRiseGrantTeam, 
-            bool? confirmPlanClearedByRiseGrantTeam, 
+            DateTime? improvementPlanReceivedDate,
+            bool? reviewImprovementPlanWithTeam,
+            bool? sendImprovementPlanToRiseGrantTeam,
+            bool? confirmPlanClearedByRiseGrantTeam,
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
@@ -451,18 +451,32 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
-        
-        public static readonly TheoryData<DateTime?, TaskListStatus> RequestImprovementGrantOfferLetterTaskListStatusCases = new()
+
+        public static readonly TheoryData<DateTime?, bool?, bool?, bool?, bool?, TaskListStatus> RequestImprovementGrantOfferLetterTaskListStatusCases = new()
         {
-            { null, TaskListStatus.NotStarted },
-            { DateTime.Now, TaskListStatus.Complete }
+            { null, null, null, null, null, TaskListStatus.NotStarted },
+            { DateTime.Now, true, true, true, true, TaskListStatus.Complete },
+            { DateTime.Now, true, true, true, null, TaskListStatus.InProgress },
+            { DateTime.Now, true, true, null, true, TaskListStatus.InProgress },
+            { DateTime.Now, true, null, true, true, TaskListStatus.InProgress },
+            { DateTime.Now, null, true, true, true, TaskListStatus.InProgress },
+            { null, true, true, true, true, TaskListStatus.InProgress },
         };
 
         [Theory, MemberData(nameof(RequestImprovementGrantOfferLetterTaskListStatusCases))]
-        public void RequestImprovementGrantOfferLetterTaskListStatusShouldReturnCorrectStatus(DateTime? dateGrantsTeamContacted, TaskListStatus expectedTaskListStatus)
+        public void RequestImprovementGrantOfferLetterTaskListStatusShouldReturnCorrectStatus(DateTime? dateGrantsTeamContacted,
+            bool? includeContactDetails,
+            bool? attachSchoolImprovementPlan,
+            bool? copyInRegionalDirector,
+            bool? sendEmailToGrantTeam, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTeamContactedForRequestingImprovementGrantOfferLetter: dateGrantsTeamContacted));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                DateTeamContactedForRequestingImprovementGrantOfferLetter: dateGrantsTeamContacted,
+                IncludeContactDetails: includeContactDetails,
+            AttachSchoolImprovementPlan: attachSchoolImprovementPlan,
+            CopyInRegionalDirector: copyInRegionalDirector,
+            SendEmailToGrantTeam: sendEmailToGrantTeam));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(supportProjectModel);
@@ -508,7 +522,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
-        
+
         public static readonly TheoryData<SupportProjectStatus?, TaskListStatus> ConfirmEligibilityTaskListStatusCases = new()
         {
             { SupportProjectStatus.EligibleForSupport, TaskListStatus.Complete },
