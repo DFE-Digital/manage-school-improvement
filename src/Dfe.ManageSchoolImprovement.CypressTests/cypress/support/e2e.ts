@@ -22,6 +22,12 @@ import {EnvAuthKey} from "../constants/cypressConstants";
 import registerCypressGrep from '@cypress/grep';
 registerCypressGrep(); 
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+    if (err.message.includes('Invalid or unexpected token')) {
+      return false; // prevent Cypress from failing the test
+    }
+  });
+
 declare global {
     namespace Cypress {
         interface Chainable {

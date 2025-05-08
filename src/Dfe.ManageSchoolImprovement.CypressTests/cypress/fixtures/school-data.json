@@ -1,6 +1,7 @@
 {
   "header": "Check school details",
-  "school": "Plym",
+  "schoolShort": "Plym",
+  "schoolLong": "Plymouth Grove Primary School",
   "urn": "105443",
   "localAuthority": "Manchester",
   "region": "North West",
