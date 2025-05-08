@@ -60,20 +60,20 @@ class RiseHomePage {
     return this;
   }
 
-  public selectSchool(school: string): this {
-    cy.contains(school).click();
+  public selectSchool(schoolLong: string): this {
+    cy.contains(schoolLong).click();
 
     return this;
   }
 
-  public hasSchoolName(school: string) : this {
-    cy.get('[data-cy="trust-name-0"]').contains(school);
+  public hasSchoolName(schoolLong: string) : this {
+    cy.get('[data-cy="trust-name-0"]').contains(schoolLong);
 
     return this;
   }
 
-  public selectSchoolName(school: string) : this {
-    cy.get('[data-cy="trust-name-0"]').contains(school).click();
+  public selectSchoolName(schoolLong: string) : this {
+    cy.get('[data-cy="trust-name-0"]').contains(schoolLong).click();
 
     return this;
   }
