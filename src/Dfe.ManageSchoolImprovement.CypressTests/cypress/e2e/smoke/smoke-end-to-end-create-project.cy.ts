@@ -379,6 +379,14 @@ describe("User completes their newly created project", () => {
     taskListActions.enterDate("grant-team-contacted-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
+      .hasTaskStatusInProgress("request-improvement-grant-offer-letter_status");
+    taskList.selectTask("Request improvement grant offer letter");
+    taskListActions.selectButtonOrCheckbox("include-contact-details");
+    taskListActions.selectButtonOrCheckbox("attach-school-improvement-plan");
+    taskListActions.selectButtonOrCheckbox("copy-in-regional-director");
+    taskListActions.selectButtonOrCheckbox("send-email-to-grant-team");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("request-improvement-grant-offer-letter_status");
 
     Logger.log("Selecting 'Confirm improvement grant offer letter sent' task");
