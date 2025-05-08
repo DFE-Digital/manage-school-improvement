@@ -6,9 +6,9 @@ class CheckSchoolDetails {
     return this;
   }
 
-  public hasSchoolName(school: string): this {
+  public hasSchoolName(schoolLong: string): this {
 
-    cy.get('[data-cy="school-name"]').contains(school || "Plymouth Grove Primary School");
+    cy.get('[data-cy="school-name"]').contains(schoolLong);
 
     return this;
   }
