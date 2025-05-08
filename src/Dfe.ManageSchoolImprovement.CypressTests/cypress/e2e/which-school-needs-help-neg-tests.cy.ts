@@ -1,44 +1,13 @@
-import { Logger } from "cypress/common/logger";
 import riseHomePage from "cypress/pages/riseHomePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
-import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
-import taskList from "cypress/pages/taskList";
-import fundingHistory from "cypress/pages/tasks/fundingHistory";
-import taskListActions from "cypress/pages/tasks/taskListActions";
-import * as schoolData from "cypress/fixtures/school-data.json";
 
-describe("User completes their newly created project", () => {
-  const {
-    schoolShort,
-    schoolLong,
-    lastInspectionAboutSchool,
-    qualityOfEducation,
-    leadershipAndManagement,
-    assignedTo,
-    advisedBy,
-    urn,
-    localAuthority,
-    region,
-    schoolType,
-    faithSchool,
-    ofstedRating,
-    lastInspectionCheckDetails,
-    pfi
-  } = schoolData;
-
-  const today = new Date();
-  const dateAdded = today.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
+describe("Which school needs help negative tests", () => {
   beforeEach(() => {
     cy.login();
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
-  it("Should be able to add a school and add it to the list", { tags: ['@smoke'] }, () => {
+  it("Should be able to validate Which school needs help page", { tags: ['@smoke'] }, () => {
     riseHomePage.AddSchool();
 
     cy.executeAccessibilityTests();
