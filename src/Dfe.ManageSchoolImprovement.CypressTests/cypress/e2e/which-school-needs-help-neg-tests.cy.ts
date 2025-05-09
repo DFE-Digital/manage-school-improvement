@@ -7,7 +7,7 @@ describe("Which school needs help negative tests", () => {
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
-  it("Should be able to validate Which school needs help page", { tags: ['@smoke'] }, () => {
+  it("Should be able to validate Which school needs help page", () => {
     riseHomePage.AddSchool();
 
     cy.executeAccessibilityTests();
