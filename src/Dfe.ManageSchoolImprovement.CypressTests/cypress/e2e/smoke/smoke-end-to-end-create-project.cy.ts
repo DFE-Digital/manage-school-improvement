@@ -38,7 +38,7 @@ describe("User completes their newly created project", () => {
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
-  it("Should be able to add a school and add it to the list", { tags: ['@smoke'] }, () => {
+  it("Should be able to add a school and add it to the list", { tags: ['smoke'] }, () => {
     riseHomePage.AddSchool();
 
     cy.executeAccessibilityTests();
@@ -377,6 +377,14 @@ describe("User completes their newly created project", () => {
     taskList.selectTask("Request improvement grant offer letter");
     taskListActions.hasHeader("Request improvement grant offer letter");
     taskListActions.enterDate("grant-team-contacted-date", "01", "01", "2024");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusInProgress("request-improvement-grant-offer-letter_status");
+    taskList.selectTask("Request improvement grant offer letter");
+    taskListActions.selectButtonOrCheckbox("include-contact-details");
+    taskListActions.selectButtonOrCheckbox("attach-school-improvement-plan");
+    taskListActions.selectButtonOrCheckbox("copy-in-regional-director");
+    taskListActions.selectButtonOrCheckbox("send-email-to-grant-team");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("request-improvement-grant-offer-letter_status");
