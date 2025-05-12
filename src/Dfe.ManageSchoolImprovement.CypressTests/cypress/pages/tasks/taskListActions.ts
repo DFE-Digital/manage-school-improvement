@@ -34,10 +34,16 @@ class TaskListActions {
     }
 
     public enterText(id: string, text: string): this {
-        cy.getById(id).type(text);
+        cy.getById(id).type(text, {parseSpecialCharSequences: false });
 
         return this;
     }
+
+    public hasValidation(valText: string, id: string): this {
+        cy.getById(id).contains(valText);
+    
+        return this;
+      }
 }
 
 const taskListActions = new TaskListActions();
