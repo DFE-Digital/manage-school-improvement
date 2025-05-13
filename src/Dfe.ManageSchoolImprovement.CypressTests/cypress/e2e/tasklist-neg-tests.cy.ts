@@ -4,13 +4,9 @@ import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import * as schoolData from "cypress/fixtures/school-data.json";
-import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 
 describe("Tasklist negative tests", () => {
-    const {
-        // schoolShort,
-        schoolLong
-    } = schoolData;
+    const { schoolLong } = schoolData;
     
     beforeEach(() => {
         cy.login();
@@ -57,7 +53,7 @@ describe("Tasklist negative tests", () => {
         taskListActions.clearDateInput("responsible-body-contacted-date");
 
         whichSchoolNeedsHelp.clickBack();
-        
+
         Logger.log("Validating text input field");
         taskList.selectTask("Record improvement plan decision");
         taskListActions.selectButtonOrCheckbox("no");
