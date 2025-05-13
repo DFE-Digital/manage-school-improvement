@@ -8,7 +8,7 @@ import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 
 describe("Tasklist negative tests", () => {
     const {
-        schoolShort,
+        // schoolShort,
         schoolLong
     } = schoolData;
     
@@ -19,53 +19,45 @@ describe("Tasklist negative tests", () => {
     
     it("Should be able to validate Tasklist", { tags: ['@smoke'] }, () => {
 
-        Logger.log("Creating project");
-        riseHomePage.AddSchool();
-        whichSchoolNeedsHelp
-            .hasHeader("Select school")
-            .withShortSchoolName(schoolShort)
-            .withLongSchoolName(schoolLong)
-            .clickContinue();
-        checkSchoolDetails.clickContinue();
+        Logger.log("Selecting project");
         riseHomePage.selectSchoolName(schoolLong);
         
         Logger.log("Validating date input field");
         taskList.selectTask("Contact the responsible body");
+        taskListActions.clearDateInput("responsible-body-contacted-date");
+
         taskListActions.enterDate("responsible-body-contacted-date", "po", "ta", "to");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("Enter a date in the correct format", "responsible-body-contacted-date-error-link");
-        whichSchoolNeedsHelp.clickBack();
+        taskListActions.clearDateInput("responsible-body-contacted-date");
 
-        taskList.selectTask("Contact the responsible body");
         taskListActions.enterDate("responsible-body-contacted-date", "5", "1", "1978");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("Year must be between 2000 and 2050", "responsible-body-contacted-date-error-link");
-        whichSchoolNeedsHelp.clickBack();
+        taskListActions.clearDateInput("responsible-body-contacted-date");
 
-        taskList.selectTask("Contact the responsible body");
         taskListActions.enterDate("responsible-body-contacted-date", "5", "1", "2078");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("Year must be between 2000 and 2050", "responsible-body-contacted-date-error-link");
-        whichSchoolNeedsHelp.clickBack();
+        taskListActions.clearDateInput("responsible-body-contacted-date");
 
-        taskList.selectTask("Contact the responsible body");
         taskListActions.enterDate("responsible-body-contacted-date", "5", "10", "2049");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("You must enter today's date or a date in the past", "responsible-body-contacted-date-error-link");
-        whichSchoolNeedsHelp.clickBack();
+        taskListActions.clearDateInput("responsible-body-contacted-date");
 
-        taskList.selectTask("Contact the responsible body");
         taskListActions.enterDate("responsible-body-contacted-date", "56", "10", "2024");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("Day must be between 1 and 31", "responsible-body-contacted-date-error-link");
-        whichSchoolNeedsHelp.clickBack();
+        taskListActions.clearDateInput("responsible-body-contacted-date");
 
-        taskList.selectTask("Contact the responsible body");
         taskListActions.enterDate("responsible-body-contacted-date", "5", "13", "2024");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("Month must be between 1 and 12", "responsible-body-contacted-date-error-link");
-        whichSchoolNeedsHelp.clickBack();
+        taskListActions.clearDateInput("responsible-body-contacted-date");
 
+        whichSchoolNeedsHelp.clickBack();
+        
         Logger.log("Validating text input field");
         taskList.selectTask("Record improvement plan decision");
         taskListActions.selectButtonOrCheckbox("no");
@@ -75,12 +67,14 @@ describe("Tasklist negative tests", () => {
 
         taskList.selectTask("Record improvement plan decision");
         taskListActions.selectButtonOrCheckbox("no");
+        taskListActions.clearInput("DisapprovingImprovementPlanDecisionNotes");
         taskListActions.enterText("DisapprovingImprovementPlanDecisionNotes", "<script>window.alert('Hello World')</script>");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskList.hasFilterSuccessNotification();
 
         taskList.selectTask("Record improvement plan decision");
         taskListActions.selectButtonOrCheckbox("no");
+        taskListActions.clearInput("DisapprovingImprovementPlanDecisionNotes");
         taskListActions.enterText("DisapprovingImprovementPlanDecisionNotes", "echo ${username}");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskList.hasFilterSuccessNotification();

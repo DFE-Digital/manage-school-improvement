@@ -44,6 +44,21 @@ class TaskListActions {
     
         return this;
       }
+
+    public clearDateInput(id: string): this {
+        cy.getById(`${id}-day`).clear();
+        cy.getById(`${id}-month`).clear();
+        cy.getById(`${id}-year`).clear();
+
+        return this;
+    }
+
+    public clearInput(id: string): this {
+        cy.getById(id).clear();
+
+        return this;
+    }
+
 }
 
 const taskListActions = new TaskListActions();
