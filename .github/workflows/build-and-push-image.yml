@@ -51,11 +51,12 @@ jobs:
   build-import:
     name: Build & Import
     runs-on: ubuntu-24.04
-    needs: [ set-env ]
+    needs: [ set-env, validate-packages ]
     environment: ${{ needs.set-env.outputs.environment }}
     permissions:
       packages: write
       id-token: write
+      attestations: write
     strategy:
       matrix:
         stage: [
@@ -68,7 +69,7 @@ jobs:
           - stage: "initcontainer"
             tag-prefix: "init-"
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@893261fb0934cda6c09b68081400892b999c5d96 # v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.2.1
         with:
           build-target: ${{ matrix.stage }}
           build-args: CI=true
@@ -76,7 +77,7 @@ jobs:
           tag-prefix: ${{ matrix.tag-prefix }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@893261fb0934cda6c09b68081400892b999c5d96 # v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.2.1
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -98,7 +99,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@893261fb0934cda6c09b68081400892b999c5d96 # v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.2.1
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -106,7 +107,7 @@ jobs:
           azure-aca-name: ${{ secrets.ACA_CONTAINERAPP_NAME }}
           azure-aca-resource-group: ${{ secrets.ACA_RESOURCE_GROUP }}
           azure-acr-name: ${{ secrets.ACR_NAME }}
-          # annotate-release: true
+          annotate-release: 'yes'
           image-name: ${{ env.IMAGE_NAME }}
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID || '' }}
