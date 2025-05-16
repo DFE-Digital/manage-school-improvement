@@ -52,7 +52,10 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
 
     if (string.IsNullOrWhiteSpace(config["CI"]))
+    {
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.None;
+    }
 });
 
 builder.Services.AddScoped(sp => sp.GetService<IHttpContextAccessor>()?.HttpContext?.Session);
@@ -112,7 +115,11 @@ builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefa
        options.SlidingExpiration = true;
 
        if (string.IsNullOrEmpty(config["CI"]))
+       {
            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+           options.Cookie.SameSite = SameSiteMode.None;
+       }
+
    });
 
 builder.Services.Configure<ApplicationInsightsOptions>(config.GetSection("ApplicationInsights"));
@@ -167,7 +174,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<CorrelationIdMiddleware>();
-app.UseCookiePolicy(new CookiePolicyOptions { Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always });
+app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict, Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always });
 
 app.UseEndpoints(endpoints =>
 {
