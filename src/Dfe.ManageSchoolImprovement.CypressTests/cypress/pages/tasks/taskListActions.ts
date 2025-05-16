@@ -34,10 +34,31 @@ class TaskListActions {
     }
 
     public enterText(id: string, text: string): this {
-        cy.getById(id).type(text);
+        cy.getById(id).type(text, {parseSpecialCharSequences: false });
 
         return this;
     }
+
+    public hasValidation(valText: string, id: string): this {
+        cy.getById(id).contains(valText);
+    
+        return this;
+      }
+
+    public clearDateInput(id: string): this {
+        cy.getById(`${id}-day`).clear();
+        cy.getById(`${id}-month`).clear();
+        cy.getById(`${id}-year`).clear();
+
+        return this;
+    }
+
+    public clearInput(id: string): this {
+        cy.getById(id).clear();
+
+        return this;
+    }
+
 }
 
 const taskListActions = new TaskListActions();

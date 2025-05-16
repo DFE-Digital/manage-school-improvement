@@ -11,7 +11,7 @@ describe("User completes their newly created project", () => {
   const {
     schoolShort,
     schoolLong,
-    lastInspectionAboutSchool,
+    lastInspectionDate,
     qualityOfEducation,
     leadershipAndManagement,
     assignedTo,
@@ -22,7 +22,6 @@ describe("User completes their newly created project", () => {
     schoolType,
     faithSchool,
     ofstedRating,
-    lastInspectionCheckDetails,
     pfi
   } = schoolData;
 
@@ -59,7 +58,7 @@ describe("User completes their newly created project", () => {
       .hasSchoolType(schoolType)
       .hasFaithSchool(faithSchool)
       .hasOfstedRating(ofstedRating)
-      .hasLastInspection(lastInspectionCheckDetails)
+      .hasLastInspection(lastInspectionDate)
       .hasPFI(pfi);
 
     checkSchoolDetails.clickContinue();
@@ -79,7 +78,7 @@ describe("User completes their newly created project", () => {
     taskList
       .hasHeader("Plymouth Grove Primary")
       .hasDateAdded(dateAdded)
-      .hasInspectionDate(lastInspectionAboutSchool)
+      .hasInspectionDate(lastInspectionDate)
       .hasQualityOfEducation(qualityOfEducation)
       .hasLeadershipAndManagement(leadershipAndManagement)
       .hasAssignedTo(assignedTo)

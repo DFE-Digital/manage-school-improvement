@@ -3,6 +3,20 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.6.0] - Q1 – Sprint 3 (Part 1 - All committed dev/test work) - 2025-05-09
+
+### 📌 User Stories
+
+- **207913** - Updates to 'Review the improvement plan' task
+- **207916** - Updates to the 'Request improvement grant offer letter' task
+- **210368** - Updates to 'Carry out due diligence on preferred supporting organisation' task
+
+### 🐛 Bug Fixes
+
+- **211680** - Date of Last Inspection Differs On Project Details Page Before Project Create And Also Differs On Ofsted tab from About project tab
+
+---
+
 ## 📅 [v0.5.0] - Q1 – Sprint 2 (Part 2) - 2025-05-01
 
 ### 📌 User Stories

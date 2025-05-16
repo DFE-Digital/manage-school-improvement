@@ -1,19 +1,13 @@
-@using Dfe.ManageSchoolImprovement;
 @using Dfe.ManageSchoolImprovement.Utils
-@model Dfe.ManageSchoolImprovement.Frontend.Models.ProjectListFilters
+@model ProjectListFilters
 <div class="moj-filter">
-
     <div class="moj-filter__header">
-
         <div class="moj-filter__header-title">
             <h2 class="govuk-heading-m">Filter</h2>
         </div>
-
         <div class="moj-filter__header-action">
         </div>
-
     </div>
-
     <div class="moj-filter__content">
         <div if="Model.IsVisible" class="moj-filter__selected">
 
@@ -26,26 +20,11 @@
                         <p class="govuk-body">No filters selected.</p>
                     }
                 </div>
-
                 <div class="moj-filter__heading-action">
-                    <p><a class="govuk-link govuk-link--no-visited-state" data-cy="clear-filter" href="@Url.RouteUrl(ViewContext.RouteData.Values)?clear">Clear filters</a></p>
+                    <p><a class="govuk-link govuk-link--no-visited-state" data-cy="clear-filter"
+                          href="@Url.RouteUrl(ViewContext.RouteData.Values)?clear">Clear filters</a></p>
                 </div>
-
             </div>
-@*             @if (Model.SelectedOfficers.Length > 0)
-            {
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Assigned to</h3>
-
-                <ul class="moj-filter-tags">
-                    @{
-                        foreach (var officer in Model.SelectedOfficers)
-                        {
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedOfficers=@officer"><span class="govuk-visually-hidden">Remove this filter</span> @officer.Stub()</a></li>
-                        }
-                    }
-
-                </ul>
-            } *@
             @if (Model.SelectedRegions.Length > 0)
             {
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Region</h3>
@@ -54,10 +33,11 @@
                     @{
                         foreach (var region in Model.SelectedRegions)
                         {
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&SelectedRegions=@region"><span class="govuk-visually-hidden">Remove this filter</span> @region.Stub()</a></li>
+                            <li><a class="moj-filter__tag"
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&SelectedRegions=@region"><span
+                                        class="govuk-visually-hidden">Remove this filter</span> @region.Stub()</a></li>
                         }
                     }
-
                 </ul>
             }
             @if (Model.SelectedLocalAuthorities.Length > 0)
@@ -68,207 +48,107 @@
                     @{
                         foreach (var localAuthority in Model.SelectedLocalAuthorities)
                         {
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&SelectedLocalAuthorities=@localAuthority"><span class="govuk-visually-hidden">Remove this filter</span> @localAuthority.Stub()</a></li>
+                            <li><a class="moj-filter__tag"
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&SelectedLocalAuthorities=@localAuthority"><span
+                                        class="govuk-visually-hidden">Remove this filter</span> @localAuthority.Stub()
+                                </a></li>
                         }
                     }
-
                 </ul>
             }
-@*             @if (Model.SelectedStatuses.Length > 0)
-            {
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Project status</h3>
-
-                <ul class="moj-filter-tags">
-                    @{
-                        foreach (var status in Model.SelectedStatuses)
-                        {
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&SelectedStatuses=@status"><span class="govuk-visually-hidden">Remove this filter</span> @status.Stub()</a></li>
-                        }
-                    }
-
-                </ul>
-            }
-            @if (Model.SelectedAdvisoryBoardDates.Length > 0)
-            {
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Advisory board date</h3>
-
-                <ul class="moj-filter-tags">
-                    @{
-                        foreach (var date in Model.SelectedAdvisoryBoardDates)
-                        {
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&SelectedAdvisoryBoardDates=@date"><span class="govuk-visually-hidden">Remove this filter</span> @date.Stub()</a></li>
-                        }
-                    }
-
-                </ul>
-            } *@
         </div>
-
         <div class="moj-filter__options">
             <form method="get" class="form">
-
                 <div class="govuk-form-group">
                     <label class="govuk-label govuk-label--m" for="Title">
                         Find a school
                     </label>
                     <span class="govuk-hint">You can filter by school name or URN (unique reference number).</span>
                     <div class="govuk-!-margin-top-2">
-                        <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input" aria-describedby="Title"
+                        <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input"
+                               aria-describedby="Title"
                                data-cy="select-projectlist-filter-title">
                     </div>
                 </div>
-
                 <div class="govuk-form-group">
+                    <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
 
-                    <fieldset class="govuk-fieldset">
-                        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                            @*                             <div class="govuk-accordion__section">
-                                <div class="govuk-accordion__section-header">
-                                    <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button" id="accordion-officers-heading">
-                                            Assigned to
-                                        </span>
-                                    </h2>
-                                </div>
-                                <div class="govuk-accordion__section-content" aria-labelledby="accordion-officers-heading">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter officers...">
-                                    <div class="govuk-checkboxes">
-                                        @{
-                                            <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="filter-delivery-officer-not-assigned"
-                                                       name="selectedOfficers" type="checkbox" value="Not assigned" @(Model.SelectedOfficers.Contains("Not assigned") ? "checked" : null)
-                                                       data-cy="select-projectlist-filter-officer-not-assigned">
-                                                <label class="govuk-label govuk-checkboxes__label" for="filter-delivery-officer-not-assigned">
-                                                    Not assigned
-                                                </label>
-                                            </div>
-                                            foreach (var officer in Model.AvailableDeliveryOfficers)
-                                            {
-                                                <div class="govuk-checkboxes__item">
-                                                    <input class="govuk-checkboxes__input" id="filter-delivery-officer-@officer.Stub()" name="selectedOfficers" type="checkbox" value="@officer" data-cy="select-projectlist-filter-officer-@officer"
-                                                    @(Model.SelectedOfficers.Contains(officer) ? "checked" : null) />
-                                                    <label class="govuk-label govuk-checkboxes__label" for="filter-delivery-officer-@officer.Stub()">
-                                                        @officer
-                                                    </label>
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                </div>
-                            </div> *@
-                            <div class="govuk-accordion__section">
-                                <div class="govuk-accordion__section-header">
-                                    <h2 class="govuk-accordion__section-heading">
-                                       
-                                        <label class="govuk-accordion__section-button" id="accordion-regions-heading" data-cy="select-projectlist-filter-region" for="filter-searches">
-                                            Region
-                                        </label>
-                                    </h2>
-                                </div>
-                                <div class="govuk-accordion__section-content">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter regions..." aria-labelledby="accordion-regions-heading">
-                                    <div class="govuk-checkboxes">
-                                        @foreach (var region in Model.AvailableRegions)
-                                        {
-                                            <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="filter-project-region-@region.Stub()" name="selectedRegions" type="checkbox" value="@region" data-cy="select-projectlist-filter-region-@region"
-                                                       @(Model.SelectedRegions.Contains(region) ? "checked" : null) />
-                                                <label class="govuk-label govuk-checkboxes__label" for="filter-project-region-@region.Stub()">
-                                                    @region
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
+                                    <label class="govuk-accordion__section-button" id="accordion-regions-heading"
+                                           data-cy="select-projectlist-filter-region" for="filter-searches">
+                                        Region
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-searches" placeholder="Type to filter regions..."
+                                       aria-labelledby="accordion-regions-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var region in Model.AvailableRegions)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-region-@region.Stub()" name="selectedRegions"
+                                                   type="checkbox" value="@region"
+                                                   data-cy="select-projectlist-filter-region-@region"
+                                                   @(Model.SelectedRegions.Contains(region) ? "checked" : null)/>
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-region-@region.Stub()">
+                                                @region
+                                            </label>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                            <div class="govuk-accordion__section">
-                                <div class="govuk-accordion__section-header">
-                                    <h2 class="govuk-accordion__section-heading">
-                                        <label class="govuk-accordion__section-button" id="accordion-local-authorities-heading" data-cy="select-projectlist-filter-local-authority" for="filter-authority-searches">
-                                            Local authority
-                                        </label>
-                                    </h2>
-                                </div>
-                                <div class="govuk-accordion__section-content">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-authority-searches" placeholder="Type to filter local authorities..." aria-labelledby="accordion-local-authorities-heading">
-                                    <div class="govuk-checkboxes">
-                                        @foreach (var localAuthority in Model.AvailableLocalAuthorities)
-                                        {
-                                            <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="filter-project-local-authority-@localAuthority.Stub()" name="selectedLocalAuthorities" type="checkbox" value="@localAuthority" data-cy="select-projectlist-filter-local-authority-@localAuthority"
-                                                       @(Model.SelectedLocalAuthorities.Contains(localAuthority) ? "checked" : null) />
-                                                <label class="govuk-label govuk-checkboxes__label" for="filter-project-local-authority-@localAuthority.Stub()">
-                                                    @localAuthority
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            @*                          <div class="govuk-accordion__section">
-                                <div class="govuk-accordion__section-header">
-                                    <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button" id="accordion-project-statuses-heading" data-cy="select-projectlist-filter-project-status">
-                                            Project Status
-                                        </span>
-                                    </h2>
-                                </div>
-                                <div class="govuk-accordion__section-content" aria-labelledby="accordion-project-statuses-heading">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter project statuses...">
-                                    <div class="govuk-checkboxes">
-                                        @foreach (var status in Model.AvailableStatuses)
-                                        {
-                                            <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="filter-project-status-@status.Stub()" name="selectedStatuses" type="checkbox" value="@status" data-cy="select-projectlist-filter-status-@status"
-                                                @(Model.SelectedStatuses.Contains(status) ? "checked" : null) />
-                                                <label class="govuk-label govuk-checkboxes__label" for="filter-project-status-@status.Stub()">
-                                                    @status
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="govuk-accordion__section">
-                                <div class="govuk-accordion__section-header">
-                                    <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button" id="accordion-advisory-board-dates-heading">
-                                            Advisory Board Date
-                                        </span>
-                                    </h2>
-                                </div>
-                                <div class="govuk-accordion__section-content" aria-labelledby="accordion-advisory-board-dates-heading">
-                                    <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter advisory board dates...">
-                                    <div class="govuk-checkboxes">
-                                        @foreach (var boardDate in Model.AvailableAdvisoryBoardDates)
-                                        {
-                                            <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="filter-project-advisory-board-@boardDate.Stub()" name="selectedAdvisoryBoardDates" type="checkbox" value="@boardDate" data-cy="select-projectlist-filter-advisory-board-@boardDate"
-                                                @(Model.SelectedAdvisoryBoardDates.Contains(boardDate) ? "checked" : null) />
-                                                <label class="govuk-label govuk-checkboxes__label" for="filter-project-advisory-board-@boardDate.Stub()">
-                                                    @boardDate
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div> *@
-
                         </div>
-                    </fieldset>
-
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button"
+                                           id="accordion-local-authorities-heading"
+                                           data-cy="select-projectlist-filter-local-authority"
+                                           for="filter-authority-searches">
+                                        Local authority
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-authority-searches" placeholder="Type to filter local authorities..."
+                                       aria-labelledby="accordion-local-authorities-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var localAuthority in Model.AvailableLocalAuthorities)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-local-authority-@localAuthority.Stub()"
+                                                   name="selectedLocalAuthorities" type="checkbox"
+                                                   value="@localAuthority"
+                                                   data-cy="select-projectlist-filter-local-authority-@localAuthority"
+                                                   @(Model.SelectedLocalAuthorities.Contains(localAuthority) ? "checked" : null)/>
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-local-authority-@localAuthority.Stub()">
+                                                @localAuthority
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="govuk-!-margin-top-2">
-                    <button class="govuk-button" data-module="govuk-button" data-test-id="submit-button" data-cy='select-projectlist-filter-apply'>
+                    <button class="govuk-button" data-module="govuk-button" data-test-id="submit-button"
+                            data-cy="select-projectlist-filter-apply">
                         Apply filters
-                    </button> 
+                    </button>
                 </div>
-
             </form>
         </div>
-
     </div>
-
 </div>
 
 <script type="text/javascript" src="~/src/filter.js" asp-add-nonce></script>
