@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
 
@@ -21,6 +22,20 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
         }
 
         return await response.Content.ReadFromJsonAsync<EstablishmentDto>();
+    }
+    public async Task<MISEstablishmentResponse> GetEstablishmentOfstedDataByUrn(string urn)
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync($"/establishment/urn/{urn}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            logger.LogWarning("Unable to get establishment data for establishment with URN: {urn}", urn);
+            return new MISEstablishmentResponse();
+        }
+
+        var establishment = await response.Content.ReadFromJsonAsync<EstablishmentResponse>();
+
+        return establishment?.MISEstablishment ?? new MISEstablishmentResponse();
     }
 
     public async Task<IEnumerable<EstablishmentSearchResponse>> SearchEstablishments(string searchQuery)

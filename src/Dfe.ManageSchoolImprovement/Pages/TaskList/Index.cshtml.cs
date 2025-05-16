@@ -50,7 +50,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
+        //ProjectListFilters.ClearFiltersFrom(TempData);
 
         ReturnPage = @Links.SchoolList.Index.Page;
 
@@ -85,6 +85,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         ConfirmEligibilityTaskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
         FundingHistoryStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
         return Page();
-       
+
     }
 }

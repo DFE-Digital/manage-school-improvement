@@ -11,6 +11,10 @@ $govuk-font-family: "Inter", blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans
 @import "./css/summary-card.scss";
 @import "./css/cookie-banner.scss";
 
+.govuk-tag{
+	max-width: none !important;
+}
+
 .moj-sub-navigation__item {
 	margin-bottom: 0;
 }
