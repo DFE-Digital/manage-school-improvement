@@ -12,6 +12,12 @@
     {
         lastInspectionDate = DateTime.ParseExact(Model.SupportProject.LastInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
     }
+
+    DateTime? previousInspectionDate = null;
+    if (@Model.PreviousInspectionDate != null || !string.IsNullOrWhiteSpace(@Model.PreviousInspectionDate))
+    {
+        previousInspectionDate = DateTime.ParseExact(Model.PreviousInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+    }
 } 
 @section BeforeMain
 {
@@ -76,8 +82,58 @@
                 </dl>
             </div>
         </div>
-        
 
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">
+                    Previous Ofsted report
+                </h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Date of last inspection
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @((Model.PreviousInspectionDate == null || string.IsNullOrWhiteSpace(@Model.PreviousInspectionDate)) ? "Unknown" : previousInspectionDate.ToDateString())
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Quality of education
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.PreviousQualityOfEducation" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Behaviour and attitudes
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.PreviousBehaviourAndAttitudes" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Personal development
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.PreviousPersonalDevelopment" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Leadership and management
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_OfstedJudgement" model="Model.PreviousLeadershipAndManagement" />
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
         <details class="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
@@ -86,7 +142,7 @@
             </summary>
             <div class="govuk-details__text">
                 <p>Information taken from Ofsted.</p>
-                <p>You can <a href="@Model.SupportProject.OftedReportWeblink" target="_blank">read this school's inspection reports in full (opens in new tab)</a> on the Ofsted website.</p>
+                <p>You can <a class="govuk-link" href="@Model.SupportProject.OftedReportWeblink" target="_blank">read this school's inspection reports in full (opens in new tab)</a> on the Ofsted website.</p>
             </div>
         </details>
     </div>
