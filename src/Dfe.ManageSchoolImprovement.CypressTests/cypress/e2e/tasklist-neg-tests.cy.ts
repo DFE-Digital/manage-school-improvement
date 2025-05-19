@@ -3,7 +3,6 @@ import riseHomePage from "cypress/pages/riseHomePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
-import * as schoolData from "cypress/fixtures/school-data.json";
 
 describe("Tasklist negative tests", () => {
     
