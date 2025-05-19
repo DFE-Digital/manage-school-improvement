@@ -6,7 +6,6 @@ import taskListActions from "cypress/pages/tasks/taskListActions";
 import * as schoolData from "cypress/fixtures/school-data.json";
 
 describe("Tasklist negative tests", () => {
-    const { schoolLong } = schoolData;
     
     beforeEach(() => {
         cy.login();
@@ -16,7 +15,7 @@ describe("Tasklist negative tests", () => {
     it("Should be able to validate Tasklist", { tags: ['@smoke'] }, () => {
 
         Logger.log("Selecting project");
-        riseHomePage.selectSchoolName(schoolLong);
+        riseHomePage.selectSchoolName("Plymtree Church of England Primary School");
         
         Logger.log("Validating date input field");
         taskList.selectTask("Contact the responsible body");
