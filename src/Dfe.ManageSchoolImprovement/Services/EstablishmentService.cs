@@ -23,19 +23,19 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
 
         return await response.Content.ReadFromJsonAsync<EstablishmentDto>();
     }
-    public async Task<MISEstablishmentResponse> GetEstablishmentOfstedDataByUrn(string urn)
+    public async Task<MisEstablishmentResponse> GetEstablishmentOfstedDataByUrn(string urn)
     {
         HttpResponseMessage response = await _httpClient.GetAsync($"/establishment/urn/{urn}");
 
         if (!response.IsSuccessStatusCode)
         {
             logger.LogWarning("Unable to get establishment data for establishment with URN: {urn}", urn);
-            return new MISEstablishmentResponse();
+            return new MisEstablishmentResponse();
         }
 
         var establishment = await response.Content.ReadFromJsonAsync<EstablishmentResponse>();
 
-        return establishment?.MISEstablishment ?? new MISEstablishmentResponse();
+        return establishment?.MisEstablishment ?? new MisEstablishmentResponse();
     }
 
     public async Task<IEnumerable<EstablishmentSearchResponse>> SearchEstablishments(string searchQuery)

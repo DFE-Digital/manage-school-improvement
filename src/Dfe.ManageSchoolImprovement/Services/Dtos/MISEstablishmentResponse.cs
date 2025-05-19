@@ -1,6 +1,6 @@
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.Dtos
 {
-    public class MISEstablishmentResponse
+    public class MisEstablishmentResponse
     {
         public string? SiteName { get; set; }
         public string? WebLink { get; set; }

@@ -23,16 +23,16 @@ public class GetEstablishmentItemCacheDecorator(IGetEstablishment getEstablishme
         return establishment;
     }
 
-    public async Task<MISEstablishmentResponse> GetEstablishmentOfstedDataByUrn(string urn)
+    public async Task<MisEstablishmentResponse> GetEstablishmentOfstedDataByUrn(string urn)
     {
         string key = $"establishment-ofsted-{urn}";
 
-        if (_httpContext.Items.ContainsKey(key) && _httpContext.Items[key] is MISEstablishmentResponse cached)
+        if (_httpContext.Items.ContainsKey(key) && _httpContext.Items[key] is MisEstablishmentResponse cached)
         {
             return cached;
         }
 
-        MISEstablishmentResponse establishment = await getEstablishment.GetEstablishmentOfstedDataByUrn(urn);
+        MisEstablishmentResponse establishment = await getEstablishment.GetEstablishmentOfstedDataByUrn(urn);
 
         _httpContext.Items[key] = establishment;
 

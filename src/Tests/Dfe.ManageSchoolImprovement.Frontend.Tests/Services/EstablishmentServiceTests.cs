@@ -19,8 +19,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Arrange
             var urn = "123456";
-            var expectedResponse = fixture.Create<MISEstablishmentResponse>();
-            var establishmentResponse = new EstablishmentResponse { MISEstablishment = expectedResponse };
+            var expectedResponse = fixture.Create<MisEstablishmentResponse>();
+            var establishmentResponse = new EstablishmentResponse { MisEstablishment = expectedResponse };
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler.Protected()
@@ -92,7 +92,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<MISEstablishmentResponse>(result);
+            Assert.IsType<MisEstablishmentResponse>(result);
         }
     }
 }
