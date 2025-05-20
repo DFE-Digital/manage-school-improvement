@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.7.0] - Q1 – Sprint 3 (Part 2 - Previous OFSTED Report Stuff, Cookie Security enhancements, Styling fixes) - 2025-05-20
+
+### 📌 User Stories
+
+- **214995** - Add previous Ofsted report to Ofsted Tab
+
+---
+
 ## 📅 [v0.6.0] - Q1 – Sprint 3 (Part 1 - All committed dev/test work) - 2025-05-09
 
 ### 📌 User Stories
