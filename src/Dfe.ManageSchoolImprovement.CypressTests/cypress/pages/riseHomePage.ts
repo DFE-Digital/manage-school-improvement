@@ -73,7 +73,7 @@ class RiseHomePage {
   }
 
   public selectSchoolName(schoolLong: string) : this {
-    cy.get('[data-cy="trust-name-0"]').contains(schoolLong).click();
+    cy.get('[data-cy^="trust-name-"]').contains(schoolLong).click();
 
     return this;
   }
