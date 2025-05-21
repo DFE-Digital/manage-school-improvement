@@ -47,8 +47,43 @@ npm run cy:open
 To execute the tests in headless mode, use the following command (the output will log to the console):
 
 ```
-npm run cy:run
+npx cypress run
 ```
+
+### Further Test Execution Options To Simulate Dev And Test ###
+
+There are two main ways to run the Cypress tests as the Dev and Test environments pipelines will.
+
+**DEV**
+
+```
+npx cypress run --spec "cypress/e2e/*"
+```
+
+The above will run all the Cypress tests that run in the dev pipeline i.e. everything bar creating and completing a project (the smoke test)
+
+
+
+The following is an alternative way to do this but where the excluded test will be shown as run but the tests will be in a skipped/pending state as below
+
+```
+npx cypress run --env grepTags=-smoke
+```
+
+**TEST**
+
+The following will execute our core create project (and complete tasklist) test like the Test environment pipeline does.
+
+```
+npx cypress run --spec "cypress/e2e/smoke"
+```
+
+The alternative way to do this with Cypress-grep (where all the other dev tests are skipped and put in a pending state) is as follows
+
+```
+npx cypress run --env grepTags=smoke
+```
+
 
 ### Accessibility Testing
 
