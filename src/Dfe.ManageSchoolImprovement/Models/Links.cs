@@ -26,7 +26,7 @@ public static class Links
 
     public static class AddSchool
     {
-        public static readonly LinkItem WhichSchoolNeedsHelp = AddLinkItem(backText: "Back", page: "/AddSchool/WhichSchoolNeedsHelp");
+        public static readonly LinkItem SelectSchool = AddLinkItem(backText: "Back", page: "/AddSchool/SelectSchool");
         public static readonly LinkItem Summary = AddLinkItem(page: "/AddSchool/Summary");
     }
 
@@ -95,7 +95,7 @@ public static class Links
         public static readonly LinkItem NewNote = AddLinkItem(backText: "Back", page: "/Notes/NewNote");
         public static readonly LinkItem EditNote = AddLinkItem(backText: "Back", page: "/Notes/EditNote");
     }
-    
+
     public static class EngagementConcern
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/EngagementConcern/Index");

@@ -163,11 +163,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
         public void AddSchool_WhichSchoolNeedsHelp_ShouldHaveCorrectValues()
         {
             // Arrange & Act
-            var linkItem = AddSchool.WhichSchoolNeedsHelp;
+            var linkItem = AddSchool.SelectSchool;
 
             // Assert
             Assert.NotNull(linkItem);
-            Assert.Equal("/AddSchool/WhichSchoolNeedsHelp", linkItem.Page);
+            Assert.Equal("/AddSchool/SelectSchool", linkItem.Page);
             Assert.Equal("Back", linkItem.BackText);
         }
 
