@@ -1,13 +1,13 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.Models;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool;
 
-public class WhichSchoolNeedsHelpModel(IGetEstablishment getEstablishment, ErrorService errorService, ISupportProjectQueryService supportProjectQueryService) : PageModel
+public class SelectSchoolModel(IGetEstablishment getEstablishment, ErrorService errorService, ISupportProjectQueryService supportProjectQueryService) : PageModel
 {
     private const string SEARCH_LABEL = "Find the school using its name or URN.";
     private const string SEARCH_ENDPOINT = "/which-school-needs-help?handler=Search&searchQuery=";
