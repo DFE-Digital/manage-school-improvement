@@ -22,7 +22,7 @@
 
 @section BeforeMain
 {
-    <partial name="_BackLink" model="@(new BackLink(Links.AddSchool.WhichSchoolNeedsHelp.Page, routeParams))" />
+    <partial name="_BackLink" model="@(new BackLink(Links.AddSchool.SelectSchool.Page, routeParams))" />
 }
 
 <div class="govuk-grid-row">
@@ -133,7 +133,7 @@
             <input type="hidden" value="@Model.Establishment.Urn" />
             <div class="govuk-button-group">
                 <button class="govuk-button" type="submit" data-id="submit">Continue</button>
-                <a asp-page="@Links.AddSchool.WhichSchoolNeedsHelp.Page" class="govuk-link" data-cy="change-school"
+                <a asp-page="@Links.AddSchool.SelectSchool.Page" class="govuk-link" data-cy="change-school"
                    asp-all-route-data="@backLinkRouteParams">
                     Choose a different school
                 </a> 
