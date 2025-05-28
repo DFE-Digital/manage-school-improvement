@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.7.1] - Q1 – Sprint 4 (Part 1) - 2025-05-23
+
+### 📌 User Stories
+
+- **214508** - Add the link to the funding history spreadsheet
+
+---
+
 ## 📅 [v0.7.0] - Q1 – Sprint 3 (Part 2 - Previous OFSTED Report Stuff, Cookie Security enhancements, Styling fixes) - 2025-05-20
 
 ### 📌 User Stories
