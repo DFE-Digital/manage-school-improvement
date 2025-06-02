@@ -133,12 +133,12 @@
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link" asp-page="@Links.TaskList.ArrangeAdviserVisitToSchool.Page" asp-route-id="@Model.SupportProject.Id" data-cy="adviser-school-visit">
-                            Arrange adviser visit to school <partial name="Shared/_TaskListStatusText" model="@Model.AdviserVisitToSchoolTaskListStatus" />
+                        <a class="govuk-link" asp-page="@Links.TaskList.ArrangeAdvisersFirstFaceToFaceVisit.Page" asp-route-id="@Model.SupportProject.Id" data-cy="adviser-school-visit">
+                            Arrange adviser's first face-to-face visit <partial name="Shared/_TaskListStatusText" model="@Model.ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus" />
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="adviser-school-visit_status">
-                        <partial name="Shared/_TaskListStatus" model="@Model.AdviserVisitToSchoolTaskListStatus" />
+                        <partial name="Shared/_TaskListStatus" model="@Model.ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus" />
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
@@ -228,7 +228,7 @@
                 </li>
             </ul>
         </div>
-        <h2 class="govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-8" data-test="prepare-project-doc">Phase 3: Diagnosis and Planning</h2>
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-8" data-test="prepare-project-doc">Phase 3: Diagnosis and planning</h2>
         <h3 class="app-task-list__section govuk-!-margin-top-4">Send planning grant offer letter</h3>
         <div>
             <ul class="govuk-task-list">
