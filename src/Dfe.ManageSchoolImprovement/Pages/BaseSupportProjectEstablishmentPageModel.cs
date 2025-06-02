@@ -39,6 +39,7 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
             SupportProject.ReligiousCharacter = establishment.ReligiousCharacter.Name;
             SupportProject.NumbersOnRoll = establishment.Census.NumberOfPupils;
             SupportProject.PreviousUrn = establishment.PreviousEstablishment?.Urn ?? "Not applicable";
+            SupportProject.SchoolType = establishment.EstablishmentType.Name;
         }
 
         if (!result.IsSuccess)

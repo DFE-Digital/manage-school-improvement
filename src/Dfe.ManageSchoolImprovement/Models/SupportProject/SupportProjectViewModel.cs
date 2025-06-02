@@ -21,6 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string Diocese { get; set; }
 
         public string SchoolPhase { get; set; }
+        public string SchoolType { get; set; }
 
         public string ReligiousCharacter { get; set; }
 
