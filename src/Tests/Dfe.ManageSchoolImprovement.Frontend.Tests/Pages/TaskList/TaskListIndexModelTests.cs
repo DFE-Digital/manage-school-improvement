@@ -1,18 +1,13 @@
 ﻿using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Microsoft.AspNetCore.Http;
+using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
 using Moq;
-using System.Net.Http;
-using System.Security.Policy;
-using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
 {
@@ -42,29 +37,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             };
             _mockGetEstablishment.Setup(x => x.GetEstablishmentByUrn(_urn)).ReturnsAsync(new DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
+                EstablishmentType = new NameAndCodeDto() { Name = "School" },
                 Diocese = new NameAndCodeDto()
                 {
                     Name = "TestDiocese",
                     Code = "1"
                 },
-                
+
                 PhaseOfEducation = new NameAndCodeDto()
                 {
                     Name = "TestPhase",
                     Code = "2"
                 },
-                
+
                 ReligiousCharacter = new NameAndCodeDto()
                 {
                     Name = "TestReli",
                     Code = "3"
                 },
-                
+
                 Census = new CensusDto()
                 {
                     NumberOfPupils = "1234"
                 },
-                
+
                 MISEstablishment = new DfE.CoreLibs.Contracts.Academies.V4.Establishments.MisEstablishmentDto
                 {
                     QualityOfEducation = "Good",
@@ -84,7 +80,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             var cancellationToken = CancellationToken.None;
             var mockProject = () => Result<SupportProjectDto?>.Success(new SupportProjectDto(projectId, DateTime.Now, "schoolName", _urn, "local Authority", "Region"));
             _mockSupportProjectQueryService.Setup(service => service.GetSupportProject(projectId, cancellationToken))
-                .ReturnsAsync(mockProject); 
+                .ReturnsAsync(mockProject);
 
             // Act
             var result = await _indexModel.OnGetAsync(projectId, cancellationToken);

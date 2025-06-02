@@ -1,12 +1,12 @@
-﻿using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
-using Dfe.ManageSchoolImprovement.Application.Common.Models;
+﻿using Dfe.ManageSchoolImprovement.Application.Common.Models;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Pages;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Models; 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
 {
@@ -36,30 +36,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             var mockProject = new SupportProjectDto(projectId, DateTime.Now, "schoolName", "URN234", "local Authority", "Region");
             var mockEstablishment = new DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
-                
+                EstablishmentType = new NameAndCodeDto() { Name = "School" },
                 Diocese = new NameAndCodeDto()
                 {
                     Name = "TestDiocese",
                     Code = "1"
                 },
-                
+
                 PhaseOfEducation = new NameAndCodeDto()
                 {
                     Name = "TestPhase",
                     Code = "2"
                 },
-                
+
                 ReligiousCharacter = new NameAndCodeDto()
                 {
                     Name = "TestReligion",
                     Code = "3"
                 },
-                
+
                 Census = new CensusDto()
                 {
                     NumberOfPupils = "1234"
                 },
-                
+
                 MISEstablishment = new()
                 {
                     QualityOfEducation = "Good",
@@ -87,9 +87,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             Assert.Equal("Good", _pageModel.SupportProject.PersonalDevelopment);
             Assert.Equal("Good", _pageModel.SupportProject.LeadershipAndManagement);
             Assert.Equal("2022-06-01", _pageModel.SupportProject.LastInspectionDate);
-            Assert.Equal("TestDiocese",_pageModel.SupportProject.Diocese);
-            Assert.Equal("TestPhase",_pageModel.SupportProject.SchoolPhase);
-            Assert.Equal("TestReligion",_pageModel.SupportProject.ReligiousCharacter);
+            Assert.Equal("TestDiocese", _pageModel.SupportProject.Diocese);
+            Assert.Equal("TestPhase", _pageModel.SupportProject.SchoolPhase);
+            Assert.Equal("TestReligion", _pageModel.SupportProject.ReligiousCharacter);
             Assert.Equal("1234", _pageModel.SupportProject.NumbersOnRoll);
         }
 
