@@ -3,6 +3,19 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.9.0] - Q1 – Sprint 4 (Part 2) - 2025-06-02
+
+### 📌 User Stories
+
+- **206465** - Update page title to match content and URL on school name page
+- **215296** - Add the name of the RISE phase to the tasklist
+- **215650** - Adding the 'school type' to 'about the school' section
+- **217032** - Arrange first face-to-face meeting
+
+### 🐛 Bug Fixes
+- **212155** - Very Minor/Enhancement: Cancel links On Engagement concerns & Case study Lack govuk-link classes
+
+---
 ## 📅 [v0.8.0] - Q1 – Sprint 4 (Part 1) - 2025-05-23
 
 ### 📌 User Stories
