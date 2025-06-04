@@ -51,6 +51,14 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
             Filters.AvailableLocalAuthorities = localAuthoritiesResult.Value.ToList();
         }
 
+
+        var assignedUsersResult = await supportProjectQueryService.GetAllProjectAssignedUsers(cancellationToken);
+
+        if (assignedUsersResult.IsSuccess && assignedUsersResult.Value != null)
+        {
+            Filters.AvailableDeliveryOfficers = assignedUsersResult.Value.ToList();
+        }
+
         return Page();
     }
 }

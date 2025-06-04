@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: "School",
                 states: [],
-                advisors: ["User1"],
+                assignedUsers: ["User1"],
                 regions: ["Region1"],
                 localAuthorities: ["Authority1"],
                 page: 1,
@@ -38,7 +38,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: "School",
                 states: [],
-                advisors: [],
+                assignedUsers: [],
                 regions: [],
                 localAuthorities: [],
                 page: 1,
@@ -61,7 +61,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: "100001",
                 states: [],
-                advisors: [],
+                assignedUsers: [],
                 regions: [],
                 localAuthorities: [],
                 page: 1,
@@ -93,7 +93,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: title,
                 states: [],
-                advisors: [],
+                assignedUsers: [],
                 regions: regions,
                 localAuthorities: localAuthorities,
                 page: 1,

@@ -21,5 +21,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
         Task<Result<IEnumerable<string>>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectRegions(CancellationToken cancellationToken);
+        Task<Result<IEnumerable<string>>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
     }
 }
