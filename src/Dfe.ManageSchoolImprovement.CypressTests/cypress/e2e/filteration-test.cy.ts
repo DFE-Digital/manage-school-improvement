@@ -1,4 +1,4 @@
-import riseHomePage from "cypress/pages/riseHomePage";
+import riseHomePage from "cypress/pages/homePage";
 import { Logger } from "cypress/common/logger";
 
 describe("Filteration Tests", { tags: ["@dev", "@stage"] }, () => {

@@ -1,3 +1,5 @@
+import { contains } from "cypress/types/jquery";
+
 class RiseHomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();
@@ -11,6 +13,21 @@ class RiseHomePage {
       "Schools identified for targeted intervention"
     );
     cy.contains("Add a school").should("be.visible");
+    return this;
+  }
+
+  public hasCookiesBanner(): this {
+    cy.get('.govuk-cookie-banner__heading').contains('Cookies on Manage school improvement')
+    cy.get('[data-test="cookie-banner-accept"]').contains('Accept analytics cookies')
+    cy.get('[data-test="cookie-banner-reject"]').contains('Reject analytics cookies')
+    cy.get('[data-test="cookie-banner-link-1"]').contains('View cookies')
+    return this;
+  }
+
+  public viewCookiesPage(): this {
+    cy.get('[data-test="cookie-banner-link-1"]').click()
+    cy.url().should('contains', '/cookie-preferences')
+    cy.get('[data-qa="submit"]').should('be.visible')
     return this;
   }
 

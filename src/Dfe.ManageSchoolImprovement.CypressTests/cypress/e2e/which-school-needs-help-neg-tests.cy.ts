@@ -1,4 +1,4 @@
-import riseHomePage from "cypress/pages/riseHomePage";
+import riseHomePage from "cypress/pages/homePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 
 describe("Which school needs help negative tests", () => {

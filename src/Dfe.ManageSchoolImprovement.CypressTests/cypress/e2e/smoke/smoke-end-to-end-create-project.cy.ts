@@ -1,5 +1,5 @@
 import { Logger } from "cypress/common/logger";
-import riseHomePage from "cypress/pages/riseHomePage";
+import riseHomePage from "cypress/pages/homePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import taskList from "cypress/pages/taskList";
