@@ -1,6 +1,6 @@
 import { contains } from "cypress/types/jquery";
 
-class RiseHomePage {
+class HomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();
     //   cy.login({role: ProjectRecordCreator})
@@ -172,7 +172,25 @@ class RiseHomePage {
 
     return this;
   }
-}
-const riseHomePage = new RiseHomePage();
 
-export default riseHomePage;
+  public resultCountNotZero(): this {
+    cy.get('[data-cy="trust-name-0"]').should('be.visible')
+     cy.contains(/schools found/i)
+      .invoke('text')
+      .then((text: string) => {
+        // Use regex to extract the number from the string
+        const match = text.match(/^(\d+)\s+schools found$/i);
+        expect(match, 'Valid product count string').to.not.be.null;
+
+        const productCount: number = parseInt(match![1], 10);
+
+        // Assert that the product count is not zero
+        expect(productCount, 'Product count should not be zero').to.not.equal(0);
+        
+      });
+    return this;
+  }
+}
+const homePage = new HomePage();
+
+export default homePage;

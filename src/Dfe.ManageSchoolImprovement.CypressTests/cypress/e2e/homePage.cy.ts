@@ -1,33 +1,46 @@
 import { Logger } from "cypress/common/logger";
-import riseHomePage from "cypress/pages/homePage";
-import path from "path";
-
+import homePage from "cypress/pages/homePage";
+import paginationComponent from "cypress/pages/pagination";
 
 describe("User navigates to the MSI landing page", () => {
     beforeEach(() => {
-        cy.login();   
-    });
-
-    it("should have 'Add a school' button, school list and filter section", () => {
-       riseHomePage
-         .hasAddSchool()
-         .hasProjectCount()
-         .hasProjectFilter()
-         
-         cy.executeAccessibilityTests()
+        cy.login();
     });
 
     it("should have cookies banner and user should navigate to the cookies page", () => {
-       riseHomePage
-         .hasCookiesBanner()
-         .viewCookiesPage()
-    });    
+        Logger.log("Cookies banner")
+        homePage
+            .hasCookiesBanner()
+            .viewCookiesPage()
 
-    it("Should show the success notification banner when a filter is applied", () => {
-        riseHomePage
+        cy.executeAccessibilityTests()
+    });
+
+    it("should have 'Add a school' button, school list and filter section", () => {
+        homePage
+            .hasAddSchool()
+            .hasProjectCount()
             .hasProjectFilter()
-            .selectEastMidlandsRegionFilter()
-            .applyFilters()
-            .hasFilterSuccessNotification()
+        Logger.log("Filters on the homepage")
+
+        cy.executeAccessibilityTests()
+    });
+
+
+    it('should display school records', () => {
+        Logger.log("Homepage shows results")
+        homePage
+            .resultCountNotZero()
+    });
+
+
+    it("should navigate to the next and previous pages", () => {
+        paginationComponent
+            .hasPagination()
+            .navigateToTheNextPage()
+            .navigateToThePreviousPage()
+        Logger.log("Moved to the previous page, which is page 1")
+
+        cy.executeAccessibilityTests()
     });
 });

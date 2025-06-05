@@ -1,5 +1,5 @@
 import { Logger } from "cypress/common/logger";
-import riseHomePage from "cypress/pages/homePage";
+import homePage from "cypress/pages/homePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
@@ -14,7 +14,7 @@ describe("Tasklist negative tests", () => {
     it("Should be able to validate Tasklist", { tags: ['@smoke'] }, () => {
 
         Logger.log("Selecting project");
-        riseHomePage.selectSchoolName("Plymtree Church of England Primary School");
+        homePage.selectSchoolName("Plymtree Church of England Primary School");
         
         Logger.log("Validating date input field");
         taskList.selectTask("Contact the responsible body");

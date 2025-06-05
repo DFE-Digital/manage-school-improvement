@@ -1,5 +1,5 @@
 import { Logger } from "cypress/common/logger";
-import riseHomePage from "cypress/pages/homePage";
+import homePage from "cypress/pages/homePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import taskList from "cypress/pages/taskList";
@@ -38,7 +38,7 @@ describe("User completes their newly created project", () => {
   });
 
   it("Should be able to add a school and add it to the list", { tags: ['smoke'] }, () => {
-    riseHomePage.AddSchool();
+    homePage.AddSchool();
 
     cy.executeAccessibilityTests();
 
@@ -63,7 +63,7 @@ describe("User completes their newly created project", () => {
 
     checkSchoolDetails.clickContinue();
 
-    riseHomePage
+    homePage
       .hasSchoolName("Plymouth Grove Primary")
       .hasURN(urn)
       .hasLocalAuthority(localAuthority)
@@ -71,7 +71,7 @@ describe("User completes their newly created project", () => {
       .hasAddSchoolSuccessNotification();
 
     Logger.log("Seleting previously created project");
-    riseHomePage.selectSchoolName(schoolLong);
+    homePage.selectSchoolName(schoolLong);
 
     cy.executeAccessibilityTests();
 
