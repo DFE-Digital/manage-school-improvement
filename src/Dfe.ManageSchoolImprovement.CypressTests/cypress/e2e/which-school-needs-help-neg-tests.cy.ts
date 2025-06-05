@@ -1,4 +1,4 @@
-import riseHomePage from "cypress/pages/riseHomePage";
+import homePage from "cypress/pages/homePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 
 describe("Which school needs help negative tests", () => {
@@ -8,7 +8,7 @@ describe("Which school needs help negative tests", () => {
   });
 
   it("Should be able to validate Which school needs help page", () => {
-    riseHomePage.AddSchool();
+    homePage.AddSchool();
 
     cy.executeAccessibilityTests();
 
@@ -30,7 +30,7 @@ describe("Which school needs help negative tests", () => {
 
     //GO BACK AND COME BACK IN AGAIN TO GET ROUND AUTOCOMPLETE FAILING TO APPEAR
     whichSchoolNeedsHelp.clickBack();
-    riseHomePage.AddSchool();
+    homePage.AddSchool();
 
     // ADD NEG-TEST FOR ADDING ALREADY EXISTING SCHOOL
     whichSchoolNeedsHelp
@@ -40,7 +40,7 @@ describe("Which school needs help negative tests", () => {
       .hasValidation("This school is already getting support, choose a different school");
 
    whichSchoolNeedsHelp.clickBack();
-   riseHomePage.AddSchool();
+   homePage.AddSchool();
 
     // ADD NEG-TEST FOR SQL INJECTION ATTEMPT
     whichSchoolNeedsHelp
@@ -60,7 +60,7 @@ describe("Which school needs help negative tests", () => {
 
     // RELOAD PAGE OR GO BACK TO GET PAST MISSING TEXTFIELD AFTER XSS BLOWS IT UP!
     whichSchoolNeedsHelp.clickBack();
-    riseHomePage.AddSchool();
+    homePage.AddSchool();
 
     // ADD NEG-TEST FOR BASH SCRIPTING ATTEMPT
     whichSchoolNeedsHelp

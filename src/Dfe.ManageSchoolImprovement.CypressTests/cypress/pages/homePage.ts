@@ -1,4 +1,4 @@
-class RiseHomePage {
+class HomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();
     //   cy.login({role: ProjectRecordCreator})
@@ -11,6 +11,21 @@ class RiseHomePage {
       "Schools identified for targeted intervention"
     );
     cy.contains("Add a school").should("be.visible");
+    return this;
+  }
+
+  public hasCookiesBanner(): this {
+    cy.get('.govuk-cookie-banner__heading').contains('Cookies on Manage school improvement')
+    cy.get('[data-test="cookie-banner-accept"]').contains('Accept analytics cookies')
+    cy.get('[data-test="cookie-banner-reject"]').contains('Reject analytics cookies')
+    cy.get('[data-test="cookie-banner-link-1"]').contains('View cookies')
+    return this;
+  }
+
+  public viewCookiesPage(): this {
+    cy.get('[data-test="cookie-banner-link-1"]').click()
+    cy.url().should('contains', '/cookie-preferences')
+    cy.get('[data-qa="submit"]').should('be.visible')
     return this;
   }
 
@@ -155,7 +170,26 @@ class RiseHomePage {
 
     return this;
   }
-}
-const riseHomePage = new RiseHomePage();
 
-export default riseHomePage;
+  public resultCountNotZero(): this {
+    cy.get('[data-cy="trust-name-0"]').should('be.visible')
+     cy.contains(/schools found/i)
+      .invoke('text')
+      .then((text: string) => {
+        // Use regex to extract the number from the string
+        const regex = /^(\d+)\s+schools found$/i;
+        const result = regex.exec(text)
+        expect(result).to.not.be.null;
+
+        const schoolCount = parseInt(result![1], 10);
+
+        // Assert that the school count is not zero
+        expect(schoolCount).to.be.greaterThan(0);
+        
+      });
+    return this;
+  }
+}
+const homePage = new HomePage();
+
+export default homePage;

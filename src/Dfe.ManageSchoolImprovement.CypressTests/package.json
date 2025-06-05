@@ -34,7 +34,7 @@
     "@typescript-eslint/eslint-plugin": "8.23.0",
     "axe-core": "4.10.3",
     "csv-stringify": "6.5.2",
-    "cypress": "13.17.0",
+    "cypress": "^14.0.0",
     "cypress-axe": "1.6.0",
     "cypress-localstorage-commands": "2.2.7",
     "cypress-multi-reporters": "1.6.4",
