@@ -12,7 +12,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         public async Task<(IEnumerable<SupportProject> projects, int totalCount)> SearchForSupportProjects(
             string? title,
             IEnumerable<string>? states,
-            IEnumerable<string>? advisors,
+            IEnumerable<string>? assignedUsers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
             int page,
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByRegion(regions, queryable);
             queryable = FilterByStatus(states, queryable);
             queryable = FilterByKeyword(title, queryable);
-            //queryable = FilterByAdvisors(advisors, queryable);
+            queryable = FilterByAssignedUsers(assignedUsers, queryable);
             queryable = FilterByLocalAuthority(localAuthorities, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
@@ -34,6 +34,30 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Take(count).ToListAsync(cancellationToken);
 
             return (projects, totalProjects);
+        }
+
+        private static IQueryable<SupportProject> FilterByAssignedUsers(IEnumerable<string>? assignedUsers, IQueryable<SupportProject> queryable)
+        {
+            if (assignedUsers != null && assignedUsers.Any())
+            {
+                var lowerCaseDeliveryOfficers = assignedUsers.Select(officer => officer.ToLower());
+
+                if (lowerCaseDeliveryOfficers.Contains("not assigned"))
+                {
+                    // Query by unassigned or assigned delivery officer
+                    queryable = queryable.Where(p =>
+                                (!string.IsNullOrEmpty(p.AssignedDeliveryOfficerFullName) && lowerCaseDeliveryOfficers.Contains(p.AssignedDeliveryOfficerFullName.ToLower()))
+                                || string.IsNullOrEmpty(p.AssignedDeliveryOfficerFullName));
+                }
+                else
+                {
+                    // Query by assigned delivery officer only
+                    queryable = queryable.Where(p =>
+                        !string.IsNullOrEmpty(p.AssignedDeliveryOfficerFullName) && lowerCaseDeliveryOfficers.Contains(p.AssignedDeliveryOfficerFullName.ToLower()));
+                }
+            }
+
+            return queryable;
         }
 
         private static IQueryable<SupportProject> FilterByRegion(IEnumerable<string>? regions, IQueryable<SupportProject> queryable)
@@ -117,6 +141,16 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.Contacts)
                 .Include(x => x.FundingHistories)
                 .AsQueryable();
+        }
+
+        public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
+        {
+            return await DbSet().OrderByDescending(p => p.LocalAuthority)
+                .AsNoTracking()
+                .Select(p => p.AssignedDeliveryOfficerFullName!)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToListAsync(cancellationToken);
         }
     }
 }

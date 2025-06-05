@@ -1,5 +1,5 @@
-using FluentAssertions;
 using Dfe.ManageSchoolImprovement.Infrastructure.Repositories;
+using FluentAssertions;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 {
@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: "School",
                 states: [],
-                advisors: ["User1"],
+                assignedUsers: ["User1"],
                 regions: ["Region1"],
                 localAuthorities: ["Authority1"],
                 page: 1,
@@ -38,7 +38,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: "School",
                 states: [],
-                advisors: [],
+                assignedUsers: [],
                 regions: [],
                 localAuthorities: [],
                 page: 1,
@@ -61,7 +61,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: "100001",
                 states: [],
-                advisors: [],
+                assignedUsers: [],
                 regions: [],
                 localAuthorities: [],
                 page: 1,
@@ -73,6 +73,30 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             totalCount.Should().Be(1); // Assert total count
             projects.Should().HaveCount(1);              // Assert paged results
             projects.First().SchoolName.Should().Be("School A");
+        }
+        [Fact]
+        public async Task SearchForSupportProjects_WithNoUserAssigned_ShouldReturnFilteredAndPagedResults()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act 
+            var (projects, totalCount) = await service.SearchForSupportProjects(
+                title: null,
+                states: [],
+                assignedUsers: ["not assigned"],
+                regions: [],
+                localAuthorities: [],
+                page: 1,
+                count: 3,
+                cancellationToken: CancellationToken.None
+            );
+
+            // Assert
+            totalCount.Should().Be(2); // Assert total count
+            projects.Should().HaveCount(2);              // Assert paged results
+            projects.Should().Contain(x => x.SchoolName == "School B");
+            projects.Should().Contain(x => x.SchoolName == "School C");
         }
 
         public static readonly TheoryData<string?, string[], string[]> DeleteProjectCases = new()
@@ -93,7 +117,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var (projects, totalCount) = await service.SearchForSupportProjects(
                 title: title,
                 states: [],
-                advisors: [],
+                assignedUsers: [],
                 regions: regions,
                 localAuthorities: localAuthorities,
                 page: 1,

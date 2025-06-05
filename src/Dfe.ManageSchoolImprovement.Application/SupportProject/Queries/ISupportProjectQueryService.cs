@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
             string? title,
             IEnumerable<string>? states,
-            IEnumerable<string>? advisors,
+            IEnumerable<string>? assignedUsers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
             string pagePath,
@@ -21,5 +21,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
         Task<Result<IEnumerable<string>>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectRegions(CancellationToken cancellationToken);
+        Task<Result<IEnumerable<string>>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
     }
 }

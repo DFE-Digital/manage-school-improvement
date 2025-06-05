@@ -8,16 +8,17 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
         Task<(IEnumerable<SupportProject> projects, int totalCount)> SearchForSupportProjects(
             string? title,
             IEnumerable<string>? states,
-            IEnumerable<string>? advisors,
+            IEnumerable<string>? assignedUsers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
             int page,
-            int count, 
+            int count,
             CancellationToken cancellationToken);
 
         Task<IEnumerable<string>> GetAllProjectRegions(CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken);
-        
+        Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
+
         Task<SupportProject?> GetSupportProjectById(SupportProjectId id, CancellationToken cancellationToken);
     }
 }
