@@ -172,6 +172,38 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.Null(result.Value);
         }
 
+
+        [Fact]
+        public async Task GetAllProjectAssignedUsers_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var users = new List<string> { "User 1", "User 2" };
+
+            _mockRepository.Setup(r => r.GetAllProjectAssignedUsers(It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(users);
+
+            // Act
+            var result = await _service.GetAllProjectLocalAuthorities(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(users, result.Value);
+        }
+
+        [Fact]
+        public async Task GetAllProjectAssignedUsers_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectAssignedUsers(It.IsAny<CancellationToken>()))!.ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectAssignedUsers(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
+
         private List<Domain.Entities.SupportProject.SupportProject> GetSchoolProjects(int count = 1)
         {
             var projects = new List<Domain.Entities.SupportProject.SupportProject>();
