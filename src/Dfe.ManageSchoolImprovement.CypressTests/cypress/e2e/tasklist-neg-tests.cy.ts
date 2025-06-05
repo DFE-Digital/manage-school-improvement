@@ -11,7 +11,7 @@ describe("Tasklist negative tests", () => {
         cy.url().should("contains", "schools-identified-for-targeted-intervention");
     });
     
-    it("Should be able to validate Tasklist", { tags: ['@smoke'] }, () => {
+    it("Should be able to validate Tasklist", () => {
 
         Logger.log("Selecting project");
         homePage.selectSchoolName("Plymtree Church of England Primary School");

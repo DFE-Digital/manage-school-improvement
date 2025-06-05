@@ -6,7 +6,7 @@ describe("User search results by appliying filters", () => {
         cy.login();
     });
 
-    it("should show the success notification banner when a region filter is applied", { tags: ["@dev", "@stage"] }, () => {
+    it("should show the success notification banner when a region filter is applied", () => {
         homePage
             .hasProjectFilter()
             .selectEastMidlandsRegionFilter()
