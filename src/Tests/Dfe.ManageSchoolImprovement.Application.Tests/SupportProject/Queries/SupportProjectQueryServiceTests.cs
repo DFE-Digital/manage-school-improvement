@@ -183,7 +183,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                            .ReturnsAsync(users);
 
             // Act
-            var result = await _service.GetAllProjectLocalAuthorities(CancellationToken.None);
+            var result = await _service.GetAllProjectAssignedUsers(CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
