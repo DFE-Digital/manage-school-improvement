@@ -57,7 +57,16 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 "Region3",
                 DateTime.Now
             ));
+
             Context.SaveChanges();
+
+            // Set the delivery officer on one school to prove filter is working
+            var school = Context.SupportProjects.Single(x => x.SchoolName == "School A");
+            school.SetDeliveryOfficer("User1", "User1");
+
+            Context.Update(school);
+            Context.SaveChanges();
+
         }
 
         public void Dispose()
