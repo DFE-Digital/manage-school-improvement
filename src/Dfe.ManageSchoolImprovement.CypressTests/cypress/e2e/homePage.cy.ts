@@ -1,6 +1,6 @@
 import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
-import paginationComponent from "cypress/pages/pagination";
+import pagination from "cypress/pages/pagination";
 
 describe("User navigates to the MSI landing page", () => {
     beforeEach(() => {
@@ -33,7 +33,7 @@ describe("User navigates to the MSI landing page", () => {
     });
 
     it("should navigate to the next and previous pages", () => {
-        paginationComponent
+        pagination
             .hasPagination()
             .navigateToTheNextPage()
             .navigateToThePreviousPage()

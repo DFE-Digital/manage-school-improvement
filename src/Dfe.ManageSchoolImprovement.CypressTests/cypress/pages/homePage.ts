@@ -177,13 +177,14 @@ class HomePage {
       .invoke('text')
       .then((text: string) => {
         // Use regex to extract the number from the string
-        const match = text.match(/^(\d+)\s+schools found$/i);
-        expect(match, 'Valid product count string').to.not.be.null;
+        const regex = /^(\d+)\s+schools found$/i;
+        const result = regex.exec(text)
+        expect(result).to.not.be.null;
 
-        const productCount: number = parseInt(match![1], 10);
+        const schoolCount = parseInt(result![1], 10);
 
-        // Assert that the product count is not zero
-        expect(productCount, 'Product count should not be zero').to.not.equal(0);
+        // Assert that the school count is not zero
+        expect(schoolCount).to.be.greaterThan(0);
         
       });
     return this;
