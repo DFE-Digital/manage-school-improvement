@@ -179,9 +179,9 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("send-introductory-email-request-improvement-plan_status");
 
-    Logger.log("Selecting 'Arrange adviser visit to school' task");
-    taskList.selectTask("Arrange adviser visit to school");
-    taskListActions.hasHeader("Arrange adviser visit to school");
+    Logger.log("Selecting 'Arrange adviser's first face-to-face visit' task");
+    taskList.selectTask("Arrange adviser's first face-to-face visit");
+    taskListActions.hasHeader("Arrange adviser's first face-to-face visit");
     taskListActions.enterDate("adviser-visit-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()

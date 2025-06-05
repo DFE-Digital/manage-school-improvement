@@ -26,13 +26,11 @@ describe("User navigates to the MSI landing page", () => {
         cy.executeAccessibilityTests()
     });
 
-
     it('should display school records', () => {
         Logger.log("Homepage shows results")
         homePage
             .resultCountNotZero()
     });
-
 
     it("should navigate to the next and previous pages", () => {
         paginationComponent

@@ -1,5 +1,3 @@
-import { contains } from "cypress/types/jquery";
-
 class HomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();
