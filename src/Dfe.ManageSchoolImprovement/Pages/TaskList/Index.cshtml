@@ -30,7 +30,7 @@
                 Task updated successfully
             </h3>
         </div>
-    </div>   
+    </div>
 }
 
 <partial name="_ProjectHeader" model="Model.SupportProject" />
@@ -44,7 +44,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.CheckEligibility.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm-eligibility">
-                            Confirm eligibility <partial name="Shared/_TaskListStatusText" model="@Model.ConfirmEligibilityTaskListStatus" />
+                            Confirm eligibility
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="confirm-eligibility-status">
@@ -56,13 +56,13 @@
                         @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears ?? false)
                         {
                             <a class="govuk-link" asp-page="@Links.TaskList.FundingHistoryDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
-                                Enter the funding history <partial name="Shared/_TaskListStatusText" model="@Model.FundingHistoryStatus" />
+                                Enter the funding history
                             </a>
                         }
                         else
                         {
                             <a class="govuk-link" asp-page="@Links.TaskList.FundingHistory.Page" asp-route-id="@Model.SupportProject.Id" data-cy="funding_history">
-                                Enter the funding history <partial name="Shared/_TaskListStatusText" model="@Model.FundingHistoryStatus" />
+                                Enter the funding history
                             </a>
                         }
                     </div>
@@ -78,7 +78,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ContactTheResponsibleBody.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm_responsible_body">
-                            Contact the responsible body <partial name="Shared/_TaskListStatusText" model="@Model.ContactTheResponsibleBodyTaskListStatus" />
+                            Contact the responsible body
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="confirm_responsible_body_status">
@@ -88,7 +88,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordTheSchoolResponse.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-school-response">
-                            Record the school's response <partial name="Shared/_TaskListStatusText" model="@Model.RecordTheSchoolResponseTaskListStatus" />
+                            Record the school's response
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="record-school-response_status">
@@ -98,7 +98,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.CheckPotentialAdviserConflictsOfInterest.Page" asp-route-id="@Model.SupportProject.Id" data-cy="CheckPotentialAdviserConflictsOfInterest">
-                            Check potential adviser conflicts of interest <partial name="Shared/_TaskListStatusText" model="@Model.CheckThePotentialAdviserConflictsOfInterestTaskListStatus" />
+                            Check potential adviser conflicts of interest
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="CheckPotentialAdviserConflictsOfInterest_status">
@@ -108,7 +108,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.SupportProject.Id" data-cy="AllocateAdviser">
-                            Allocate an adviser <partial name="Shared/_TaskListStatusText" model="@Model.AllocateAdviserTaskListStatus" />
+                            Allocate an adviser
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="AllocateAdviser_status">
@@ -124,7 +124,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.SendIntroductoryEmail.Page" asp-route-id="@Model.SupportProject.Id" data-cy="send-introductory-email-request-improvement-plan">
-                            Send introductory email <partial name="Shared/_TaskListStatusText" model="@Model.SendIntroductoryEmailTaskListStatus" />
+                            Send introductory email
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="send-introductory-email-request-improvement-plan_status">
@@ -134,7 +134,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ArrangeAdvisersFirstFaceToFaceVisit.Page" asp-route-id="@Model.SupportProject.Id" data-cy="adviser-school-visit">
-                            Arrange adviser's first face-to-face visit <partial name="Shared/_TaskListStatusText" model="@Model.ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus" />
+                            Arrange adviser's first face-to-face visit
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="adviser-school-visit_status">
@@ -144,7 +144,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordVisitDateToVisitSchool.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-school-visit-date">
-                            Record date of visit to school <partial name="Shared/_TaskListStatusText" model="@Model.RecordVisitDateToVisitSchoolTaskListStatus" />
+                            Record date of visit to school
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="record-school-visit-date_status">
@@ -154,7 +154,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-note-of-visit">
                         <a class="govuk-link" asp-page="@Links.TaskList.NoteOfVisit.Page" asp-route-id="@Model.SupportProject.Id" data-cy="note-of-visit">
-                            Write and save the Note of Visit <partial name="Shared/_TaskListStatusText" model="@Model.NoteOfVisitTaskListStatus" />
+                            Write and save the Note of Visit
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="note-of-visit_status">
@@ -164,7 +164,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.CompleteAndSaveAssessmentTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="complate-save-assessment-template">
-                            Complete and save the assessment template <partial name="Shared/_TaskListStatusText" model="@Model.CompleteAndSaveAssessmentTemplateTaskListStatus" />
+                            Complete and save the assessment template
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="complate-save-assessment-template_status">
@@ -174,7 +174,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordMatchingDecision.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-support-decision">
-                            Record matching decision <partial name="Shared/_TaskListStatusText" model="@Model.RecordSupportDecisionTaskListStatus" />
+                            Record matching decision
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="record-support-decision_status">
@@ -189,7 +189,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisation.Page" asp-route-id="@Model.SupportProject.Id" data-cy="choose-preferred-supporting-organisation">
-                            Choose preferred supporting organisation <partial name="Shared/_TaskListStatusText" model="@Model.ChosePreferredSupportingOrganisationTaskListStatus" />
+                            Choose preferred supporting organisation
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="choose-preferred-supporting-organisation-status">
@@ -199,7 +199,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.DueDiligenceOnPreferredSupportingOrganisation.Page" asp-route-id="@Model.SupportProject.Id" data-cy="due-diligence-on-preferred-supporting-organisation">
-                            Carry out due diligence on preferred supporting organisation <partial name="Shared/_TaskListStatusText" model="@Model.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus" />
+                            Carry out due diligence on preferred supporting organisation
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="due-diligence-on-preferred-supporting-organisation-status">
@@ -209,7 +209,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hintme" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordSupportingOrganisationAppointment.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-supporting-organisation-appointment">
-                            Record supporting organisation appointment <partial name="Shared/_TaskListStatusText" model="@Model.SetRecordSupportingOrganisationAppointment" />
+                            Record supporting organisation appointment
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="record-supporting-organisation-appointment-status">
@@ -219,7 +219,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.AddSupportingOrganisationContactDetails.Page" asp-route-id="@Model.SupportProject.Id" data-cy="add-supporting-organisation-contact-details">
-                            Add supporting organisation contact details <partial name="Shared/_TaskListStatusText" model="@Model.SupportingOrganisationContactDetailsTaskListStatus" />
+                            Add supporting organisation contact details
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="add-supporting-organisation-contact-details-status">
@@ -235,7 +235,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RequestPlanningGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-planning-grant-offer-letter">
-                            Request planning grant offer letter <partial name="Shared/_TaskListStatusText" model="@Model.RequestPlanningGrantOfferLetterTaskListStatus" />
+                            Request planning grant offer letter
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="request-planning-grant-offer-letter_status">
@@ -245,7 +245,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ConfirmPlanningGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm-planning-grant-offer-letter">
-                            Confirm planning grant offer letter sent <partial name="Shared/_TaskListStatusText" model="@Model.ConfirmPlanningGrantOfferLetterTaskListStatus" />
+                            Confirm planning grant offer letter sent
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="confirm-planning-grant-offer-letter_status">
@@ -260,7 +260,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ShareTheImprovementPlanTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="share-the-improvement-plan-template">
-                            Share the improvement plan template <partial name="Shared/_TaskListStatusText" model="@Model.ShareTheImprovementPlanTemplateTaskListStatus" />
+                            Share the improvement plan template
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="share-the-improvement-plan-template_status">
@@ -270,7 +270,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ReviewTheImprovementPlan.Page" asp-route-id="@Model.SupportProject.Id" data-cy="review-the-improvement-plan">
-                            Review the improvement plan <partial name="Shared/_TaskListStatusText" model="@Model.ReviewTheImprovementPlanTaskListStatus" />
+                            Review the improvement plan
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="review-the-improvement-plan_status">
@@ -280,7 +280,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.SendAgreedImprovementPlanForApproval.Page" asp-route-id="@Model.SupportProject.Id" data-cy="send-agreed-improvement-plan">
-                            Send the agreed improvement plan for approval <partial name="Shared/_TaskListStatusText" model="@Model.SendAgreedImprovementPlanForApprovalTaskListStatus" />
+                            Send the agreed improvement plan for approval
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="send-agreed-improvement-plan_status">
@@ -290,7 +290,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RecordImprovementPlanDecision.Page" asp-route-id="@Model.SupportProject.Id" data-cy="record-improvement-plan-decision">
-                            Record improvement plan decision <partial name="Shared/_TaskListStatusText" model="@Model.RecordImprovementPlanDecisionTaskListStatus" />
+                            Record improvement plan decision
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="record-improvement-plan-decision_status">
@@ -305,7 +305,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.RequestImprovementGrantOfferLetter.Page" asp-route-id="@Model.SupportProject.Id" data-cy="request-improvement-grant-offer-letter">
-                            Request improvement grant offer letter <partial name="Shared/_TaskListStatusText" model="@Model.RequestImprovementGrantOfferLetterTaskListStatus" />
+                            Request improvement grant offer letter
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="request-improvement-grant-offer-letter_status">
@@ -315,7 +315,7 @@
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link" asp-page="@Links.TaskList.ConfirmImprovementGrantOfferLetterSent.Page" asp-route-id="@Model.SupportProject.Id" data-cy="confirm-improvement-grant-offer-letter">
-                            Confirm improvement grant offer letter sent<partial name="Shared/_TaskListStatusText" model="@Model.ConfirmImprovementGrantOfferLetterTaskListStatus" />
+                            Confirm improvement grant offer letter sent
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="confirm-improvement-grant-offer-letter_status">
@@ -327,5 +327,6 @@
     </div>
 </div>
 @section Scripts {
-    <script src="~/src/tasklist-clickable.js" asp-add-nonce></script>    
+    <script src="~/src/tasklist-clickable.js" asp-add-nonce></script>
 }
+
