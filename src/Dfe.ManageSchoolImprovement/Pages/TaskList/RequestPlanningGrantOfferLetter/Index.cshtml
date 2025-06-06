@@ -23,7 +23,7 @@
         <h1 class="govuk-heading-l">
             Request planning grant offer letter 
         </h1>
-        <p class="govuk-body">Email the grant team at <a class="govuk-link" href="mailto:@Model.EmailAddress">@Model.EmailAddress</a> and ask them to send the planning grant offer letter to the supporting organisation and responsible body.</p>
+        <p class="govuk-body">Email the grant team at <a class="govuk-link" href="mailto:@Model.EmailAddress">@Model.EmailAddress</a> and ask them to send the planning grant offer letter to the supporting organisation and copy in the school.</p>
         <form method="post" novalidate>
             <govuk-checkbox-input label-hint="Make sure you add the contacts the grant team need to this project." label="Include the required contact details in the email" id="include-contact-details" name="include-contact-details" asp-for="@Model.IncludeContactDetails"/>
             <details class="govuk-details">
@@ -41,8 +41,8 @@
                         <li>postal address</li>
                     </ul>
                     <p>Contact the grant team if you're not sure who this is.</p>
-                    <h2 class="govuk-heading-m">Responsible body</h2>
-                    <p>You should also include the contact details of the school's responsible body.</p>
+                    <h2 class="govuk-heading-m">School</h2>
+                    <p>You should also include the contact details of the school.</p>
                     <p>For local authority maintained schools, you must include a name and email address for:</p>
                     <ul>
                         <li>headteacher</li>
