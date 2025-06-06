@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.9.1] - Q1 – Sprint 5 (Part 1) - 2025-06-06
+
+### 📌 User Stories
+
+- **217586** - Add 'Assigned to' filter
+
+---
+
 ## 📅 [v0.9.0] - Q1 – Sprint 4 (Part 2) - 2025-06-02
 
 ### 📌 User Stories
