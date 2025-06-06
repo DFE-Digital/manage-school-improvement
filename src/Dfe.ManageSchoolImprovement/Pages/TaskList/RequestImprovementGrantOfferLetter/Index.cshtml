@@ -20,7 +20,7 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Request improvement grant offer letter
         </h1>
-        <p class="govuk-body" data-cy="instruction-to-adviser">Email the grant team at <a class="govuk-link" href="mailto:@Model.EmailAddress">@Model.EmailAddress</a> and ask them to send the improvement grant offer letter to the school's responsible body.</p>
+        <p class="govuk-body" data-cy="instruction-to-adviser">Email the grant team at <a class="govuk-link" href="mailto:@Model.EmailAddress">@Model.EmailAddress</a> and ask them to send the improvement grant offer letter to the school.</p>
         <form method="post" novalidate>
             <govuk-checkbox-input label="Include the required contact details in the email" label-hint="Make sure you add the contacts the grant team need to this project." id="include-contact-details" name="include-contact-details" asp-for="@Model.IncludeContactDetails" />
             <details class="govuk-details">
@@ -30,7 +30,7 @@
                     </span>
                 </summary>
                 <div class="govuk-details__text">
-                    <h2 class="govuk-heading-m">Responsible body of school</h2>
+                    <h2 class="govuk-heading-m">School</h2>
                     <p>You must add the contact details for the school's chief accounting officer, or equivalent.</p>
                     <p>For academies this is usually the CEO of the trust. For local authority maintained schools, this is usually the headteacher.</p>
                     <p>You must include their:</p>
