@@ -37,10 +37,27 @@ class HomePage {
     return this;
   }
 
-  public withProjectFilter(project: string): this {
+  public selectProjectFilter(project: string): this {
     cy.get('[data-cy="select-projectlist-filter-title"]').typeFast(project);
     cy.get('[data-cy="select-projectlist-filter-apply"]').click();
-    
+
+    return this;
+  }
+
+  public selectAssignedToFilter(assignedTo: string): this {
+    // cy.get('[data-cy="select-projectlist-filter-assignedTo"]') //need to apply in code
+    cy.get('#accordion-officers-heading').should('contain', 'Assigned to').click()
+    cy.get('#filter-delivery-officer-not-assigned')
+    cy.get('.govuk-accordion__section-content .govuk-checkboxes')
+      .contains(assignedTo.trim())
+      .click();
+    return this;
+  }
+
+  public selectNotAssignedToFilter(): this {
+    cy.get('#accordion-officers-heading').should('contain', 'Assigned to').click()
+    cy.get('#filter-delivery-officer-not-assigned')
+    cy.get('[data-cy="select-projectlist-filter-officer-not-assigned"]').click()
     return this;
   }
 
@@ -71,8 +88,14 @@ class HomePage {
 
   public applyFilters(): this {
     cy.get('[data-cy="select-projectlist-filter-apply"]').click();
-    
+
     return this;
+  }
+
+  public noFiltersSelected(): this {
+    cy.get('.moj-filter__selected').should('contain.text', 'No filters selected')
+
+    return this
   }
 
   public selectSchool(schoolLong: string): this {
@@ -81,13 +104,19 @@ class HomePage {
     return this;
   }
 
-  public hasSchoolName(schoolLong: string) : this {
+  public hasSchoolName(schoolLong: string): this {
     cy.get('[data-cy="trust-name-0"]').contains(schoolLong);
 
     return this;
   }
 
-  public selectSchoolName(schoolLong: string) : this {
+  public hasAssignedToOption(assignedTo: string): this {
+    cy.get('[data-cy="assigned-to-0"]').contains(assignedTo);
+
+    return this;
+  }
+
+  public selectSchoolName(schoolLong: string): this {
     cy.get('[data-cy^="trust-name-"]').contains(schoolLong).click();
 
     return this;
@@ -112,7 +141,8 @@ class HomePage {
   }
 
   public hasFilterSuccessNotification(): this {
-    cy.get('[data-cy="filter-success-notification"]').should("be.visible");
+    cy.get('[data-cy="filter-success-notification"]').should("be.visible")
+    cy.get('#govuk-notification-banner-title').should('contain', 'Success')
 
     return this;
   }
@@ -123,7 +153,23 @@ class HomePage {
     return this;
   }
 
-  public withFilterRegions(): this {
+  public showAllFilterSections(): this {
+    cy.get('.govuk-accordion__show-all-text').should('contain.text', 'Show all sections')
+      .click()
+    cy.get('.govuk-accordion__show-all-text').should('contain.text', 'Hide all sections')
+
+    return this;
+  }
+
+  public hideAllFilterSections(): this {
+    cy.get('.govuk-accordion__show-all-text').should('contain.text', 'Hide all sections')
+      .click()
+    cy.get('.govuk-accordion__show-all-text').should('contain.text', 'Show all sections')
+
+    return this;
+  }
+
+  public selectFilterRegions(): this {
     // Check if the Region accordion section is not expanded
     cy.get('[data-cy="select-projectlist-filter-region"]')
       .should("have.attr", "aria-expanded", "false")
@@ -138,9 +184,6 @@ class HomePage {
     cy.get("#filter-project-region-east-of-england").check();
     cy.get("#filter-project-region-london").check();
     cy.get("#filter-project-region-north-east").check();
-
-    // Apply the filters
-    cy.get('[data-cy="select-projectlist-filter-apply"]').click();
 
     return this;
   }
@@ -166,14 +209,16 @@ class HomePage {
 
   public clearFilters(): this {
     // Clear the filters
-    cy.get('[data-cy="clear-filter"]').click();
+    cy.get('[data-cy="clear-filter"]').should('be.visible')
+      .click();
+    cy.url().should('contain', 'clear')
 
     return this;
   }
 
   public resultCountNotZero(): this {
     cy.get('[data-cy="trust-name-0"]').should('be.visible')
-     cy.contains(/schools found/i)
+    cy.contains(/schools found/i)
       .invoke('text')
       .then((text: string) => {
         // Use regex to extract the number from the string
@@ -185,7 +230,7 @@ class HomePage {
 
         // Assert that the school count is not zero
         expect(schoolCount).to.be.greaterThan(0);
-        
+
       });
     return this;
   }
