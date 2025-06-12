@@ -14,6 +14,13 @@ $govuk-font-family: "Inter", blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans
 .govuk-tag{
 	max-width: none !important;
 }
+.govuk-task-list__status{
+
+	text-align: left !important;
+}
+.govuk-task-list__status .govuk-tag {
+	float: right !important;
+}
 
 .moj-sub-navigation__item {
 	margin-bottom: 0;
