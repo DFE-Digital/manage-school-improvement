@@ -1,0 +1,11 @@
+{
+  "name": "manage-school-improvement",
+  "version": "1.0.0",
+  "description": "This project is a **.NET Razor application** that integrates a **Node.js**-based build pipeline to manage frontend CSS. The Node setup leverages modern tools (like PostCSS, Sass) to build and optimize CSS assets, which are then used by the Razor views.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
