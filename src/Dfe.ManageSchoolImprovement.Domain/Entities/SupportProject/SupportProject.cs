@@ -145,9 +145,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? ImprovementPlanReceivedDate { get; private set; }
 
     public bool? ReviewImprovementPlanWithTeam { get; private set; }
-    
+
     public bool? SendImprovementPlanToRiseGrantTeam { get; private set; }
-    
+
     public bool? ConfirmPlanClearedByRiseGrantTeam { get; private set; }
 
     public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; private set; }
@@ -184,6 +184,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? CopyInRegionalDirector { get; private set; }
 
     public bool? SendEmailToGrantTeam { get; private set; }
+
+    public bool? InformationPowersInUse { get; private set; }
+    public string? InformationPowersDetails { get; private set; }
+    public DateTime? PowersUsedDate { get; private set; }
+
 
     #endregion
 
@@ -480,5 +485,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         EngagementConcernRecorded = engagementConcernRecorded;
         EngagementConcernDetails = engagementConcernDetails;
     }
+
+    public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails, DateTime? powersUsedDate)
+    {
+        InformationPowersInUse = informationPowersInUse;
+        InformationPowersDetails = informationPowersDetails;
+        PowersUsedDate = powersUsedDate;
+    }
+
     #endregion
 }

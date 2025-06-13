@@ -100,6 +100,7 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/EngagementConcern/Index");
         public static readonly LinkItem RecordEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordEngagementConcern");
+        public static readonly LinkItem RecordUseOfInformationPowers = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordUseOfInformationPowers");
     }
 
     public static class CaseStudy
