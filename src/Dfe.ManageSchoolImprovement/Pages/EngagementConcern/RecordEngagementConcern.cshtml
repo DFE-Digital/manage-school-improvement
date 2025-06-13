@@ -63,6 +63,7 @@
                 <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save and return
                 </button>
+                <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary">Escalate concern</a>
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
             </div>
         </form>
