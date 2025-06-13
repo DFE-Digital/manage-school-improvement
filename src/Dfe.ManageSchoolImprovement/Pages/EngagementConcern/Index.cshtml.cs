@@ -18,6 +18,13 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
 
+    [TempData]
+    public bool? InformationPowersRecorded { get; set; }
+
+    [TempData]
+    public bool? InformationPowersRemoved { get; set; }
+
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);

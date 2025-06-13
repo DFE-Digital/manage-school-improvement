@@ -90,7 +90,9 @@ public class RecordUseOfInformationPowersModel(
             return Page();
         }
 
-        TempData["InformationPowersUpdated"] = true;
+        TempData["InformationPowersRecorded"] = InformationPowersInUse == true;
+        TempData["InformationPowersRemoved"] = InformationPowersInUse == false;
+
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }
 
