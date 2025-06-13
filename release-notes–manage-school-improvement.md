@@ -3,7 +3,15 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
-## 📅 [v0.9.1] - Q1 – Sprint 5 (Part 1) - 2025-06-06
+## 📅 [v0.10.1] - Q1 – Sprint 5 (Part 2) - 2025-06-12
+
+### 🐛 Bug Fixes
+
+- **211522** - NVDA Reads Out Task Statuses Twice
+
+---
+
+## 📅 [v0.10.0] - Q1 – Sprint 5 (Part 1) - 2025-06-06
 
 ### 📌 User Stories
 
