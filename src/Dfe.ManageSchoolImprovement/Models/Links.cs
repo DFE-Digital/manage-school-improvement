@@ -100,6 +100,10 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/EngagementConcern/Index");
         public static readonly LinkItem RecordEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordEngagementConcern");
+        public static readonly LinkItem EscalateEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/EscalateEngagementConcern");
+        public static readonly LinkItem ReasonForEscalation = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/ReasonForEscalation");
+        public static readonly LinkItem DateOfDecision = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/DateOfDecision");
+        public static readonly LinkItem EscalationConfirmation = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/EscalationConfirmation");
         public static readonly LinkItem RecordUseOfInformationPowers = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordUseOfInformationPowers");
     }
 
