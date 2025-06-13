@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectInformationPowersDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -26,6 +27,8 @@ public class RecordUseOfInformationPowersModel(
 
     [BindProperty(Name = "powers-used-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    [Display(Name = "powers used date")]
+    [Required]
     public DateTime? PowersUsedDate { get; set; }
 
     [BindProperty(Name = "information-powers-in-use")]
@@ -41,7 +44,9 @@ public class RecordUseOfInformationPowersModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        //InformationPowersDetails = SupportProject.InformationPowersDetails;
+        InformationPowersInUse = SupportProject.InformationPowersInUse;
+        InformationPowersDetails = SupportProject.InformationPowersDetails;
+        PowersUsedDate = SupportProject.PowersUsedDate;
 
         return Page();
     }
@@ -52,16 +57,24 @@ public class RecordUseOfInformationPowersModel(
 
         if (InformationPowersInUse == true && string.IsNullOrEmpty(InformationPowersDetails))
         {
-            _errorService.AddError("information-powers-details", "You must enter details");
             ModelState.AddModelError("information-powers-details", "You must enter details");
-            return Page();
         }
 
         if (InformationPowersInUse == false)
         {
             InformationPowersDetails = null;
             PowersUsedDate = null;
+
+            // Override the validation on the date helper as it is only required when InformationPowersInUse == true 
+            this.ViewData.ModelState.Remove("powers-used-date");
         }
+
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            return await base.GetSupportProject(id, cancellationToken);
+        }
+
         var request = new SetSupportProjectInformationPowersDetailsCommand(
             new SupportProjectId(id),
             InformationPowersInUse,
