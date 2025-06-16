@@ -13,7 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 public class RecordUseOfInformationPowersModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
@@ -27,7 +27,6 @@ public class RecordUseOfInformationPowersModel(
 
     [BindProperty(Name = "powers-used-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "powers used date")]
     [Required]
     public DateTime? PowersUsedDate { get; set; }
 
@@ -35,6 +34,15 @@ public class RecordUseOfInformationPowersModel(
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? InformationPowersInUse { get; set; }
 
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
+    {
+        return $"Date must include a {string.Join(" and ", missingParts)}";
+    }
+
+    string IDateValidationMessageProvider.AllMissing(string displayName)
+    {
+        return $"You must enter a date";
+    }
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
