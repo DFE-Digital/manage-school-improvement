@@ -165,6 +165,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? CopyInRegionalDirector { get; set; }
 
         public bool? SendEmailToGrantTeam { get; set; }
+        
+        public bool? EngagementConcernEscalationConfirmStepsTaken { get; set; }
+        
+        public string? EngagementConcernEscalationPrimaryReason { get; set; }
+        
+        public string? EngagementConcernEscalationDetails { get; set; }
+        
+        public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
 
         public bool? InformationPowersInUse { get; set; }
         public string? InformationPowersDetails { get; set; }
@@ -266,6 +274,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AttachSchoolImprovementPlan = supportProjectDto.AttachSchoolImprovementPlan,
                 CopyInRegionalDirector = supportProjectDto.CopyInRegionalDirector,
                 SendEmailToGrantTeam = supportProjectDto.SendEmailToGrantTeam,
+                EngagementConcernEscalationConfirmStepsTaken = supportProjectDto.EngagementConcernEscalationConfirmStepsTaken,
+                EngagementConcernEscalationPrimaryReason = supportProjectDto.EngagementConcernEscalationPrimaryReason,
+                EngagementConcernEscalationDetails = supportProjectDto.EngagementConcernEscalationDetails,
+                EngagementConcernEscalationDateOfDecision = supportProjectDto.EngagementConcernEscalationDateOfDecision,
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
                 PowersUsedDate = supportProjectDto.PowersUsedDate
