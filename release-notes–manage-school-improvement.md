@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.10.2] - Q1 – Sprint 5 (Part 3) - 2025-06-16
+
+### 🐛 Bug Fixes
+
+- **210538** - Text In Tasklist Tags Line-breaks to Right-aligned Instead of Left-aligned
+
+---
+
 ## 📅 [v0.10.1] - Q1 – Sprint 5 (Part 2) - 2025-06-12
 
 ### 🐛 Bug Fixes
