@@ -12,7 +12,7 @@ public class EscalateEngagementConcernModel(
 {
     public string ReturnPage { get; set; }
     
-    [BindProperty(Name = "record-engagement-concern")]
+    [BindProperty(Name = "confirm-steps-taken")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? ConfirmStepsTaken { get; set; }
     public bool ShowError => _errorService.HasErrors();
@@ -23,5 +23,17 @@ public class EscalateEngagementConcernModel(
         
         await base.GetSupportProject(id, cancellationToken);
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    {
+        if (ConfirmStepsTaken is false)
+        {
+            _errorService.AddError("confirm-steps-taken", "You must confirm you have taken the required steps");
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
+        }
+        
+        return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id, ConfirmStepsTaken });
     }
 }

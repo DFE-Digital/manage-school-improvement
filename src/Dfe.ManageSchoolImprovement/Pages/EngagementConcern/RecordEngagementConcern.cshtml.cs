@@ -54,6 +54,12 @@ public class AddEngagementConcernModel(
     
             return Page();
         }
+
+        // if (RecordEngagementConcern is false || string.IsNullOrEmpty(EngagementConcernDetails))
+        // {
+        //     _errorService.AddError("record-engagement-concern", "You must record an engagement concern");
+        //     ModelState.AddModelError("record-engagement-concern", "You must record an engagement concern");
+        // }
     
         TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
         TempData["EngagementConcernAdded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;

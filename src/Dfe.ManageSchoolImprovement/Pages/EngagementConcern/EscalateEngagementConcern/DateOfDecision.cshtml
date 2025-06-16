@@ -24,7 +24,9 @@
                 <p class="govuk-body">Enter the date the decision was made to escalate this concern.</p>
                 <govuk-date-input heading-label="false" id="escalate-decision-date" name="escalate-decision-date" asp-for="@Model.DateOfDecision" />
                 <div class="govuk-button-group govuk-body">
-                    <a asp-page="@Links.EngagementConcern.EscalationConfirmation.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button">Save</a>
+                    <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                        Save
+                    </button>
                 </div>
             </div>
         </form>
