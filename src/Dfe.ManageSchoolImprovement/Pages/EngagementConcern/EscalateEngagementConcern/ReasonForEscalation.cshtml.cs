@@ -16,9 +16,11 @@ public class ReasonForEscalationModel(
     public string? PrimaryReason { get; set; }
     
     [BindProperty(Name = "escalation-details")]
-    public string EscalationDetails { get; set; }
-    
+    public string EscalationDetails { get; set; } = null!;
+
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
+    
+    public string ErrorMessage { get; set; }
     
     public bool ShowError => _errorService.HasErrors();
 
@@ -31,6 +33,30 @@ public class ReasonForEscalationModel(
         PrimaryReasonRadioButtons = GetRadioButtons();
         return Page();
     }
+
+    public async Task<IActionResult> OnPostAsync(int id, bool confirmStepsTaken, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid || EscalationDetails == null || PrimaryReason == null)
+        {
+            if (PrimaryReason == null)
+            {
+                ErrorMessage = "You must select a primary reason"; 
+                _errorService.AddError("PrimaryReason", ErrorMessage);
+            }
+                
+            if (EscalationDetails == null)
+            {
+                ErrorMessage = "You must enter details";
+                _errorService.AddError("escalation-details",ErrorMessage);
+            }
+                
+            PrimaryReasonRadioButtons = GetRadioButtons();
+            
+            return await base.GetSupportProject(id, cancellationToken);
+        }
+        
+        return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, new { id, confirmStepsTaken, PrimaryReason, EscalationDetails });
+    }
     
     private IList<RadioButtonsLabelViewModel> GetRadioButtons()
     {
@@ -39,18 +65,18 @@ public class ReasonForEscalationModel(
                 new() {
                     Id = "communication",
                     Name = "Lack of communication or cooperation",
-                    Value = "False"
+                    Value = "Lack of communication or cooperation"
                 },
                 new() {
                     Id = "information",
-                    Name = "Witheld information from adviser",
-                    Value = "False"
+                    Name = "Withheld information from adviser",
+                    Value = "Withheld information from adviser"
                 },
                 new()
                 {
                     Id = "rejected",
                     Name = "Rejected DfE or supporting organisation decisions",
-                    Value = "False"
+                    Value = "Rejected DfE or supporting organisation decisions"
                 }
             };
 
