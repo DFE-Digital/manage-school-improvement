@@ -172,6 +172,14 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? EngagementConcernRecorded { get; private set; }
 
     public string? EngagementConcernDetails { get; private set; }
+    
+    public bool? EngagementConcernEscalationConfirmStepsTaken { get; private set; }
+    
+    public string? EngagementConcernEscalationPrimaryReason { get; private set; }
+    
+    public string? EngagementConcernEscalationDetails { get; private set; }
+    
+    public DateTime? EngagementConcernEscalationDateOfDecision { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
@@ -484,6 +492,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         EngagementConcernRecorded = engagementConcernRecorded;
         EngagementConcernDetails = engagementConcernDetails;
+    }
+
+    public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
+        string? escalationDetails, DateTime? dateOfDecision)
+    {
+        EngagementConcernEscalationConfirmStepsTaken = confirmStepsTaken;
+        EngagementConcernEscalationPrimaryReason = primaryReason;
+        EngagementConcernEscalationDetails = escalationDetails;
+        EngagementConcernEscalationDateOfDecision = dateOfDecision;
     }
 
     public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails, DateTime? powersUsedDate)

@@ -1,13 +1,17 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
 
 public class DateOfDecisionModel(
     ISupportProjectQueryService supportProjectQueryService,
-    ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    ErrorService errorService,
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
     
@@ -40,11 +44,24 @@ public class DateOfDecisionModel(
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
-            // ShowError = true;
             return await base.GetSupportProject(id, cancellationToken);
         }
+
+        var request = new SetSupportProjectEngagementConcernEscalationCommand(
+            new SupportProjectId(id),
+            confirmStepsTaken,
+            primaryReason,
+            escalationDetails,
+            DateOfDecision);
         
-        // request create EngagementConcernEscalationModel passing in all prev values plus date
+        var result = await mediator.Send(request, cancellationToken);
+        
+        if (result == null)
+        {
+            _errorService.AddApiError();
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
+        }
         
         Console.WriteLine($"Confirm steps taken: {confirmStepsTaken}");
         Console.WriteLine($"Primary reason: {primaryReason}");
