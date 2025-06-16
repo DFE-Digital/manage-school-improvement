@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250616142852_add-engagement-concern-escalation-fields")]
+    partial class addengagementconcernescalationfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,7 +238,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("GiveTheAdviserTheNoteOfVisitTemplate")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("HasAcknowledgedAndWillEngage")
+                    b.Property<bool?>("HasAcceptedTargetedSupport")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("HasApprovedImprovementPlanDecision")
@@ -277,12 +280,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("IncludeContactDetailsRequestingPlanningGrantOfferEmail")
                         .HasColumnType("bit");
 
-                    b.Property<string>("InformationPowersDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("InformationPowersInUse")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("IntroductoryEmailSentDate")
                         .HasColumnType("datetime2");
 
@@ -308,9 +305,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
-
-                    b.Property<DateTime?>("PowersUsedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("ReceiveCompletedConflictOfInterestForm")
                         .HasColumnType("bit");
