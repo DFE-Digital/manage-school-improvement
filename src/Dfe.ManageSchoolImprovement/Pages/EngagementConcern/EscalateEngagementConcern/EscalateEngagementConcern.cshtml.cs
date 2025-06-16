@@ -22,6 +22,9 @@ public class EscalateEngagementConcernModel(
         ReturnPage = Links.EngagementConcern.RecordEngagementConcern.Page;
         
         await base.GetSupportProject(id, cancellationToken);
+
+        ConfirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken;
+        
         return Page();
     }
 

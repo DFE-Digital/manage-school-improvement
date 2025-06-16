@@ -36,11 +36,64 @@
         <h2 class="govuk-heading-l">Engagement concern</h2>
         @if (Model.SupportProject.EngagementConcernRecorded is true)
         {
-            <div class="govuk-inset-text">
-                An engagement concern has been recorded.
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">
+                        Engagement concern
+                    </h2>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Date raised
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                ...
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Escalated?
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                ...
+                            </dd>
+                        </div>
+
+                        @* if escalated: *@
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Reason
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                ...
+                            </dd>
+                            <dd>
+                                change
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Date escalated
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                ...
+                            </dd>
+                            <dd>
+                                change
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
             </div>
-            <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2>
-            <p class="govuk-body">@Model.SupportProject.EngagementConcernDetails</p>
+        }
+        @* <div class="govuk-inset-text"> *@
+            @*     An engagement concern has been recorded. *@
+            @* </div> *@
+            @* <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2> *@
+            @* <p class="govuk-body">@Model.SupportProject.EngagementConcernDetails</p> *@
+            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
 
             @if (Model.SupportProject.InformationPowersInUse is true)
             {
@@ -67,5 +120,6 @@
                 Record engagement concern
             </a>
         }
+            </a>
     </div>
 </div>

@@ -181,6 +181,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? EngagementConcernEscalationDetails { get; private set; }
     
     public DateTime? EngagementConcernEscalationDateOfDecision { get; private set; }
+    
+    public DateTime? EngagementConcernRaisedDate { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
@@ -489,10 +491,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         CaseStudyDetails = caseStudyDetails;
     }
 
-    public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails)
+    public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
     {
         EngagementConcernRecorded = engagementConcernRecorded;
         EngagementConcernDetails = engagementConcernDetails;
+        EngagementConcernRaisedDate = engagementConcernRaisedDate;
     }
 
     public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
