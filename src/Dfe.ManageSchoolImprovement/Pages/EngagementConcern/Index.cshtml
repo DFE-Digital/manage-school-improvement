@@ -51,10 +51,10 @@
                 <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2>
                 <p class="govuk-body">@Model.SupportProject.InformationPowersDetails</p>
             }
-            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-cy="information-powers-btn">
                 Update concern
             </a>
-            <a asp-page="@Links.EngagementConcern.RecordUseOfInformationPowers.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+            <a asp-page="@Links.EngagementConcern.RecordUseOfInformationPowers.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" data-cy="record-information-powers-btn">
                 @(Model.SupportProject.InformationPowersInUse is true ?  "Update use of information powers" : "Record use of information powers")
             </a>
         }
