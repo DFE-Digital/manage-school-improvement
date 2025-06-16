@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
@@ -173,10 +174,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? EngagementConcernEscalationDetails { get; set; }
         
         public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
+        
+        public DateTime? EngagementConcernRaisedDate { get; set; }
 
         public bool? InformationPowersInUse { get; set; }
         public string? InformationPowersDetails { get; set; }
         public DateTime? PowersUsedDate { get; set; }
+        
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
@@ -278,6 +282,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 EngagementConcernEscalationPrimaryReason = supportProjectDto.EngagementConcernEscalationPrimaryReason,
                 EngagementConcernEscalationDetails = supportProjectDto.EngagementConcernEscalationDetails,
                 EngagementConcernEscalationDateOfDecision = supportProjectDto.EngagementConcernEscalationDateOfDecision,
+                EngagementConcernRaisedDate = supportProjectDto.EngagementConcernRaisedDate,
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
                 PowersUsedDate = supportProjectDto.PowersUsedDate

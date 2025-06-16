@@ -16,7 +16,7 @@ public class ReasonForEscalationModel(
     public string? PrimaryReason { get; set; }
     
     [BindProperty(Name = "escalation-details")]
-    public string EscalationDetails { get; set; } = null!;
+    public string? EscalationDetails { get; set; } = null!;
 
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
     
@@ -29,6 +29,9 @@ public class ReasonForEscalationModel(
         ReturnPage = Links.EngagementConcern.EscalateEngagementConcern.Page;
         
         await base.GetSupportProject(id, cancellationToken);
+
+        PrimaryReason = SupportProject.EngagementConcernEscalationPrimaryReason;
+        EscalationDetails = SupportProject.EngagementConcernEscalationDetails;
 
         PrimaryReasonRadioButtons = GetRadioButtons();
         return Page();

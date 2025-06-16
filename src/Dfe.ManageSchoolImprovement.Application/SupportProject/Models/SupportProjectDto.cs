@@ -90,6 +90,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? EngagementConcernEscalationPrimaryReason = null,
         string? EngagementConcernEscalationDetails = null,
         DateTime? EngagementConcernEscalationDateOfDecision = null,
+        DateTime? EngagementConcernRaisedDate = null,
         bool? InformationPowersInUse = null,
         string? InformationPowersDetails = null,
         DateTime? PowersUsedDate = null

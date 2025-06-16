@@ -27,6 +27,9 @@ public class DateOfDecisionModel(
         ReturnPage = Links.EngagementConcern.ReasonForEscalation.Page;
         
         await base.GetSupportProject(id, cancellationToken);
+
+        DateOfDecision = SupportProject.EngagementConcernEscalationDateOfDecision;
+        
         return Page();
     }
 
