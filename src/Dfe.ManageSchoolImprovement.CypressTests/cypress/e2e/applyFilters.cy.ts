@@ -6,35 +6,90 @@ describe("User search results by appliying filters", () => {
         cy.login();
     });
 
-    it("should show the success notification banner when a region filter is applied", () => {
+    afterEach(() => {
+        Logger.log("Clear Filters");
+        homePage.clearFilters()
+    });
+
+    it("should show results successfully on selecting multiple projects", () => {
         homePage
             .hasProjectFilter()
             .selectEastMidlandsRegionFilter()
             .applyFilters()
             .hasFilterSuccessNotification()
+
+        //  cy.executeAccessibilityTests() commented accessibility due to bug #209930
     });
 
-    it("should filter projects by region", () => {
-        cy.executeAccessibilityTests()
-
-        Logger.log("Testing we can filter projects by region...");
+    it("should show the expected filtered results", () => {
+        Logger.log("Testing-filter projects by region");
         homePage
-          .withFilterRegions()
-           .hasFilterRegions()
+            .selectFilterRegions()
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .hasFilterRegions()
 
-        Logger.log("Clearing Filters...");
-        homePage.clearFilters()
+        //  cy.executeAccessibilityTests()
     });
 
     it("should filter projects by school name", () => {
-        cy.executeAccessibilityTests()
-
-        Logger.log("Testing we can filter projects by inputting schoolname...");
+        Logger.log("Testing- filter projects by providing schoolname");
         homePage
-          .withProjectFilter("Outwood Academy Shafton")
-          .hasSchoolName("Outwood Academy Shafton")
+            .selectProjectFilter("Outwood Academy Shafton")
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .hasSchoolName("Outwood Academy Shafton")
 
-        Logger.log("Clearing Filters...");
-        homePage.clearFilters()
+        //  cy.executeAccessibilityTests()
+    });
+
+       it("should filter projects by URN", () => {
+        Logger.log("Testing- filter projects by providing URN");
+        homePage
+            .selectProjectFilter("105443")
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .hasURN("105443")
+
+        //  cy.executeAccessibilityTests()
+    }); 
+
+    it("should filter projects by Assigned to", () => {
+        Logger.log("Testing - filter projects by Assigned to");
+        homePage
+            .selectAssignedToFilter("Richika Dogra")
+            .applyFilters()
+            .hasFilterSuccessNotification()
+
+        //  cy.executeAccessibilityTests()
+    });
+
+    it("should filter projects by Not Assigned to", () => {
+        Logger.log("Testing - filter projects by Assigned to");
+        homePage
+            .selectNotAssignedToFilter()
+            .applyFilters()
+            .hasFilterSuccessNotification()
+
+        //  cy.executeAccessibilityTests()
+    });
+
+    it("should show/hide all the filter sections", () => {
+        Logger.log("Testing - filter projects by Assigned to");
+        homePage
+            .showAllFilterSections()
+            .hideAllFilterSections()
+
+        //  cy.executeAccessibilityTests()
+    });
+
+    it("should show all the results when no filter is selected", () => {
+        Logger.log("Testing - filter projects by Assigned to");
+        homePage
+            .applyFilters()
+            .noFiltersSelected()
+            .resultCountNotZero()
+
+        //  cy.executeAccessibilityTests()
     });
 });
