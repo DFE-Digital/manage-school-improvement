@@ -19,7 +19,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? SaveCompletedConflictOfinterestFormInSharePoint = null,
         DateTime? DateConflictsOfInterestWereChecked = null,
         DateTime? SchoolResponseDate = null,
-        bool? HasAcceptedTargetedSupport = null,
+        bool? HasAcknowledgedAndWillEngage = null,
         bool? HasSavedSchoolResponseinSharePoint = null,
         DateTime? DateAdviserAllocated = null,
         string? AdviserEmailAddress = null,

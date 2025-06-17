@@ -18,13 +18,31 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
-            Record the school's response
+            Record the responsible body's response
         </h1> 
         <form method="post" novalidate>
-            <p class="govuk-body" data-cy="school-confirmtion-target-support">Confirm if the school wants to get targeted intervention or not.</p>
-            <govuk-radiobuttons-input name="@nameof(Model.HasAcceptedTargetedSupport)" radio-buttons="@Model.TargetedSupportRadioButtoons" asp-for="@Model.HasAcceptedTargetedSupport" />
-            <govuk-checkbox-input heading="Save the school's response in SharePoint" heading-style="govuk-fieldset__legend--m" label="School's response saved in SharePoint" id="has-saved-school-response-in-sharepoint" name="has-saved-school-response-in-sharepoint" asp-for="@Model.HasSavedSchoolResponseinSharePoint" />
-            <govuk-date-input heading-label="false" label="Enter date the school's response was saved in SharePoint" id="school-response-date" name="school-response-date" asp-for="@Model.SchoolResponseDate" hint="For example, 1 7 2024." />
+            <p class="govuk-body" data-cy="school-confirmtion-target-support">
+                Confirm if the responsible body has acknowledged the school is eligible for targeted intervention and if
+                they and the school will engage in the process.
+            </p>
+            <govuk-radiobuttons-input 
+                heading="Responsible body's response" 
+                name="@nameof(Model.HasAcknowledgedAndWillEngage)" 
+                radio-buttons="@Model.TargetedSupportRadioButtoons" 
+                asp-for="@Model.HasAcknowledgedAndWillEngage" />
+            <govuk-checkbox-input 
+                heading="Save the response" 
+                heading-style="govuk-fieldset__legend--m" 
+                label="Response saved in SharePoint" 
+                id="has-saved-school-response-in-sharepoint" 
+                name="has-saved-school-response-in-sharepoint" 
+                asp-for="@Model.HasSavedSchoolResponseinSharePoint" />
+            <govuk-date-input 
+                heading-label="false" 
+                label="Enter date the response was received" 
+                id="school-response-date" name="school-response-date" 
+                asp-for="@Model.SchoolResponseDate" 
+                hint="For example, 1 7 2024." />
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return
             </button>

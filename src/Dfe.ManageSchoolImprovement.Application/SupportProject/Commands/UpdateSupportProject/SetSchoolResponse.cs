@@ -7,7 +7,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     public record SetSchoolResponseCommand(
         SupportProjectId SupportProjectId,
         DateTime? SchoolResponseDate,
-        bool? HasAcceptedTargetedSupport,
+        bool? HasAcknowledgedAndWillEngage,
         bool? HasSavedSchoolResponseinSharePoint
     ) : IRequest<bool>;
 
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetSchoolResponse(request.SchoolResponseDate, request.HasAcceptedTargetedSupport, request.HasSavedSchoolResponseinSharePoint);
+            supportProject.SetSchoolResponse(request.SchoolResponseDate, request.HasAcknowledgedAndWillEngage, request.HasSavedSchoolResponseinSharePoint);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

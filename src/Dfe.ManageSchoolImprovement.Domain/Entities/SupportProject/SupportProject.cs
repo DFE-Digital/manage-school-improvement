@@ -66,7 +66,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? SchoolResponseDate { get; private set; }
 
-    public bool? HasAcceptedTargetedSupport { get; private set; }
+    public bool? 
+        HasAcknowledgedAndWillEngage { get; private set; }
 
     public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
@@ -258,10 +259,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SaveCompletedConflictOfinterestFormInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
         DateConflictsOfInterestWereChecked = dateConflictsOfInterestWereChecked;
     }
-    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcceptedTargetedSupport, bool? hasSavedSchoolResponseinSharePoint)
+    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcknowledgedAndWillEngage, bool? hasSavedSchoolResponseinSharePoint)
     {
         SchoolResponseDate = schoolResponseDate;
-        HasAcceptedTargetedSupport = hasAcceptedTargetedSupport;
+        HasAcknowledgedAndWillEngage = hasAcknowledgedAndWillEngage;
         HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
     }
 
