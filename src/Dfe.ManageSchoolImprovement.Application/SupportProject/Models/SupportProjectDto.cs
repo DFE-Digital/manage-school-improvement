@@ -86,6 +86,11 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? AttachSchoolImprovementPlan = null,
         bool? CopyInRegionalDirector = null,
         bool? SendEmailToGrantTeam = null,
+        bool? EngagementConcernEscalationConfirmStepsTaken = null,
+        string? EngagementConcernEscalationPrimaryReason = null,
+        string? EngagementConcernEscalationDetails = null,
+        DateTime? EngagementConcernEscalationDateOfDecision = null,
+        DateTime? EngagementConcernRaisedDate = null,
         bool? InformationPowersInUse = null,
         string? InformationPowersDetails = null,
         DateTime? PowersUsedDate = null

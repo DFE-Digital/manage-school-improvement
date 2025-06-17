@@ -1,0 +1,50 @@
+@page "/engagement-concern/confirm-escalation/{id:int}"
+@model EscalateEngagementConcernModel
+
+@{
+    ViewData["Title"] = "Escalation confirmation";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.EngagementConcern.DateOfDecision.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title">
+                Escalation recorded
+            </h1>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m">
+        <p class="govuk-body">The escalation is recorded, but mandation has not yet started.</p>
+        <h2 class="govuk-heading-l">You must initiate mandation</h2>
+        <p class="govuk-body">To initiate mandation, you must send a Coasting Notification Letter to the school.</p>
+        <p class="govuk-body">You must also send them either a:</p>
+        <ul>
+            <li>Notice to Enter into Arrangements</li>
+            <li>Termination Warning Notice</li>
+        </ul>
+        <h2 class="govuk-heading-m">Check which notice to use</h2>
+        <p class="govuk-body">If it is a local authority maintained school, send the Notice to Enter into Arrangements</p>
+        <p class="govuk-body">If it is an academy, send the Termination Warning Notice</p>
+        <h2 class="govuk-heading-m">Use the letter and notice templates</h2>
+        <p class="govuk-body">The letters and notices are templated. You must use these to make sure information in them is legally compliant.</p>
+        <p class="govuk-body">The letter templates are on Sharepoint:</p>
+        <ul>
+            <li>link</li>
+            <li>link</li>
+            <li>link</li>
+        </ul>
+        <div class="govuk-button-group govuk-body">
+            <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary" data-cy="escalate-confirmation-btn">View engagement concern</a>
+        </div>
+    </div>
+</div>

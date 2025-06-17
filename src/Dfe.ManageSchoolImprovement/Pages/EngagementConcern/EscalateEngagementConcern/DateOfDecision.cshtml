@@ -1,0 +1,34 @@
+@page "/engagement-concern/date-of-decision/{id:int}"
+@model DateOfDecisionModel
+
+@{
+    ViewData["Title"] = "Date of decision to escalate";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <form method="post">
+            <div class="govuk-form-group">
+                <h2 class="govuk-heading-l">Date of decision to escalate</h2>
+                <p class="govuk-body">Enter the date the decision was made to escalate this concern.</p>
+                <govuk-date-input heading-label="false" id="escalate-decision-date" name="escalate-decision-date" asp-for="@Model.DateOfDecision" />
+                <div class="govuk-button-group govuk-body">
+                    <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="escalate-date-decision-btn">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

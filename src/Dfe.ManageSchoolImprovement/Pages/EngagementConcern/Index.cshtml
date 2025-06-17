@@ -36,12 +36,60 @@
         <h2 class="govuk-heading-l">Engagement concern</h2>
         @if (Model.SupportProject.EngagementConcernRecorded is true)
         {
-            <div class="govuk-inset-text">
-                An engagement concern has been recorded.
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">
+                        Engagement concern
+                    </h2>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Date raised
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.DateRaised.ToDateString()
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Escalated?
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(Model.EngagementConcernEscalated ? "Yes" : "No")
+                            </dd>
+                        </div>
+                        
+                        @if (Model.EngagementConcernEscalated)
+                        {
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Reason
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.EngagementConcernEscalationReason
+                                </dd>
+                                <dd>
+                                    change
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Date escalated
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.DateEscalated.ToDateString()
+                                </dd>
+                                <dd>
+                                    change
+                                </dd>
+                            </div>
+                        }
+                    </dl>
+                </div>
             </div>
-            <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2>
-            <p class="govuk-body">@Model.SupportProject.EngagementConcernDetails</p>
-
+            
             @if (Model.SupportProject.InformationPowersInUse is true)
             {
                 <h2 class="govuk-heading-m govuk-!-margin-bottom">Information powers</h2>

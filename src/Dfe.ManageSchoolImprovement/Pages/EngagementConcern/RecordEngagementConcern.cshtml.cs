@@ -23,6 +23,8 @@ public class AddEngagementConcernModel(
     [BindProperty(Name = "record-engagement-concern")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? RecordEngagementConcern { get; set; }
+    
+    public DateTime? DateEngagementConcernRaised { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -54,7 +56,7 @@ public class AddEngagementConcernModel(
     
             return Page();
         }
-    
+        
         TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
         TempData["EngagementConcernAdded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
         TempData["EngagementConcernRemoved"] = RecordEngagementConcern is false;
@@ -64,7 +66,10 @@ public class AddEngagementConcernModel(
             RecordEngagementConcern = null;
             EngagementConcernDetails = null;
         }
-        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails);
+        
+        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
+        
+        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
     
         var result = await mediator.Send(request, cancellationToken);
     
