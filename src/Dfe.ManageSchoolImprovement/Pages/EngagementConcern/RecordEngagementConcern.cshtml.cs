@@ -1,4 +1,3 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -7,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -76,7 +76,7 @@ public class AddEngagementConcernModel(
 
         if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
         {
-            var escalationRequest = new SetSupportProjectEngagementConcernEscalation.SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
+            var escalationRequest = new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
             var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
             if (escalationResult == null)
             {
