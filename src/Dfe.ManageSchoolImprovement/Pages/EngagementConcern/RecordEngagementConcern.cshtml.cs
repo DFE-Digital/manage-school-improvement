@@ -61,18 +61,20 @@ public class AddEngagementConcernModel(
         TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
         TempData["EngagementConcernAdded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
         TempData["EngagementConcernRemoved"] = RecordEngagementConcern is false;
+        
+        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
+        
         //reset details if removed
         if (RecordEngagementConcern is false)
         {
             RecordEngagementConcern = null;
             EngagementConcernDetails = null;
+            DateEngagementConcernRaised = null;
         }
-        
-        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
         
         var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
 
-        if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false)
+        if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
         {
             var escalationRequest = new SetSupportProjectEngagementConcernEscalation.SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
             var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
