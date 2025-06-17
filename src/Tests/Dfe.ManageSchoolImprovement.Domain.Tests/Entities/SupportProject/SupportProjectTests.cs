@@ -833,16 +833,41 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? engagementConcernRecorded = true;
-            string? engagementConcernDetails = "test details";
+            var engagementConcernRecorded = true;
+            var engagementConcernDetails = "test details";
+            var engagementConcernRaisedDate = DateTime.UtcNow;
 
             // Act
             supportProject.SetEngagementConcernDetails(
-                engagementConcernRecorded, engagementConcernDetails);
+                engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate);
 
             // Assert
             supportProject.EngagementConcernRecorded.Should().Be(engagementConcernRecorded);
             supportProject.EngagementConcernDetails.Should().Be(engagementConcernDetails);
+            supportProject.EngagementConcernRaisedDate.Should().Be(engagementConcernRaisedDate);
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void SetEngagementConcernEscalation_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            var confirmStepsTaken = true;
+            var primaryReason = "this is a reason";
+            var escalationDetails = "this is some details";
+            var dateOfDecision = DateTime.UtcNow;
+            
+            // Act
+            supportProject.SetEngagementConcernEscalation(
+                confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision);
+            
+            // Assert
+            supportProject.EngagementConcernEscalationConfirmStepsTaken.Should().Be(confirmStepsTaken);
+            supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(primaryReason);
+            supportProject.EngagementConcernEscalationDetails.Should().Be(escalationDetails);
+            supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(dateOfDecision);
             mockRepository.VerifyAll();
         }
     }

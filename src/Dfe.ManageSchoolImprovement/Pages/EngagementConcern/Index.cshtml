@@ -49,7 +49,7 @@
                                 Date raised
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                ...
+                                @Model.DateRaised.ToDateString()
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -57,33 +57,35 @@
                                 Escalated?
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                ...
+                                @(Model.EngagementConcernEscalated ? "Yes" : "No")
                             </dd>
                         </div>
-
-                        @* if escalated: *@
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">
-                                Reason
-                            </dt>
-                            <dd class="govuk-summary-list__value">
-                                ...
-                            </dd>
-                            <dd>
-                                change
-                            </dd>
-                        </div>
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">
-                                Date escalated
-                            </dt>
-                            <dd class="govuk-summary-list__value">
-                                ...
-                            </dd>
-                            <dd>
-                                change
-                            </dd>
-                        </div>
+                        
+                        @if (Model.EngagementConcernEscalated)
+                        {
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Reason
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.EngagementConcernEscalationReason
+                                </dd>
+                                <dd>
+                                    change
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Date escalated
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.DateEscalated.ToDateString()
+                                </dd>
+                                <dd>
+                                    change
+                                </dd>
+                            </div>
+                        }
                     </dl>
                 </div>
             </div>
