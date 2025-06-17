@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
         [Display(Name = "school response")]
         public DateTime? SchoolResponseDate { get; set; }
 
-        [BindProperty(Name = "HasAcceptedTargetedSupport")]
+        [BindProperty(Name = "HasAcknowledgedAndWillEngage")]
         public bool? HasAcknowledgedAndWillEngage { get; set; }
 
         [BindProperty(Name = "has-saved-school-response-in-sharepoint")]
