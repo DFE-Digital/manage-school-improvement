@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -70,6 +71,18 @@ public class AddEngagementConcernModel(
         DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
         
         var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
+
+        if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false)
+        {
+            var escalationRequest = new SetSupportProjectEngagementConcernEscalation.SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
+            var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
+            if (escalationResult == null)
+            {
+                _errorService.AddApiError();
+                await base.GetSupportProject(id, cancellationToken);
+                return Page();
+            }
+        }
     
         var result = await mediator.Send(request, cancellationToken);
     
