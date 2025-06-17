@@ -73,6 +73,15 @@ public class AddEngagementConcernModel(
         }
         
         var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
+        
+        var result = await mediator.Send(request, cancellationToken);
+    
+        if (result == null)
+        {
+            _errorService.AddApiError();
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
+        }
 
         if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
         {
@@ -85,16 +94,7 @@ public class AddEngagementConcernModel(
                 return Page();
             }
         }
-    
-        var result = await mediator.Send(request, cancellationToken);
-    
-        if (result == null)
-        {
-            _errorService.AddApiError();
-            await base.GetSupportProject(id, cancellationToken);
-            return Page();
-        }
-    
+        
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }
 }
