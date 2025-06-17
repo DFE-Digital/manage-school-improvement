@@ -65,7 +65,7 @@
                 </button>
                 @if (Model.SupportProject.EngagementConcernRecorded == true)
                 {
-                    <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary">Escalate concern</a>
+                    <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary" data-cy="escalate-engagement-concern-btn">Escalate concern</a>
                 }
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
             </div>

@@ -29,7 +29,12 @@
                     <p class="govuk-body">Select the primary reason for escalation and enter details.</p>
                     <h2 class="govuk-heading-m">Primary reason for escalation</h2>
                     <p class="govuk-body">There may be several reasons to escalate, but choose the main cause.</p>
-                    <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m" name="@nameof(Model.PrimaryReason)" radio-buttons="@Model.PrimaryReasonRadioButtons" asp-for="@Model.PrimaryReason"/>
+                    <govuk-radiobuttons-input 
+                        heading-style="govuk-fieldset__legend--m" 
+                        name="@nameof(Model.PrimaryReason)" 
+                        radio-buttons="@Model.PrimaryReasonRadioButtons" 
+                        asp-for="@Model.PrimaryReason"
+                        data-cy="escalate-primary-reason-radio-buttons"/>
 
                     <h2 class="govuk-heading-m">Details of escalation</h2>
                     <div class="govuk-form-group">
@@ -41,7 +46,7 @@
                 </fieldset>
             </div>
             <div class="govuk-button-group govuk-body">
-                <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="escalate-primary-reason-btn">
                     Continue
                 </button>
             </div>

@@ -53,7 +53,8 @@
                                value="true"
                                type="checkbox"
                                @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                               data-aria-controls="conditional-confirm-steps-taken"/>
+                               data-aria-controls="conditional-confirm-steps-taken"
+                               data-cy="escalate-confirm-steps-taken-checkbox"/>
                         <label class="govuk-label govuk-checkboxes__label" for="confirm-steps-taken">
                             Confirm you have taken the required steps before escalating this concern
                         </label>
@@ -61,7 +62,7 @@
                 </div>
             </div>
             <div class="govuk-button-group govuk-body">
-                <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="escalate-confirm-steps-taken-btn">
                     Confirm and continue
                 </button>
             </div>
