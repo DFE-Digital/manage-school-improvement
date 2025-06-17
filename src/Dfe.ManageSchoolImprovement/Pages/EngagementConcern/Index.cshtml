@@ -89,14 +89,7 @@
                     </dl>
                 </div>
             </div>
-        }
-        @* <div class="govuk-inset-text"> *@
-            @*     An engagement concern has been recorded. *@
-            @* </div> *@
-            @* <h2 class="govuk-heading-m govuk-!-margin-bottom">Details</h2> *@
-            @* <p class="govuk-body">@Model.SupportProject.EngagementConcernDetails</p> *@
-            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
-
+            
             @if (Model.SupportProject.InformationPowersInUse is true)
             {
                 <h2 class="govuk-heading-m govuk-!-margin-bottom">Information powers</h2>
@@ -122,6 +115,5 @@
                 Record engagement concern
             </a>
         }
-            </a>
     </div>
 </div>
