@@ -85,7 +85,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? IncludeContactDetails = null,
         bool? AttachSchoolImprovementPlan = null,
         bool? CopyInRegionalDirector = null,
-        bool? SendEmailToGrantTeam = null
+        bool? SendEmailToGrantTeam = null,
+        bool? InformationPowersInUse = null,
+        string? InformationPowersDetails = null,
+        DateTime? PowersUsedDate = null
     )
     { }
 }

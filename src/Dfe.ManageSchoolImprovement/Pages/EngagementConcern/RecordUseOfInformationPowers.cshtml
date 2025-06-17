@@ -1,0 +1,98 @@
+﻿@page "/engagement-concern/record-use-of-information-powers/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.RecordUseOfInformationPowersModel
+
+@{
+    ViewData["Title"] = "Record use of information powers";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <form method="post">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                            Record use of information powers
+                        </h1>
+                    </legend>
+
+                    <p class="govuk-body">Information powers can be used to compel a school to share information the department needs.</p>
+
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+                                How to use information powers
+                            </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <p class="govuk-body">To use information powers, you must email the school and inform them that the department is going to use the powers.</p>
+                            <p class="govuk-body">For example, use a phrase like "Under information powers, then..."</p>
+                        </div>
+                    </details>
+
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input name="information-powers-in-use-hidden" type="hidden" value="false" />
+                            <input class="govuk-checkboxes__input"
+                                   id="information-powers-in-use"
+                                   name="information-powers-in-use"
+                                   value="true"
+                                   type="checkbox"
+                                   @(Model.InformationPowersInUse == true ? "checked" : "")
+                                   data-aria-controls="conditional-information-powers"/>
+                            <label class="govuk-label govuk-checkboxes__label" for="information-powers-in-use">
+                                Information powers in use
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-information-powers">
+
+                                <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
+                                    <label class="govuk-label" for="information-powers-details">
+                                        Enter details about why and how the powers have been used. Describe what information you used the powers to get.
+                                    </label>
+                                    @if (Model.ShowDetailsError)
+                                    {
+                                        <p id="more-detail-error" class="govuk-error-message">
+                                            <span class="govuk-visually-hidden">Error:</span> You must enter details
+                                        </p>
+                                    }
+                                    <textarea class="govuk-textarea"
+                                              id="information-powers-details"
+                                              name="information-powers-details"
+                                              rows="5"
+                                              aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
+                                </div>
+
+                                <div class="govuk-form-group">
+                                    <govuk-date-input heading-label="true"
+                                                      label="Date powers used"
+                                                      hint="Enter the date the school was informed of the use of powers. For example, 1 7 2024."
+                                                      id="powers-used-date"
+                                                      name="powers-used-date"
+                                                      asp-for="@Model.PowersUsedDate" />
+                                </div>
+                            </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="save-information-powers-btn">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
