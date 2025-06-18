@@ -78,8 +78,8 @@ class TaskList {
     cy.contains('Check potential adviser conflicts of interest');
     cy.contains('Allocate an adviser');
     cy.contains('Send introductory email');
-    cy.contains("Arrange adviser's first face-to-face visit");
-    cy.contains('Record date of visit to school');
+    cy.contains("Arrange adviser's initial visit");
+    cy.contains('Record date of initial visit');
     cy.contains('Write and save the Note of Visit');
     cy.contains('Complete and save the assessment template');
     cy.contains('Record matching decision');
