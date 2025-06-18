@@ -1,5 +1,5 @@
 @page "/engagement-concern/confirm-escalation/{id:int}"
-@model EscalateEngagementConcernModel
+@model EscalationConfirmationModel
 
 @{
     ViewData["Title"] = "Escalation confirmation";
@@ -17,7 +17,6 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <div class="govuk-panel govuk-panel--confirmation">
             <h1 class="govuk-panel__title">
                 Escalation recorded
@@ -33,15 +32,15 @@
             <li>Termination Warning Notice</li>
         </ul>
         <h2 class="govuk-heading-m">Check which notice to use</h2>
-        <p class="govuk-body">If it is a local authority maintained school, send the Notice to Enter into Arrangements</p>
-        <p class="govuk-body">If it is an academy, send the Termination Warning Notice</p>
+        <p class="govuk-body">If it is a local authority maintained school, send the Notice to Enter into Arrangements.</p>
+        <p class="govuk-body">If it is an academy, send the Termination Warning Notice.</p>
         <h2 class="govuk-heading-m">Use the letter and notice templates</h2>
         <p class="govuk-body">The letters and notices are templated. You must use these to make sure information in them is legally compliant.</p>
         <p class="govuk-body">The letter templates are on Sharepoint:</p>
         <ul>
-            <li>link</li>
-            <li>link</li>
-            <li>link</li>
+            <li><a class="govuk-link" href="@Model.CoastingNotificationLetterLink">Coasting Notification Letter template</a></li>
+            <li><a class="govuk-link" href="@Model.NoticeToEnterIntoArrangementsLink">Notice to Enter into Arrangements template</a></li>
+            <li><a class="govuk-link" href="@Model.TerminationWarningNoticeLink">Termination Warning Notice template</a></li>
         </ul>
         <div class="govuk-button-group govuk-body">
             <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary" data-cy="escalate-confirmation-btn">View engagement concern</a>
