@@ -71,11 +71,6 @@ public class DateOfDecisionModel(
             return Page();
         }
 
-        Console.WriteLine($"Confirm steps taken: {confirmStepsTaken}");
-        Console.WriteLine($"Primary reason: {primaryReason}");
-        Console.WriteLine($"Escalation details: {escalationDetails}");
-        Console.WriteLine($"Date of decision: {DateOfDecision}");
-
         return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });
     }
 }
