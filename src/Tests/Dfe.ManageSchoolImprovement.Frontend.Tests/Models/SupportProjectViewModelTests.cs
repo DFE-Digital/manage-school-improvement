@@ -25,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 SaveCompletedConflictOfinterestFormInSharePoint: true,
                 DateConflictsOfInterestWereChecked: DateTime.Now,
                 SchoolResponseDate: DateTime.Now,
-                HasAcceptedTargetedSupport: true,
+                HasAcknowledgedAndWillEngage: true,
                 HasSavedSchoolResponseinSharePoint: true,
                 DateAdviserAllocated: DateTime.Now,
                 AdviserEmailAddress: "adviser@example.com",
@@ -95,7 +95,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);
             Assert.Equal(supportProjectDto.DateConflictsOfInterestWereChecked, viewModel.DateConflictsOfInterestWereChecked);
             Assert.Equal(supportProjectDto.SchoolResponseDate, viewModel.SchoolResponseDate);
-            Assert.Equal(supportProjectDto.HasAcceptedTargetedSupport, viewModel.HasAcceptedTargetedSupport);
+            Assert.Equal(supportProjectDto.HasAcknowledgedAndWillEngage, viewModel.HasAcknowledgedAndWillEngage);
             Assert.Equal(supportProjectDto.HasSavedSchoolResponseinSharePoint, viewModel.HasSavedSchoolResponseinSharePoint);
             Assert.Equal(supportProjectDto.HasShareEmailTemplateWithAdviser, viewModel.HasShareEmailTemplateWithAdviser);
             Assert.Equal(supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail, viewModel.RemindAdviserToCopyRiseTeamWhenSentEmail);

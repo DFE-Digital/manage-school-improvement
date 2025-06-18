@@ -64,7 +64,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? SchoolResponseDate { get; set; }
 
-        public bool? HasAcceptedTargetedSupport { get; set; }
+        public bool? HasAcknowledgedAndWillEngage { get; set; }
 
         public bool? HasSavedSchoolResponseinSharePoint { get; set; }
 
@@ -199,7 +199,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
                 DateConflictsOfInterestWereChecked = supportProjectDto.DateConflictsOfInterestWereChecked,
                 SchoolResponseDate = supportProjectDto.SchoolResponseDate,
-                HasAcceptedTargetedSupport = supportProjectDto.HasAcceptedTargetedSupport,
+                HasAcknowledgedAndWillEngage = supportProjectDto.HasAcknowledgedAndWillEngage,
                 HasSavedSchoolResponseinSharePoint = supportProjectDto.HasSavedSchoolResponseinSharePoint,
                 HasShareEmailTemplateWithAdviser = supportProjectDto.HasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,

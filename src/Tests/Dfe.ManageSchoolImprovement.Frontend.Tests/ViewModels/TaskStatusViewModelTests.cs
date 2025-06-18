@@ -41,7 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         public void RecordTheSchoolResponseTaskStatusShouldReturnCorrectStatus(bool? hasSavedSchoolResponseinSharePoint, bool? hasAcceptedTargetedSupport, DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SchoolResponseDate: schoolResponseDate, HasAcceptedTargetedSupport: hasAcceptedTargetedSupport,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, SchoolResponseDate: schoolResponseDate, HasAcknowledgedAndWillEngage: hasAcceptedTargetedSupport,
                 HasSavedSchoolResponseinSharePoint: hasSavedSchoolResponseinSharePoint));
 
             //Action 
