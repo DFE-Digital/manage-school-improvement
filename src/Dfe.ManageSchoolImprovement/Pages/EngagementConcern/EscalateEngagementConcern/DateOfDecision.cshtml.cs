@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 public class DateOfDecisionModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
@@ -21,6 +21,16 @@ public class DateOfDecisionModel(
     public DateTime? DateOfDecision { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
+
+    string IDateValidationMessageProvider.AllMissing(string displayName)
+    {
+        return $"Enter the date of the decision to escalate";
+    }
+
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
+    {
+        return $"Date must include a {string.Join(" and ", missingParts)}";
+    }
 
     public async Task<IActionResult> OnGetAsync(int id, string returnPage, CancellationToken cancellationToken)
     {

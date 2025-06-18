@@ -29,13 +29,14 @@
                     <p class="govuk-body">Select the primary reason for escalation and enter details.</p>
                     <h2 class="govuk-heading-m">Primary reason for escalation</h2>
                     <p class="govuk-body">There may be several reasons to escalate, but choose the main cause.</p>
-                    <govuk-radiobuttons-input 
-                        heading-style="govuk-fieldset__legend--m" 
-                        name="@nameof(Model.PrimaryReason)" 
-                        radio-buttons="@Model.PrimaryReasonRadioButtons" 
-                        asp-for="@Model.PrimaryReason"
-                        data-cy="escalate-primary-reason-radio-buttons"/>
-
+                    <div class="govuk-form-group" id="primary-reason">
+                        <govuk-radiobuttons-input
+                            heading-style="govuk-fieldset__legend--m"
+                            name="@nameof(Model.PrimaryReason)"
+                            radio-buttons="@Model.PrimaryReasonRadioButtons"
+                            asp-for="@Model.PrimaryReason"
+                            data-cy="escalate-primary-reason-radio-buttons"/>
+                    </div>
                     <h2 class="govuk-heading-m">Details of escalation</h2>
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-!-margin-bottom-2" for="escalation-details">
