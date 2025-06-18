@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250617130703_rename-record-school-response-field")]
+    partial class renamerecordschoolresponsefield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,21 +216,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<string>("EngagementConcernDetails")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("EngagementConcernEscalationConfirmStepsTaken")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("EngagementConcernEscalationDateOfDecision")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EngagementConcernEscalationDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EngagementConcernEscalationPrimaryReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("EngagementConcernRaisedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("EngagementConcernRecorded")
                         .HasColumnType("bit");

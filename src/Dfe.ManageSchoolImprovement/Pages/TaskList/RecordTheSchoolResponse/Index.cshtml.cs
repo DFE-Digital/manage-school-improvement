@@ -17,8 +17,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
         [Display(Name = "school response")]
         public DateTime? SchoolResponseDate { get; set; }
 
-        [BindProperty(Name = "HasAcceptedTargetedSupport")]
-        public bool? HasAcceptedTargetedSupport { get; set; }
+        [BindProperty(Name = "HasAcknowledgedAndWillEngage")]
+        public bool? HasAcknowledgedAndWillEngage { get; set; }
 
         [BindProperty(Name = "has-saved-school-response-in-sharepoint")]
         public bool? HasSavedSchoolResponseinSharePoint { get; set; }
@@ -40,7 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasAcceptedTargetedSupport = SupportProject.HasAcceptedTargetedSupport;
+            HasAcknowledgedAndWillEngage = SupportProject.HasAcknowledgedAndWillEngage;
             HasSavedSchoolResponseinSharePoint = SupportProject.HasSavedSchoolResponseinSharePoint;
             SchoolResponseDate = SupportProject.SchoolResponseDate;
             TargetedSupportRadioButtoons = GetRadioButtons();
@@ -56,7 +56,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetSchoolResponseCommand(new SupportProjectId(id), SchoolResponseDate, HasAcceptedTargetedSupport, HasSavedSchoolResponseinSharePoint);
+            var request = new SetSchoolResponseCommand(new SupportProjectId(id), SchoolResponseDate, HasAcknowledgedAndWillEngage, HasSavedSchoolResponseinSharePoint);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -75,13 +75,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheSchoolRes
             var list = new List<RadioButtonsLabelViewModel>
             {
                 new() {
-                    Id = "accepted-intervention",
-                    Name = "Accepted intervention",
+                    Id = "acknowledged",
+                    Name = "Acknowledged and will engage",
                     Value = "True"
                 },
                 new() {
-                    Id = "declined-intervention",
-                    Name = "Declined intervention",
+                    Id = "not-acknowledged",
+                    Name = "Not acknowledged",
                     Value = "False"
                 }
             };

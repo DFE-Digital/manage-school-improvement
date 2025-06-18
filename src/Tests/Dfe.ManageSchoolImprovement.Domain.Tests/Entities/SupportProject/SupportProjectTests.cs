@@ -38,7 +38,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Assert
             supportProject.SchoolResponseDate.Should().Be(schoolResponseDate);
-            supportProject.HasAcceptedTargetedSupport.Should().Be(hasAcceptedTargetedSupport);
+            supportProject.HasAcknowledgedAndWillEngage.Should().Be(hasAcceptedTargetedSupport);
             supportProject.HasSavedSchoolResponseinSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
             mockRepository.VerifyAll();
         }
