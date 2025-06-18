@@ -24,7 +24,7 @@
                     @(Model.EngagementConcernUpdated is true ? "Engagement concern updated" : "")
                     @(Model.EngagementConcernRemoved is true ? "Engagement concern removed" : "")
                     @(Model.InformationPowersRecorded is true ? "Use of information powers recorded" : "")
-                    @(Model.InformationPowersRemoved is true ? "Use of information powers removed" : "")
+                    @(Model.InformationPowersRemoved is true ? "Information powers removed" : "")
                 </h3>
             </div>
         </div>
@@ -33,7 +33,6 @@
 <partial name="_ProjectHeader" model="Model.SupportProject" />
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l">Engagement concern</h2>
         @if (Model.SupportProject.EngagementConcernRecorded is true)
         {
             <div class="govuk-summary-card">

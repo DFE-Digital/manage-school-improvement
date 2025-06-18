@@ -68,20 +68,17 @@ public class RecordUseOfInformationPowersModel(
             ModelState.AddModelError("information-powers-details", "You must enter details");
         }
 
-        if (InformationPowersInUse == false)
+        if (InformationPowersInUse != true)
         {
             InformationPowersDetails = null;
             PowersUsedDate = null;
 
             // Override the validation on the date helper as it is only required when InformationPowersInUse == true 
-            this.ViewData.ModelState.Remove("powers-used-date");
+            ModelState.Remove("powers-used-date");
         }
 
-        if (!ModelState.IsValid)
-        {
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            return await base.GetSupportProject(id, cancellationToken);
-        }
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+        if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
         var request = new SetSupportProjectInformationPowersDetailsCommand(
             new SupportProjectId(id),
