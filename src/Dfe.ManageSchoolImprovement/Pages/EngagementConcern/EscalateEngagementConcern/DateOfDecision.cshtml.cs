@@ -24,7 +24,7 @@ public class DateOfDecisionModel(
 
     string IDateValidationMessageProvider.AllMissing(string displayName)
     {
-        return $"Enter the date of the decision to escalate";
+        return "You must enter a date";
     }
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
