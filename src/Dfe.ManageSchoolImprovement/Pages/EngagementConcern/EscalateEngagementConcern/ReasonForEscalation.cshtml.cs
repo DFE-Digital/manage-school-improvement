@@ -11,23 +11,23 @@ public class ReasonForEscalationModel(
     ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
-    
+
     [BindProperty(Name = "PrimaryReason")]
     public string? PrimaryReason { get; set; }
-    
+
     [BindProperty(Name = "escalation-details")]
     public string? EscalationDetails { get; set; } = null!;
 
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
-    
+
     public string ErrorMessage { get; set; }
-    
+
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, string returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = Links.EngagementConcern.EscalateEngagementConcern.Page;
-        
+        ReturnPage = returnPage ?? Links.EngagementConcern.EscalateEngagementConcern.Page;
+
         await base.GetSupportProject(id, cancellationToken);
 
         PrimaryReason = SupportProject.EngagementConcernEscalationPrimaryReason;
@@ -37,33 +37,38 @@ public class ReasonForEscalationModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, bool confirmStepsTaken, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, bool? confirmStepsTaken, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid || EscalationDetails == null || PrimaryReason == null)
         {
             if (PrimaryReason == null)
             {
-                ErrorMessage = "You must select a primary reason"; 
+                ErrorMessage = "You must select a primary reason";
                 _errorService.AddError("PrimaryReason", ErrorMessage);
             }
-                
+
             if (EscalationDetails == null)
             {
                 ErrorMessage = "You must enter details";
-                _errorService.AddError("escalation-details",ErrorMessage);
+                _errorService.AddError("escalation-details", ErrorMessage);
             }
-                
+
             PrimaryReasonRadioButtons = GetRadioButtons();
-            
+
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
+
+        await base.GetSupportProject(id, cancellationToken);
+
+        // if confirmStepsTaken is null, use the default value from the SupportProject, as we have entered the flow from the change link
+        confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
+
         return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, new { id, confirmStepsTaken, PrimaryReason, EscalationDetails });
     }
-    
+
     private IList<RadioButtonsLabelViewModel> GetRadioButtons()
     {
-            var list = new List<RadioButtonsLabelViewModel>
+        var list = new List<RadioButtonsLabelViewModel>
             {
                 new() {
                     Id = "communication",
@@ -83,6 +88,6 @@ public class ReasonForEscalationModel(
                 }
             };
 
-            return list;
+        return list;
     }
 }
