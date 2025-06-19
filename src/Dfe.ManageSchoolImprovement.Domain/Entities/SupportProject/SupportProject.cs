@@ -388,11 +388,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = emailRiseGrantTeam;
     }
 
-    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, bool? reviewImprovementPlanWithTeam, bool? sendImprovementPlanToRiseGrantTeam, bool? confirmPlanClearedByRiseGrantTeam)
+    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, 
+        // bool? reviewImprovementPlanWithTeam, 
+        bool? confirmPlanClearedByRiseGrantTeam)
     {
         ImprovementPlanReceivedDate = improvementPlanReceivedDate;
-        ReviewImprovementPlanWithTeam = reviewImprovementPlanWithTeam;
-        SendImprovementPlanToRiseGrantTeam = sendImprovementPlanToRiseGrantTeam;
+        // ReviewImprovementPlanWithTeam = reviewImprovementPlanWithTeam;
         ConfirmPlanClearedByRiseGrantTeam = confirmPlanClearedByRiseGrantTeam;
     }
 

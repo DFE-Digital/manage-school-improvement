@@ -345,8 +345,7 @@ public static class TaskStatusViewModel
     public static TaskListStatus ReviewTheImprovementPlanTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.ImprovementPlanReceivedDate.HasValue
-            && supportProject.ReviewImprovementPlanWithTeam.Equals(true)
-            && supportProject.SendImprovementPlanToRiseGrantTeam.Equals(true)
+            // && supportProject.ReviewImprovementPlanWithTeam.Equals(true)
             && supportProject.ConfirmPlanClearedByRiseGrantTeam.Equals(true))
 
         {
@@ -354,8 +353,7 @@ public static class TaskStatusViewModel
         }
 
         if (!supportProject.ImprovementPlanReceivedDate.HasValue
-            && !supportProject.ReviewImprovementPlanWithTeam.Equals(true)
-            && !supportProject.SendImprovementPlanToRiseGrantTeam.Equals(true)
+            // && !supportProject.ReviewImprovementPlanWithTeam.Equals(true)
             && !supportProject.ConfirmPlanClearedByRiseGrantTeam.Equals(true))
         {
             return TaskListStatus.NotStarted;
