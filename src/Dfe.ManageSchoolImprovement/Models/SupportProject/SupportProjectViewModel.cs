@@ -165,21 +165,22 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? CopyInRegionalDirector { get; set; }
 
         public bool? SendEmailToGrantTeam { get; set; }
-        
+
         public bool? EngagementConcernEscalationConfirmStepsTaken { get; set; }
-        
+
         public string? EngagementConcernEscalationPrimaryReason { get; set; }
-        
+
         public string? EngagementConcernEscalationDetails { get; set; }
-        
+
         public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
-        
+
         public DateTime? EngagementConcernRaisedDate { get; set; }
 
         public bool? InformationPowersInUse { get; set; }
         public string? InformationPowersDetails { get; set; }
         public DateTime? PowersUsedDate { get; set; }
-        
+        public bool? AssessmentToolTwoCompleted { get; set; }
+
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
             return new SupportProjectViewModel()
@@ -284,7 +285,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 EngagementConcernRaisedDate = supportProjectDto.EngagementConcernRaisedDate,
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
-                PowersUsedDate = supportProjectDto.PowersUsedDate
+                PowersUsedDate = supportProjectDto.PowersUsedDate,
+                AssessmentToolTwoCompleted = supportProjectDto.AssessmentToolTwoCompleted
             };
         }
     }

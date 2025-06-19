@@ -24,8 +24,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public DateTime? DateSupportOrganisationChosen { get; set; }
 
-    [BindProperty(Name = "complete-assessment")]
-    public bool CompleteAssessmentTool { get; set; }
+    [BindProperty(Name = "complete-assessment-tool")]
+    public bool? CompleteAssessmentTool { get; set; }
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
@@ -44,7 +44,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         OrganisationName = SupportProject.SupportOrganisationName;
         IdNumber = SupportProject.SupportOrganisationIdNumber;
         DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
-
+        CompleteAssessmentTool = SupportProject.AssessmentToolTwoCompleted;
         return Page();
     }
 
@@ -59,7 +59,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetChoosePreferredSupportingOrganisationCommand(new SupportProjectId(id), OrganisationName, IdNumber, DateSupportOrganisationChosen);
+        var request = new SetChoosePreferredSupportingOrganisationCommand(new SupportProjectId(id), OrganisationName, IdNumber, DateSupportOrganisationChosen, CompleteAssessmentTool);
 
         var result = await mediator.Send(request, cancellationToken);
 
