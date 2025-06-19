@@ -39,12 +39,12 @@ public class ReasonForEscalationModel(
 
     public async Task<IActionResult> OnPostAsync(int id, bool? confirmStepsTaken, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid || EscalationDetails == null || PrimaryReason == null)
+        if (EscalationDetails == null || PrimaryReason == null)
         {
             if (PrimaryReason == null)
             {
                 ErrorMessage = "You must select a primary reason";
-                _errorService.AddError("PrimaryReason", ErrorMessage);
+                _errorService.AddError("primary-reason", ErrorMessage);
             }
 
             if (EscalationDetails == null)
