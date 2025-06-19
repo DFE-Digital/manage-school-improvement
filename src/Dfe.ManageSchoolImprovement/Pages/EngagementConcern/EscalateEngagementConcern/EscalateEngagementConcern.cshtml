@@ -45,6 +45,12 @@
                 <hr class="govuk-section-break govuk-section-break--m">
                 
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    @if (Model.ShowCheckboxError)
+                    {
+                        <p id="more-detail-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> You must confirm you have taken the required steps
+                        </p>
+                    }
                     <div class="govuk-checkboxes__item">
                         <input name="confirm-steps-taken-hidden" type="hidden" value="false"/>
                         <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
@@ -58,12 +64,6 @@
                         <label class="govuk-label govuk-checkboxes__label" for="confirm-steps-taken">
                             Confirm you have taken the required steps before escalating this concern
                         </label>
-                        @if (Model.ShowCheckboxError)
-                        {
-                            <p id="more-detail-error" class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> You must confirm you have taken the required steps
-                            </p>
-                        }
                     </div>
                 </div>
             </div>
