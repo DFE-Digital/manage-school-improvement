@@ -1,6 +1,6 @@
 @page "/task-list/choose-preferred-supporting-organisation/{id:int}"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.IndexModel
-
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Choose preferred supporting organisation";
 }
@@ -40,12 +40,12 @@
                             <span id="complete-assessment-tool-hint" class="govuk-hint">
                                 You must download a
                                 <a class="govuk-link"
-                                   href="#"
+                                   href="@Configuration["AssessmentToolTwoLink"]"
                                    rel="noreferrer noopener"
                                    target="_blank">copy of the assessment tool (opens in new tab)</a>.
                                 When complete
                                 <a class="govuk-link"
-                                   href="#"
+                                   href="@Configuration["AssessmentToolTwoSharePointFolderLink"]"
                                    rel="noreferrer noopener"
                                    target="_blank">upload it to the relevant region's assessment folder in SharePoint (opens in new tab)</a>.
                             </span>
