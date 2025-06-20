@@ -179,17 +179,17 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("send-introductory-email-request-improvement-plan_status");
 
-    Logger.log("Selecting 'Arrange adviser's first face-to-face visit' task");
-    taskList.selectTask("Arrange adviser's first face-to-face visit");
-    taskListActions.hasHeader("Arrange adviser's first face-to-face visit");
+    Logger.log("Selecting 'Arrange adviser's initial visit' task");
+    taskList.selectTask("Arrange adviser's initial visit");
+    taskListActions.hasHeader("Arrange adviser's initial visit");
     taskListActions.enterDate("adviser-visit-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("adviser-school-visit_status");
 
-    Logger.log("Selecting 'Record date of visit to school' task");
-    taskList.selectTask("Record date of visit to school");
-    taskListActions.hasHeader("Record date of visit to school");
+    Logger.log("Selecting 'Record date of initial visit' task");
+    taskList.selectTask("Record date of initial visit");
+    taskListActions.hasHeader("Record date of initial visit");
     taskListActions.enterDate("school-visit-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
