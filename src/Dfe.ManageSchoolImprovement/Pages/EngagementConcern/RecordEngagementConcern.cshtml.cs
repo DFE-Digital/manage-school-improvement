@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -23,6 +24,8 @@ public class AddEngagementConcernModel(
     [BindProperty(Name = "record-engagement-concern")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? RecordEngagementConcern { get; set; }
+    
+    public DateTime? DateEngagementConcernRaised { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -54,17 +57,22 @@ public class AddEngagementConcernModel(
     
             return Page();
         }
-    
+        
         TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
         TempData["EngagementConcernAdded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
         TempData["EngagementConcernRemoved"] = RecordEngagementConcern is false;
+        
+        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
+        
         //reset details if removed
         if (RecordEngagementConcern is false)
         {
             RecordEngagementConcern = null;
             EngagementConcernDetails = null;
+            DateEngagementConcernRaised = null;
         }
-        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails);
+        
+        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
     
         var result = await mediator.Send(request, cancellationToken);
     
@@ -73,6 +81,18 @@ public class AddEngagementConcernModel(
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
             return Page();
+        }
+        
+        if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
+        {
+            var escalationRequest = new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
+            var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
+            if (escalationResult == null)
+            {
+                _errorService.AddApiError();
+                await base.GetSupportProject(id, cancellationToken);
+                return Page();
+            }
         }
     
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });

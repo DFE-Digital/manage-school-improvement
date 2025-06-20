@@ -1,5 +1,4 @@
 using AutoFixture;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
@@ -28,9 +27,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var engagementConcernRecorded = true;
             var engagementConcernDetails = "test details";
+            var engagementConcernRaisedDate =  DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernDetailsCommand(
-                _mockSupportProject.Id, engagementConcernRecorded, engagementConcernDetails
+                _mockSupportProject.Id, engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
@@ -48,7 +48,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
                         x.EngagementConcernRecorded == engagementConcernRecorded &&
-                        x.EngagementConcernDetails == engagementConcernDetails), It.IsAny<CancellationToken>()),
+                        x.EngagementConcernDetails == engagementConcernDetails &&
+                        x.EngagementConcernRaisedDate == engagementConcernRaisedDate), It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
@@ -57,7 +58,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var command = new SetSupportProjectEngagementConcernDetailsCommand(
-                _mockSupportProject.Id, null, null
+                _mockSupportProject.Id, null, null, null
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
@@ -73,7 +74,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository.Verify(
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernRecorded == null && x.EngagementConcernDetails == null), It.IsAny<CancellationToken>()),
+                        x.EngagementConcernRecorded == null && 
+                        x.EngagementConcernDetails == null && 
+                        x.EngagementConcernRaisedDate == null), 
+                    It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
@@ -81,10 +85,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ProjectNotFound_ReturnsFalse()
         {
             var engagementConcernRecorded = true;
-            var EngagementConcernDetails = "test details";
+            var engagementConcernDetails = "test details";
+            var engagementConcernRaisedDate =  DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernDetailsCommand(
-                _mockSupportProject.Id, engagementConcernRecorded, EngagementConcernDetails
+                _mockSupportProject.Id, engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),

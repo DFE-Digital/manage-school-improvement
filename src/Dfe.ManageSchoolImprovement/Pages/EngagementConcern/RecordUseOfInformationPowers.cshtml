@@ -87,10 +87,11 @@
                 </fieldset>
             </div>
 
-            <div class="govuk-button-group">
+            <div class="govuk-button-group govuk-body">
                 <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="save-information-powers-btn">
-                    Save
+                    Save and return
                 </button>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>

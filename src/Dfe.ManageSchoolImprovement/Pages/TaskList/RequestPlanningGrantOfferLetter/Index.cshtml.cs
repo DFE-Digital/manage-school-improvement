@@ -53,8 +53,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         
         EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
         
-        Console.WriteLine($"xyz9876 {SupportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail}");
-        Console.WriteLine($"rst567 {SupportProject.ConfirmAmountOfPlanningGrantFundingRequested}");
         return Page();
     }
 
