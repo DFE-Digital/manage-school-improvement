@@ -129,8 +129,8 @@ describe("User completes their newly created project", () => {
     
     Logger.log("Selecting 'Record the school's response' task");
     taskList.selectTask("Record the school's response");
-    taskListActions.hasHeader("Record the school's response");
-    taskListActions.selectButtonOrCheckbox("accepted-intervention");
+    taskListActions.hasHeader("Record the responsible body's response");
+    taskListActions.selectButtonOrCheckbox("acknowledged");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("record-school-response_status");
