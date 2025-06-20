@@ -3,6 +3,17 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.11.0] - Q1 – Sprint 6 (Part 1) - 2025-06-02
+
+### 📌 User Stories
+
+- **218224** - Record use of Information Powers
+- **218180** - Update Engagement Concern tab to display either engagement concern or mandation
+- **217584** - Iteration 1 for recording Escalate an engagement concern
+- **217161** - Rename record the school's response and change acceptance language
+
+---
+
 ## 📅 [v0.10.2] - Q1 – Sprint 5 (Part 3) - 2025-06-16
 
 ### 🐛 Bug Fixes
