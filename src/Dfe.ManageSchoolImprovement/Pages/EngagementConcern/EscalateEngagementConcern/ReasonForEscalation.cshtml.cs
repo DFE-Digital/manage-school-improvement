@@ -20,7 +20,11 @@ public class ReasonForEscalationModel(
 
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
 
-    public string ErrorMessage { get; set; }
+    public string PrimaryReasonErrorMessage { get; set; }
+    
+    public string DetailsErrorMessage { get; set; }
+    
+    public bool ShowDetailsError => ModelState.ContainsKey("escalation-details") && ModelState["escalation-details"]?.Errors.Count > 0;
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -43,14 +47,15 @@ public class ReasonForEscalationModel(
         {
             if (PrimaryReason == null)
             {
-                ErrorMessage = "You must select a primary reason";
-                _errorService.AddError("primary-reason", ErrorMessage);
+                PrimaryReasonErrorMessage = "You must select a primary reason";
+                _errorService.AddError("primary-reason", PrimaryReasonErrorMessage);
             }
 
             if (EscalationDetails == null)
             {
-                ErrorMessage = "You must enter details";
-                _errorService.AddError("escalation-details", ErrorMessage);
+                DetailsErrorMessage = "You must enter details";
+                _errorService.AddError("escalation-details", DetailsErrorMessage);
+                ModelState.AddModelError("escalation-details", DetailsErrorMessage);
             }
 
             PrimaryReasonRadioButtons = GetRadioButtons();

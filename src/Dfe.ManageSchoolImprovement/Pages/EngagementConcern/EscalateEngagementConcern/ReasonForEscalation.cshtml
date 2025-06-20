@@ -35,13 +35,20 @@
                             name="@nameof(Model.PrimaryReason)"
                             radio-buttons="@Model.PrimaryReasonRadioButtons"
                             asp-for="@Model.PrimaryReason"
+                            error-message="@Model.PrimaryReasonErrorMessage"
                             data-cy="escalate-primary-reason-radio-buttons"/>
                     </div>
                     <h2 class="govuk-heading-m">Details of escalation</h2>
-                    <div class="govuk-form-group">
+                    <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                         <label class="govuk-label govuk-!-margin-bottom-2" for="escalation-details">
                             Enter details of any contentious or complicated issues. This can include past or present legal action, political affiliations and conflicts of interest.
                         </label>
+                        @if (Model.ShowDetailsError)
+                        {
+                            <p id="more-detail-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> You must enter details
+                            </p>
+                        }
                         <textarea class="govuk-textarea" id="escalation-details" name="escalation-details" rows="5">@Model.EscalationDetails</textarea>
                     </div>
                 </fieldset>
