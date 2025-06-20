@@ -24,26 +24,26 @@
         <form method="post" novalidate>
             <govuk-date-input label="Enter date improvement plan received" id="date-improvement-plan-received" name="date-improvement-plan-received" asp-for="@Model.DateImprovementPlanReceived"  hint="For example, 1 7 2024."/>
             <br>
-            @* <div class="govuk-form-group"> *@
-            @*     <div class="govuk-checkboxes"> *@
-            @*         <div class="govuk-checkboxes__item"> *@
-            @*             <input name="review-improvement-plan-hidden" type="hidden" value="false" /> *@
-            @*             <input class="govuk-checkboxes__input" id="review-improvement-plan" name="review-improvement-plan" type="checkbox" value="true"  *@
-            @*                    checked="@Model.SendImprovementPlanToRiseGrantTeam" *@
-            @*                    > *@
-            @*             <label class="govuk-label govuk-checkboxes__label" for="review-improvement-plan"> *@
-            @*                 Review the draft improvement and expenditure plans with the adviser, regional team and RISE  *@
-            @*                 grant team *@
-            @*                     <br /> *@
-            @*                     <span id="review-improvement-plan-hint" class="govuk-hint"> *@
-            @*                         Send the improvement and expenditure plan template to  *@
-            @*                         <a class='govuk-link' href='mailto:@Model.EmailAddress?subject=Manage%20school%20improvement:%20support%20query'>@Model.EmailAddress</a>. *@
-            @*                         You must include the name of the supporting organisation and the school. *@
-            @*                     </span> *@
-            @*             </label> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </div> *@
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="review-improvement-plan-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input" id="review-improvement-plan" name="review-improvement-plan" type="checkbox" value="true"
+                               checked="@Model.ReviewImprovementAndExpenditurePlan"
+                               >
+                        <label class="govuk-label govuk-checkboxes__label" for="review-improvement-plan">
+                            Review the draft improvement and expenditure plans with the adviser, regional team and RISE
+                            grant team
+                                <br />
+                                <span id="review-improvement-plan-hint" class="govuk-hint">
+                                    Send the improvement and expenditure plan template to
+                                    <a class='govuk-link' href='mailto:@Model.EmailAddress?subject=Manage%20school%20improvement:%20support%20query'>@Model.EmailAddress</a>.
+                                    You must include the name of the supporting organisation and the school.
+                                </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">

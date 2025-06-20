@@ -14,8 +14,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
         public DateTime? DateImprovementPlanReceived { get; set; }
         
-        // [BindProperty(Name = "review-improvement-plan")]
-        // public bool? ReviewImprovementAndExpenditurePlan { get; set; } 
+        [BindProperty(Name = "review-improvement-plan")]
+        public bool? ReviewImprovementAndExpenditurePlan { get; set; } 
 
         [BindProperty(Name = "confirm-plan-cleared-by-rise")]
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; } 
@@ -37,7 +37,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         {
             await base.GetSupportProject(id, cancellationToken);
             DateImprovementPlanReceived = SupportProject.ImprovementPlanReceivedDate;
-            // ReviewImprovementPlanWithTeam = SupportProject.ReviewImprovementPlanWithTeam;
+            ReviewImprovementAndExpenditurePlan = SupportProject.ReviewImprovementAndExpenditurePlan;
             ConfirmPlanClearedByRiseGrantTeam = SupportProject.ConfirmPlanClearedByRiseGrantTeam;
             return Page();
         }
@@ -53,7 +53,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
 
             var request = new SetReviewTheImprovementPlanCommand(new SupportProjectId(id), 
                 DateImprovementPlanReceived,
-                // ReviewImprovementPlanWithTeam, 
+                ReviewImprovementAndExpenditurePlan, 
                 ConfirmPlanClearedByRiseGrantTeam);
 
             var result = await mediator.Send(request, cancellationToken);
