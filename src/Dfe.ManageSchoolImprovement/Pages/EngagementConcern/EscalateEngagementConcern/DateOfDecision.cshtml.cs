@@ -11,44 +11,59 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 public class DateOfDecisionModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
-    
+
     [BindProperty(Name = "escalate-decision-date")]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [ModelBinder(BinderType = typeof(DateInputModelBinder))]
     public DateTime? DateOfDecision { get; set; }
-    
+
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    string IDateValidationMessageProvider.AllMissing(string displayName)
     {
-        ReturnPage = Links.EngagementConcern.ReasonForEscalation.Page;
-        
+        return "You must enter a date";
+    }
+
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
+    {
+        return $"Date must include a {string.Join(" and ", missingParts)}";
+    }
+
+    public async Task<IActionResult> OnGetAsync(int id, string returnPage, CancellationToken cancellationToken)
+    {
+        ReturnPage = returnPage ?? Links.EngagementConcern.ReasonForEscalation.Page;
+
         await base.GetSupportProject(id, cancellationToken);
 
         DateOfDecision = SupportProject.EngagementConcernEscalationDateOfDecision;
-        
+
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id,
-        bool confirmStepsTaken,
-        string primaryReason,
-        string escalationDetails,
+        bool? confirmStepsTaken,
+        string? primaryReason,
+        string? escalationDetails,
         CancellationToken cancellationToken)
     {
         if (!DateOfDecision.HasValue)
         {
             ModelState.AddModelError("escalate-decision-date", "You must enter a date");
         }
-        
+
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             return await base.GetSupportProject(id, cancellationToken);
         }
+        await base.GetSupportProject(id, cancellationToken);
+        // if confirmStepsTaken is null, use the default value from the SupportProject, as we have entered the flow from the change link
+        confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
+        primaryReason = primaryReason ?? SupportProject.EngagementConcernEscalationPrimaryReason;
+        escalationDetails = escalationDetails ?? SupportProject.EngagementConcernEscalationDetails;
 
         var request = new SetSupportProjectEngagementConcernEscalationCommand(
             new SupportProjectId(id),
@@ -56,21 +71,16 @@ public class DateOfDecisionModel(
             primaryReason,
             escalationDetails,
             DateOfDecision);
-        
+
         var result = await mediator.Send(request, cancellationToken);
-        
+
         if (result == null)
         {
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-        
-        Console.WriteLine($"Confirm steps taken: {confirmStepsTaken}");
-        Console.WriteLine($"Primary reason: {primaryReason}");
-        Console.WriteLine($"Escalation details: {escalationDetails}");
-        Console.WriteLine($"Date of decision: {DateOfDecision}");
-        
+
         return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });
     }
 }

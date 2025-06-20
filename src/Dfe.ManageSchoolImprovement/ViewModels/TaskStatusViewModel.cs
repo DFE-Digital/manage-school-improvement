@@ -27,14 +27,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel SupportProject)
     {
         if (SupportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
-            SupportProject.HasAcceptedTargetedSupport.Equals(true) &&
+            SupportProject.HasAcknowledgedAndWillEngage.Equals(true) &&
             SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
         if (!SupportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
-            !SupportProject.HasAcceptedTargetedSupport.HasValue &&
+            !SupportProject.HasAcknowledgedAndWillEngage.HasValue &&
             !SupportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.NotStarted;

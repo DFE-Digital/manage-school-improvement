@@ -38,16 +38,22 @@
                 <h2 class="govuk-heading-m">Gather evidence</h2>
                 <p class="govuk-body">You must gather evidence to demonstrate that mandation is necessary. This can include:</p>
                 <ul>
-                    <li>advisor notes of meetings</li>
+                    <li>adviser notes of meetings</li>
                     <li>your contact log</li>
                 </ul>
-                <p class="govuk-body">Save the evidence on SharePoint</p>
+                <p class="govuk-body">Save the evidence on SharePoint.</p>
                 <hr class="govuk-section-break govuk-section-break--m">
                 
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    @if (Model.ShowCheckboxError)
+                    {
+                        <p id="more-detail-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> You must confirm you have taken the required steps
+                        </p>
+                    }
                     <div class="govuk-checkboxes__item">
                         <input name="confirm-steps-taken-hidden" type="hidden" value="false"/>
-                        <input class="govuk-checkboxes__input"
+                        <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
                                id="confirm-steps-taken"
                                name="confirm-steps-taken"
                                value="true"

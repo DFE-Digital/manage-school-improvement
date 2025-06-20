@@ -7,7 +7,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -29,18 +29,26 @@
                     <p class="govuk-body">Select the primary reason for escalation and enter details.</p>
                     <h2 class="govuk-heading-m">Primary reason for escalation</h2>
                     <p class="govuk-body">There may be several reasons to escalate, but choose the main cause.</p>
-                    <govuk-radiobuttons-input 
-                        heading-style="govuk-fieldset__legend--m" 
-                        name="@nameof(Model.PrimaryReason)" 
-                        radio-buttons="@Model.PrimaryReasonRadioButtons" 
-                        asp-for="@Model.PrimaryReason"
-                        data-cy="escalate-primary-reason-radio-buttons"/>
-
+                    <div class="govuk-form-group" id="primary-reason">
+                        <govuk-radiobuttons-input
+                            heading-style="govuk-fieldset__legend--m"
+                            name="@nameof(Model.PrimaryReason)"
+                            radio-buttons="@Model.PrimaryReasonRadioButtons"
+                            asp-for="@Model.PrimaryReason"
+                            error-message="@Model.PrimaryReasonErrorMessage"
+                            data-cy="escalate-primary-reason-radio-buttons"/>
+                    </div>
                     <h2 class="govuk-heading-m">Details of escalation</h2>
-                    <div class="govuk-form-group">
+                    <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                         <label class="govuk-label govuk-!-margin-bottom-2" for="escalation-details">
                             Enter details of any contentious or complicated issues. This can include past or present legal action, political affiliations and conflicts of interest.
                         </label>
+                        @if (Model.ShowDetailsError)
+                        {
+                            <p id="more-detail-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> You must enter details
+                            </p>
+                        }
                         <textarea class="govuk-textarea" id="escalation-details" name="escalation-details" rows="5">@Model.EscalationDetails</textarea>
                     </div>
                 </fieldset>
