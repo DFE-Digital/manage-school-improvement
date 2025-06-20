@@ -24,19 +24,26 @@
         <form method="post" novalidate>
             <govuk-date-input label="Enter date improvement plan received" id="date-improvement-plan-received" name="date-improvement-plan-received" asp-for="@Model.DateImprovementPlanReceived"  hint="For example, 1 7 2024."/>
             <br>
-            <govuk-checkbox-input label="Review the plan with the adviser and regional team" id="review-improvement-plan-with-team" name="review-improvement-plan-with-team" asp-for="@Model.ReviewImprovementPlanWithTeam" />
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
-                        <input name="send-improvement-plan-to-rise-hidden" type="hidden" value="false" />
-                        <input class="govuk-checkboxes__input" id="send-improvement-plan-to-rise" name="send-improvement-plan-to-rise" type="checkbox" value="true" 
-                               checked="@Model.SendImprovementPlanToRiseGrantTeam"
+                        <input name="review-improvement-plan-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input" 
+                               id="review-improvement-plan" 
+                               name="review-improvement-plan" 
+                               type="checkbox" 
+                               value="true"
+                               checked="@Model.ReviewImprovementAndExpenditurePlan"
+                               data-cy="review-improvement-plan-checkbox"
                                >
-                        <label class="govuk-label govuk-checkboxes__label" for="send-improvement-plan-to-rise">
-                            Send the draft improvement and expenditure plans to the RISE grant team for review
+                        <label class="govuk-label govuk-checkboxes__label" for="review-improvement-plan">
+                            Review the draft improvement and expenditure plans with the adviser, regional team and RISE
+                            grant team
                                 <br />
-                                <span id="send-improvement-plan-to-rise-hint" class="govuk-hint">
-                                    You must include the name of the supporting organisation and the school. Send the plans to <a class='govuk-link' href='mailto:@Model.EmailAddress?subject=Manage%20school%20improvement:%20support%20query'>@Model.EmailAddress</a>
+                                <span id="review-improvement-plan-hint" class="govuk-hint">
+                                    Send the improvement and expenditure plan template to
+                                    <a class='govuk-link' href='mailto:@Model.EmailAddress?subject=Manage%20school%20improvement:%20support%20query'>@Model.EmailAddress</a>.
+                                    You must include the name of the supporting organisation and the school.
                                 </span>
                         </label>
                     </div>
