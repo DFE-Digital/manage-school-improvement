@@ -1,4 +1,9 @@
 @page "/engagement-concern/record-engagement-concern/{id:int}"
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.DependencyInjection
+
+@inject IWebHostEnvironment Environment
+
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.AddEngagementConcernModel
 
 @{
@@ -63,9 +68,12 @@
                 <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save and return
                 </button>
-                @if (Model.SupportProject.EngagementConcernRecorded == true)
+                @if (Environment.IsDevelopment())
                 {
-                    <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary" data-cy="escalate-engagement-concern-btn">Escalate concern</a>
+                    @if (Model.SupportProject.EngagementConcernRecorded == true)
+                    {
+                        <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary" data-cy="escalate-engagement-concern-btn">Escalate concern</a>
+                    } 
                 }
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
             </div>
