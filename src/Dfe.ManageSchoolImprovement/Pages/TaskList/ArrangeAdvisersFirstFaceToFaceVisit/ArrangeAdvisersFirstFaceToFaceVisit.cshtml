@@ -1,8 +1,8 @@
-@page "/task-list/arrange-advisers-first-face-to-face-visit/{id:int}"
+@page "/task-list/arrange-advisers-initial-visit/{id:int}"
 @model             ArrangeAdvisersFirstFaceToFaceVisitModel
 
 @{
-    ViewData["Title"] = "Arrange adviser's first face-to-face visit";
+    ViewData["Title"] = "Arrange adviser's initial visit";
 }
 
 @section BeforeMain
@@ -19,9 +19,10 @@
 <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
     <h1 class="govuk-heading-l">
-            Arrange adviser's first face-to-face visit
+            Arrange adviser's initial visit
     </h1>
-        <p class="govuk-body">Work with the adviser and school to find a date and time for the adviser to make their first face-to-face visit to the school.</p>
+        <p class="govuk-body">Work with the adviser and school to find a date and time for the adviser to make their initial visit.</p>
+        <p class="govuk-body">It can take place in-person or remotely.</p>
         <p class="govuk-body">The length of the visit may change depending on the needs of the school.</p>
         
     <form method="post" novalidate>
