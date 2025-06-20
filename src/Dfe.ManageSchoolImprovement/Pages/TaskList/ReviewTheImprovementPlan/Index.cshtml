@@ -28,8 +28,13 @@
                 <div class="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
                         <input name="review-improvement-plan-hidden" type="hidden" value="false" />
-                        <input class="govuk-checkboxes__input" id="review-improvement-plan" name="review-improvement-plan" type="checkbox" value="true"
+                        <input class="govuk-checkboxes__input" 
+                               id="review-improvement-plan" 
+                               name="review-improvement-plan" 
+                               type="checkbox" 
+                               value="true"
                                checked="@Model.ReviewImprovementAndExpenditurePlan"
+                               data-cy="review-improvement-plan-checkbox"
                                >
                         <label class="govuk-label govuk-checkboxes__label" for="review-improvement-plan">
                             Review the draft improvement and expenditure plans with the adviser, regional team and RISE
