@@ -145,9 +145,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? ImprovementPlanReceivedDate { get; private set; }
 
-    public bool? ReviewImprovementPlanWithTeam { get; private set; }
-
-    public bool? SendImprovementPlanToRiseGrantTeam { get; private set; }
+    // public bool? ReviewImprovementPlanWithTeam { get; private set; }
 
     public bool? ConfirmPlanClearedByRiseGrantTeam { get; private set; }
 
