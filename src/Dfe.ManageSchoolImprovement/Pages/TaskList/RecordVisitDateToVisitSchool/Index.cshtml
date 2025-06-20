@@ -1,7 +1,7 @@
-@page "/task-list/record-visit-date-to-school/{id:int}"
+@page "/task-list/record-date-initial-visit/{id:int}"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToVisitSchool.IndexModel
 @{
-    ViewData["Title"] = "Record date of visit to school";
+    ViewData["Title"] = "Record date of initial visit";
 }
 
 @section BeforeMain
@@ -18,9 +18,9 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
-            Record date of visit to school
+            Record date of initial visit
         </h1>
-        <p class="govuk-body" data-cy="instruction-to-advisor">Enter the date the visit took place.</p>
+        <p class="govuk-body" data-cy="instruction-to-advisor">Enter the date the visit took place. It may have been in-person or remote.</p>
         <form method="post" novalidate>
             <govuk-date-input heading-label="false" label="Enter the date of visit" id="school-visit-date" name="school-visit-date" asp-for="@Model.SchoolVisitDate" hint="For example, 1 7 2024." />
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
