@@ -1,6 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
@@ -8,9 +7,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
 
 public record SetChoosePreferredSupportingOrganisationCommand(
     SupportProjectId SupportProjectId,
-    string? OrganisationName ,
+    string? OrganisationName,
     string? IDNumber,
-    DateTime? DateSupportOrganisationChosen
+    DateTime? DateSupportOrganisationChosen,
+    bool? AssessmentToolTwoCompleted
 ) : IRequest<bool>;
 public class SetChoosePreferredSupportingOrganisation
 {
@@ -30,7 +30,8 @@ public class SetChoosePreferredSupportingOrganisation
 
             supportProject.SetChoosePreferredSupportOrganisation(request.DateSupportOrganisationChosen,
                 request.OrganisationName,
-                request.IDNumber);
+                request.IDNumber,
+                request.AssessmentToolTwoCompleted);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

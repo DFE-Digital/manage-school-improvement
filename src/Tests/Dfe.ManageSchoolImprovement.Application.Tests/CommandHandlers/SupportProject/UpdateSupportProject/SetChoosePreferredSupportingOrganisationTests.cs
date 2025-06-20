@@ -1,8 +1,8 @@
-using System.Linq.Expressions;
 using AutoFixture;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Moq;
+using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject;
 
@@ -29,7 +29,8 @@ public class SetChoosePreferredSupportingOrganisationTests
             _mockSupportProject.Id,
             "Org",
             "1223a",
-            DateTime.Now
+            DateTime.Now,
+            true
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var setChosePreferredSupportingOrganisationHandler = new SetChoosePreferredSupportingOrganisation.SetChoosePreferredSupportingOrganisationHandler(_mockSupportProjectRepository.Object);
@@ -49,6 +50,7 @@ public class SetChoosePreferredSupportingOrganisationTests
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             _mockSupportProject.Id,
             null,
+           null,
            null,
            null
         );
@@ -71,7 +73,8 @@ public class SetChoosePreferredSupportingOrganisationTests
             _mockSupportProject.Id,
             "Org",
             "1223a",
-            DateTime.Now
+            DateTime.Now,
+            true
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
         var setChosePreferredSupportingOrganisationHandler = new SetChoosePreferredSupportingOrganisation.SetChoosePreferredSupportingOrganisationHandler(_mockSupportProjectRepository.Object);

@@ -1,6 +1,6 @@
 @page "/task-list/choose-preferred-supporting-organisation/{id:int}"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.IndexModel
-
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Choose preferred supporting organisation";
 }
@@ -24,6 +24,37 @@
         <p class="govuk-body">The support organisation is not confirmed until the school and regional director both agree to the choice.</p>
         
         <form method="post" novalidate>
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="complete-assessment-tool-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input"
+                               id="complete-assessment-tool"
+                               name="complete-assessment-tool"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.CompleteAssessmentTool">
+                        <label class="govuk-label govuk-checkboxes__label" for="complete-assessment-tool">
+                            Complete assessment tool 2: Selecting a supporting organisation
+                            <br />
+                            <span id="complete-assessment-tool-hint" class="govuk-hint">
+                                You must download a
+                                <a class="govuk-link"
+                                   href="@Configuration["AssessmentToolTwoLink"]"
+                                   rel="noreferrer noopener"
+                                   target="_blank">copy of the assessment tool (opens in new tab)</a>.
+                                When complete
+                                <a class="govuk-link"
+                                   href="@Configuration["AssessmentToolTwoSharePointFolderLink"]"
+                                   rel="noreferrer noopener"
+                                   target="_blank">upload it to the relevant region's assessment folder in SharePoint (opens in new tab)</a>.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
             <govuk-text-input heading-label="true" label="Name" id="organisation-name" name="organisation-name" asp-for="@Model.OrganisationName" width="30"/>
             <govuk-text-input heading-label="true" label="ID number" hint="If the supporting organisation is a trust, enter the UKPRN. If it is a local authority, enter its LAESTAB." id="id-number" name="id-number" asp-for="@Model.IdNumber" width="30"/>
             <govuk-date-input heading-label="false" label="Enter date preferred supporting organisation chosen" id="date-support-organisation-chosen" name="date-support-organisation-chosen" asp-for="@Model.DateSupportOrganisationChosen" hint="For example, 1 7 2024."/>

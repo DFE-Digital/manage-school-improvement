@@ -164,14 +164,16 @@ public static class TaskStatusViewModel
     {
         if (supportProject.DateSupportOrganisationChosen.HasValue
             && supportProject.SupportOrganisationName != null
-            && !string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber))
+            && !string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber)
+            && supportProject.AssessmentToolTwoCompleted == true)
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.DateSupportOrganisationChosen.HasValue
             && supportProject.SupportOrganisationName == null
-            && string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber))
+            && string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber)
+            && supportProject.AssessmentToolTwoCompleted == null)
         {
             return TaskListStatus.NotStarted;
         }

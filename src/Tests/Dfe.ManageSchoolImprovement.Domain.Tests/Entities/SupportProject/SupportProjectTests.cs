@@ -300,17 +300,21 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             DateTime? dateSupportOrganisationChosen = DateTime.UtcNow;
             string? supportOrgansiationName = "name";
             string? supportOrganisationId = "1234a";
+            bool? assessmentToolTwoCompleted = true;
 
             // Act
             supportProject.SetChoosePreferredSupportOrganisation(
                 dateSupportOrganisationChosen,
                 supportOrgansiationName,
-                supportOrganisationId);
+                supportOrganisationId,
+                assessmentToolTwoCompleted
+                );
 
             // Assert
             supportProject.DateSupportOrganisationChosen.Should().Be(dateSupportOrganisationChosen);
             supportProject.SupportOrganisationName.Should().Be(supportOrgansiationName);
             supportProject.SupportOrganisationIdNumber.Should().Be(supportOrganisationId);
+            supportProject.AssessmentToolTwoCompleted.Should().Be(assessmentToolTwoCompleted);
             this.mockRepository.VerifyAll();
         }
 
@@ -858,11 +862,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var primaryReason = "this is a reason";
             var escalationDetails = "this is some details";
             var dateOfDecision = DateTime.UtcNow;
-            
+
             // Act
             supportProject.SetEngagementConcernEscalation(
                 confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision);
-            
+
             // Assert
             supportProject.EngagementConcernEscalationConfirmStepsTaken.Should().Be(confirmStepsTaken);
             supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(primaryReason);
