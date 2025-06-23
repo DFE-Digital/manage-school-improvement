@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         [BindProperty(Name = "confirm-plan-cleared-by-rise")]
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; } 
         
-        [BindProperty(Name = "funding-band")]
+        [BindProperty(Name = "FundingBand")]
         public string? FundingBand { get; set; }
         
         [BindProperty(Name = "confirm-funding-band")]

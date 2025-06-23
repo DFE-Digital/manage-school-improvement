@@ -422,18 +422,20 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, bool?, bool?, TaskListStatus> ReviewTheImprovementPlanTaskListStatusCases = new()
+        public static readonly TheoryData<DateTime?, bool?, bool?, string?, bool?, TaskListStatus> ReviewTheImprovementPlanTaskListStatusCases = new()
         {
-            { null, null, null, TaskListStatus.NotStarted },
-            { DateTime.Now, true, true, TaskListStatus.Complete },
-            { null, true, null, TaskListStatus.InProgress },
-            { DateTime.Now, null, null, TaskListStatus.InProgress },
+            { null, null, null, null, null, TaskListStatus.NotStarted },
+            { DateTime.Now, true, true, "££££££", true, TaskListStatus.Complete },
+            { null, true, null, "money", null, TaskListStatus.InProgress },
+            { DateTime.Now, null, true, null, null, TaskListStatus.InProgress },
         };
 
         [Theory, MemberData(nameof(ReviewTheImprovementPlanTaskListStatusCases))]
         public void ReviewTheImprovementPlanTaskListStatusShouldReturnCorrectStatus(
             DateTime? improvementPlanReceivedDate,
             bool? reviewImprovementAndExpenditurePlan,
+            bool? confirmFundingBand,
+            string? fundingBand,
             bool? confirmPlanClearedByRiseGrantTeam,
             TaskListStatus expectedTaskListStatus)
         {
@@ -441,6 +443,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
                 ImprovementPlanReceivedDate: improvementPlanReceivedDate,
                 ReviewImprovementAndExpenditurePlan: reviewImprovementAndExpenditurePlan,
+                ConfirmFundingBand: confirmFundingBand,
+                FundingBand: fundingBand,
                 ConfirmPlanClearedByRiseGrantTeam: confirmPlanClearedByRiseGrantTeam));
 
             //Action 

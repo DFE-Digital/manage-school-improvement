@@ -148,7 +148,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? ReviewImprovementAndExpenditurePlan { get; private set; }
     public bool? ConfirmFundingBand { get; private set; }
     public string? FundingBand { get; private set; }
-
     public bool? ConfirmPlanClearedByRiseGrantTeam { get; private set; }
 
     public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; private set; }
