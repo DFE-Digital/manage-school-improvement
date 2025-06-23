@@ -66,8 +66,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? SchoolResponseDate { get; private set; }
 
-    public bool? 
-        HasAcknowledgedAndWillEngage { get; private set; }
+    public bool?
+        HasAcknowledgedAndWillEngage
+    { get; private set; }
 
     public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
@@ -101,7 +102,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportOrganisationName { get; private set; }
 
     public string? SupportOrganisationIdNumber { get; private set; }
-
+    public bool? AssessmentToolTwoCompleted { get; private set; }
     public DateTime? RegionalDirectorDecisionDate { get; private set; }
 
     public bool? HasSchoolMatchedWithSupportingOrganisation { get; private set; }
@@ -171,15 +172,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? EngagementConcernRecorded { get; private set; }
 
     public string? EngagementConcernDetails { get; private set; }
-    
+
     public bool? EngagementConcernEscalationConfirmStepsTaken { get; private set; }
-    
+
     public string? EngagementConcernEscalationPrimaryReason { get; private set; }
-    
+
     public string? EngagementConcernEscalationDetails { get; private set; }
-    
+
     public DateTime? EngagementConcernEscalationDateOfDecision { get; private set; }
-    
+
     public DateTime? EngagementConcernRaisedDate { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
@@ -315,11 +316,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public void SetChoosePreferredSupportOrganisation(DateTime? dateSupportOrganisationChosen,
         string? supportOrganisationName,
-        string? supportOrganisationIdNumber)
+        string? supportOrganisationIdNumber,
+        bool? assessmentToolTwoCompleted)
     {
         DateSupportOrganisationChosen = dateSupportOrganisationChosen;
         SupportOrganisationName = supportOrganisationName;
         SupportOrganisationIdNumber = supportOrganisationIdNumber;
+        AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
     }
 
     public void SetRecordMatchingDecision(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithSupportingOrganisation, string? notMatchingSchoolWithSupportingOrgNotes)

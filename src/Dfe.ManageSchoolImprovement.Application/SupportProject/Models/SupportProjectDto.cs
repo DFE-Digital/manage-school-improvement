@@ -92,7 +92,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? EngagementConcernRaisedDate = null,
         bool? InformationPowersInUse = null,
         string? InformationPowersDetails = null,
-        DateTime? PowersUsedDate = null
+        DateTime? PowersUsedDate = null,
+        bool? AssessmentToolTwoCompleted = null
     )
     { }
 }
