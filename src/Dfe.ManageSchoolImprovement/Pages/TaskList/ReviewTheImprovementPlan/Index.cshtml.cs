@@ -24,6 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         [BindProperty(Name = "funding-band")]
         public string? FundingBand { get; set; }
         
+        [BindProperty(Name = "confirm-funding-band")]
         public bool? ConfirmFundingBand  { get; set; }
         
         public string EmailAddress { get; set; } = "rise.grant@education.gov.uk";
