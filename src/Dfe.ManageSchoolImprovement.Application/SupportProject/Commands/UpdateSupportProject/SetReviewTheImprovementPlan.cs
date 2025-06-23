@@ -9,6 +9,8 @@ public record SetReviewTheImprovementPlanCommand(
     SupportProjectId SupportProjectId,
     DateTime? ImprovementPlanReceivedDate,
     bool? ReviewImprovementAndExpenditurePlan,
+    bool? ConfirmFundingBand,
+    string? FundingBand,
     bool? ConfirmPlanClearedByRiseGrantTeam
 ) : IRequest<bool>;
 
@@ -27,6 +29,8 @@ public class SetReviewTheImprovementPlanCommandHandler(ISupportProjectRepository
 
         supportProject.SetReviewTheImprovementPlan(request.ImprovementPlanReceivedDate,
             request.ReviewImprovementAndExpenditurePlan, 
+            request.ConfirmFundingBand,
+            request.FundingBand,
             request.ConfirmPlanClearedByRiseGrantTeam);
 
         await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);

@@ -51,8 +51,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             DateImprovementPlanReceived = SupportProject.ImprovementPlanReceivedDate;
             ReviewImprovementAndExpenditurePlan = SupportProject.ReviewImprovementAndExpenditurePlan;
             ConfirmPlanClearedByRiseGrantTeam = SupportProject.ConfirmPlanClearedByRiseGrantTeam;
-
-            ConfirmFundingBand = false;
+            ConfirmFundingBand = SupportProject.ConfirmFundingBand;
+            FundingBand = SupportProject.FundingBand;
 
             SelectFundingBandRadioButtons = GetRadioButtons();
             return Page();
@@ -70,6 +70,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             var request = new SetReviewTheImprovementPlanCommand(new SupportProjectId(id), 
                 DateImprovementPlanReceived,
                 ReviewImprovementAndExpenditurePlan, 
+                ConfirmFundingBand,
+                FundingBand,
                 ConfirmPlanClearedByRiseGrantTeam);
 
             var result = await mediator.Send(request, cancellationToken);
