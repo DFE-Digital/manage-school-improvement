@@ -2,6 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,45 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public DateTime? DateTemplatesSent { get; set; }
 
     public bool ShowError { get; set; }
+
+    [BindProperty(Name = "calculate-funding-band")]
+    public bool CalculateFundingBand { get; set; }
+
+    [BindProperty(Name = "funding-band")]
+    public string? FundingBand { get; set; }
+
+    [BindProperty(Name = "send-template")]
+    public bool SendTemplate { get; set; }
+
+    public string? FundingBandErrorMessage { get; set; }
+
+    public IList<RadioButtonsLabelViewModel> FundingBandOptions { get; set; } = new List<RadioButtonsLabelViewModel>
+    {
+        new()
+        {
+            Id = "funding-band-1",
+            Name = "Reserves exceed funding level",
+            Value = "reserves-exceed"
+        },
+        new()
+        {
+            Id = "funding-band-2",
+            Name = "Up to £40,000",
+            Value = "40000"
+        },
+        new()
+        {
+            Id = "funding-band-3",
+            Name = "Up to £80,000",
+            Value = "80000"
+        },
+        new()
+        {
+            Id = "funding-band-4",
+            Name = "Up to £120,000",
+            Value = "120000"
+        }
+    };
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
