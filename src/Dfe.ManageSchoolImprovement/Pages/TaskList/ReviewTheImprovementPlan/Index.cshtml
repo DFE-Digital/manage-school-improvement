@@ -24,27 +24,75 @@
         <form method="post" novalidate>
             <govuk-date-input label="Enter date improvement plan received" id="date-improvement-plan-received" name="date-improvement-plan-received" asp-for="@Model.DateImprovementPlanReceived"  hint="For example, 1 7 2024."/>
             <br>
-            <div class="govuk-form-group">
-                <div class="govuk-checkboxes">
-                    <div class="govuk-checkboxes__item">
-                        <input name="review-improvement-plan-hidden" type="hidden" value="false" />
-                        <input class="govuk-checkboxes__input" 
-                               id="review-improvement-plan" 
-                               name="review-improvement-plan" 
-                               type="checkbox" 
-                               value="true"
-                               checked="@Model.ReviewImprovementAndExpenditurePlan"
-                               data-cy="review-improvement-plan-checkbox"
-                               >
-                        <label class="govuk-label govuk-checkboxes__label" for="review-improvement-plan">
-                            Review the draft improvement and expenditure plans with the adviser, regional team and RISE
-                            grant team
-                                <br />
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h1 class="govuk-fieldset__heading">
+                        Review the plan
+                    </h1>
+                </legend>
+                <p>You must send the plan to the grant team as part of the review.</p>
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input name="review-improvement-plan-hidden" type="hidden" value="false"/>
+                            <input class="govuk-checkboxes__input"
+                                   id="review-improvement-plan"
+                                   name="review-improvement-plan"
+                                   type="checkbox"
+                                   value="true"
+                                   checked="@Model.ReviewImprovementAndExpenditurePlan"
+                                   data-cy="review-improvement-plan-checkbox">
+                            <label class="govuk-label govuk-checkboxes__label" for="review-improvement-plan">
+                                Review the draft improvement and expenditure plans with the adviser, regional team and RISE
+                                grant team
+                                <br/>
                                 <span id="review-improvement-plan-hint" class="govuk-hint">
                                     Send the improvement and expenditure plan template to
                                     <a class='govuk-link' href='mailto:@Model.EmailAddress?subject=Manage%20school%20improvement:%20support%20query'>@Model.EmailAddress</a>.
                                     You must include the name of the supporting organisation and the school.
                                 </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <details class="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                            What to do if the plans need changing
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>The RISE grant team will tell you if any changes are needed to the plans. When this happens, 
+                            give the feedback to the supporting organisation and responsible body.</p>
+                        <p>They should then update and resubmit the improvement and expenditure plans. You only need 
+                            to record the date the first version of the plans were sent.</p>
+                    </div>
+                </details>
+                <govuk-checkbox-input label="Confirm plan has been cleared by the RISE grant team" id="confirm-plan-cleared-by-rise" name="confirm-plan-cleared-by-rise" asp-for="@Model.ConfirmPlanClearedByRiseGrantTeam" />
+            </fieldset>
+            <br/>
+            <h2 class="govuk-heading-m">Confirm funding band</h2>
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="confirm-funding-band-hidden" type="hidden" value="false"/>
+                        <input class="govuk-checkboxes__input"
+                               id="confirm-funding-band"
+                               name="confirm-funding-band"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.ConfirmFundingBand"
+                               data-cy="confirm-funding-band-checkbox">
+                        <label class="govuk-label govuk-checkboxes__label" for="confirm-funding-band">
+                            Confirm funding band
+                            <br/>
+                            <span id="confirm-funding-band-hint" class="govuk-hint">
+                                Use stage 2 of 
+                                <a class='govuk-link' href='@Model.ConfirmFundingBandLink' target="_blank">
+                                    Assessment Tool 3: Deciding Levels of Funding (opens in new tab)
+                                </a>
+                                to finalise the funding band for this school.
+                            </span>
                         </label>
                     </div>
                 </div>
@@ -52,18 +100,33 @@
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
-                        What to do if the plans need changing
+                        How to use the assessment tool
                     </span>
                 </summary>
                 <div class="govuk-details__text">
-                    <p>The RISE grant team will tell you if any changes are needed to the plans.</p>
-                    <p>When this happens, give the feedback to the supporting organisation and responsible body.</p>
-                    <p>They should then update and resubmit the improvement and expenditure plans.</p>
-                    <p>You only need to record the date the first version of the plans were sent.</p>
+                    <p>You must complete stage 2 of the assessment tool to confirm the funding band.</p>
+                    <p>This only confirms the possible maximum  amount of funding the school could get. It does not confirm
+                        the actual amount it will receive.</p>
+                    <p>You can <a class="govuk-link" href="@Model.FundingBandGuidanceLink" target="_blank">
+                        read guidance on how to complete the assessment tool on SharePoint (opens in new tab)
+                    </a>.</p>
                 </div>
             </details>
-            <govuk-checkbox-input label="Confirm plan has been cleared by the RISE grant team" id="confirm-plan-cleared-by-rise" name="confirm-plan-cleared-by-rise" asp-for="@Model.ConfirmPlanClearedByRiseGrantTeam" />
-
+            <h2 class="govuk-heading-m">Select confirmed funding band</h2>
+            <p class="govuk-body">In some cases a school may require more than £120,000. If this is true for this school,
+                contact the grant team on 
+                <a class='govuk-link' href='mailto:@Model.EmailAddress?subject=Manage%20school%20improvement:%20support%20query'>
+                    @Model.EmailAddress
+                </a>.</p>
+            <div class="govuk-form-group" id="funding-band">
+                <govuk-radiobuttons-input
+                    heading-style="govuk-fieldset__legend--m"
+                    name="@nameof(Model.FundingBand)"
+                    radio-buttons="@Model.SelectFundingBandRadioButtons"
+                    asp-for="@Model.FundingBand"
+                    @* error-message="@Model.SelectFundingBandRadioButtons" *@
+                    data-cy="funding-band-radio-buttons"/>
+            </div>
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
                 Save and return
             </button>
