@@ -9,7 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImprovementPlan
 {
-    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),IDateValidationMessageProvider
+    public class IndexModel(
+        ISupportProjectQueryService supportProjectQueryService, 
+        ErrorService errorService, 
+        IMediator mediator, 
+        IConfiguration configuration) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),IDateValidationMessageProvider
     {
         [BindProperty(Name = "date-improvement-plan-received",BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -29,9 +33,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         
         public string EmailAddress { get; set; } = "rise.grant@education.gov.uk";
 
-        public string ConfirmFundingBandLink { get; set; } = "http://www.google.com";
+        public string ConfirmFundingBandLink { get; set; } = string.Empty;
         
-        public string FundingBandGuidanceLink { get; set; } = "https://www.google.com";
+        public string FundingBandGuidanceLink { get; set; } = string.Empty;
         
         public required IList<RadioButtonsLabelViewModel> SelectFundingBandRadioButtons { get; set; }
         
@@ -49,6 +53,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
+            
+            ConfirmFundingBandLink = configuration.GetValue<string>("ConfirmFundingBandLink") ?? string.Empty;
+            FundingBandGuidanceLink = configuration.GetValue<string>("FundingBandGuidanceLink") ?? string.Empty;
+            
             DateImprovementPlanReceived = SupportProject.ImprovementPlanReceivedDate;
             ReviewImprovementAndExpenditurePlan = SupportProject.ReviewImprovementAndExpenditurePlan;
             ConfirmPlanClearedByRiseGrantTeam = SupportProject.ConfirmPlanClearedByRiseGrantTeam;
