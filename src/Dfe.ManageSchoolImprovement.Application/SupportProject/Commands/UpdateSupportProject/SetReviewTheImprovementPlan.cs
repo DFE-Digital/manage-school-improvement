@@ -8,8 +8,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
 public record SetReviewTheImprovementPlanCommand(
     SupportProjectId SupportProjectId,
     DateTime? ImprovementPlanReceivedDate,
-    bool? ReviewImprovementPlanWithTeam,
-    bool? SendImprovementPlanToRiseGrantTeam,
+    bool? ReviewImprovementAndExpenditurePlan,
     bool? ConfirmPlanClearedByRiseGrantTeam
 ) : IRequest<bool>;
 
@@ -26,7 +25,9 @@ public class SetReviewTheImprovementPlanCommandHandler(ISupportProjectRepository
             return false;
         }
 
-        supportProject.SetReviewTheImprovementPlan(request.ImprovementPlanReceivedDate,request.ReviewImprovementPlanWithTeam, request.SendImprovementPlanToRiseGrantTeam, request.ConfirmPlanClearedByRiseGrantTeam);
+        supportProject.SetReviewTheImprovementPlan(request.ImprovementPlanReceivedDate,
+            request.ReviewImprovementAndExpenditurePlan, 
+            request.ConfirmPlanClearedByRiseGrantTeam);
 
         await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
