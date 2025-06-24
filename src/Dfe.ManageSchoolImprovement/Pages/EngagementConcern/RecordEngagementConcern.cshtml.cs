@@ -60,7 +60,7 @@ public class AddEngagementConcernModel(
         
         TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
         TempData["EngagementConcernAdded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
-        TempData["EngagementConcernRemoved"] = RecordEngagementConcern is false;
+        TempData["EngagementConcernRemoved"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false;
         
         DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
         
