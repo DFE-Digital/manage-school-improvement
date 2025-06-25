@@ -101,7 +101,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 .Setup(repo => repo.FindAsync(
                     It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null!);
 
             var handler = new SetIndicativeFundingBandAndImprovementPlanTemplateDetailsHandler(_mockSupportProjectRepository.Object);
 

@@ -18,7 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Utils
         {
             return enumValue.GetType()
                 .GetMember(enumValue.ToString())
-                .First()
+                .FirstOrDefault()?
                 .GetCustomAttribute<DisplayAttribute>()
                 ?.GetShortName() ?? enumValue.ToString();
         }

@@ -33,7 +33,7 @@ public class SetIndicativeFundingBandAndImprovementPlanTemplateDetails
                 request.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
                 request.DateTemplatesAndIndicativeFundingBandSent);
 
-            await supportProjectRepository.UpdateAsync(supportProject);
+            await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
             return true;
         }
