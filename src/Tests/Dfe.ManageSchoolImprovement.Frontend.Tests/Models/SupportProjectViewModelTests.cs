@@ -57,9 +57,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 DateSupportingOrganisationContactDetailsAdded: DateTime.Now,
                 SupportingOrganisationContactName: "Contact Name",
                 SupportingOrganisationContactEmailAddress: "contact@example.com",
-                SendTheTemplateToTheSupportingOrganisation: true,
-                SendTheTemplateToTheSchoolsResponsibleBody: true,
-                DateTemplatesSent: DateTime.Now,
                 RegionalDirectorImprovementPlanDecisionDate: DateTime.Now,
                 HasApprovedImprovementPlanDecision: true,
                 DisapprovingImprovementPlanDecisionNotes: "Notes",
@@ -73,6 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 DateTeamContactedForConfirmingPlanningGrantOfferLetter: DateTime.Now,
                 DateImprovementGrantOfferLetterSent: DateTime.Now,
                 Notes: new List<SupportProjectNote>()
+
             );
 
             // Act
@@ -126,9 +124,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.DateSupportingOrganisationContactDetailsAdded, viewModel.DateSupportingOrganisationContactDetailsAdded);
             Assert.Equal(supportProjectDto.SupportingOrganisationContactName, viewModel.SupportingOrganisationContactName);
             Assert.Equal(supportProjectDto.SupportingOrganisationContactEmailAddress, viewModel.SupportingOrganisationContactEmailAddress);
-            Assert.Equal(supportProjectDto.SendTheTemplateToTheSupportingOrganisation, viewModel.SendTheTemplateToTheSupportingOrganisation);
-            Assert.Equal(supportProjectDto.SendTheTemplateToTheSchoolsResponsibleBody, viewModel.SendTheTemplateToTheSchoolsResponsibleBody);
-            Assert.Equal(supportProjectDto.DateTemplatesSent, viewModel.DateTemplatesSent);
             Assert.Equal(supportProjectDto.RegionalDirectorImprovementPlanDecisionDate, viewModel.RegionalDirectorImprovementPlanDecisionDate);
             Assert.Equal(supportProjectDto.HasApprovedImprovementPlanDecision, viewModel.HasApprovedImprovementPlanDecision);
             Assert.Equal(supportProjectDto.HasSavedImprovementPlanInSharePoint, viewModel.HasSavedImprovementPlanInSharePoint);

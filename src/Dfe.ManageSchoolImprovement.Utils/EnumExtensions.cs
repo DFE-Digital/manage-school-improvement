@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations; 
-using System.Reflection; 
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Dfe.ManageSchoolImprovement.Utils
 {
@@ -12,6 +12,15 @@ namespace Dfe.ManageSchoolImprovement.Utils
                         .FirstOrDefault()?
                         .GetCustomAttribute<DisplayAttribute>()?
                         .Name ?? value.ToString();
+        }
+
+        public static string GetDisplayShortName(this Enum enumValue)
+        {
+            return enumValue.GetType()
+                .GetMember(enumValue.ToString())
+                .First()
+                .GetCustomAttribute<DisplayAttribute>()
+                ?.GetShortName() ?? enumValue.ToString();
         }
     }
 }

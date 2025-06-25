@@ -324,27 +324,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         };
 
 
-        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus> ShareImprovementPlanTaskListStatusCases = new()
+        public static readonly TheoryData<bool?, string?, bool?, DateTime?, TaskListStatus> ShareImprovementPlanTaskListStatusCases = new()
        {
-           {null, null, null, TaskListStatus.NotStarted },
-           {false, false, null, TaskListStatus.InProgress },
-           {false, true, null, TaskListStatus.InProgress},
-           {true, true, DateTime.Now, TaskListStatus.Complete }
+           {null, null, null, null, TaskListStatus.NotStarted },
+           {false, null , false, null, TaskListStatus.InProgress },
+           {false,"test", true, null, TaskListStatus.InProgress},
+           {true, "40000", true, DateTime.Now, TaskListStatus.Complete }
        };
 
         [Theory, MemberData(nameof(ShareImprovementPlanTaskListStatusCases))]
-        public void ShareImprovementPlanTaskListStatusCasesShouldReturnCorrectStatus(bool? sendTheTemplateToTheSupportingOrganisation,
-            bool? sendTheTemplateToTheSchoolsResponsibleBody,
-            DateTime? dateTemplatesSent, TaskListStatus expectedTaskListStatus)
+        public void ShareImprovementPlanTaskListStatusCasesShouldReturnCorrectStatus(bool? indicativeFundingBandCalculated,
+            string? indicativeFundingBand,
+            bool? improvementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
+            DateTime? dateTemplatesSent,
+            TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
-                SendTheTemplateToTheSupportingOrganisation: sendTheTemplateToTheSupportingOrganisation,
-                SendTheTemplateToTheSchoolsResponsibleBody: sendTheTemplateToTheSchoolsResponsibleBody,
-                DateTemplatesSent: dateTemplatesSent));
+                IndicativeFundingBandCalculated: indicativeFundingBandCalculated,
+                IndicativeFundingBand: indicativeFundingBand,
+                ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody: improvementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
+                DateTemplatesAndIndicativeFundingBandSent: dateTemplatesSent));
 
             //Action 
-            var taskListStatus = TaskStatusViewModel.ShareTheImprovementPlanTemplateTaskListStatus(supportProjectModel);
+            var taskListStatus = TaskStatusViewModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

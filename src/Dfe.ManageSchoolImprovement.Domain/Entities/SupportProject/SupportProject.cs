@@ -128,10 +128,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? HasConfirmedSupportingOrganisationAppointment { get; private set; }
     public string? DisapprovingSupportingOrganisationAppointmentNotes { get; private set; }
 
-    public bool? SendTheTemplateToTheSupportingOrganisation { get; private set; }
-    public bool? SendTheTemplateToTheSchoolsResponsibleBody { get; private set; }
-    public DateTime? DateTemplatesSent { get; private set; }
-
     public DateTime? RegionalDirectorImprovementPlanDecisionDate { get; private set; }
     public bool? HasApprovedImprovementPlanDecision { get; private set; }
     public string? DisapprovingImprovementPlanDecisionNotes { get; private set; }
@@ -198,6 +194,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? InformationPowersInUse { get; private set; }
     public string? InformationPowersDetails { get; private set; }
     public DateTime? PowersUsedDate { get; private set; }
+    public bool? IndicativeFundingBandCalculated { get; private set; }
+    public bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody { get; private set; }
+    public string? IndicativeFundingBand { get; private set; }
+    public DateTime? DateTemplatesAndIndicativeFundingBandSent { get; private set; }
 
 
     #endregion
@@ -362,11 +362,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DisapprovingImprovementPlanDecisionNotes = disapprovingImprovementPlanDecisionNotes;
     }
 
-    public void SetImprovementPlanTemplateDetails(bool? sendTheTemplateToTheSupportingOrganisation, bool? sendTheTemplateToTheSchoolsResponsibleBody, DateTime? dateTemplatesSent)
+    public void SetIndicativeFundingBandAndImprovementPlanTemplateDetails(
+        bool? indicativeFundingBandCalculated,
+        string? indicativeFundingBand,
+        bool? improvementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
+        DateTime? dateTemplatesAndIndicativeFundingBandSent)
     {
-        SendTheTemplateToTheSupportingOrganisation = sendTheTemplateToTheSupportingOrganisation;
-        SendTheTemplateToTheSchoolsResponsibleBody = sendTheTemplateToTheSchoolsResponsibleBody;
-        DateTemplatesSent = dateTemplatesSent;
+        IndicativeFundingBandCalculated = indicativeFundingBandCalculated;
+        ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody =
+            improvementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody;
+        IndicativeFundingBand = indicativeFundingBand;
+        DateTemplatesAndIndicativeFundingBandSent = dateTemplatesAndIndicativeFundingBandSent;
     }
 
     public void SetSendAgreedImprovementPlanForApproval(bool? hasSavedImprovementPlanInSharePoint, bool? hasEmailedAgreedPlanToRegionalDirectorForApproval)
@@ -389,8 +395,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = emailRiseGrantTeam;
     }
 
-    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, 
-        bool? reviewImprovementAndExpenditurePlan, 
+    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate,
+        bool? reviewImprovementAndExpenditurePlan,
         bool? confirmPlanClearedByRiseGrantTeam)
     {
         ImprovementPlanReceivedDate = improvementPlanReceivedDate;

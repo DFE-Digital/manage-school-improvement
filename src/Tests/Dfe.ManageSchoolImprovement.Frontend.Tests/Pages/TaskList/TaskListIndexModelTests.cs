@@ -100,7 +100,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.SetRecordSupportingOrganisationAppointment);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.SupportingOrganisationContactDetailsTaskListStatus);
-            Assert.Equal(TaskListStatus.NotStarted, _indexModel.ShareTheImprovementPlanTemplateTaskListStatus);
+            Assert.Equal(TaskListStatus.NotStarted, _indexModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.RecordImprovementPlanDecisionTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.SendAgreedImprovementPlanForApprovalTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.RequestPlanningGrantOfferLetterTaskListStatus);

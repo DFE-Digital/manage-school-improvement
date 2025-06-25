@@ -1,23 +1,19 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Enums;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetImprovementPlanTemplateDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetIndicativeFundingBandAndImprovementPlanTemplateDetails;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ShareTheImprovementPlanTemplate;
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate;
 
 public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
-    [BindProperty(Name = "send-the-template-to-the-supporting-organisation")]
-    public bool? SendTheTemplateToTheSupportingOrganisation { get; set; }
-
-    [BindProperty(Name = "send-the-template-to-the-schools-responsible-body")]
-    public bool? SendTheTemplateToTheSchoolsResponsibleBody { get; set; }
-
     [BindProperty(Name = "date-templates-sent", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [Display(Name = "date templates sent")]
@@ -26,43 +22,23 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public bool ShowError { get; set; }
 
     [BindProperty(Name = "calculate-funding-band")]
-    public bool CalculateFundingBand { get; set; }
+    public bool? CalculateFundingBand { get; set; }
 
-    [BindProperty(Name = "funding-band")]
+    [BindProperty(Name = "FundingBand")]
     public string? FundingBand { get; set; }
 
     [BindProperty(Name = "send-template")]
-    public bool SendTemplate { get; set; }
+    public bool? SendTemplate { get; set; }
 
     public string? FundingBandErrorMessage { get; set; }
-
-    public IList<RadioButtonsLabelViewModel> FundingBandOptions { get; set; } = new List<RadioButtonsLabelViewModel>
-    {
-        new()
+    public IList<RadioButtonsLabelViewModel> FundingBandOptions => Enum.GetValues<FundingBand>()
+        .Select(band => new RadioButtonsLabelViewModel
         {
-            Id = "funding-band-1",
-            Name = "Reserves exceed funding level",
-            Value = "reserves-exceed"
-        },
-        new()
-        {
-            Id = "funding-band-2",
-            Name = "Up to £40,000",
-            Value = "40000"
-        },
-        new()
-        {
-            Id = "funding-band-3",
-            Name = "Up to £80,000",
-            Value = "80000"
-        },
-        new()
-        {
-            Id = "funding-band-4",
-            Name = "Up to £120,000",
-            Value = "120000"
-        }
-    };
+            Id = $"funding-band-{band.GetDisplayShortName()}",
+            Name = band.GetDisplayName(),
+            Value = band.GetDisplayName()
+        })
+        .ToList();
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
@@ -78,11 +54,10 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        SendTheTemplateToTheSupportingOrganisation = SupportProject.SendTheTemplateToTheSupportingOrganisation;
-
-        SendTheTemplateToTheSchoolsResponsibleBody = SupportProject.SendTheTemplateToTheSchoolsResponsibleBody;
-
-        DateTemplatesSent = SupportProject.DateTemplatesSent;
+        DateTemplatesSent = SupportProject.DateTemplatesAndIndicativeFundingBandSent;
+        CalculateFundingBand = SupportProject.IndicativeFundingBandCalculated;
+        FundingBand = SupportProject.IndicativeFundingBand;
+        SendTemplate = SupportProject.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody;
 
         return Page();
     }
@@ -96,7 +71,12 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetImprovementPlanTemplateDetailsCommand(new SupportProjectId(id), SendTheTemplateToTheSupportingOrganisation, SendTheTemplateToTheSchoolsResponsibleBody, DateTemplatesSent);
+        var request = new SetIndicativeFundingBandAndImprovementPlanTemplateDetailsCommand(
+            new SupportProjectId(id),
+            CalculateFundingBand,
+            FundingBand, // Use the ShortName value,
+            SendTemplate,
+            DateTemplatesSent);
 
         var result = await mediator.Send(request, cancellationToken);
 

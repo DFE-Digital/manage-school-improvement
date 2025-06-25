@@ -468,20 +468,23 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
+            bool? calculateFundingBand = true;
+            string? fundingBand = "40000";
+            bool? sendTemplate = true;
             DateTime? dateTemplatesSent = DateTime.UtcNow;
-            bool? sendTheTemplateToTheSupportingOrganisation = true;
-            bool? sendTheTemplateToTheSchoolsResponsibleBody = true;
 
             // Act
-            supportProject.SetImprovementPlanTemplateDetails(
-                sendTheTemplateToTheSupportingOrganisation,
-                sendTheTemplateToTheSchoolsResponsibleBody,
+            supportProject.SetIndicativeFundingBandAndImprovementPlanTemplateDetails(
+                calculateFundingBand,
+                fundingBand,
+                sendTemplate,
                 dateTemplatesSent);
 
             // Assert
-            supportProject.DateTemplatesSent.Should().Be(dateTemplatesSent);
-            supportProject.SendTheTemplateToTheSupportingOrganisation.Should().Be(sendTheTemplateToTheSupportingOrganisation);
-            supportProject.SendTheTemplateToTheSchoolsResponsibleBody.Should().Be(sendTheTemplateToTheSchoolsResponsibleBody);
+            supportProject.IndicativeFundingBandCalculated.Should().Be(calculateFundingBand);
+            supportProject.IndicativeFundingBand.Should().Be(fundingBand);
+            supportProject.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody.Should().Be(sendTemplate);
+            supportProject.DateTemplatesAndIndicativeFundingBandSent.Should().Be(dateTemplatesSent);
             mockRepository.VerifyAll();
         }
 
