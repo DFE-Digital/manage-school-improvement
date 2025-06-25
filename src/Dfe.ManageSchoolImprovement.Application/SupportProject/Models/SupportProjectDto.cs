@@ -63,6 +63,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = null,
         DateTime? ImprovementPlanReceivedDate = null,
         bool? ReviewImprovementAndExpenditurePlan = null,
+        bool? ConfirmFundingBand = null,
+        string? FundingBand = null,
         bool? ConfirmPlanClearedByRiseGrantTeam = null,
         DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter = null,
         DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter = null,

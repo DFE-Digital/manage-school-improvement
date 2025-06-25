@@ -133,12 +133,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForRequestingPlanningGrantOfferLetter { get; set; }
 
         public DateTime? ImprovementPlanReceivedDate { get; set; }
-
         public bool? ReviewImprovementAndExpenditurePlan { get; set; }
-
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
+        public bool? ConfirmFundingBand { get; set; }
+        public string? FundingBand { get; set; }
+        
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
-
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam { get; set; }
         public bool? IncludeContactDetailsRequestingPlanningGrantOfferEmail { get; set; }
@@ -240,6 +240,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlanReceivedDate = supportProjectDto.ImprovementPlanReceivedDate,
                 ReviewImprovementAndExpenditurePlan = supportProjectDto.ReviewImprovementAndExpenditurePlan,
                 ConfirmPlanClearedByRiseGrantTeam = supportProjectDto.ConfirmPlanClearedByRiseGrantTeam,
+                ConfirmFundingBand = supportProjectDto.ConfirmFundingBand,
+                FundingBand = supportProjectDto.FundingBand,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter,
                 IncludeContactDetailsRequestingPlanningGrantOfferEmail = supportProjectDto.IncludeContactDetailsRequestingPlanningGrantOfferEmail,
                 ConfirmAmountOfPlanningGrantFundingRequested = supportProjectDto.ConfirmAmountOfPlanningGrantFundingRequested,

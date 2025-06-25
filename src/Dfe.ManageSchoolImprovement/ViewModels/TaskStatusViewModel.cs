@@ -348,6 +348,8 @@ public static class TaskStatusViewModel
     {
         if (supportProject.ImprovementPlanReceivedDate.HasValue
             && supportProject.ReviewImprovementAndExpenditurePlan.Equals(true)
+            && supportProject.ConfirmFundingBand.Equals(true)
+            && supportProject.FundingBand != null
             && supportProject.ConfirmPlanClearedByRiseGrantTeam.Equals(true))
 
         {
@@ -356,6 +358,8 @@ public static class TaskStatusViewModel
 
         if (!supportProject.ImprovementPlanReceivedDate.HasValue
             && !supportProject.ReviewImprovementAndExpenditurePlan.Equals(true)
+            && !supportProject.ConfirmFundingBand.Equals(true)
+            && supportProject.FundingBand == null
             && !supportProject.ConfirmPlanClearedByRiseGrantTeam.Equals(true))
         {
             return TaskListStatus.NotStarted;

@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
+using Xunit.Sdk;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 {
@@ -412,6 +413,35 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateSupportingOrganisationContactDetailsAdded.Should().Be(dateSupportingOrganisationContactDetailAdded);
             supportProject.SupportingOrganisationContactName.Should().Be(supportOrgansiationContactName);
             supportProject.SupportingOrganisationContactEmailAddress.Should().Be(supportOrganisationContactEmailAddress);
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void SetReviewImprovementPlan_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            
+            DateTime improvementPlanReceivedDate = DateTime.UtcNow;
+            bool reviewImprovementAndExpenditurePlan = true;
+            bool confirmFundingBand = true;
+            string fundingBand = "lots of money";
+            bool confirmPlanClearedByRiseGrantTeam = true;
+            
+            // Act
+            supportProject.SetReviewTheImprovementPlan(
+                improvementPlanReceivedDate,
+                reviewImprovementAndExpenditurePlan,
+                confirmFundingBand,
+                fundingBand,
+                confirmPlanClearedByRiseGrantTeam);
+            
+            // Assert
+            supportProject.ImprovementPlanReceivedDate.Should().Be(improvementPlanReceivedDate);
+            supportProject.ReviewImprovementAndExpenditurePlan.Should().Be(reviewImprovementAndExpenditurePlan);
+            supportProject.ConfirmFundingBand.Should().Be(confirmFundingBand);
+            supportProject.FundingBand.Should().Be(fundingBand);
+            supportProject.ConfirmPlanClearedByRiseGrantTeam.Should().Be(confirmPlanClearedByRiseGrantTeam);
             mockRepository.VerifyAll();
         }
 
