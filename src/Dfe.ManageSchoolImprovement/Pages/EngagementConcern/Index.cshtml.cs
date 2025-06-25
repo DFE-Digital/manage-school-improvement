@@ -26,8 +26,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     
     public DateTime? DateEscalated { get; set; }
     
-    
-
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
 
@@ -51,8 +49,16 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             SupportProject.EngagementConcernEscalationDateOfDecision.HasValue;
         EngagementConcernEscalationReason = SupportProject.EngagementConcernEscalationPrimaryReason;
         DateEscalated = SupportProject.EngagementConcernEscalationDateOfDecision;
-
+        
         return Page();
+    }
+    
+    public async Task<IActionResult> OnPostChangeLinkAsync(int id, string nextPage, CancellationToken cancellationToken)
+    {
+        await base.GetSupportProject(id, cancellationToken);
+        TempData["ChangeLinkClicked"] = true;
+        
+        return RedirectToPage(nextPage, new { id });
     }
 
 }

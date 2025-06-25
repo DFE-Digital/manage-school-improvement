@@ -64,7 +64,7 @@ public class DateOfDecisionModel(
         confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
         primaryReason = primaryReason ?? SupportProject.EngagementConcernEscalationPrimaryReason;
         escalationDetails = escalationDetails ?? SupportProject.EngagementConcernEscalationDetails;
-
+        
         var request = new SetSupportProjectEngagementConcernEscalationCommand(
             new SupportProjectId(id),
             confirmStepsTaken,
@@ -79,6 +79,12 @@ public class DateOfDecisionModel(
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
             return Page();
+        }
+        
+        if (TempData["ChangeLinkClicked"] is true)
+        {
+            TempData.Remove("ChangeLinkClicked");
+            return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
         }
 
         return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });

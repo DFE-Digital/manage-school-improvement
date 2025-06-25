@@ -1,14 +1,18 @@
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
 
 public class ReasonForEscalationModel(
     ISupportProjectQueryService supportProjectQueryService,
-    ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    ErrorService errorService,
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
 
@@ -67,6 +71,28 @@ public class ReasonForEscalationModel(
 
         // if confirmStepsTaken is null, use the default value from the SupportProject, as we have entered the flow from the change link
         confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
+        
+        if (TempData["ChangeLinkClicked"] is true)
+        {
+            var request = new SetSupportProjectEngagementConcernEscalationCommand(
+                new SupportProjectId(id),
+                confirmStepsTaken,
+                PrimaryReason,
+                EscalationDetails,
+                SupportProject.EngagementConcernEscalationDateOfDecision);
+        
+            var result = await mediator.Send(request, cancellationToken);
+        
+            if (result == null)
+            {
+                _errorService.AddApiError();
+                await base.GetSupportProject(id, cancellationToken);
+                return Page();
+            }
+
+            TempData["ChangeLinkClicked"] = false;
+            return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
+        }
 
         return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, new { id, confirmStepsTaken, PrimaryReason, EscalationDetails });
     }
