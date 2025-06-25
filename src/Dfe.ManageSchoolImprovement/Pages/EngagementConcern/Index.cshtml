@@ -69,8 +69,25 @@
                                 <dd class="govuk-summary-list__value">
                                     @Model.EngagementConcernEscalationReason
                                 </dd>
+                                @* <dd class="govuk-summary-list__actions"> *@
+                                @*     <a class="govuk-link govuk-!-padding-left-50" *@
+                                @*        asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" *@
+                                @*        asp-page-handler="ChangeLink" *@
+                                @*        asp-route-id="@Model.SupportProject.Id" *@
+                                @*        asp-route-returnUrl="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" *@
+                                @*        asp-route-returnpage="@Links.EngagementConcern.Index.Page"> *@
+                                @*         Change<span class="govuk-visually-hidden">Change</span> *@
+                                @*     </a> *@
+                                @* </dd> *@
                                 <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" asp-route-id="@Model.SupportProject.Id" asp-route-returnpage="@Links.EngagementConcern.Index.Page">Change<span class="govuk-visually-hidden">Change</span></a>
+                                    <form method="post" asp-page-handler="ChangeLink">
+                                        <input type="hidden" name="id" value="@Model.SupportProject.Id" />
+                                        @* <input type="hidden" name="returnUrl" value="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" /> *@
+                                        <input type="hidden" name="nextPage" value="@Links.EngagementConcern.ReasonForEscalation.Page" />
+                                        <button type="submit" class="govuk-link govuk-!-padding-left-50" style="border:none; background:none; cursor:pointer;">
+                                            Change<span class="govuk-visually-hidden">Change</span>
+                                        </button>
+                                    </form>
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
@@ -80,8 +97,25 @@
                                 <dd class="govuk-summary-list__value">
                                     @Model.DateEscalated.ToDateString()
                                 </dd>
+                                @* <dd class="govuk-summary-list__actions"> *@
+                                @*     <a class="govuk-link govuk-!-padding-left-50"  *@
+                                @*        asp-page="@Links.EngagementConcern.DateOfDecision.Page" *@
+                                @*        asp-page-handler="ChangeLink" *@
+                                @*        asp-route-id="@Model.SupportProject.Id" *@
+                                @*        asp-route-returnUrl="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" *@
+                                @*        asp-route-returnpage="@Links.EngagementConcern.Index.Page"> *@
+                                @*         Change<span class="govuk-visually-hidden">Change</span> *@
+                                @*     </a> *@
+                                @* </dd> *@
                                 <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.DateOfDecision.Page" asp-route-id="@Model.SupportProject.Id" asp-route-returnpage="@Links.EngagementConcern.Index.Page">Change<span class="govuk-visually-hidden">Change</span></a>
+                                    <form method="post" asp-page-handler="ChangeLink">
+                                        <input type="hidden" name="id" value="@Model.SupportProject.Id" />
+                                        @* <input type="hidden" name="returnUrl" value="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" /> *@
+                                        <input type="hidden" name="nextPage" value="@Links.EngagementConcern.DateOfDecision.Page" />
+                                        <button type="submit" class="govuk-link govuk-!-padding-left-50" style="border:none; background:none; cursor:pointer;">
+                                            Change<span class="govuk-visually-hidden">Change</span>
+                                        </button>
+                                    </form>
                                 </dd>
                             </div>
                         }
