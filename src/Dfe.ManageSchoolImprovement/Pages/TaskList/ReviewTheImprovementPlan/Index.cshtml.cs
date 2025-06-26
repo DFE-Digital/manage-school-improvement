@@ -1,9 +1,11 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Enums;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,8 +39,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         
         public string FundingBandGuidanceLink { get; set; } = string.Empty;
         
-        public required IList<RadioButtonsLabelViewModel> SelectFundingBandRadioButtons { get; set; }
-        
+        public IList<RadioButtonsLabelViewModel> FundingBandOptions => Enum.GetValues<FinalFundingBand>()
+            .Select(band => new RadioButtonsLabelViewModel
+            {
+                Id = $"funding-band-{band.GetDisplayShortName()}",
+                Name = band.GetDisplayName(),
+                Value = band.GetDisplayName()
+            })
+            .ToList();
         public bool ShowError { get; set; }
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
         {
@@ -63,7 +71,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             ConfirmFundingBand = SupportProject.ConfirmFundingBand;
             FundingBand = SupportProject.FundingBand;
 
-            SelectFundingBandRadioButtons = GetRadioButtons();
+            // SelectFundingBandRadioButtons = GetRadioButtons();
             return Page();
         }
         
@@ -95,36 +103,36 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
         
-        private IList<RadioButtonsLabelViewModel> GetRadioButtons()
-        {
-            var list = new List<RadioButtonsLabelViewModel>
-            {
-                new() {
-                    Id = "none",
-                    Name = "No funding required",
-                    Value = "No funding required"
-                },
-                new() {
-                    Id = "40000",
-                    Name = "Up to £40,000",
-                    Value = "Up to £40,000"
-                },
-                new()
-                {
-                    Id = "80000",
-                    Name = "Up to £80,000",
-                    Value = "Up to £80,000"
-                },
-                new()
-                {
-                    Id = "120000",
-                    Name = "Up to £120,000",
-                    Value = "Up to £120,000"
-                }
-            };
-
-            return list;
-        }
+        // private IList<RadioButtonsLabelViewModel> GetRadioButtons()
+        // {
+        //     var list = new List<RadioButtonsLabelViewModel>
+        //     {
+        //         new() {
+        //             Id = "none",
+        //             Name = "No funding required",
+        //             Value = "No funding required"
+        //         },
+        //         new() {
+        //             Id = "40000",
+        //             Name = "Up to £40,000",
+        //             Value = "Up to £40,000"
+        //         },
+        //         new()
+        //         {
+        //             Id = "80000",
+        //             Name = "Up to £80,000",
+        //             Value = "Up to £80,000"
+        //         },
+        //         new()
+        //         {
+        //             Id = "120000",
+        //             Name = "Up to £120,000",
+        //             Value = "Up to £120,000"
+        //         }
+        //     };
+        //
+        //     return list;
+        // }
         
     }
 }
