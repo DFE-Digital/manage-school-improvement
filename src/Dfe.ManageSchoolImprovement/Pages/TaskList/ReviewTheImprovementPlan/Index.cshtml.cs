@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         IMediator mediator, 
         IConfiguration configuration) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),IDateValidationMessageProvider
     {
-        [BindProperty(Name = "date-improvement-plan-received",BinderType = typeof(DateInputModelBinder))]
+        [BindProperty(Name = "date-improvement-plan-received", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
         public DateTime? DateImprovementPlanReceived { get; set; }
         
