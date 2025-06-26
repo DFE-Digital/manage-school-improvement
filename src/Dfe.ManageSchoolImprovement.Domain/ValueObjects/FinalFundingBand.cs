@@ -5,14 +5,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Enums;
 public enum FinalFundingBand
 {
     [Display(Name = "No funding required", ShortName = "no-funding-required")]
-    ReservesExceedFundingLevel,
+    NoFundingRequired,
 
-    [Display(Name = "Up to £40,000", ShortName = "40000")]
+    [Display(Name = "Up to \u00A340,000", ShortName = "40000")]
     UpTo40000,
 
-    [Display(Name = "Up to £80,000", ShortName = "80000")]
+    [Display(Name = "Up to \u00A380,000", ShortName = "80000")]
     UpTo80000,
 
-    [Display(Name = "Up to £120,000", ShortName = "120000")]
+    [Display(Name = "Up to \u00A3120,000", ShortName = "120000")]
     UpTo120000
 }
