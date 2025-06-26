@@ -22,14 +22,5 @@ namespace Dfe.ManageSchoolImprovement.Utils
                 .GetCustomAttribute<DisplayAttribute>()
                 ?.GetShortName() ?? enumValue.ToString();
         }
-
-        public static string GetDisplayShortName(this Enum enumValue)
-        {
-            return enumValue.GetType()
-                .GetMember(enumValue.ToString())
-                .FirstOrDefault()?
-                .GetCustomAttribute<DisplayAttribute>()
-                ?.GetShortName() ?? enumValue.ToString();
-        }
     }
 }

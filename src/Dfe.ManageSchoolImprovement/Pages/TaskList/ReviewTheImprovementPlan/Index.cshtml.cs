@@ -70,8 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             ConfirmPlanClearedByRiseGrantTeam = SupportProject.ConfirmPlanClearedByRiseGrantTeam;
             ConfirmFundingBand = SupportProject.ConfirmFundingBand;
             FundingBand = SupportProject.FundingBand;
-
-            // SelectFundingBandRadioButtons = GetRadioButtons();
+            
             return Page();
         }
         
@@ -102,37 +101,5 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
-        
-        // private IList<RadioButtonsLabelViewModel> GetRadioButtons()
-        // {
-        //     var list = new List<RadioButtonsLabelViewModel>
-        //     {
-        //         new() {
-        //             Id = "none",
-        //             Name = "No funding required",
-        //             Value = "No funding required"
-        //         },
-        //         new() {
-        //             Id = "40000",
-        //             Name = "Up to £40,000",
-        //             Value = "Up to £40,000"
-        //         },
-        //         new()
-        //         {
-        //             Id = "80000",
-        //             Name = "Up to £80,000",
-        //             Value = "Up to £80,000"
-        //         },
-        //         new()
-        //         {
-        //             Id = "120000",
-        //             Name = "Up to £120,000",
-        //             Value = "Up to £120,000"
-        //         }
-        //     };
-        //
-        //     return list;
-        // }
-        
     }
 }
