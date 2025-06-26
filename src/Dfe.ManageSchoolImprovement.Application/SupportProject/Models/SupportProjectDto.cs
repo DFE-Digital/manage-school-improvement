@@ -51,9 +51,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateSupportingOrganisationContactDetailsAdded = null,
         string? SupportingOrganisationContactName = null,
         string SupportingOrganisationContactEmailAddress = "",
-        bool? SendTheTemplateToTheSupportingOrganisation = null,
-        bool? SendTheTemplateToTheSchoolsResponsibleBody = null,
-        DateTime? DateTemplatesSent = null,
         DateTime? RegionalDirectorImprovementPlanDecisionDate = null,
         bool? HasApprovedImprovementPlanDecision = null,
         string? DisapprovingImprovementPlanDecisionNotes = null,
@@ -95,7 +92,11 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? InformationPowersInUse = null,
         string? InformationPowersDetails = null,
         DateTime? PowersUsedDate = null,
-        bool? AssessmentToolTwoCompleted = null
+        bool? AssessmentToolTwoCompleted = null,
+        bool? IndicativeFundingBandCalculated = null,
+        string? IndicativeFundingBand = null,
+        bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = null,
+        DateTime? DateTemplatesAndIndicativeFundingBandSent = null
     )
     { }
 }

@@ -118,9 +118,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SupportingOrganisationContactName { get; set; }
 
         public string? SupportingOrganisationContactEmailAddress { get; set; }
-        public bool? SendTheTemplateToTheSupportingOrganisation { get; set; }
-        public bool? SendTheTemplateToTheSchoolsResponsibleBody { get; set; }
-        public DateTime? DateTemplatesSent { get; set; }
+
+        public bool? IndicativeFundingBandCalculated { get; set; }
+        public string? IndicativeFundingBand { get; set; }
+        public bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody { get; set; }
+        public DateTime? DateTemplatesAndIndicativeFundingBandSent { get; set; }
 
 
         public DateTime? RegionalDirectorImprovementPlanDecisionDate { get; set; }
@@ -230,9 +232,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
-                SendTheTemplateToTheSupportingOrganisation = supportProjectDto.SendTheTemplateToTheSupportingOrganisation,
-                SendTheTemplateToTheSchoolsResponsibleBody = supportProjectDto.SendTheTemplateToTheSchoolsResponsibleBody,
-                DateTemplatesSent = supportProjectDto.DateTemplatesSent,
                 RegionalDirectorImprovementPlanDecisionDate = supportProjectDto.RegionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision = supportProjectDto.HasApprovedImprovementPlanDecision,
                 HasSavedImprovementPlanInSharePoint = supportProjectDto.HasSavedImprovementPlanInSharePoint,
@@ -285,7 +284,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
                 PowersUsedDate = supportProjectDto.PowersUsedDate,
-                AssessmentToolTwoCompleted = supportProjectDto.AssessmentToolTwoCompleted
+                AssessmentToolTwoCompleted = supportProjectDto.AssessmentToolTwoCompleted,
+                IndicativeFundingBandCalculated = supportProjectDto.IndicativeFundingBandCalculated,
+                IndicativeFundingBand = supportProjectDto.IndicativeFundingBand,
+                ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
+                DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent
             };
         }
     }
