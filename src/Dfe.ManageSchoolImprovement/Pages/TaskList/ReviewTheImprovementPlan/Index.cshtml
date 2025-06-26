@@ -18,7 +18,7 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
-            Review the improvement plan
+            Review the improvement plan and confirm the funding band
         </h1>
         <p class="govuk-body" data-cy="instruction-to-adviser">Check the improvement plan that the supporting organisation and responsible body have completed. If needed, give feedback and suggest changes.</p>
         <form method="post" novalidate>
@@ -122,7 +122,7 @@
                 <govuk-radiobuttons-input
                     heading-style="govuk-fieldset__legend--m"
                     name="@nameof(Model.FundingBand)"
-                    radio-buttons="@Model.SelectFundingBandRadioButtons"
+                    radio-buttons="@Model.FundingBandOptions"
                     asp-for="@Model.FundingBand"
                     data-cy="funding-band-radio-buttons"/>
             </div>
