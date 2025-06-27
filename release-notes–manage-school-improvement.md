@@ -3,6 +3,18 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.11.1] - Q1 – Sprint 6 (Part 2) - 2025-06-30
+
+### 📌 User Stories
+
+- **217166** - Merge first 2 checkboxes in the Review the improvement plan task
+- **218994** - Users are instructed to complete assessment tool 2 when working on "Choose preferred supporting organisation" task
+- **218666** - Provide indicative funding band to the school
+- **219833** - Improvement: Do not display a success message when "Save" is clicked without any changes.
+- **218698** - Record final funding band
+
+--
+
 ## 📅 [v0.11.0] - Q1 – Sprint 6 (Part 1) - 2025-06-02
 
 ### 📌 User Stories
