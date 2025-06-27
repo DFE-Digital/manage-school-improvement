@@ -56,7 +56,7 @@
                                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                                     </p>
                                 }
-                                <textarea class="govuk-textarea" id="engagement-concern-details" name="engagement-concern-details" rows="5">@Model.EngagementConcernDetails</textarea>
+                                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")" id="engagement-concern-details" name="engagement-concern-details" rows="5">@Model.EngagementConcernDetails</textarea>
                             </div>
                         </div>
                     </div>
