@@ -70,23 +70,38 @@
                                     @Model.EngagementConcernEscalationReason
                                 </dd>
                                 @* <dd class="govuk-summary-list__actions"> *@
-                                @*     <a class="govuk-link govuk-!-padding-left-50" *@
-                                @*        asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" *@
-                                @*        asp-page-handler="ChangeLink" *@
-                                @*        asp-route-id="@Model.SupportProject.Id" *@
-                                @*        asp-route-returnUrl="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" *@
-                                @*        asp-route-returnpage="@Links.EngagementConcern.Index.Page"> *@
-                                @*         Change<span class="govuk-visually-hidden">Change</span> *@
-                                @*     </a> *@
+                                @* <a class="govuk-link govuk-!-padding-left-50" *@
+                                @*    asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" *@
+                                @*    asp-page-handler="ChangeLink" *@
+                                @*    asp-route-id="@Model.SupportProject.Id" *@
+                                @*    asp-route-returnUrl="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" *@
+                                @*    asp-route-returnpage="@Links.EngagementConcern.Index.Page"> *@
+                                @*     Change<span class="govuk-visually-hidden">Change</span> *@
+                                @* </a> *@
                                 @* </dd> *@
                                 <dd class="govuk-summary-list__actions">
                                     <form method="post" asp-page-handler="ChangeLink">
-                                        <input type="hidden" name="id" value="@Model.SupportProject.Id" />
-                                        @* <input type="hidden" name="returnUrl" value="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" /> *@
-                                        <input type="hidden" name="nextPage" value="@Links.EngagementConcern.ReasonForEscalation.Page" />
-                                        <button type="submit" class="govuk-link govuk-!-padding-left-50" style="border:none; background:none; cursor:pointer;">
+                                        @* <input type="hidden" name="id" value="@Model.SupportProject.Id" /> *@
+                                        @* $1$ <input type="hidden" name="returnUrl" value="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" /> #1# *@
+                                        @* <input type="hidden" name="nextPage" value="@Links.EngagementConcern.ReasonForEscalation.Page" /> *@
+                                        @* <button type="submit" class="govuk-link govuk-!-padding-left-50" style="border:none; background:none; cursor:pointer;"> *@
+                                        @*     Change<span class="govuk-visually-hidden">Change</span> *@
+                                        @* </button> *@
+                                        @* <a class="govuk-link govuk-!-padding-left-50" *@
+                                        @*    asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" *@
+                                        @*    asp-route-id="@Model.SupportProject.Id" *@
+                                        @*    asp-route-returnUrl="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" *@
+                                        @*    asp-route-nextPage="@Links.EngagementConcern.Index.Page"> *@
+                                        @*     Change<span class="govuk-visually-hidden">Change</span> *@
+                                        @* </a> *@
+                                        <a class="govuk-link govuk-!-padding-left-50"
+                                           onclick="submitChangeLink(event)"
+                                           data-id="@Model.SupportProject.Id"
+                                           data-return-url="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString"
+                                           data-return-page="@Links.EngagementConcern.Index.Page"
+                                           href="javascript:void(0);">
                                             Change<span class="govuk-visually-hidden">Change</span>
-                                        </button>
+                                        </a>
                                     </form>
                                 </dd>
                             </div>
@@ -108,15 +123,25 @@
                                 @*     </a> *@
                                 @* </dd> *@
                                 <dd class="govuk-summary-list__actions">
-                                    <form method="post" asp-page-handler="ChangeLink">
-                                        <input type="hidden" name="id" value="@Model.SupportProject.Id" />
-                                        @* <input type="hidden" name="returnUrl" value="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" /> *@
-                                        <input type="hidden" name="nextPage" value="@Links.EngagementConcern.DateOfDecision.Page" />
-                                        <button type="submit" class="govuk-link govuk-!-padding-left-50" style="border:none; background:none; cursor:pointer;">
-                                            Change<span class="govuk-visually-hidden">Change</span>
-                                        </button>
-                                    </form>
+                                    <a class="govuk-link govuk-!-padding-left-50"
+                                       asp-page="@Links.EngagementConcern.DateOfDecision.Page"
+                                       asp-page-handler="ChangeLink"
+                                       asp-route-id="@Model.SupportProject.Id"
+                                       asp-route-returnUrl="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString"
+                                       asp-route-returnpage="@Links.EngagementConcern.Index.Page">
+                                        Change<span class="govuk-visually-hidden">Change</span>
+                                    </a>
                                 </dd>
+                                @* <dd class="govuk-summary-list__actions"> *@
+                                @*     <form method="post" asp-page-handler="ChangeLink"> *@
+                                @*         <input type="hidden" name="id" value="@Model.SupportProject.Id" /> *@
+                                @*         $1$ <input type="hidden" name="returnUrl" value="@Model.HttpContext.Request.Path@Model.HttpContext.Request.QueryString" /> #1# *@
+                                @*         <input type="hidden" name="nextPage" value="@Links.EngagementConcern.DateOfDecision.Page" /> *@
+                                @*         <button type="submit" class="govuk-link govuk-!-padding-left-50" style="border:none; background:none; cursor:pointer;"> *@
+                                @*             Change<span class="govuk-visually-hidden">Change</span> *@
+                                @*         </button> *@
+                                @*     </form> *@
+                                @* </dd> *@
                             </div>
                         }
                     </dl>
@@ -171,3 +196,42 @@
         }
     </div>
 </div>
+
+<script>
+    function submitChangeLink(event) {
+        event.preventDefault();
+
+        const link = event.currentTarget;
+        const currentUrl = window.location.href.split('?')[0];
+
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `${currentUrl}?handler=ChangeLink`;
+
+        // Add all data attributes as hidden fields
+        const id = link.getAttribute('data-id');
+        const returnUrl = link.getAttribute('data-return-url');
+        const returnPage = link.getAttribute('data-return-page');
+
+        const fields = {
+            'Id': id,
+            'ReturnUrl': returnUrl,
+            'ReturnPage': returnPage,
+            '__RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+        };
+
+        // Create and append hidden fields
+        Object.entries(fields).forEach(([name, value]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value || '';
+            form.appendChild(input);
+        });
+
+        // Add the form to the document, submit it, and remove it
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
+</script>
