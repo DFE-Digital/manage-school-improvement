@@ -89,8 +89,7 @@ public class ReasonForEscalationModel(
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();
             }
-
-            TempData["ChangeLinkClicked"] = false;
+            
             return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
         }
 
