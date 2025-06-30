@@ -15,6 +15,10 @@ Cypress.Commands.add("getById", (id) => {
     cy.get(`[id="${id}"]`);
 });
 
+Cypress.Commands.add("getByCyData", (id) => {
+    cy.get(`[data-cy='${id}']`);
+});
+
 Cypress.Commands.add("getByClass", (className) => {
     cy.get(`[class="${className}"]`);
 });

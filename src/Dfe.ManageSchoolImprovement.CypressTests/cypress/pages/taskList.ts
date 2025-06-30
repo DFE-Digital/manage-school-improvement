@@ -5,6 +5,11 @@ class TaskList {
     return this;
   }
 
+  public hasTaskListHeading(value: string): this {
+    cy.get("h2").contains(value);
+    return this
+  }
+
   // Assert 'Date Added' matches the expected value
   public hasDateAdded(date: string): this {
     cy.get('.govuk-summary-list__value').eq(0).should("contain.text", date);
@@ -41,9 +46,9 @@ class TaskList {
     return this; // Return this to allow method chaining
   }
 
-  public hasChangeLinks() : this {
-      // Get all links that have the visible text 'Change'
-      cy.get('a')
+  public hasChangeLinks(): this {
+    // Get all links that have the visible text 'Change'
+    cy.get('a')
       .filter(':visible')
       .contains('Change')
       .eq(0)
@@ -59,7 +64,7 @@ class TaskList {
     return this;
   }
 
-  public hasNav() : this {
+  public hasNav(): this {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
     cy.contains("Ofsted reports")
@@ -70,7 +75,7 @@ class TaskList {
     return this;
   }
 
-  public hasTasks() : this {
+  public hasTasks(): this {
     cy.contains('Confirm eligibility');
     cy.contains('Enter the funding history');
     cy.contains('Contact the responsible body');
@@ -98,7 +103,7 @@ class TaskList {
     return this;
   }
 
-  public hasTasksNotStartedElementsPresent() : this {
+  public hasTasksNotStartedElementsPresent(): this {
     cy.get("#confirm-eligibility-status").contains('Not Started');
     cy.get('#funding_history_status').contains("Not Started");
     cy.get('#confirm_responsible_body_status').contains('Not Started');
@@ -127,6 +132,27 @@ class TaskList {
     return this;
   }
 
+  public hasTabs(): this {
+    cy.contains('Task list');
+    cy.contains('About the school');
+    cy.contains('Ofsted reports');
+    cy.contains('Contacts');
+    cy.contains('Case Study');
+    cy.contains('Engagement concern');
+    cy.contains('Notes');
+
+    return this;
+
+  }
+
+  public navigateToTab(tabName: string): this {
+    cy.get('.moj-sub-navigation__item')
+      .contains(tabName).click();
+
+    return this;
+  }
+
+
   public hasFilterSuccessNotification(): this {
     cy.get('[cy-data="task-updated-success-notification"]').should("be.visible");
 
@@ -143,7 +169,7 @@ class TaskList {
     cy.get(`#${id}`).contains("In Progress");
   }
 
-  public selectTask(taskName:string) {
+  public selectTask(taskName: string) {
     cy.contains(taskName).click();
 
     return this;
