@@ -95,8 +95,8 @@ public class RecordUseOfInformationPowersModel(
             return Page();
         }
 
-        TempData["InformationPowersRecorded"] = InformationPowersInUse == true;
-        TempData["InformationPowersRemoved"] = InformationPowersInUse == false;
+        TempData["InformationPowersRecorded"] = (SupportProject.InformationPowersInUse == null || SupportProject.InformationPowersInUse == false) && InformationPowersInUse == true;
+        TempData["InformationPowersRemoved"] = SupportProject.InformationPowersInUse == true && InformationPowersInUse == false;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

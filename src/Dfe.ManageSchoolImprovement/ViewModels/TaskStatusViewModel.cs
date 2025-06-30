@@ -262,25 +262,25 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus ShareTheImprovementPlanTemplateTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(SupportProjectViewModel supportProject)
     {
+        if (supportProject.IndicativeFundingBandCalculated.HasValue
+            && supportProject.IndicativeFundingBand != null
+            && supportProject.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody.HasValue
+            && supportProject.DateTemplatesAndIndicativeFundingBandSent.HasValue)
         {
-            if (supportProject.SendTheTemplateToTheSupportingOrganisation.HasValue
-                && supportProject.SendTheTemplateToTheSchoolsResponsibleBody.HasValue
-                && supportProject.DateTemplatesSent.HasValue)
-            {
-                return TaskListStatus.Complete;
-            }
-
-            if (!supportProject.SendTheTemplateToTheSupportingOrganisation.HasValue
-                && !supportProject.SendTheTemplateToTheSchoolsResponsibleBody.HasValue
-                && !supportProject.DateTemplatesSent.HasValue)
-            {
-                return TaskListStatus.NotStarted;
-            }
-
-            return TaskListStatus.InProgress;
+            return TaskListStatus.Complete;
         }
+
+        if (!supportProject.IndicativeFundingBandCalculated.HasValue
+            && supportProject.IndicativeFundingBand == null
+            && !supportProject.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody.HasValue
+            && !supportProject.DateTemplatesAndIndicativeFundingBandSent.HasValue)
+        {
+            return TaskListStatus.NotStarted;
+        }
+
+        return TaskListStatus.InProgress;
     }
 
     public static TaskListStatus RecordImprovementPlanDecisionTaskListStatus(SupportProjectViewModel supportProject)
@@ -348,6 +348,8 @@ public static class TaskStatusViewModel
     {
         if (supportProject.ImprovementPlanReceivedDate.HasValue
             && supportProject.ReviewImprovementAndExpenditurePlan.Equals(true)
+            && supportProject.ConfirmFundingBand.Equals(true)
+            && supportProject.FundingBand != null
             && supportProject.ConfirmPlanClearedByRiseGrantTeam.Equals(true))
 
         {
@@ -356,6 +358,8 @@ public static class TaskStatusViewModel
 
         if (!supportProject.ImprovementPlanReceivedDate.HasValue
             && !supportProject.ReviewImprovementAndExpenditurePlan.Equals(true)
+            && !supportProject.ConfirmFundingBand.Equals(true)
+            && supportProject.FundingBand == null
             && !supportProject.ConfirmPlanClearedByRiseGrantTeam.Equals(true))
         {
             return TaskListStatus.NotStarted;

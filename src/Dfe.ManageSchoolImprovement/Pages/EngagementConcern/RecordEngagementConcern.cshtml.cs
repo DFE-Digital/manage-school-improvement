@@ -24,12 +24,12 @@ public class AddEngagementConcernModel(
     [BindProperty(Name = "record-engagement-concern")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? RecordEngagementConcern { get; set; }
-    
+
     public DateTime? DateEngagementConcernRaised { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
-    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey("record-engagement-concern") && ModelState["record-engagement-concern"]?.Errors.Count > 0;
+    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey("engagement-concern-details") && ModelState["engagement-concern-details"]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -49,21 +49,21 @@ public class AddEngagementConcernModel(
     {
         // set support project so we can compare values for success banner
         await base.GetSupportProject(id, cancellationToken);
-    
+
         if (RecordEngagementConcern is true && string.IsNullOrEmpty(EngagementConcernDetails))
         {
             _errorService.AddError("engagement-concern-details", "You must enter details");
             ModelState.AddModelError("engagement-concern-details", "You must enter details");
-    
+
             return Page();
         }
-        
+
         TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
-        TempData["EngagementConcernAdded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
-        TempData["EngagementConcernRemoved"] = RecordEngagementConcern is false;
-        
+        TempData["EngagementConcernRecorded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
+        TempData["EngagementConcernRemoved"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false;
+
         DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
-        
+
         //reset details if removed
         if (RecordEngagementConcern is false)
         {
@@ -71,18 +71,18 @@ public class AddEngagementConcernModel(
             EngagementConcernDetails = null;
             DateEngagementConcernRaised = null;
         }
-        
+
         var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
-    
+
         var result = await mediator.Send(request, cancellationToken);
-    
+
         if (result == null)
         {
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-        
+
         if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
         {
             var escalationRequest = new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
@@ -94,7 +94,7 @@ public class AddEngagementConcernModel(
                 return Page();
             }
         }
-    
+
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }
 }

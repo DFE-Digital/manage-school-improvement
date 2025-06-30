@@ -118,9 +118,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SupportingOrganisationContactName { get; set; }
 
         public string? SupportingOrganisationContactEmailAddress { get; set; }
-        public bool? SendTheTemplateToTheSupportingOrganisation { get; set; }
-        public bool? SendTheTemplateToTheSchoolsResponsibleBody { get; set; }
-        public DateTime? DateTemplatesSent { get; set; }
+
+        public bool? IndicativeFundingBandCalculated { get; set; }
+        public string? IndicativeFundingBand { get; set; }
+        public bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody { get; set; }
+        public DateTime? DateTemplatesAndIndicativeFundingBandSent { get; set; }
 
 
         public DateTime? RegionalDirectorImprovementPlanDecisionDate { get; set; }
@@ -131,12 +133,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateTeamContactedForRequestingPlanningGrantOfferLetter { get; set; }
 
         public DateTime? ImprovementPlanReceivedDate { get; set; }
-
         public bool? ReviewImprovementAndExpenditurePlan { get; set; }
-
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
+        public bool? ConfirmFundingBand { get; set; }
+        public string? FundingBand { get; set; }
+        
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
-
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam { get; set; }
         public bool? IncludeContactDetailsRequestingPlanningGrantOfferEmail { get; set; }
@@ -230,9 +232,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
-                SendTheTemplateToTheSupportingOrganisation = supportProjectDto.SendTheTemplateToTheSupportingOrganisation,
-                SendTheTemplateToTheSchoolsResponsibleBody = supportProjectDto.SendTheTemplateToTheSchoolsResponsibleBody,
-                DateTemplatesSent = supportProjectDto.DateTemplatesSent,
                 RegionalDirectorImprovementPlanDecisionDate = supportProjectDto.RegionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision = supportProjectDto.HasApprovedImprovementPlanDecision,
                 HasSavedImprovementPlanInSharePoint = supportProjectDto.HasSavedImprovementPlanInSharePoint,
@@ -241,6 +240,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlanReceivedDate = supportProjectDto.ImprovementPlanReceivedDate,
                 ReviewImprovementAndExpenditurePlan = supportProjectDto.ReviewImprovementAndExpenditurePlan,
                 ConfirmPlanClearedByRiseGrantTeam = supportProjectDto.ConfirmPlanClearedByRiseGrantTeam,
+                ConfirmFundingBand = supportProjectDto.ConfirmFundingBand,
+                FundingBand = supportProjectDto.FundingBand,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter = supportProjectDto.DateTeamContactedForRequestingPlanningGrantOfferLetter,
                 IncludeContactDetailsRequestingPlanningGrantOfferEmail = supportProjectDto.IncludeContactDetailsRequestingPlanningGrantOfferEmail,
                 ConfirmAmountOfPlanningGrantFundingRequested = supportProjectDto.ConfirmAmountOfPlanningGrantFundingRequested,
@@ -283,7 +284,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
                 PowersUsedDate = supportProjectDto.PowersUsedDate,
-                AssessmentToolTwoCompleted = supportProjectDto.AssessmentToolTwoCompleted
+                AssessmentToolTwoCompleted = supportProjectDto.AssessmentToolTwoCompleted,
+                IndicativeFundingBandCalculated = supportProjectDto.IndicativeFundingBandCalculated,
+                IndicativeFundingBand = supportProjectDto.IndicativeFundingBand,
+                ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
+                DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent
             };
         }
     }

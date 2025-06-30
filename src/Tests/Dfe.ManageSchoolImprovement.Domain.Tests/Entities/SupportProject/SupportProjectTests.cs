@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
+using Xunit.Sdk;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 {
@@ -415,6 +416,35 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             mockRepository.VerifyAll();
         }
 
+        [Fact]
+        public void SetReviewImprovementPlan_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            
+            DateTime improvementPlanReceivedDate = DateTime.UtcNow;
+            bool reviewImprovementAndExpenditurePlan = true;
+            bool confirmFundingBand = true;
+            string fundingBand = "lots of money";
+            bool confirmPlanClearedByRiseGrantTeam = true;
+            
+            // Act
+            supportProject.SetReviewTheImprovementPlan(
+                improvementPlanReceivedDate,
+                reviewImprovementAndExpenditurePlan,
+                confirmFundingBand,
+                fundingBand,
+                confirmPlanClearedByRiseGrantTeam);
+            
+            // Assert
+            supportProject.ImprovementPlanReceivedDate.Should().Be(improvementPlanReceivedDate);
+            supportProject.ReviewImprovementAndExpenditurePlan.Should().Be(reviewImprovementAndExpenditurePlan);
+            supportProject.ConfirmFundingBand.Should().Be(confirmFundingBand);
+            supportProject.FundingBand.Should().Be(fundingBand);
+            supportProject.ConfirmPlanClearedByRiseGrantTeam.Should().Be(confirmPlanClearedByRiseGrantTeam);
+            mockRepository.VerifyAll();
+        }
+
 
         [Fact]
         public void SetRecordImprovementPlanDecision_SetsTheCorrectProperties()
@@ -468,20 +498,23 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
+            bool? calculateFundingBand = true;
+            string? fundingBand = "40000";
+            bool? sendTemplate = true;
             DateTime? dateTemplatesSent = DateTime.UtcNow;
-            bool? sendTheTemplateToTheSupportingOrganisation = true;
-            bool? sendTheTemplateToTheSchoolsResponsibleBody = true;
 
             // Act
-            supportProject.SetImprovementPlanTemplateDetails(
-                sendTheTemplateToTheSupportingOrganisation,
-                sendTheTemplateToTheSchoolsResponsibleBody,
+            supportProject.SetIndicativeFundingBandAndImprovementPlanTemplateDetails(
+                calculateFundingBand,
+                fundingBand,
+                sendTemplate,
                 dateTemplatesSent);
 
             // Assert
-            supportProject.DateTemplatesSent.Should().Be(dateTemplatesSent);
-            supportProject.SendTheTemplateToTheSupportingOrganisation.Should().Be(sendTheTemplateToTheSupportingOrganisation);
-            supportProject.SendTheTemplateToTheSchoolsResponsibleBody.Should().Be(sendTheTemplateToTheSchoolsResponsibleBody);
+            supportProject.IndicativeFundingBandCalculated.Should().Be(calculateFundingBand);
+            supportProject.IndicativeFundingBand.Should().Be(fundingBand);
+            supportProject.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody.Should().Be(sendTemplate);
+            supportProject.DateTemplatesAndIndicativeFundingBandSent.Should().Be(dateTemplatesSent);
             mockRepository.VerifyAll();
         }
 

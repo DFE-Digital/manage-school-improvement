@@ -28,9 +28,17 @@ public class SetReviewTheImprovementPlanTests
             // Arrange
             var reviewTheImprovementPlanDate = DateTime.UtcNow;
             var reviewImprovementAndExpenditurePlan = true;
+            var confirmFundingBand = true;
+            var fundingBand = "A large amount of money";
             var confirmPlanClearedByRiseGrantTeam = true;
 
-            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, reviewTheImprovementPlanDate, reviewImprovementAndExpenditurePlan, confirmPlanClearedByRiseGrantTeam);
+            var command = new SetReviewTheImprovementPlanCommand(
+                _mockSupportProject.Id, 
+                reviewTheImprovementPlanDate, 
+                reviewImprovementAndExpenditurePlan, 
+                confirmFundingBand, 
+                fundingBand, 
+                confirmPlanClearedByRiseGrantTeam);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetReviewTheImprovementPlanCommandHandler(_mockSupportProjectRepository.Object);
@@ -47,7 +55,7 @@ public class SetReviewTheImprovementPlanTests
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, null,null, null);
+            var command = new SetReviewTheImprovementPlanCommand(_mockSupportProject.Id, null, null, null, null, null);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetReviewTheImprovementPlanCommandHandler(_mockSupportProjectRepository.Object);
@@ -66,12 +74,16 @@ public class SetReviewTheImprovementPlanTests
             // Arrange
             var reviewTheImprovementPlanDate = DateTime.UtcNow;
             var reviewImprovementAndExpenditurePlan = true;
+            var confirmFundingBand = true;
+            var fundingBand = "A large amount of money";
             var confirmPlanClearedByRiseGrantTeam = true;
 
             var command = new SetReviewTheImprovementPlanCommand(
                 _mockSupportProject.Id,
                 reviewTheImprovementPlanDate,
                 reviewImprovementAndExpenditurePlan,
+                confirmFundingBand,
+                fundingBand,
                 confirmPlanClearedByRiseGrantTeam
             );
 

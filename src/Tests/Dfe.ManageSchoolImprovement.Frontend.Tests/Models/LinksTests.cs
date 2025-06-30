@@ -128,7 +128,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
         [InlineData("/TaskList/AddSupportingOrganisationContactDetails/Index")]
         [InlineData("/TaskList/DueDiligenceOnPreferredSupportingOrganisation/Index")]
         [InlineData("/TaskList/RecordSupportingOrganisationAppointment/Index")]
-        [InlineData("/TaskList/ShareTheImprovementPlanTemplate/Index")]
+        [InlineData("/TaskList/ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate/Index")]
         [InlineData("/TaskList/RecordImprovementPlanDecision/Index")]
         [InlineData("/TaskList/SendAgreedImprovementPlanForApproval/Index")]
         [InlineData("/TaskList/RequestPlanningGrantOfferLetter/Index")]

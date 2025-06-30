@@ -258,18 +258,18 @@
             <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.ShareTheImprovementPlanTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="share-the-improvement-plan-template" aria-describedby="share-the-improvement-plan-template_status">
-                            Share the improvement plan template
+                        <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate.Page" asp-route-id="@Model.SupportProject.Id" data-cy="share-the-improvement-plan-template" aria-describedby="share-the-improvement-plan-template_status">
+                            Share indicative funding band and the improvement plan template
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="share-the-improvement-plan-template_status">
-                        <partial name="Shared/_TaskListStatus" model="@Model.ShareTheImprovementPlanTemplateTaskListStatus" />
+                        <partial name="Shared/_TaskListStatus" model="@Model.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus" />
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.ReviewTheImprovementPlan.Page" asp-route-id="@Model.SupportProject.Id" data-cy="review-the-improvement-plan" aria-describedby="review-the-improvement-plan_status">
-                            Review the improvement plan
+                            Review the improvement plan and confirm the funding band
                         </a>
                     </div>
                     <div class="govuk-task-list__status" id="review-the-improvement-plan_status">

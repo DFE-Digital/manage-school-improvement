@@ -71,7 +71,7 @@ public static class Links
         public static readonly LinkItem AddSupportingOrganisationContactDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/Index");
         public static readonly LinkItem DueDiligenceOnPreferredSupportingOrganisation = AddLinkItem(backText: "Back", page: "/TaskList/DueDiligenceOnPreferredSupportingOrganisation/Index");
         public static readonly LinkItem RecordSupportingOrganisationAppointment = AddLinkItem(backText: "Back", page: "/TaskList/RecordSupportingOrganisationAppointment/Index");
-        public static readonly LinkItem ShareTheImprovementPlanTemplate = AddLinkItem(backText: "Back", page: "/TaskList/ShareTheImprovementPlanTemplate/Index");
+        public static readonly LinkItem ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate = AddLinkItem(backText: "Back", page: "/TaskList/ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate/Index");
         public static readonly LinkItem RecordImprovementPlanDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordImprovementPlanDecision/Index");
         public static readonly LinkItem SendAgreedImprovementPlanForApproval = AddLinkItem(backText: "Back", page: "/TaskList/SendAgreedImprovementPlanForApproval/Index");
         public static readonly LinkItem RequestPlanningGrantOfferLetter = AddLinkItem(backText: "Back", page: "/TaskList/RequestPlanningGrantOfferLetter/Index");

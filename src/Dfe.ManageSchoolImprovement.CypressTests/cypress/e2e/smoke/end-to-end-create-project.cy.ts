@@ -235,6 +235,7 @@ describe("User completes their newly created project", () => {
     Logger.log("Selecting 'Choose preferred supporting organisation' task");
     taskList.selectTask("Choose preferred supporting organisation");
     taskListActions.hasHeader("Choose preferred supporting organisation");
+     taskListActions.selectButtonOrCheckbox("complete-assessment-tool");
     taskListActions.enterText("organisation-name", "Pudsey Grammar School");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -315,33 +316,37 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-planning-grant-offer-letter_status");
 
-    Logger.log("Selecting 'Share the improvement plan template' task");
-    taskList.selectTask("Share the improvement plan template");
-    taskListActions.hasHeader("Share the improvement plan template");
-    taskListActions.selectButtonOrCheckbox("send-the-template-to-the-supporting-organisation");
+    Logger.log("Selecting 'Share indicative funding band and the improvement plan template' task");
+    taskList.selectTask("Share indicative funding band and the improvement plan template");
+    taskListActions.hasHeader("Share indicative funding band and the improvement plan template");
+    taskListActions.selectButtonOrCheckbox("calculate-funding-band");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("share-the-improvement-plan-template_status");
-    taskList.selectTask("Share the improvement plan template");
-    taskListActions.selectButtonOrCheckbox("send-the-template-to-the-schools-responsible-body");
+    taskList.selectTask("Share indicative funding band and the improvement plan template");
+    taskListActions.selectButtonOrCheckbox("funding-band-40000");
+     taskListActions.selectButtonOrCheckbox("send-template");
     taskListActions.enterDate("date-templates-sent", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("share-the-improvement-plan-template_status");
 
-    Logger.log("Selecting 'Review the improvement plan' task");
-    taskList.selectTask("Review the improvement plan");
-    taskListActions.hasHeader("Review the improvement plan");
+    Logger.log("Selecting 'Review the improvement plan and confirm the funding band' task");
+    taskList.selectTask("Review the improvement plan and confirm the funding band");
+    taskListActions.hasHeader("Review the improvement plan and confirm the funding band");
     taskListActions.enterDate("date-improvement-plan-received", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("review-the-improvement-plan_status");
-    taskList.selectTask("Review the improvement plan");
+    taskList.selectTask("Review the improvement plan and confirm the funding band");
     taskListActions.selectButtonOrCheckbox("review-improvement-plan");
     taskListActions.selectButtonOrCheckbox("confirm-plan-cleared-by-rise")
+    taskListActions.selectButtonOrCheckbox("confirm-funding-band")
+    taskListActions.selectButtonOrCheckbox("funding-band-no-funding-required")
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
-      .hasTaskStatusCompleted("review-the-improvement-plan_status");
+      .hasTaskStatusCompleted("review-the-improvement-plan_status")
+
 
     Logger.log("Selecting 'Send the agreed improvement plan for approval' task");
     taskList.selectTask("Send the agreed improvement plan for approval");
