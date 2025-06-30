@@ -83,8 +83,7 @@ public class DateOfDecisionModel(
         
         if (TempData["ChangeLinkClicked"] is true)
         {
-            // check if you still need this
-            TempData.Remove("ChangeLinkClicked");
+            TempData["ChangeLinkClicked"] = false;
             return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
         }
 
