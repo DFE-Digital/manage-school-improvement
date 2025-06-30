@@ -147,7 +147,8 @@ class TaskList {
   }
 
   public navigateToTab(tabName: string): this {
-    cy.contains(tabName).click();
+    cy.get('.moj-sub-navigation__item')
+      .contains(tabName).click();
 
     return this;
   }

@@ -37,7 +37,7 @@ describe("User select the school", () => {
             .navigateToTab('About the school');
         aboutTheSchool
             .schoolOverivewSectionVisible()
-  
+
         cy.executeAccessibilityTests()
     });
 
@@ -73,7 +73,7 @@ describe("User select the school", () => {
         cy.executeAccessibilityTests()
     });
 
-    it.skip("should be able to navigate to the Engagement concern tab", () => {
+    it("should be able to navigate to the Engagement concern tab", () => {
         Logger.log("User navigates to the Engagement concern tab");
         taskList
             .navigateToTab('Engagement concern');
