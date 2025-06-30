@@ -1,13 +1,7 @@
 class OfstedReports {
 
 
-    public hasMostRecentOfstedReport(value: String): this {
-        cy.get('h2').should("be.visible");
-
-        return this;
-    }
-
-    public hasPreviousOfstedReport(value: String): this {
+    public hasOfstedReport(value: string): this {
         cy.get('h2').should("be.visible");
 
         return this;

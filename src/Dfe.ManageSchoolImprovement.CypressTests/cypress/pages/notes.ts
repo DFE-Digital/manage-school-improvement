@@ -1,6 +1,6 @@
 class Notes {
 
-    public hasHeading(value: String): this {
+    public hasHeading(value: string): this {
         cy.get('h2').should('contain', value);
 
         return this;

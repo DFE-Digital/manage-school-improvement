@@ -46,8 +46,8 @@ describe("User select the school", () => {
         taskList
             .navigateToTab('Ofsted reports');
         ofstedReports
-            .hasMostRecentOfstedReport('Most recent Ofsted report')
-            .hasPreviousOfstedReport('Previous Ofsted report')
+            .hasOfstedReport('Most recent Ofsted report')
+            .hasOfstedReport('Previous Ofsted report')
             .ofstedReportsPageVisible()
 
         cy.executeAccessibilityTests()
