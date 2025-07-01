@@ -72,7 +72,7 @@ public class DateOfDecisionModel(
             cancellationToken);
     }
 
-    protected internal override IActionResult GetDefaultRedirect(int id, object routeValues = null)
+    protected internal override IActionResult GetDefaultRedirect(int id, object? routeValues = default)
     {
         return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });
     }
