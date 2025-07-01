@@ -50,7 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 
             var result = await _mediator.Send(request, cancellationToken);
 
-            if (result == false)
+            if (!result)
             {
                 _errorService.AddApiError();
                 await base.GetSupportProject(id, cancellationToken);

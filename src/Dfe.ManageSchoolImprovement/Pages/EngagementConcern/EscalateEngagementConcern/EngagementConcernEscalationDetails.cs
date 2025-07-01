@@ -1,3 +1,4 @@
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern
 public record EngagementConcernEscalationDetails
 {
     public bool? ConfirmStepsTaken { get; init; }
