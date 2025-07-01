@@ -12,7 +12,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
     {
         protected readonly IMediator _mediator;
 
-        protected BaseEngagementConcernPageModel(
+        protected internal BaseEngagementConcernPageModel(
             ISupportProjectQueryService supportProjectQueryService,
             ErrorService errorService,
             IMediator mediator) : base(supportProjectQueryService, errorService)
@@ -21,36 +21,36 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
         }
 
         // Abstract method to be implemented by each page
-        protected abstract IActionResult GetDefaultRedirect(int id, object routeValues = null);
+        protected internal abstract IActionResult GetDefaultRedirect(int id, object? routeValues = default);
 
-        protected async Task<IActionResult> HandleEscalationPost(
+        protected internal async Task<IActionResult> HandleEscalationPost(
             int id,
-            bool? confirmStepsTaken,
-            string? primaryReason,
-            string? escalationDetails,
-            DateTime? dateOfDecision,
+            EngagementConcernEscalationDetails escalationDetails,
             bool? changeLinkClicked,
-            object routeValues = null,
+            object? routeValues = default,
             CancellationToken cancellationToken = default)
         {
             await base.GetSupportProject(id, cancellationToken);
 
             // If entering from change link, use existing values from SupportProject
-            confirmStepsTaken ??= SupportProject.EngagementConcernEscalationConfirmStepsTaken;
-            primaryReason ??= SupportProject.EngagementConcernEscalationPrimaryReason;
-            escalationDetails ??= SupportProject.EngagementConcernEscalationDetails;
-            dateOfDecision ??= SupportProject.EngagementConcernEscalationDateOfDecision;
+            var details = escalationDetails with
+            {
+                ConfirmStepsTaken = escalationDetails.ConfirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken,
+                PrimaryReason = escalationDetails.PrimaryReason ?? SupportProject.EngagementConcernEscalationPrimaryReason,
+                Details = escalationDetails.Details ?? SupportProject.EngagementConcernEscalationDetails,
+                DateOfDecision = escalationDetails.DateOfDecision ?? SupportProject.EngagementConcernEscalationDateOfDecision
+            };
 
             var request = new SetSupportProjectEngagementConcernEscalationCommand(
                 new SupportProjectId(id),
-                confirmStepsTaken,
-                primaryReason,
-                escalationDetails,
-                dateOfDecision);
+                details.ConfirmStepsTaken,
+                details.PrimaryReason,
+                details.Details,
+                details.DateOfDecision);
 
             var result = await _mediator.Send(request, cancellationToken);
 
-            if (result == null)
+            if (result == false)
             {
                 _errorService.AddApiError();
                 await base.GetSupportProject(id, cancellationToken);

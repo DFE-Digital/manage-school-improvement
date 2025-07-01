@@ -69,15 +69,18 @@ public class ReasonForEscalationModel(
 
         return await HandleEscalationPost(
             id,
-            confirmStepsTaken,
-            PrimaryReason,
-            EscalationDetails,
-            null,
+            new EngagementConcernEscalationDetails
+            {
+                ConfirmStepsTaken = confirmStepsTaken,
+                PrimaryReason = PrimaryReason,
+                Details = EscalationDetails,
+                DateOfDecision = null // Date of decision will be handled in the next step
+            },
             changeLinkClicked,
             cancellationToken);
     }
 
-    protected override IActionResult GetDefaultRedirect(int id, object routeValues = null)
+    protected internal override IActionResult GetDefaultRedirect(int id, object? routeValues = default)
     {
         var values = new
         {

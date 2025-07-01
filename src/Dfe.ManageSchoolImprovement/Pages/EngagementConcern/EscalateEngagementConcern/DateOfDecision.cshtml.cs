@@ -61,15 +61,18 @@ public class DateOfDecisionModel(
 
         return await HandleEscalationPost(
             id,
-            confirmStepsTaken,
-            primaryReason,
-            escalationDetails,
-            DateOfDecision,
+            new EngagementConcernEscalationDetails
+            {
+                ConfirmStepsTaken = confirmStepsTaken,
+                PrimaryReason = primaryReason,
+                Details = escalationDetails,
+                DateOfDecision = DateOfDecision
+            },
             changeLinkClicked,
             cancellationToken);
     }
 
-    protected override IActionResult GetDefaultRedirect(int id, object routeValues = null)
+    protected internal override IActionResult GetDefaultRedirect(int id, object routeValues = null)
     {
         return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });
     }

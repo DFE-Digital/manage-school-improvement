@@ -76,7 +76,7 @@ public class AddEngagementConcernModel(
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (result == null)
+        if (result == false)
         {
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
@@ -87,7 +87,7 @@ public class AddEngagementConcernModel(
         {
             var escalationRequest = new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
             var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
-            if (escalationResult == null)
+            if (escalationResult == false)
             {
                 _errorService.AddApiError();
                 await base.GetSupportProject(id, cancellationToken);
