@@ -1,6 +1,4 @@
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
@@ -12,7 +10,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 public class ReasonForEscalationModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator)
 {
     public string ReturnPage { get; set; }
 
@@ -25,9 +23,9 @@ public class ReasonForEscalationModel(
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
 
     public string PrimaryReasonErrorMessage { get; set; }
-    
+
     public string DetailsErrorMessage { get; set; }
-    
+
     public bool ShowDetailsError => ModelState.ContainsKey("escalation-details") && ModelState["escalation-details"]?.Errors.Count > 0;
 
     public bool ShowError => _errorService.HasErrors();
@@ -45,7 +43,10 @@ public class ReasonForEscalationModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, bool? confirmStepsTaken, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id,
+        bool? confirmStepsTaken,
+        bool? changeLinkClicked,
+        CancellationToken cancellationToken)
     {
         if (EscalationDetails == null || PrimaryReason == null)
         {
@@ -63,38 +64,29 @@ public class ReasonForEscalationModel(
             }
 
             PrimaryReasonRadioButtons = GetRadioButtons();
-
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        await base.GetSupportProject(id, cancellationToken);
+        return await HandleEscalationPost(
+            id,
+            confirmStepsTaken,
+            PrimaryReason,
+            EscalationDetails,
+            null,
+            changeLinkClicked,
+            cancellationToken);
+    }
 
-        // if confirmStepsTaken is null, use the default value from the SupportProject, as we have entered the flow from the change link
-        confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
-        
-        if (TempData["ChangeLinkClicked"] is true)
+    protected override IActionResult GetDefaultRedirect(int id, object routeValues = null)
+    {
+        var values = new
         {
-            var request = new SetSupportProjectEngagementConcernEscalationCommand(
-                new SupportProjectId(id),
-                confirmStepsTaken,
-                PrimaryReason,
-                EscalationDetails,
-                SupportProject.EngagementConcernEscalationDateOfDecision);
-        
-            var result = await mediator.Send(request, cancellationToken);
-        
-            if (result == null)
-            {
-                _errorService.AddApiError();
-                await base.GetSupportProject(id, cancellationToken);
-                return Page();
-            }
-
-            TempData["ChangeLinkClicked"] = false;
-            return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
-        }
-
-        return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, new { id, confirmStepsTaken, PrimaryReason, EscalationDetails });
+            id,
+            confirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken,
+            PrimaryReason,
+            EscalationDetails
+        };
+        return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, values);
     }
 
     private IList<RadioButtonsLabelViewModel> GetRadioButtons()

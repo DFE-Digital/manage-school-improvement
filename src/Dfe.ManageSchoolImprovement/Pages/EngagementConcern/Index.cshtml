@@ -72,9 +72,9 @@
                                     </dd>
                                     <dd class="govuk-summary-list__actions">
                                         <a class="govuk-link govuk-!-padding-left-50 change-link"
-                                           href="#"
-                                           data-id="@Model.SupportProject.Id"
-                                           data-next-page="@Links.EngagementConcern.ReasonForEscalation.Page">
+                                           asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" 
+                                           asp-route-id="@Model.SupportProject.Id"
+                                           asp-route-changelinkclicked="true">
                                             Change<span class="govuk-visually-hidden">Change</span>
                                         </a>
                                     </dd>
@@ -88,9 +88,9 @@
                                     </dd>
                                     <dd class="govuk-summary-list__actions">
                                         <a class="govuk-link govuk-!-padding-left-50 change-link"
-                                           href="#"
-                                           data-id="@Model.SupportProject.Id"
-                                           data-next-page="@Links.EngagementConcern.DateOfDecision.Page">
+                                           asp-page="@Links.EngagementConcern.DateOfDecision.Page" 
+                                           asp-route-id="@Model.SupportProject.Id"
+                                           asp-route-changelinkclicked="true">
                                             Change<span class="govuk-visually-hidden">Change</span>
                                         </a>
                                     </dd>

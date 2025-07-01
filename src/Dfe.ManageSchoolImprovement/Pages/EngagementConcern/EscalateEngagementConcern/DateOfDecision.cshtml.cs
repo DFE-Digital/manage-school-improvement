@@ -1,17 +1,15 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
 
 public class DateOfDecisionModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    IMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
@@ -47,6 +45,7 @@ public class DateOfDecisionModel(
         bool? confirmStepsTaken,
         string? primaryReason,
         string? escalationDetails,
+        bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
         if (!DateOfDecision.HasValue)
@@ -59,34 +58,19 @@ public class DateOfDecisionModel(
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             return await base.GetSupportProject(id, cancellationToken);
         }
-        await base.GetSupportProject(id, cancellationToken);
-        // if confirmStepsTaken is null, use the default value from the SupportProject, as we have entered the flow from the change link
-        confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
-        primaryReason = primaryReason ?? SupportProject.EngagementConcernEscalationPrimaryReason;
-        escalationDetails = escalationDetails ?? SupportProject.EngagementConcernEscalationDetails;
-        
-        var request = new SetSupportProjectEngagementConcernEscalationCommand(
-            new SupportProjectId(id),
+
+        return await HandleEscalationPost(
+            id,
             confirmStepsTaken,
             primaryReason,
             escalationDetails,
-            DateOfDecision);
+            DateOfDecision,
+            changeLinkClicked,
+            cancellationToken);
+    }
 
-        var result = await mediator.Send(request, cancellationToken);
-
-        if (result == null)
-        {
-            _errorService.AddApiError();
-            await base.GetSupportProject(id, cancellationToken);
-            return Page();
-        }
-        
-        if (TempData["ChangeLinkClicked"] is true)
-        {
-            TempData["ChangeLinkClicked"] = false;
-            return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
-        }
-
+    protected override IActionResult GetDefaultRedirect(int id, object routeValues = null)
+    {
         return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });
     }
 }
