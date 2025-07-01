@@ -12,10 +12,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
     {
         protected readonly IMediator _mediator;
 
-        protected internal BaseEngagementConcernPageModel(
-            ISupportProjectQueryService supportProjectQueryService,
-            ErrorService errorService,
-            IMediator mediator) : base(supportProjectQueryService, errorService)
+        private protected BaseEngagementConcernPageModel(
+           ISupportProjectQueryService supportProjectQueryService,
+           ErrorService errorService,
+           IMediator mediator) : base(supportProjectQueryService, errorService)
         {
             _mediator = mediator;
         }
