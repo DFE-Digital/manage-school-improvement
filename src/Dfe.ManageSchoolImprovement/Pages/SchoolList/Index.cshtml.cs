@@ -8,7 +8,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.SchoolList;
 
 public class IndexModel(ISupportProjectQueryService supportProjectQueryService) : PageModel
 {
-    public IEnumerable<SupportProjectViewModel> SupportProjects = [];
+    public IEnumerable<SupportProjectViewModel> SupportProjects { get; set;  } = [];
 
     [BindProperty]
     public ProjectListFilters Filters { get; set; } = new();

@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
-    public class ContactsUtil
+    public static class ContactsUtil
     {
         public static IList<RadioButtonsLabelViewModel> GetRadioButtons(string? otherRole, bool isValid = true)
         {

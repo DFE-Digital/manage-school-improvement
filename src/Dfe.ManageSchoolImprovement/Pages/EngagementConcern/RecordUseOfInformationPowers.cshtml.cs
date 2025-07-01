@@ -88,7 +88,7 @@ public class RecordUseOfInformationPowersModel(
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (result == false)
+        if (!result)
         {
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);

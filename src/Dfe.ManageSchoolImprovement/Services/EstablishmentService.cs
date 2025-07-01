@@ -17,7 +17,7 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
         HttpResponseMessage response = await _httpClient.GetAsync($"/v4/establishment/urn/{urn}");
         if (!response.IsSuccessStatusCode)
         {
-            logger.LogWarning("Unable to get establishment data for establishment with URN: {urn}", urn);
+            logger.LogWarning("Unable to get establishment data for establishment with URN: {Urn}", urn);
             return new EstablishmentDto();
         }
 
@@ -29,7 +29,7 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
 
         if (!response.IsSuccessStatusCode)
         {
-            logger.LogWarning("Unable to get establishment data for establishment with URN: {urn}", urn);
+            logger.LogWarning("Unable to get establishment data for establishment with URN: {Urn}", urn);
             return new MisEstablishmentResponse();
         }
 
@@ -46,7 +46,7 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
 
         ApiResponse<IEnumerable<EstablishmentSearchResponse>> result = await httpClientService.Get<IEnumerable<EstablishmentSearchResponse>>(_httpClient, path);
 
-        if (result.Success is false) throw new ApiResponseException($"Request to Api failed | StatusCode - {result.StatusCode}");
+        if (!result.Success) throw new ApiResponseException($"Request to Api failed | StatusCode - {result.StatusCode}");
 
         return result.Body;
     }

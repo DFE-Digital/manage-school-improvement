@@ -21,8 +21,10 @@ public class SetDetailsModel(ISupportProjectQueryService supportProjectQueryServ
     public bool? CaseStudyCandidate { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
+    
+    public const string CaseStudyDetailsKey = "case-study-details";
 
-    public bool ShowCaseStudyDetailsError => ModelState.ContainsKey("case-study-details") && ModelState["case-study-details"]?.Errors.Count > 0;
+    public bool ShowCaseStudyDetailsError => ModelState.ContainsKey(CaseStudyDetailsKey) && ModelState[CaseStudyDetailsKey]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -45,8 +47,8 @@ public class SetDetailsModel(ISupportProjectQueryService supportProjectQueryServ
 
         if (CaseStudyCandidate is true && string.IsNullOrEmpty(CaseStudyDetails))
         {
-            _errorService.AddError("case-study-details", "You must enter details");
-            ModelState.AddModelError("case-study-details", "You must enter details");
+            _errorService.AddError(CaseStudyDetailsKey, "You must enter details");
+            ModelState.AddModelError(CaseStudyDetailsKey, "You must enter details");
 
             return Page();
         }

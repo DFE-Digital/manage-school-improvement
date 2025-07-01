@@ -39,7 +39,7 @@ public class ProjectListFilters
    [BindProperty]
    public string[] SelectedAdvisoryBoardDates { get; set; } = Array.Empty<string>();
 
-   public bool IsVisible => string.IsNullOrWhiteSpace(Title) is false ||
+   public bool IsVisible => !string.IsNullOrWhiteSpace(Title) ||
                             SelectedStatuses.Length > 0 ||
                             SelectedOfficers.Length > 0 ||
                             SelectedRegions.Length > 0 ||
@@ -123,7 +123,7 @@ public class ProjectListFilters
 
    private string[] Get(string key, bool persist = false)
    {
-      if (_store.ContainsKey(key) is false) return Array.Empty<string>();
+      if (!_store.ContainsKey(key)) return Array.Empty<string>();
 
       string[]? value = (string[]?)_store[key];
       if (persist) Cache(key, value);
@@ -133,7 +133,7 @@ public class ProjectListFilters
 
    private string[] GetAndRemove(string key, string[]? value, bool persist = false)
    {
-      if (_store.ContainsKey(key) is false) return Array.Empty<string>();
+      if (!_store.ContainsKey(key)) return Array.Empty<string>();
 
       string[]? currentValues = (string[]?)_store[key];
 

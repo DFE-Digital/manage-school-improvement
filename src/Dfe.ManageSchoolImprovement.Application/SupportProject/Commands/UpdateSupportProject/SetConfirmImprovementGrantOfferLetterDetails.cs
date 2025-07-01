@@ -26,7 +26,7 @@ public class SetConfirmImprovementGrantOfferLetterDetails
 
             supportProject.SetConfirmImprovementGrantOfferLetterDetails(request.DateImprovementGrantOfferLetterSent);
 
-            await supportProjectRepository.UpdateAsync(supportProject);
+            await supportProjectRepository.UpdateAsync(supportProject, CancellationToken.None);
 
             return true;
         }

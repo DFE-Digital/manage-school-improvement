@@ -90,13 +90,6 @@ public class DateInputModelBinder : IModelBinder
       return modelType;
    }
 
-   private static bool IsEmptyDate(ValueProviderResult dayValueProviderResult, ValueProviderResult monthValueProviderResult, ValueProviderResult yearValueProviderResult)
-   {
-      return dayValueProviderResult.FirstValue == string.Empty
-             && monthValueProviderResult.FirstValue == string.Empty
-             && yearValueProviderResult.FirstValue == string.Empty;
-   }
-
    private static (bool, string) IsInValidDateRange(DateTime date, ModelBindingContext bindingContext, string displayName)
    {
       if (bindingContext.ModelMetadata is DefaultModelMetadata defaultModelMetadata

@@ -27,7 +27,7 @@ public class ErrorService
          }
          else if (modelState.TryGetValue(key, out ModelStateEntry entry) && entry.Errors.Count > 0)
          {
-            AddError(key, entry.Errors.Last().ErrorMessage);
+            AddError(key, entry.Errors[^1].ErrorMessage);
          }
       }
    }
@@ -59,7 +59,7 @@ public class ErrorService
          Error dateError = GetError(DateInputId(key));
          if (dateError == null)
          {
-            dateError = new Error { Key = DateInputId(key), Message = dateEntry.Errors.First().ErrorMessage.ToSentenceCase() };
+            dateError = new Error { Key = DateInputId(key), Message = dateEntry.Errors[0].ErrorMessage.ToSentenceCase() };
             _errors.Add(dateError);
          }
 

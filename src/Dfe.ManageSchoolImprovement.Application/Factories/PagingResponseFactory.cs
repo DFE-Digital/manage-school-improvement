@@ -13,14 +13,10 @@ internal static class PagingResponseFactory
         if (page * count >= recordCount) return pagingResponse;
 
         pagingResponse.NextPageUrl = $"{path}?page={page + 1}&count={count}";
-
-        foreach (var routeValue in routeValues)
-        {
-            if (!string.IsNullOrWhiteSpace(routeValue.Value?.ToString()))
-            {
-                pagingResponse.NextPageUrl += $"&{routeValue.Key}={routeValue.Value}";
-            }
-        }
+        
+        pagingResponse.NextPageUrl += string.Join("", routeValues
+            .Where(rv => !string.IsNullOrWhiteSpace(rv.Value?.ToString()))
+            .Select(rv => $"&{rv.Key}={rv.Value}"));
         return pagingResponse;
     }
 }

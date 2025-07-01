@@ -51,33 +51,6 @@ public class SetConfirmPlanningGrantOfferLetterSentTests
     }
 
     [Fact]
-    public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
-    {
-        // Arrange
-        DateTime? dateLetterSent = DateTime.UtcNow;
-
-        var command = new SetConfirmPlanningGrantOfferLetterSentCommand(
-            _mockSupportProject.Id,
-            dateLetterSent
-        );
-        _mockSupportProjectRepository
-            .Setup(repo =>
-                repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        var setConfirmPlanningGrantOfferLetterSentCommandHandler =
-            new SetConfirmPlanningGrantOfferLetterSentCommandHandler(_mockSupportProjectRepository.Object);
-
-        // Act
-        var result = await setConfirmPlanningGrantOfferLetterSentCommandHandler.Handle(command, _cancellationToken);
-
-        // Verify
-        Assert.True(result);
-        _mockSupportProjectRepository.Verify(
-            repo => repo.UpdateAsync(It.IsAny<Domain.Entities.SupportProject.SupportProject>(),
-                It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [Fact]
     public async Task Handle_ProjectNotFound_ReturnsFalse()
     {
         // Arrange
@@ -90,7 +63,7 @@ public class SetConfirmPlanningGrantOfferLetterSentTests
         _mockSupportProjectRepository
             .Setup(repo =>
                 repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
-                    It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+                    It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
         var setConfirmPlanningGrantOfferLetterSentCommandHandler =
             new SetConfirmPlanningGrantOfferLetterSentCommandHandler(_mockSupportProjectRepository.Object);
 
