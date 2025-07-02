@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.11.2] - Q1 – Sprint 6 (Part 3) - 2025-07-01
+
+### 🐛 Bug Fixes
+
+- **220026** - Record Engagement concern: Error message(text) is not displaying
+
+---
+
 ## 📅 [v0.11.1] - Q1 – Sprint 6 (Part 2) - 2025-06-30
 
 ### 📌 User Stories
