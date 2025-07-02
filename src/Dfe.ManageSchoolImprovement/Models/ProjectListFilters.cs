@@ -123,9 +123,9 @@ public class ProjectListFilters
 
    private string[] Get(string key, bool persist = false)
    {
-      if (!_store.ContainsKey(key)) return Array.Empty<string>();
+      if (!_store.TryGetValue(key, out var value1)) return Array.Empty<string>();
 
-      string[]? value = (string[]?)_store[key];
+      string[]? value = (string[]?)value1;
       if (persist) Cache(key, value);
 
       return value ?? Array.Empty<string>();
@@ -133,9 +133,9 @@ public class ProjectListFilters
 
    private string[] GetAndRemove(string key, string[]? value, bool persist = false)
    {
-      if (!_store.ContainsKey(key)) return Array.Empty<string>();
+      if (!_store.TryGetValue(key, out var value1)) return Array.Empty<string>();
 
-      string[]? currentValues = (string[]?)_store[key];
+      string[]? currentValues = (string[]?)value1;
 
       if (value is not null && value.Length > 0 && currentValues is not null)
       {
