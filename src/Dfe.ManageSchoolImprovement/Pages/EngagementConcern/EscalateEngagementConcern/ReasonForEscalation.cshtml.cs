@@ -2,13 +2,15 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
 
 public class ReasonForEscalationModel(
     ISupportProjectQueryService supportProjectQueryService,
-    ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    ErrorService errorService,
+    IMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator)
 {
     public string ReturnPage { get; set; }
 
@@ -21,9 +23,9 @@ public class ReasonForEscalationModel(
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
 
     public string PrimaryReasonErrorMessage { get; set; }
-    
+
     public string DetailsErrorMessage { get; set; }
-    
+
     public bool ShowDetailsError => ModelState.ContainsKey("escalation-details") && ModelState["escalation-details"]?.Errors.Count > 0;
 
     public bool ShowError => _errorService.HasErrors();
@@ -41,7 +43,10 @@ public class ReasonForEscalationModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, bool? confirmStepsTaken, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id,
+        bool? confirmStepsTaken,
+        bool? changeLinkClicked,
+        CancellationToken cancellationToken)
     {
         if (EscalationDetails == null || PrimaryReason == null)
         {
@@ -59,16 +64,32 @@ public class ReasonForEscalationModel(
             }
 
             PrimaryReasonRadioButtons = GetRadioButtons();
-
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        await base.GetSupportProject(id, cancellationToken);
+        return await HandleEscalationPost(
+            id,
+            new EngagementConcernEscalationDetails
+            {
+                ConfirmStepsTaken = confirmStepsTaken,
+                PrimaryReason = PrimaryReason,
+                Details = EscalationDetails,
+                DateOfDecision = null // Date of decision will be handled in the next step
+            },
+            changeLinkClicked,
+            cancellationToken);
+    }
 
-        // if confirmStepsTaken is null, use the default value from the SupportProject, as we have entered the flow from the change link
-        confirmStepsTaken = confirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken;
-
-        return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, new { id, confirmStepsTaken, PrimaryReason, EscalationDetails });
+    protected internal override IActionResult GetDefaultRedirect(int id, object? routeValues = default)
+    {
+        var values = new
+        {
+            id,
+            confirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken,
+            PrimaryReason,
+            EscalationDetails
+        };
+        return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, values);
     }
 
     private IList<RadioButtonsLabelViewModel> GetRadioButtons()

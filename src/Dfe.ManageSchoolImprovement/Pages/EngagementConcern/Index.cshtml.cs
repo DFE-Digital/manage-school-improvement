@@ -17,16 +17,14 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
-    
+
     public DateTime? DateRaised { get; set; }
-    
+
     public bool EngagementConcernEscalated { get; set; }
-    
+
     public string? EngagementConcernEscalationReason { get; set; }
-    
+
     public DateTime? DateEscalated { get; set; }
-    
-    
 
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
@@ -44,7 +42,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         await base.GetSupportProject(id, cancellationToken);
 
         DateRaised = SupportProject.EngagementConcernRaisedDate;
-        EngagementConcernEscalated = 
+        EngagementConcernEscalated =
             (SupportProject.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
             !string.IsNullOrEmpty(SupportProject.EngagementConcernEscalationPrimaryReason) &&
             !string.IsNullOrEmpty(SupportProject.EngagementConcernEscalationDetails) &&
@@ -54,5 +52,13 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         return Page();
     }
+
+    //public async Task<IActionResult> OnPostChangeLinkAsync(int id, string nextPage, CancellationToken cancellationToken)
+    //{
+    //    await base.GetSupportProject(id, cancellationToken);
+    //    TempData["ChangeLinkClicked"] = true;
+
+    //    return RedirectToPage(nextPage, new { id });
+    //}
 
 }
