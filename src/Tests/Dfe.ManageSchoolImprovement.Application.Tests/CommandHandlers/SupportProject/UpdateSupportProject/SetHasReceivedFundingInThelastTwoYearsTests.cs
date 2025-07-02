@@ -47,8 +47,6 @@ public class SetHasReceivedFundingInThelastTwoYearsTests
     public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
     {
         // Arrange
-        bool? hasReceivedFundingInThelastTwoYears = true;
-
         var command = new SetHasReceivedFundingInThelastTwoYearsCommand(
             _mockSupportProject.Id,
             null

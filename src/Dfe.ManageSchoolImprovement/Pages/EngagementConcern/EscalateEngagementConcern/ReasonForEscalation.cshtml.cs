@@ -25,8 +25,10 @@ public class ReasonForEscalationModel(
     public string PrimaryReasonErrorMessage { get; set; }
 
     public string DetailsErrorMessage { get; set; }
-
-    public bool ShowDetailsError => ModelState.ContainsKey("escalation-details") && ModelState["escalation-details"]?.Errors.Count > 0;
+    
+    private const string DetailsErrorKey = "escalation-details";
+    
+    public bool ShowDetailsError => ModelState.ContainsKey(DetailsErrorKey) && ModelState[DetailsErrorKey]?.Errors.Count > 0;
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -59,8 +61,8 @@ public class ReasonForEscalationModel(
             if (EscalationDetails == null)
             {
                 DetailsErrorMessage = "You must enter details";
-                _errorService.AddError("escalation-details", DetailsErrorMessage);
-                ModelState.AddModelError("escalation-details", DetailsErrorMessage);
+                _errorService.AddError(DetailsErrorKey, DetailsErrorMessage);
+                ModelState.AddModelError(DetailsErrorKey, DetailsErrorMessage);
             }
 
             PrimaryReasonRadioButtons = GetRadioButtons();

@@ -26,9 +26,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<RegionalImprovementForStandardsAndExcellenceContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // Authentication
-            //services.AddCustomAuthorization(config);
-
             // Utils
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IUserContextService, UserContextService>();

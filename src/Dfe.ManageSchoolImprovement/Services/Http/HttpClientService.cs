@@ -59,7 +59,7 @@ public class HttpClientService : IHttpClientService
     {
         string content = await result.Content.ReadAsStringAsync();
 
-        _logger.LogError("Request to Api failed | StatusCode - {StatusCode} | Content - {content}",
+        _logger.LogError("Request to Api failed | StatusCode - {StatusCode} | Content - {Content}",
            result.StatusCode, content);
 
         return new ApiResponse<TResponse>(result.StatusCode, null!);

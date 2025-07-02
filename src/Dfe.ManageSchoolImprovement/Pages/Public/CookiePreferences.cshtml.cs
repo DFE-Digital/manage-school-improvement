@@ -54,7 +54,7 @@ public class CookiePreferences(ILogger<CookiePreferences> logger) : PageModel
 
             AppendCookies(consent);
 
-            if (consent.Value is false)
+            if (!consent.Value)
             {
                 ApplyCookieConsent(false);
             }
@@ -88,13 +88,13 @@ public class CookiePreferences(ILogger<CookiePreferences> logger) : PageModel
                 // Google Analytics
                 if (cookie.StartsWith("_ga") || cookie.Equals("_gid"))
                 {
-                    logger.LogInformation("Expiring Google analytics cookie: {cookie}", cookie);
+                    logger.LogInformation("Expiring Google analytics cookie: {Cookie}", cookie);
                     Response.Cookies.Append(cookie, string.Empty, new CookieOptions { Expires = DateTime.Now.AddDays(-1), Secure = true, SameSite = SameSiteMode.Lax, HttpOnly = true });
                 }
                 // App Insights
                 if (cookie.StartsWith("ai_"))
                 {
-                    logger.LogInformation("Expiring App insights cookie: {cookie}", cookie);
+                    logger.LogInformation("Expiring App insights cookie: {Cookie}", cookie);
                     Response.Cookies.Append(cookie, string.Empty, new CookieOptions { Expires = DateTime.Now.AddYears(-1), Secure = true, SameSite = SameSiteMode.Lax, HttpOnly = true });
                 }
             }

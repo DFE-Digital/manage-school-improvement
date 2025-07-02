@@ -53,11 +53,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken);
             }
 
             TaskUpdated = true;
-            var redirectPage = (HasSchoolReceivedFundingInLastTwoYears.HasValue && HasSchoolReceivedFundingInLastTwoYears.Value) ? RedirectToPage(@Links.TaskList.FundingHistoryAdd.Page, new { id }) : RedirectToPage(@Links.TaskList.Index.Page, new { id }); ;
+            var redirectPage = (HasSchoolReceivedFundingInLastTwoYears.HasValue && HasSchoolReceivedFundingInLastTwoYears.Value) ? RedirectToPage(@Links.TaskList.FundingHistoryAdd.Page, new { id }) : RedirectToPage(@Links.TaskList.Index.Page, new { id });
             return redirectPage;
         }
 

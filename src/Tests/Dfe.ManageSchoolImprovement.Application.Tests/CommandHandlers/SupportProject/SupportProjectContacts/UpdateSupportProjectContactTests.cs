@@ -53,7 +53,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             var roleId = RolesIds.Other;
             var otherRoleName = "Other Role";
-            var lastModifiedOn = DateTime.UtcNow;
             var command = new UpdateSupportProjectContactCommand(
                 _mockSupportProject.Id,
                 supportProjectContactId,

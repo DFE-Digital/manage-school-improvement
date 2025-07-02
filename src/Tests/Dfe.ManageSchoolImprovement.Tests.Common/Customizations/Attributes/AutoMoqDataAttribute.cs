@@ -4,6 +4,7 @@ using AutoFixture.Xunit2;
 
 namespace Dfe.ManageSchoolImprovement.Tests.Common.Customizations.Attributes
 {
+    [AttributeUsage(AttributeTargets.Method)]
     public class AutoMoqDataAttribute : AutoDataAttribute
     {
         public AutoMoqDataAttribute()

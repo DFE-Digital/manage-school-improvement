@@ -35,7 +35,7 @@ public class SetRequestPlanningGrantOfferLetterDetails
                 request.CopyInRegionalDirector, 
                 request.EmailRiseGrantTeam);
 
-            await supportProjectRepository.UpdateAsync(supportProject);
+            await supportProjectRepository.UpdateAsync(supportProject, CancellationToken.None);
 
             return true;
         }

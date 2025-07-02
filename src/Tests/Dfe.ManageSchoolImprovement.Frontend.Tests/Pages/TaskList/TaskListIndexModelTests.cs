@@ -113,7 +113,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             Assert.Equal("/SchoolList/Index", _indexModel.ReturnPage);
 
             // Ensure the action result is a PageResult
-            var pageResult = Assert.IsType<PageResult>(result);
+            Assert.IsType<PageResult>(result);
         }
     }
 }

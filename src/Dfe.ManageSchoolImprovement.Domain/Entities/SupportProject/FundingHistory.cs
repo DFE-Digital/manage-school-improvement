@@ -25,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 
         }
         public FundingHistoryId Id { get; private set; }
-        public int ReadableId { get; private set; }
+        public int ReadableId { get; }
         public SupportProjectId SupportProjectId { get; private set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }

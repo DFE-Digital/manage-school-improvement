@@ -35,7 +35,7 @@ public static class DisplayExtensions
 
    public static string GetTextAreaErrorStyles(this ModelStateDictionary modelState, string field)
    {
-      return modelState.IsValid is false && modelState.ContainsKey(field) ? "govuk-textarea--error" : string.Empty;
+      return !modelState.IsValid && modelState.ContainsKey(field) ? "govuk-textarea--error" : string.Empty;
    }
 
    public static string FormatConfidenceInterval(decimal? lowerBound, decimal? upperBound)

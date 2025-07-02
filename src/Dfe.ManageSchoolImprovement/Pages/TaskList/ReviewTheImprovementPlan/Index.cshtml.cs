@@ -39,7 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         
         public string FundingBandGuidanceLink { get; set; } = string.Empty;
         
-        public IList<RadioButtonsLabelViewModel> FundingBandOptions => Enum.GetValues<FinalFundingBand>()
+        public IList<RadioButtonsLabelViewModel> FundingBandOptions() => Enum.GetValues<FinalFundingBand>()
             .Select(band => new RadioButtonsLabelViewModel
             {
                 Id = $"funding-band-{band.GetDisplayShortName()}",
@@ -95,7 +95,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken);
             }
 
             TaskUpdated = true;

@@ -51,15 +51,15 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var fundingType = "funding type";
-            var fundingAmount = 100.10;
-            var financialYear = "financial year";
-            var fundingRounds = 10;
-            var comments = "comments";
+            string fundingType = null!;
+            int fundingAmount = 0;
+            string financialYear = null!;
+            int fundingRounds = 0;
+            string comments = null!;
 
             var command = new AddFundingHistoryCommand(
                 _mockSupportProject.Id,
-                null, 0, null, 0, null
+                fundingType, fundingAmount, financialYear, fundingRounds, comments
             );
             _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var addFundingHistoryCommandHandler = new AddFundingHistoryCommandHandler(_mockSupportProjectRepository.Object);

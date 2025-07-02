@@ -17,7 +17,9 @@ public class EscalateEngagementConcernModel(
     public bool? ConfirmStepsTaken { get; set; }
     public bool ShowError => _errorService.HasErrors();
     
-    public bool ShowCheckboxError => ModelState.ContainsKey("confirm-steps-taken") && ModelState["confirm-steps-taken"]?.Errors.Count > 0;
+    public static string ConfirmStepsTakenError => "confirm-steps-taken";
+    
+    public bool ShowCheckboxError => ModelState.ContainsKey(ConfirmStepsTakenError) && ModelState[ConfirmStepsTakenError]?.Errors.Count > 0;
 
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
@@ -35,8 +37,8 @@ public class EscalateEngagementConcernModel(
     {
         if (ConfirmStepsTaken is false)
         {
-            _errorService.AddError("confirm-steps-taken", "You must confirm you have taken the required steps");
-            ModelState.AddModelError("confirm-steps-taken", "You must confirm you have taken the required steps");
+            _errorService.AddError(ConfirmStepsTakenError, "You must confirm you have taken the required steps");
+            ModelState.AddModelError(ConfirmStepsTakenError, "You must confirm you have taken the required steps");
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }

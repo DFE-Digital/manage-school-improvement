@@ -50,7 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveAss
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken); 
             }
 
             TaskUpdated = true;

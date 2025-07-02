@@ -37,11 +37,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken); 
             }
 
             TaskUpdated = true;
-            return RedirectToPage(@Links.TaskList.Index.Page, new { id }); ;
+            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
     }
 }

@@ -28,8 +28,10 @@ public class AddEngagementConcernModel(
     public DateTime? DateEngagementConcernRaised { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
+    
+    private const string EngagementConcernDetailsKey = "engagement-concern-details";
 
-    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey("engagement-concern-details") && ModelState["engagement-concern-details"]?.Errors.Count > 0;
+    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) && ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -52,8 +54,8 @@ public class AddEngagementConcernModel(
 
         if (RecordEngagementConcern is true && string.IsNullOrEmpty(EngagementConcernDetails))
         {
-            _errorService.AddError("engagement-concern-details", "You must enter details");
-            ModelState.AddModelError("engagement-concern-details", "You must enter details");
+            _errorService.AddError(EngagementConcernDetailsKey, "You must enter details");
+            ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter details");
 
             return Page();
         }
