@@ -19,7 +19,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveIni
         [BindProperty(Name = "has-talk-to-adviser")]
         public bool? HasTalkToAdviserAboutFindings { get; set; }
 
-        [BindProperty(Name = "has-complete-assessment-template")]
+        [BindProperty(Name = "complete-assessment-template")]
         public bool? HasCompleteAssessmentTemplate { get; set; }
 
         public bool ShowError { get; set; }
