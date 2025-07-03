@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    [Migration("20250122121436_AddedCompleteAndSaveAssessmentTemplateFields")]
-    partial class AddedCompleteAndSaveAssessmentTemplateFields
+    [Migration("20250122121436_AddedCompleteAndSaveInitialDiagnosisTemplateFields")]
+    partial class AddedCompleteAndSaveInitialDiagnosisTemplateFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

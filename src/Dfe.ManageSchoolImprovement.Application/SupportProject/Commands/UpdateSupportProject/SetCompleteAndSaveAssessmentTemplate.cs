@@ -4,17 +4,17 @@ using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
 {
-    public record SetCompleteAndSaveAssessmentTemplateCommand(
+    public record SetCompleteAndSaveInitialDiagnosisTemplateCommand(
         SupportProjectId SupportProjectId,
         DateTime? SavedAssessmentTemplateInSharePointDate,
         bool? HasTalkToAdviserAboutFindings,
         bool? HasCompleteAssessmentTemplate
     ) : IRequest<bool>;
 
-    public class SetCompleteAndSaveAssessmentTemplateCommandHandler(ISupportProjectRepository supportProjectRepository)
-        : IRequestHandler<SetCompleteAndSaveAssessmentTemplateCommand, bool>
+    public class SetCompleteAndSaveInitialDiagnosisTemplateCommandHandler(ISupportProjectRepository supportProjectRepository)
+        : IRequestHandler<SetCompleteAndSaveInitialDiagnosisTemplateCommand, bool>
     {
-        public async Task<bool> Handle(SetCompleteAndSaveAssessmentTemplateCommand request,
+        public async Task<bool> Handle(SetCompleteAndSaveInitialDiagnosisTemplateCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetCompleteAndSaveAssessmentTemplate(request.SavedAssessmentTemplateInSharePointDate, request.HasTalkToAdviserAboutFindings, request.HasCompleteAssessmentTemplate);
+            supportProject.SetCompleteAndSaveInitialDiagnosisTemplate(request.SavedAssessmentTemplateInSharePointDate, request.HasTalkToAdviserAboutFindings, request.HasCompleteAssessmentTemplate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

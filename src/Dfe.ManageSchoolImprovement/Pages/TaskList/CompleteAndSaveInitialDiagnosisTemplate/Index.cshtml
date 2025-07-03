@@ -1,0 +1,63 @@
+@page "/task-list/complete-and-save-initial-diagnosis-template/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveInitialDiagnosisTemplate.IndexModel
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Complete and save the initial diagnosis template";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+   <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Complete and save the initial diagnosis template
+        </h1> 
+        <p class="govuk-body" data-cy="instruction-to-adviser">Work with the adviser to decide whether the school should
+            be matched with a supporting organisation or have progress reviews.</p>
+        <form method="post" novalidate> 
+            <govuk-checkbox-input 
+                label="Talk to the adviser about their findings from the visit and discussions with the school" 
+                id="has-talk-to-adviser" 
+                name="has-talk-to-adviser" 
+                asp-for="@Model.HasTalkToAdviserAboutFindings" />
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="complete-assessment-template-hidden" type="hidden" value="false"/>
+                        <input class="govuk-checkboxes__input"
+                               id="complete-assessment-template"
+                               name="complete-assessment-template"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.HasCompleteAssessmentTemplate"
+                               data-cy="complete-assessment-template-checkbox">
+                        <label class="govuk-label govuk-checkboxes__label" for="complete-assessment-template">
+                            Complete Assessment Tool 1: Initial Diagnosis and save a copy of the completed version
+                            <br/>
+                            <span id="complete-assessment-template-hint" class="govuk-hint">
+                                You can
+                                <a class='govuk-link' href='@Configuration["AssessmentToolOneLink"]' target="_blank">
+                                    View and download Assessment Tool 1: Initial Diagnosis on Sharepoint (opens in new tab)
+                                </a>.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <govuk-date-input heading-label="false" label="Enter date assessment template saved in SharePoint" id="saved-assessemnt-template-in-sharepoint-date" name="saved-assessemnt-template-in-sharepoint-date" asp-for="@Model.SavedAssessmentTemplateInSharePointDate" hint="For example, 1 7 2024." />
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>
+

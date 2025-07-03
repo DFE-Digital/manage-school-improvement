@@ -293,7 +293,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AdviserVisitDate = adviserVisitDate;
     }
 
-    public void SetCompleteAndSaveAssessmentTemplate(DateTime? savedAssessmentTemplateInSharePointDate, bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate)
+    public void SetCompleteAndSaveInitialDiagnosisTemplate(DateTime? savedAssessmentTemplateInSharePointDate, bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate)
     {
         SavedAssessmentTemplateInSharePointDate = savedAssessmentTemplateInSharePointDate;
         HasTalkToAdviserAboutFindings = hasTalkToAdviserAboutFindings;

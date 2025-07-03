@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc; 
 using System.ComponentModel.DataAnnotations;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveAssessmentTemplate
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveInitialDiagnosisTemplate
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
     {
@@ -19,7 +19,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveAss
         [BindProperty(Name = "has-talk-to-adviser")]
         public bool? HasTalkToAdviserAboutFindings { get; set; }
 
-        [BindProperty(Name = "has-complete-assessment-template")]
+        [BindProperty(Name = "complete-assessment-template")]
         public bool? HasCompleteAssessmentTemplate { get; set; }
 
         public bool ShowError { get; set; }
@@ -43,7 +43,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveAss
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetCompleteAndSaveAssessmentTemplateCommand(new SupportProjectId(id), SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate);
+            var request = new SetCompleteAndSaveInitialDiagnosisTemplateCommand(new SupportProjectId(id), SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate);
 
             var result = await mediator.Send(request, cancellationToken);
 
