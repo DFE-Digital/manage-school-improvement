@@ -18,7 +18,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public TaskListStatus AllocateAdviserTaskListStatus { get; set; }
 
     public TaskListStatus ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus { get; set; }
-    public TaskListStatus CompleteAndSaveAssessmentTemplateTaskListStatus { get; set; }
+    public TaskListStatus CompleteAndSaveInitialDiagnosisTemplateTaskListStatus { get; set; }
     public TaskListStatus NoteOfVisitTaskListStatus { get; set; }
     public TaskListStatus RecordVisitDateToVisitSchoolTaskListStatus { get; set; }
 
@@ -60,7 +60,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         AllocateAdviserTaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
         SendIntroductoryEmailTaskListStatus = TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(SupportProject);
         ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus = TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(SupportProject);
-        CompleteAndSaveAssessmentTemplateTaskListStatus = TaskStatusViewModel.CompleteAndSaveAssessmentTemplateTaskListStatus(SupportProject);
+        CompleteAndSaveInitialDiagnosisTemplateTaskListStatus = TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProject);
         NoteOfVisitTaskListStatus = TaskStatusViewModel.NoteOfVsistTaskListStatus(SupportProject);
         RecordVisitDateToVisitSchoolTaskListStatus = TaskStatusViewModel.RecordVisitDateToVisitSchoolTaskListStatus(SupportProject);
         ChosePreferredSupportingOrganisationTaskListStatus =

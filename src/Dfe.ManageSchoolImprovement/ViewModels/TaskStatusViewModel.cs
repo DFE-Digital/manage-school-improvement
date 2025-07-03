@@ -111,7 +111,7 @@ public static class TaskStatusViewModel
         return TaskListStatus.NotStarted;
     }
 
-    public static TaskListStatus CompleteAndSaveAssessmentTemplateTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.SavedAssessmentTemplateInSharePointDate.HasValue
             && supportProject.HasTalkToAdviserAboutFindings.HasValue

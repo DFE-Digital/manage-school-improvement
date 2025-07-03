@@ -74,7 +74,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus> CompleteAndSaveAssessmentTemplateTaskListStatusCases = new()
+        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus> CompleteAndSaveInitialDiagnosisTemplateTaskListStatusCases = new()
         {
             {null, null, null, TaskListStatus.NotStarted },
             {false, false, null, TaskListStatus.InProgress },
@@ -82,8 +82,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             {true, true, DateTime.Now, TaskListStatus.Complete }
         };
 
-        [Theory, MemberData(nameof(CompleteAndSaveAssessmentTemplateTaskListStatusCases))]
-        public void CompleteAndSaveAssessmentTemplateTaskListStatusShouldReturnCorrectStatus(bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate,
+        [Theory, MemberData(nameof(CompleteAndSaveInitialDiagnosisTemplateTaskListStatusCases))]
+        public void CompleteAndSaveInitialDiagnosisTemplateTaskListStatusShouldReturnCorrectStatus(bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate,
             DateTime? savedAssessmentTemplateInSharePointDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
@@ -91,7 +91,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 HasTalkToAdviserAboutFindings: hasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate: hasCompleteAssessmentTemplate));
 
             //Action 
-            var taskListStatus = TaskStatusViewModel.CompleteAndSaveAssessmentTemplateTaskListStatus(supportProjectModel);
+            var taskListStatus = TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

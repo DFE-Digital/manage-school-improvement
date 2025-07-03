@@ -67,7 +67,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetCompleteAndSaveAssessmentTemplate_StateUnderTest_ExpectedBehavior()
+        public void SetCompleteAndSaveInitialDiagnosisTemplate_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
             var supportProject = CreateSupportProject();
@@ -76,7 +76,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var hasCompleteAssessmentTemplate = true;
 
             // Act
-            supportProject.SetCompleteAndSaveAssessmentTemplate(
+            supportProject.SetCompleteAndSaveInitialDiagnosisTemplate(
                 savedAssessmentTemplateInSharePointDate,
                 hasTalkToAdviser,
                 hasCompleteAssessmentTemplate);
