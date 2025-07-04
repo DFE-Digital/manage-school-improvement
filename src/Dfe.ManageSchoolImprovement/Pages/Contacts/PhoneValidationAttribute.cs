@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         {
             if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
             {
-                return ValidationResult.Success;
+                return ValidationResult.Success!;
             }
 
             string phoneNumber = value.ToString()!;

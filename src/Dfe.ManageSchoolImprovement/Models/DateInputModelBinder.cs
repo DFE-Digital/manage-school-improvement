@@ -34,14 +34,14 @@ public class DateInputModelBinder : IModelBinder
          return Task.CompletedTask;
       }
 
-      string displayName = bindingContext.ModelMetadata.DisplayName;
+      string displayName = bindingContext.ModelMetadata.DisplayName!;
 
       IDateValidationMessageProvider page =
-         (bindingContext.ActionContext as PageContext)?.ViewData.Model as IDateValidationMessageProvider;
+         ((bindingContext.ActionContext as PageContext)?.ViewData.Model as IDateValidationMessageProvider)!;
 
       DateValidationService validator = new(page);
       (bool dateValid, string validationMessage) =
-         validator.Validate(dayValueProviderResult.FirstValue, monthValueProviderResult.FirstValue, yearValueProviderResult.FirstValue, displayName);
+         validator.Validate(dayValueProviderResult.FirstValue!, monthValueProviderResult.FirstValue!, yearValueProviderResult.FirstValue!, displayName);
 
       if (dateValid)
       {
@@ -76,12 +76,9 @@ public class DateInputModelBinder : IModelBinder
 
    private static Type ValidateBindingContext(ModelBindingContext bindingContext)
    {
-      if (bindingContext == null)
-      {
-         throw new ArgumentNullException(nameof(bindingContext));
-      }
+        ArgumentNullException.ThrowIfNull(bindingContext);
 
-      Type modelType = bindingContext.ModelType;
+        Type modelType = bindingContext.ModelType;
       if (modelType != typeof(DateTime) && modelType != typeof(DateTime?))
       {
          throw new InvalidOperationException($"Cannot bind {modelType.Name}.");

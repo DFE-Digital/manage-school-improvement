@@ -61,9 +61,7 @@ public class EditSupportProjectNoteCommandHandlerTests
     public async Task Handle_InvalidValidCommand_EditNote()
     {
 
-        var command = new EditSupportProjectNote.EditSupportProjectNoteCommand(
-           null,
-            "Note",null,_mockSupportProjectNote.CreatedBy);
+        var command = new EditSupportProjectNote.EditSupportProjectNoteCommand(null!, "Note", null!, _mockSupportProjectNote.CreatedBy);
         
         _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_mockSupportProject);

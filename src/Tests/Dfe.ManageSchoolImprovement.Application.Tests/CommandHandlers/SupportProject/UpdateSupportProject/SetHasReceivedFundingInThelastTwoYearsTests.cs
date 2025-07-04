@@ -72,7 +72,8 @@ public class SetHasReceivedFundingInThelastTwoYearsTests
             _mockSupportProject.Id,
             hasReceivedFundingInThelastTwoYears
         );
-        _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+        _mockSupportProjectRepository.Setup(repo => 
+            repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
         var setHasReceivedFundingInThelastTwoYearsCommandHandler = new SetHasReceivedFundingInThelastTwoYearsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act

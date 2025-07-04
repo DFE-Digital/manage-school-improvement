@@ -78,7 +78,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             {
 
                 queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title!.ToLower()) ||
-                p.SchoolUrn.ToLower().Contains(title!.ToLower())
+                p.SchoolUrn.Contains(title!, StringComparison.CurrentCultureIgnoreCase)
                 );
             }
 

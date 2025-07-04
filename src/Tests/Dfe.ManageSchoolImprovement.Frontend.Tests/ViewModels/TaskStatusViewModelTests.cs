@@ -307,7 +307,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateSupportingOrganisationContactDetailsAdded: dateSupportingOrganisationDetailsAdded,
-                SupportingOrganisationContactName: supportingOrganisationContactName, SupportingOrganisationContactEmailAddress: supportingOrganisationContactEmail));
+                SupportingOrganisationContactName: supportingOrganisationContactName, SupportingOrganisationContactEmailAddress: supportingOrganisationContactEmail!));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.SupportingOrganisationContactDetailsTaskListStatus(supportProjectModel);

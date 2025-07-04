@@ -68,7 +68,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
             var command = new EditFundingHistoryCommand(
                 _mockSupportProject.FundingHistories.First().Id,
                 _mockSupportProject.Id,
-                null, 0, null, 0, null
+                null!, 0, null!, 0, null!
             );
 
             _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -98,7 +98,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
                 fundingType, fundingAmount, financialYear, fundingRounds, comments
             );
 
-            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
             var editFundingHistoryCommandHandler = new EditFundingHistoryCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
