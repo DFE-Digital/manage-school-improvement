@@ -10,7 +10,7 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     protected readonly IHtmlHelper _htmlHelper = htmlHelper;
 
     [HtmlAttributeName("id")]
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [HtmlAttributeName("name")]
     public string Name { get; set; }
