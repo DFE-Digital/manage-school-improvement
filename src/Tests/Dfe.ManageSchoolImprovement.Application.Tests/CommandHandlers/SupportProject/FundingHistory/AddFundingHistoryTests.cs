@@ -89,7 +89,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
                 fundingType, fundingAmount, financialYear, fundingRounds, comments
             );
 
-            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
             var addFundingHistoryCommandHandler = new AddFundingHistoryCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act

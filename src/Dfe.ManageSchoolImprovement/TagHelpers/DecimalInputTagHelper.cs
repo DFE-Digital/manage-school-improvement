@@ -46,7 +46,7 @@ public class DecimalInputTagHelper : InputTagHelperBase
             Label = Label,
             Hint = Hint,
             Suffix = Suffix,
-            Value = IsMonetary ? value?.ToMoneyString() : value.ToSafeString(),
+            Value = (IsMonetary ? value?.ToMoneyString() : value.ToSafeString())!,
             IsMonetary = IsMonetary,
             HeadingLabel = HeadingLabel
         };
@@ -57,7 +57,7 @@ public class DecimalInputTagHelper : InputTagHelperBase
             model.ErrorMessage = error.Message;
             if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}", out StringValues invalidValue))
             {
-                model.Value = invalidValue;
+                model.Value = invalidValue!;
             }
         }
 

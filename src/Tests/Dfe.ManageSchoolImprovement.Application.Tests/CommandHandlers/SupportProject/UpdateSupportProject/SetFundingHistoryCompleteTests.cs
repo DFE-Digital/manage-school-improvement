@@ -74,7 +74,8 @@ public class SetFundingHistoryCompleteTests
             setFundingHistoryComplete
         );
 
-        _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+        _mockSupportProjectRepository.Setup(repo => 
+            repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
         var setFundingHistoryCompleteCommandHandler = new SetFundingHistoryCompleteCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act

@@ -31,7 +31,7 @@ builder.Services.Configure<AzureAdOptions>(config.GetSection("AzureAd"));
 builder.Services.AddHttpClient(DfeHttpClientFactory.AcademiesClientName, (sp, client) =>
 {
     var academiesApiSection = config.GetSection("AcademiesApi");
-    client.BaseAddress = new Uri(academiesApiSection["Url"]);
+    client.BaseAddress = new Uri(academiesApiSection["Url"]!);
     client.DefaultRequestHeaders.Add("ApiKey", academiesApiSection["ApiKey"]);
     client.DefaultRequestHeaders.Add("User-Agent", "ManageSchoolImprovement/1.0");
 
@@ -79,7 +79,8 @@ builder.Services.AddRazorPages(options =>
         });
 
 builder.Services.AddMicrosoftIdentityWebAppAuthentication(config);
-builder.Services.AddAuthorization(options => { options.DefaultPolicy = SetupAuthorizationPolicyBuilder().Build(); });
+builder.Services.AddAuthorizationBuilder()
+    .SetDefaultPolicy(SetupAuthorizationPolicyBuilder().Build());
 
 AuthorizationPolicyBuilder SetupAuthorizationPolicyBuilder()
 {
@@ -191,4 +192,4 @@ app.UseHealthChecks("/health");
 
 await app.RunAsync();
 
-public partial class Program { } // Make the Program class partial for testing
+public abstract partial class Program { } // Make the Program class partial for testing

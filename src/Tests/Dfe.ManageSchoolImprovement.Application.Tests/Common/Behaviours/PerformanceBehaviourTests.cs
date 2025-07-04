@@ -40,7 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
                     It.IsAny<EventId>(),
                     It.IsAny<It.IsAnyType>(),
                     It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Never);
         }
 
@@ -66,7 +66,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Long Running Request")),
                     It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Once);
         }
 
@@ -100,7 +100,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("test.user")),
                     It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Once);
         }
 
@@ -129,7 +129,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Long Running Request")),
                     It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Once);
         }
     }

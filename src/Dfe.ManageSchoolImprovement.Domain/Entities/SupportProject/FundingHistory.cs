@@ -22,13 +22,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             FinancialYear = financialYear;
             FundingRounds = fundingRounds;
             Comments = comments;
-
         }
-        public FundingHistoryId Id { get; private set; }
+        public FundingHistoryId? Id { get; private set; }
         public int ReadableId { get; }
         public SupportProjectId SupportProjectId { get; private set; }
         public DateTime CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = null!;
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
 

@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject
 {
-    public class SetRecordMathingDecisionTests
+    public class SetRecordMatchingDecisionTests
     {
         private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
         private readonly Domain.Entities.SupportProject.SupportProject _mockSupportProject;
         private readonly CancellationToken _cancellationToken;
 
-        public SetRecordMathingDecisionTests()
+        public SetRecordMatchingDecisionTests()
         {
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
             var fixture = new Fixture();
@@ -81,7 +81,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 notMatchingSchoolWithSupportingOrgNotes
             );
 
-            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+            _mockSupportProjectRepository.Setup(repo => 
+                repo.FindAsync(
+                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                    It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
             var handler = new SetRecordMatchingDecisionCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act

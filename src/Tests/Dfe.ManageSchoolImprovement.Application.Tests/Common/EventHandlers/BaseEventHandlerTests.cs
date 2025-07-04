@@ -54,7 +54,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Handling event: TestEvent")),
                     It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Once);
 
             _mockLogger.Verify(
@@ -63,7 +63,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Event handled successfully: TestEvent")),
                     It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Once);
         }
 
@@ -87,7 +87,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Error handling event: TestEvent")),
                     exception,
-                    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
                 Times.Once);
         }
 
