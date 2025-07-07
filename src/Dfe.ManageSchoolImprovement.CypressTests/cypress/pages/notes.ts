@@ -1,4 +1,3 @@
-import { log } from "console";
 import { Logger } from "cypress/common/logger";
 
 class Notes {
@@ -28,7 +27,7 @@ class Notes {
         return this;
     }
     public editFirstNote(newNote: string): this {
-        cy.get('.app-notes__note').first().then($section => {
+        this.getFirstNote().then($section => {
             if ($section.find('a:contains("Edit note")').length > 0) {
                 cy.wrap($section).within(() => {
                     cy.get('a').contains('Edit note').click();
@@ -57,7 +56,7 @@ class Notes {
     }
 
     public getFirstNote() {
-        return cy.get('app-notes').first();
+        return cy.get('.app-notes__note').first();
     }
 }
 
