@@ -11,13 +11,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             var model = new DecimalInputViewModel();
 
             // Assert
-            Assert.Null(model.Id);
-            Assert.Null(model.Name);
-            Assert.Null(model.Value);
-            Assert.Null(model.Hint);
-            Assert.Null(model.Label);
-            Assert.Null(model.Suffix);
-            Assert.Null(model.ErrorMessage);
+            Assert.Equal(string.Empty, model.Id);
+            Assert.Equal(string.Empty, model.Name);
+            Assert.Equal(string.Empty, model.Value);
+            Assert.Equal(string.Empty, model.Hint);
+            Assert.Equal(string.Empty, model.Label);
+            Assert.Equal(string.Empty, model.Suffix);
+            Assert.Equal(string.Empty, model.ErrorMessage);
             Assert.False(model.IsMonetary);
             Assert.False(model.HeadingLabel);
         }
