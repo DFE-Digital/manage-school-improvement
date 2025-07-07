@@ -46,7 +46,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
             var comments = "comments";
 
             var command = new EditFundingHistoryCommand(
-                _mockSupportProject.FundingHistories.First().Id,
+                _mockSupportProject.FundingHistories.First().Id!,
                 _mockSupportProject.Id,
                 fundingType, fundingAmount, financialYear, fundingRounds, comments
             );
@@ -66,7 +66,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
         {
             // Arrange
             var command = new EditFundingHistoryCommand(
-                _mockSupportProject.FundingHistories.First().Id,
+                _mockSupportProject.FundingHistories.First().Id!,
                 _mockSupportProject.Id,
                 null!, 0, null!, 0, null!
             );
@@ -93,7 +93,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Commands.
             var comments = "comments";
 
             var command = new EditFundingHistoryCommand(
-                _mockSupportProject.FundingHistories.First().Id,
+                _mockSupportProject.FundingHistories.First().Id!,
                 _mockSupportProject.Id,
                 fundingType, fundingAmount, financialYear, fundingRounds, comments
             );

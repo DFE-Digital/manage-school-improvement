@@ -1,10 +1,7 @@
 using AutoFixture;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
-using System.Linq.Expressions;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EditSupportProjectNote;
 using Dfe.ManageSchoolImprovement.Utils;
 
@@ -24,7 +21,6 @@ public class EditSupportProjectNoteCommandHandlerTests
         var fixture = new Fixture();
         _mockSupportProject = fixture.Create<Domain.Entities.SupportProject.SupportProject>();
         _mockSupportProjectNote = fixture.Create<Domain.Entities.SupportProject.SupportProjectNote>();
-        _cancellationToken = new CancellationToken();
         _cancellationToken = CancellationToken.None;
         _iDateTimeProvider = new Mock<IDateTimeProvider>();
     }
@@ -34,14 +30,14 @@ public class EditSupportProjectNoteCommandHandlerTests
     {
 
         var command = new EditSupportProjectNote.EditSupportProjectNoteCommand(
-            _mockSupportProjectNote.SupportProjectId,
+            _mockSupportProjectNote.SupportProjectId!,
             "Note",_mockSupportProjectNote.Id,_mockSupportProjectNote.CreatedBy);
         
         _mockSupportProject.AddNote(_mockSupportProjectNote.Id,
             _mockSupportProjectNote.Note, 
             _mockSupportProjectNote.CreatedBy,
             _mockSupportProjectNote.CreatedOn,
-            _mockSupportProjectNote.SupportProjectId);
+            _mockSupportProjectNote.SupportProjectId!);
 
         _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_mockSupportProject);
