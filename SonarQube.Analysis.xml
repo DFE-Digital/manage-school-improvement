@@ -9,7 +9,11 @@
 	<Property Name="sonar.exclusions">**/src/Dfe.ManageSchoolImprovement/**/*.cshtml,**/src/Dfe.ManageSchoolImprovement/**/*.cshtml.cs,**/Migrations/**,**/src/Dfe.ManageSchoolImprovement/wwwroot/**</Property>
 
 	<!-- coverage exclusions -->
-	<Property Name="sonar.coverage.exclusions">**/Program.cs,**/src/Dfe.ManageSchoolImprovement.CypressTests/**</Property>
+	<Property Name="sonar.coverage.exclusions">
+		**/Program.cs,
+		**/src/Dfe.ManageSchoolImprovement.CypressTests/**,
+		**/src/Dfe.ManageSchoolImprovement/TagHelpers/**
+	</Property>
 
 	<!-- duplication exclusions -->
 	<Property Name="sonar.cpd.exclusions">**/Dfe.ManageSchoolImprovement.CypressTests/cypress/e2e/**</Property>
