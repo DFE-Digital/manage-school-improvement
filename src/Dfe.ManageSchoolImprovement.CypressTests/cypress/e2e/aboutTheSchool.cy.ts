@@ -1,12 +1,8 @@
 import aboutTheSchool from "cypress/pages/aboutTheSchool";
-import notes from "cypress/pages/aboutTheSchool";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 
 describe("User navigates to About the school tab", () => {
-    const noteText = "This is a test note.";
-    const updatedNoteText = "This is an updated test note.";
-
     beforeEach(() => {
         cy.login();
         homePage
