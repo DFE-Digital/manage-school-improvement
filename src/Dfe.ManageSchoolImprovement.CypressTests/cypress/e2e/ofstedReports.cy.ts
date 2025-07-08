@@ -15,6 +15,7 @@ describe("User navigates to the Ofsted Reports Page", () => {
     });
 
     it.only("should display all the fields in the Most recent and Previous Ofsted report section", () => {
+        Logger.log("check most recent and previous ofsted report section");
         ofstedReports.hasMostRecentOfstedReportSection()
         ofstedReports.hasPreviousOfstedReportSection()
         ofstedReports.checkAllFieldsNotEmpty();
@@ -23,6 +24,7 @@ describe("User navigates to the Ofsted Reports Page", () => {
     });
 
       it("should expand the information link", () => {
+        Logger.log("check that information link expands");
         ofstedReports.expandSectionAndCheckText();
 
         cy.executeAccessibilityTests()

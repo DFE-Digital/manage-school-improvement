@@ -1,6 +1,4 @@
 class OfstedReports {
-
-
     public hasOfstedReport(value: string): this {
         cy.get('h2').should("be.visible");
 
