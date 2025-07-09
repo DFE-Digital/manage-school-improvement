@@ -20,11 +20,18 @@ describe("User navigates to the Notes Tab", () => {
     it("should add a new note", () => {
         notes.clickAddNote();
         notes.enterNote(noteText);
+
+        cy.executeAccessibilityTests()
+
         notes.saveNote();
         notes.hasSuccessNotification();
+
+        cy.executeAccessibilityTests()
     });
 
     it("should edit the first note", () => {
         notes.editFirstNote(updatedNoteText);
+
+        cy.executeAccessibilityTests()
     });
 });
