@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             _errorService.AddApiError();
             var errors = _errorService.GetErrors().ToList();
             Assert.Single(errors);
-            Assert.Contains("There is a system problem", errors.First().Message);
+            Assert.Contains("There is a system problem", errors[0].Message);
         }
 
         [Fact]
@@ -36,8 +36,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             var errors = _errorService.GetErrors().ToList();
             Assert.Single(errors);
-            Assert.Equal("deadline", errors.First().Key);
-            Assert.Equal("Deadline date should be present", errors.First().Message); 
+            Assert.Equal("deadline", errors[0].Key);
+            Assert.Equal("Deadline date should be present", errors[0].Message); 
         }
 
         [Fact]
@@ -50,8 +50,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             var errors = _errorService.GetErrors().ToList();
             Assert.Single(errors);
-            Assert.Equal("deadline", errors.First().Key);
-            Assert.Equal("Deadline date should be present", errors.First().Message);
+            Assert.Equal("deadline", errors[0].Key);
+            Assert.Equal("Deadline date should be present", errors[0].Message);
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             var errors = _errorService.GetErrors().ToList();
             Assert.Single(errors);
-            var invalidInputs = errors.First().InvalidInputs;
+            var invalidInputs = errors[0].InvalidInputs;
             Assert.Equal(2, invalidInputs.Count);
             Assert.Contains("deadline-day", invalidInputs);
             Assert.Contains("deadline-month", invalidInputs);
@@ -87,11 +87,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             var deadlineError = errors.Where(x => x.Key == "deadline").ToList();
             Assert.Single(deadlineError);
-            Assert.Equal("Deadline date should be present", deadlineError.First().Message); 
+            Assert.Equal("Deadline date should be present", deadlineError[0].Message); 
 
             var startDateError = errors.Where(x => x.Key == "start-date").ToList();
             Assert.Single(startDateError);
-            Assert.Equal("Start date should be present", startDateError.First().Message);
+            Assert.Equal("Start date should be present", startDateError[0].Message);
         }
 
         [Fact]

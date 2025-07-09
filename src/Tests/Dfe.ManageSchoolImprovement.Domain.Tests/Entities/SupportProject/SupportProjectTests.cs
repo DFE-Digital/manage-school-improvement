@@ -67,7 +67,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetCompleteAndSaveAssessmentTemplate_StateUnderTest_ExpectedBehavior()
+        public void SetCompleteAndSaveInitialDiagnosisTemplate_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
             var supportProject = CreateSupportProject();
@@ -76,7 +76,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var hasCompleteAssessmentTemplate = true;
 
             // Act
-            supportProject.SetCompleteAndSaveAssessmentTemplate(
+            supportProject.SetCompleteAndSaveInitialDiagnosisTemplate(
                 savedAssessmentTemplateInSharePointDate,
                 hasTalkToAdviser,
                 hasCompleteAssessmentTemplate);
@@ -470,30 +470,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetRecordImprovementPlanDecision_KeepsNotes_OnConfirmingTargetSupport()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-
-            bool? hasApprovedImprovementPlanDecision = true;
-            DateTime? regionalDirectorImprovementPlanDecisionDate = DateTime.UtcNow;
-            string? disapprovingImprovementPlanDecisionNotes = "Notes only if choose no";
-
-            // Act
-            supportProject.SetRecordImprovementPlanDecision(
-                regionalDirectorImprovementPlanDecisionDate,
-                hasApprovedImprovementPlanDecision,
-                disapprovingImprovementPlanDecisionNotes);
-
-            // Assert
-            supportProject.HasApprovedImprovementPlanDecision.Should().Be(hasApprovedImprovementPlanDecision);
-            supportProject.RegionalDirectorImprovementPlanDecisionDate.Should().Be(regionalDirectorImprovementPlanDecisionDate);
-            supportProject.DisapprovingImprovementPlanDecisionNotes.Should().Be(disapprovingImprovementPlanDecisionNotes);
-            mockRepository.VerifyAll();
-        }
-
-        [Fact]
-        public void SetShareImproveMentPlanDetails_WithValidDetails_SetsTheCorrectProperties()
+        public void SetShareImprovementPlanDetails_WithValidDetails_SetsTheCorrectProperties()
         {
             // Arrange
             var supportProject = CreateSupportProject();

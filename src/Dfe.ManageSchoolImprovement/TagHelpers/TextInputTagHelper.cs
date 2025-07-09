@@ -29,7 +29,7 @@ public class TextInputTagHelper : InputTagHelperBase
             HeadingLabel = HeadingLabel
         };
 
-        if (ViewContext.ModelState.TryGetValue(Name, out ModelStateEntry entry) && entry.Errors.Count > 0)
+        if (ViewContext.ModelState.TryGetValue(Name, out var entry) && entry.Errors.Count > 0)
         {
             model.ErrorMessage = entry.Errors[0].ErrorMessage;
         }

@@ -13,6 +13,12 @@ class HomePage {
     cy.contains("Add a school").should("be.visible");
     return this;
   }
+  public selectFirstSchoolFromList(): this {
+    cy.get('[data-cy="trust-name-0"]').first().click(); // Select the first school in the list    
+    cy.url().should('include', '/task-list/')
+    return this;
+
+  }
 
   public hasCookiesBanner(): this {
     cy.get('.govuk-cookie-banner__heading').contains('Cookies on Manage school improvement')

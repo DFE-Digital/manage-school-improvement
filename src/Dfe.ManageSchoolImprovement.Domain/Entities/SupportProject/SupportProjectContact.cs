@@ -20,8 +20,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             CreatedBy = author;
             CreatedOn = createOn;
             SupportProjectId = supportProjectId;
-        } 
-        public SupportProjectContactId Id { get; private set; }
+        }
+
+        public SupportProjectContactId? Id { get; private set; }
         public SupportProjectId SupportProjectId { get; private set; }
 
         public string Name { get; private set; }

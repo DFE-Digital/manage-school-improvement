@@ -9,7 +9,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         public void SetContact_ShouldUpdateContactAndModificationProperties()
         {
             // Arrange
-            var id = new SupportProjectContactId(Guid.NewGuid()); 
             var supportProjectId = new SupportProjectId(1);
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
             var name = "John";

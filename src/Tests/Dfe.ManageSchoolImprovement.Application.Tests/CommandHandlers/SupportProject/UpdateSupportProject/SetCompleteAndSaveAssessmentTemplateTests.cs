@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject
 {
-    public class SetCompleteAndSaveAssessmentTemplateTests
+    public class SetCompleteAndSaveInitialDiagnosisTemplateTests
     {
         private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
         private readonly Domain.Entities.SupportProject.SupportProject _mockSupportProject;
         private readonly CancellationToken _cancellationToken;
 
-        public SetCompleteAndSaveAssessmentTemplateTests()
+        public SetCompleteAndSaveInitialDiagnosisTemplateTests()
         {
 
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
@@ -29,14 +29,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var hasTalkToAdviserAboutFindings = true;
             var hasCompleteAssessmentTemplate = true;
 
-            var command = new SetCompleteAndSaveAssessmentTemplateCommand(
+            var command = new SetCompleteAndSaveInitialDiagnosisTemplateCommand(
                 _mockSupportProject.Id,
                 savedAssessmentTemplateInSharePointDate,
                 hasTalkToAdviserAboutFindings,
                 hasCompleteAssessmentTemplate
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var handler = new SetCompleteAndSaveAssessmentTemplateCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new SetCompleteAndSaveInitialDiagnosisTemplateCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -50,14 +50,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetCompleteAndSaveAssessmentTemplateCommand(
+            var command = new SetCompleteAndSaveInitialDiagnosisTemplateCommand(
                 _mockSupportProject.Id,
                 null,
                 null,
                 null
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var handler = new SetCompleteAndSaveAssessmentTemplateCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new SetCompleteAndSaveInitialDiagnosisTemplateCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -75,15 +75,17 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var hasTalkToAdviserAboutFindings = true;
             var hasCompleteAssessmentTemplate = true;
 
-            var command = new SetCompleteAndSaveAssessmentTemplateCommand(
+            var command = new SetCompleteAndSaveInitialDiagnosisTemplateCommand(
                 _mockSupportProject.Id,
                 savedAssessmentTemplateInSharePointDate,
                 hasTalkToAdviserAboutFindings,
                 hasCompleteAssessmentTemplate
             );
-
-            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-            var handler = new SetCompleteAndSaveAssessmentTemplateCommandHandler(_mockSupportProjectRepository.Object);
+            
+            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
+                It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
+            var handler = new SetCompleteAndSaveInitialDiagnosisTemplateCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);

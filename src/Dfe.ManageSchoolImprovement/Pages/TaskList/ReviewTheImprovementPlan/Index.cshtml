@@ -122,7 +122,7 @@
                 <govuk-radiobuttons-input
                     heading-style="govuk-fieldset__legend--m"
                     name="@nameof(Model.FundingBand)"
-                    radio-buttons="@Model.FundingBandOptions"
+                    radio-buttons="@Model.FundingBandOptions()"
                     asp-for="@Model.FundingBand"
                     data-cy="funding-band-radio-buttons"/>
             </div>

@@ -72,7 +72,7 @@
                                       heading-style="govuk-fieldset__legend--m"
                                       error-message="@Model.FundingBandErrorMessage"
                                       name="@nameof(Model.FundingBand)"
-                                      radio-buttons="@Model.FundingBandOptions"
+                                      radio-buttons="@Model.FundingBandOptions()"
                                       asp-for="@Model.FundingBand" />
 
             <div class="govuk-form-group">

@@ -34,9 +34,9 @@ public class HeaderRequirementHandler(IHostEnvironment environment,
 
         //Allow client secret in header
         string authHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString()
-           .Replace("Bearer ", string.Empty);
+            .Replace("Bearer ", string.Empty)!;
 
-        string secret = configuration.GetValue<string>("CypressTestSecret");
+        string secret = configuration.GetValue<string>("CypressTestSecret")!;
 
         if (string.IsNullOrWhiteSpace(authHeader) || string.IsNullOrWhiteSpace(secret))
         {
@@ -52,7 +52,7 @@ public class HeaderRequirementHandler(IHostEnvironment environment,
         if (ClientSecretHeaderValid(environment, httpContextAccessor, configuration))
         {
             context.Succeed(requirement);
-            string headerRole = httpContextAccessor.HttpContext?.Request.Headers["AuthorizationRole"].ToString();
+            string headerRole = httpContextAccessor.HttpContext?.Request.Headers["AuthorizationRole"].ToString()!;
             if (!string.IsNullOrWhiteSpace(headerRole))
             {
                 string[] claims = headerRole.Split(',');

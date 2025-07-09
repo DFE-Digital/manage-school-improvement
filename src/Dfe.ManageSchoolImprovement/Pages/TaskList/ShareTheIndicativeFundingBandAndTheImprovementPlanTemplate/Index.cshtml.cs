@@ -31,7 +31,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public bool? SendTemplate { get; set; }
 
     public string? FundingBandErrorMessage { get; set; }
-    public IList<RadioButtonsLabelViewModel> FundingBandOptions => Enum.GetValues<FundingBand>()
+    public IList<RadioButtonsLabelViewModel> FundingBandOptions() => Enum.GetValues<FundingBand>()
         .Select(band => new RadioButtonsLabelViewModel
         {
             Id = $"funding-band-{band.GetDisplayShortName()}",
@@ -80,10 +80,10 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (result != true)
+        if (!result)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken); ;
+            return await base.GetSupportProject(id, cancellationToken);
         }
 
         TaskUpdated = true;

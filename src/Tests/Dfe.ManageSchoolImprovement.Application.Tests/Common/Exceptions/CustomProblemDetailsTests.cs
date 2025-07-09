@@ -11,7 +11,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Exceptions
         [InlineData(HttpStatusCode.Forbidden, "Forbidden", "https://tools.ietf.org/html/rfc7231#section-6.5.3")]
         [InlineData(HttpStatusCode.BadRequest, "Bad Request", "https://tools.ietf.org/html/rfc7231#section-6.5.1")]
         [InlineData(HttpStatusCode.InternalServerError, "Internal Server Error", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
-        public void Constructor_SetsPropertiesCorrectly_ForSupportedStatusCodes(
+        [InlineData(HttpStatusCode.OK, "An error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
+        [InlineData(HttpStatusCode.Created, "An error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
+        [InlineData(HttpStatusCode.Accepted, "An error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
+        public void Constructor_SetsPropertiesCorrectly_ForSupportedAndUnsupportedStatusCodes(
             HttpStatusCode statusCode, string expectedTitle, string expectedType)
         {
             // Arrange & Act
@@ -21,23 +24,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Exceptions
             Assert.Equal((int)statusCode, problemDetails.Status);
             Assert.Equal(expectedTitle, problemDetails.Title);
             Assert.Equal(expectedType, problemDetails.Type);
-            Assert.Null(problemDetails.Detail); // Detail should be null by default
-        }
-
-        [Theory]
-        [InlineData(HttpStatusCode.OK, "An error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
-        [InlineData(HttpStatusCode.Created, "An error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
-        [InlineData(HttpStatusCode.Accepted, "An error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
-        public void Constructor_SetsDefaultProperties_ForUnsupportedStatusCodes(
-            HttpStatusCode statusCode, string expectedTitle, string expectedType)
-        {
-            // Arrange & Act
-            var problemDetails = new CustomProblemDetails(statusCode);
-
-            // Assert
-            Assert.Equal((int)statusCode, problemDetails.Status);
-            Assert.Equal(expectedTitle, problemDetails.Title); // Default "An error occurred"
-            Assert.Equal(expectedType, problemDetails.Type); // Default URL for unsupported status codes
             Assert.Null(problemDetails.Detail); // Detail should be null by default
         }
 

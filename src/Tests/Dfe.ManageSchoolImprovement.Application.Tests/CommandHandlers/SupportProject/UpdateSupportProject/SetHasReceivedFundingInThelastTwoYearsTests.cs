@@ -47,8 +47,6 @@ public class SetHasReceivedFundingInThelastTwoYearsTests
     public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
     {
         // Arrange
-        bool? hasReceivedFundingInThelastTwoYears = true;
-
         var command = new SetHasReceivedFundingInThelastTwoYearsCommand(
             _mockSupportProject.Id,
             null
@@ -74,7 +72,8 @@ public class SetHasReceivedFundingInThelastTwoYearsTests
             _mockSupportProject.Id,
             hasReceivedFundingInThelastTwoYears
         );
-        _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+        _mockSupportProjectRepository.Setup(repo => 
+            repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
         var setHasReceivedFundingInThelastTwoYearsCommandHandler = new SetHasReceivedFundingInThelastTwoYearsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act

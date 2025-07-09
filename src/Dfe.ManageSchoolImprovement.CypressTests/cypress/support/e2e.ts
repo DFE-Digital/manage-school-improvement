@@ -18,7 +18,6 @@ import { AuthenticationInterceptorParams } from "cypress/auth/authenticationInte
 import "./commands";
 import 'cypress-axe'
 import { RuleObject } from "axe-core";
-import {EnvAuthKey} from "../constants/cypressConstants";
 import registerCypressGrep from '@cypress/grep';
 registerCypressGrep(); 
 
@@ -34,6 +33,7 @@ declare global {
             getByTestId(id: string): Chainable<Element>;
             containsByTestId(id: string): Chainable<Element>;
             getById(id: string): Chainable<Element>;
+            getByCyData(id: string): Chainable<Element>;
             getByClass(className: string): Chainable<Element>;
             getByName(name: string): Chainable<Element>;
             getByRole(role: string): Chainable<Element>;

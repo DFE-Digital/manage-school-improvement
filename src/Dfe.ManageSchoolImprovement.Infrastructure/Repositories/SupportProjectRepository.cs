@@ -22,7 +22,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             IQueryable<SupportProject> queryable = DbSet();
 
             queryable = FilterByRegion(regions, queryable);
-            queryable = FilterByStatus(states, queryable);
             queryable = FilterByKeyword(title, queryable);
             queryable = FilterByAssignedUsers(assignedUsers, queryable);
             queryable = FilterByLocalAuthority(localAuthorities, queryable);
@@ -73,23 +72,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return queryable;
         }
 
-        private static IQueryable<SupportProject> FilterByStatus(IEnumerable<string>? states, IQueryable<SupportProject> queryable)
-        {
-            //if (states != null && states!.Any())
-            //{
-            //    queryable = queryable.Where(p => states.Contains(p.ProjectStatus!.ToLower()));
-            //}
-
-            return queryable;
-        }
-
         private static IQueryable<SupportProject> FilterByKeyword(string? title, IQueryable<SupportProject> queryable)
         {
             if (!string.IsNullOrWhiteSpace(title))
             {
 
-                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title!.ToLower()) ||
-                p.SchoolUrn.ToLower().Contains(title!.ToLower())
+                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) || 
+                                                 p.SchoolUrn.ToLower().Contains(title.ToLower())
                 );
             }
 

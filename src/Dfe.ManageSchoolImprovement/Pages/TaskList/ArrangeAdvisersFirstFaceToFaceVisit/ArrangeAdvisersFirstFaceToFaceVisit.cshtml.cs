@@ -53,7 +53,7 @@ public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryServic
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (result != true)
+        if (!result)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);

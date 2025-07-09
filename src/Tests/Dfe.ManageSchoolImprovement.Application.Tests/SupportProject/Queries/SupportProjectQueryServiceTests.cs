@@ -80,8 +80,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetSupportProject_ShouldReturnMappedDto_WhenProjectExists()
         {
             // Arrange
-            var project = GetSchoolProjects().First();
-            var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects()).First();
+            var project = GetSchoolProjects()[0];
+            var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects())[0];
 
             _mockRepository.Setup(r => r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(project);
 
@@ -207,13 +207,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         private List<Domain.Entities.SupportProject.SupportProject> GetSchoolProjects(int count = 1)
         {
             var projects = new List<Domain.Entities.SupportProject.SupportProject>();
+            for (int i = 0; i < count; i++)
             {
-                for (int i = 0; i < count; i++)
-                {
-                    projects.Add(new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(i + 1), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>()));
-                }
-                return projects;
+                projects.Add(new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(i + 1), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>()));
             }
+            return projects;
         }
 
         private static List<SupportProjectDto> GetSupportProjectDtos(List<Domain.Entities.SupportProject.SupportProject> supportProjects)

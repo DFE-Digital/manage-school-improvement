@@ -32,10 +32,10 @@ public class SetSupportingOrganisationContactDetailsTests
             DateTime.Now
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        var SetSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
+        var setSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
 
         // Act
-        var result = await SetSupportingOrganisationContactDetailsHandler.Handle(command, _cancellationToken);
+        var result = await setSupportingOrganisationContactDetailsHandler.Handle(command, _cancellationToken);
 
         // Verify
         Assert.True(result);
@@ -53,10 +53,10 @@ public class SetSupportingOrganisationContactDetailsTests
             null
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        var SetSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
+        var setSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
 
         // Act
-        var result = await SetSupportingOrganisationContactDetailsHandler.Handle(command, _cancellationToken);
+        var result = await setSupportingOrganisationContactDetailsHandler.Handle(command, _cancellationToken);
 
         // Verify
         Assert.True(result);
@@ -73,11 +73,14 @@ public class SetSupportingOrganisationContactDetailsTests
             "alan@alan.com",
             DateTime.Now
         );
-        _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-        var SetSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
+        _mockSupportProjectRepository.Setup(repo 
+            => repo.FindAsync(
+                It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
+        var setSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
 
         // Act
-        var result = await SetSupportingOrganisationContactDetailsHandler.Handle(command, _cancellationToken);
+        var result = await setSupportingOrganisationContactDetailsHandler.Handle(command, _cancellationToken);
 
         // Verify
         Assert.False(result);

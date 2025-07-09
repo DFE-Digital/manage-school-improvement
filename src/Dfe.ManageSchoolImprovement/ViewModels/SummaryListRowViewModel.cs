@@ -26,12 +26,9 @@ public class SummaryListRowViewModel
         get
         {
             string negativeStyleClass = string.Empty;
-            if (HasValue)
+            if (HasValue && Decimal.TryParse(Value.Replace("ï¿½", ""), out decimal decimalValue))
             {
-                if (Decimal.TryParse(Value.Replace("£", ""), out decimal decimalValue))
-                {
                     negativeStyleClass = HighlightNegativeValue && decimalValue < 0 ? "negative-value" : string.Empty;
-                }
             }
 
             return negativeStyleClass;

@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 
         [BindProperty(Name = "funding-amount")]
         [Required(ErrorMessage = "You must enter the total funding amount")]
-        [RegularExpression(@"^\£?\d+(\.\d{1,2})?$", ErrorMessage = "Funding amount must be a number. It can be a decimal, to represent pounds and pence.")]
+        [RegularExpression(@"^\ï¿½?\d+(\.\d{1,2})?$", ErrorMessage = "Funding amount must be a number. It can be a decimal, to represent pounds and pence.")]
         public decimal? FundingAmount { get; set; }
 
         [BindProperty(Name = "financial-year-input")]
@@ -72,7 +72,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             if (result == null)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); ;
+                return await base.GetSupportProject(id, cancellationToken);
             }
 
             return RedirectToPage(@Links.TaskList.FundingHistoryDetails.Page, new { id });

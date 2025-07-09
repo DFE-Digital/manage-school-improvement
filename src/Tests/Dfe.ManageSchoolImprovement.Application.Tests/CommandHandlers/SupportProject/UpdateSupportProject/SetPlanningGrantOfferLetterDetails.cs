@@ -40,10 +40,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 false
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var SetRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
+            var setRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await SetRequestPlanningGrantOfferLetterDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result = await setRequestPlanningGrantOfferLetterDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.True(result);
@@ -57,10 +57,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetRequestPlanningGrantOfferLetterDetailsCommand(_mockSupportProject.Id, null, false, false, false, false);
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var SetRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
+            var setRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await SetRequestPlanningGrantOfferLetterDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result = await setRequestPlanningGrantOfferLetterDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.True(result);
@@ -81,11 +81,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 false,
                 false
             );
-            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-            var SetRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
+            _mockSupportProjectRepository.Setup(repo => 
+                repo.FindAsync(
+                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                    It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
+            var setRequestPlanningGrantOfferLetterDetailsCommandHandler = new SetRequestPlanningGrantOfferLetterDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await SetRequestPlanningGrantOfferLetterDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result = await setRequestPlanningGrantOfferLetterDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.False(result);

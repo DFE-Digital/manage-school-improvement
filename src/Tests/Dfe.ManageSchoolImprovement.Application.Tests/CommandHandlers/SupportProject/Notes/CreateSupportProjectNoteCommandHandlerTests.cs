@@ -53,9 +53,9 @@ public class CreateSupportProjectNoteCommandHandlerTests
     public async Task Handle_EmptyCommand_CreateNote()
     {
         var command = new CreateSupportProjectNote.CreateSupportProjectNoteCommand(
-            null,
-            null,
-            null
+            null!,
+            null!,
+            null!
         );
         
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);

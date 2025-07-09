@@ -86,11 +86,11 @@ public class SetAdviserConflictOfInterestDetailsTests
             dateConflictsOfInterestWereChecked
         );
 
-        _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-        var SetAdviserConflictOfInterestDetailsCommandHandler = new SetAdviserConflictOfInterestDetailsHandler(_mockSupportProjectRepository.Object);
+        _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
+        var setAdviserConflictOfInterestDetailsCommandHandler = new SetAdviserConflictOfInterestDetailsHandler(_mockSupportProjectRepository.Object);
 
         // Act
-        var result = await SetAdviserConflictOfInterestDetailsCommandHandler.Handle(command, _cancellationToken);
+        var result = await setAdviserConflictOfInterestDetailsCommandHandler.Handle(command, _cancellationToken);
 
         // Verify
         Assert.False(result);
