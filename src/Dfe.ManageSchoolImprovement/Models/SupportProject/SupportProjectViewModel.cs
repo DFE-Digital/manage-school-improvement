@@ -10,39 +10,39 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime CreatedOn { get; set; }
 
-        public string SchoolName { get; set; }
+        public string SchoolName { get; set; } = string.Empty;
 
-        public string SchoolUrn { get; set; }
+        public string SchoolUrn { get; set; } = string.Empty;
 
-        public string LocalAuthority { get; set; }
+        public string LocalAuthority { get; set; } = string.Empty;
 
-        public string Region { get; set; }
+        public string Region { get; set; } = string.Empty;
 
-        public string Diocese { get; set; }
+        public string Diocese { get; set; } = string.Empty;
 
-        public string SchoolPhase { get; set; }
-        public string? SchoolType { get; set; }
+        public string SchoolPhase { get; set; } = string.Empty;
+        
+        public string SchoolType { get; set; } = string.Empty;
 
-        public string ReligiousCharacter { get; set; }
+        public string ReligiousCharacter { get; set; } = string.Empty;
+        
+        public string NumbersOnRoll { get; set; } = string.Empty;
 
+        public string AssignedDeliveryOfficerFullName { get; set; } = string.Empty;
 
-        public string NumbersOnRoll { get; set; }
+        public string AssignedDeliveryOfficerEmailAddress { get; set; } = string.Empty;
 
-        public string AssignedDeliveryOfficerFullName { get; set; }
+        public string QualityOfEducation { get; set; } = string.Empty;
 
-        public string AssignedDeliveryOfficerEmailAddress { get; set; }
+        public string BehaviourAndAttitudes { get; set; } = string.Empty;
 
-        public string QualityOfEducation { get; set; }
+        public string PersonalDevelopment { get; set; } = string.Empty;
 
-        public string BehaviourAndAttitudes { get; set; }
+        public string LeadershipAndManagement { get; set; } = string.Empty;
 
-        public string PersonalDevelopment { get; set; }
+        public string OftedReportWeblink { get; set; } = string.Empty;
 
-        public string LeadershipAndManagement { get; set; }
-
-        public string OftedReportWeblink { get; set; }
-
-        public string LastInspectionDate { get; set; }
+        public string LastInspectionDate { get; set; } = string.Empty;
 
         public bool? DiscussTheBestApproach { get; private set; }
 
@@ -58,9 +58,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
 
-        public IEnumerable<SupportProjectNote> Notes { get; set; }
+        public IEnumerable<SupportProjectNote>? Notes { get; set; }
 
-        public IEnumerable<SupportProjectContact> Contacts { get; set; }
+        public IEnumerable<SupportProjectContact>? Contacts { get; set; }
 
         public DateTime? SchoolResponseDate { get; set; }
 
@@ -147,7 +147,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
         public bool? HasReceivedFundingInThelastTwoYears { get; set; }
         public bool? FundingHistoryDetailsComplete { get; set; }
-        public IEnumerable<FundingHistoryViewModel> FundingHistories { get; set; }
+        public IEnumerable<FundingHistoryViewModel>? FundingHistories { get; set; }
 
         public string? SchoolIsNotEligibleNotes { get; set; }
         public SupportProjectStatus? SupportProjectStatus { get; set; }

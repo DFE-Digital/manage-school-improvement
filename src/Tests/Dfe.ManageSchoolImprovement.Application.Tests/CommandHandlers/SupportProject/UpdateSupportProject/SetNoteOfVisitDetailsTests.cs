@@ -81,11 +81,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 askTheAdviserToSendYouTheirNotes,
                 dateNoteOfVisitSavedInSharePoint
             );
-            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-            var SetNoteOfVisitDetailsCommandHandler = new SetNoteOfVisitDetailsCommandHandler(_mockSupportProjectRepository.Object);
+            _mockSupportProjectRepository.Setup(repo => 
+                repo.FindAsync(
+                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                    It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
+            var setNoteOfVisitDetailsCommandHandler = new SetNoteOfVisitDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await SetNoteOfVisitDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result = await setNoteOfVisitDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.False(result);

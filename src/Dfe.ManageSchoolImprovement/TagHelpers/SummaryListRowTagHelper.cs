@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.TagHelpers;
 public class SummaryListRowTagHelper(IHtmlHelper htmlHelper) : InputTagHelperBase(htmlHelper)
 {
     [HtmlAttributeName("value")]
-    public string Value { get; set; }
+    public string Value { get; set; } = string.Empty;
 
     [HtmlAttributeName("value-link")]
     public string ValueLink { get; set; }

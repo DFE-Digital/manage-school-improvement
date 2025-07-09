@@ -78,11 +78,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 adviserEmailAddress
             );
 
-            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
-            var SetAdviserDetailsCommandHandler = new SetAdviserDetailsCommandHandler(_mockSupportProjectRepository.Object);
+            _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
+                It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
+            
+            var setAdviserDetailsCommandHandler = new SetAdviserDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await SetAdviserDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result = await setAdviserDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.False(result);

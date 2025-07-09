@@ -11,7 +11,7 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
     protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
     protected readonly IGetEstablishment _getEstablishment = getEstablishment;
     protected readonly ErrorService _errorService = errorService;
-    public SupportProjectViewModel SupportProject { get; set; }
+    public SupportProjectViewModel? SupportProject { get; set; }
 
     public virtual async Task<IActionResult> GetSupportProject(int id, CancellationToken cancellationToken)
     {

@@ -18,7 +18,6 @@ import { AuthenticationInterceptorParams } from "cypress/auth/authenticationInte
 import "./commands";
 import 'cypress-axe'
 import { RuleObject } from "axe-core";
-import {EnvAuthKey} from "../constants/cypressConstants";
 import registerCypressGrep from '@cypress/grep';
 registerCypressGrep(); 
 
