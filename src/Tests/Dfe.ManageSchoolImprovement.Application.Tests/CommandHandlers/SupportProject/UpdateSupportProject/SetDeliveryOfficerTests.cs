@@ -71,7 +71,9 @@ public class SetDeliveryOfficerTests
             "Dave Dave",
             "dave.dave@example.com"
         );
-        _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null);
+        _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
+            It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+            It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
         var setDeliveryOfficerCommandHandler = new SetDeliveryOfficer.SetDeliveryOfficerCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act

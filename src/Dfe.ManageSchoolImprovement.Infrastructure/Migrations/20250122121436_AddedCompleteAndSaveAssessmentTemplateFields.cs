@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedCompleteAndSaveInitialDiagnosisTemplateFields : Migration
+    public partial class AddedCompleteAndSaveAssessmentTemplateFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

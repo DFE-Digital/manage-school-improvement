@@ -27,7 +27,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Authorization
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     {"CypressTestSecret", "valid-secret"}
-                })
+                }!)
                 .Build();
 
             _handler = new TestableHeaderRequirementHandler(_mockEnvironment.Object, _mockHttpContextAccessor.Object, _configuration);
@@ -41,7 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Authorization
             // Arrange
             _mockEnvironment.Setup(env => env.EnvironmentName).Returns("Development");
             var context = new DefaultHttpContext();
-            context.Request.Headers["Authorization"] = "Bearer valid-secret";
+            context.Request.Headers.Authorization = "Bearer valid-secret";
             _mockHttpContextAccessor.Setup(h => h.HttpContext).Returns(context);
  
             // Act
@@ -57,7 +57,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Authorization
             // Arrange
             _mockEnvironment.Setup(env => env.EnvironmentName).Returns("Development");
             var context = new DefaultHttpContext();
-            context.Request.Headers["Authorization"] = "Bearer invalid-secret";
+            context.Request.Headers.Authorization = "Bearer invalid-secret";
             _mockHttpContextAccessor.Setup(h => h.HttpContext).Returns(context); 
 
             // Act
@@ -92,7 +92,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Authorization
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     {"CypressTestSecret", ""}
-                })
+                }!)
                 .Build(); 
 
             // Act
@@ -108,7 +108,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Authorization
             // Arrange
             _mockEnvironment.Setup(env => env.EnvironmentName).Returns("Development");
             var context = new DefaultHttpContext();
-            context.Request.Headers["Authorization"] = "Bearer valid-secret";
+            context.Request.Headers.Authorization = "Bearer valid-secret";
             _mockHttpContextAccessor.Setup(h => h.HttpContext).Returns(context); 
 
             // Act

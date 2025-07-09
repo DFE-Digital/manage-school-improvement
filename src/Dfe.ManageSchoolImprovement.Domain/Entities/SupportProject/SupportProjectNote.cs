@@ -19,7 +19,7 @@ public class SupportProjectNote : BaseAggregateRoot, IEntity<SupportProjectNoteI
         SupportProjectId = supportProjectId;
     }
     
-    public SupportProjectId SupportProjectId { get; private set; }
+    public SupportProjectId? SupportProjectId { get; private set; }
     public SupportProjectNoteId Id { get; private set; }
     public string Note { get; private set; }
     public DateTime CreatedOn { get; set; }
