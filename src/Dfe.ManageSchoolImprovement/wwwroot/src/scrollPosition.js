@@ -56,6 +56,12 @@
     // Track page visits
     function addToHistory(path) {
         const history = getNavigationHistory();
+
+        // Don't add if it's the same as the last entry
+        if (history.length > 0 && history[history.length - 1] === path) {
+            return;
+        }
+
         history.push(path);
         if (history.length > MAX_HISTORY) {
             history.shift();
