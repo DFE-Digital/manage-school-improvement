@@ -24,18 +24,18 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel SupportProject)
+    public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel supportProject)
     {
-        if (SupportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
-            SupportProject.HasAcknowledgedAndWillEngage.Equals(true) &&
-            SupportProject.SchoolResponseDate.HasValue)
+        if (supportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
+            supportProject.HasAcknowledgedAndWillEngage.HasValue &&
+            supportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (!SupportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
-            !SupportProject.HasAcknowledgedAndWillEngage.HasValue &&
-            !SupportProject.SchoolResponseDate.HasValue)
+        if (!supportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
+            !supportProject.HasAcknowledgedAndWillEngage.HasValue &&
+            !supportProject.SchoolResponseDate.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
