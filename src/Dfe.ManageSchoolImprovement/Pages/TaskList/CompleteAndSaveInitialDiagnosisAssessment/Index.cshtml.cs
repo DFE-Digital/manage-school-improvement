@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc; 
 using System.ComponentModel.DataAnnotations;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveInitialDiagnosisTemplate
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveInitialDiagnosisAssessment
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
     {
