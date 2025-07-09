@@ -74,7 +74,8 @@
                                         <a class="govuk-link govuk-!-padding-left-50 change-link"
                                            asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" 
                                            asp-route-id="@Model.SupportProject.Id"
-                                           asp-route-changelinkclicked="true">
+                                           asp-route-changelinkclicked="true"
+                                           asp-route-returnpage="@Links.EngagementConcern.Index.Page">
                                             Change<span class="govuk-visually-hidden">Change</span>
                                         </a>
                                     </dd>
@@ -90,7 +91,8 @@
                                         <a class="govuk-link govuk-!-padding-left-50 change-link"
                                            asp-page="@Links.EngagementConcern.DateOfDecision.Page" 
                                            asp-route-id="@Model.SupportProject.Id"
-                                           asp-route-changelinkclicked="true">
+                                           asp-route-changelinkclicked="true"
+                                           asp-route-returnpage="@Links.EngagementConcern.Index.Page">
                                             Change<span class="govuk-visually-hidden">Change</span>
                                         </a>
                                     </dd>
