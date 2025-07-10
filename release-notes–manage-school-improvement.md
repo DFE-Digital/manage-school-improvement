@@ -3,6 +3,20 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.12.0] - Q2 – Sprint 1 (Part 1) - 2025-07-10
+
+### 📌 User Stories
+
+- **221257** - Maintain user scroll position
+- **219334** - Adjust "Complete and save the assessment template" to include explicit references to Assessment Tool 1
+- **219832** - Change link behaviour for Escalate an Engagement concern
+
+### 🐛 Bug Fixes
+
+- **223413** - Record the responsible body's response task name and title is not displaying correct
+
+---
+
 ## 📅 [v0.11.2] - Q1 – Sprint 6 (Part 3) - 2025-07-01
 
 ### 🐛 Bug Fixes
