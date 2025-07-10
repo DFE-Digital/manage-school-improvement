@@ -288,9 +288,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         RemindAdviserToCopyRiseTeamWhenSentEmail = remindAdviserToCopyRiseTeamWhenSentEmail;
     }
 
-    public void SetAdviserVisitDate(DateTime? adviserVisitDate)
+    public void SetAdviserVisitDate(DateTime? adviserVisitDate, bool? giveTheAdviserTheNoteOfVisitTemplate)
     {
         AdviserVisitDate = adviserVisitDate;
+        GiveTheAdviserTheNoteOfVisitTemplate = giveTheAdviserTheNoteOfVisitTemplate;
     }
 
     public void SetCompleteAndSaveInitialDiagnosisTemplate(DateTime? savedAssessmentTemplateInSharePointDate, bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate)

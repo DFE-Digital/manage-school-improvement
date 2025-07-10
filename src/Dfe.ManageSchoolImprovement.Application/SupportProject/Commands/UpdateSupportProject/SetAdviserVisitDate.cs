@@ -6,7 +6,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
 
 public record SetAdviserVisitDateCommand(
     SupportProjectId SupportProjectId,
-    DateTime? AdviserVisitDate
+    DateTime? AdviserVisitDate,
+    bool? GiveTheAdviserTheNoteOfVisitTemplate
 ) : IRequest<bool>;
 
 public class SetAdviserVisitDate
@@ -24,7 +25,7 @@ public class SetAdviserVisitDate
                 return false;
             }
             
-            supportProject.SetAdviserVisitDate(request.AdviserVisitDate);
+            supportProject.SetAdviserVisitDate(request.AdviserVisitDate, request.GiveTheAdviserTheNoteOfVisitTemplate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
