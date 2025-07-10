@@ -14,7 +14,7 @@ describe("User navigates to the Ofsted Reports Page", () => {
         cy.executeAccessibilityTests()
     });
 
-    it.only("should display all the fields in the Most recent and Previous Ofsted report section", () => {
+    it("should display all the fields in the Most recent and Previous Ofsted report section", () => {
         Logger.log("check most recent and previous ofsted report section");
         ofstedReports.hasMostRecentOfstedReportSection()
         ofstedReports.hasPreviousOfstedReportSection()
