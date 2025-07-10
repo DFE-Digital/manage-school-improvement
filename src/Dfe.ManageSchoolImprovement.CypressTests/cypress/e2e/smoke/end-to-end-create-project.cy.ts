@@ -127,14 +127,14 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm_responsible_body_status");
     
-    Logger.log("Selecting 'Record the school's response' task");
-    taskList.selectTask("Record the school's response");
+    Logger.log("Selecting 'Record the responsible body's response' task");
+    taskList.selectTask("Record the responsible body's response");
     taskListActions.hasHeader("Record the responsible body's response");
     taskListActions.selectButtonOrCheckbox("acknowledged");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("record-school-response_status");
-    taskList.selectTask("Record the school's response");
+    taskList.selectTask("Record the responsible body's response");
     taskListActions.selectButtonOrCheckbox("has-saved-school-response-in-sharepoint");
     taskListActions.enterDate("school-response-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
@@ -209,14 +209,14 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("note-of-visit_status");
 
-    Logger.log("Selecting 'Complete and save the assessment template' task");
-    taskList.selectTask("Complete and save the assessment template");
-    taskListActions.hasHeader("Complete and save the assessment template");
+    Logger.log("Selecting 'Complete and save the initial diagnosis assessment' task");
+    taskList.selectTask("Complete and save the initial diagnosis assessment");
+    taskListActions.hasHeader("Complete and save the initial diagnosis assessment");
     taskListActions.selectButtonOrCheckbox("has-talk-to-adviser");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("complate-save-assessment-template_status");
-    taskList.selectTask("Complete and save the assessment template");
+    taskList.selectTask("Complete and save the initial diagnosis assessment");
     taskListActions.selectButtonOrCheckbox("complete-assessment-template");
     taskListActions.enterDate("saved-assessemnt-template-in-sharepoint-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");

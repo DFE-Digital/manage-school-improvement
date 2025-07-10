@@ -79,14 +79,14 @@ class TaskList {
     cy.contains('Confirm eligibility');
     cy.contains('Enter the funding history');
     cy.contains('Contact the responsible body');
-    cy.contains('Record the school\'s response');
+    cy.contains('Record the responsible body\'s response');
     cy.contains('Check potential adviser conflicts of interest');
     cy.contains('Allocate an adviser');
     cy.contains('Send introductory email');
     cy.contains("Arrange adviser's initial visit");
     cy.contains('Record date of initial visit');
     cy.contains('Write and save the Note of Visit');
-    cy.contains('Complete and save the assessment template');
+    cy.contains('Complete and save the initial diagnosis assessment');
     cy.contains('Record matching decision');
     cy.contains('Choose preferred supporting organisation');
     cy.contains('Carry out due diligence on preferred supporting organisation');
