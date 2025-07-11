@@ -182,6 +182,11 @@ describe("User completes their newly created project", () => {
     Logger.log("Selecting 'Arrange adviser's initial visit' task");
     taskList.selectTask("Arrange adviser's initial visit");
     taskListActions.hasHeader("Arrange adviser's initial visit");
+    taskListActions.selectButtonOrCheckbox("confirm-adviser-has-note-of-visit-template");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusInProgress("adviser-school-visit_status");
+    taskList.selectTask("Arrange adviser's initial visit");
     taskListActions.enterDate("adviser-visit-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
