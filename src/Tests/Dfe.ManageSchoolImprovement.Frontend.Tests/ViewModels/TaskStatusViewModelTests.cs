@@ -97,28 +97,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus> NoteOfVsistTaskListStatusCases = new()
-        {
-            {null, null, null, TaskListStatus.NotStarted },
-            {false, false, null, TaskListStatus.InProgress },
-            {false, true, null, TaskListStatus.InProgress},
-            {true, true, DateTime.Now, TaskListStatus.Complete }
-        };
-
-        [Theory, MemberData(nameof(NoteOfVsistTaskListStatusCases))]
-        public void NoteOfVsistTaskListStatusShouldReturnCorrectStatus(bool? askTheAdviserToSendYouTheirNotes, bool? giveTheAdviserTheNoteOfVisitTemplate, DateTime? dateNoteOfVisitSavedInSharePoint, TaskListStatus expectedTaskListStatus)
-        {
-            // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, GiveTheAdviserTheNoteOfVisitTemplate: giveTheAdviserTheNoteOfVisitTemplate,
-                AskTheAdviserToSendYouTheirNotes: askTheAdviserToSendYouTheirNotes, DateNoteOfVisitSavedInSharePoint: dateNoteOfVisitSavedInSharePoint));
-
-            //Action 
-            var taskListStatus = TaskStatusViewModel.NoteOfVsistTaskListStatus(supportProjectModel);
-
-            //Assert
-            Assert.Equal(expectedTaskListStatus, taskListStatus);
-        }
-
         public static readonly TheoryData<bool?, bool?, bool?, DateTime?, TaskListStatus> CheckThePotentialAdviserConflictsOfInterestTaskListStatusCases = new()
         {
             {null, null, null, null, TaskListStatus.NotStarted },
