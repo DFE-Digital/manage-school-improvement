@@ -91,10 +91,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? GiveTheAdviserTheNoteOfVisitTemplate { get; private set; }
 
-    public bool? AskTheAdviserToSendYouTheirNotes { get; private set; }
-
-    public DateTime? DateNoteOfVisitSavedInSharePoint { get; private set; }
-
     public DateTime? SchoolVisitDate { get; private set; }
 
     public DateTime? DateSupportOrganisationChosen { get; private set; }
