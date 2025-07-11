@@ -26,7 +26,13 @@
         <p class="govuk-body">The length of the visit may change depending on the needs of the school.</p>
         
     <form method="post" novalidate>
-            <govuk-date-input heading-label="false" label="Enter planned date of visit" id="adviser-visit-date" name="adviser-visit-date" asp-for="@Model.AdviserVisitDate" hint="For example, 1 7 2024." />
+        <govuk-checkbox-input 
+            label="Confirm the adviser has the note of visit template" 
+            id="confirm-adviser-has-note-of-visit-template" 
+            name="confirm-adviser-has-note-of-visit-template" 
+            asp-for="@Model.ConfirmAdviserHasNoteOfVisitTemplate" />
+
+        <govuk-date-input heading-label="false" label="Enter planned date of visit" id="adviser-visit-date" name="adviser-visit-date" asp-for="@Model.AdviserVisitDate" hint="For example, 1 7 2024." />
         <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
             Save and return
         </button>

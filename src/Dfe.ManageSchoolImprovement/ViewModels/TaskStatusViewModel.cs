@@ -103,12 +103,19 @@ public static class TaskStatusViewModel
 
     public static TaskListStatus AdviserVisitToSchoolTaskListStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.AdviserVisitDate.HasValue)
+        if (supportProject.AdviserVisitDate.HasValue
+            && supportProject.GiveTheAdviserTheNoteOfVisitTemplate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        return TaskListStatus.NotStarted;
+        if (!supportProject.AdviserVisitDate.HasValue
+            && !supportProject.GiveTheAdviserTheNoteOfVisitTemplate.HasValue)
+        {
+            return TaskListStatus.NotStarted;
+        }
+
+        return TaskListStatus.InProgress;
     }
 
     public static TaskListStatus CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProjectViewModel supportProject)

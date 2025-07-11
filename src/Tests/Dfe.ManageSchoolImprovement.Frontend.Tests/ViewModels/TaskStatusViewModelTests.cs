@@ -162,17 +162,23 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, TaskListStatus> AdviserVisitToSchoolTaskListStatusCases = new()
+        public static readonly TheoryData<DateTime?, bool?, TaskListStatus> AdviserVisitToSchoolTaskListStatusCases = new()
         {
-            {null, TaskListStatus.NotStarted },
-            {DateTime.Now, TaskListStatus.Complete }
+            {null, null, TaskListStatus.NotStarted },
+            {DateTime.Now, true, TaskListStatus.Complete },
+            {DateTime.Now, null, TaskListStatus.InProgress},
+            {null, true, TaskListStatus.InProgress}
         };
 
         [Theory, MemberData(nameof(AdviserVisitToSchoolTaskListStatusCases))]
-        public void AdviserVisitToSchoolTaskListStatusShouldReturnCorrectStatus(DateTime? adviserVisitDate, TaskListStatus expectedTaskListStatus)
+        public void AdviserVisitToSchoolTaskListStatusShouldReturnCorrectStatus(DateTime? adviserVisitDate, bool? giveTheAdviserTheNoteOfVisitTemplate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, AdviserVisitDate: adviserVisitDate));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(
+                1, 
+                DateTime.Now, 
+                AdviserVisitDate: adviserVisitDate, 
+                GiveTheAdviserTheNoteOfVisitTemplate: giveTheAdviserTheNoteOfVisitTemplate));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(supportProjectModel);

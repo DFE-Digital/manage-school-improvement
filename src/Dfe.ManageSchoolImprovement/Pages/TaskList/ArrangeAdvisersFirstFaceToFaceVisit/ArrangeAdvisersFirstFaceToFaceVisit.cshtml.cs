@@ -11,6 +11,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ArrangeAdvisersFir
 
 public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
+    [BindProperty(Name = "confirm-adviser-has-note-of-visit-template")]
+    public bool? ConfirmAdviserHasNoteOfVisitTemplate { get; set; }
 
     [BindProperty(Name = "adviser-visit-date", BinderType = typeof(DateInputModelBinder))]
     [Display(Name = "Adviser visit date")]
@@ -34,6 +36,7 @@ public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryServic
         await base.GetSupportProject(id, cancellationToken);
 
         AdviserVisitDate = SupportProject.AdviserVisitDate ?? null;
+        ConfirmAdviserHasNoteOfVisitTemplate = SupportProject.GiveTheAdviserTheNoteOfVisitTemplate ?? null;
 
         return Page();
     }
@@ -49,7 +52,7 @@ public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryServic
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetAdviserVisitDateCommand(new SupportProjectId(id), AdviserVisitDate);
+        var request = new SetAdviserVisitDateCommand(new SupportProjectId(id), AdviserVisitDate, ConfirmAdviserHasNoteOfVisitTemplate);
 
         var result = await mediator.Send(request, cancellationToken);
 
