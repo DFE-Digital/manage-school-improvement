@@ -227,29 +227,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void SetNoteOfVisit_WithValidDetails_SetsTheCorrectProperties()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-
-            bool? giveTheAdviserTheNoteOfVisitTemplate = false;
-            bool? askTheAdviserToSendYouTheirNotes = false;
-            DateTime? dateNoteOfVisitSavedInSharePoint = DateTime.UtcNow;
-
-            // Act
-            supportProject.SetNoteOfVisitDetails(
-                giveTheAdviserTheNoteOfVisitTemplate,
-                askTheAdviserToSendYouTheirNotes,
-                dateNoteOfVisitSavedInSharePoint);
-
-            // Assert
-            supportProject.GiveTheAdviserTheNoteOfVisitTemplate.Should().Be(giveTheAdviserTheNoteOfVisitTemplate);
-            supportProject.AskTheAdviserToSendYouTheirNotes.Should().Be(askTheAdviserToSendYouTheirNotes);
-            supportProject.DateNoteOfVisitSavedInSharePoint.Should().Be(dateNoteOfVisitSavedInSharePoint);
-            mockRepository.VerifyAll();
-        }
-
-        [Fact]
         public void SetRecordSupportDecision_SetsTheCorrectProperties()
         {
             // Arrange

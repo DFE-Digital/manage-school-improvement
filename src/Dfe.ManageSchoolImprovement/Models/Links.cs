@@ -64,7 +64,6 @@ public static class Links
         public static readonly LinkItem SendIntroductoryEmail = AddLinkItem(backText: "Back", page: "/TaskList/SendIntroductoryEmail/Index");
         public static readonly LinkItem ArrangeAdvisersFirstFaceToFaceVisit = AddLinkItem(backText: "Back", page: "/TaskList/ArrangeAdvisersFirstFaceToFaceVisit/ArrangeAdvisersFirstFaceToFaceVisit");
         public static readonly LinkItem CompleteAndSaveInitialDiagnosisAssessment = AddLinkItem(backText: "Back", page: "/TaskList/CompleteAndSaveInitialDiagnosisAssessment/Index");
-        public static readonly LinkItem NoteOfVisit = AddLinkItem(backText: "Back", page: "/TaskList/NoteOfVisit/NoteOfVisit");
         public static readonly LinkItem RecordVisitDateToVisitSchool = AddLinkItem(backText: "Back", page: "/TaskList/RecordVisitDateToVisitSchool/Index");
         public static readonly LinkItem ChoosePreferredSupportingOrganisation = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/Index");
         public static readonly LinkItem RecordMatchingDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordMatchingDecision/Index");
