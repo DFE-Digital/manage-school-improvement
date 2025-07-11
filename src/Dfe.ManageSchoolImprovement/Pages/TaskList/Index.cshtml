@@ -151,16 +151,6 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-note-of-visit">
-                        <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.NoteOfVisit.Page" asp-route-id="@Model.SupportProject.Id" data-cy="note-of-visit" aria-describedby="note-of-visit_status">
-                            Write and save the Note of Visit
-                        </a>
-                    </div>
-                    <div class="govuk-task-list__status" id="note-of-visit_status">
-                        <partial name="Shared/_TaskListStatus" model="@Model.NoteOfVisitTaskListStatus" />
-                    </div>
-                </li>
-                <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.CompleteAndSaveInitialDiagnosisAssessment.Page" asp-route-id="@Model.SupportProject.Id" data-cy="complate-save-assessment-template" aria-describedby="complate-save-assessment-template_status">
                             Complete and save the initial diagnosis assessment

@@ -306,15 +306,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SchoolVisitDate = schoolVisitDate;
     }
 
-    public void SetNoteOfVisitDetails(bool? giveTheAdviserTheNoteOfVisitTemplate,
-                                      bool? askTheAdviserToSendYouTheirNotes,
-                                      DateTime? dateNoteOfVisitSavedInSharePoint)
-    {
-        GiveTheAdviserTheNoteOfVisitTemplate = giveTheAdviserTheNoteOfVisitTemplate;
-        AskTheAdviserToSendYouTheirNotes = askTheAdviserToSendYouTheirNotes;
-        DateNoteOfVisitSavedInSharePoint = dateNoteOfVisitSavedInSharePoint;
-    }
-
     public void SetChoosePreferredSupportOrganisation(DateTime? dateSupportOrganisationChosen,
         string? supportOrganisationName,
         string? supportOrganisationIdNumber,
