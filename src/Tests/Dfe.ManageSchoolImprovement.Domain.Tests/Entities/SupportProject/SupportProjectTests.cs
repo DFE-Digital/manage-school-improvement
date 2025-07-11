@@ -213,13 +213,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
 
             DateTime? adviserVisitDate = DateTime.UtcNow;
+            bool? giveAdviserNoteOfVisitTemplate = true;
 
             // Act
             supportProject.SetAdviserVisitDate(
-                adviserVisitDate);
+                adviserVisitDate,
+                giveAdviserNoteOfVisitTemplate);
 
             // Assert
             supportProject.AdviserVisitDate.Should().Be(adviserVisitDate);
+            supportProject.GiveTheAdviserTheNoteOfVisitTemplate.Should().Be(giveAdviserNoteOfVisitTemplate);
             this.mockRepository.VerifyAll();
         }
 
