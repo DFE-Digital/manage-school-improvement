@@ -182,6 +182,11 @@ describe("User completes their newly created project", () => {
     Logger.log("Selecting 'Arrange adviser's initial visit' task");
     taskList.selectTask("Arrange adviser's initial visit");
     taskListActions.hasHeader("Arrange adviser's initial visit");
+    taskListActions.selectButtonOrCheckbox("confirm-adviser-has-note-of-visit-template");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusInProgress("adviser-school-visit_status");
+    taskList.selectTask("Arrange adviser's initial visit");
     taskListActions.enterDate("adviser-visit-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -194,20 +199,6 @@ describe("User completes their newly created project", () => {
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-school-visit-date_status");
-
-    Logger.log("Selecting 'Write and save the Note of Visit' task");
-    taskList.selectTask("Write and save the Note of Visit");
-    taskListActions.hasHeader("Write and save the Note of Visit");
-    taskListActions.selectButtonOrCheckbox("give-the-adviser-the-note-of-visit-template");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusInProgress("note-of-visit_status");
-    taskList.selectTask("Write and save the Note of Visit");
-    taskListActions.selectButtonOrCheckbox("ask-the-adviser-to-send-you-their-notes");
-    taskListActions.enterDate("enter-date-note-of-visit-saved-in-sharepoint", "01", "01", "2024");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusCompleted("note-of-visit_status");
 
     Logger.log("Selecting 'Complete and save the initial diagnosis assessment' task");
     taskList.selectTask("Complete and save the initial diagnosis assessment");
