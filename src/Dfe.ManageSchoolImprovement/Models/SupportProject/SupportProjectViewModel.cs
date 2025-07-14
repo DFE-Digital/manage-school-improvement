@@ -78,8 +78,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? AdviserVisitDate { get; set; }
         public bool? GiveTheAdviserTheNoteOfVisitTemplate { get; private set; }
-        public bool? AskTheAdviserToSendYouTheirNotes { get; private set; }
-        public DateTime? DateNoteOfVisitSavedInSharePoint { get; private set; }
 
         public DateTime? SavedAssessmentTemplateInSharePointDate { get; set; }
 
@@ -212,8 +210,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 HasCompleteAssessmentTemplate = supportProjectDto.HasCompleteAssessmentTemplate,
                 AdviserVisitDate = supportProjectDto.AdviserVisitDate,
                 GiveTheAdviserTheNoteOfVisitTemplate = supportProjectDto.GiveTheAdviserTheNoteOfVisitTemplate,
-                AskTheAdviserToSendYouTheirNotes = supportProjectDto.AskTheAdviserToSendYouTheirNotes,
-                DateNoteOfVisitSavedInSharePoint = supportProjectDto.DateNoteOfVisitSavedInSharePoint,
                 SchoolVisitDate = supportProjectDto.SchoolVisitDate,
                 DateSupportOrganisationChosen = supportProjectDto.DateSupportOrganisationChosen,
                 SupportOrganisationName = supportProjectDto.SupportOrganisationName,

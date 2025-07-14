@@ -37,8 +37,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 HasTalkToAdviserAboutFindings: true,
                 HasCompleteAssessmentTemplate: true,
                 GiveTheAdviserTheNoteOfVisitTemplate: true,
-                AskTheAdviserToSendYouTheirNotes: true,
-                DateNoteOfVisitSavedInSharePoint: DateTime.Now,
                 SchoolVisitDate: DateTime.Now,
                 DateSupportOrganisationChosen: DateTime.Now,
                 SupportOrganisationName: "Support Org",
@@ -104,8 +102,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.HasCompleteAssessmentTemplate, viewModel.HasCompleteAssessmentTemplate);
             Assert.Equal(supportProjectDto.AdviserVisitDate, viewModel.AdviserVisitDate);
             Assert.Equal(supportProjectDto.GiveTheAdviserTheNoteOfVisitTemplate, viewModel.GiveTheAdviserTheNoteOfVisitTemplate);
-            Assert.Equal(supportProjectDto.AskTheAdviserToSendYouTheirNotes, viewModel.AskTheAdviserToSendYouTheirNotes);
-            Assert.Equal(supportProjectDto.DateNoteOfVisitSavedInSharePoint, viewModel.DateNoteOfVisitSavedInSharePoint);
             Assert.Equal(supportProjectDto.SchoolVisitDate, viewModel.SchoolVisitDate);
             Assert.Equal(supportProjectDto.DateSupportOrganisationChosen, viewModel.DateSupportOrganisationChosen);
             Assert.Equal(supportProjectDto.SupportOrganisationName, viewModel.SupportOrganisationName);
