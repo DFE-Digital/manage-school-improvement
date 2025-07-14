@@ -65,5 +65,9 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="Dfe.ManageSchoolImprovement.Frontend.Tests" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\TaskList\NoteOfVisit\NoteOfVisit.cshtml" />
+	</ItemGroup>
 
 </Project>
