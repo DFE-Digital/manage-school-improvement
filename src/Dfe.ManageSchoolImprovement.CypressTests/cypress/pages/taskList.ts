@@ -85,7 +85,6 @@ class TaskList {
     cy.contains('Send introductory email');
     cy.contains("Arrange adviser's initial visit");
     cy.contains('Record date of initial visit');
-    cy.contains('Write and save the Note of Visit');
     cy.contains('Complete and save the initial diagnosis assessment');
     cy.contains('Record matching decision');
     cy.contains('Choose preferred supporting organisation');
@@ -113,7 +112,6 @@ class TaskList {
     cy.get('#send-introductory-email-request-improvement-plan_status').contains("Not Started");
     cy.get('#adviser-school-visit_status').contains("Not Started");
     cy.get('#record-school-visit-date_status').contains("Not Started");
-    cy.get('#note-of-visit_status').contains("Not Started");
     cy.get('#complate-save-assessment-template_status').contains("Not Started");
     cy.get('#record-support-decision_status').contains('Not Started');
     cy.get('#choose-preferred-supporting-organisation-status').contains('Not Started');
