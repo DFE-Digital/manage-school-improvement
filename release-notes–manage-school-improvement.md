@@ -3,6 +3,15 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.12.1] - Q2 – Sprint 1 (Part 2) - 2025-07-14
+
+### 📌 User Stories
+
+- **223728** - Update 'Arrange adviser's initial visit' task
+- **219435** - Remove the "Write and save the Note of Visit" task
+
+--
+
 ## 📅 [v0.12.0] - Q2 – Sprint 1 (Part 1) - 2025-07-10
 
 ### 📌 User Stories
