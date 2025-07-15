@@ -64,7 +64,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         RecordVisitDateToVisitSchoolTaskListStatus = TaskStatusViewModel.RecordVisitDateToVisitSchoolTaskListStatus(SupportProject);
         ChosePreferredSupportingOrganisationTaskListStatus =
             TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
-        RecordSupportDecisionTaskListStatus = TaskStatusViewModel.RecordSupportDecisionTaskListStatus(SupportProject);
+        RecordSupportDecisionTaskListStatus = TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
         DueDiligenceOnPreferredSupportingOrganisationTaskListStatus = TaskStatusViewModel.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(SupportProject);
         SetRecordSupportingOrganisationAppointment = TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProject);
         SupportingOrganisationContactDetailsTaskListStatus =

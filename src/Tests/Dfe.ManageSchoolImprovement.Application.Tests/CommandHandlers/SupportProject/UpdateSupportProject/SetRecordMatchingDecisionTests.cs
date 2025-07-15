@@ -25,14 +25,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var regionalDirectorDecisionDate = DateTime.UtcNow;
-            var hasSchoolMatchedWithSupportingOrganisation = true;
-            var notMatchingSchoolWithSupportingOrgNotes = "Random Notes";
+            var initialDiagnosisMatchingDecision = "Match with a supporting organisation";
+            var initialDiagnosisMatchingDecisionNotes = "Random Notes";
 
-            var command = new SetRecordMatchingDecisionCommand(
+            var command = new SetRecordInitialDiagnosisDecisionCommand(
                 _mockSupportProject.Id,
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithSupportingOrganisation,
-                notMatchingSchoolWithSupportingOrgNotes
+                initialDiagnosisMatchingDecision,
+                initialDiagnosisMatchingDecisionNotes
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetRecordMatchingDecisionCommandHandler(_mockSupportProjectRepository.Object);
@@ -49,7 +49,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetRecordMatchingDecisionCommand(
+            var command = new SetRecordInitialDiagnosisDecisionCommand(
                 _mockSupportProject.Id,
                 null,
                 null,
@@ -71,14 +71,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var regionalDirectorDecisionDate = DateTime.UtcNow;
-            var hasSchoolMatchedWithSupportingOrganisation = true;
-            var notMatchingSchoolWithSupportingOrgNotes = "Random Notes";
+            var initialDiagnosisMatchingDecision = "Match with a supporting organisation";
+            var initialDiagnosisMatchingDecisionNotes = "Random Notes";
 
-            var command = new SetRecordMatchingDecisionCommand(
+            var command = new SetRecordInitialDiagnosisDecisionCommand(
                 _mockSupportProject.Id,
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithSupportingOrganisation,
-                notMatchingSchoolWithSupportingOrgNotes
+                initialDiagnosisMatchingDecision,
+                initialDiagnosisMatchingDecisionNotes
             );
 
             _mockSupportProjectRepository.Setup(repo => 
