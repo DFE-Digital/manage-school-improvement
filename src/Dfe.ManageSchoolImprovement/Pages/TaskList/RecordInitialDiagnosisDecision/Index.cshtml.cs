@@ -75,13 +75,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
 
             if (!IsNotMatchingNotesValid())
             {
-                _errorService.AddError("radiobuttontextinput", "You must add a note");
+                _errorService.AddError(nameof(NotMatchingNotes), "You must add a note");
                 hasValidationErrors = true;
             }
 
             if (!IsUnableToAssessNotesValid())
             {
-                _errorService.AddError("radiobuttontextinput", "You must add a note");
+                _errorService.AddError(nameof(UnableToAssessNotes), "You must add a note");
                 hasValidationErrors = true;
             }
 
