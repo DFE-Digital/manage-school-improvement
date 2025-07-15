@@ -178,6 +178,7 @@ class TaskList {
 
     return this;
   }
+
 }
 
 const taskList = new TaskList();
