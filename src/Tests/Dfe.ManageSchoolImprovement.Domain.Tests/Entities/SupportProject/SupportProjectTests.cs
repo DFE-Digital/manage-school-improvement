@@ -232,20 +232,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasSchoolMatchedWithSupportingOrganisation = false;
+            string? initialDiagnosisMatchingDecision = "Review school's progress";
             DateTime? regionalDirectorDecisionDate = DateTime.UtcNow;
-            string? notMatchingSchoolWithSupportingOrgNotes = "Notes only if choose no";
+            string? initialDiagnosisMatchingDecisionNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordMatchingDecision(
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithSupportingOrganisation,
-                notMatchingSchoolWithSupportingOrgNotes);
+                initialDiagnosisMatchingDecision,
+                initialDiagnosisMatchingDecisionNotes);
 
             // Assert
-            supportProject.HasSchoolMatchedWithSupportingOrganisation.Should().Be(hasSchoolMatchedWithSupportingOrganisation);
+            supportProject.InitialDiagnosisMatchingDecision.Should().Be(initialDiagnosisMatchingDecision);
             supportProject.RegionalDirectorDecisionDate.Should().Be(regionalDirectorDecisionDate);
-            supportProject.NotMatchingSchoolWithSupportingOrgNotes.Should().Be(notMatchingSchoolWithSupportingOrgNotes);
+            supportProject.InitialDiagnosisMatchingDecisionNotes.Should().Be(initialDiagnosisMatchingDecisionNotes);
             mockRepository.VerifyAll();
         }
 
@@ -255,20 +255,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            bool? hasSchoolMatchedWithSupportingOrganisation = true;
+            string? initialDiagnosisMatchingDecision = "Match with a supporting organisation";
             DateTime? regionalDirectorDecisionDate = DateTime.UtcNow;
-            string? notMatchingSchoolWithSupportingOrgNotes = "Notes only if choose no";
+            string? initialDiagnosisMatchingDecisionNotes = "Notes only if choose no";
 
             // Act
             supportProject.SetRecordMatchingDecision(
                 regionalDirectorDecisionDate,
-                hasSchoolMatchedWithSupportingOrganisation,
-                notMatchingSchoolWithSupportingOrgNotes);
+                initialDiagnosisMatchingDecision,
+                initialDiagnosisMatchingDecisionNotes);
 
             // Assert
-            supportProject.HasSchoolMatchedWithSupportingOrganisation.Should().Be(hasSchoolMatchedWithSupportingOrganisation);
+            supportProject.InitialDiagnosisMatchingDecision.Should().Be(initialDiagnosisMatchingDecision);
             supportProject.RegionalDirectorDecisionDate.Should().Be(regionalDirectorDecisionDate);
-            supportProject.NotMatchingSchoolWithSupportingOrgNotes.Should().Be(notMatchingSchoolWithSupportingOrgNotes);
+            supportProject.InitialDiagnosisMatchingDecisionNotes.Should().Be(initialDiagnosisMatchingDecisionNotes);
             mockRepository.VerifyAll();
         }
 

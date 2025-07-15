@@ -20,8 +20,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         [BindProperty(Name = "HasSchoolMatchedWithSupportingOrganisation")]
         public string? HasSchoolMatchedWithSupportingOrganisation { get; set; }
 
-
-
         [BindProperty(Name = "NotMatchingNotes")]
         public string? NotMatchingNotes { get; set; }
 
@@ -53,11 +51,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
             RegionalDirectorDecisionDate = SupportProject.RegionalDirectorDecisionDate;
 
             // Populate the appropriate notes property based on the decision
-            if (HasSchoolMatchedWithSupportingOrganisation == "reviewSchoolProgress")
+            if (HasSchoolMatchedWithSupportingOrganisation == "Review school's progress")
             {
                 NotMatchingNotes = SupportProject.InitialDiagnosisMatchingDecisionNotes;
             }
-            else if (HasSchoolMatchedWithSupportingOrganisation == "unableToAssess")
+            else if (HasSchoolMatchedWithSupportingOrganisation == "Unable to assess")
             {
                 UnableToAssessNotes = SupportProject.InitialDiagnosisMatchingDecisionNotes;
             }
@@ -65,6 +63,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
             RadioButtonModels = RadioButtons;
             return Page();
         }
+        
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
             bool hasValidationErrors = false;
@@ -97,8 +96,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
             // Determine which notes to pass to the command based on the selection
             string? notesToPass = HasSchoolMatchedWithSupportingOrganisation switch
             {
-                "reviewSchoolProgress" => NotMatchingNotes,
-                "unableToAssess" => UnableToAssessNotes,
+                "Review school's progress" => NotMatchingNotes,
+                "Unable to assess" => UnableToAssessNotes,
                 _ => null
             };
 
@@ -115,7 +114,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
-
 
         private IList<RadioButtonsLabelViewModel> RadioButtons
         {
@@ -164,7 +162,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
 
         private bool IsNotMatchingNotesValid()
         {
-            if (HasSchoolMatchedWithSupportingOrganisation == "reviewSchoolProgress" && string.IsNullOrWhiteSpace(NotMatchingNotes))
+            if (HasSchoolMatchedWithSupportingOrganisation == "Review school's progress" && string.IsNullOrWhiteSpace(NotMatchingNotes))
             {
                 return false;
             }
@@ -173,7 +171,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
 
         private bool IsUnableToAssessNotesValid()
         {
-            if (HasSchoolMatchedWithSupportingOrganisation == "unableToAssess" && string.IsNullOrWhiteSpace(UnableToAssessNotes))
+            if (HasSchoolMatchedWithSupportingOrganisation == "Unable to assess" && string.IsNullOrWhiteSpace(UnableToAssessNotes))
             {
                 return false;
             }
