@@ -214,10 +214,15 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("complate-save-assessment-template_status");
 
-    Logger.log("Selecting 'Record matching decision' task");
-    taskList.selectTask("Record matching decision");
-    taskListActions.hasHeader("Record matching decision");
-    taskListActions.selectButtonOrCheckbox("yes");
+    Logger.log("Selecting 'Record initial diagnosis decision' task");
+    taskList.selectTask("Record initial diagnosis decision");
+    taskListActions.hasHeader("Record initial diagnosis decision");
+    taskListActions.selectButtonOrCheckbox("review-school-progress");
+    taskListActions.enterText("NotMatchingNotes", "Review notes");
+ taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusInProgress("record-support-decision_status");
+    taskList.selectTask("Record initial diagnosis decision");
     taskListActions.enterDate("decision-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()

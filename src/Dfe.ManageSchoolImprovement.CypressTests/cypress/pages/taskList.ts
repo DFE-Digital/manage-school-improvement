@@ -86,7 +86,7 @@ class TaskList {
     cy.contains("Arrange adviser's initial visit");
     cy.contains('Record date of initial visit');
     cy.contains('Complete and save the initial diagnosis assessment');
-    cy.contains('Record matching decision');
+    cy.contains('Record initial diagnosis decision');
     cy.contains('Choose preferred supporting organisation');
     cy.contains('Carry out due diligence on preferred supporting organisation');
     cy.contains('Record supporting organisation appointment');
