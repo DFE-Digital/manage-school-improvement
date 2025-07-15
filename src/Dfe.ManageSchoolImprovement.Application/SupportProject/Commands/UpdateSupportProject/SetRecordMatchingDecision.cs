@@ -7,8 +7,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     public record SetRecordMatchingDecisionCommand(
         SupportProjectId SupportProjectId,
         DateTime? RegionalDirectorDecisionDate,
-        bool? HasSchoolMatchedWithSupportingOrganisation,
-        string? NotMatchingSchoolWithSupportingOrgNotes
+        string? InitialDiagnosisMatchingDecision,
+        string? InitialDiagnosisMatchingDecisionNotes
     ) : IRequest<bool>;
 
     public class SetRecordMatchingDecisionCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetRecordMatchingDecision(request.RegionalDirectorDecisionDate, request.HasSchoolMatchedWithSupportingOrganisation, request.NotMatchingSchoolWithSupportingOrgNotes);
+            supportProject.SetRecordMatchingDecision(request.RegionalDirectorDecisionDate, request.InitialDiagnosisMatchingDecision, request.InitialDiagnosisMatchingDecisionNotes);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

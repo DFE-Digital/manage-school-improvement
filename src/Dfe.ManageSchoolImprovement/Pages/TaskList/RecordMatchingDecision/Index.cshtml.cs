@@ -5,7 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDecision
@@ -18,16 +18,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         public DateTime? RegionalDirectorDecisionDate { get; set; }
 
         [BindProperty(Name = "HasSchoolMatchedWithSupportingOrganisation")]
-        public bool? HasSchoolMatchedWithSupportingOrganisation { get; set; }
+        public string? HasSchoolMatchedWithSupportingOrganisation { get; set; }
 
-        [BindProperty(Name = "NotMatchingSchoolWithSupportingOrgNotes")]
-        public string? NotMatchingSchoolWithSupportingOrgNotes { get; set; }
 
-        public required IList<RadioButtonsLabelViewModel> RadioButtoons { get; set; }
+
+        [BindProperty(Name = "NotMatchingNotes")]
+        public string? NotMatchingNotes { get; set; }
+
+        [BindProperty(Name = "UnableToAssessNotes")]
+        public string? UnableToAssessNotes { get; set; }
+
+        public required IList<RadioButtonsLabelViewModel> RadioButtonModels { get; set; }
 
         public bool ShowError { get; set; }
-        
-        public string? ErrorMessage { get; set; }  
+
+        public string? ErrorMessage { get; set; }
 
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
         {
@@ -42,30 +47,62 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasSchoolMatchedWithSupportingOrganisation = SupportProject.HasSchoolMatchedWithSupportingOrganisation;
+
+            // Use the new string property directly
+            HasSchoolMatchedWithSupportingOrganisation = SupportProject.InitialDiagnosisMatchingDecision;
             RegionalDirectorDecisionDate = SupportProject.RegionalDirectorDecisionDate;
-            NotMatchingSchoolWithSupportingOrgNotes = SupportProject.NotMatchingSchoolWithSupportingOrgNotes;
-            RadioButtoons = RadioButtons;
+
+            // Populate the appropriate notes property based on the decision
+            if (HasSchoolMatchedWithSupportingOrganisation == "reviewSchoolProgress")
+            {
+                NotMatchingNotes = SupportProject.InitialDiagnosisMatchingDecisionNotes;
+            }
+            else if (HasSchoolMatchedWithSupportingOrganisation == "unableToAssess")
+            {
+                UnableToAssessNotes = SupportProject.InitialDiagnosisMatchingDecisionNotes;
+            }
+
+            RadioButtonModels = RadioButtons;
             return Page();
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
-            
-            
-            if (!ModelState.IsValid || !IsNotMatchingSchoolWithSupportingOrgNotesValid())
-            {
-                if (!IsNotMatchingSchoolWithSupportingOrgNotesValid())
-                {
-                    _errorService.AddError("radiobuttontextinput","You must add a note");
-                }
+            bool hasValidationErrors = false;
 
-                RadioButtoons = RadioButtons;
+            if (!ModelState.IsValid)
+            {
+                hasValidationErrors = true;
+            }
+
+            if (!IsNotMatchingNotesValid())
+            {
+                _errorService.AddError("radiobuttontextinput", "You must add a note");
+                hasValidationErrors = true;
+            }
+
+            if (!IsUnableToAssessNotesValid())
+            {
+                _errorService.AddError("radiobuttontextinput", "You must add a note");
+                hasValidationErrors = true;
+            }
+
+            if (hasValidationErrors)
+            {
+                RadioButtonModels = RadioButtons;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetRecordMatchingDecisionCommand(new SupportProjectId(id), RegionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation, NotMatchingSchoolWithSupportingOrgNotes);
+            // Determine which notes to pass to the command based on the selection
+            string? notesToPass = HasSchoolMatchedWithSupportingOrganisation switch
+            {
+                "reviewSchoolProgress" => NotMatchingNotes,
+                "unableToAssess" => UnableToAssessNotes,
+                _ => null
+            };
+
+            var request = new SetRecordMatchingDecisionCommand(new SupportProjectId(id), RegionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation, notesToPass);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -87,21 +124,35 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                 var list = new List<RadioButtonsLabelViewModel>
                 {
                     new() {
-                        Id = "yes",
-                        Name = "Yes, school to be matched",
-                        Value = "True"
+                        Id = "match-with-organisation",
+                        Name = "Match with a supporting organisation",
+                        Value = "Match with a supporting organisation"
                     },
                     new() {
-                        Id = "no",
-                        Name = "No, school will not be matched",
-                        Value = "False",
+                        Id = "review-school-progress",
+                        Name = "Review school's progress",
+                        Value = "Review school's progress",
                         Input = new TextFieldInputViewModel
                         {
-                            Id = nameof(NotMatchingSchoolWithSupportingOrgNotes),
+                            Id = nameof(NotMatchingNotes),
                             ValidationMessage = "You must add a note",
-                            Paragraph = "Provide some details about why approval was not given.",
-                            Value = NotMatchingSchoolWithSupportingOrgNotes,
-                            IsValid = IsNotMatchingSchoolWithSupportingOrgNotesValid(),
+                            Paragraph = "Copy and paste your notes from the overall recommendation within the summary tab in Assessment Tool 1.",
+                            Value = NotMatchingNotes,
+                            IsValid = IsNotMatchingNotesValid(),
+                            IsTextArea = true
+                        }
+                    },
+                    new() {
+                        Id = "unable-to-assess",
+                        Name = "Unable to assess",
+                        Value = "Unable to assess",
+                        Input = new TextFieldInputViewModel
+                        {
+                            Id = nameof(UnableToAssessNotes),
+                            ValidationMessage = "You must add a note",
+                            Paragraph = "Copy and paste your notes from the overall recommendation within the summary tab in Assessment Tool 1.",
+                            Value = UnableToAssessNotes,
+                            IsValid = IsUnableToAssessNotesValid(),
                             IsTextArea = true
                         }
                     }
@@ -110,9 +161,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                 return list;
             }
         }
-        private bool IsNotMatchingSchoolWithSupportingOrgNotesValid()
-        { 
-            if (HasSchoolMatchedWithSupportingOrganisation == false && string.IsNullOrWhiteSpace(NotMatchingSchoolWithSupportingOrgNotes))
+
+        private bool IsNotMatchingNotesValid()
+        {
+            if (HasSchoolMatchedWithSupportingOrganisation == "reviewSchoolProgress" && string.IsNullOrWhiteSpace(NotMatchingNotes))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsUnableToAssessNotesValid()
+        {
+            if (HasSchoolMatchedWithSupportingOrganisation == "unableToAssess" && string.IsNullOrWhiteSpace(UnableToAssessNotes))
             {
                 return false;
             }
