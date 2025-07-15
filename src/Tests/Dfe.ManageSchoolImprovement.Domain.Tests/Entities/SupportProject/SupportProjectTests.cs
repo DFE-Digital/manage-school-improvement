@@ -237,7 +237,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             string? initialDiagnosisMatchingDecisionNotes = "Notes only if choose no";
 
             // Act
-            supportProject.SetRecordMatchingDecision(
+            supportProject.SetRecordInitialDiagnosisMatchingDecision(
                 regionalDirectorDecisionDate,
                 initialDiagnosisMatchingDecision,
                 initialDiagnosisMatchingDecisionNotes);
@@ -260,7 +260,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             string? initialDiagnosisMatchingDecisionNotes = "Notes only if choose no";
 
             // Act
-            supportProject.SetRecordMatchingDecision(
+            supportProject.SetRecordInitialDiagnosisMatchingDecision(
                 regionalDirectorDecisionDate,
                 initialDiagnosisMatchingDecision,
                 initialDiagnosisMatchingDecisionNotes);

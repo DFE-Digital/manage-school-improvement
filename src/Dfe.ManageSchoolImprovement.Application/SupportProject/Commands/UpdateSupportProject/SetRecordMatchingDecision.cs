@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
 {
-    public record SetRecordMatchingDecisionCommand(
+    public record SetRecordInitialDiagnosisDecisionCommand(
         SupportProjectId SupportProjectId,
         DateTime? RegionalDirectorDecisionDate,
         string? InitialDiagnosisMatchingDecision,
@@ -12,9 +12,9 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     ) : IRequest<bool>;
 
     public class SetRecordMatchingDecisionCommandHandler(ISupportProjectRepository supportProjectRepository)
-        : IRequestHandler<SetRecordMatchingDecisionCommand, bool>
+        : IRequestHandler<SetRecordInitialDiagnosisDecisionCommand, bool>
     {
-        public async Task<bool> Handle(SetRecordMatchingDecisionCommand request,
+        public async Task<bool> Handle(SetRecordInitialDiagnosisDecisionCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetRecordMatchingDecision(request.RegionalDirectorDecisionDate, request.InitialDiagnosisMatchingDecision, request.InitialDiagnosisMatchingDecisionNotes);
+            supportProject.SetRecordInitialDiagnosisMatchingDecision(request.RegionalDirectorDecisionDate, request.InitialDiagnosisMatchingDecision, request.InitialDiagnosisMatchingDecisionNotes);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

@@ -28,7 +28,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var initialDiagnosisMatchingDecision = "Match with a supporting organisation";
             var initialDiagnosisMatchingDecisionNotes = "Random Notes";
 
-            var command = new SetRecordMatchingDecisionCommand(
+            var command = new SetRecordInitialDiagnosisDecisionCommand(
                 _mockSupportProject.Id,
                 regionalDirectorDecisionDate,
                 initialDiagnosisMatchingDecision,
@@ -49,7 +49,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetRecordMatchingDecisionCommand(
+            var command = new SetRecordInitialDiagnosisDecisionCommand(
                 _mockSupportProject.Id,
                 null,
                 null,
@@ -74,7 +74,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var initialDiagnosisMatchingDecision = "Match with a supporting organisation";
             var initialDiagnosisMatchingDecisionNotes = "Random Notes";
 
-            var command = new SetRecordMatchingDecisionCommand(
+            var command = new SetRecordInitialDiagnosisDecisionCommand(
                 _mockSupportProject.Id,
                 regionalDirectorDecisionDate,
                 initialDiagnosisMatchingDecision,

@@ -312,7 +312,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
     }
 
-    public void SetRecordMatchingDecision(DateTime? regionalDirectorDecisionDate, string? initialDiagnosisMatchingDecision, string? initialDiagnosisMatchingDecisionNotes)
+    public void SetRecordInitialDiagnosisMatchingDecision(DateTime? regionalDirectorDecisionDate, string? initialDiagnosisMatchingDecision, string? initialDiagnosisMatchingDecisionNotes)
     {
         RegionalDirectorDecisionDate = regionalDirectorDecisionDate;
         InitialDiagnosisMatchingDecision = initialDiagnosisMatchingDecision;

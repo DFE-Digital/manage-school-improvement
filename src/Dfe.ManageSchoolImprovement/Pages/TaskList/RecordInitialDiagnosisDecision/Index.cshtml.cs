@@ -63,7 +63,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
             RadioButtonModels = RadioButtons;
             return Page();
         }
-        
+
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
             bool hasValidationErrors = false;
@@ -101,7 +101,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDeci
                 _ => null
             };
 
-            var request = new SetRecordMatchingDecisionCommand(new SupportProjectId(id), RegionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation, notesToPass);
+            var request = new SetRecordInitialDiagnosisDecisionCommand(new SupportProjectId(id), RegionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation, notesToPass);
 
             var result = await mediator.Send(request, cancellationToken);
 
