@@ -38,6 +38,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? RegionalDirectorDecisionDate = null,
         bool? HasSchoolMatchedWithSupportingOrganisation = null,
         string? NotMatchingSchoolWithSupportingOrgNotes = null,
+        string? InitialDiagnosisMatchingDecision = null,
+        string? InitialDiagnosisMatchingDecisionNotes = null,
         bool? CheckOrganisationHasCapacityAndWillingToProvideSupport = null,
         bool? CheckChoiceWithTrustRelationshipManagerOrLaLead = null,
         bool? DiscussChoiceWithSfso = null,

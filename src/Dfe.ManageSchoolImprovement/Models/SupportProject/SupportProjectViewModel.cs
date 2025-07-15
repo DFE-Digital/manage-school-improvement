@@ -89,6 +89,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? HasSchoolMatchedWithSupportingOrganisation { get; set; }
         public DateTime? RegionalDirectorDecisionDate { get; set; }
         public string? NotMatchingSchoolWithSupportingOrgNotes { get; set; }
+        public string? InitialDiagnosisMatchingDecision { get; set; }
+        public string? InitialDiagnosisMatchingDecisionNotes { get; set; }
 
         public DateTime? DateSupportOrganisationChosen { get; set; }
 
@@ -217,6 +219,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 RegionalDirectorDecisionDate = supportProjectDto.RegionalDirectorDecisionDate,
                 HasSchoolMatchedWithSupportingOrganisation = supportProjectDto.HasSchoolMatchedWithSupportingOrganisation,
                 NotMatchingSchoolWithSupportingOrgNotes = supportProjectDto.NotMatchingSchoolWithSupportingOrgNotes,
+                InitialDiagnosisMatchingDecision = supportProjectDto.InitialDiagnosisMatchingDecision,
+                InitialDiagnosisMatchingDecisionNotes = supportProjectDto.InitialDiagnosisMatchingDecisionNotes,
                 CheckOrganisationHasCapacityAndWillingToProvideSupport = supportProjectDto.CheckOrganisationHasCapacityAndWillingToProvideSupport,
                 CheckChoiceWithTrustRelationshipManagerOrLaLead = supportProjectDto.CheckChoiceWithTrustRelationshipManagerOrLaLead,
                 DiscussChoiceWithSfso = supportProjectDto.DiscussChoiceWithSfso,

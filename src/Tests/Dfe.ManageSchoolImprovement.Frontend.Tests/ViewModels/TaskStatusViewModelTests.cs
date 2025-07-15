@@ -153,9 +153,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(
-                1, 
-                DateTime.Now, 
-                AdviserVisitDate: adviserVisitDate, 
+                1,
+                DateTime.Now,
+                AdviserVisitDate: adviserVisitDate,
                 GiveTheAdviserTheNoteOfVisitTemplate: giveTheAdviserTheNoteOfVisitTemplate));
 
             //Action 
@@ -184,22 +184,26 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, bool?, string?, TaskListStatus> RecordSupportDecisionTaskListStatusCases = new()
+        public static readonly TheoryData<DateTime?, string?, string?, TaskListStatus> RecordSupportDecisionTaskListStatusCases = new()
         {
             { null, null, null, TaskListStatus.NotStarted },
-            { DateTime.Now, true, null, TaskListStatus.Complete },
-            { DateTime.Now, false, "Notes", TaskListStatus.InProgress }
+            { DateTime.Now, "Match with a supporting organisation", null, TaskListStatus.Complete },
+            { DateTime.Now, "Review school's progress", "Notes", TaskListStatus.Complete },
+            { DateTime.Now, "Unable to assess", "Notes", TaskListStatus.Complete },
+            { null, "Match with a supporting organisation", null, TaskListStatus.InProgress }
         };
 
         [Theory, MemberData(nameof(RecordSupportDecisionTaskListStatusCases))]
-        public void RecordMatchingDecisionTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithSupportingOrganisation, string? notMatchingSchoolWithSupportingOrgNotes, TaskListStatus expectedTaskListStatus)
+        public void RecordMatchingDecisionTaskListStatusShouldReturnCorrectStatus(DateTime? regionalDirectorDecisionDate, string? initialDiagnosisMatchingDecision, string? initialDiagnosisMatchingDecisionNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, RegionalDirectorDecisionDate: regionalDirectorDecisionDate, HasSchoolMatchedWithSupportingOrganisation: hasSchoolMatchedWithSupportingOrganisation,
-                NotMatchingSchoolWithSupportingOrgNotes: notMatchingSchoolWithSupportingOrgNotes));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                RegionalDirectorDecisionDate: regionalDirectorDecisionDate,
+                InitialDiagnosisMatchingDecision: initialDiagnosisMatchingDecision,
+                InitialDiagnosisMatchingDecisionNotes: initialDiagnosisMatchingDecisionNotes));
 
             //Action 
-            var taskListStatus = TaskStatusViewModel.RecordSupportDecisionTaskListStatus(supportProjectModel);
+            var taskListStatus = TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

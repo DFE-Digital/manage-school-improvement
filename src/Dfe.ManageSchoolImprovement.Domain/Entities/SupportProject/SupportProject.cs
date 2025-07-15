@@ -101,9 +101,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? AssessmentToolTwoCompleted { get; private set; }
     public DateTime? RegionalDirectorDecisionDate { get; private set; }
 
-    public bool? HasSchoolMatchedWithSupportingOrganisation { get; private set; }
-
-    public string? NotMatchingSchoolWithSupportingOrgNotes { get; private set; }
+    public string? InitialDiagnosisMatchingDecision { get; private set; }
+    public string? InitialDiagnosisMatchingDecisionNotes { get; private set; }
 
     public DateTime? DateSupportingOrganisationContactDetailsAdded { get; private set; }
 
@@ -313,11 +312,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
     }
 
-    public void SetRecordMatchingDecision(DateTime? regionalDirectorDecisionDate, bool? hasSchoolMatchedWithSupportingOrganisation, string? notMatchingSchoolWithSupportingOrgNotes)
+    public void SetRecordInitialDiagnosisMatchingDecision(DateTime? regionalDirectorDecisionDate, string? initialDiagnosisMatchingDecision, string? initialDiagnosisMatchingDecisionNotes)
     {
         RegionalDirectorDecisionDate = regionalDirectorDecisionDate;
-        HasSchoolMatchedWithSupportingOrganisation = hasSchoolMatchedWithSupportingOrganisation;
-        NotMatchingSchoolWithSupportingOrgNotes = notMatchingSchoolWithSupportingOrgNotes;
+        InitialDiagnosisMatchingDecision = initialDiagnosisMatchingDecision;
+        InitialDiagnosisMatchingDecisionNotes = initialDiagnosisMatchingDecisionNotes;
     }
 
     public void SetSupportingOrganisationContactDetails(DateTime? dateSupportingOrganisationContactDetailsAdded, string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
@@ -383,8 +382,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SendRequestingPlanningGrantOfferEmailToRiseGrantTeam = emailRiseGrantTeam;
     }
 
-    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate, 
-        bool? reviewImprovementAndExpenditurePlan, 
+    public void SetReviewTheImprovementPlan(DateTime? improvementPlanReceivedDate,
+        bool? reviewImprovementAndExpenditurePlan,
         bool? confirmFundingBand,
         string? fundingBand,
         bool? confirmPlanClearedByRiseGrantTeam)

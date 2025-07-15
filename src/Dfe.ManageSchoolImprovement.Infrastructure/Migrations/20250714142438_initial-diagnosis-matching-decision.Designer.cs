@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250714142438_initial-diagnosis-matching-decision")]
+    partial class initialdiagnosismatchingdecision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,6 +268,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("HasSavedSchoolResponseinSharePoint")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("HasSchoolMatchedWithSupportingOrganisation")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("HasShareEmailTemplateWithAdviser")
                         .HasColumnType("bit");
 
@@ -312,6 +318,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<string>("LocalAuthority")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotMatchingSchoolWithSupportingOrgNotes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PeriodEnd")

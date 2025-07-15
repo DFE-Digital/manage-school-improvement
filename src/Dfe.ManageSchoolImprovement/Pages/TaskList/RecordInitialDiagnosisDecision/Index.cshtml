@@ -1,0 +1,50 @@
+@page "/task-list/record-initial-diagnosis-decision/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDecision.IndexModel
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Record initial diagnosis decision";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Record initial diagnosis decision
+        </h1>
+
+        <p class="govuk-body">Using <a href="@Configuration["AssessmentToolOneLink"]" class="govuk-link" target="_blank">Assessment Tool 1: Initial Diagnosis (opens in new tab)</a>, confirm if this school will be matched with a supporting organisation or not. A regional director must have approved this decision.</p>
+
+        <form method="post" novalidate>
+            <govuk-radiobuttons-input heading="Record decision" 
+                                      heading-style="govuk-fieldset__legend govuk-fieldset__legend--m"
+                                      hint="Enter the reasons for the decision if the school could not be assessed."
+                                      name="@nameof(Model.HasSchoolMatchedWithSupportingOrganisation)"
+                                      asp-for="@Model.HasSchoolMatchedWithSupportingOrganisation"
+                                      radio-buttons="@Model.RadioButtonModels"
+                                      has-error="@Model.ShowError"
+                                      error-message="@Model.ErrorMessage" />
+
+            <govuk-date-input heading-label="false"
+                              label="Enter date the regional director made this decision"
+                              id="decision-date"
+                              name="decision-date"
+                              asp-for="@Model.RegionalDirectorDecisionDate"
+                              hint="For example, 1 7 2024." />
+
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>
+

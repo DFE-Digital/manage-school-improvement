@@ -169,17 +169,16 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus RecordSupportDecisionTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus RecordInitialDiagnosisDecisionTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorDecisionDate.HasValue
-            && supportProject.HasSchoolMatchedWithSupportingOrganisation.HasValue
-            && supportProject.HasSchoolMatchedWithSupportingOrganisation.Equals(true))
+            && !string.IsNullOrEmpty(supportProject.InitialDiagnosisMatchingDecision))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.RegionalDirectorDecisionDate.HasValue
-            && !supportProject.HasSchoolMatchedWithSupportingOrganisation.HasValue)
+            && string.IsNullOrEmpty(supportProject.InitialDiagnosisMatchingDecision))
         {
             return TaskListStatus.NotStarted;
         }
