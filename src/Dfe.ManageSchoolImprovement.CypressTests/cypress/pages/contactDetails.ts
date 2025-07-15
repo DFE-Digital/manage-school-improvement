@@ -1,17 +1,19 @@
 class ContactDetails {
-
     public enterRandomContactDetails(): this {
-        const randomFirstName = 'First' + Math.random().toString(36).substring(2, 8);
-        const randomOrganisation = 'Org' + Math.random().toString(36).substring(2, 10);
-        const randomEmail = `test.${Math.random().toString(36).substring(2, 8)}@example.com`;
-        const randomPhone = '07' + Math.floor(Math.random() * 900000000 + 100000000);
+        const timestamp = Date.now().toString(36);
+        const firstNameSuffix = timestamp.substring(0, 6);
+        const orgSuffix = timestamp.substring(0, 8);
+        const emailSuffix = timestamp.substring(0, 7);
+
+        const randomFirstName = 'First' + firstNameSuffix;
+        const randomOrganisation = 'Org' + orgSuffix;
+        const randomEmail = `test.${emailSuffix}@example.com`;
+        const randomPhone = '079'+ timestamp.substring(0, 9).replace(/[a-z]/g, '5');
 
         cy.getByName('name').type(randomFirstName);
         cy.getByName('organisation').type(randomOrganisation);
         cy.getByName('email-address').type(randomEmail);
         cy.getByName('phone').type(randomPhone);
-
-        cy.getById('add-contact-button').click
 
         return this;
     }
@@ -24,14 +26,14 @@ class ContactDetails {
 
     public errorMessageForField(fieldName: string, errorMessage: string): this {
         cy.url().should('include', '/add-contact-details');
-        cy.getById(fieldName).parent().find('.govuk-error-message').should('contain', errorMessage)
+        cy.getById(fieldName).parent().find('.govuk-error-message').should('contain', errorMessage);
 
         return this;
     }
 
     public enterInvalidPhoneNumber(): this {
         cy.getByName('phone').clear().type('23232323');
-        this.clickAddContactButton()
+        this.clickAddContactButton();
 
         return this;
     }
