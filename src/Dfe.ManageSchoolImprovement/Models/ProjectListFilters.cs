@@ -9,6 +9,7 @@ public class ProjectListFilters
    public const string FilterTitle = nameof(FilterTitle);
    public const string FilterStatuses = nameof(FilterStatuses);
    public const string FilterOfficers = nameof(FilterOfficers);
+   public const string FilterAdvisers = nameof(FilterAdvisers);
    public const string FilterRegions = nameof(FilterRegions);
    public const string FilterLocalAuthorities = nameof(FilterLocalAuthorities);
    public const string FilterAdvisoryBoardDates = nameof(FilterAdvisoryBoardDates);
@@ -16,6 +17,7 @@ public class ProjectListFilters
    private IDictionary<string, object?> _store = null!;
    public List<string> AvailableStatuses { get; set; } = new();
    public List<string> AvailableDeliveryOfficers { get; set; } = new();
+   public List<string> AvailableAdvisers { get; set; } = new();
    public List<string> AvailableRegions { get; set; } = new();
 
    public List<string> AvailableLocalAuthorities { get; set; } = new();
@@ -29,6 +31,9 @@ public class ProjectListFilters
 
    [BindProperty]
    public string[] SelectedOfficers { get; set; } = Array.Empty<string>();
+   
+   [BindProperty]
+   public string[] SelectedAdvisers { get; set; } = Array.Empty<string>();
 
    [BindProperty]
    public string[] SelectedRegions { get; set; } = Array.Empty<string>();
@@ -42,6 +47,7 @@ public class ProjectListFilters
    public bool IsVisible => !string.IsNullOrWhiteSpace(Title) ||
                             SelectedStatuses.Length > 0 ||
                             SelectedOfficers.Length > 0 ||
+                            SelectedAdvisers.Length > 0 ||
                             SelectedRegions.Length > 0 ||
                               SelectedLocalAuthorities.Length > 0 ||
                               SelectedAdvisoryBoardDates.Length > 0;
@@ -53,6 +59,7 @@ public class ProjectListFilters
       Title = Get(FilterTitle).FirstOrDefault()?.Trim();
       SelectedStatuses = Get(FilterStatuses);
       SelectedOfficers = Get(FilterOfficers);
+      SelectedAdvisers = Get(FilterAdvisers);
       SelectedRegions = Get(FilterRegions);
       SelectedLocalAuthorities = Get(FilterLocalAuthorities);
       SelectedAdvisoryBoardDates = Get(FilterAdvisoryBoardDates);
@@ -71,6 +78,7 @@ public class ProjectListFilters
          Title = default;
          SelectedStatuses = Array.Empty<string>();
          SelectedOfficers = Array.Empty<string>();
+         SelectedAdvisers = Array.Empty<string>();
          SelectedRegions = Array.Empty<string>();
          SelectedLocalAuthorities = Array.Empty<string>();
          SelectedAdvisoryBoardDates = Array.Empty<string>();
@@ -82,6 +90,7 @@ public class ProjectListFilters
       {
          SelectedStatuses = GetAndRemove(FilterStatuses, GetFromQuery(nameof(SelectedStatuses)), true);
          SelectedOfficers = GetAndRemove(FilterOfficers, GetFromQuery(nameof(SelectedOfficers)), true);
+         SelectedAdvisers = GetAndRemove(FilterAdvisers, GetFromQuery(nameof(SelectedAdvisers)), true);
          SelectedRegions = GetAndRemove(FilterRegions, GetFromQuery(nameof(SelectedRegions)), true);
          SelectedLocalAuthorities = GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
          SelectedAdvisoryBoardDates = GetAndRemove(FilterAdvisoryBoardDates, GetFromQuery(nameof(SelectedAdvisoryBoardDates)), true);
@@ -92,6 +101,7 @@ public class ProjectListFilters
       bool activeFilterChanges = query.ContainsKey(nameof(Title)) ||
                                  query.ContainsKey(nameof(SelectedStatuses)) ||
                                  query.ContainsKey(nameof(SelectedOfficers)) ||
+                                 query.ContainsKey(nameof(SelectedAdvisers)) ||
                                  query.ContainsKey(nameof(SelectedRegions)) ||
                                  query.ContainsKey(nameof(SelectedLocalAuthorities)) ||
                                  query.ContainsKey(nameof(SelectedAdvisoryBoardDates));
@@ -101,6 +111,7 @@ public class ProjectListFilters
          Title = Cache(FilterTitle, GetFromQuery(nameof(Title))).FirstOrDefault()?.Trim();
          SelectedStatuses = Cache(FilterStatuses, GetFromQuery(nameof(SelectedStatuses)));
          SelectedOfficers = Cache(FilterOfficers, GetFromQuery(nameof(SelectedOfficers)));
+         SelectedAdvisers = Cache(FilterAdvisers, GetFromQuery(nameof(SelectedAdvisers)));
          SelectedRegions = Cache(FilterRegions, GetFromQuery(nameof(SelectedRegions)));
          SelectedLocalAuthorities = Cache(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)));
          SelectedAdvisoryBoardDates = Cache(FilterAdvisoryBoardDates, GetFromQuery(nameof(SelectedAdvisoryBoardDates)));
@@ -110,6 +121,7 @@ public class ProjectListFilters
          Title = Get(FilterTitle, true).FirstOrDefault()?.Trim();
          SelectedStatuses = Get(FilterStatuses, true);
          SelectedOfficers = Get(FilterOfficers, true);
+         SelectedAdvisers = Get(FilterAdvisers, true);
          SelectedRegions = Get(FilterRegions, true);
          SelectedLocalAuthorities = Get(FilterLocalAuthorities, true);
          SelectedAdvisoryBoardDates = Get(FilterAdvisoryBoardDates, true);
@@ -162,6 +174,7 @@ public class ProjectListFilters
       Cache(FilterTitle, default);
       Cache(FilterStatuses, default);
       Cache(FilterOfficers, default);
+      Cache(FilterAdvisers, default);
       Cache(FilterRegions, default);
       Cache(FilterLocalAuthorities, default);
       Cache(FilterAdvisoryBoardDates, default);
