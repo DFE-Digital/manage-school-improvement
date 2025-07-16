@@ -47,8 +47,7 @@
                     @{
                         foreach (var adviser in Model.SelectedAdvisers)
                         {
-                            // change this link
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedOfficers=@adviser"><span class="govuk-visually-hidden">Remove this filter</span> @adviser.Stub()</a></li>
+                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedAdvisers=@adviser"><span class="govuk-visually-hidden">Remove this filter</span> @adviser.Stub()</a></li>
                         }
                     }
 
