@@ -14,28 +14,28 @@ public class SummaryListRowTagHelper(IHtmlHelper htmlHelper) : InputTagHelperBas
     public string Value { get; set; } = string.Empty;
 
     [HtmlAttributeName("value-link")]
-    public string ValueLink { get; set; }
+    public string ValueLink { get; set; } = string.Empty;
 
-    [HtmlAttributeName("additional-text")]
-    public string AdditionalText { get; set; } // allows 2 items to be displayed in the same table row
+    [HtmlAttributeName("additional-text")] 
+    public string AdditionalText { get; set; } = string.Empty; // allows 2 items to be displayed in the same table row
 
     [HtmlAttributeName("asp-page")]
-    public string Page { get; set; }
+    public string Page { get; set; } = string.Empty;
 
     [HtmlAttributeName("asp-fragment")]
-    public string Fragment { get; set; }
+    public string Fragment { get; set; } = string.Empty;
 
     [HtmlAttributeName("asp-route-id")]
-    public string RouteId { get; set; }
+    public string RouteId { get; set; } = string.Empty;
 
     [HtmlAttributeName("hidden-text")]
-    public string HiddenText { get; set; }
+    public string HiddenText { get; set; } = string.Empty;
 
     [HtmlAttributeName("key-width")]
-    public string KeyWidth { get; set; }
+    public string KeyWidth { get; set; } = string.Empty;
 
     [HtmlAttributeName("value-width")]
-    public string ValueWidth { get; set; }
+    public string ValueWidth { get; set; } = string.Empty;
 
     [HtmlAttributeName("highlight-negative-value")]
     public bool HighlightNegativeValue { get; set; }

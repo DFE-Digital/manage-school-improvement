@@ -76,10 +76,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             if (!string.IsNullOrWhiteSpace(title))
             {
-
-                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) || 
-                                                 p.SchoolUrn.ToLower().Contains(title.ToLower())
-                );
+                queryable = queryable.Where(p => EF.Functions.Like(p.SchoolName!, $"%{title}%") || 
+                                                 EF.Functions.Like(p.SchoolUrn, $"%{title}%"));
             }
 
             return queryable;
@@ -90,8 +88,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             if (localAuthorities != null && localAuthorities.Any())
             {
                 var lowerCaseRegions = localAuthorities.Select(la => la.ToLower());
-                queryable = queryable.Where(p =>
-                    !string.IsNullOrEmpty(p.LocalAuthority) && lowerCaseRegions.Contains(p.LocalAuthority.ToLower()));
+                queryable = queryable.Where(p => 
+                    !string.IsNullOrEmpty(p.LocalAuthority) && 
+                    lowerCaseRegions.Any(la => EF.Functions.Like(p.LocalAuthority, la)));
             }
 
             return queryable;

@@ -13,47 +13,47 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     public string Id { get; set; } = string.Empty;
 
     [HtmlAttributeName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [HtmlAttributeName("label")]
-    public string Label { get; set; }
+    public string Label { get; set; } = string.Empty;
 
     [HtmlAttributeName("label-hint")]
-    public string LabelHint { get; set; }
+    public string LabelHint { get; set; } = string.Empty;
 
     [HtmlAttributeName("sub-label")]
-    public string SubLabel { get; set; }
+    public string SubLabel { get; set; } = string.Empty;
 
     [HtmlAttributeName("previous-information")]
-    public string PreviousInformation { get; set; }
+    public string PreviousInformation { get; set; } = string.Empty;
 
     [HtmlAttributeName("additional-information")]
-    public string AdditionalInformation { get; set; }
+    public string AdditionalInformation { get; set; } = string.Empty;
 
     [HtmlAttributeName("suffix")]
-    public string Suffix { get; set; }
+    public string Suffix { get; set; } = string.Empty;
 
     [HtmlAttributeName("asp-for")]
     public ModelExpression For { get; set; }
 
     [HtmlAttributeName("hint")]
-    public string Hint { get; set; }
+    public string Hint { get; set; } = string.Empty;
 
     [HtmlAttributeName("details-heading")]
-    public string DetailsHeading { get; set; }
+    public string DetailsHeading { get; set; } = string.Empty;
     [HtmlAttributeName("details-body")]
-    public string DetailsBody { get; set; }
+    public string DetailsBody { get; set; } = string.Empty;
 
     [HtmlAttributeName("heading")]
-    public string Heading { get; set; }
+    public string Heading { get; set; } = string.Empty;
 
     [HtmlAttributeName("heading-style")]
-    public string HeadingStyle { get; set; }
+    public string HeadingStyle { get; set; } = string.Empty;
     [HtmlAttributeName("error-message")]
-    public string ErrorMessage { get; set; }
+    public string ErrorMessage { get; set; } = string.Empty;
     
     [HtmlAttributeName("email")]
-    public string Email { get; set; }    
+    public string Email { get; set; } = string.Empty;
 
     [ViewContext]
     public ViewContext ViewContext { get; set; }

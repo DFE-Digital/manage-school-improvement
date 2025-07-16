@@ -49,7 +49,7 @@ public class DateInputModelBinder : IModelBinder
          int month = int.Parse(monthValueProviderResult.FirstValue!);
          int year = int.Parse(yearValueProviderResult.FirstValue!);
 
-         DateTime date = new(year, month, day);
+         DateTime date = new(year, month, day, 0, 0, 0, DateTimeKind.Utc);
          (bool validDateRange, string message) = IsInValidDateRange(date, bindingContext, displayName);
 
          if (validDateRange)

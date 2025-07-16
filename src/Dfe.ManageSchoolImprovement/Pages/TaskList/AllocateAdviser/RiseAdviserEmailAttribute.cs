@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AllocateAdviser;
 
+[AttributeUsage(AttributeTargets.Property)]
 public partial class RiseAdviserEmailAttribute : ValidationAttribute
 {
     private const string EmailPattern = @"^[a-zA-Z]+(?:-[a-zA-Z]+)?\.[a-zA-Z]+(?:-[a-zA-Z]+)?-rise@education\.gov\.uk$"; 

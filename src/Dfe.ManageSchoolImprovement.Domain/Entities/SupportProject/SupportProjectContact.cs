@@ -23,7 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         }
 
         public SupportProjectContactId? Id { get; private set; }
-        public SupportProjectId SupportProjectId { get; private set; }
+        public SupportProjectId? SupportProjectId { get; private set; }
 
         public string Name { get; private set; }
         public RolesIds RoleId { get; private set; }

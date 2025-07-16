@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
+    [AttributeUsage(AttributeTargets.Property)]
     public class PhoneValidationAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
