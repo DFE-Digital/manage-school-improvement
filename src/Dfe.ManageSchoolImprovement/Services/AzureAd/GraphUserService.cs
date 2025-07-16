@@ -26,4 +26,21 @@ public class GraphUserService(IGraphClientFactory graphClientFactory, IOptions<A
 
         return users;
     }
+
+    public async Task<IEnumerable<User>> GetAllRiseAdvisers()
+    {
+        List<User> users = [];
+
+        List<QueryOption> queryOptions = [new("$count", "true"), new("$top", "999")];
+
+        IGroupMembersCollectionWithReferencesPage members = await _client.Groups[_azureAdOptions.RiseAdviserGroupId.ToString()].Members
+            .Request(queryOptions)
+            .Header("ConsistencyLevel", "eventual")
+            .Select("givenName,surname,id,mail")
+            .GetAsync();
+
+        users.AddRange(members.Cast<User>().ToList());
+
+        return users;
+    }
 }

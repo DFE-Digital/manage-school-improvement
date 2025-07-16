@@ -7,10 +7,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 public class UserRepository(IGraphUserService graphUserService) : IUserRepository
 {
     public async Task<IEnumerable<User>> GetAllUsers()
-   {
-      IEnumerable<Microsoft.Graph.User> users = await graphUserService.GetAllUsers();
+    {
+        IEnumerable<Microsoft.Graph.User> users = await graphUserService.GetAllUsers();
 
-      return users
-         .Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper()}"));
-   }
+        return users
+           .Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper()}"));
+    }
+
+    public async Task<IEnumerable<User>> GetAllRiseAdvisers()
+    {
+        IEnumerable<Microsoft.Graph.User> users = await graphUserService.GetAllRiseAdvisers();
+
+        return users
+           .Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper()}"));
+    }
 }

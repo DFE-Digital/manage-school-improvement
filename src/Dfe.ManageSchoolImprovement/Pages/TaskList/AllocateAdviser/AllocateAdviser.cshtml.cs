@@ -9,7 +9,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Upd
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AllocateAdviser;
 
-public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryService, IUserRepository userRepository, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "adviser-email-address")]
     [RiseAdviserEmail]
@@ -19,7 +19,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [Display(Name = "date adviser was allocated")]
     public DateTime? DateAdviserAllocated { get; set; }
-    
+    public IEnumerable<User> RiseAdvisers { get; private set; }
     public string? Referrer { get; set; }
 
 
@@ -51,12 +51,14 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
 
         DateAdviserAllocated = SupportProject.DateAdviserAllocated;
 
+        RiseAdvisers = await userRepository.GetAllRiseAdvisers();
+
         Referrer = TempData["AssignmentReferrer"] == null ? @Links.TaskList.Index.Page : TempData["AssignmentReferrer"].ToString();
-        
+
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(int id,string referrer, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPost(int id, string selectedName, string referrer, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
         {
@@ -64,6 +66,17 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
             ShowError = true;
             Referrer = referrer;
             return await base.GetSupportProject(id, cancellationToken);
+        }
+
+        if (!string.IsNullOrEmpty(selectedName))
+        {
+            RiseAdvisers = await userRepository.GetAllRiseAdvisers();
+            // Find the selected adviser by email address
+            var selectedAdviser = RiseAdvisers.FirstOrDefault(u => u.EmailAddress == selectedName);
+            if (selectedAdviser != null)
+            {
+                AdviserEmailAddress = selectedAdviser.EmailAddress;
+            }
         }
 
         var request = new SetAdviserDetailsCommand(new SupportProjectId(id), DateAdviserAllocated, AdviserEmailAddress);
@@ -75,7 +88,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
+
         TaskUpdated = true;
         return RedirectToPage(referrer, new { id });
     }
