@@ -2,6 +2,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
+using DfE.CoreLibs.Contracts.Academies.V4.Trusts;
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -49,5 +50,16 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
         if (!result.Success) throw new ApiResponseException($"Request to Api failed | StatusCode - {result.StatusCode}");
 
         return result.Body;
+    }
+    public async Task<TrustDto> GetEstablishmentTrust(string urn)
+    {
+        string path = "/v4/trusts/establishments/urns";
+        var payload = new { urns = new int[] { int.Parse(urn) } };
+
+        ApiResponse<Dictionary<int, TrustDto>> result = await httpClientService.Post<object, Dictionary<int, TrustDto>>(_httpClient, path, payload);
+
+        if (!result.Success) throw new ApiResponseException($"Request to Api failed | StatusCode - {result.StatusCode}");
+
+        return result.Body.FirstOrDefault()!.Value;
     }
 }
