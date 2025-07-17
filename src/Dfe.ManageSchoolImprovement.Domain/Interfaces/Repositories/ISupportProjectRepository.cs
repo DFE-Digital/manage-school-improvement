@@ -23,6 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
         Task<IEnumerable<string>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken);
 
         Task<SupportProject?> GetSupportProjectById(SupportProjectId id, CancellationToken cancellationToken);
+        Task<SupportProject?> GetSupportProjectByIdIgnoringFilters(SupportProjectId id, CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectTrusts(CancellationToken cancellationToken);
     }
 }
