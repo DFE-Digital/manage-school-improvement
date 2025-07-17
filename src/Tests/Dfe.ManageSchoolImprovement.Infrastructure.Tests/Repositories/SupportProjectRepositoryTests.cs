@@ -77,6 +77,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             projects.Should().HaveCount(1);              // Assert paged results
             projects.First().SchoolName.Should().Be("School A");
         }
+        
         [Fact]
         public async Task SearchForSupportProjects_WithNoUserAssigned_ShouldReturnFilteredAndPagedResults()
         {
@@ -89,6 +90,32 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 states: [],
                 assignedUsers: ["not assigned"],
                 assignedAdvisers: [],
+                regions: [],
+                localAuthorities: [],
+                page: 1,
+                count: 3,
+                cancellationToken: CancellationToken.None
+            );
+
+            // Assert
+            totalCount.Should().Be(2); // Assert total count
+            projects.Should().HaveCount(2);              // Assert paged results
+            projects.Should().Contain(x => x.SchoolName == "School B");
+            projects.Should().Contain(x => x.SchoolName == "School C");
+        }
+        
+        [Fact]
+        public async Task SearchForSupportProjects_WithNoAdviserAssigned_ShouldReturnFilteredAndPagedResults()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act 
+            var (projects, totalCount) = await service.SearchForSupportProjects(
+                title: null,
+                states: [],
+                assignedUsers: [],
+                assignedAdvisers: ["not assigned"],
                 regions: [],
                 localAuthorities: [],
                 page: 1,
