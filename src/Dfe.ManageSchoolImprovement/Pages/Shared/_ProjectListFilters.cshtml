@@ -39,6 +39,20 @@
 
                 </ul>
             }
+            @if (Model.SelectedAdvisers.Length > 0)
+            {
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Advised by</h3>
+
+                <ul class="moj-filter-tags">
+                    @{
+                        foreach (var adviser in Model.SelectedAdvisers)
+                        {
+                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedAdvisers=@adviser"><span class="govuk-visually-hidden">Remove this filter</span> @adviser.Stub()</a></li>
+                        }
+                    }
+
+                </ul>
+            }
             @if (Model.SelectedRegions.Length > 0)
             {
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Region</h3>
@@ -110,9 +124,43 @@
                                         {
                                             <div class="govuk-checkboxes__item">
                                                 <input class="govuk-checkboxes__input" id="filter-delivery-officer-@officer.Stub()" name="selectedOfficers" type="checkbox" value="@officer" data-cy="select-projectlist-filter-officer-@officer"
-                                                @(Model.SelectedOfficers.Contains(officer) ? "checked" : null) />
+                                                       @(Model.SelectedOfficers.Contains(officer) ? "checked" : null) />
                                                 <label class="govuk-label govuk-checkboxes__label" for="filter-delivery-officer-@officer.Stub()">
                                                     @officer
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
+                                    <span class="govuk-accordion__section-button" id="accordion-advisers-heading">
+                                        Advised by
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter advisers...">
+                                <div class="govuk-checkboxes">
+                                    @{
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input" id="filter-adviser-not-assigned"
+                                                   name="selectedAdvisers" type="checkbox" value="Not assigned" @(Model.SelectedAdvisers.Contains("Not assigned") ? "checked" : null)
+                                                   data-cy="select-projectlist-filter-adviser-not-assigned">
+                                            <label class="govuk-label govuk-checkboxes__label" for="filter-adviser-not-assigned">
+                                                Not assigned
+                                            </label>
+                                        </div>
+                                        foreach (var adviser in Model.AvailableAdvisers)
+                                        {
+                                            <div class="govuk-checkboxes__item">
+                                                <input class="govuk-checkboxes__input" id="filter-adviser-@adviser.Stub()" name="selectedAdvisers" type="checkbox" value="@adviser" data-cy="select-projectlist-filter-adviser-@adviser"
+                                                       @(Model.SelectedAdvisers.Contains(adviser) ? "checked" : null) />
+                                                <label class="govuk-label govuk-checkboxes__label" for="filter-adviser-@adviser.Stub()">
+                                                    @adviser
                                                 </label>
                                             </div>
                                         }

@@ -9,6 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
             string? title,
             IEnumerable<string>? states,
             IEnumerable<string>? assignedUsers,
+            IEnumerable<string>? assignedAdvisers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
             int page,
@@ -18,6 +19,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
         Task<IEnumerable<string>> GetAllProjectRegions(CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
+        Task<IEnumerable<string>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken);
 
         Task<SupportProject?> GetSupportProjectById(SupportProjectId id, CancellationToken cancellationToken);
     }
