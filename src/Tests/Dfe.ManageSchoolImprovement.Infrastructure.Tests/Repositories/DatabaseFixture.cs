@@ -55,7 +55,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 "100004",
                 "Authority5",
                 "Region3",
-                DateTime.Now
+                null, // trustName
+                null, // trustReferenceNumber
+                DateTime.Now // deletedAt
             ));
 
             Context.SaveChanges();

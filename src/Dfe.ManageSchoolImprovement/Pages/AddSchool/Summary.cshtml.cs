@@ -11,15 +11,24 @@ public class SummaryModel(IGetEstablishment getEstablishment, IMediator mediator
 {
     public DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto Establishment { get; set; }
 
+    [BindProperty]
+    public string? TrustName { get; set; }
+
+    [BindProperty]
+    public string? TrustReferenceNumber { get; set; }
     public async Task<IActionResult> OnGetAsync(string urn)
     {
         Establishment = await getEstablishment.GetEstablishmentByUrn(urn);
 
-        //if (Establishment.EstablishmentType.Name == "academy")
-        //{
         //Get Trust
-        var x = await getEstablishment.GetEstablishmentTrust(urn);
-        //}
+        var trust = await getEstablishment.GetEstablishmentTrust(urn);
+
+        //if there is one set trust name
+        if (trust != null && trust.Name != null)
+        {
+            TrustName = trust.Name;
+            TrustReferenceNumber = trust.ReferenceNumber;
+        }
 
         return Page();
     }
@@ -28,7 +37,7 @@ public class SummaryModel(IGetEstablishment getEstablishment, IMediator mediator
     {
         DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto establishment = await getEstablishment.GetEstablishmentByUrn(urn);
 
-        var request = new CreateSupportProjectCommand(establishment.Name, establishment.Urn, establishment.LocalAuthorityName, establishment.Gor.Name);
+        var request = new CreateSupportProjectCommand(establishment.Name, establishment.Urn, establishment.LocalAuthorityName, establishment.Gor.Name, TrustName, TrustReferenceNumber);
 
         var id = await mediator.Send(request);
 
