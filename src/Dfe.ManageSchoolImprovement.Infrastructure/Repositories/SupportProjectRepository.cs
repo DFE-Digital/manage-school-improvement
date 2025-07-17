@@ -149,6 +149,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return await DefaultIncludes().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
+        public async Task<SupportProject?> GetSupportProjectByIdIgnoringFilters(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DefaultIncludes()
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+
         private IQueryable<SupportProject> DefaultIncludes()
         {
             return DbSet()

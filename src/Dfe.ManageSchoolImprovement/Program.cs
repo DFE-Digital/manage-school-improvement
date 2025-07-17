@@ -60,6 +60,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped(sp => sp.GetService<IHttpContextAccessor>()?.HttpContext?.Session);
 // Add services to the container.
+builder.Services.AddControllers();
 builder.Services.AddRazorPages(options =>
         {
             options.Conventions.AuthorizeFolder("/");
@@ -184,6 +185,7 @@ app.UseEndpoints(endpoints =>
         context.Response.Redirect("schools-identified-for-targeted-intervention", false);
         return Task.CompletedTask;
     });
+    endpoints.MapControllers();
     endpoints.MapRazorPages();
     endpoints.MapControllerRoute("default", "{controller}/{action}/");
 });
