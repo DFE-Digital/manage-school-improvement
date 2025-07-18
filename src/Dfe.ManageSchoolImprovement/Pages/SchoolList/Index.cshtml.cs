@@ -26,7 +26,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
 
         var result =
            await supportProjectQueryService.SearchForSupportProjects(
-               Filters.Title, Filters.SelectedStatuses, Filters.SelectedOfficers, Filters.SelectedRegions,
+               Filters.Title, Filters.SelectedStatuses, Filters.SelectedOfficers, Filters.SelectedAdvisers, Filters.SelectedRegions,
                Filters.SelectedLocalAuthorities, Filters.SelectedTrusts, Pagination.PagePath, Pagination.CurrentPage, Pagination.PageSize,
                cancellationToken);
 
@@ -58,6 +58,14 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         {
             Filters.AvailableDeliveryOfficers = assignedUsersResult.Value.ToList();
         }
+
+        var assignedAdvisersResult = await supportProjectQueryService.GetAllProjectAssignedAdvisers(cancellationToken);
+
+        if (assignedAdvisersResult.IsSuccess && assignedAdvisersResult.Value != null)
+        {
+            Filters.AvailableAdvisers = assignedAdvisersResult.Value.ToList();
+        }
+
 
         var trustsResult = await supportProjectQueryService.GetAllProjectTrusts(cancellationToken);
 

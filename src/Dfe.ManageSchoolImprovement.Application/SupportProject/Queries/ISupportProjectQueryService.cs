@@ -12,6 +12,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             string? title,
             IEnumerable<string>? states,
             IEnumerable<string>? assignedUsers,
+            IEnumerable<string>? assignedAdvisers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
             IEnumerable<string>? trusts,
@@ -23,6 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         Task<Result<IEnumerable<string>>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectRegions(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
+        Task<Result<IEnumerable<string>>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken);
     }
 }

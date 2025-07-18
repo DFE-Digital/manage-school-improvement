@@ -16,6 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: "School",
                 states: [],
                 assignedUsers: ["User1"],
+                assignedAdvisers: ["Adviser@adviser.com"],
                 regions: ["Region1"],
                 localAuthorities: ["Authority1"],
                 trusts: [], // Add the missing trusts parameter
@@ -40,6 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: "School",
                 states: [],
                 assignedUsers: [],
+                assignedAdvisers: [],
                 regions: [],
                 localAuthorities: [],
                 trusts: [], // Add the missing trusts parameter
@@ -64,6 +66,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: "100001",
                 states: [],
                 assignedUsers: [],
+                assignedAdvisers: [],
                 regions: [],
                 localAuthorities: [],
                 trusts: [], // Add the missing trusts parameter
@@ -89,6 +92,34 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: null,
                 states: [],
                 assignedUsers: ["not assigned"],
+                assignedAdvisers: [],
+                regions: [],
+                localAuthorities: [],
+                trusts: [], // Add the missing trusts parameter
+                page: 1,
+                count: 3,
+                cancellationToken: CancellationToken.None
+            );
+
+            // Assert
+            totalCount.Should().Be(2); // Assert total count
+            projects.Should().HaveCount(2);              // Assert paged results
+            projects.Should().Contain(x => x.SchoolName == "School B");
+            projects.Should().Contain(x => x.SchoolName == "School C");
+        }
+
+        [Fact]
+        public async Task SearchForSupportProjects_WithNoAdviserAssigned_ShouldReturnFilteredAndPagedResults()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act 
+            var (projects, totalCount) = await service.SearchForSupportProjects(
+                title: null,
+                states: [],
+                assignedUsers: [],
+                assignedAdvisers: ["not assigned"],
                 regions: [],
                 localAuthorities: [],
                 trusts: [], // Add the missing trusts parameter
@@ -123,6 +154,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: title,
                 states: [],
                 assignedUsers: [],
+                assignedAdvisers: [],
                 regions: regions,
                 localAuthorities: localAuthorities,
                 trusts: [], // Add the missing trusts parameter

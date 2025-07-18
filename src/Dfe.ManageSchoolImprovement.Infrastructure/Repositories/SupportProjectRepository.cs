@@ -13,6 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             string? title,
             IEnumerable<string>? states,
             IEnumerable<string>? assignedUsers,
+            IEnumerable<string>? assignedAdvisers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
             IEnumerable<string>? trusts,
@@ -25,6 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByRegion(regions, queryable);
             queryable = FilterByKeyword(title, queryable);
             queryable = FilterByAssignedUsers(assignedUsers, queryable);
+            queryable = FilterByAssignedAdvisers(assignedAdvisers, queryable);
             queryable = FilterByLocalAuthority(localAuthorities, queryable);
             queryable = FilterByTrusts(trusts, queryable);
 
@@ -67,6 +69,30 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                     // Query by assigned delivery officer only
                     queryable = queryable.Where(p =>
                         !string.IsNullOrEmpty(p.AssignedDeliveryOfficerFullName) && lowerCaseDeliveryOfficers.Contains(p.AssignedDeliveryOfficerFullName.ToLower()));
+                }
+            }
+
+            return queryable;
+        }
+        
+        private static IQueryable<SupportProject> FilterByAssignedAdvisers(IEnumerable<string>? assignedAdvisers, IQueryable<SupportProject> queryable)
+        {
+            if (assignedAdvisers != null && assignedAdvisers.Any())
+            {
+                var lowerCaseAdvisers = assignedAdvisers.Select(adviser => adviser.ToLower());
+
+                if (lowerCaseAdvisers.Contains("not assigned"))
+                {
+                    // Query by unassigned or assigned adviser
+                    queryable = queryable.Where(p =>
+                        (!string.IsNullOrEmpty(p.AdviserEmailAddress) && lowerCaseAdvisers.Contains(p.AdviserEmailAddress.ToLower()))
+                        || string.IsNullOrEmpty(p.AdviserEmailAddress));
+                }
+                else
+                {
+                    // Query by assigned adviser only
+                    queryable = queryable.Where(p =>
+                        !string.IsNullOrEmpty(p.AdviserEmailAddress) && lowerCaseAdvisers.Contains(p.AdviserEmailAddress.ToLower()));
                 }
             }
 
@@ -151,6 +177,16 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return await DbSet().OrderByDescending(p => p.AssignedDeliveryOfficerFullName)
                 .AsNoTracking()
                 .Select(p => p.AssignedDeliveryOfficerFullName!)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<string>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken)
+        {
+            return await DbSet().OrderByDescending(p => p.AdviserEmailAddress)
+                .AsNoTracking()
+                .Select(p => p.AdviserEmailAddress!)
                 .Where(p => !string.IsNullOrEmpty(p))
                 .Distinct()
                 .ToListAsync(cancellationToken);
