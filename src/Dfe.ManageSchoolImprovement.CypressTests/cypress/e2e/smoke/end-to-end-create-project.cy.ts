@@ -396,13 +396,5 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-improvement-grant-offer-letter_status");
 
-      cy.request({
-        method: 'DELETE',
-        url: `${Cypress.env('api')}/api/SupportProjectApi/${urn}`,
-        headers: {
-          'Authorization': `Bearer ${Cypress.env('authKey')}`
-        }
-      })
-
   });
 });
