@@ -17,6 +17,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 SchoolUrn: "123456",
                 LocalAuthority: "Local Authority",
                 Region: "Region",
+                TrustName: "Test Trust",
+                TrustReferenceNumber: "TR123456",
                 discussTheBestApproach: true,
                 emailTheResponsibleBody: true,
                 contactedTheResponsibleBodyDate: DateTime.Now,
@@ -81,6 +83,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.Region, viewModel.Region);
             Assert.Equal(supportProjectDto.SchoolName, viewModel.SchoolName);
             Assert.Equal(supportProjectDto.SchoolUrn, viewModel.SchoolUrn);
+            Assert.Equal(supportProjectDto.TrustName, viewModel.TrustName);
+            Assert.Equal(supportProjectDto.TrustReferenceNumber, viewModel.TrustReferenceNumber);
             Assert.Equal(supportProjectDto.Notes, viewModel.Notes);
             Assert.Equal(supportProjectDto.discussTheBestApproach, viewModel.DiscussTheBestApproach);
             Assert.Equal(supportProjectDto.emailTheResponsibleBody, viewModel.EmailTheResponsibleBody);

@@ -26,6 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             IEnumerable<string>? assignedAdvisers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
+            IEnumerable<string>? trusts,
             string pagePath,
             int page,
             int count,
@@ -37,7 +38,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
                 assignedUsers, 
                 assignedAdvisers, 
                 regions, 
-                localAuthorities, 
+                localAuthorities,
+                trusts,
                 page, 
                 count, 
                 cancellationToken);
@@ -81,6 +83,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         public async Task<Result<IEnumerable<string>>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectAssignedAdvisers(cancellationToken);
+            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
+        public async Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectTrusts(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
     }

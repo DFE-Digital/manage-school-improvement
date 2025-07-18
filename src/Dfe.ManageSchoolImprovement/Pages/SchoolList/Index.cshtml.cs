@@ -8,7 +8,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.SchoolList;
 
 public class IndexModel(ISupportProjectQueryService supportProjectQueryService) : PageModel
 {
-    public IEnumerable<SupportProjectViewModel> SupportProjects { get; set;  } = [];
+    public IEnumerable<SupportProjectViewModel> SupportProjects { get; set; } = [];
 
     [BindProperty]
     public ProjectListFilters Filters { get; set; } = new();
@@ -27,7 +27,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         var result =
            await supportProjectQueryService.SearchForSupportProjects(
                Filters.Title, Filters.SelectedStatuses, Filters.SelectedOfficers, Filters.SelectedAdvisers, Filters.SelectedRegions,
-               Filters.SelectedLocalAuthorities, Pagination.PagePath, Pagination.CurrentPage, Pagination.PageSize,
+               Filters.SelectedLocalAuthorities, Filters.SelectedTrusts, Pagination.PagePath, Pagination.CurrentPage, Pagination.PageSize,
                cancellationToken);
 
         if (result.IsSuccess && result.Value != null)
@@ -58,12 +58,20 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         {
             Filters.AvailableDeliveryOfficers = assignedUsersResult.Value.ToList();
         }
-        
+
         var assignedAdvisersResult = await supportProjectQueryService.GetAllProjectAssignedAdvisers(cancellationToken);
 
         if (assignedAdvisersResult.IsSuccess && assignedAdvisersResult.Value != null)
         {
             Filters.AvailableAdvisers = assignedAdvisersResult.Value.ToList();
+        }
+
+
+        var trustsResult = await supportProjectQueryService.GetAllProjectTrusts(cancellationToken);
+
+        if (trustsResult.IsSuccess && trustsResult.Value != null)
+        {
+            Filters.AvailableTrusts = trustsResult.Value.ToList();
         }
 
         return Page();
