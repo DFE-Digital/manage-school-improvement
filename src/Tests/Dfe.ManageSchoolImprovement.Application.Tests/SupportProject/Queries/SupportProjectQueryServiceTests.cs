@@ -236,6 +236,59 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.Null(result.Value);
         }
 
+        [Fact]
+        public async Task GetAllProjectTrusts_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var trusts = new List<string> { "Trust A", "Trust B", "Trust C" };
+
+            _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(trusts);
+
+            // Act
+            var result = await _service.GetAllProjectTrusts(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(trusts, result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectTrusts_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))!
+                           .ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectTrusts(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectTrusts_ShouldReturnEmptyList_WhenNoTrustsExist()
+        {
+            // Arrange
+            var emptyTrusts = new List<string>();
+
+            _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(emptyTrusts);
+
+            // Act
+            var result = await _service.GetAllProjectTrusts(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            Assert.Empty(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
         private List<Domain.Entities.SupportProject.SupportProject> GetSchoolProjects(int count = 1)
         {
             var projects = new List<Domain.Entities.SupportProject.SupportProject>();

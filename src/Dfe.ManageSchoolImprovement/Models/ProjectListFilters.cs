@@ -50,10 +50,9 @@ public class ProjectListFilters
     public bool IsVisible => !string.IsNullOrWhiteSpace(Title) ||
                              SelectedStatuses.Length > 0 ||
                              SelectedAdvisers.Length > 0 ||
-                             SelectedAdvisoryBoardDates.Length > 0 ||
+                             SelectedOfficers.Length > 0 ||
                              SelectedRegions.Length > 0 ||
                              SelectedLocalAuthorities.Length > 0 ||
-                             SelectedAdvisoryBoardDates.Length > 0 ||
                              SelectedTrusts.Length > 0;
 
     public ProjectListFilters PersistUsing(IDictionary<string, object?> store)
