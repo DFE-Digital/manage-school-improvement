@@ -1,4 +1,5 @@
 @using Dfe.ManageSchoolImprovement.Utils
+@using System.Globalization;
 @model ProjectListFilters
 <div class="moj-filter">
     <div class="moj-filter__header">
@@ -180,6 +181,40 @@
                                             <label class="govuk-label govuk-checkboxes__label"
                                                    for="filter-project-local-authority-@localAuthority.Stub()">
                                                 @localAuthority
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button"
+                                           id="accordion-trust-heading"
+                                           data-cy="select-projectlist-filter-trust"
+                                           for="filter-trust-searches">
+                                        Trust
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-trust-searches" placeholder="Type to filter trusts..."
+                                       aria-labelledby="accordion-trust-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var trust in Model.AvailableTrusts)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-trust-@trust.Stub()"
+                                                   name="selectedTrusts" type="checkbox"
+                                                   value="@trust"
+                                                   data-cy="select-projectlist-filter-trust-@trust"
+                                                   @(Model.SelectedTrusts.Contains(trust) ? "checked" : null) />
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-trust-@trust.Stub()">
+                                                @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(trust.ToLower())
                                             </label>
                                         </div>
                                     }

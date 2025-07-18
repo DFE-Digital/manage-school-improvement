@@ -32,33 +32,40 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
         private void SeedData()
         {
             Context.SupportProjects.AddRange(
-           SupportProject.Create(
-                "School A",
-                "100001",
-                "Authority1",
-                "Region1"
-            ),
-            SupportProject.Create(
-                "School B",
-                "100002",
-                "Authority2",
-                "Region2"
-            ),
-            SupportProject.Create(
-                "School C",
-                "100003",
-                "Authority3",
-                "Region2"
-            ),
-            SupportProject.Create(
-                "School D",
-                "100004",
-                "Authority5",
-                "Region3",
-                null, // trustName
-                null, // trustReferenceNumber
-                DateTime.Now // deletedAt
-            ));
+                SupportProject.Create(
+                    schoolName: "School A",
+                    schoolUrn: "100001",
+                    localAuthority: "Authority1",
+                    region: "Region1",
+                    trustName: "Trust A",
+                    trustReferenceNumber: "TR001"
+                ),
+                SupportProject.Create(
+                    schoolName: "School B",
+                    schoolUrn: "100002",
+                    localAuthority: "Authority2",
+                    region: "Region2",
+                    trustName: "Trust B",
+                    trustReferenceNumber: "TR002"
+                ),
+                SupportProject.Create(
+                    schoolName: "School C",
+                    schoolUrn: "100003",
+                    localAuthority: "Authority3",
+                    region: "Region2",
+                    trustName: null,
+                    trustReferenceNumber: null
+                ),
+                SupportProject.Create(
+                    schoolName: "School D",
+                    schoolUrn: "100004",
+                    localAuthority: "Authority5",
+                    region: "Region3",
+                    trustName: "Trust D",
+                    trustReferenceNumber: "TR004",
+                    deletedAt: DateTime.Now // This makes it a soft-deleted record
+                )
+            );
 
             Context.SaveChanges();
 
@@ -68,7 +75,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             Context.Update(school);
             Context.SaveChanges();
-
         }
 
         public void Dispose()
@@ -76,5 +82,4 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             Context.Dispose();
         }
     }
-
 }

@@ -59,6 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
 
             _mockRepository.Setup(r => r.SearchForSupportProjects(It.IsAny<string?>(), It.IsAny<IEnumerable<string>?>(),
                     It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(),
+                    It.IsAny<IEnumerable<string>?>(),
                     It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((projects, totalCount));
             foreach (var supportProjectDto in supportProjectDtos)
@@ -67,7 +68,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             }
 
             // Act
-            var result = await _service.SearchForSupportProjects(null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
+            var result = await _service.SearchForSupportProjects(null, null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);

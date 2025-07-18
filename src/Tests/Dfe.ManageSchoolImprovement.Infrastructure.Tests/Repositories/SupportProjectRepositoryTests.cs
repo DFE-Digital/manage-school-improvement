@@ -18,6 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 assignedUsers: ["User1"],
                 regions: ["Region1"],
                 localAuthorities: ["Authority1"],
+                trusts: [], // Add the missing trusts parameter
                 page: 1,
                 count: 2,
                 cancellationToken: CancellationToken.None
@@ -41,6 +42,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 assignedUsers: [],
                 regions: [],
                 localAuthorities: [],
+                trusts: [], // Add the missing trusts parameter
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -64,6 +66,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 assignedUsers: [],
                 regions: [],
                 localAuthorities: [],
+                trusts: [], // Add the missing trusts parameter
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -74,6 +77,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             projects.Should().HaveCount(1);              // Assert paged results
             projects.First().SchoolName.Should().Be("School A");
         }
+
         [Fact]
         public async Task SearchForSupportProjects_WithNoUserAssigned_ShouldReturnFilteredAndPagedResults()
         {
@@ -87,6 +91,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 assignedUsers: ["not assigned"],
                 regions: [],
                 localAuthorities: [],
+                trusts: [], // Add the missing trusts parameter
                 page: 1,
                 count: 3,
                 cancellationToken: CancellationToken.None
@@ -120,6 +125,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 assignedUsers: [],
                 regions: regions,
                 localAuthorities: localAuthorities,
+                trusts: [], // Add the missing trusts parameter
                 page: 1,
                 count: 2,
                 cancellationToken: CancellationToken.None

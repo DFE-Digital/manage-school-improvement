@@ -15,6 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             IEnumerable<string>? assignedUsers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
+            IEnumerable<string>? trusts,
             int page,
             int count,
             CancellationToken cancellationToken)
@@ -25,6 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByKeyword(title, queryable);
             queryable = FilterByAssignedUsers(assignedUsers, queryable);
             queryable = FilterByLocalAuthority(localAuthorities, queryable);
+            queryable = FilterByTrusts(trusts, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
             var projects = await queryable
@@ -33,6 +35,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Take(count).ToListAsync(cancellationToken);
 
             return (projects, totalProjects);
+        }
+
+        private IQueryable<SupportProject> FilterByTrusts(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
+        {
+            if (trusts != null && trusts.Any())
+            {
+                var lowerCaseRegions = trusts.Select(trust => trust.ToLower());
+                queryable = queryable.Where(p =>
+                    !string.IsNullOrEmpty(p.TrustName) && lowerCaseRegions.Contains(p.TrustName.ToLower()));
+            }
+
+            return queryable;
         }
 
         private static IQueryable<SupportProject> FilterByAssignedUsers(IEnumerable<string>? assignedUsers, IQueryable<SupportProject> queryable)
@@ -77,7 +91,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(title))
             {
 
-                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) || 
+                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) ||
                                                  p.SchoolUrn.ToLower().Contains(title.ToLower())
                 );
             }
@@ -134,9 +148,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
         {
-            return await DbSet().OrderByDescending(p => p.LocalAuthority)
+            return await DbSet().OrderByDescending(p => p.AssignedDeliveryOfficerFullName)
                 .AsNoTracking()
                 .Select(p => p.AssignedDeliveryOfficerFullName!)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<string>> GetAllProjectTrusts(CancellationToken cancellationToken)
+        {
+            return await DbSet().OrderByDescending(p => p.TrustName)
+                .AsNoTracking()
+                .Select(p => p.TrustName!)
                 .Where(p => !string.IsNullOrEmpty(p))
                 .Distinct()
                 .ToListAsync(cancellationToken);

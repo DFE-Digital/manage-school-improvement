@@ -11,6 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
             IEnumerable<string>? assignedUsers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
+            IEnumerable<string>? trusts,
             int page,
             int count,
             CancellationToken cancellationToken);
@@ -20,5 +21,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
         Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
 
         Task<SupportProject?> GetSupportProjectById(SupportProjectId id, CancellationToken cancellationToken);
+        Task<IEnumerable<string>> GetAllProjectTrusts(CancellationToken cancellationToken);
     }
 }

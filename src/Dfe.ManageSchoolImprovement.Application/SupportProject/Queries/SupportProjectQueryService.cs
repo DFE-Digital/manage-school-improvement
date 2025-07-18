@@ -25,12 +25,13 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             IEnumerable<string>? assignedUsers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
+            IEnumerable<string>? trusts,
             string pagePath,
             int page,
             int count,
             CancellationToken cancellationToken)
         {
-            var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(title, states, assignedUsers, regions, localAuthorities, page, count, cancellationToken);
+            var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(title, states, assignedUsers, regions, localAuthorities, trusts, page, count, cancellationToken);
 
             var pageResponse = PagingResponseFactory.Create(pagePath, page, count, totalCount, []);
 
@@ -65,6 +66,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         public async Task<Result<IEnumerable<string>>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectAssignedUsers(cancellationToken);
+            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
+        public async Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectTrusts(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
     }
