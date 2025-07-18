@@ -39,7 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return (projects, totalProjects);
         }
 
-        private IQueryable<SupportProject> FilterByTrusts(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
+        private static IQueryable<SupportProject> FilterByTrusts(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
         {
             if (trusts != null && trusts.Any())
             {
@@ -74,7 +74,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
             return queryable;
         }
-        
+
         private static IQueryable<SupportProject> FilterByAssignedAdvisers(IEnumerable<string>? assignedAdvisers, IQueryable<SupportProject> queryable)
         {
             if (assignedAdvisers != null && assignedAdvisers.Any())

@@ -40,14 +40,14 @@ public class GetEstablishmentItemCacheDecorator(IGetEstablishment getEstablishme
         return establishment;
     }
 
-    public Task<TrustDto> GetEstablishmentTrust(string urn)
+    public Task<TrustDto?> GetEstablishmentTrust(string urn)
     {
         string key = $"establishments-trust-{urn}";
-        if (_httpContext.Items.ContainsKey(key) && _httpContext.Items[key] is TrustDto cached)
+        if (_httpContext.Items.ContainsKey(key) && (_httpContext.Items[key] is TrustDto cached))
         {
-            return Task.FromResult(cached);
+            return Task.FromResult<TrustDto?>(cached);
         }
-        Task<TrustDto> trustResponse = getEstablishment.GetEstablishmentTrust(urn);
+        Task<TrustDto?> trustResponse = getEstablishment.GetEstablishmentTrust(urn);
 
         _httpContext.Items[key] = trustResponse;
 
