@@ -1,4 +1,7 @@
 @using Dfe.ManageSchoolImprovement.Utils
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment Environment
+
 @using System.Globalization;
 @model ProjectListFilters
 <div class="moj-filter">
@@ -135,44 +138,50 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="govuk-accordion__section">
-                            <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
-                                    <span class="govuk-accordion__section-button" id="accordion-advisers-heading">
-                                        Advised by
-                                    </span>
-                                </h2>
-                            </div>
-                            <div class="govuk-accordion__section-content">
-                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" id="filter-searches" placeholder="Type to filter advisers...">
-                                <div class="govuk-checkboxes">
-                                    @{
-                                        <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input" id="filter-adviser-not-assigned"
-                                                   name="selectedAdvisers" type="checkbox" value="Not assigned" @(Model.SelectedAdvisers.Contains("Not assigned") ? "checked" : null)
-                                                   data-cy="select-projectlist-filter-adviser-not-assigned">
-                                            <label class="govuk-label govuk-checkboxes__label" for="filter-adviser-not-assigned">
-                                                Not assigned
-                                            </label>
-                                        </div>
-                                        foreach (var adviser in Model.AvailableAdvisers)
-                                        {
+                        @if (Environment.IsDevelopment() || Environment.IsEnvironment("Test"))
+                        {
+                            <div class="govuk-accordion__section">
+                                <div class="govuk-accordion__section-header">
+                                    <h2 class="govuk-accordion__section-heading">
+                                        <span class="govuk-accordion__section-button" id="accordion-advisers-heading" data-cy="select-projectlist-filter-adviser">
+                                            Advised by
+                                        </span>
+                                    </h2>
+                                </div>
+                                <div class="govuk-accordion__section-content">
+                                    <input 
+                                        type="text" 
+                                        class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2" 
+                                        id="filter-searches" 
+                                        placeholder="Type to filter advisers...">
+                                    <div class="govuk-checkboxes">
+                                        @{
                                             <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="filter-adviser-@adviser.Stub()" name="selectedAdvisers" type="checkbox" value="@adviser" data-cy="select-projectlist-filter-adviser-@adviser"
-                                                       @(Model.SelectedAdvisers.Contains(adviser) ? "checked" : null) />
-                                                <label class="govuk-label govuk-checkboxes__label" for="filter-adviser-@adviser.Stub()">
-                                                    @adviser
+                                                <input class="govuk-checkboxes__input" id="filter-adviser-not-assigned"
+                                                       name="selectedAdvisers" type="checkbox" value="Not assigned" @(Model.SelectedAdvisers.Contains("Not assigned") ? "checked" : null)
+                                                       data-cy="select-projectlist-filter-adviser-not-assigned">
+                                                <label class="govuk-label govuk-checkboxes__label" for="filter-adviser-not-assigned">
+                                                    Not assigned
                                                 </label>
                                             </div>
+                                            foreach (var adviser in Model.AvailableAdvisers)
+                                            {
+                                                <div class="govuk-checkboxes__item">
+                                                    <input class="govuk-checkboxes__input" id="filter-adviser-@adviser.Stub()" name="selectedAdvisers" type="checkbox" value="@adviser" data-cy="select-projectlist-filter-adviser-@adviser"
+                                                           @(Model.SelectedAdvisers.Contains(adviser) ? "checked" : null)/>
+                                                    <label class="govuk-label govuk-checkboxes__label" for="filter-adviser-@adviser.Stub()">
+                                                        @adviser
+                                                    </label>
+                                                </div>
+                                            }
                                         }
-                                    }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
                                 <h2 class="govuk-accordion__section-heading">
-
                                     <label class="govuk-accordion__section-button" id="accordion-regions-heading"
                                            data-cy="select-projectlist-filter-region" for="filter-searches">
                                         Region
