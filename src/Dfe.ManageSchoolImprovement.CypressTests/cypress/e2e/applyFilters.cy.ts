@@ -43,39 +43,41 @@ describe("User search results by appliying filters", () => {
         //  cy.executeAccessibilityTests()
     });
 
-       it("should filter projects by URN", () => {
+    it("should filter projects by URN", () => {
         Logger.log("Testing- filter projects by providing URN");
         homePage
-            .selectProjectFilter("105443")
+            .selectProjectFilter("106135")
             .applyFilters()
             .hasFilterSuccessNotification()
-            .hasURN("105443")
+            .hasURN("106135")
 
         //  cy.executeAccessibilityTests()
-    }); 
+    });
 
     it("should filter projects by Assigned to", () => {
-        Logger.log("Testing - filter projects by Assigned to");
+        const assignedTo = "Richika Dogra";
+        Logger.log(`Testing - filter projects by Assigned to: ${assignedTo}`);
         homePage
-            .selectAssignedToFilter("Richika Dogra")
+            .selectFilter("Assigned to", assignedTo)
             .applyFilters()
             .hasFilterSuccessNotification()
+            .resultCountNotZero()
 
         //  cy.executeAccessibilityTests()
     });
 
     it("should filter projects by Not Assigned to", () => {
-        Logger.log("Testing - filter projects by Assigned to");
+        Logger.log("Testing - filter projects by Not Assigned to");
         homePage
-            .selectNotAssignedToFilter()
+            .selectFilter("Not Assigned", "")
             .applyFilters()
-            .hasFilterSuccessNotification()
+            .hasFilterSuccessNotification();
 
         //  cy.executeAccessibilityTests()
     });
 
     it("should show/hide all the filter sections", () => {
-        Logger.log("Testing - filter projects by Assigned to");
+        Logger.log("Testing - show/hide all the filter sections");
         homePage
             .showAllFilterSections()
             .hideAllFilterSections()
@@ -92,4 +94,88 @@ describe("User search results by appliying filters", () => {
 
         //  cy.executeAccessibilityTests()
     });
+
+    it("should filter projects by specific Region", () => {
+        const region = "North West";
+        Logger.log(`Testing - filter projects by specific Region: ${region}`);
+
+        homePage
+            .selectFilter("Region", region)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+            .verifyFilterApplied("Region", region);
+
+        Logger.log(`Successfully filtered projects by Region: ${region}`);
+
+        //  cy.executeAccessibilityTests()
+    });
+
+    it("should filter projects by Local authority", () => {
+        const localAuthority = "Birmingham";
+        Logger.log(`Testing - filter projects by Local authority: ${localAuthority}`);
+
+        homePage
+            .selectFilter("Local authority", localAuthority)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+            .verifyFilterApplied("Local authority", localAuthority);
+
+        Logger.log(`Successfully filtered projects by Local authority: ${localAuthority}`);
+    });
+
+    it("should filter projects by Advised by", () => {
+        const advisedBy = "test.test-rise@education.gov.uk";
+
+        Logger.log(`Testing - filter projects by Advised by: ${advisedBy}`);
+        homePage
+            .selectFilter("Advised by", advisedBy)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .verifyFilterApplied("Advised by");
+
+        Logger.log("Successfully filtered projects by Advised by");
+
+        //  cy.executeAccessibilityTests()
+    });
+
+    it("filters should retain their value when navigated back from the result pages", () => {
+        const region = "London";
+
+        homePage
+            .selectFilter("Region", region)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .selectFirstSchoolFromList();
+
+        cy.go('back');
+        Logger.log("Navigated back to the homepage after viewing a school");
+
+        homePage
+            .verifyFilterChecked("Region", region)
+
+        Logger.log("Successfully verified that filters retain their values after navigation");
+
+        //  cy.executeAccessibilityTests()
+
+    });
+
+    it.skip("should filter projects by Trust ", () => {
+        const trust = "Greater Manchester Academies Trust";
+        Logger.log(`Testing - filter projects by Trust: ${trust}`);
+
+        homePage
+            .selectFilter("Trust", trust)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+            .verifyFilterApplied("Local authority", trust);
+
+        Logger.log("Successfully filtered projects by Advised by");
+
+        //  cy.executeAccessibilityTests()
+    });
+
+
 });
