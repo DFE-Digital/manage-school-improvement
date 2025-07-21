@@ -88,6 +88,20 @@
                     }
                 </ul>
             }
+            @if (Model.SelectedTrusts.Length > 0)
+            {
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Advised by</h3>
+
+                <ul class="moj-filter-tags">
+                    @{
+                        foreach (var trust in Model.SelectedTrusts)
+                        {
+                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedTrusts=@trust"><span class="govuk-visually-hidden">Remove this filter</span> @trust.Stub()</a></li>
+                        }
+                    }
+
+                </ul>
+            }
         </div>
         <div class="moj-filter__options">
             <form method="get" class="form">
