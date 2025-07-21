@@ -1,3 +1,5 @@
+import { log } from "console";
+
 class HomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();
@@ -13,6 +15,7 @@ class HomePage {
     cy.contains("Add a school").should("be.visible");
     return this;
   }
+
   public selectFirstSchoolFromList(): this {
     cy.get('[data-cy="trust-name-0"]').first().click(); // Select the first school in the list    
     cy.url().should('include', '/task-list/')
@@ -30,7 +33,7 @@ class HomePage {
 
   public viewCookiesPage(): this {
     cy.get('[data-test="cookie-banner-link-1"]').click()
-    cy.url().should('contains', '/cookie-preferences')
+    cy.url().should('include', '/cookie-preferences')
     cy.get('[data-qa="submit"]').should('be.visible')
     return this;
   }
@@ -57,11 +60,15 @@ class HomePage {
       .contains(assignedTo.trim())
       .click();
     return this;
-  }
+  }  
+  
   public verifyFilterChecked(filterType: string, filterValue: string): this {
     cy.get('.moj-filter__selected')
-      .should('contain', filterType)
-      .contains(new RegExp(filterValue, 'i'));
+      .should('contain', filterType);
+    
+    cy.get('.moj-filter__selected')
+      .contains(new RegExp(filterValue, 'i'))
+      .should('exist');
 
     return this;
   }
@@ -74,16 +81,15 @@ class HomePage {
   }
 
   public selectTrustFilter(trustName: string): this {
-    cy.get('[data-cy="select-projectlist-filter-trust"]').should('exist')
-      .then(($accordion) => {
-        if ($accordion.attr("aria-expanded") === "false") {
-          cy.wrap($accordion).click();
-        }
-      });
-
+      cy.get('[data-cy="select-projectlist-filter-trust"]')
+      .should("exist")
+      .click()
+     
+    cy.get('#filter-searches').should('be.visible').type(trustName, {force: true});
+    
     cy.get('.govuk-checkboxes')
       .contains(trustName)
-      .parent()
+      .closest('.govuk-checkboxes__item')
       .find('input[type="checkbox"]')
       .check();
 
@@ -116,7 +122,8 @@ class HomePage {
   }
 
   public applyFilters(): this {
-    cy.get('[data-cy="select-projectlist-filter-apply"]').click();
+    cy.getByCyData('select-projectlist-filter-apply').should('contain', 'Apply filters')
+      .click();
 
     return this;
   }
@@ -150,9 +157,8 @@ class HomePage {
 
     return this;
   }
-
-  public hasURN(URN: string): this {
-    cy.get("#urn-0").contains(URN);
+  public hasURN(urn: string): this {
+    cy.get("#urn-0").contains(urn);
 
     return this;
   }
@@ -240,8 +246,8 @@ class HomePage {
   }
 
   public resultCountNotZero(): this {
-    cy.get('.govuk-table__cell').should('not.have.length', 0)
-    cy.getByClass('select-projectlist-filter-count').should('not.equal', '0 schools found')
+    cy.get('.govuk-table__cell').should('exist')
+    cy.get('[data-cy="select-projectlist-filter-count"]').should('not.contain', '0 schools found')
 
     return this;
   }
@@ -256,17 +262,14 @@ class HomePage {
 
     return this;
   }
+
   public selectAdvisedByFilter(searchText: string): this {
     cy.get('[data-cy="select-projectlist-filter-adviser"]')
       .should("exist")
-      .then(($accordion) => {
-        if ($accordion.attr("aria-expanded") === "false") {
-          cy.wrap($accordion).click();
-        }
-
-      });
-
-    cy.get(`[data-cy="select-projectlist-filter-adviser-${searchText}"]`).click();
+      .click()
+   cy.get('#filter-searches').should('be.visible')
+   cy.get(`[data-cy="select-projectlist-filter-adviser-${searchText}"]`)
+     .check();
 
     return this;
   }
@@ -324,6 +327,11 @@ class HomePage {
     return this;
   }
 
+  public hasSelectedTrustFilter(trust: string): this {
+    cy.get('.govuk-table__row').should('contain', trust);
+    return this;
+  }
+
   public selectFilter(filterType: string, filterValue: string): this {
     switch (filterType.toLowerCase()) {
       case 'assigned to':
@@ -348,7 +356,8 @@ class HomePage {
         throw new Error(`Filter type '${filterType}' is not supported.`);
     }
     return this;
-  }
+  } 
+  
   public verifyFilterApplied(filterType: string, filterValue?: string): this {
     switch (filterType.toLowerCase()) {
       case 'assigned to':
@@ -357,8 +366,9 @@ class HomePage {
         }
         break;
       case 'advised by':
-        if (filterValue)
+        if (filterValue) {
           this.hasAdvisedByFilter(filterValue);
+        }
         break;
       case 'region':
         if (filterValue) {
@@ -368,6 +378,11 @@ class HomePage {
       case 'local authority':
         if (filterValue) {
           this.hasSelectedLocalAuthorityFilter(filterValue);
+        }
+        break;
+      case 'trust':
+        if (filterValue) {
+          this.hasSelectedTrustFilter(filterValue);
         }
         break;
       default:
