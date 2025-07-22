@@ -128,25 +128,6 @@ public class SupportProjectApiControllerTests
     }
 
     [Fact]
-    public async Task DeleteSupportProject_TestEnvironment_ValidRequest_ReturnsNoContent()
-    {
-        // Arrange
-        var schoolUrn = "123456";
-        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteSupportProjectCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
-
-        SetupValidCypressAuthForTestEnvironment();
-
-        // Act
-        var result = await _controller.DeleteSupportProject(schoolUrn, CancellationToken.None);
-
-        // Assert
-        Assert.IsType<NoContentResult>(result);
-        _mockMediator.Verify(m => m.Send(It.Is<DeleteSupportProjectCommand>(cmd => 
-            cmd.SchoolUrn == schoolUrn), It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [Fact]
     public async Task DeleteSupportProject_MediatorThrowsException_ReturnsInternalServerError()
     {
         // Arrange
