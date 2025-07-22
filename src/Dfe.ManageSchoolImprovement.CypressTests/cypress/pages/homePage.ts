@@ -1,5 +1,3 @@
-import { log } from "console";
-
 class HomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();

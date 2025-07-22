@@ -6,10 +6,10 @@ describe("User search results by applying filters", () => {
         cy.login();
     });
 
-  //  afterEach(() => {
-  //      Logger.log("Clear Filters");
-  //      homePage.clearFilters()
-  //  });
+    afterEach(() => {
+        Logger.log("Clear Filters");
+        homePage.clearFilters()
+    });
 
     it("should show results successfully on selecting multiple projects", () => {
         homePage
