@@ -149,9 +149,9 @@ describe("User search results by applying filters", () => {
             .selectFilter("Region", region)
             .applyFilters()
             .hasFilterSuccessNotification()
-            .selectFirstSchoolFromList();
+            .selectFirstSchoolFromList()
+            .clickBacklink();
 
-        cy.go('back');
         Logger.log("Navigated back to the homepage after viewing a school");
 
         homePage

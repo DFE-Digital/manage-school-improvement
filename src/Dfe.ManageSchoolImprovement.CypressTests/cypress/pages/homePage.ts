@@ -21,6 +21,13 @@ class HomePage {
 
   }
 
+  public clickBacklink(): this {
+    cy.get('.govuk-back-link').should('contain', 'Back').click();
+    cy.url().should('include', '/schools-identified-for-targeted-intervention');
+
+    return this;
+  }
+
   public hasCookiesBanner(): this {
     cy.get('.govuk-cookie-banner__heading').contains('Cookies on Manage school improvement')
     cy.get('[data-test="cookie-banner-accept"]').contains('Accept analytics cookies')
@@ -245,7 +252,7 @@ class HomePage {
 
   public resultCountNotZero(): this {
     cy.get('.govuk-table__cell').should('exist')
-    cy.get('[data-cy="select-projectlist-filter-count"]').should('not.contain', '0 schools found')
+    cy.get('[data-cy="select-projectlist-filter-count"]').should('not.have.text', '0 schools found')
 
     return this;
   }
