@@ -11,7 +11,7 @@ public class DeleteSupportProjectCommandHandlerTests
 {
     private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
     private readonly DeleteSupportProjectCommandHandler _handler;
-    private readonly SupportProjectId _supportProjectId;
+    private readonly string _schoolUrn;
     private readonly CancellationToken _cancellationToken;
     private readonly Fixture _fixture;
 
@@ -19,20 +19,20 @@ public class DeleteSupportProjectCommandHandlerTests
     {
         _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
         _handler = new DeleteSupportProjectCommandHandler(_mockSupportProjectRepository.Object);
-        _supportProjectId = new SupportProjectId(1);
+        _schoolUrn = "123456";
         _cancellationToken = CancellationToken.None;
         _fixture = new Fixture();
     }
 
     [Fact]
-    public async Task Handle_ValidSupportProjectId_DeletesProjectAndReturnsTrue()
+    public async Task Handle_ValidSchoolUrn_DeletesProjectAndReturnsTrue()
     {
         // Arrange
         var supportProject = _fixture.Create<Domain.Entities.SupportProject.SupportProject>();
-        var command = new DeleteSupportProjectCommand(_supportProjectId);
+        var command = new DeleteSupportProjectCommand(_schoolUrn);
 
         _mockSupportProjectRepository
-            .Setup(repo => repo.GetSupportProjectByIdIgnoringFilters(_supportProjectId, _cancellationToken))
+            .Setup(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken))
             .ReturnsAsync(supportProject);
 
         _mockSupportProjectRepository
@@ -44,18 +44,18 @@ public class DeleteSupportProjectCommandHandlerTests
 
         // Assert
         Assert.True(result);
-        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByIdIgnoringFilters(_supportProjectId, _cancellationToken), Times.Once);
+        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken), Times.Once);
         _mockSupportProjectRepository.Verify(repo => repo.RemoveAsync(supportProject, _cancellationToken), Times.Once);
     }
 
     [Fact]
-    public async Task Handle_NonExistentSupportProjectId_ReturnsFalse()
+    public async Task Handle_NonExistentSchoolUrn_ReturnsFalse()
     {
         // Arrange
-        var command = new DeleteSupportProjectCommand(_supportProjectId);
+        var command = new DeleteSupportProjectCommand(_schoolUrn);
 
         _mockSupportProjectRepository
-            .Setup(repo => repo.GetSupportProjectByIdIgnoringFilters(_supportProjectId, _cancellationToken))
+            .Setup(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken))
             .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
 
         // Act
@@ -63,7 +63,7 @@ public class DeleteSupportProjectCommandHandlerTests
 
         // Assert
         Assert.False(result);
-        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByIdIgnoringFilters(_supportProjectId, _cancellationToken), Times.Once);
+        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken), Times.Once);
         _mockSupportProjectRepository.Verify(repo => repo.RemoveAsync(It.IsAny<Domain.Entities.SupportProject.SupportProject>(), _cancellationToken), Times.Never);
     }
 
@@ -72,10 +72,10 @@ public class DeleteSupportProjectCommandHandlerTests
     {
         // Arrange
         var supportProject = _fixture.Create<Domain.Entities.SupportProject.SupportProject>();
-        var command = new DeleteSupportProjectCommand(_supportProjectId);
+        var command = new DeleteSupportProjectCommand(_schoolUrn);
 
         _mockSupportProjectRepository
-            .Setup(repo => repo.GetSupportProjectByIdIgnoringFilters(_supportProjectId, _cancellationToken))
+            .Setup(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken))
             .ReturnsAsync(supportProject);
 
         _mockSupportProjectRepository

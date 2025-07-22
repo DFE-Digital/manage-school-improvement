@@ -8,7 +8,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Authorization;
 
 [ExcludeFromCodeCoverage]
 //Handler is registered from the method RequireAuthenticatedUser()
-public class HeaderRequirementHandler(IHostEnvironment environment,
+public class 
+    
+    HeaderRequirementHandler(IHostEnvironment environment,
                                 IHttpContextAccessor httpContextAccessor,
                                 IConfiguration configuration) : AuthorizationHandler<DenyAnonymousAuthorizationRequirement>,
    IAuthorizationRequirement
@@ -22,21 +24,33 @@ public class HeaderRequirementHandler(IHostEnvironment environment,
     /// <param name="httpContextAccessor">Used to check header bearer token value </param>
     /// <param name="configuration">Used to access secret value</param>
     /// <returns>True if secret and header value match</returns>
-    public static bool ClientSecretHeaderValid(IHostEnvironment hostEnvironment,
-                                               IHttpContextAccessor httpContextAccessor,
-                                               IConfiguration configuration)
+    public static bool ClientSecretHeaderValid(IHostEnvironment? hostEnvironment,
+        IHttpContextAccessor? httpContextAccessor,
+        IConfiguration? configuration)
     {
-        //Header authorisation not applicable for production - and include Test - (Thanks Paddy Clark!)
+        if (hostEnvironment == null || httpContextAccessor == null || configuration == null)
+        {
+            return false;
+        }
+
+        //Header authorisation not applicable for production - and include Test
         if (!hostEnvironment.IsStaging() && !hostEnvironment.IsEnvironment("Test") && !hostEnvironment.IsDevelopment())
         {
             return false;
         }
 
-        //Allow client secret in header
-        string authHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString()
-            .Replace("Bearer ", string.Empty)!;
+        // Check for null HttpContext or Request
+        if (httpContextAccessor.HttpContext?.Request == null)
+        {
+            return false;
+        }
 
-        string secret = configuration.GetValue<string>("CypressTestSecret")!;
+        // Safely get the authorization header
+        var authHeaderValue = httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization].ToString();
+        var authHeader = string.IsNullOrEmpty(authHeaderValue) ? string.Empty : authHeaderValue.Replace("Bearer ", string.Empty);
+
+        // Safely get the secret
+        var secret = configuration["CypressTestSecret"] ?? string.Empty;
 
         if (string.IsNullOrWhiteSpace(authHeader) || string.IsNullOrWhiteSpace(secret))
         {

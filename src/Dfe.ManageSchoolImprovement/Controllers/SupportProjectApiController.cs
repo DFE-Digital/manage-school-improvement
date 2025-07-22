@@ -35,11 +35,11 @@ public class SupportProjectApiController : ControllerBase
     /// Delete a support project (hard delete - completely removes from database). 
     /// This endpoint is only available for Cypress test users in Test and Development environments.
     /// </summary>
-    /// <param name="id">The ID of the support project to delete</param>
+    /// <param name="urn">The URN of the school whose support project should be deleted</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>NoContent if successful, NotFound if project doesn't exist, Unauthorized if not authorized, Forbidden if wrong environment</returns>
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSupportProject(int id, CancellationToken cancellationToken)
+    [HttpDelete("support-project/{urn}")]
+    public async Task<IActionResult> DeleteSupportProject(string urn, CancellationToken cancellationToken)
     {
         // Restrict this endpoint to only Test and Development environments
         if (!_environment.IsDevelopment() && !_environment.IsEnvironment("Test"))
@@ -61,9 +61,7 @@ public class SupportProjectApiController : ControllerBase
 
         try
         {
-            var command = new DeleteSupportProjectCommand(
-                new SupportProjectId(id)
-            );
+            var command = new DeleteSupportProjectCommand(urn);
 
             var result = await _mediator.Send(command, cancellationToken);
 
