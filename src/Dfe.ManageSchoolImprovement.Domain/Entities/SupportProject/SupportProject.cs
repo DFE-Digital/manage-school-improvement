@@ -11,13 +11,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string schoolName,
         string schoolUrn,
         string localAuthority,
-        string region)
+        string region,
+        string? trustName = null,
+        string? trustReferenceNumber = null)
     {
         Id = id;
         SchoolName = schoolName;
         SchoolUrn = schoolUrn;
         LocalAuthority = localAuthority;
         Region = region;
+        TrustName = trustName;
+        TrustReferenceNumber = trustReferenceNumber;
     }
     #region Properties
     public SupportProjectId Id { get; private set; }
@@ -28,11 +32,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public string Region { get; private set; }
 
+    public string LocalAuthority { get; private set; }
+
+    public string? TrustName { get; private set; }
+
+    public string? TrustReferenceNumber { get; private set; }
+
     public DateTime CreatedOn { get; set; }
 
     public string CreatedBy { get; set; }
-
-    public string LocalAuthority { get; private set; }
 
     public DateTime? LastModifiedOn { get; set; }
 
@@ -202,15 +210,18 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string schoolUrn,
         string localAuthority,
         string region,
+        string? trustName = null,
+        string? trustReferenceNumber = null,
         DateTime? deletedAt = null)
     {
-
         return new SupportProject()
         {
             SchoolName = schoolName,
             SchoolUrn = schoolUrn,
             LocalAuthority = localAuthority,
             Region = region,
+            TrustName = trustName,
+            TrustReferenceNumber = trustReferenceNumber,
             DeletedAt = deletedAt
         };
     }

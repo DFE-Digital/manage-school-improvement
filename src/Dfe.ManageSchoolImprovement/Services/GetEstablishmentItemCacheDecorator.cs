@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
+using DfE.CoreLibs.Contracts.Academies.V4.Trusts;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 
@@ -37,6 +38,20 @@ public class GetEstablishmentItemCacheDecorator(IGetEstablishment getEstablishme
         _httpContext.Items[key] = establishment;
 
         return establishment;
+    }
+
+    public Task<TrustDto?> GetEstablishmentTrust(string urn)
+    {
+        string key = $"establishments-trust-{urn}";
+        if (_httpContext.Items.ContainsKey(key) && (_httpContext.Items[key] is TrustDto cached))
+        {
+            return Task.FromResult<TrustDto?>(cached);
+        }
+        Task<TrustDto?> trustResponse = getEstablishment.GetEstablishmentTrust(urn);
+
+        _httpContext.Items[key] = trustResponse;
+
+        return trustResponse;
     }
 
     public Task<IEnumerable<EstablishmentSearchResponse>> SearchEstablishments(string searchQuery)

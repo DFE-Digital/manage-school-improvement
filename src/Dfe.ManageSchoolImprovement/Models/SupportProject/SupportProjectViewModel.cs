@@ -18,6 +18,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public string Region { get; set; } = string.Empty;
 
+        public string? TrustName { get; set; }
+
+        public string? TrustReferenceNumber { get; set; }
+
         public string Diocese { get; set; } = string.Empty;
 
         public string SchoolPhase { get; set; } = string.Empty;
@@ -191,6 +195,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Region = supportProjectDto.Region,
                 SchoolName = supportProjectDto.SchoolName,
                 SchoolUrn = supportProjectDto.SchoolUrn,
+                TrustName = supportProjectDto.TrustName,
+                TrustReferenceNumber = supportProjectDto.TrustReferenceNumber,
                 Notes = supportProjectDto.Notes,
                 DiscussTheBestApproach = supportProjectDto.discussTheBestApproach,
                 EmailTheResponsibleBody = supportProjectDto.emailTheResponsibleBody,

@@ -13,8 +13,10 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             string? title,
             IEnumerable<string>? states,
             IEnumerable<string>? assignedUsers,
+            IEnumerable<string>? assignedAdvisers,
             IEnumerable<string>? regions,
             IEnumerable<string>? localAuthorities,
+            IEnumerable<string>? trusts,
             int page,
             int count,
             CancellationToken cancellationToken)
@@ -24,7 +26,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByRegion(regions, queryable);
             queryable = FilterByKeyword(title, queryable);
             queryable = FilterByAssignedUsers(assignedUsers, queryable);
+            queryable = FilterByAssignedAdvisers(assignedAdvisers, queryable);
             queryable = FilterByLocalAuthority(localAuthorities, queryable);
+            queryable = FilterByTrusts(trusts, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
             var projects = await queryable
@@ -33,6 +37,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Take(count).ToListAsync(cancellationToken);
 
             return (projects, totalProjects);
+        }
+
+        private static IQueryable<SupportProject> FilterByTrusts(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
+        {
+            if (trusts != null && trusts.Any())
+            {
+                var lowerCaseRegions = trusts.Select(trust => trust.ToLower());
+                queryable = queryable.Where(p =>
+                    !string.IsNullOrEmpty(p.TrustName) && lowerCaseRegions.Contains(p.TrustName.ToLower()));
+            }
+
+            return queryable;
         }
 
         private static IQueryable<SupportProject> FilterByAssignedUsers(IEnumerable<string>? assignedUsers, IQueryable<SupportProject> queryable)
@@ -59,6 +75,30 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return queryable;
         }
 
+        private static IQueryable<SupportProject> FilterByAssignedAdvisers(IEnumerable<string>? assignedAdvisers, IQueryable<SupportProject> queryable)
+        {
+            if (assignedAdvisers != null && assignedAdvisers.Any())
+            {
+                var lowerCaseAdvisers = assignedAdvisers.Select(adviser => adviser.ToLower());
+
+                if (lowerCaseAdvisers.Contains("not assigned"))
+                {
+                    // Query by unassigned or assigned adviser
+                    queryable = queryable.Where(p =>
+                        (!string.IsNullOrEmpty(p.AdviserEmailAddress) && lowerCaseAdvisers.Contains(p.AdviserEmailAddress.ToLower()))
+                        || string.IsNullOrEmpty(p.AdviserEmailAddress));
+                }
+                else
+                {
+                    // Query by assigned adviser only
+                    queryable = queryable.Where(p =>
+                        !string.IsNullOrEmpty(p.AdviserEmailAddress) && lowerCaseAdvisers.Contains(p.AdviserEmailAddress.ToLower()));
+                }
+            }
+
+            return queryable;
+        }
+
         private static IQueryable<SupportProject> FilterByRegion(IEnumerable<string>? regions, IQueryable<SupportProject> queryable)
         {
 
@@ -77,7 +117,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(title))
             {
 
-                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) || 
+                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) ||
                                                  p.SchoolUrn.ToLower().Contains(title.ToLower())
                 );
             }
@@ -134,9 +174,29 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
         {
-            return await DbSet().OrderByDescending(p => p.LocalAuthority)
+            return await DbSet().OrderByDescending(p => p.AssignedDeliveryOfficerFullName)
                 .AsNoTracking()
                 .Select(p => p.AssignedDeliveryOfficerFullName!)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<string>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken)
+        {
+            return await DbSet().OrderByDescending(p => p.AdviserEmailAddress)
+                .AsNoTracking()
+                .Select(p => p.AdviserEmailAddress!)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<string>> GetAllProjectTrusts(CancellationToken cancellationToken)
+        {
+            return await DbSet().OrderByDescending(p => p.TrustName)
+                .AsNoTracking()
+                .Select(p => p.TrustName!)
                 .Where(p => !string.IsNullOrEmpty(p))
                 .Distinct()
                 .ToListAsync(cancellationToken);

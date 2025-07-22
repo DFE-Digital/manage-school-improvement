@@ -9,6 +9,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string SchoolUrn = "",
         string LocalAuthority = "",
         string Region = "",
+        string? TrustName = null,
+        string? TrustReferenceNumber = null,
         string AssignedDeliveryOfficerFullName = "",
         string AssignedDeliveryOfficerEmailAddress = "",
         bool? discussTheBestApproach = null,
