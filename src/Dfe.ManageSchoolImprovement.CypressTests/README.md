@@ -35,7 +35,7 @@ If you have a `cypress.env.json` file, the `cy:open` and `cy:run` commands will 
 Navigate to the `Dfe.ManageSchoolImprovement.CypressTests` directory:
 
 ```
-cd Dfe.ManageSchoolImprovement.CypressTests/
+cd src/Dfe.ManageSchoolImprovement.CypressTests/
 ```
 
 To open the Cypress Test Runner, run the following command:

@@ -395,6 +395,14 @@ describe("User completes their newly created project", () => {
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-improvement-grant-offer-letter_status");
+    
+    cy.request({
+      method: 'DELETE',
+      url: `${Cypress.env('api')}/api/SupportProjectApi/support-project/${urn}`,
+      headers: {
+        'Authorization': `Bearer ${Cypress.env('authKey')}`
+      }
+    });
 
   });
 });
