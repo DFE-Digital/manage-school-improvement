@@ -181,20 +181,4 @@ public class SupportProjectApiControllerTests
         
         _mockConfiguration.Setup(x => x["CypressTestSecret"]).Returns("test-secret");
     }
-
-    private void SetupValidCypressAuthForTestEnvironment()
-    {
-        _mockEnvironment.Setup(e => e.EnvironmentName).Returns("Test");
-        
-        var mockHttpContext = new Mock<HttpContext>();
-        var mockRequest = new Mock<HttpRequest>();
-        var mockHeaders = new Mock<IHeaderDictionary>();
-        
-        mockHeaders.Setup(h => h.Authorization).Returns("Bearer test-secret");
-        mockRequest.Setup(r => r.Headers).Returns(mockHeaders.Object);
-        mockHttpContext.Setup(c => c.Request).Returns(mockRequest.Object);
-        _mockHttpContextAccessor.Setup(a => a.HttpContext).Returns(mockHttpContext.Object);
-        
-        _mockConfiguration.Setup(x => x["CypressTestSecret"]).Returns("test-secret");
-    }
 } 
