@@ -193,7 +193,7 @@ public class SupportProjectApiControllerTests
         var mockRequest = new Mock<HttpRequest>();
         var mockHeaders = new Mock<IHeaderDictionary>();
         
-        mockHeaders.Setup(h => h["Authorization"]).Returns("Bearer invalid-secret");
+        mockHeaders.Setup(h => h.Authorization).Returns("Bearer invalid-secret");
         mockRequest.Setup(r => r.Headers).Returns(mockHeaders.Object);
         mockHttpContext.Setup(c => c.Request).Returns(mockRequest.Object);
         _mockHttpContextAccessor.Setup(a => a.HttpContext).Returns(mockHttpContext.Object);
@@ -209,7 +209,7 @@ public class SupportProjectApiControllerTests
         var mockRequest = new Mock<HttpRequest>();
         var mockHeaders = new Mock<IHeaderDictionary>();
         
-        mockHeaders.Setup(h => h["Authorization"]).Returns("Bearer test-secret");
+        mockHeaders.Setup(h => h.Authorization).Returns("Bearer test-secret");
         mockRequest.Setup(r => r.Headers).Returns(mockHeaders.Object);
         mockHttpContext.Setup(c => c.Request).Returns(mockRequest.Object);
         _mockHttpContextAccessor.Setup(a => a.HttpContext).Returns(mockHttpContext.Object);
