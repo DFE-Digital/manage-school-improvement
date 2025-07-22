@@ -202,6 +202,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? IndicativeFundingBand { get; private set; }
     public DateTime? DateTemplatesAndIndicativeFundingBandSent { get; private set; }
 
+    public IEnumerable<ImprovementPlan> ImprovementPlans => _improvementPlans.AsReadOnly();
+
+    private readonly List<ImprovementPlan> _improvementPlans = new();
 
     #endregion
 

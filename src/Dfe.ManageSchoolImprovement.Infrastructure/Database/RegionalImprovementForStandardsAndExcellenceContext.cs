@@ -38,6 +38,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<SupportProjectNote>(ConfigureSupportProjectNotes);
         modelBuilder.Entity<SupportProjectContact>(ConfigureSupportProjectContacts);
         modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
+        modelBuilder.Entity<ImprovementPlan>(ConfigureImprovementPlan);
+        modelBuilder.Entity<ImprovementPlanObjective>(ConfigureImprovementPlanObjective);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -63,8 +65,15 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey("SupportProjectId")
             .IsRequired();
+
         supportProjectConfiguration
             .HasMany(a => a.FundingHistories)
+            .WithOne()
+            .HasForeignKey("SupportProjectId")
+            .IsRequired();
+
+        supportProjectConfiguration
+            .HasMany(a => a.ImprovementPlans)
             .WithOne()
             .HasForeignKey("SupportProjectId")
             .IsRequired();
@@ -103,6 +112,33 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new SupportProjectContactId(v));
+    }
+
+    private void ConfigureImprovementPlanObjective(EntityTypeBuilder<ImprovementPlanObjective> builder)
+    {
+        builder.ToTable("ImprovementPlanObjectives", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanObjectiveId(v));
+    }
+
+    private void ConfigureImprovementPlan(EntityTypeBuilder<ImprovementPlan> builder)
+    {
+        builder.ToTable("ImprovementPlans", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanId(v));
+
+        builder.HasMany(a => a.ImprovementPlanObjectives)
+            .WithOne()
+            .HasForeignKey("ImprovementPlanId")
+            .IsRequired();
     }
 
     public override int SaveChanges()
