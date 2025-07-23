@@ -527,5 +527,32 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         PowersUsedDate = powersUsedDate;
     }
 
+    public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
+    {
+        _improvementPlans.Add(new ImprovementPlan(improvementPlanId, supportProjectId));
+    }
+
+    public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+        var order = improvementPlan?.ImprovementPlanObjectives
+            .Where(x => x.AreaOfImprovement == areaOfImprovement)
+            .Max(x => x.Order) + 1 ?? 1;
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.AddObjective(
+            improvementPlanObjectiveId,
+            improvementPlanId,
+            areaOfImprovement,
+            details,
+            order
+            );
+
+    }
+
     #endregion
 }

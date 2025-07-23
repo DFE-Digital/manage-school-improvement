@@ -5,10 +5,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 {
     public class ImprovementPlanObjective : IEntity<ImprovementPlanObjectiveId>
     {
-        public ImprovementPlanObjective(ImprovementPlanObjectiveId id, ImprovementPlanId improvementPlanId, string details, int order)
+        public ImprovementPlanObjective(ImprovementPlanObjectiveId id, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details, int order)
         {
             Id = id;
             ImprovementPlanId = improvementPlanId;
+            AreaOfImprovement = areaOfImprovement;
             Details = details;
             Order = order;
         }
