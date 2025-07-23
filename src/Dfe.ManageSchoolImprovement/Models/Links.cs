@@ -53,6 +53,12 @@ public static class Links
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/OfstedReports/Index");
     }
 
+    public static class ImprovementPlan
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ImprovementPlan/Index");
+    }
+        
+
     public static class TaskList
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/TaskList/Index");
