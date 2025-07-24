@@ -99,7 +99,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool?>("Complete")
+                    b.Property<bool?>("ObjectivesSectionComplete")
                         .HasColumnType("bit");
 
                     b.Property<string>("CreatedBy")

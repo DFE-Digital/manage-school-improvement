@@ -556,5 +556,32 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             );
     }
 
+    public void SetImprovementPlanObjectivesComplete(ImprovementPlanId improvementPlanId, bool objectivesSectionComplete)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetObjectivesComplete(objectivesSectionComplete);
+    }
+
+    public void SetImprovementPlanObjectiveDetails(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string details)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetObjectiveDetails(
+            improvementPlanObjectiveId,
+            details
+            );
+    }
+
     #endregion
 }

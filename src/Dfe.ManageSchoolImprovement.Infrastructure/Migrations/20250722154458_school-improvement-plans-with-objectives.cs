@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -59,7 +58,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    Complete = table.Column<bool>(type: "bit", nullable: true)
+                    ObjectivesSectionComplete = table.Column<bool>(type: "bit", nullable: true)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalHistoryTableName", "ImprovementPlansHistory")
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")

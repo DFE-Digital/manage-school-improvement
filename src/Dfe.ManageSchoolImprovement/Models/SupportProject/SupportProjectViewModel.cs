@@ -303,11 +303,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     Id = x.id,
                     SupportProjectId = x.supportProjectId,
                     ReadableId = x.readableId,
+                    ObjectivesSectionComplete = x.objectivesSectionComplete,
                     ImprovementPlanObjectives = x.ImprovementPlanObjectives?.Select(o => new ImprovementPlanObjectiveViewModel()
                     {
                         Id = o.id,
                         ImprovementPlanId = o.improvementPlanId,
                         AreaOfImprovement = o.areaOfImprovement,
+                        ReadableId = o.readableId,
                         Details = o.details,
                         Order = o.order
                     }).ToList() ?? new List<ImprovementPlanObjectiveViewModel>()

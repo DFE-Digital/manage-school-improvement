@@ -1,87 +1,78 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.SetImprovementPlanObjectivesComplete;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 {
-    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator)
+        : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
-        [BindProperty(Name = "HasSchoolReceivedFundingInLastTwoYears")]
-        [Required]
-        [Display(Name = "Has the school received any funding in the last 2 financial years")]
-        public bool? HasSchoolReceivedFundingInLastTwoYears { get; set; }
+        [BindProperty]
+        public bool MarkAsComplete { get; set; }
 
-        public string? HasSchoolReceivedFundingInLastTwoYearsErrorMessage { get; set; } = null;
+        public ImprovementPlanViewModel? ImprovementPlan { get; set; }
 
-        public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
+        public List<ImprovementPlanObjectiveViewModel> QualityOfEducationObjectives =>
+            ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Quality of education").OrderBy(o => o.Order).ToList() ?? new();
+
+        public List<ImprovementPlanObjectiveViewModel> LeadershipAndManagementObjectives =>
+            ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Leadership and management").OrderBy(o => o.Order).ToList() ?? new();
+
+        public List<ImprovementPlanObjectiveViewModel> BehaviourAndAttitudesObjectives =>
+            ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Behaviour and attitudes").OrderBy(o => o.Order).ToList() ?? new();
+
+        public List<ImprovementPlanObjectiveViewModel> AttendanceObjectives =>
+            ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Attendance").OrderBy(o => o.Order).ToList() ?? new();
+
+        public List<ImprovementPlanObjectiveViewModel> PersonalDevelopmentObjectives =>
+            ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Personal development").OrderBy(o => o.Order).ToList() ?? new();
 
         public bool ShowError { get; set; }
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasSchoolReceivedFundingInLastTwoYears = SupportProject.HasReceivedFundingInThelastTwoYears;
-            RadioButtons = RadioButtonModel;
+
+            // Ensure SupportProject is not null before accessing ImprovementPlans
+            if (SupportProject?.ImprovementPlans != null)
+            {
+                ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
+                if (ImprovementPlan != null)
+                {
+                    MarkAsComplete = ImprovementPlan.ObjectivesSectionComplete ?? false;
+                }
+            }
+
             return Page();
         }
+
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid || HasSchoolReceivedFundingInLastTwoYears == null)
-            {
-                if (HasSchoolReceivedFundingInLastTwoYears == null)
-                {
-                    HasSchoolReceivedFundingInLastTwoYearsErrorMessage = "Select an answer";
-                    _errorService.AddError("HasSchoolReceivedFundingInLastTwoYears", "You must select an answer");
-                }
+            var action = Request.Form["action"].ToString();
 
-                RadioButtons = RadioButtonModel;
-                _errorService.AddErrors(Request.Form.Keys, ModelState);
-                ShowError = true;
-                return await base.GetSupportProject(id, cancellationToken);
+            if (action == "add-another")
+            {
+                // Redirect to select area page to add another objective
+                return RedirectToPage(@Links.ImprovementPlan.SelectAnAreaOfImprovement.Page, new { id });
+            }
+            await base.GetSupportProject(id, cancellationToken);
+            // Ensure SupportProject is not null before accessing ImprovementPlans
+            if (SupportProject?.ImprovementPlans != null)
+            {
+                ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
             }
 
-            var request = new SetHasReceivedFundingInThelastTwoYearsCommand(new SupportProjectId(id), HasSchoolReceivedFundingInLastTwoYears);
-
+            // Handle save and return
+            var request = new SetImprovementPlanObjectivesCompleteCommand(new SupportProjectId(id), new ImprovementPlanId(ImprovementPlan!.Id), MarkAsComplete);
             var result = await mediator.Send(request, cancellationToken);
 
-            if (!result)
-            {
-                _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
-            }
-
             TaskUpdated = true;
-            var redirectPage = HasSchoolReceivedFundingInLastTwoYears.HasValue && HasSchoolReceivedFundingInLastTwoYears.Value ? RedirectToPage(@Links.TaskList.FundingHistoryAdd.Page, new { id }) : RedirectToPage(@Links.TaskList.Index.Page, new { id });
-            return redirectPage;
-        }
-
-
-        private IList<RadioButtonsLabelViewModel> RadioButtonModel
-        {
-            get
-            {
-                var list = new List<RadioButtonsLabelViewModel>
-                {
-                    new() {
-                        Id = "yes",
-                        Name = "Yes, school has received funding",
-                        Value = "True"
-                    },
-                    new() {
-                        Id = "no",
-                        Name = "No, school has not received funding",
-                        Value = "False",
-                    }
-                };
-
-                return list;
-            }
+            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
     }
 }
