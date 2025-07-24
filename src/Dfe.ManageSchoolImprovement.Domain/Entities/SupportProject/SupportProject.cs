@@ -535,14 +535,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
-        var order = improvementPlan?.ImprovementPlanObjectives
-            .Where(x => x.AreaOfImprovement == areaOfImprovement)
-            .Max(x => x.Order) + 1 ?? 1;
 
         if (improvementPlan == null)
         {
             throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
         }
+
+        var order = improvementPlan.ImprovementPlanObjectives
+            .Where(x => x.AreaOfImprovement == areaOfImprovement)
+            .Select(x => x.Order)
+            .DefaultIfEmpty(0)
+            .Max() + 1;
 
         improvementPlan.AddObjective(
             improvementPlanObjectiveId,
@@ -551,7 +554,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             details,
             order
             );
-
     }
 
     #endregion

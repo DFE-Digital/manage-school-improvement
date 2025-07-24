@@ -25,11 +25,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string Diocese { get; set; } = string.Empty;
 
         public string SchoolPhase { get; set; } = string.Empty;
-        
+
         public string SchoolType { get; set; } = string.Empty;
 
         public string ReligiousCharacter { get; set; } = string.Empty;
-        
+
         public string NumbersOnRoll { get; set; } = string.Empty;
 
         public string AssignedDeliveryOfficerFullName { get; set; } = string.Empty;
@@ -141,7 +141,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
         public bool? ConfirmFundingBand { get; set; }
         public string? FundingBand { get; set; }
-        
+
         public DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter { get; set; }
         public DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter { get; set; }
         public bool? SendRequestingPlanningGrantOfferEmailToRiseGrantTeam { get; set; }
@@ -184,6 +184,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? InformationPowersDetails { get; set; }
         public DateTime? PowersUsedDate { get; set; }
         public bool? AssessmentToolTwoCompleted { get; set; }
+
+        public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
+
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -294,7 +297,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 IndicativeFundingBandCalculated = supportProjectDto.IndicativeFundingBandCalculated,
                 IndicativeFundingBand = supportProjectDto.IndicativeFundingBand,
                 ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
-                DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent
+                DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent,
+                ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => new ImprovementPlanViewModel()
+                {
+                    Id = x.id,
+                    SupportProjectId = x.supportProjectId,
+                    ReadableId = x.readableId,
+                    ImprovementPlanObjectives = x.ImprovementPlanObjectives?.Select(o => new ImprovementPlanObjectiveViewModel()
+                    {
+                        Id = o.id,
+                        ImprovementPlanId = o.improvementPlanId,
+                        AreaOfImprovement = o.areaOfImprovement,
+                        Details = o.details,
+                        Order = o.order
+                    }).ToList() ?? new List<ImprovementPlanObjectiveViewModel>()
+                }) ?? new List<ImprovementPlanViewModel>(),
             };
         }
     }

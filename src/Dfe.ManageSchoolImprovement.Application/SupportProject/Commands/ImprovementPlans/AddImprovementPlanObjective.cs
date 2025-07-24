@@ -27,7 +27,7 @@ public class AddImprovementPlanObjective
 
             var improvementPlanObjectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlanObjective(improvementPlanObjectiveId, request.ImprovementPlanId, request.SupportProjectId, request.areaOfImprovement, request.details);
+            supportProject.AddImprovementPlanObjective(improvementPlanObjectiveId, request.ImprovementPlanId, request.areaOfImprovement, request.details);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
