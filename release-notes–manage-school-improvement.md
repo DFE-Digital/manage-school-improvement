@@ -3,6 +3,15 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.13.0] - Q2 – Sprint 2 (Part 1) - 2025-07-24
+
+### 📌 User Stories
+
+- **206007** - Filter by: RISE Adviser (part 1/hidden on Test/Prod)
+- **221580** -  Filter by: Trust
+
+--
+
 ## 📅 [v0.12.1] - Q2 – Sprint 1 (Part 2) - 2025-07-16
 
 ### 📌 User Stories
