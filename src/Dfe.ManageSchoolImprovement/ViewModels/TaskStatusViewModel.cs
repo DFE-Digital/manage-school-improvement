@@ -442,4 +442,23 @@ public static class TaskStatusViewModel
 
         return TaskListStatus.InProgress;
     }
+
+    public static TaskListStatus EnterImprovementPlanObjectivesTaskListStatus(SupportProjectViewModel supportProject)
+    {
+        var improvementPlan = supportProject.ImprovementPlans?.FirstOrDefault();
+
+        if (improvementPlan == null || improvementPlan.ImprovementPlanObjectives == null)
+        {
+            return TaskListStatus.NotStarted;
+        }
+
+        if (improvementPlan.ImprovementPlanObjectives != null
+            && improvementPlan.ImprovementPlanObjectives.Any()
+            && improvementPlan.ObjectivesSectionComplete is true)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        return TaskListStatus.InProgress;
+    }
 }

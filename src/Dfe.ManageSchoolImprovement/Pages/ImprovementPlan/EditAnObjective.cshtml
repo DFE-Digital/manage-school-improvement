@@ -6,7 +6,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.ImprovementPlan.SelectAnAreaOfImprovement.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -18,7 +18,7 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SelectedAreaOfImprovement</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
-            Update an objective
+            Edit an objective
         </h1>
         <p class="govuk-body">Give details of the school's plan to improve in this area. You may want to copy and paste from the plan itself.</p>
         

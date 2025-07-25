@@ -24,8 +24,17 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
         public bool ShowError => _errorService.HasErrors();
 
-        public async Task<IActionResult> OnGet(int id, string selectedAreaOfImprovement, CancellationToken cancellationToken)
+        public string ReturnPage { get; private set; } = string.Empty;
+
+        public async Task<IActionResult> OnGet(int id, string selectedAreaOfImprovement, string? returnPage, CancellationToken cancellationToken)
         {
+            // If returnPage is not provided, check TempData for a previous return page
+            var tempDataKey = $"ReturnPage_{nameof(Links.ImprovementPlan.AddAnObjective)}";
+            returnPage ??= TempData[tempDataKey] as string;
+            TempData[tempDataKey] = returnPage;
+
+            ReturnPage = returnPage ?? Links.ImprovementPlan.SelectAnAreaOfImprovement.Page;
+
             await base.GetSupportProject(id, cancellationToken);
             SelectedAreaOfImprovement = selectedAreaOfImprovement;
             return Page();

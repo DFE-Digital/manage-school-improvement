@@ -59,7 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             if (action == "add-another")
             {
                 // Redirect to select area page to add another objective
-                return RedirectToPage(@Links.ImprovementPlan.SelectAnAreaOfImprovement.Page, new { id });
+                return RedirectToPage(@Links.ImprovementPlan.SelectAnAreaOfImprovement.Page, new { id, returnPage = @Links.ImprovementPlan.Index.Page });
             }
 
             await base.GetSupportProject(id, cancellationToken);

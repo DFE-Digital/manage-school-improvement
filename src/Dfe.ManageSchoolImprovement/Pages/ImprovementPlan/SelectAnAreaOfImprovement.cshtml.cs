@@ -20,9 +20,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
         public bool ShowSelectedAreaOfImprovementError => ModelState.ContainsKey(nameof(SelectedAreaOfImprovement)) && ModelState[nameof(SelectedAreaOfImprovement)]?.Errors.Count > 0;
         public bool ShowError => _errorService.HasErrors();
-
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        public string ReturnPage { get; private set; } = string.Empty;
+        public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
         {
+            // If returnPage is not provided, check TempData for a previous return page
+            var tempDataKey = $"ReturnPage_{nameof(Links.ImprovementPlan.SelectAnAreaOfImprovement)}";
+            returnPage ??= TempData[tempDataKey] as string;
+            TempData[tempDataKey] = returnPage;
+
+            ReturnPage = returnPage ?? @Links.TaskList.Index.Page;
+
             await base.GetSupportProject(id, cancellationToken);
             SelectedAreaOfImprovement = null; // Will be set when user selects an option
             RadioButtons = RadioButtonModel;
@@ -44,7 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            return RedirectToPage(@Links.ImprovementPlan.AddAnObject.Page, new { id, SelectedAreaOfImprovement });
+            return RedirectToPage(@Links.ImprovementPlan.AddAnObjective.Page, new { id, SelectedAreaOfImprovement });
         }
 
 

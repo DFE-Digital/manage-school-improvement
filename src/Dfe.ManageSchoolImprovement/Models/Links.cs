@@ -122,8 +122,8 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ImprovementPlan/Index");
         public static readonly LinkItem SelectAnAreaOfImprovement = AddLinkItem(backText: "Back", page: "/ImprovementPlan/SelectAnAreaOfImprovement");
-        public static readonly LinkItem AddAnObject = AddLinkItem(backText: "Back", page: "/ImprovementPlan/AddAnObjective");
-        public static readonly LinkItem EditAnObject = AddLinkItem(backText: "Back", page: "/ImprovementPlan/EditAnObjective");
+        public static readonly LinkItem AddAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/AddAnObjective");
+        public static readonly LinkItem EditAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/EditAnObjective");
     }
 
     public static class Public

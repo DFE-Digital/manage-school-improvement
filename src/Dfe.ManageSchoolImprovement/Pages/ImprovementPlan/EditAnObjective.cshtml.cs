@@ -31,8 +31,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
         public string? ObjectiveDetailsErrorMessage { get; set; } = null;
 
-        public async Task<IActionResult> OnGet(int id, int ObjectiveId, CancellationToken cancellationToken)
+        public string ReturnPage { get; set; } = string.Empty;
+
+        public async Task<IActionResult> OnGet(int id, int ObjectiveId, string returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ?? Links.ImprovementPlan.Index.Page;
+
             await base.GetSupportProject(id, cancellationToken);
 
             var improvementPlan = SupportProject?.ImprovementPlans?.FirstOrDefault();
