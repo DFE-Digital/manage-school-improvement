@@ -26,11 +26,17 @@
             <input type="hidden" name="@nameof(Model.SelectedAreaOfImprovement)" value="@Model.SelectedAreaOfImprovement" />
             <input type="hidden" name="@nameof(Model.ImprovementPlanId)" value="@Model.ImprovementPlanId" />
             <input type="hidden" name="@nameof(Model.ImprovementPlanObjectiveId)" value="@Model.ImprovementPlanObjectiveId" />
-            <div class="govuk-form-group">
+            <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : string.Empty)">
                 <label class="govuk-label govuk-visually-hidden" for="objective-details">
                     Objective details
                 </label>
-                <textarea class="govuk-textarea" id="objective-details" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
+                @if (Model.ShowDetailsError)
+                {
+                    <p id="more-detail-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> Enter details of the objective
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)" id="objective-details" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
             </div>
 
             <div class="govuk-button-group">

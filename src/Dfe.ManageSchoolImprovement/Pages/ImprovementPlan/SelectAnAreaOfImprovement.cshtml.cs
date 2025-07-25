@@ -10,16 +10,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 {
     public class SelectAnAreaOfImprovementModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
-        [BindProperty(Name = "SelectedAreaOfImprovement")]
+        [BindProperty(Name = nameof(SelectedAreaOfImprovement))]
         [Required]
         [Display(Name = "Select an area of improvement")]
         public string? SelectedAreaOfImprovement { get; set; }
-
         public string? SelectedAreaOfImprovementErrorMessage { get; set; } = null;
 
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
-        public bool ShowError { get; set; }
+        public bool ShowSelectedAreaOfImprovementError => ModelState.ContainsKey(nameof(SelectedAreaOfImprovement)) && ModelState[nameof(SelectedAreaOfImprovement)]?.Errors.Count > 0;
+        public bool ShowError => _errorService.HasErrors();
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
@@ -30,17 +30,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(SelectedAreaOfImprovement))
+            if (!ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(SelectedAreaOfImprovement))
+                if (ShowSelectedAreaOfImprovementError)
                 {
-                    SelectedAreaOfImprovementErrorMessage = "Select an area of improvement";
-                    _errorService.AddError("SelectedAreaOfImprovement", "You must select an area of improvement");
+                    SelectedAreaOfImprovementErrorMessage = "Select a category";
+                    _errorService.AddError(nameof(SelectedAreaOfImprovement), SelectedAreaOfImprovementErrorMessage);
                 }
 
                 RadioButtons = RadioButtonModel;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
-                ShowError = true;
 
                 return await base.GetSupportProject(id, cancellationToken);
             }
