@@ -447,7 +447,7 @@ public static class TaskStatusViewModel
     {
         var improvementPlan = supportProject.ImprovementPlans?.FirstOrDefault();
 
-        if (improvementPlan == null || improvementPlan.ImprovementPlanObjectives == null)
+        if (improvementPlan == null || improvementPlan.ImprovementPlanObjectives == null || !improvementPlan.ImprovementPlanObjectives.Any())
         {
             return TaskListStatus.NotStarted;
         }
