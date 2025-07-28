@@ -92,7 +92,7 @@ Cypress.Commands.add('typeFast', { prevSubject: 'element' }, (subject: JQuery<HT
 Cypress.Commands.add('removeProjectIfItExists', (urn: string) => {
     cy.request({
       method: 'DELETE',
-      url: `${Cypress.env('api')}/api/SupportProjectApi/support-project/${urn}`,
+      url: `${Cypress.env('msiApi')}/api/SupportProjectApi/support-project/${urn}`,
       headers: {
         'Authorization': `Bearer ${Cypress.env('authKey')}`
       }
