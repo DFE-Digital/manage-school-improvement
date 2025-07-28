@@ -63,7 +63,7 @@ public class SupportProjectApiController : ControllerBase
         {
             var command = new DeleteSupportProjectCommand(urn);
 
-            await _mediator.Send(command, cancellationToken)
+            await _mediator.Send(command, cancellationToken);
 
             return NoContent();
         }

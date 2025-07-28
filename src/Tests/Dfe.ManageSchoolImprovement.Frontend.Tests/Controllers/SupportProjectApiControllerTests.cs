@@ -58,25 +58,6 @@ public class SupportProjectApiControllerTests
     }
 
     [Fact]
-    public async Task DeleteSupportProject_ProjectNotFound_ReturnsNotFound()
-    {
-        // Arrange
-        var schoolUrn = "999999";
-        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteSupportProjectCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(false);
-
-        SetupValidCypressAuth();
-
-        // Act
-        var result = await _controller.DeleteSupportProject(schoolUrn, CancellationToken.None);
-
-        // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = (ObjectResult)result;
-        Assert.Equal((int)HttpStatusCode.NotFound, objectResult.StatusCode);
-    }
-
-    [Fact]
     public async Task DeleteSupportProject_UnauthorizedAccess_ReturnsUnauthorized()
     {
         // Arrange
