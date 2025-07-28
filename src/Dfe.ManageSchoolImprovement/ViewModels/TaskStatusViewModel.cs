@@ -447,13 +447,13 @@ public static class TaskStatusViewModel
     {
         var improvementPlan = supportProject.ImprovementPlans?.FirstOrDefault();
 
-        if (improvementPlan == null || improvementPlan.ImprovementPlanObjectives == null || improvementPlan.ImprovementPlanObjectives.Count() == 0)
+        if (improvementPlan == null || improvementPlan.ImprovementPlanObjectives == null || improvementPlan.ImprovementPlanObjectives.Count == 0)
         {
             return TaskListStatus.NotStarted;
         }
 
         if (improvementPlan.ImprovementPlanObjectives != null
-            && improvementPlan.ImprovementPlanObjectives.Count() > 0
+            && improvementPlan.ImprovementPlanObjectives.Count > 0
             && improvementPlan.ObjectivesSectionComplete is true)
         {
             return TaskListStatus.Complete;
