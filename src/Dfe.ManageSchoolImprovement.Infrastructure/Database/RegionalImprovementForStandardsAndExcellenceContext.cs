@@ -14,6 +14,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
 {
     private readonly IConfiguration? _configuration = configuration;
     const string DefaultSchema = "RISE";
+    private const string SupportProjectForeignKeyName = "SupportProjectId";
 
     public DbSet<SupportProject> SupportProjects { get; set; } = null!;
 
@@ -57,25 +58,25 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         supportProjectConfiguration
             .HasMany(a => a.Notes)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
 
         supportProjectConfiguration
             .HasMany(a => a.Contacts)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
 
         supportProjectConfiguration
             .HasMany(a => a.FundingHistories)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
 
         supportProjectConfiguration
             .HasMany(a => a.ImprovementPlans)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
 
         supportProjectConfiguration
@@ -114,7 +115,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
                 v => new SupportProjectContactId(v));
     }
 
-    private void ConfigureImprovementPlanObjective(EntityTypeBuilder<ImprovementPlanObjective> builder)
+    private static void ConfigureImprovementPlanObjective(EntityTypeBuilder<ImprovementPlanObjective> builder)
     {
         builder.ToTable("ImprovementPlanObjectives", DefaultSchema, b => b.IsTemporal());
         builder.HasKey(a => a.Id);
@@ -125,7 +126,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
                 v => new ImprovementPlanObjectiveId(v));
     }
 
-    private void ConfigureImprovementPlan(EntityTypeBuilder<ImprovementPlan> builder)
+    private static void ConfigureImprovementPlan(EntityTypeBuilder<ImprovementPlan> builder)
     {
         builder.ToTable("ImprovementPlans", DefaultSchema, b => b.IsTemporal());
         builder.HasKey(a => a.Id);

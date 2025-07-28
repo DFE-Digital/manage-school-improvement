@@ -42,10 +42,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             Assert.NotNull(result);
             Assert.IsType<ImprovementPlanId>(result);
             _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
-                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id),
                 _cancellationToken), Times.Once);
             _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
-                _mockSupportProject, 
+                _mockSupportProject,
                 _cancellationToken), Times.Once);
         }
 
@@ -63,9 +63,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new AddImprovementPlan.AddImprovementPlanCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() => 
+            var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
                 handler.Handle(command, _cancellationToken));
-            
+
             Assert.Equal($"Support project with id {nonExistentId} not found", exception.Message);
         }
 
@@ -82,7 +82,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new AddImprovementPlan.AddImprovementPlanCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => 
+            await Assert.ThrowsAsync<InvalidOperationException>(() =>
                 handler.Handle(command, _cancellationToken));
         }
 
@@ -102,11 +102,12 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             await handler.Handle(command, _cancellationToken);
 
             // Assert
-            var callSequence = new MockSequence();
-            _mockSupportProjectRepository.InSequence(callSequence)
-                .Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), _cancellationToken));
-            _mockSupportProjectRepository.InSequence(callSequence)
-                .Setup(repo => repo.UpdateAsync(It.IsAny<Domain.Entities.SupportProject.SupportProject>(), _cancellationToken));
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id),
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject,
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             // Assert
             _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
-                It.IsAny<Domain.Entities.SupportProject.SupportProject>(), 
+                It.IsAny<Domain.Entities.SupportProject.SupportProject>(),
                 _cancellationToken), Times.Once);
         }
 
@@ -150,4 +151,4 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             Assert.NotEqual(Guid.Empty, result.Value);
         }
     }
-} 
+}

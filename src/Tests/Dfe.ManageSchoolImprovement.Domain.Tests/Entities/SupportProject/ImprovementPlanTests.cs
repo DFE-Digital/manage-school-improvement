@@ -1,6 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using System.Linq;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 {
@@ -87,7 +86,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var qualityObjectives = _improvementPlan.ImprovementPlanObjectives
                 .Where(o => o.AreaOfImprovement == "QualityOfEducation")
                 .ToList();
-            
+
             Assert.Equal(3, qualityObjectives.Count);
             Assert.Equal(1, qualityObjectives.First(o => o.Id == objective1Id).Order);
             Assert.Equal(2, qualityObjectives.First(o => o.Id == objective2Id).Order);
@@ -111,14 +110,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Assert
             Assert.Equal(4, _improvementPlan.ImprovementPlanObjectives.Count());
-            
+
             // Quality of Education objectives should have order 1, 2
             var qualityObjectives = _improvementPlan.ImprovementPlanObjectives
                 .Where(o => o.AreaOfImprovement == "QualityOfEducation")
                 .ToList();
             Assert.Equal(1, qualityObjectives.First(o => o.Id == qualityObjective1Id).Order);
             Assert.Equal(2, qualityObjectives.First(o => o.Id == qualityObjective2Id).Order);
-            
+
             // Leadership and Management objectives should also have order 1, 2 (independent ordering)
             var leadershipObjectives = _improvementPlan.ImprovementPlanObjectives
                 .Where(o => o.AreaOfImprovement == "LeadershipAndManagement")
@@ -186,9 +185,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var details = "Some details";
 
             // Act & Assert
-            var exception = Assert.Throws<KeyNotFoundException>(() => 
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
                 _improvementPlan.SetObjectiveDetails(nonExistentObjectiveId, details));
-            
+
             Assert.Equal($"Improvement plan objective with id {nonExistentObjectiveId} not found", exception.Message);
         }
 
@@ -228,7 +227,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Assert
             var objective1 = _improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objective1Id);
             var objective2 = _improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objective2Id);
-            
+
             Assert.Equal("Objective 1 details", objective1.Details); // Unchanged
             Assert.Equal(updatedDetails, objective2.Details); // Updated
         }
@@ -241,11 +240,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             _improvementPlan.AddObjective(objectiveId, _improvementPlanId, "QualityOfEducation", "Test objective", 1);
 
             // Act
-            var objectives = _improvementPlan.ImprovementPlanObjectives;
+            var objectives = _improvementPlan.ImprovementPlanObjectives.ToList();
 
             // Assert
-            Assert.IsAssignableFrom<IEnumerable<ImprovementPlanObjective>>(objectives);
+            Assert.IsType<List<ImprovementPlanObjective>>(objectives);
             Assert.Single(objectives);
         }
     }
-} 
+}
