@@ -1,63 +1,19 @@
-@page "/ImprovementPlan/{id:int}"
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan.IndexModel
+@page "/improvement-plan-tab/{id:int}"
+@model ImprovementPlanTabModel
+
 @{
-    ViewData["Title"] = "Review objectives";
+    ViewData["Title"] = "Improvement plan";
 }
 
-@section BeforeMain
-{
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+@section BeforeMain {
+    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
 }
-
-@if (Model.ShowError)
-{
-    <partial name="_ErrorSummary" />
-}
-
+<partial name="_ProjectHeader" model="Model.SupportProject" />
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
-        <h1 class="govuk-heading-l" data-cy="page-heading">
-            Review objectives
-        </h1>
-
-        <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id)' />
-
-        <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id)' />
-
-        <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id)' />
-
-        <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id)' />
-
-        <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id)' />
-
-        <form method="post" novalidate>
-            <div class="govuk-form-group @(Model.ShowMarkAsCompleteError ? "govuk-form-group--error" : string.Empty)">
-                @if (Model.ShowMarkAsCompleteError)
-                {
-                    <p id="nationality-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> You must add at least one objective for Quality of Education and Leadership and Management before marking as complete.
-                    </p>
-                }
-                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-
-                    <div class="govuk-checkboxes__item">
-
-                        <input class="govuk-checkboxes__input" id="mark-complete" name="@nameof(Model.MarkAsComplete)" type="checkbox" value="true" asp-for="@Model.MarkAsComplete">
-                        <label class="govuk-label govuk-checkboxes__label" for="mark-complete">
-                            Mark this section as complete, you can still make changes later
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="govuk-button-group">
-                <button class="govuk-button" type="submit" name="action" value="save" data-module="govuk-button">
-                    Save and return
-                </button>
-                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="add-another" data-module="govuk-button">
-                    Add another objective
-                </button>
-            </div>
-        </form>
+        <h2 class="govuk-heading-l">Improvement plan</h2>
+        <p>As you add the improvement plan objectives, they will be listed here.</p>
+        <p>When you have added them all, you should record progress on them after each review.</p>
+        <partial name="Shared/_ObjectiveSummaryCards" model="Model.ImprovementPlan" />
     </div>
 </div>
