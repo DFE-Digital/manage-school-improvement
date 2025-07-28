@@ -55,7 +55,7 @@ public static class Links
 
     public static class ImprovementPlan
     {
-        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ImprovementPlan/Index");
+        public static readonly LinkItem ImprovementPlanTab = AddLinkItem(backText: "Back", page: "/ImprovementPlan/ImprovementPlanTab");
     }
         
 
