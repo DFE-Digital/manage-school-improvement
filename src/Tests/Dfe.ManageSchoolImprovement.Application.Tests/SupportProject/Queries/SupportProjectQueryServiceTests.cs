@@ -58,7 +58,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var totalCount = 1;
 
             _mockRepository.Setup(r => r.SearchForSupportProjects(It.IsAny<string?>(), It.IsAny<IEnumerable<string>?>(),
-                    It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(),
+                    It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(),
+                    It.IsAny<IEnumerable<string>?>(),
                     It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((projects, totalCount));
             foreach (var supportProjectDto in supportProjectDtos)
@@ -67,7 +68,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             }
 
             // Act
-            var result = await _service.SearchForSupportProjects(null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
+            var result = await _service.SearchForSupportProjects(null, null, null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -202,6 +203,90 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Null(result.Value);
+        }
+
+        [Fact]
+        public async Task GetAllProjectAssignedAdvisers_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var advisers = new List<string> { "User1@adviser.com", "User2@adviser.com" };
+
+            _mockRepository.Setup(r => r.GetAllProjectAssignedAdvisers(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(advisers);
+
+            // Act
+            var result = await _service.GetAllProjectAssignedAdvisers(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(advisers, result.Value);
+        }
+
+        [Fact]
+        public async Task GetAllProjectAssignedAdvisers_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectAssignedAdvisers(It.IsAny<CancellationToken>()))!.ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectAssignedAdvisers(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
+
+        [Fact]
+        public async Task GetAllProjectTrusts_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var trusts = new List<string> { "Trust A", "Trust B", "Trust C" };
+
+            _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(trusts);
+
+            // Act
+            var result = await _service.GetAllProjectTrusts(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(trusts, result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectTrusts_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))!
+                           .ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectTrusts(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectTrusts_ShouldReturnEmptyList_WhenNoTrustsExist()
+        {
+            // Arrange
+            var emptyTrusts = new List<string>();
+
+            _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(emptyTrusts);
+
+            // Act
+            var result = await _service.GetAllProjectTrusts(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            Assert.Empty(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         private List<Domain.Entities.SupportProject.SupportProject> GetSchoolProjects(int count = 1)

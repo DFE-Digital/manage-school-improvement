@@ -13,11 +13,19 @@ class HomePage {
     cy.contains("Add a school").should("be.visible");
     return this;
   }
+
   public selectFirstSchoolFromList(): this {
     cy.get('[data-cy="trust-name-0"]').first().click(); // Select the first school in the list    
     cy.url().should('include', '/task-list/')
     return this;
 
+  }
+
+  public clickBacklink(): this {
+    cy.get('.govuk-back-link').should('contain', 'Back').click();
+    cy.url().should('include', '/schools-identified-for-targeted-intervention');
+
+    return this;
   }
 
   public hasCookiesBanner(): this {
@@ -30,7 +38,7 @@ class HomePage {
 
   public viewCookiesPage(): this {
     cy.get('[data-test="cookie-banner-link-1"]').click()
-    cy.url().should('contains', '/cookie-preferences')
+    cy.url().should('include', '/cookie-preferences')
     cy.get('[data-qa="submit"]').should('be.visible')
     return this;
   }
@@ -51,12 +59,22 @@ class HomePage {
   }
 
   public selectAssignedToFilter(assignedTo: string): this {
-    // cy.get('[data-cy="select-projectlist-filter-assignedTo"]') //need to apply in code
     cy.get('#accordion-officers-heading').should('contain', 'Assigned to').click()
     cy.get('#filter-delivery-officer-not-assigned')
     cy.get('.govuk-accordion__section-content .govuk-checkboxes')
       .contains(assignedTo.trim())
       .click();
+    return this;
+  }  
+  
+  public verifyFilterChecked(filterType: string, filterValue: string): this {
+    cy.get('.moj-filter__selected')
+      .should('contain', filterType);
+    
+    cy.get('.moj-filter__selected')
+      .contains(new RegExp(filterValue, 'i'))
+      .should('exist');
+
     return this;
   }
 
@@ -64,6 +82,22 @@ class HomePage {
     cy.get('#accordion-officers-heading').should('contain', 'Assigned to').click()
     cy.get('#filter-delivery-officer-not-assigned')
     cy.get('[data-cy="select-projectlist-filter-officer-not-assigned"]').click()
+    return this;
+  }
+
+  public selectTrustFilter(trustName: string): this {
+      cy.get('[data-cy="select-projectlist-filter-trust"]')
+      .should("exist")
+      .click()
+     
+    cy.get('#filter-searches').should('be.visible').type(trustName, {force: true});
+    
+    cy.get('.govuk-checkboxes')
+      .contains(trustName)
+      .closest('.govuk-checkboxes__item')
+      .find('input[type="checkbox"]')
+      .check();
+
     return this;
   }
 
@@ -93,7 +127,8 @@ class HomePage {
   }
 
   public applyFilters(): this {
-    cy.get('[data-cy="select-projectlist-filter-apply"]').click();
+    cy.getByCyData('select-projectlist-filter-apply').should('contain', 'Apply filters')
+      .click();
 
     return this;
   }
@@ -127,9 +162,8 @@ class HomePage {
 
     return this;
   }
-
-  public hasURN(URN: string): this {
-    cy.get("#urn-0").contains(URN);
+  public hasURN(urn: string): this {
+    cy.get("#urn-0").contains(urn);
 
     return this;
   }
@@ -176,7 +210,6 @@ class HomePage {
   }
 
   public selectFilterRegions(): this {
-    // Check if the Region accordion section is not expanded
     cy.get('[data-cy="select-projectlist-filter-region"]')
       .should("have.attr", "aria-expanded", "false")
       .then(($accordion) => {
@@ -185,17 +218,13 @@ class HomePage {
         }
       });
 
-    // Select the region checkboxes
     cy.get("#filter-project-region-east-midlands").check();
     cy.get("#filter-project-region-east-of-england").check();
-    cy.get("#filter-project-region-london").check();
-    cy.get("#filter-project-region-north-east").check();
 
     return this;
   }
 
   public hasFilterRegions(): this {
-    // Assert that the results show projects from selected regions
     const validRegions = [
       "East Midlands",
       "East of England",
@@ -203,7 +232,6 @@ class HomePage {
       "North East",
     ];
 
-    // Grab all elements whose ID starts with 'region-' and check the first 10
     cy.get("[id^='region-']").each(($el, index) => {
       if (index < 10) {
         const regionText = $el.text();
@@ -223,21 +251,148 @@ class HomePage {
   }
 
   public resultCountNotZero(): this {
-    cy.get('[data-cy="trust-name-0"]').should('be.visible')
-    cy.contains(/schools found/i)
-      .invoke('text')
-      .then((text: string) => {
-        // Use regex to extract the number from the string
-        const regex = /^(\d+)\s+schools found$/i;
-        const result = regex.exec(text)
-        expect(result).to.not.be.null;
+    cy.get('.govuk-table__cell').should('exist')
+    cy.get('[data-cy="select-projectlist-filter-count"]').should('not.have.text', '0 schools found')
 
-        const schoolCount = parseInt(result![1], 10);
+    return this;
+  }
 
-        // Assert that the school count is not zero
-        expect(schoolCount).to.be.greaterThan(0);
+  public hasAssignedToFilter(assignedTo: string): this {
+    cy.get('.moj-filter__selected').should('contain', 'Assigned to')
+    cy.get('[data-cy="select-projectlist-filter-officer-*"]')
+      .contains(assignedTo.trim())
+      .parent()
+      .find('input[type="checkbox"]')
+      .should('be.checked');
 
+    return this;
+  }
+
+  public selectAdvisedByFilter(searchText: string): this {
+    cy.get('[data-cy="select-projectlist-filter-adviser"]')
+      .should("exist")
+      .click()
+   cy.get('#filter-searches').should('be.visible')
+   cy.get(`[data-cy="select-projectlist-filter-adviser-${searchText}"]`)
+     .check();
+
+    return this;
+  }
+
+  public selectSpecificRegionFilter(region: string): this {
+    cy.get('[data-cy="select-projectlist-filter-region"]')
+      .should("exist")
+      .then(($accordion) => {
+        if ($accordion.attr("aria-expanded") === "false") {
+          cy.wrap($accordion).click();
+        }
       });
+
+    cy.get('.govuk-checkboxes')
+      .contains(region)
+      .parent()
+      .find('input[type="checkbox"]')
+      .check();
+
+    return this;
+  }
+
+  public selectLocalAuthorityFilter(localAuthority: string): this {
+    cy.get('[data-cy="select-projectlist-filter-local-authority"]')
+      .should("exist")
+      .then(($accordion) => {
+        if ($accordion.attr("aria-expanded") === "false") {
+          cy.wrap($accordion).click();
+        }
+      });
+
+    cy.get('.govuk-checkboxes')
+      .contains(localAuthority)
+      .parent()
+      .find('input[type="checkbox"]')
+      .check();
+
+    return this;
+  }
+
+  public hasSelectedRegionFilter(region: string): this {
+    cy.get(':nth-child(1) > .govuk-table__cell').should('contain', region);
+
+    return this;
+  }
+
+  public hasAdvisedByFilter(advisedBy: string): this {
+    cy.get(':nth-child(2) > .govuk-table__cell').should('contain', advisedBy);
+    return this;
+  }
+
+  public hasSelectedLocalAuthorityFilter(localAuthority: string): this {
+    cy.get(':nth-child(1) > .govuk-table__cell').should('contain', localAuthority);
+
+    return this;
+  }
+
+  public hasSelectedTrustFilter(trust: string): this {
+    cy.get('.govuk-table__row').should('contain', trust);
+    return this;
+  }
+
+  public selectFilter(filterType: string, filterValue: string): this {
+    switch (filterType.toLowerCase()) {
+      case 'assigned to':
+        this.selectAssignedToFilter(filterValue);
+        break;
+      case 'advised by':
+        this.selectAdvisedByFilter(filterValue);
+        break;
+      case 'region':
+        this.selectSpecificRegionFilter(filterValue);
+        break;
+      case 'local authority':
+        this.selectLocalAuthorityFilter(filterValue);
+        break;
+      case 'not assigned':
+        this.selectNotAssignedToFilter();
+        break;
+      case 'trust':
+        this.selectTrustFilter(filterValue);
+        break;
+      default:
+        throw new Error(`Filter type '${filterType}' is not supported.`);
+    }
+    return this;
+  } 
+  
+  public verifyFilterApplied(filterType: string, filterValue?: string): this {
+    switch (filterType.toLowerCase()) {
+      case 'assigned to':
+        if (filterValue) {
+          this.hasAssignedToFilter(filterValue);
+        }
+        break;
+      case 'advised by':
+        if (filterValue) {
+          this.hasAdvisedByFilter(filterValue);
+        }
+        break;
+      case 'region':
+        if (filterValue) {
+          this.hasSelectedRegionFilter(filterValue);
+        }
+        break;
+      case 'local authority':
+        if (filterValue) {
+          this.hasSelectedLocalAuthorityFilter(filterValue);
+        }
+        break;
+      case 'trust':
+        if (filterValue) {
+          this.hasSelectedTrustFilter(filterValue);
+        }
+        break;
+      default:
+        throw new Error(`Filter type '${filterType}' is not supported for verification.`);
+    }
     return this;
   }
 }
