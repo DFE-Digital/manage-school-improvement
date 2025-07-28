@@ -51,7 +51,11 @@
                     @{
                         foreach (var adviser in Model.SelectedAdvisers)
                         {
-                            <li><a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedAdvisers=@adviser"><span class="govuk-visually-hidden">Remove this filter</span> @adviser.Stub()</a></li>
+                            <li>
+                                <a class="moj-filter__tag" href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedAdvisers=@adviser">
+                                    <span class="govuk-visually-hidden">Remove this filter</span> @adviser.Stub()
+                                </a>
+                            </li>
                         }
                     }
 
@@ -152,7 +156,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if (Environment.IsDevelopment() || Environment.IsEnvironment("Test"))
+                        @if (Environment.IsDevelopment())
                         {
                             <div class="govuk-accordion__section">
                                 <div class="govuk-accordion__section-header">
