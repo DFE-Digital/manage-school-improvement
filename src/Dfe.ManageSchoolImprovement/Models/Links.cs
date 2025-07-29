@@ -117,6 +117,15 @@ public static class Links
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/AssignDeliveryOfficer/Index");
 
     }
+
+    public static class ImprovementPlan
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ImprovementPlan/Index");
+        public static readonly LinkItem SelectAnAreaOfImprovement = AddLinkItem(backText: "Back", page: "/ImprovementPlan/SelectAnAreaOfImprovement");
+        public static readonly LinkItem AddAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/AddAnObjective");
+        public static readonly LinkItem EditAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/EditAnObjective");
+    }
+
     public static class Public
     {
         public static readonly LinkItem Accessibility = AddLinkItem(page: "/Public/AccessibilityStatement");
