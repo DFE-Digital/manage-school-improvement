@@ -41,7 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             {
                 if (ShowSelectedAreaOfImprovementError)
                 {
-                    SelectedAreaOfImprovementErrorMessage = "Select a category";
+                    SelectedAreaOfImprovementErrorMessage = "Select an area of improvement";
                     _errorService.AddError(RadioButtonModel.First().Id, SelectedAreaOfImprovementErrorMessage);
                 }
 
