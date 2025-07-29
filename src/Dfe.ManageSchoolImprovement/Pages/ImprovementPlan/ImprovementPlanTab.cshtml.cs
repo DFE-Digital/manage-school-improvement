@@ -15,6 +15,8 @@ public class ImprovementPlanTabModel(
     public string ReturnPage { get; set; }
     
     public ImprovementPlanViewModel? ImprovementPlan { get; set; }
+    
+    public List<ImprovementPlanObjectiveViewModel> Objectives { get; set; } = new List<ImprovementPlanObjectiveViewModel>();
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = Links.SchoolList.Index.Page;
@@ -24,7 +26,7 @@ public class ImprovementPlanTabModel(
         // Ensure SupportProject is not null before accessing ImprovementPlans
         if (SupportProject?.ImprovementPlans != null)
         {
-            ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
+            Objectives = SupportProject.ImprovementPlans.Objectives;
         }
 
         return Page();
