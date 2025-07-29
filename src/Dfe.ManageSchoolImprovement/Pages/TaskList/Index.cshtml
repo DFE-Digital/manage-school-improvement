@@ -286,6 +286,27 @@
                         <partial name="Shared/_TaskListStatus" model="@Model.RecordImprovementPlanDecisionTaskListStatus" />
                     </div>
                 </li>
+                <li class="govuk-task-list__item govuk-task-list__item--with-link">
+                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                        @if (Model.SupportProject.ImprovementPlans != null 
+                        && Model.SupportProject.ImprovementPlans.Any() 
+                        && Model.SupportProject.ImprovementPlans.First().ImprovementPlanObjectives.Any())
+                        {
+                            <a class="govuk-link govuk-task-list__link" asp-page="@Links.ImprovementPlan.Index.Page" asp-route-id="@Model.SupportProject.Id" data-cy="enter-improvement-plan-objectives" aria-describedby="enter-improvement-plan-objectives_status">
+                                Enter improvement plan objectives
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="govuk-link govuk-task-list__link" asp-page="@Links.ImprovementPlan.SelectAnAreaOfImprovement.Page" asp-route-id="@Model.SupportProject.Id" asp-route-returnpage="@Links.TaskList.Index.Page" data-cy="enter-improvement-plan-objectives" aria-describedby="enter-improvement-plan-objectives_status">
+                                Enter improvement plan objectives
+                            </a>
+                        }
+                    </div>
+                    <div class="govuk-task-list__status" id="enter-improvement-plan-objectives_status">
+                        <partial name="Shared/_TaskListStatus" model="@Model.EnterImprovementPlanObjectivesTaskListStatus" />
+                    </div>
+                </li>
             </ul>
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Send improvement grant offer letter</h3>

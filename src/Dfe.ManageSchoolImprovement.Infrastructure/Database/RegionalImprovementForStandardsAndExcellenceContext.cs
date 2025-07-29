@@ -14,6 +14,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
 {
     private readonly IConfiguration? _configuration = configuration;
     const string DefaultSchema = "RISE";
+    private const string SupportProjectForeignKeyName = "SupportProjectId";
 
     public DbSet<SupportProject> SupportProjects { get; set; } = null!;
 
@@ -38,6 +39,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<SupportProjectNote>(ConfigureSupportProjectNotes);
         modelBuilder.Entity<SupportProjectContact>(ConfigureSupportProjectContacts);
         modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
+        modelBuilder.Entity<ImprovementPlan>(ConfigureImprovementPlan);
+        modelBuilder.Entity<ImprovementPlanObjective>(ConfigureImprovementPlanObjective);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -55,18 +58,25 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         supportProjectConfiguration
             .HasMany(a => a.Notes)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
 
         supportProjectConfiguration
             .HasMany(a => a.Contacts)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
+
         supportProjectConfiguration
             .HasMany(a => a.FundingHistories)
             .WithOne()
-            .HasForeignKey("SupportProjectId")
+            .HasForeignKey(SupportProjectForeignKeyName)
+            .IsRequired();
+
+        supportProjectConfiguration
+            .HasMany(a => a.ImprovementPlans)
+            .WithOne()
+            .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
 
         supportProjectConfiguration
@@ -103,6 +113,33 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new SupportProjectContactId(v));
+    }
+
+    private static void ConfigureImprovementPlanObjective(EntityTypeBuilder<ImprovementPlanObjective> builder)
+    {
+        builder.ToTable("ImprovementPlanObjectives", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanObjectiveId(v));
+    }
+
+    private static void ConfigureImprovementPlan(EntityTypeBuilder<ImprovementPlan> builder)
+    {
+        builder.ToTable("ImprovementPlans", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanId(v));
+
+        builder.HasMany(a => a.ImprovementPlanObjectives)
+            .WithOne()
+            .HasForeignKey("ImprovementPlanId")
+            .IsRequired();
     }
 
     public override int SaveChanges()

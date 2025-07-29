@@ -4,7 +4,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Enums;
 
 public enum FundingBand
 {
-    [Display(Name = "Reserves exceed funding level", ShortName = "reserves-exceed")]
+    [Display(Name = "Reserves exceed funding level (20% of revenue)", ShortName = "reserves-exceed")]
     ReservesExceedFundingLevel,
 
     [Display(Name = "Up to \u00A340,000", ShortName = "40000")]
