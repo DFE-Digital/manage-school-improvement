@@ -32,7 +32,7 @@ public class DeleteSupportProjectCommandHandlerTests
         var command = new DeleteSupportProjectCommand(_schoolUrn);
 
         _mockSupportProjectRepository
-            .Setup(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken))
+            .Setup(repo => repo.GetSupportProjectByUrn(_schoolUrn, _cancellationToken))
             .ReturnsAsync(supportProject);
 
         _mockSupportProjectRepository
@@ -44,7 +44,7 @@ public class DeleteSupportProjectCommandHandlerTests
 
         // Assert
         Assert.True(result);
-        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken), Times.Once);
+        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByUrn(_schoolUrn, _cancellationToken), Times.Once);
         _mockSupportProjectRepository.Verify(repo => repo.RemoveAsync(supportProject, _cancellationToken), Times.Once);
     }
 
@@ -55,7 +55,7 @@ public class DeleteSupportProjectCommandHandlerTests
         var command = new DeleteSupportProjectCommand(_schoolUrn);
 
         _mockSupportProjectRepository
-            .Setup(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken))
+            .Setup(repo => repo.GetSupportProjectByUrn(_schoolUrn, _cancellationToken))
             .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
 
         // Act
@@ -63,7 +63,7 @@ public class DeleteSupportProjectCommandHandlerTests
 
         // Assert
         Assert.False(result);
-        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken), Times.Once);
+        _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectByUrn(_schoolUrn, _cancellationToken), Times.Once);
         _mockSupportProjectRepository.Verify(repo => repo.RemoveAsync(It.IsAny<Domain.Entities.SupportProject.SupportProject>(), _cancellationToken), Times.Never);
     }
 
@@ -75,7 +75,7 @@ public class DeleteSupportProjectCommandHandlerTests
         var command = new DeleteSupportProjectCommand(_schoolUrn);
 
         _mockSupportProjectRepository
-            .Setup(repo => repo.GetSupportProjectByUrnIgnoringFilters(_schoolUrn, _cancellationToken))
+            .Setup(repo => repo.GetSupportProjectByUrn(_schoolUrn, _cancellationToken))
             .ReturnsAsync(supportProject);
 
         _mockSupportProjectRepository

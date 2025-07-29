@@ -41,6 +41,7 @@ declare global {
             getByRadioOption(radioText: string): Chainable<Element>;
             login(params?: AuthenticationInterceptorParams): Chainable<Element>;
             loginWithCredentials(): Chainable<Element>;
+            removeProjectIfItExists(urn: string): Chainable<Element>;
             assertChildList(selector: string, values: string[]): Chainable<Element>;
             executeAccessibilityTests(ruleExclusions?: RuleObject): Chainable<Element>;
             typeFast(text: string): Chainable<Element>;
