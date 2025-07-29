@@ -32,6 +32,10 @@ describe("User completes their newly created project", () => {
     year: "numeric",
   });
 
+      before(() => {
+        cy.removeProjectIfItExists(urn);
+    });
+
   beforeEach(() => {
     cy.login();
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
@@ -395,14 +399,6 @@ describe("User completes their newly created project", () => {
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-improvement-grant-offer-letter_status");
-    
-    cy.request({
-      method: 'DELETE',
-      url: `${Cypress.env('api')}/api/SupportProjectApi/support-project/${urn}`,
-      headers: {
-        'Authorization': `Bearer ${Cypress.env('authKey')}`
-      }
-    });
 
   });
 });
