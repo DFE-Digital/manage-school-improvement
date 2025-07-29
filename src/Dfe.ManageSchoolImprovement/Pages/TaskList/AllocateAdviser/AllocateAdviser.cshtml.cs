@@ -14,6 +14,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
     [BindProperty(Name = "adviser-email-address")]
     [RiseAdviserEmail]
     public string? AdviserEmailAddress { get; set; }
+    public string? AdviserFullName { get; set; }
 
     [BindProperty(Name = "date-adviser-allocated", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -73,23 +74,23 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
             RiseAdvisers = await userRepository.GetAllRiseAdvisers();
             // Find the selected adviser by email address
             var selectedAdviser = RiseAdvisers.FirstOrDefault(u => u.EmailAddress == selectedName);
+
             if (selectedAdviser != null)
             {
-                AdviserEmailAddress = selectedAdviser.EmailAddress;
+                var request = new SetAdviserDetailsCommand(new SupportProjectId(id), DateAdviserAllocated, selectedAdviser.EmailAddress, selectedAdviser.FullName);
+                var result = await mediator.Send(request, cancellationToken);
+
+                if (!result)
+                {
+                    _errorService.AddApiError();
+                    return await base.GetSupportProject(id, cancellationToken);
+                }
+
+                TaskUpdated = true;
+
             }
         }
 
-        var request = new SetAdviserDetailsCommand(new SupportProjectId(id), DateAdviserAllocated, AdviserEmailAddress);
-
-        var result = await mediator.Send(request, cancellationToken);
-
-        if (!result)
-        {
-            _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
-        }
-
-        TaskUpdated = true;
         return RedirectToPage(referrer, new { id });
     }
 
