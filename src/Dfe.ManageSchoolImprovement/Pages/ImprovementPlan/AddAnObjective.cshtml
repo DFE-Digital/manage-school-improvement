@@ -6,7 +6,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-selectedareaofimprovement="@(Model.ReturnPage == Links.ImprovementPlan.SelectAnAreaOfImprovement.Page ? Model.SelectedAreaOfImprovement : null)" class="govuk-back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -33,7 +33,7 @@
                         <span class="govuk-visually-hidden">Error:</span> Enter details of the objective
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)" id="objective-details" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
+                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)" id="@nameof(Model.ObjectiveDetails)" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
             </div>
 
             <div class="govuk-button-group">

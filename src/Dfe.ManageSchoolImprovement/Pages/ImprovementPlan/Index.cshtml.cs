@@ -70,11 +70,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             }
 
             // if we mark as complete, we need to ensure that at least one objective exists for Quality of Education or Leadership and Management
-            if (MarkAsComplete && ImprovementPlan?.ImprovementPlanObjectives != null &&
-                !ImprovementPlan.ImprovementPlanObjectives.Any(x => x.AreaOfImprovement == "Quality of education") &&
-                !ImprovementPlan.ImprovementPlanObjectives.Any(x => x.AreaOfImprovement == "Leadership and management"))
+            if (MarkAsComplete && ImprovementPlan?.ImprovementPlanObjectives != null)
             {
-                _errorService.AddError(nameof(MarkAsComplete), "You must add at least one objective for Quality of Education and Leadership and Management before marking as complete.");
+                var hasQualityOfEducation = ImprovementPlan.ImprovementPlanObjectives.Any(x => x.AreaOfImprovement == "Quality of education");
+                var hasLeadershipAndManagement = ImprovementPlan.ImprovementPlanObjectives.Any(x => x.AreaOfImprovement == "Leadership and management");
+
+                if (!hasQualityOfEducation || !hasLeadershipAndManagement)
+                {
+                    _errorService.AddError(nameof(MarkAsComplete), "You must add at least one objective for Quality of Education and Leadership and Management before marking as complete.");
+                }
             }
 
 

@@ -36,7 +36,7 @@
                         <span class="govuk-visually-hidden">Error:</span> Enter details of the objective
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)" id="objective-details" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
+                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)" id="@nameof(Model.ObjectiveDetails)" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
             </div>
 
             <div class="govuk-button-group">
