@@ -347,7 +347,6 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("review-the-improvement-plan_status")
 
-
     Logger.log("Selecting 'Send the agreed improvement plan for approval' task");
     taskList.selectTask("Send the agreed improvement plan for approval");
     taskListActions.hasHeader("Send the agreed improvement plan for approval");
@@ -376,6 +375,27 @@ describe("User completes their newly created project", () => {
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-improvement-plan-decision_status");
 
+    Logger.log("Selecting 'Enter improvement plan objectives' task");
+    taskList.selectTask("Enter improvement plan objectives");
+    taskListActions.hasHeader("Select an area of improvement");
+    taskListActions.selectButtonOrCheckbox("quality-of-education");
+     taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
+    taskListActions.enterText("ObjectiveDetails", "Quality of education details");
+    taskListActions.clickButton("finish");
+    taskListActions.clickButton("save");
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusInProgress("enter-improvement-plan-objectives_status");
+    taskList.selectTask("Enter improvement plan objectives");   
+    taskListActions.selectButtonOrCheckbox("leadership-and-management");
+     taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
+    taskListActions.enterText("ObjectiveDetails", "Leadership-and-management details");
+    taskListActions.clickButton("finish");
+    taskListActions.linkExists("Change")
+    taskListActions.selectButtonOrCheckbox("MarkAsComplete")
+    taskListActions.clickButton("save");    
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusCompleted("enter-improvement-plan-objectives_status");
+
     Logger.log("Selecting 'Request improvement grant offer letter' task");
     taskList.selectTask("Request improvement grant offer letter");
     taskListActions.hasHeader("Request improvement grant offer letter");
@@ -391,7 +411,6 @@ describe("User completes their newly created project", () => {
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("request-improvement-grant-offer-letter_status");
-
     Logger.log("Selecting 'Confirm improvement grant offer letter sent' task");
     taskList.selectTask("Confirm improvement grant offer letter sent");
     taskListActions.hasHeader("Confirm improvement grant offer letter sent");
