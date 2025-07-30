@@ -63,15 +63,7 @@ public class SupportProjectApiController : ControllerBase
         {
             var command = new DeleteSupportProjectCommand(urn);
 
-            var result = await _mediator.Send(command, cancellationToken);
-
-            if (!result)
-            {
-                return new ObjectResult(new CustomProblemDetails(HttpStatusCode.NotFound, "Support project not found"))
-                {
-                    StatusCode = (int)HttpStatusCode.NotFound
-                };
-            }
+            await _mediator.Send(command, cancellationToken);
 
             return NoContent();
         }

@@ -1,0 +1,36 @@
+@page "/improvement-plan/select-an-area-of-improvement/{id:int}"
+@model SelectAnAreaOfImprovementModel
+@{
+    ViewData["Title"] = "Select an area of improvement";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+   <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Select an area of improvement
+        </h1>
+        <p class="govuk-body">Add one objective at a time. The plan must include at least one objective each for Quality of education and Leadership and management.</p>
+        
+        <form method="post" novalidate>
+            <govuk-radiobuttons-input name="@nameof(Model.SelectedAreaOfImprovement)" 
+                                      radio-buttons="@Model.RadioButtons" 
+                                      asp-for="@Model.SelectedAreaOfImprovement"
+                                      error-message="@Model.SelectedAreaOfImprovementErrorMessage"/>
+
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                Save and continue
+            </button>
+        </form>
+    </div>
+</div>

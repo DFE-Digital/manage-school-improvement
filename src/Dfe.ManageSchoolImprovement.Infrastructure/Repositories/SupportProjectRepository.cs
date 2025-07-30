@@ -163,10 +163,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return await DefaultIncludes().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<SupportProject?> GetSupportProjectByUrnIgnoringFilters(string urn, CancellationToken cancellationToken)
+        public async Task<SupportProject?> GetSupportProjectByUrn(string urn, CancellationToken cancellationToken)
         {
             return await DefaultIncludes()
-                .IgnoreQueryFilters()
                 .SingleOrDefaultAsync(x => x.SchoolUrn == urn, cancellationToken);
         }
 
@@ -176,6 +175,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.Notes)
                 .Include(x => x.Contacts)
                 .Include(x => x.FundingHistories)
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanObjectives)
                 .AsQueryable();
         }
 
