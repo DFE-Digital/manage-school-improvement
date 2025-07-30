@@ -44,7 +44,7 @@
                     <div class="govuk-checkboxes__item">
 
                         <input class="govuk-checkboxes__input" id="@nameof(Model.MarkAsComplete)" name="@nameof(Model.MarkAsComplete)" type="checkbox" value="true" asp-for="@Model.MarkAsComplete">
-                        <label class="govuk-label govuk-checkboxes__label" for="mark-complete">
+                        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.MarkAsComplete)">
                             Mark this section as complete, you can still make changes later
                         </label>
                     </div>
