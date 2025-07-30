@@ -88,3 +88,13 @@ Cypress.Commands.add("executeAccessibilityTests", (ruleOverride?: RuleObject) =>
 Cypress.Commands.add('typeFast', { prevSubject: 'element' }, (subject: JQuery<HTMLElement>, text: string) => {
     cy.wrap(subject).invoke('val', text);
   });
+
+Cypress.Commands.add('removeProjectIfItExists', (urn: string) => {
+    cy.request({
+      method: 'DELETE',
+      url: `${Cypress.env('msiApi')}/api/SupportProjectApi/support-project/${urn}`,
+      headers: {
+        'Authorization': `Bearer ${Cypress.env('authKey')}`
+      }
+    });
+});

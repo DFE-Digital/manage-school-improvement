@@ -23,7 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
         public string AreaOfImprovement { get; set; }
-        public string Details { get; set; } = string.Empty;
+        public string Details { get; set; }
 
         public void SetDetails(string details)
         {

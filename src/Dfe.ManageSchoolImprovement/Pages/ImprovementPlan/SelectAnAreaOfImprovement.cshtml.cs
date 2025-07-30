@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
         public bool ShowSelectedAreaOfImprovementError => ModelState.ContainsKey(nameof(SelectedAreaOfImprovement)) && ModelState[nameof(SelectedAreaOfImprovement)]?.Errors.Count > 0;
         public bool ShowError => _errorService.HasErrors();
         public string ReturnPage { get; private set; } = string.Empty;
-        public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, string? selectedAreaOfImprovement, string? returnPage, CancellationToken cancellationToken)
         {
             // If returnPage is not provided, check TempData for a previous return page
             var tempDataKey = $"ReturnPage_{nameof(Links.ImprovementPlan.SelectAnAreaOfImprovement)}";
@@ -31,7 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             ReturnPage = returnPage ?? @Links.TaskList.Index.Page;
 
             await base.GetSupportProject(id, cancellationToken);
-            SelectedAreaOfImprovement = null; // Will be set when user selects an option
+            SelectedAreaOfImprovement = selectedAreaOfImprovement;
             RadioButtons = RadioButtonModel;
             return Page();
         }
@@ -41,8 +41,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             {
                 if (ShowSelectedAreaOfImprovementError)
                 {
-                    SelectedAreaOfImprovementErrorMessage = "Select a category";
-                    _errorService.AddError(nameof(SelectedAreaOfImprovement), SelectedAreaOfImprovementErrorMessage);
+                    SelectedAreaOfImprovementErrorMessage = "Select an area of improvement";
+                    _errorService.AddError(RadioButtonModel.First().Id, SelectedAreaOfImprovementErrorMessage);
                 }
 
                 RadioButtons = RadioButtonModel;
