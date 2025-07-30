@@ -1,51 +1,29 @@
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">Quality of education</h2>
-    </div>
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
-                    Objective 1
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    This is a quality of education objective
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
-                    Objective 2
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    This is a second quality of education objective
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
+@foreach (var objectiveList in Model)
+{
+    if (objectiveList.Count != 0)
+    {
+        var areaOfImprovement = objectiveList[0].AreaOfImprovement;
 
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">Leadership and management</h2>
-    </div>
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
-                    Objective 1
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    This is a leadership and management objective
-                </dd>
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">@areaOfImprovement</h2>
             </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
-                    Objective 2
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    This is a second leadership and management objective
-                </dd>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    @foreach (var objective in objectiveList)
+                    {
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+                                Objective @objective.Order
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @objective.Details
+                            </dd>
+                        </div>
+                    }
+                </dl>
             </div>
-        </dl>
-    </div>
-</div>
+        </div>
+    }
+
+}
