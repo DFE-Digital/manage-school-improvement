@@ -24,7 +24,7 @@
         
         <form method="post" novalidate>
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : string.Empty)">
-                <label class="govuk-label govuk-visually-hidden" for="objective-details">
+                <label class="govuk-label govuk-visually-hidden" for="@nameof(Model.ObjectiveDetails)">
                     Objective details
                 </label>
                 @if (Model.ShowDetailsError)
