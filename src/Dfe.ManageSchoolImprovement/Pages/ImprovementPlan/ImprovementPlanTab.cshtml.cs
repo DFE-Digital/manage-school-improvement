@@ -16,7 +16,7 @@ public class ImprovementPlanTabModel(
     
     public ImprovementPlanViewModel? ImprovementPlan { get; set; }
     
-    public List<List<ImprovementPlanObjectiveViewModel>>Objectives { get; set; } = new();
+    public bool NoObjectivesRecorded => ImprovementPlan?.ImprovementPlanObjectives == null || ImprovementPlan.ImprovementPlanObjectives.Count == 0;
     
     public List<ImprovementPlanObjectiveViewModel> QualityOfEducationObjectives =>
         ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Quality of education").OrderBy(o => o.Order).ToList() ?? new();
@@ -43,27 +43,6 @@ public class ImprovementPlanTabModel(
         if (SupportProject?.ImprovementPlans != null)
         {
             ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
-
-            if (QualityOfEducationObjectives.Count != 0 ||
-                LeadershipAndManagementObjectives.Count != 0 ||
-                BehaviourAndAttitudesObjectives.Count != 0 ||
-                AttendanceObjectives.Count != 0 ||
-                PersonalDevelopmentObjectives.Count != 0)
-            {
-                Objectives = new List<List<ImprovementPlanObjectiveViewModel>>
-                {
-                    QualityOfEducationObjectives,
-                    LeadershipAndManagementObjectives,
-                    BehaviourAndAttitudesObjectives,
-                    AttendanceObjectives,
-                    PersonalDevelopmentObjectives,
-                };  
-            }
-            else
-            {
-                Objectives = new List<List<ImprovementPlanObjectiveViewModel>>();
-            }
-
         }
 
         return Page();

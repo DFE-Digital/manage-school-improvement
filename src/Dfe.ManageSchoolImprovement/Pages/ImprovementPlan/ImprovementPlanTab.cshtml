@@ -12,12 +12,20 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">Improvement plan</h2>
-        @if (Model.Objectives.Count == 0)
+        @if (Model.NoObjectivesRecorded)
         {
             <p>As you add the improvement plan objectives, they will be listed here.</p>
             <p>When you have added them all, you should record progress on them after each review.</p>
         } else {
-            <partial name="Shared/_ObjectiveSummaryCards" model="Model.Objectives" />        
+            <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id)' />
+
+            <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id)' />
+
+            <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id)' />
+
+            <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id)' />
+
+            <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id)' />      
         }
     </div>
 </div>
