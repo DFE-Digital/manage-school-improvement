@@ -14,7 +14,10 @@ describe("Tasklist negative tests", () => {
     it("Should be able to validate Tasklist", () => {
 
         Logger.log("Selecting project");
-        homePage.selectSchoolName("Plymtree Church of England Primary School");
+        homePage
+            .selectProjectFilter("Plymtree Church of England Primary School")
+            .applyFilters()
+            .selectSchoolName("Plymtree Church of England Primary School");
         
         Logger.log("Validating date input field");
         taskList.selectTask("Contact the responsible body");
