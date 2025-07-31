@@ -225,6 +225,18 @@ variable "existing_logic_app_workflow" {
   }
 }
 
+variable "restrict_container_apps_to_cdn_inbound_only" {
+  description = "Restricts access to the Container Apps by creating a network security group rule that only allows 'AzureFrontDoor.Backend' inbound, and attaches it to the subnet of the container app environment."
+  type        = bool
+  default     = true
+}
+
+variable "storage_account_ipv4_allow_list" {
+  description = "A list of public IPv4 address to grant access to the Storage Account"
+  type        = list(string)
+  default     = []
+}
+
 variable "existing_network_watcher_name" {
   description = "Use an existing network watcher to add flow logs."
   type        = string
