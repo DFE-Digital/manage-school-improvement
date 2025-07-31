@@ -379,7 +379,7 @@ describe("User completes their newly created project", () => {
     taskList.selectTask("Enter improvement plan objectives");
     taskListActions.hasHeader("Select an area of improvement");
     taskListActions.selectButtonOrCheckbox("quality-of-education");
-     taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
     taskListActions.enterText("ObjectiveDetails", "Quality of education details");
     taskListActions.clickButton("finish");
     taskListActions.clickButton("save");
@@ -387,7 +387,7 @@ describe("User completes their newly created project", () => {
       .hasTaskStatusInProgress("enter-improvement-plan-objectives_status");
     taskList.selectTask("Enter improvement plan objectives");   
     taskListActions.selectButtonOrCheckbox("leadership-and-management");
-     taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
     taskListActions.enterText("ObjectiveDetails", "Leadership-and-management details");
     taskListActions.clickButton("finish");
     taskListActions.linkExists("Change")
