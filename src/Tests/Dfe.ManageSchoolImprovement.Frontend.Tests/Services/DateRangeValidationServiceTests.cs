@@ -6,6 +6,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 {
     public class DateRangeValidationServiceTests
     {
+        [Serializable]
         public record DateRangeTestCase(DateTime Date, DateRange DateRange, bool ExpectedIsValid, string ExpectedMessage);
         public static TheoryData<DateRangeTestCase> DateRangeTestCases
         {
