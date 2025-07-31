@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
             var fixture = new Fixture();
-            _mockSupportProject = fixture.Create<Domain.Entities.SupportProject.SupportProject>(); 
+            _mockSupportProject = fixture.Create<Domain.Entities.SupportProject.SupportProject>();
             _cancellationToken = new CancellationToken();
             _cancellationToken = CancellationToken.None;
         }
@@ -28,11 +28,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             string? adviserEmailAddress = "rise.test.test@gov.uk";
             DateTime? assignedDate = DateTime.UtcNow;
+            string? assignedAdviserFullName = "Test Adviser";
 
             var command = new SetAdviserDetailsCommand(
                 _mockSupportProject.Id,
                 assignedDate,
-                adviserEmailAddress
+                adviserEmailAddress,
+                assignedAdviserFullName
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var SetAdviserDetailsCommandHandler = new SetAdviserDetailsCommandHandler(_mockSupportProjectRepository.Object);
@@ -51,6 +53,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetAdviserDetailsCommand(
                 _mockSupportProject.Id,
+                null,
                 null,
                 null
             );
@@ -71,17 +74,19 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             string? adviserEmailAddress = "rise.test.test@gov.uk";
             DateTime? assignedDate = DateTime.UtcNow;
+            string? assignedAdviserFullName = "Test Adviser";
 
             var command = new SetAdviserDetailsCommand(
                 _mockSupportProject.Id,
                 assignedDate,
-                adviserEmailAddress
+                adviserEmailAddress,
+                assignedAdviserFullName
             );
 
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
-                It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
                 It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
-            
+
             var setAdviserDetailsCommandHandler = new SetAdviserDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act

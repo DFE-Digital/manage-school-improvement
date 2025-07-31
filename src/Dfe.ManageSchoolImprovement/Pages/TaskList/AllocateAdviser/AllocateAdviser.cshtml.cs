@@ -11,8 +11,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AllocateAdviser;
 
 public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryService, IUserRepository userRepository, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
-    [BindProperty(Name = "adviser-email-address")]
-    [RiseAdviserEmail]
     public string? AdviserEmailAddress { get; set; }
     public string? AdviserFullName { get; set; }
 
@@ -88,6 +86,13 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
 
                 TaskUpdated = true;
 
+            }
+            else
+            {
+                _errorService.AddError("AdviserInput", "Selected adviser not found.");
+                ShowError = true;
+                Referrer = referrer;
+                return await base.GetSupportProject(id, cancellationToken);
             }
         }
 

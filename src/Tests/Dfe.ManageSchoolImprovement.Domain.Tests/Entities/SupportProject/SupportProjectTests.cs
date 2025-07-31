@@ -2,7 +2,6 @@ using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
-using Xunit.Sdk;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 {
@@ -138,11 +137,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             string? adviserEmailAddress = "test";
             DateTime? dateAdviserAllocated = DateTime.UtcNow;
+            string? assignedAdviserFullName = "Test Adviser";
 
             // Act
             supportProject.SetAdviserDetails(
                 adviserEmailAddress,
-                dateAdviserAllocated);
+                dateAdviserAllocated,
+                assignedAdviserFullName);
 
             // Assert
             supportProject.AdviserEmailAddress.Should().Be(adviserEmailAddress);
@@ -402,13 +403,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-            
+
             DateTime improvementPlanReceivedDate = DateTime.UtcNow;
             bool reviewImprovementAndExpenditurePlan = true;
             bool confirmFundingBand = true;
             string fundingBand = "lots of money";
             bool confirmPlanClearedByRiseGrantTeam = true;
-            
+
             // Act
             supportProject.SetReviewTheImprovementPlan(
                 improvementPlanReceivedDate,
@@ -416,7 +417,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 confirmFundingBand,
                 fundingBand,
                 confirmPlanClearedByRiseGrantTeam);
-            
+
             // Assert
             supportProject.ImprovementPlanReceivedDate.Should().Be(improvementPlanReceivedDate);
             supportProject.ReviewImprovementAndExpenditurePlan.Should().Be(reviewImprovementAndExpenditurePlan);
@@ -965,17 +966,17 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Assert
             var improvementPlan = supportProject.ImprovementPlans.First();
             var objectives = improvementPlan.ImprovementPlanObjectives.ToList();
-            
+
             objectives.Should().HaveCount(5);
-            
+
             // Quality of Education objectives should have order 1, 2
             objectives.First(o => o.Id == qualityObjective1Id).Order.Should().Be(1);
             objectives.First(o => o.Id == qualityObjective2Id).Order.Should().Be(2);
-            
+
             // Leadership and Management objectives should have order 1, 2
             objectives.First(o => o.Id == leadershipObjective1Id).Order.Should().Be(1);
             objectives.First(o => o.Id == leadershipObjective2Id).Order.Should().Be(2);
-            
+
             // Behaviour and Attitudes objective should have order 1
             objectives.First(o => o.Id == behaviorObjective1Id).Order.Should().Be(1);
         }
@@ -1004,7 +1005,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var qualityObjectives = improvementPlan.ImprovementPlanObjectives
                 .Where(o => o.AreaOfImprovement == "QualityOfEducation")
                 .ToList();
-            
+
             qualityObjectives.Should().HaveCount(4);
             qualityObjectives.First(o => o.Id == objective1Id).Order.Should().Be(1);
             qualityObjectives.First(o => o.Id == objective2Id).Order.Should().Be(2);
@@ -1166,7 +1167,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlan = supportProject.ImprovementPlans.First();
             var objective1 = improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objective1Id);
             var objective2 = improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objective2Id);
-            
+
             objective1.Details.Should().Be("Objective 1 details"); // Unchanged
             objective2.Details.Should().Be(updatedDetails); // Updated
         }
@@ -1177,7 +1178,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
-            
+
             supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
 
             // Act
