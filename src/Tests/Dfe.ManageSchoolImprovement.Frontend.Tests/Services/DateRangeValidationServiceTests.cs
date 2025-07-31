@@ -1,13 +1,12 @@
 
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using Xunit.Abstractions;
 using static Dfe.ManageSchoolImprovement.Frontend.Services.DateRangeValidationService;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 {
     public class DateRangeValidationServiceTests
     {
-        [Serializable]
-        public record DateRangeTestCase(DateTime Date, DateRange DateRange, bool ExpectedIsValid, string ExpectedMessage);
         public static TheoryData<DateRangeTestCase> DateRangeTestCases
         {
             get
@@ -153,6 +152,43 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             // Assert
             Assert.True(isValid);
             Assert.Equal("", message);
+        }
+    }
+    
+    public class DateRangeTestCase : IXunitSerializable
+    {
+        public DateTime Date { get; private set; }
+        public DateRange DateRange { get; private set; }
+        public bool ExpectedIsValid { get; private set; }
+        public string ExpectedMessage { get; private set; }
+
+        // Required parameterless constructor for serialization
+        public DateRangeTestCase()
+        {
+        }
+
+        public DateRangeTestCase(DateTime date, DateRange dateRange, bool expectedIsValid, string expectedMessage)
+        {
+            Date = date;
+            DateRange = dateRange;
+            ExpectedIsValid = expectedIsValid;
+            ExpectedMessage = expectedMessage;
+        }
+
+        public void Deserialize(IXunitSerializationInfo info)
+        {
+            Date = info.GetValue<DateTime>(nameof(Date));
+            DateRange = info.GetValue<DateRange>(nameof(DateRange));
+            ExpectedIsValid = info.GetValue<bool>(nameof(ExpectedIsValid));
+            ExpectedMessage = info.GetValue<string>(nameof(ExpectedMessage));
+        }
+
+        public void Serialize(IXunitSerializationInfo info)
+        {
+            info.AddValue(nameof(Date), Date);
+            info.AddValue(nameof(DateRange), DateRange);
+            info.AddValue(nameof(ExpectedIsValid), ExpectedIsValid);
+            info.AddValue(nameof(ExpectedMessage), ExpectedMessage);
         }
     }
 }
