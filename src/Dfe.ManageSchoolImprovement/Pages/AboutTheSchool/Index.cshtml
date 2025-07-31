@@ -2,6 +2,7 @@
 @using Dfe.ManageSchoolImprovement.Frontend.Models
 @using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
 @using Dfe.Academisation.ExtensionMethods
+@using System.Globalization
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.AboutTheSchool.IndexModel
 @{
     Model.SetErrorPage(Links.SchoolList.Index.Page);
@@ -11,7 +12,7 @@
 
 @section BeforeMain
 {
-   <a asp-page="@Model.ReturnPage"  class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
 }
 
 
@@ -21,16 +22,16 @@
 <partial name="_ProjectHeader" model="Model.SupportProject" />
 
 <div class="govuk-grid-row">
-<div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="ofsted-report">About the school</h2>
-    <div class="govuk-summary-card">
-        <div class="govuk-summary-card__title-wrapper">
-            <h2 class="govuk-summary-card__title">
-                School overview
-            </h2>
-        </div>
-        <div class="govuk-summary-card__content">
-            <dl class="govuk-summary-list">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="ofsted-report">About the school</h2>
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">
+                    School overview
+                </h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Previous URN
@@ -39,22 +40,22 @@
                             @Model.SupportProject.PreviousUrn
                         </dd>
                     </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Region
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SupportProject.Region
-                    </dd>
-                </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Local authority
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SupportProject.LocalAuthority
-                    </dd>
-                </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Region
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SupportProject.Region
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Local authority
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SupportProject.LocalAuthority
+                        </dd>
+                    </div>
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             School type
@@ -63,42 +64,53 @@
                             @Model.SupportProject.SchoolType
                         </dd>
                     </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        School phase
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SupportProject.SchoolPhase
-                    </dd>
-                </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Religious character
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SupportProject.ReligiousCharacter
-                    </dd>
-                </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Diocese
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SupportProject.Diocese
-                    </dd>
-                </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Number on roll (NOR)
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SupportProject.NumbersOnRoll
-                    </dd>
-                </div>
-            </dl>
+                    @if (!string.IsNullOrEmpty(Model.SupportProject.TrustName))
+                    {
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Trust
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@Model.SupportProject.TrustName.ToLower())
+                            </dd>
+                        </div>
+                    }
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            School phase
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SupportProject.SchoolPhase
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Religious character
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SupportProject.ReligiousCharacter
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Diocese
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SupportProject.Diocese
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Number on roll (NOR)
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SupportProject.NumbersOnRoll
+                        </dd>
+                    </div>
+                </dl>
+            </div>
         </div>
-    </div>
-      
+
         <details class="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
@@ -109,5 +121,5 @@
                 <p>School information taken from Get information about schools on @DateTime.Now.ToDateString()</p>
             </div>
         </details>
-</div>
+    </div>
 </div>

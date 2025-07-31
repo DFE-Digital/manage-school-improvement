@@ -25,6 +25,18 @@ class TaskListActions {
         return this;
     }
 
+    public clickButton(value: string): this {
+         cy.get(`[value="${value}"]`).click();
+
+        return this;
+    }
+
+    public linkExists(linkText: string): this {
+        cy.get('a').contains(linkText).should('exist');
+
+        return this;
+    }
+
     public enterDate(id: string, day: string, month: string, year: string): this {
         cy.getById(`${id}-day`).type(day);
         cy.getById(`${id}-month`).type(month);
