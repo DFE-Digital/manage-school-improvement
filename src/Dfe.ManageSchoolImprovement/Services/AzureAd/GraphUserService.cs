@@ -1,10 +1,12 @@
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Graph;
+using System.Diagnostics.CodeAnalysis;
 using User = Microsoft.Graph.User;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 
+[ExcludeFromCodeCoverage(Justification = "Mocking out of GraphServiceClient not possible")]
 public class GraphUserService(IGraphClientFactory graphClientFactory, IOptions<AzureAdOptions> azureAdOptions) : IGraphUserService
 {
     private readonly AzureAdOptions _azureAdOptions = azureAdOptions.Value;

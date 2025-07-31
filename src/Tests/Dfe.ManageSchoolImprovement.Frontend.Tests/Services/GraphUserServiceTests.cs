@@ -104,7 +104,7 @@ public class GraphUserServiceTests
         var service = new GraphUserService(_mockGraphClientFactory.Object, _mockOptions.Object);
 
         // Assert
-        Assert.IsAssignableFrom<IGraphUserService>(service);
+        Assert.True(service is IGraphUserService);
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public class GraphUserServiceTests
     }
 
     [Fact]
-    public async Task Constructor_ThrowsException_WhenGraphClientFactoryFails()
+    public void Constructor_ThrowsException_WhenGraphClientFactoryFails()
     {
         // Arrange
         _mockGraphClientFactory.Setup(x => x.Create())
@@ -165,7 +165,7 @@ public class GraphUserServiceTests
 
         // Assert
         Assert.NotNull(service);
-        Assert.IsAssignableFrom<IGraphUserService>(service);
+        Assert.True(service is IGraphUserService);
     }
 
     [Fact]
