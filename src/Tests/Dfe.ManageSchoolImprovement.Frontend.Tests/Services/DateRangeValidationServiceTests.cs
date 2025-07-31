@@ -160,7 +160,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public DateTime Date { get; private set; }
         public DateRange DateRange { get; private set; }
         public bool ExpectedIsValid { get; private set; }
-        public string ExpectedMessage { get; private set; }
+        public string? ExpectedMessage { get; private set; }
 
         // Required parameterless constructor for serialization
         public DateRangeTestCase()
