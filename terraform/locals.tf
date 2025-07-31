@@ -68,8 +68,10 @@ locals {
   mssql_firewall_ipv4_allow_list                  = var.mssql_firewall_ipv4_allow_list
   mssql_server_public_access_enabled              = var.mssql_server_public_access_enabled
   mssql_managed_identity_assign_role              = var.mssql_managed_identity_assign_role
-  storage_account_public_access_enabled           = var.storage_account_public_access_enabled
   dns_alias_records                               = var.dns_alias_records
   monitor_http_availability_fqdn                  = var.monitor_http_availability_fqdn
   enable_monitoring_traces                        = var.enable_monitoring_traces
+  restrict_container_apps_to_cdn_inbound_only     = var.restrict_container_apps_to_cdn_inbound_only
+  storage_account_public_access_enabled           = var.storage_account_public_access_enabled
+  storage_account_ipv4_allow_list                 = var.storage_account_ipv4_allow_list
 }
