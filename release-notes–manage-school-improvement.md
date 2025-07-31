@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.13.1] - Q2 – Sprint 2 (Part 2) - 2025-07-29
+
+### 📌 User Stories
+
+- **224023** - Make it clearer what "Reserves exceed funding level" refers to
+
+--
+
 ## 📅 [v0.13.0] - Q2 – Sprint 2 (Part 1) - 2025-07-24
 
 ### 📌 User Stories
