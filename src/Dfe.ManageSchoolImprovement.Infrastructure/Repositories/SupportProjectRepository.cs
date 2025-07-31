@@ -132,7 +132,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 var lowerCaseRegions = localAuthorities.Select(la => la.ToLower());
                 queryable = queryable.Where(p => 
                     !string.IsNullOrEmpty(p.LocalAuthority) && 
-                    lowerCaseRegions.Any(la => EF.Functions.Like(p.LocalAuthority, la)));
+                    lowerCaseRegions.Contains(p.LocalAuthority.ToLower()));
             }
 
             return queryable;
