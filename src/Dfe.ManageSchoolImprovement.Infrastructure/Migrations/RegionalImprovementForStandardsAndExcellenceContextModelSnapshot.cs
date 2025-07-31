@@ -94,6 +94,130 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                             }));
                 });
 
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.ImprovementPlan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("ObjectivesSectionComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<int>("ReadableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReadableId"));
+
+                    b.Property<int>("SupportProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupportProjectId");
+
+                    b.ToTable("ImprovementPlans", "RISE");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("ImprovementPlansHistory", "RISE");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.ImprovementPlanObjective", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AreaOfImprovement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ImprovementPlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<int>("ReadableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReadableId"));
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImprovementPlanId");
+
+                    b.ToTable("ImprovementPlanObjectives", "RISE");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("ImprovementPlanObjectivesHistory", "RISE");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
+                });
+
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", b =>
                 {
                     b.Property<int>("Id")
@@ -103,6 +227,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AdviserEmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdviserFullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("AdviserVisitDate")
@@ -552,6 +679,24 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.ImprovementPlan", b =>
+                {
+                    b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", null)
+                        .WithMany("ImprovementPlans")
+                        .HasForeignKey("SupportProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.ImprovementPlanObjective", b =>
+                {
+                    b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.ImprovementPlan", null)
+                        .WithMany("ImprovementPlanObjectives")
+                        .HasForeignKey("ImprovementPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProjectContact", b =>
                 {
                     b.HasOne("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", null)
@@ -570,11 +715,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.ImprovementPlan", b =>
+                {
+                    b.Navigation("ImprovementPlanObjectives");
+                });
+
             modelBuilder.Entity("Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject.SupportProject", b =>
                 {
                     b.Navigation("Contacts");
 
                     b.Navigation("FundingHistories");
+
+                    b.Navigation("ImprovementPlans");
 
                     b.Navigation("Notes");
                 });

@@ -7,6 +7,7 @@ import contacts from "cypress/pages/contacts";
 import caseStudy from "cypress/pages/caseStudy";
 import engagementConcern from "cypress/pages/engagementConcern";
 import notes from "cypress/pages/notes";
+import improvementPlan from "cypress/pages/improvementPlan";
 
 describe("User select the school", () => {
     beforeEach(() => {
@@ -52,6 +53,17 @@ describe("User select the school", () => {
 
         cy.executeAccessibilityTests()
     });
+
+    it("should be able to navigate to the Improvement plan tab", () => {
+        Logger.log("User navigates to the Improvement plan tab");
+        taskList
+            .navigateToTab('Improvement plan');
+        improvementPlan
+            .hasHeading('Improvement plan')
+
+        cy.executeAccessibilityTests()
+    });
+
 
     it("should be able to navigate to the Contacts tab", () => {
         Logger.log("User navigates to the Contacts tab");

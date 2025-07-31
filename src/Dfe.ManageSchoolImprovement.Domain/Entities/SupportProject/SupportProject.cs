@@ -82,7 +82,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? DateAdviserAllocated { get; private set; }
     public string? AdviserEmailAddress { get; private set; }
-
+    public string? AdviserFullName { get; private set; }
     public DateTime? IntroductoryEmailSentDate { get; private set; }
 
     public bool? HasShareEmailTemplateWithAdviser { get; private set; }
@@ -202,6 +202,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? IndicativeFundingBand { get; private set; }
     public DateTime? DateTemplatesAndIndicativeFundingBandSent { get; private set; }
 
+    public IEnumerable<ImprovementPlan> ImprovementPlans => _improvementPlans.AsReadOnly();
+
+    private readonly List<ImprovementPlan> _improvementPlans = new();
 
     #endregion
 
@@ -281,10 +284,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
     }
 
-    public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated)
+    public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated, string? adviserFullName)
     {
         DateAdviserAllocated = dateAdviserAllocated;
         AdviserEmailAddress = adviserEmailAddress;
+        AdviserFullName = adviserFullName;
     }
 
     public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser, bool? remindAdviserToCopyRiseTeamWhenSentEmail)
@@ -522,6 +526,62 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InformationPowersInUse = informationPowersInUse;
         InformationPowersDetails = informationPowersDetails;
         PowersUsedDate = powersUsedDate;
+    }
+
+    public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
+    {
+        _improvementPlans.Add(new ImprovementPlan(improvementPlanId, supportProjectId));
+    }
+
+    public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        var order = improvementPlan.ImprovementPlanObjectives
+            .Where(x => x.AreaOfImprovement == areaOfImprovement)
+            .Select(x => x.Order)
+            .DefaultIfEmpty(0)
+            .Max() + 1;
+
+        improvementPlan.AddObjective(
+            improvementPlanObjectiveId,
+            improvementPlanId,
+            areaOfImprovement,
+            details,
+            order
+            );
+    }
+
+    public void SetImprovementPlanObjectivesComplete(ImprovementPlanId improvementPlanId, bool objectivesSectionComplete)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetObjectivesComplete(objectivesSectionComplete);
+    }
+
+    public void SetImprovementPlanObjectiveDetails(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string details)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetObjectiveDetails(
+            improvementPlanObjectiveId,
+            details
+            );
     }
 
     #endregion

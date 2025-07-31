@@ -30,6 +30,15 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
             CreateMap<Domain.Entities.SupportProject.FundingHistory, FundingHistoryDto>()
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
                .ReverseMap();
+
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlan, ImprovementPlanDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+               .ReverseMap();
+
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjective, ImprovementPlanObjectiveDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
+               .ReverseMap();
         }
     }
 }

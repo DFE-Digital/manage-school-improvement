@@ -1,7 +1,7 @@
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
-using Xunit.Sdk;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 {
@@ -137,11 +137,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             string? adviserEmailAddress = "test";
             DateTime? dateAdviserAllocated = DateTime.UtcNow;
+            string? assignedAdviserFullName = "Test Adviser";
 
             // Act
             supportProject.SetAdviserDetails(
                 adviserEmailAddress,
-                dateAdviserAllocated);
+                dateAdviserAllocated,
+                assignedAdviserFullName);
 
             // Assert
             supportProject.AdviserEmailAddress.Should().Be(adviserEmailAddress);
@@ -401,13 +403,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-            
+
             DateTime improvementPlanReceivedDate = DateTime.UtcNow;
             bool reviewImprovementAndExpenditurePlan = true;
             bool confirmFundingBand = true;
             string fundingBand = "lots of money";
             bool confirmPlanClearedByRiseGrantTeam = true;
-            
+
             // Act
             supportProject.SetReviewTheImprovementPlan(
                 improvementPlanReceivedDate,
@@ -415,7 +417,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 confirmFundingBand,
                 fundingBand,
                 confirmPlanClearedByRiseGrantTeam);
-            
+
             // Assert
             supportProject.ImprovementPlanReceivedDate.Should().Be(improvementPlanReceivedDate);
             supportProject.ReviewImprovementAndExpenditurePlan.Should().Be(reviewImprovementAndExpenditurePlan);
@@ -863,6 +865,328 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.EngagementConcernEscalationDetails.Should().Be(escalationDetails);
             supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(dateOfDecision);
             mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void AddImprovementPlan_WithValidParameters_AddsImprovementPlanToCollection()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+
+            // Act
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Assert
+            supportProject.ImprovementPlans.Should().HaveCount(1);
+            var addedPlan = supportProject.ImprovementPlans.First();
+            addedPlan.Id.Should().Be(improvementPlanId);
+            addedPlan.SupportProjectId.Should().Be(supportProject.Id);
+        }
+
+        [Fact]
+        public void AddImprovementPlan_MultipleImprovementPlans_AddsAllToCollection()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var plan1Id = new ImprovementPlanId(Guid.NewGuid());
+            var plan2Id = new ImprovementPlanId(Guid.NewGuid());
+
+            // Act
+            supportProject.AddImprovementPlan(plan1Id, supportProject.Id);
+            supportProject.AddImprovementPlan(plan2Id, supportProject.Id);
+
+            // Assert
+            supportProject.ImprovementPlans.Should().HaveCount(2);
+            supportProject.ImprovementPlans.Should().Contain(p => p.Id == plan1Id);
+            supportProject.ImprovementPlans.Should().Contain(p => p.Id == plan2Id);
+        }
+
+        [Fact]
+        public void AddImprovementPlanObjective_WithValidParameters_AddsObjectiveToImprovementPlan()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var areaOfImprovement = "QualityOfEducation";
+            var details = "Improve mathematics outcomes";
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act
+            supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, areaOfImprovement, details);
+
+            // Assert
+            var improvementPlan = supportProject.ImprovementPlans.First();
+            improvementPlan.ImprovementPlanObjectives.Should().HaveCount(1);
+            var addedObjective = improvementPlan.ImprovementPlanObjectives.First();
+            addedObjective.Id.Should().Be(objectiveId);
+            addedObjective.AreaOfImprovement.Should().Be(areaOfImprovement);
+            addedObjective.Details.Should().Be(details);
+            addedObjective.Order.Should().Be(1); // First objective should have order 1
+        }
+
+        [Fact]
+        public void AddImprovementPlanObjective_WithNonExistentImprovementPlan_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var nonExistentPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            // Act & Assert
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                supportProject.AddImprovementPlanObjective(objectiveId, nonExistentPlanId, "QualityOfEducation", "Test details"));
+
+            exception.Message.Should().Be($"Improvement plan with id {nonExistentPlanId} not found.");
+        }
+
+        [Fact]
+        public void AddImprovementPlanObjective_MultipleObjectives_CalculatesOrderCorrectlyPerImprovementArea()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var qualityObjective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var leadershipObjective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var qualityObjective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var leadershipObjective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var behaviorObjective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act - Add objectives in mixed order to test area-specific ordering
+            supportProject.AddImprovementPlanObjective(qualityObjective1Id, improvementPlanId, "QualityOfEducation", "Quality Objective 1");
+            supportProject.AddImprovementPlanObjective(leadershipObjective1Id, improvementPlanId, "LeadershipAndManagement", "Leadership Objective 1");
+            supportProject.AddImprovementPlanObjective(qualityObjective2Id, improvementPlanId, "QualityOfEducation", "Quality Objective 2");
+            supportProject.AddImprovementPlanObjective(leadershipObjective2Id, improvementPlanId, "LeadershipAndManagement", "Leadership Objective 2");
+            supportProject.AddImprovementPlanObjective(behaviorObjective1Id, improvementPlanId, "BehaviourAndAttitudes", "Behavior Objective 1");
+
+            // Assert
+            var improvementPlan = supportProject.ImprovementPlans.First();
+            var objectives = improvementPlan.ImprovementPlanObjectives.ToList();
+
+            objectives.Should().HaveCount(5);
+
+            // Quality of Education objectives should have order 1, 2
+            objectives.First(o => o.Id == qualityObjective1Id).Order.Should().Be(1);
+            objectives.First(o => o.Id == qualityObjective2Id).Order.Should().Be(2);
+
+            // Leadership and Management objectives should have order 1, 2
+            objectives.First(o => o.Id == leadershipObjective1Id).Order.Should().Be(1);
+            objectives.First(o => o.Id == leadershipObjective2Id).Order.Should().Be(2);
+
+            // Behaviour and Attitudes objective should have order 1
+            objectives.First(o => o.Id == behaviorObjective1Id).Order.Should().Be(1);
+        }
+
+        [Fact]
+        public void AddImprovementPlanObjective_MultipleObjectivesInSameArea_CalculatesOrderSequentially()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective3Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective4Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act - Add multiple objectives to the same improvement area
+            supportProject.AddImprovementPlanObjective(objective1Id, improvementPlanId, "QualityOfEducation", "First objective");
+            supportProject.AddImprovementPlanObjective(objective2Id, improvementPlanId, "QualityOfEducation", "Second objective");
+            supportProject.AddImprovementPlanObjective(objective3Id, improvementPlanId, "QualityOfEducation", "Third objective");
+            supportProject.AddImprovementPlanObjective(objective4Id, improvementPlanId, "QualityOfEducation", "Fourth objective");
+
+            // Assert
+            var improvementPlan = supportProject.ImprovementPlans.First();
+            var qualityObjectives = improvementPlan.ImprovementPlanObjectives
+                .Where(o => o.AreaOfImprovement == "QualityOfEducation")
+                .ToList();
+
+            qualityObjectives.Should().HaveCount(4);
+            qualityObjectives.First(o => o.Id == objective1Id).Order.Should().Be(1);
+            qualityObjectives.First(o => o.Id == objective2Id).Order.Should().Be(2);
+            qualityObjectives.First(o => o.Id == objective3Id).Order.Should().Be(3);
+            qualityObjectives.First(o => o.Id == objective4Id).Order.Should().Be(4);
+        }
+
+        [Theory]
+        [InlineData("QualityOfEducation", "Improve reading comprehension")]
+        [InlineData("LeadershipAndManagement", "Develop leadership capacity")]
+        [InlineData("BehaviourAndAttitudes", "Improve student behavior")]
+        [InlineData("Attendance", "Increase attendance rates")]
+        [InlineData("PersonalDevelopment", "Enhance character education")]
+        public void AddImprovementPlanObjective_WithDifferentAreasOfImprovement_AddsObjectiveCorrectly(string areaOfImprovement, string details)
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act
+            supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, areaOfImprovement, details);
+
+            // Assert
+            var objective = supportProject.ImprovementPlans.First().ImprovementPlanObjectives.First();
+            objective.AreaOfImprovement.Should().Be(areaOfImprovement);
+            objective.Details.Should().Be(details);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void SetImprovementPlanObjectivesComplete_WithValidParameters_SetsCompletionStatus(bool objectivesSectionComplete)
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act
+            supportProject.SetImprovementPlanObjectivesComplete(improvementPlanId, objectivesSectionComplete);
+
+            // Assert
+            var improvementPlan = supportProject.ImprovementPlans.First();
+            improvementPlan.ObjectivesSectionComplete.Should().Be(objectivesSectionComplete);
+        }
+
+        [Fact]
+        public void SetImprovementPlanObjectivesComplete_WithNonExistentImprovementPlan_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var nonExistentPlanId = new ImprovementPlanId(Guid.NewGuid());
+
+            // Act & Assert
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                supportProject.SetImprovementPlanObjectivesComplete(nonExistentPlanId, true));
+
+            exception.Message.Should().Be($"Improvement plan with id {nonExistentPlanId} not found.");
+        }
+
+        [Fact]
+        public void SetImprovementPlanObjectiveDetails_WithValidParameters_UpdatesObjectiveDetails()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var originalDetails = "Original details";
+            var updatedDetails = "Updated comprehensive details";
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, "QualityOfEducation", originalDetails);
+
+            // Act
+            supportProject.SetImprovementPlanObjectiveDetails(objectiveId, improvementPlanId, updatedDetails);
+
+            // Assert
+            var objective = supportProject.ImprovementPlans.First().ImprovementPlanObjectives.First();
+            objective.Details.Should().Be(updatedDetails);
+        }
+
+        [Fact]
+        public void SetImprovementPlanObjectiveDetails_WithNonExistentImprovementPlan_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var nonExistentPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            // Act & Assert
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                supportProject.SetImprovementPlanObjectiveDetails(objectiveId, nonExistentPlanId, "New details"));
+
+            exception.Message.Should().Be($"Improvement plan with id {nonExistentPlanId} not found.");
+        }
+
+        [Fact]
+        public void SetImprovementPlanObjectiveDetails_WithNonExistentObjective_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var nonExistentObjectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                supportProject.SetImprovementPlanObjectiveDetails(nonExistentObjectiveId, improvementPlanId, "New details"));
+
+            exception.Message.Should().Be($"Improvement plan objective with id {nonExistentObjectiveId} not found");
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("   ")]
+        [InlineData("Short details")]
+        [InlineData("Very comprehensive and detailed improvement objective with specific implementation strategies")]
+        public void SetImprovementPlanObjectiveDetails_WithVariousDetailLengths_UpdatesDetailsCorrectly(string details)
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, "QualityOfEducation", "Original details");
+
+            // Act
+            supportProject.SetImprovementPlanObjectiveDetails(objectiveId, improvementPlanId, details);
+
+            // Assert
+            var objective = supportProject.ImprovementPlans.First().ImprovementPlanObjectives.First();
+            objective.Details.Should().Be(details);
+        }
+
+        [Fact]
+        public void SetImprovementPlanObjectiveDetails_WithMultipleObjectives_UpdatesCorrectObjective()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+            var objective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var updatedDetails = "Updated details for objective 2";
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlanObjective(objective1Id, improvementPlanId, "QualityOfEducation", "Objective 1 details");
+            supportProject.AddImprovementPlanObjective(objective2Id, improvementPlanId, "LeadershipAndManagement", "Objective 2 details");
+
+            // Act
+            supportProject.SetImprovementPlanObjectiveDetails(objective2Id, improvementPlanId, updatedDetails);
+
+            // Assert
+            var improvementPlan = supportProject.ImprovementPlans.First();
+            var objective1 = improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objective1Id);
+            var objective2 = improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objective2Id);
+
+            objective1.Details.Should().Be("Objective 1 details"); // Unchanged
+            objective2.Details.Should().Be(updatedDetails); // Updated
+        }
+
+        [Fact]
+        public void ImprovementPlans_ReturnsReadOnlyCollection()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
+
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+
+            // Act
+            var improvementPlans = supportProject.ImprovementPlans;
+
+            // Assert
+            improvementPlans.Should().BeAssignableTo<IEnumerable<ImprovementPlan>>();
+            improvementPlans.Should().HaveCount(1);
         }
     }
 }

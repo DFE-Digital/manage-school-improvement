@@ -13,8 +13,8 @@ public class DeleteSupportProjectCommandHandler(ISupportProjectRepository suppor
 {
     public async Task<bool> Handle(DeleteSupportProjectCommand request, CancellationToken cancellationToken)
     {
-        // Find the support project by school URN, ignoring query filters to find even soft-deleted entities
-        var supportProject = await supportProjectRepository.GetSupportProjectByUrnIgnoringFilters(request.SchoolUrn, cancellationToken);
+        // Find the support project by school URN
+        var supportProject = await supportProjectRepository.GetSupportProjectByUrn(request.SchoolUrn, cancellationToken);
 
         if (supportProject is null)
         {

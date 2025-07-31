@@ -559,5 +559,84 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
+
+        public static readonly TheoryData<bool?, bool?, bool?, TaskListStatus> EnterImprovementPlanObjectivesTaskListStatusCases = new()
+        {
+            // NotStarted cases
+            { null, null, null, TaskListStatus.NotStarted },
+            { false, null, null, TaskListStatus.NotStarted },
+            { true, null, null, TaskListStatus.NotStarted },
+            { true, false, null, TaskListStatus.NotStarted },
+            
+            // InProgress cases - has objectives but not marked complete
+            { true, true, null, TaskListStatus.InProgress },
+            { true, true, false, TaskListStatus.InProgress },
+            
+            // Complete case - has objectives and marked complete
+            { true, true, true, TaskListStatus.Complete }
+        };
+
+        [Theory, MemberData(nameof(EnterImprovementPlanObjectivesTaskListStatusCases))]
+        public void EnterImprovementPlanObjectivesTaskListStatusShouldReturnCorrectStatus(bool? hasImprovementPlans, bool? hasObjectives, bool? objectivesSectionComplete, TaskListStatus expectedTaskListStatus)
+        {
+            // Arrange
+            IEnumerable<ImprovementPlanDto>? improvementPlans = null;
+
+            if (hasImprovementPlans == true)
+            {
+                var objectives = hasObjectives == true
+                    ? new List<ImprovementPlanObjectiveDto>
+                    {
+                        new(Guid.NewGuid(), 1, Guid.NewGuid(), 1, "QualityOfEducation", "Test objective")
+                    }
+                    : new List<ImprovementPlanObjectiveDto>();
+
+                improvementPlans = new List<ImprovementPlanDto>
+                {
+                    new(Guid.NewGuid(), 1, 1, objectivesSectionComplete, objectives)
+                };
+            }
+            else if (hasImprovementPlans == false)
+            {
+                improvementPlans = new List<ImprovementPlanDto>();
+            }
+
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                ImprovementPlans: improvementPlans!));
+
+            //Action 
+            var taskListStatus = TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(supportProjectModel);
+
+            //Assert
+            Assert.Equal(expectedTaskListStatus, taskListStatus);
+        }
+
+        [Fact]
+        public void EnterImprovementPlanObjectivesTaskListStatus_WithMultipleImprovementPlans_UsesFirstPlan()
+        {
+            // Arrange - Create multiple improvement plans where first is incomplete, second is complete
+            var improvementPlans = new List<ImprovementPlanDto>
+            {
+                // First plan - InProgress (has objectives but not complete)
+                new(Guid.NewGuid(), 1, 1, false, new List<ImprovementPlanObjectiveDto>
+                {
+                    new(Guid.NewGuid(), 1, Guid.NewGuid(), 1, "QualityOfEducation", "First plan objective")
+                }),
+                // Second plan - Complete (has objectives and marked complete)
+                new(Guid.NewGuid(), 2, 1, true, new List<ImprovementPlanObjectiveDto>
+                {
+                    new(Guid.NewGuid(), 2, Guid.NewGuid(), 1, "LeadershipAndManagement", "Second plan objective")
+                })
+            };
+
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                ImprovementPlans: improvementPlans));
+
+            //Action 
+            var taskListStatus = TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(supportProjectModel);
+
+            //Assert - Should use the first plan's status (InProgress)
+            Assert.Equal(TaskListStatus.InProgress, taskListStatus);
+        }
     }
 }

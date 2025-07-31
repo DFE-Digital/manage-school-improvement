@@ -42,6 +42,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public TaskListStatus RequestImprovementGrantOfferLetterTaskListStatus { get; set; }
     public TaskListStatus ConfirmImprovementGrantOfferLetterTaskListStatus { get; set; }
     public TaskListStatus FundingHistoryStatus { get; set; }
+    public TaskListStatus EnterImprovementPlanObjectivesTaskListStatus { get; set; }
 
     public void SetErrorPage(string errorPage)
     {
@@ -81,6 +82,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         ConfirmImprovementGrantOfferLetterTaskListStatus = TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
         ConfirmEligibilityTaskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
         FundingHistoryStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
+        EnterImprovementPlanObjectivesTaskListStatus = TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(SupportProject);
         return Page();
 
     }
