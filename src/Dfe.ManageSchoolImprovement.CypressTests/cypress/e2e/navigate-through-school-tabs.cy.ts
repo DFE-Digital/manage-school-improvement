@@ -54,7 +54,7 @@ describe("User select the school", () => {
         cy.executeAccessibilityTests()
     });
 
-    it.only("should be able to navigate to the Improvement plan tab", () => {
+    it("should be able to navigate to the Improvement plan tab", () => {
         Logger.log("User navigates to the Improvement plan tab");
         taskList
             .navigateToTab('Improvement plan');
