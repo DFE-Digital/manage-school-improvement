@@ -28,24 +28,31 @@
                     Allocate an adviser
                 </h1>
                 <p class="govuk-body">
-                    Enter the email address of the adviser and the date they were allocated to this school.
+                    Enter the name of the adviser and the date they were allocated to this school.
                 </p>
-                <div class="govuk-form-group @(Model.AdviserEmailAddressError ? "govuk-form-group--error" : "")">
+                <div class="govuk-form-group">
                     <h2 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--m" for="email-label">
-                            Email address
+                        <label class="govuk-label govuk-label--m" for="AdviserInput">
+                            Enter the name of the adviser
                         </label>
                     </h2>
-                    <div id="email-hint" class="govuk-hint">
-                        It will be formatted like firstname.lastname-rise@education.gov.uk.
-                    </div>
-                    @if (Model.AdviserEmailAddressError)
-                    {
-                        <p id="event-name-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> Email must be in the format: firstname.lastname-rise@education.gov.uk
-                        </p>
-                    }
-                    <input class="govuk-input govuk-!-width-two-thirds @(Model.AdviserEmailAddressError ? "govuk-input--error" : "")" id="adviser-email-address" name="adviser-email-address" type="text" value="@Model.AdviserEmailAddress" aria-label="email-label">
+                    <input type="hidden" id="AdviserInput" name="AdviserInput" />
+                    <select name="SelectedName" class="autocomplete__menu govuk-select" id="adviser">
+                        <option value=""></option>
+                        @{
+                            foreach (User riseAdviser in Model.RiseAdvisers)
+                            {
+                                if (Model.AdviserEmailAddress == riseAdviser.EmailAddress)
+                                {
+                                    <option value="@riseAdviser.EmailAddress" selected>@(riseAdviser.FullName) (@riseAdviser.EmailAddress)</option>
+                                }
+                                else
+                                {
+                                    <option value="@riseAdviser.EmailAddress">@(riseAdviser.FullName) (@riseAdviser.EmailAddress)</option>
+                                }
+                            }
+                        }
+                    </select>
                 </div>
             </div>
             <govuk-date-input heading-label="false" label="Enter date the adviser was allocated" id="date-adviser-allocated" name="date-adviser-allocated" asp-for="@Model.DateAdviserAllocated" hint="For example, 1 7 2024." />
@@ -56,3 +63,20 @@
         </form>
     </div>
 </div>
+
+<script type="application/javascript" asp-add-nonce>
+    var deliveryOfficerSelect = document.querySelector('#adviser');
+    accessibleAutocomplete.enhanceSelectElement({
+        selectElement: deliveryOfficerSelect
+    });
+      document.querySelector('#adviser-input').value = document.querySelector('#adviser').value;
+
+    document.querySelector('#adviser').addEventListener('change',function(){
+         document.querySelector('#adviser-input').value = this.value;
+    });
+
+    document.querySelector('#unassign-link').onclick = () =>{
+        document.querySelector('#UnassignAdviser').value = true;
+        document.querySelector('form').submit();
+    };
+</script>

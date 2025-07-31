@@ -82,7 +82,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? DateAdviserAllocated { get; private set; }
     public string? AdviserEmailAddress { get; private set; }
-
+    public string? AdviserFullName { get; private set; }
     public DateTime? IntroductoryEmailSentDate { get; private set; }
 
     public bool? HasShareEmailTemplateWithAdviser { get; private set; }
@@ -284,10 +284,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
     }
 
-    public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated)
+    public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated, string? adviserFullName)
     {
         DateAdviserAllocated = dateAdviserAllocated;
         AdviserEmailAddress = adviserEmailAddress;
+        AdviserFullName = adviserFullName;
     }
 
     public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser, bool? remindAdviserToCopyRiseTeamWhenSentEmail)
