@@ -17,19 +17,29 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             _validator = new AuthorizationTester(_globalAuthorizationEnabled);
         }
 
+        public static TheoryData<string, string> PageSecurityTestData
+        {
+            get
+            {
+                var theoryData = new TheoryData<string, string>();
+                var configFilePath = "ExpectedSecurityConfig.json";
+                var pages = EndpointTestDataProvider.GetPageSecurityTestDataFromFile(configFilePath, _endpoints.Value, _globalAuthorizationEnabled);
+            
+                foreach (var page in pages)
+                {
+                    theoryData.Add((string)page[0], (string)page[1]);
+                }
+
+                return theoryData;
+            }
+        }
+
         [Theory]
-        [MemberData(nameof(GetPageSecurityTestData))]
+        [MemberData(nameof(PageSecurityTestData))]
         public void ValidatePageSecurity(string route, string expectedSecurity)
         {
             var result = _validator.ValidatePageSecurity(route, expectedSecurity, _endpoints.Value);
             Assert.Null(result.Message);
-        }
-
-        public static IEnumerable<object[]> GetPageSecurityTestData()
-        {
-            var configFilePath = "ExpectedSecurityConfig.json";
-            var pages = EndpointTestDataProvider.GetPageSecurityTestDataFromFile(configFilePath, _endpoints.Value, _globalAuthorizationEnabled);
-            return pages;
         }
 
         private static IEnumerable<RouteEndpoint> InitializeEndpoints()

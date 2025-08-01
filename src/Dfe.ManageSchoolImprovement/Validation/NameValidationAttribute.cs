@@ -3,10 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Validation;
 
-public class NameValidationAttribute : ValidationAttribute
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
+public partial class NameValidationAttribute : ValidationAttribute
 {
     // Regex pattern for proper capitalization of first and last names, including double-barrelled names
-    private static readonly Regex NameRegex = new(@"^[A-Z][a-z]+(-[A-Z][a-z]+)* [A-Z][a-z]+(-[A-Z][a-z]+)*$", RegexOptions.Compiled);
+    private static readonly Regex NameRegex = GeneratedRegex();
 
     public override bool IsValid(object? value)
     {
@@ -24,4 +25,7 @@ public class NameValidationAttribute : ValidationAttribute
     {
         return "First and last name must start with capital letters and be followed by lowercase letters (e.g., John Smith)";
     }
+
+    [GeneratedRegex(@"^[A-Z][a-z]+(-[A-Z][a-z]+)* [A-Z][a-z]+(-[A-Z][a-z]+)*$", RegexOptions.Compiled)]
+    private static partial Regex GeneratedRegex();
 }

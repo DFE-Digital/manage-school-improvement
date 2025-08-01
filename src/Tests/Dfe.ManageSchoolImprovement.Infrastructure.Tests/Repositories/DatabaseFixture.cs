@@ -81,6 +81,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
         public void Dispose()
         {
             Context.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

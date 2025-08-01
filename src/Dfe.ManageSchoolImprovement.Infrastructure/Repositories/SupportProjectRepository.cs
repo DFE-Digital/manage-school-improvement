@@ -130,8 +130,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             if (localAuthorities != null && localAuthorities.Any())
             {
                 var lowerCaseRegions = localAuthorities.Select(la => la.ToLower());
-                queryable = queryable.Where(p =>
-                    !string.IsNullOrEmpty(p.LocalAuthority) && lowerCaseRegions.Contains(p.LocalAuthority.ToLower()));
+                queryable = queryable.Where(p => 
+                    !string.IsNullOrEmpty(p.LocalAuthority) && 
+                    lowerCaseRegions.Contains(p.LocalAuthority.ToLower()));
             }
 
             return queryable;
