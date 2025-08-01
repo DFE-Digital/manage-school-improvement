@@ -117,8 +117,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(title))
             {
 
-                queryable = queryable.Where(p => p.SchoolName!.ToLower().Contains(title.ToLower()) ||
-                                                 p.SchoolUrn.ToLower().Contains(title.ToLower())
+                queryable = queryable.Where(p => p.SchoolName!.Contains(title, StringComparison.CurrentCultureIgnoreCase) ||
+                                                 p.SchoolUrn.Contains(title, StringComparison.CurrentCultureIgnoreCase)
                 );
             }
 
