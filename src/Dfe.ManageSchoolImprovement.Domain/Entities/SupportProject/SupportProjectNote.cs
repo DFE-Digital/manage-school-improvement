@@ -21,10 +21,10 @@ public class SupportProjectNote : BaseAggregateRoot, IEntity<SupportProjectNoteI
     
     public SupportProjectId? SupportProjectId { get; private set; }
     public SupportProjectNoteId? Id { get; private set; }
-    public string Note { get; private set; }
+    public string Note { get; private set; } = string.Empty;
     public DateTime CreatedOn { get; set; }
-    public string CreatedBy { get; set; }
-    
+    public string CreatedBy { get; set; } = string.Empty;
+
     public DateTime? LastModifiedOn { get; set; }
 
     public string? LastModifiedBy { get; set; }

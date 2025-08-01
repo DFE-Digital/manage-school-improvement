@@ -67,8 +67,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                 _mockMapper.Setup(m => m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>())).Returns(supportProjectDto);
             }
 
+            var supportProjectSearchRequest = new SupportProjectSearchRequest();
+
             // Act
-            var result = await _service.SearchForSupportProjects(null, null, null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
+            var result = await _service.SearchForSupportProjects(supportProjectSearchRequest, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);

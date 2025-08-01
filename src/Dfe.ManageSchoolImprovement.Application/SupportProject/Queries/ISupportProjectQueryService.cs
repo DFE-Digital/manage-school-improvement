@@ -9,16 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         Task<Result<IEnumerable<SupportProjectDto>>> GetAllSupportProjects(CancellationToken cancellationToken);
         Task<Result<SupportProjectDto?>> GetSupportProject(int id, CancellationToken cancellationToken);
         Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
-            string? title,
-            IEnumerable<string>? states,
-            IEnumerable<string>? assignedUsers,
-            IEnumerable<string>? assignedAdvisers,
-            IEnumerable<string>? regions,
-            IEnumerable<string>? localAuthorities,
-            IEnumerable<string>? trusts,
-            string pagePath,
-            int page,
-            int count,
+            SupportProjectSearchRequest request,
             CancellationToken cancellationToken);
 
         Task<Result<IEnumerable<string>>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken);
