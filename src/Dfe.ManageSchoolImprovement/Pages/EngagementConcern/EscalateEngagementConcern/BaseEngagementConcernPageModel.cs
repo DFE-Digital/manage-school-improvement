@@ -35,10 +35,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
             // If entering from change link, use existing values from SupportProject
             var details = escalationDetails with
             {
-                ConfirmStepsTaken = escalationDetails.ConfirmStepsTaken ?? SupportProject.EngagementConcernEscalationConfirmStepsTaken,
-                PrimaryReason = escalationDetails.PrimaryReason ?? SupportProject.EngagementConcernEscalationPrimaryReason,
-                Details = escalationDetails.Details ?? SupportProject.EngagementConcernEscalationDetails,
-                DateOfDecision = escalationDetails.DateOfDecision ?? SupportProject.EngagementConcernEscalationDateOfDecision
+                ConfirmStepsTaken = escalationDetails.ConfirmStepsTaken ?? SupportProject?.EngagementConcernEscalationConfirmStepsTaken,
+                PrimaryReason = escalationDetails.PrimaryReason ?? SupportProject?.EngagementConcernEscalationPrimaryReason,
+                Details = escalationDetails.Details ?? SupportProject?.EngagementConcernEscalationDetails,
+                DateOfDecision = escalationDetails.DateOfDecision ?? SupportProject?.EngagementConcernEscalationDateOfDecision
             };
 
             var request = new SetSupportProjectEngagementConcernEscalationCommand(

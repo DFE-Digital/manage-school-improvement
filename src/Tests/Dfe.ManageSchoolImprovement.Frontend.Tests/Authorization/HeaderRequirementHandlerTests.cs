@@ -86,7 +86,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Authorization
             // Arrange
             _mockEnvironment.Setup(env => env.EnvironmentName).Returns("Development");
             var context = new DefaultHttpContext();
-            context.Request.Headers["Authorization"] = string.Empty;
+            context.Request.Headers.Authorization = string.Empty;
             _mockHttpContextAccessor.Setup(h => h.HttpContext).Returns(context);
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>

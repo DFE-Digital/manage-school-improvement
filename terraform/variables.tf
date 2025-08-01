@@ -416,6 +416,12 @@ variable "mssql_database_name" {
   type        = string
 }
 
+variable "mssql_sku_name" {
+  description = "Specifies the name of the SKU used by the database"
+  type        = string
+  default     = "Basic"
+}
+
 variable "mssql_firewall_ipv4_allow_list" {
   description = "A list of IPv4 Addresses that require remote access to the MSSQL Server"
   type = map(object({
