@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
+using Microsoft.Extensions.Hosting;
 using Moq;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
@@ -7,12 +8,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
     public class UserRepositoryTests
     {
         private readonly Mock<IGraphUserService> _mockGraphUserService;
+        private readonly Mock<IHostEnvironment> _mockHostingEnvironment;
         private readonly UserRepository _userRepository;
 
         public UserRepositoryTests()
         {
             _mockGraphUserService = new Mock<IGraphUserService>();
-            _userRepository = new UserRepository(_mockGraphUserService.Object);
+            _mockHostingEnvironment = new Mock<IHostEnvironment>();
+            _userRepository = new UserRepository(_mockGraphUserService.Object, _mockHostingEnvironment.Object);
         }
 
         [Fact]
