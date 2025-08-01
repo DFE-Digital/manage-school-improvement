@@ -85,14 +85,14 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 {
                     // Query by unassigned or assigned adviser
                     queryable = queryable.Where(p =>
-                        (!string.IsNullOrEmpty(p.AdviserEmailAddress) && lowerCaseAdvisers.Contains(p.AdviserEmailAddress.ToLower()))
-                        || string.IsNullOrEmpty(p.AdviserEmailAddress));
+                        (!string.IsNullOrEmpty(p.AdviserFullName) && lowerCaseAdvisers.Contains(p.AdviserFullName.ToLower()))
+                        || string.IsNullOrEmpty(p.AdviserFullName));
                 }
                 else
                 {
                     // Query by assigned adviser only
                     queryable = queryable.Where(p =>
-                        !string.IsNullOrEmpty(p.AdviserEmailAddress) && lowerCaseAdvisers.Contains(p.AdviserEmailAddress.ToLower()));
+                        !string.IsNullOrEmpty(p.AdviserFullName) && lowerCaseAdvisers.Contains(p.AdviserFullName.ToLower()));
                 }
             }
 
@@ -193,9 +193,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken)
         {
-            return await DbSet().OrderByDescending(p => p.AdviserEmailAddress)
+            return await DbSet().OrderByDescending(p => p.AdviserFullName)
                 .AsNoTracking()
-                .Select(p => p.AdviserEmailAddress!)
+                .Select(p => p.AdviserFullName!)
                 .Where(p => !string.IsNullOrEmpty(p))
                 .Distinct()
                 .ToListAsync(cancellationToken);

@@ -16,7 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: "School",
                 states: [],
                 assignedUsers: ["User1"],
-                assignedAdvisers: ["Adviser@adviser.com"],
+                assignedAdvisers: ["Test Adviser"],
                 regions: ["Region1"],
                 localAuthorities: ["Authority1"],
                 trusts: [], // Add the missing trusts parameter
@@ -305,7 +305,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Assert
             advisers.Should().HaveCount(1); // Only one adviser assigned
-            advisers.Should().Contain("Adviser@adviser.com");
+            advisers.Should().Contain("Test Adviser");
         }
 
         [Fact]
@@ -368,7 +368,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 title: "School",
                 states: [],
                 assignedUsers: ["User1"],
-                assignedAdvisers: ["Adviser@adviser.com"],
+                assignedAdvisers: ["Test Adviser"],
                 regions: ["Region1"],
                 localAuthorities: ["Authority1"],
                 trusts: ["Trust A"],
