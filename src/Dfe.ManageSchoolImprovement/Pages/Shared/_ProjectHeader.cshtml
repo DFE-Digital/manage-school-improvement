@@ -114,7 +114,7 @@
                     Advised by
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    <span class="@(displayAdvisedBy? "empty": "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserEmailAddress)</span>
+                    <span class="@(displayAdvisedBy? "empty": "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
                 </dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
