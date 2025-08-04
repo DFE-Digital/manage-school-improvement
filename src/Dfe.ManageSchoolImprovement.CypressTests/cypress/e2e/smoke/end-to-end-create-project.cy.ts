@@ -7,7 +7,7 @@ import fundingHistory from "cypress/pages/tasks/fundingHistory";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import * as schoolData from "cypress/fixtures/school-data.json";
 
-describe("School project management workflow", () => {
+describe("Add a school which requires an improvement and complete it's tasks", () => {
   const {
     schoolShort,
     schoolLong,
@@ -43,7 +43,7 @@ describe("School project management workflow", () => {
   });
 
   // Initial project creation
-  it.only("Should be able to add a school to the system", { tags: ['smoke'] }, () => {
+  it("Should be able to add a school to the system", { tags: ['smoke'] }, () => {
     homePage.AddSchool();
 
     cy.executeAccessibilityTests();
@@ -528,7 +528,7 @@ describe("School project management workflow", () => {
       .hasTaskStatusCompleted("request-improvement-grant-offer-letter_status");
   });
 
-  // Task 23: Send improvement grant offer letter 
+  // Task 24: Confirm improvement grant offer letter 
   it("Should complete the 'Confirm improvement grant offer letter sent' task", { tags: ['smoke'] }, () => {
     homePage.selectSchoolName(schoolLong);
 
