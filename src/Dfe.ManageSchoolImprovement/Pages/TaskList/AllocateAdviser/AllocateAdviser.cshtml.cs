@@ -64,6 +64,8 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             ShowError = true;
             Referrer = referrer;
+            RiseAdvisers = await userRepository.GetAllRiseAdvisers();
+
             return await base.GetSupportProject(id, cancellationToken);
         }
 
