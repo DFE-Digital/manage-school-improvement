@@ -32,11 +32,11 @@
                 </p>
                 <div class="govuk-form-group">
                     <h2 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--m" for="AdviserInput">
+                        <label class="govuk-label govuk-label--m" for="adviser">
                             Enter the name of the adviser
                         </label>
                     </h2>
-                    <input type="hidden" id="AdviserInput" name="AdviserInput" />
+                    <input type="hidden" id="adviser-input" name="AdviserInput" />
                     <select name="SelectedName" class="autocomplete__menu govuk-select" id="adviser">
                         <option value=""></option>
                         @{
@@ -69,14 +69,9 @@
     accessibleAutocomplete.enhanceSelectElement({
         selectElement: deliveryOfficerSelect
     });
-      document.querySelector('#adviser-input').value = document.querySelector('#adviser').value;
+    document.querySelector('#adviser-input').value = document.querySelector('#adviser').value;
 
     document.querySelector('#adviser').addEventListener('change',function(){
          document.querySelector('#adviser-input').value = this.value;
     });
-
-    document.querySelector('#unassign-link').onclick = () =>{
-        document.querySelector('#UnassignAdviser').value = true;
-        document.querySelector('form').submit();
-    };
 </script>
