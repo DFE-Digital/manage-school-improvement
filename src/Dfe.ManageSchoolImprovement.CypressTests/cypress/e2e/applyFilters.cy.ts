@@ -128,7 +128,7 @@ describe("User search results by applying filters", () => {
     });
 
     it("should filter projects by Advised by", () => {
-        const advisedBy = "test.test-rise@education.gov.uk";
+        const advisedBy = "TestFirstName TestSurname";
 
         Logger.log(`Testing - filter projects by Advised by: ${advisedBy}`);
         homePage
