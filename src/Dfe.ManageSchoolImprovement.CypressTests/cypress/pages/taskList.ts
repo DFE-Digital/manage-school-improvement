@@ -68,8 +68,10 @@ class TaskList {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
     cy.contains("Ofsted reports")
+    cy.contains("Improvement plan")
     cy.contains("Contacts")
     cy.contains("Case Study")
+    cy.contains("Engagement concern")
     cy.contains("Notes")
 
     return this;

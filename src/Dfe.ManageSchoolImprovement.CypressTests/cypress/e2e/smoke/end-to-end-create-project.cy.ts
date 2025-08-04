@@ -163,7 +163,7 @@ describe("User completes their newly created project", () => {
     Logger.log("Selecting 'Allocate an adviser' task");
     taskList.selectTask("Allocate an adviser");
     taskListActions.hasHeader("Allocate an adviser");
-    taskListActions.enterText("adviser-email-address", "adviser.email-rise@education.gov.uk");
+    taskListActions.enterText("adviser-email-address", "TestFirstName TestSurname");
     taskListActions.enterDate("date-adviser-allocated", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
