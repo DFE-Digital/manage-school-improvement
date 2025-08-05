@@ -7,16 +7,15 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
     {
         private SupportProjectContact() { }
 
-        public SupportProjectContact(SupportProjectContactId id,
-        string name, RolesIds roleId, string? otherRoleName, string organisation, string email, string phone, string author, DateTime createOn, SupportProjectId supportProjectId)
+        public SupportProjectContact(SupportProjectContactId id, SupportProjectContactDetails details, string author, DateTime createOn, SupportProjectId supportProjectId)
         {
             Id = id;
-            Name = name;
-            RoleId = roleId;
-            OtherRoleName = otherRoleName ?? string.Empty;
-            Organisation = organisation;
-            Email = email;
-            Phone = phone ?? string.Empty;
+            Name = details.Name;
+            RoleId = details.RoleId;
+            OtherRoleName = details.OtherRoleName ?? string.Empty;
+            Organisation = details.Organisation;
+            Email = details.Email;
+            Phone = details.Phone ?? string.Empty;
             CreatedBy = author;
             CreatedOn = createOn;
             SupportProjectId = supportProjectId;
@@ -38,16 +37,17 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 
         public string? LastModifiedBy { get; set; }
 
-        public void SetContact(string name, RolesIds roleId, string? otherRoleName, string organisation, string email, string phone, string author, DateTime lastModifiedOn)
+        public void SetContact(SupportProjectContactDetails details, string author, DateTime lastModifiedOn)
         {
-            Name = name;
-            RoleId = roleId;
-            OtherRoleName = otherRoleName ?? string.Empty;
-            Organisation = organisation;
-            Email = email;
-            Phone = phone ?? string.Empty;
+            Name = details.Name;
+            RoleId = details.RoleId;
+            OtherRoleName = details.OtherRoleName ?? string.Empty;
+            Organisation = details.Organisation;
+            Email = details.Email;
+            Phone = details.Phone ?? string.Empty;
             LastModifiedBy = author;
             LastModifiedOn = lastModifiedOn;
         }
+
     }
 }

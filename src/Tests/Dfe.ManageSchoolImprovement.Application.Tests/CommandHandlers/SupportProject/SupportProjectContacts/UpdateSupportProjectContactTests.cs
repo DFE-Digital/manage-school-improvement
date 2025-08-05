@@ -31,22 +31,23 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidCommand_ShouldUpdateContact()
         {
             // Arrange 
-            var name = "John";
             var author = "Author";
-            var organisation = "Organisation";
-            var email = "john@school.gov.uk";
-            var phone = "0123456789";
             var createdOn = DateTime.UtcNow;
+
+            var details = new SupportProjectContactDetails
+            {
+                Name = "John",
+                RoleId = RolesIds.ChairOfGovernors,
+                OtherRoleName = null,
+                Organisation = "Organisation",
+                Email = "john@school.gov.uk",
+                Phone = "0123456789"
+            };
 
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
             _mockSupportProject.AddContact(
                 supportProjectContactId,
-                name,
-                RolesIds.ChairOfGovernors,
-                "",
-               organisation,
-                email,
-            phone,
+                details,
                 author,
                 createdOn,
                 _mockSupportProject.Id);
@@ -58,7 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 supportProjectContactId,
                 "John Doe",
                 roleId,
-                otherRoleName, organisation, email, phone, author);
+                otherRoleName, details.Organisation, details.Email, details.Phone, author);
 
             _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(_mockSupportProject.Id, _cancellationToken)).ReturnsAsync(_mockSupportProject);
 

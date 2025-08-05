@@ -721,29 +721,33 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
-            var name = "John";
             var author = "Author";
-            var organisation = "Organisation";
-            var email = "john@school.gov.uk";
-            var phone = "0123456789";
-            var roleId = RolesIds.DirectorOfEducation;
-            var otherRoleName = "Other Role";
             var supportProjectId = new SupportProjectId(1);
             var createdOn = DateTime.UtcNow;
+            
+            var details = new SupportProjectContactDetails
+            {
+                Name = "John",
+                RoleId = RolesIds.DirectorOfEducation,
+                OtherRoleName = "Other Role",
+                Organisation = "Organisation",
+                Email = "john@school.gov.uk",
+                Phone = "0123456789"
+            };
 
             // Act
-            supportProject.AddContact(supportProjectContactId, name, roleId, otherRoleName, organisation, email, phone, author, createdOn, supportProjectId);
+            supportProject.AddContact(supportProjectContactId, details, author, createdOn, supportProjectId);
 
             // Assert
             supportProject.Contacts.Should().NotBeNull();
             foreach (var contact in supportProject.Contacts)
             {
-                contact.Name.Should().Be(name);
-                contact.RoleId.Should().Be(roleId);
-                contact.OtherRoleName.Should().Be(otherRoleName);
-                contact.Organisation.Should().Be(organisation);
-                contact.Email.Should().Be(email);
-                contact.Phone.Should().Be(phone);
+                contact.Name.Should().Be(details.Name);
+                contact.RoleId.Should().Be(details.RoleId);
+                contact.OtherRoleName.Should().Be(details.OtherRoleName);
+                contact.Organisation.Should().Be(details.Organisation);
+                contact.Email.Should().Be(details.Email);
+                contact.Phone.Should().Be(details.Phone);
                 contact.CreatedOn.Should().Be(createdOn);
                 contact.CreatedBy.Should().Be(author);
                 contact.SupportProjectId.Should().Be(supportProjectId);
@@ -758,43 +762,44 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-            var name = "John";
             var author = "Author";
-            var organisation = "Organisation";
-            var email = "john@school.gov.uk";
-            var phone = "0123456789";
             var createdOn = DateTime.UtcNow;
+            
+            var details = new SupportProjectContactDetails
+            {
+                Name = "John",
+                RoleId = RolesIds.DirectorOfEducation,
+                OtherRoleName = null,
+                Organisation = "Organisation",
+                Email = "john@school.gov.uk",
+                Phone = "0123456789"
+            };
 
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
             supportProject.AddContact(
                 supportProjectContactId,
-                name,
-                RolesIds.ChairOfGovernors,
-                "",
-               organisation,
-                email,
-                phone,
+                details,
                 author,
                 createdOn,
                 supportProject.Id);
 
-            var roleId = RolesIds.Other;
-            var otherRoleName = "Other Role";
+            details.RoleId = RolesIds.Other;
+            details.OtherRoleName = "Other Role";
             var lastModifiedOn = DateTime.UtcNow;
 
             // Act
-            supportProject.EditContact(supportProjectContactId, name, roleId, otherRoleName, organisation, email, phone, author, lastModifiedOn);
+            supportProject.EditContact(supportProjectContactId, details, author, lastModifiedOn);
 
             // Assert
             supportProject.Contacts.Should().NotBeNull();
             foreach (var contact in supportProject.Contacts)
             {
-                contact.Name.Should().Be(name);
-                contact.RoleId.Should().Be(roleId);
-                contact.OtherRoleName.Should().Be(otherRoleName);
-                contact.Organisation.Should().Be(organisation);
-                contact.Email.Should().Be(email);
-                contact.Phone.Should().Be(phone);
+                contact.Name.Should().Be(details.Name);
+                contact.RoleId.Should().Be(details.RoleId);
+                contact.OtherRoleName.Should().Be(details.OtherRoleName);
+                contact.Organisation.Should().Be(details.Organisation);
+                contact.Email.Should().Be(details.Email);
+                contact.Phone.Should().Be(details.Phone);
                 contact.CreatedOn.Should().Be(createdOn);
                 contact.CreatedBy.Should().Be(author);
                 contact.SupportProjectId.Should().Be(supportProject.Id);

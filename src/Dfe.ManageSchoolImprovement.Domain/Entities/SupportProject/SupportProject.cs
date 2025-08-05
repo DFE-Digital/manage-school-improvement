@@ -40,7 +40,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime CreatedOn { get; set; }
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
     public DateTime? LastModifiedOn { get; set; }
 
@@ -241,17 +241,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         _notes.Add(new SupportProjectNote(id, note, author, date, supportProjectId));
     }
 
-    public void AddContact(SupportProjectContactId id, string name, RolesIds roleId, string otherRoleName, string organisation, string email, string phone, string author, DateTime createOn, SupportProjectId supportProjectId)
+    public void AddContact(SupportProjectContactId id, SupportProjectContactDetails details, string author, DateTime createOn, SupportProjectId supportProjectId)
     {
-        _contacts.Add(new SupportProjectContact(id, name, roleId, otherRoleName, organisation, email, phone, author, createOn, supportProjectId));
+        _contacts.Add(new SupportProjectContact(id, details, author, createOn, supportProjectId));
     }
 
-    public void EditContact(SupportProjectContactId id, string name, RolesIds roleId, string otherRoleName, string organisation, string email, string phone, string author, DateTime lastModifiedOn)
+    public void EditContact(SupportProjectContactId id, SupportProjectContactDetails details, string author, DateTime lastModifiedOn)
     {
         var contactToUpdate = _contacts.SingleOrDefault(x => x.Id == id);
         if (contactToUpdate != null)
         {
-            contactToUpdate.SetContact(name, roleId, otherRoleName, organisation, email, phone, author, lastModifiedOn);
+            contactToUpdate.SetContact(details, author, lastModifiedOn);
         }
     }
 
