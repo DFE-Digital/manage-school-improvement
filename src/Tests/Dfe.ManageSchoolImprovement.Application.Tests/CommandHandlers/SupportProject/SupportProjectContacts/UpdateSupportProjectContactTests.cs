@@ -50,18 +50,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 details,
                 author,
                 createdOn,
-                _mockSupportProject.Id);
+                _mockSupportProject.Id!);
 
             var roleId = RolesIds.Other;
             var otherRoleName = "Other Role";
             var command = new UpdateSupportProjectContactCommand(
-                _mockSupportProject.Id,
+                _mockSupportProject.Id!,
                 supportProjectContactId,
                 "John Doe",
                 roleId,
                 otherRoleName, details.Organisation, details.Email, details.Phone, author);
 
-            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(_mockSupportProject.Id, _cancellationToken)).ReturnsAsync(_mockSupportProject);
+            _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(_mockSupportProject.Id!, _cancellationToken)).ReturnsAsync(_mockSupportProject);
 
             // Act
             var result = await _handler.Handle(command, _cancellationToken);

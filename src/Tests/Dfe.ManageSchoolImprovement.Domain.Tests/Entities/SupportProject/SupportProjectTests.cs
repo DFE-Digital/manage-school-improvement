@@ -781,7 +781,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 details,
                 author,
                 createdOn,
-                supportProject.Id);
+                supportProject.Id!);
 
             details.RoleId = RolesIds.Other;
             details.OtherRoleName = "Other Role";
@@ -880,7 +880,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
 
             // Act
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Assert
             supportProject.ImprovementPlans.Should().HaveCount(1);
@@ -898,8 +898,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var plan2Id = new ImprovementPlanId(Guid.NewGuid());
 
             // Act
-            supportProject.AddImprovementPlan(plan1Id, supportProject.Id);
-            supportProject.AddImprovementPlan(plan2Id, supportProject.Id);
+            supportProject.AddImprovementPlan(plan1Id, supportProject.Id!);
+            supportProject.AddImprovementPlan(plan2Id, supportProject.Id!);
 
             // Assert
             supportProject.ImprovementPlans.Should().HaveCount(2);
@@ -917,7 +917,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var areaOfImprovement = "QualityOfEducation";
             var details = "Improve mathematics outcomes";
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, areaOfImprovement, details);
@@ -959,7 +959,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var leadershipObjective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
             var behaviorObjective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act - Add objectives in mixed order to test area-specific ordering
             supportProject.AddImprovementPlanObjective(qualityObjective1Id, improvementPlanId, "QualityOfEducation", "Quality Objective 1");
@@ -997,7 +997,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var objective3Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
             var objective4Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act - Add multiple objectives to the same improvement area
             supportProject.AddImprovementPlanObjective(objective1Id, improvementPlanId, "QualityOfEducation", "First objective");
@@ -1031,7 +1031,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
             var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, areaOfImprovement, details);
@@ -1051,7 +1051,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             supportProject.SetImprovementPlanObjectivesComplete(improvementPlanId, objectivesSectionComplete);
@@ -1085,7 +1085,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var originalDetails = "Original details";
             var updatedDetails = "Updated comprehensive details";
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, "QualityOfEducation", originalDetails);
 
             // Act
@@ -1119,7 +1119,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
             var nonExistentObjectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act & Assert
             var exception = Assert.Throws<KeyNotFoundException>(() =>
@@ -1140,7 +1140,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
             var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, "QualityOfEducation", "Original details");
 
             // Act
@@ -1161,7 +1161,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var objective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
             var updatedDetails = "Updated details for objective 2";
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
             supportProject.AddImprovementPlanObjective(objective1Id, improvementPlanId, "QualityOfEducation", "Objective 1 details");
             supportProject.AddImprovementPlanObjective(objective2Id, improvementPlanId, "LeadershipAndManagement", "Objective 2 details");
 
@@ -1184,7 +1184,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             var improvementPlans = supportProject.ImprovementPlans;

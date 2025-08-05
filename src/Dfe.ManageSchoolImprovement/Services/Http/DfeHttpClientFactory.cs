@@ -1,5 +1,3 @@
-// using Dfe.Academisation.CorrelationIdMiddleware;
-
 using ICorrelationContext = DfE.CoreLibs.Http.Interfaces.ICorrelationContext;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.Http;

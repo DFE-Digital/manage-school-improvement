@@ -305,7 +305,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var supportProjectDto = new List<SupportProjectDto>();
             foreach (var project in supportProjects)
             {
-                supportProjectDto.Add(new SupportProjectDto(project.Id.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region));
+                supportProjectDto.Add(new SupportProjectDto(project.Id!.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region));
             }
             return supportProjectDto;
         }
@@ -314,9 +314,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         {
             foreach (var item in schools)
             {
-                var project = projects.FirstOrDefault(p => p.Id.Value == item.Id);
+                var project = projects.FirstOrDefault(p => p.Id!.Value == item.Id);
                 Assert.NotNull(project);
-                Assert.Equal(item.Id, project.Id.Value);
+                Assert.Equal(item.Id, project.Id!.Value);
                 Assert.Equal(item.SchoolName, project.SchoolName);
                 Assert.Equal(item.SchoolUrn, project.SchoolUrn);
                 Assert.Equal(item.LocalAuthority, project.LocalAuthority);
