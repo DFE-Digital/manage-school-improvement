@@ -24,15 +24,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         TrustReferenceNumber = trustReferenceNumber;
     }
     #region Properties
-    public SupportProjectId Id { get; private set; }
+    public SupportProjectId? Id { get; private set; }
 
-    public string SchoolName { get; private set; }
+    public string SchoolName { get; private set; } = string.Empty;
 
-    public string SchoolUrn { get; private set; }
+    public string SchoolUrn { get; private set; } = string.Empty;
 
-    public string Region { get; private set; }
+    public string Region { get; private set; } = string.Empty;
 
-    public string LocalAuthority { get; private set; }
+    public string LocalAuthority { get; private set; } = string.Empty;
 
     public string? TrustName { get; private set; }
 

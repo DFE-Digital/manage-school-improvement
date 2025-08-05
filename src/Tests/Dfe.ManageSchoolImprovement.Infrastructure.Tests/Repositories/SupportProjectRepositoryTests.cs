@@ -349,7 +349,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var existingProject = fixture.Context.SupportProjects.First(x => x.SchoolName == "School A");
 
             // Act
-            var result = await service.GetSupportProjectById(existingProject.Id, CancellationToken.None);
+            var result = await service.GetSupportProjectById(existingProject.Id!, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
