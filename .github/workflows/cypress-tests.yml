@@ -70,7 +70,7 @@ jobs:
           browser: ${{ matrix.browser }}
           working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
           wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
-          spec: cypress/e2e/*
+          spec: cypress/e2e/*,cypress/e2e/smoke/*
 
       - name: Run (test)
         if: inputs.environment == 'test'
