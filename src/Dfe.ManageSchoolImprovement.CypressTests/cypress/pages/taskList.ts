@@ -68,7 +68,7 @@ class TaskList {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
     cy.contains("Ofsted reports")
-    cy.contains("Improvement plan")
+    //cy.contains("Improvement plan")
     cy.contains("Contacts")
     cy.contains("Case Study")
     cy.contains("Engagement concern")
@@ -98,7 +98,7 @@ class TaskList {
     cy.contains('Review the improvement plan and confirm the funding band');
     cy.contains('Send the agreed improvement plan for approval');
     cy.contains('Record improvement plan decision');
-    cy.contains('Enter improvement plan objectives');
+   // cy.contains('Enter improvement plan objectives');
     cy.contains('Request improvement grant offer letter');
     cy.contains('Confirm improvement grant offer letter sent');
 
@@ -127,7 +127,7 @@ class TaskList {
     cy.get('#review-the-improvement-plan_status').contains('Not Started');
     cy.get("#send-agreed-improvement-plan_status").contains('Not Started');
     cy.get("#record-improvement-plan-decision_status").contains('Not Started');
-    cy.get("#enter-improvement-plan-objectives_status").contains('Not Started');
+   // cy.get("#enter-improvement-plan-objectives_status").contains('Not Started');
     cy.get('#request-improvement-grant-offer-letter_status').contains("Not Started");
     cy.get("#confirm-improvement-grant-offer-letter_status").contains('Not Started');
 

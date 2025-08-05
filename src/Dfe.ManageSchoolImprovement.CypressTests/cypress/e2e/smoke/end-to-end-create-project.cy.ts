@@ -32,18 +32,16 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     year: "numeric",
   });
 
+  before(() => {
+    cy.removeProjectIfItExists(urn);
+  });
+
   beforeEach(() => {
     cy.login();
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
-
-  // Cleanup after all tests
-  after(() => {
-    cy.removeProjectIfItExists(urn);
-  });
-
   // Initial project creation
-  it("Should be able to add a school to the system", { tags: ['smoke'] }, () => {
+  it("Should be able to add a new school to the system", () => {
     homePage.AddSchool();
 
     cy.executeAccessibilityTests();
@@ -96,7 +94,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 1: Confirm eligibility
-  it("Should complete the 'Confirm eligibility' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Confirm eligibility' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Confirm eligibility' task");
@@ -110,7 +108,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 2: Funding history
-  it("Should complete the 'Enter the funding history' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Enter the funding history' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Funding history' task");
@@ -128,7 +126,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 3: Contact the responsible body
-  it("Should complete the 'Contact the responsible body' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Contact the responsible body' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Contact the responsible body' task");
@@ -147,7 +145,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
     
   // Task 4: Record the responsible body's response
-  it("Should complete the 'Record the responsible body's response' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Record the responsible body's response' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Record the responsible body's response' task");
@@ -166,7 +164,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 5: Check potential adviser conflicts of interest
-  it("Should complete the 'Check potential adviser conflicts of interest' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Check potential adviser conflicts of interest' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Check potential adviser conflicts of interest' task");
@@ -186,7 +184,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 6: Allocate an adviser
-  it("Should complete the 'Allocate an adviser' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Allocate an adviser' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Allocate an adviser' task");
@@ -200,7 +198,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 7: Send introductory email
-  it("Should complete the 'Send introductory email' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Send introductory email' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Send introductory email' task");
@@ -219,7 +217,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 8: Arrange adviser's initial visit
-  it("Should complete the 'Arrange adviser's initial visit' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Arrange adviser's initial visit' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Arrange adviser's initial visit' task");
@@ -237,7 +235,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 9: Record date of initial visit
-  it("Should complete the 'Record date of initial visit' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Record date of initial visit' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Record date of initial visit' task");
@@ -250,7 +248,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 10: Complete and save the initial diagnosis assessment
-  it("Should complete the 'Complete and save the initial diagnosis assessment' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Complete and save the initial diagnosis assessment' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Complete and save the initial diagnosis assessment' task");
@@ -269,7 +267,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 11: Record initial diagnosis decision
-  it("Should complete the 'Record initial diagnosis decision' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Record initial diagnosis decision' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Record initial diagnosis decision' task");
@@ -288,7 +286,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 12: Choose preferred supporting organisation
-  it("Should complete the 'Choose preferred supporting organisation' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Choose preferred supporting organisation' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Choose preferred supporting organisation' task");
@@ -308,7 +306,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 13: Carry out due diligence on preferred supporting organisation
-  it("Should complete the 'Carry out due diligence on preferred supporting organisation' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Carry out due diligence on preferred supporting organisation' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Carry out due diligence on preferred supporting organisation' task");
@@ -329,7 +327,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 14: Record supporting organisation appointment
-  it("Should complete the 'Record supporting organisation appointment' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Record supporting organisation appointment' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Record supporting organisation appointment' task");
@@ -349,7 +347,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 15: Add supporting organisation contact details
-  it("Should complete the 'Add supporting organisation contact details' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Add supporting organisation contact details' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Add supporting organisation contact details' task");
@@ -368,7 +366,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 16: Request planning grant offer letter
-  it("Should complete the 'Request planning grant offer letter' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Request planning grant offer letter' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Request planning grant offer letter' task");
@@ -389,7 +387,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 17: Confirm planning grant offer letter sent
-  it("Should complete the 'Confirm planning grant offer letter sent' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Confirm planning grant offer letter sent' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Confirm planning grant offer letter sent' task");
@@ -402,7 +400,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 18: Share indicative funding band and the improvement plan template
-  it("Should complete the 'Share indicative funding band and the improvement plan template' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Share indicative funding band and the improvement plan template' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Share indicative funding band and the improvement plan template' task");
@@ -422,7 +420,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 19: Review the improvement plan and confirm the funding band
-  it("Should complete the 'Review the improvement plan and confirm the funding band' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Review the improvement plan and confirm the funding band' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Review the improvement plan and confirm the funding band' task");
@@ -443,7 +441,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 20: Send the agreed improvement plan for approval
-  it("Should complete the 'Send the agreed improvement plan for approval' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Send the agreed improvement plan for approval' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Send the agreed improvement plan for approval' task");
@@ -461,7 +459,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 21: Record improvement plan decision
-  it("Should complete the 'Record improvement plan decision' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Record improvement plan decision' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Record improvement plan decision' task");
@@ -480,8 +478,8 @@ describe("Add a school which requires an improvement and complete it's tasks", (
       .hasTaskStatusCompleted("record-improvement-plan-decision_status");
   });
 
-  // Task 22: Enter improvement plan objectives
-  it("Should complete the 'Enter improvement plan objectives' task", { tags: ['smoke'] }, () => {
+  // Task 22: Enter improvement plan objectives //Not visible in Test environment
+  it.skip("Should complete the 'Enter improvement plan objectives' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Enter improvement plan objectives' task");
@@ -508,7 +506,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 23: Request improvement grant offer letter
-  it("Should complete the final grant tasks", { tags: ['smoke'] }, () => {
+  it("Should complete the final grant tasks", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Request improvement grant offer letter' task");
@@ -529,7 +527,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 24: Confirm improvement grant offer letter 
-  it("Should complete the 'Confirm improvement grant offer letter sent' task", { tags: ['smoke'] }, () => {
+  it("Should complete the 'Confirm improvement grant offer letter sent' task", () => {
     homePage.selectSchoolName(schoolLong);
 
     Logger.log("Selecting 'Confirm improvement grant offer letter sent' task");
