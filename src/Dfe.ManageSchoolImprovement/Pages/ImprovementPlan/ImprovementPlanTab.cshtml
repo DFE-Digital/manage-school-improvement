@@ -17,6 +17,14 @@
             <p>As you add the improvement plan objectives, they will be listed here.</p>
             <p>When you have added them all, you should record progress on them after each review.</p>
         } else {
+            <a asp-page="@Links.ProgressReviews.Index.Page"
+               asp-route-id="@Model.SupportProject.Id"
+               role="button"
+               draggable="false"
+               class="govuk-button"
+               data-module="govuk-button">
+                Record or view progress
+            </a>
             <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id)' />
 
             <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id)' />

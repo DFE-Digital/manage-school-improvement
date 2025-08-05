@@ -128,6 +128,12 @@ public static class Links
 
     }
 
+    public static class ProgressReviews
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProgressReviews/Index");
+        public static readonly LinkItem AddReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/AddReview");
+    }
+
     public static class Public
     {
         public static readonly LinkItem Accessibility = AddLinkItem(page: "/Public/AccessibilityStatement");

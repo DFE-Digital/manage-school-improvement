@@ -158,6 +158,14 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new ImprovementPlanObjectiveProgressId(v));
+        builder.Property(e => e.ImprovementPlanObjectiveId)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanObjectiveId(v));
+        builder.Property(e => e.ImprovementPlanReviewId)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanReviewId(v));
     }
 
     private void ConfigureImprovementPlanReview(EntityTypeBuilder<ImprovementPlanReview> builder)
