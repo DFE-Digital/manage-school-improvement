@@ -10,25 +10,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         : Repository<SupportProject, RegionalImprovementForStandardsAndExcellenceContext>(dbContext), ISupportProjectRepository
     {
         public async Task<(IEnumerable<SupportProject> projects, int totalCount)> SearchForSupportProjects(
-            string? title,
-            IEnumerable<string>? states,
-            IEnumerable<string>? assignedUsers,
-            IEnumerable<string>? assignedAdvisers,
-            IEnumerable<string>? regions,
-            IEnumerable<string>? localAuthorities,
-            IEnumerable<string>? trusts,
+            SupportProjectSearchCriteria searchCriteria,
             int page,
             int count,
             CancellationToken cancellationToken)
         {
             IQueryable<SupportProject> queryable = DbSet();
 
-            queryable = FilterByRegion(regions, queryable);
-            queryable = FilterByKeyword(title, queryable);
-            queryable = FilterByAssignedUsers(assignedUsers, queryable);
-            queryable = FilterByAssignedAdvisers(assignedAdvisers, queryable);
-            queryable = FilterByLocalAuthority(localAuthorities, queryable);
-            queryable = FilterByTrusts(trusts, queryable);
+            queryable = FilterByRegion(searchCriteria.Regions, queryable);
+            queryable = FilterByKeyword(searchCriteria.Title, queryable);
+            queryable = FilterByAssignedUsers(searchCriteria.AssignedUsers, queryable);
+            queryable = FilterByAssignedAdvisers(searchCriteria.AssignedAdvisers, queryable);
+            queryable = FilterByLocalAuthority(searchCriteria.LocalAuthorities, queryable);
+            queryable = FilterByTrusts(searchCriteria.Trusts, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
             var projects = await queryable

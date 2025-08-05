@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
 using System.Linq.Expressions;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
 {
@@ -57,9 +58,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var supportProjectDtos = GetSupportProjectDtos(projects);
             var totalCount = 1;
 
-            _mockRepository.Setup(r => r.SearchForSupportProjects(It.IsAny<string?>(), It.IsAny<IEnumerable<string>?>(),
-                    It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(),
-                    It.IsAny<IEnumerable<string>?>(),
+            _mockRepository.Setup(r => r.SearchForSupportProjects(It.IsAny<SupportProjectSearchCriteria>(),
                     It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((projects, totalCount));
             foreach (var supportProjectDto in supportProjectDtos)

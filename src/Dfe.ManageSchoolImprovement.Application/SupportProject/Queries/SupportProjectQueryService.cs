@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using DfE.CoreLibs.Contracts.Academies.V4;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 {
@@ -24,15 +25,17 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             CancellationToken cancellationToken)
         {
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
-                request.Title, 
-                request.States, 
-                request.AssignedUsers, 
-                request.AssignedAdvisers, 
-                request.Regions, 
-                request.LocalAuthorities,
-                request.Trusts,
+                new SupportProjectSearchCriteria(
+                    request.Title, 
+                    request.States, 
+                    request.AssignedUsers, 
+                    request.AssignedAdvisers, 
+                    request.Regions, 
+                    request.LocalAuthorities,
+                    request.Trusts
+                    ),
                 request.Page, 
-                request.Count, 
+                request.Count,
                 cancellationToken);
 
             var pageResponse = PagingResponseFactory.Create(request.PagePath, request.Page, request.Count, totalCount, []);
