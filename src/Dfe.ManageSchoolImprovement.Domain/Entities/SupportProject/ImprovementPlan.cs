@@ -23,6 +23,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public IEnumerable<ImprovementPlanObjective> ImprovementPlanObjectives => _improvementPlanObjectives.AsReadOnly();
         private readonly List<ImprovementPlanObjective> _improvementPlanObjectives = new();
 
+        public IEnumerable<ImprovementPlanReview> ImprovementPlanReviews => _improvementPlanReviews.AsReadOnly();
+        private readonly List<ImprovementPlanReview> _improvementPlanReviews = new();
+
         public void AddObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details, int order)
         {
             _improvementPlanObjectives.Add(new ImprovementPlanObjective(improvementPlanObjectiveId, improvementPlanId, areaOfImprovement, details, order));

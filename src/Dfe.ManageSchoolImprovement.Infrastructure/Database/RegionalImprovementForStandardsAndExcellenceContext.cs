@@ -41,6 +41,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
         modelBuilder.Entity<ImprovementPlan>(ConfigureImprovementPlan);
         modelBuilder.Entity<ImprovementPlanObjective>(ConfigureImprovementPlanObjective);
+        modelBuilder.Entity<ImprovementPlanReview>(ConfigureImprovementPlanReview);
+        modelBuilder.Entity<ImprovementPlanObjectiveProgress>(ConfigureImprovementPlanObjectiveProgress);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -140,7 +142,40 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey("ImprovementPlanId")
             .IsRequired();
+
+        builder.HasMany(a => a.ImprovementPlanReviews)
+            .WithOne()
+            .HasForeignKey("ImprovementPlanId")
+            .IsRequired();
     }
+
+    private void ConfigureImprovementPlanObjectiveProgress(EntityTypeBuilder<ImprovementPlanObjectiveProgress> builder)
+    {
+        builder.ToTable("ImprovementPlanObjectiveProgresses", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanObjectiveProgressId(v));
+    }
+
+    private void ConfigureImprovementPlanReview(EntityTypeBuilder<ImprovementPlanReview> builder)
+    {
+        builder.ToTable("ImprovementPlanReviews", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ImprovementPlanReviewId(v));
+
+        builder.HasMany(a => a.ImprovementPlanObjectiveProgresses)
+            .WithOne()
+            .HasForeignKey("ImprovementPlanReviewId")
+            .IsRequired();
+    }
+
 
     public override int SaveChanges()
     {
