@@ -10,7 +10,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     defaults:
-      working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
+      run:
+        working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
     steps:
       - name: checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
