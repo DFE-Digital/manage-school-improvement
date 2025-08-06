@@ -76,3 +76,4 @@ it("should perform accessibility tests", () => {
 The `executeAccessibilityTests` command under "support/commands.ts"
 
 This will run all accessibility rules provided by the framework
+
