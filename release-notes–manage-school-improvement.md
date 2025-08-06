@@ -3,6 +3,18 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.14.0] - Q2 – Sprint 3 (Part 1) - 2025-08-09
+
+### 📌 User Stories
+
+- **224555** - Changes to 'Allocate an advisor task' following addition of AD group for advisors
+- **221581** - For academies: Add the trust the academy belongs to in "About the school" 
+- **227590** - Update RISE advisor filter to filter by advisors name
+- **225820** - (Monitoring) Build new "Improvement plan" tab //behind the feature flag atm
+- **225777** - (Monitoring) New "Enter improvement plan objectives" task //behind the feature flag atm
+
+--
+
 ## 📅 [v0.13.1] - Q2 – Sprint 2 (Part 2) - 2025-07-29
 
 ### 📌 User Stories
