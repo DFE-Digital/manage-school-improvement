@@ -81,6 +81,7 @@ jobs:
             CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
             CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
             CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
+            CYPRESS_msiApi: ${{ secrets.AZURE_MSIAPI_ENDPOINT}}
         with:
             browser: ${{ matrix.browser }}
             working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
