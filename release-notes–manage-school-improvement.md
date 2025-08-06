@@ -3,7 +3,7 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
-## 📅 [v0.14.0] - Q2 – Sprint 3 (Part 1) - 2025-08-09
+## 📅 [v0.14.0] - Q2 – Sprint 3 (Part 1) - 2025-08-06
 
 ### 📌 User Stories
 
