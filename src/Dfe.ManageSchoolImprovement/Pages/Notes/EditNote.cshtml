@@ -6,6 +6,10 @@
     ViewData["Title"] = "Edit note";
 }
 
+@section BeforeMain
+{
+    <a asp-page="@Links.Notes.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
 @if (Model.ShowError)
 {
     <partial name="_ErrorSummary"/>
@@ -17,10 +21,16 @@
             Edit
         </h1>
         <form method="post">
-            <div class="govuk-form-group">
+            <div class="govuk-form-group @(Model.ShowError ? "govuk-form-group--error" : "")">
                 <label class="govuk-label govuk-label--m" for="project-note-body">
                     Note
                 </label>
+                @if (Model.ShowError)
+                {
+                    <p id="more-detail-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> You must enter details
+                    </p>
+                }
                 <textarea class="govuk-textarea" id="project-note-body" name="project-note-body" rows="5">@Model.ProjectNoteBody</textarea>
             </div>
             <input type="hidden" asp-for="ProjectNoteId" />
