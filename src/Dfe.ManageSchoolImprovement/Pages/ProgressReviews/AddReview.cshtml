@@ -22,6 +22,7 @@
         </h1>
         
         <form method="post" novalidate>
+            <input type="hidden" asp-for="@Model.ImprovementPlanId" />
             <govuk-date-input 
                 heading-label="false" 
                 label="Enter the date of the review" 

@@ -268,17 +268,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Contacts = supportProjectDto.Contacts,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
                 FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,
-                FundingHistories = supportProjectDto.FundingHistories?.Select(x => new FundingHistoryViewModel()
-                {
-                    Id = x.id,
-                    SupportProjectId = x.supportProjectId,
-                    ReadableId = x.readableId,
-                    FundingType = x.fundingType,
-                    FinancialYear = x.financialYear,
-                    FundingAmount = x.fundingAmount,
-                    FundingRounds = x.fundingRounds,
-                    Comments = x.comments
-                }) ?? new List<FundingHistoryViewModel>(),
+                FundingHistories = supportProjectDto.FundingHistories?.Select(x => FundingHistoryViewModel.Create(x)) ?? new List<FundingHistoryViewModel>(),
                 CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
                 CaseStudyDetails = supportProjectDto.CaseStudyDetails,
                 EngagementConcernRecorded = supportProjectDto.EngagementConcernRecorded,
@@ -300,22 +290,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 IndicativeFundingBand = supportProjectDto.IndicativeFundingBand,
                 ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
                 DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent,
-                ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => new ImprovementPlanViewModel()
-                {
-                    Id = x.id,
-                    SupportProjectId = x.supportProjectId,
-                    ReadableId = x.readableId,
-                    ObjectivesSectionComplete = x.objectivesSectionComplete,
-                    ImprovementPlanObjectives = x.ImprovementPlanObjectives?.Select(o => new ImprovementPlanObjectiveViewModel()
-                    {
-                        Id = o.id,
-                        ImprovementPlanId = o.improvementPlanId,
-                        AreaOfImprovement = o.areaOfImprovement,
-                        ReadableId = o.readableId,
-                        Details = o.details,
-                        Order = o.order
-                    }).ToList() ?? new List<ImprovementPlanObjectiveViewModel>()
-                }) ?? new List<ImprovementPlanViewModel>(),
+                ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
+
             };
         }
     }

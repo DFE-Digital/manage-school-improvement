@@ -584,5 +584,19 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             );
     }
 
+    public void AddImprovementPlanReview(ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanId improvementPlanId, string reviewer, DateTime reviewDate)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.AddReview(improvementPlanReviewId, reviewer, reviewDate);
+
+
+    }
+
     #endregion
 }

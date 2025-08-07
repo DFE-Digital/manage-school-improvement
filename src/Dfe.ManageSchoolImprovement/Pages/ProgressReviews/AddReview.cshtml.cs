@@ -1,20 +1,26 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews.AddImprovementPlanReview;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 
 public class AddReviewModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IUserRepository userRepository)
+    IUserRepository userRepository,
+    IMediator mediator)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; } = string.Empty;
 
-    [BindProperty, ModelBinder(typeof(DateInputModelBinder))]
+    [BindProperty(Name = "ReviewDate")]
+    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    [ModelBinder(BinderType = typeof(DateInputModelBinder))]
     public DateTime? ReviewDate { get; set; }
 
     [BindProperty]
@@ -24,15 +30,19 @@ public class AddReviewModel(
     [BindProperty]
     public string? CustomReviewerName { get; set; }
 
+    [BindProperty]
+    public Guid ImprovementPlanId { get; set; }
+
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
 
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, Guid improvementPlanId, CancellationToken cancellationToken)
     {
         // Set the return page to the progress reviews index
         ReturnPage = Links.ProgressReviews.Index.Page;
+        ImprovementPlanId = improvementPlanId;
 
         await base.GetSupportProject(id, cancellationToken);
         SetupRadioButtons();
@@ -74,7 +84,9 @@ public class AddReviewModel(
             return Page();
         }
 
-        // TODO: Save the progress review data when the data model is implemented
+        var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
+        var result = await mediator.Send(new AddImprovementPlanReviewCommand(new SupportProjectId(id),
+            new ImprovementPlanId(ImprovementPlanId), reviewer, ReviewDate!.Value), cancellationToken);
 
         // For now, redirect back to the progress reviews index
         return RedirectToPage(Links.ProgressReviews.Index.Page, new { id });
@@ -121,9 +133,14 @@ public class AddReviewModel(
     }
 
     // Implementation of IDateValidationMessageProvider
-    public string AllMissing(string displayName)
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
-        return $"Enter the {displayName.ToLower()}";
+        return $"Date must include a {string.Join(" and ", missingParts)}";
+    }
+
+    string IDateValidationMessageProvider.AllMissing(string displayName)
+    {
+        return $"Enter the date of review";
     }
 
     private bool IsCustomReviewerNameValid()

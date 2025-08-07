@@ -130,8 +130,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             if (localAuthorities != null && localAuthorities.Any())
             {
                 var lowerCaseRegions = localAuthorities.Select(la => la.ToLower());
-                queryable = queryable.Where(p => 
-                    !string.IsNullOrEmpty(p.LocalAuthority) && 
+                queryable = queryable.Where(p =>
+                    !string.IsNullOrEmpty(p.LocalAuthority) &&
                     lowerCaseRegions.Contains(p.LocalAuthority.ToLower()));
             }
 
@@ -178,6 +178,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.FundingHistories)
                 .Include(x => x.ImprovementPlans)
                 .ThenInclude(x => x.ImprovementPlanObjectives)
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanReviews)
+                .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
                 .AsQueryable();
         }
 

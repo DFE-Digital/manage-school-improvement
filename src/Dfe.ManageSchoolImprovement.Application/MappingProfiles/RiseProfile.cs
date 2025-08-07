@@ -39,6 +39,17 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
                .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
                .ReverseMap();
+
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
+               .ReverseMap();
+
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjectiveProgress, ImprovementPlanObjectiveProgressDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+               .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => src.ImprovementPlanReviewId != null ? src.ImprovementPlanReviewId.Value : (Guid?)null))
+               .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => src.ImprovementPlanObjectiveId != null ? src.ImprovementPlanObjectiveId.Value : (Guid?)null))
+               .ReverseMap();
         }
     }
 }

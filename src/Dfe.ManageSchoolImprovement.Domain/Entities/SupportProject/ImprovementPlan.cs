@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             SupportProjectId = supportProjectId;
         }
 
-        public ImprovementPlanId? Id { get; private set; }
+        public ImprovementPlanId Id { get; private set; }
         public int ReadableId { get; }
         public SupportProjectId SupportProjectId { get; private set; }
         public DateTime CreatedOn { get; set; }
@@ -46,6 +46,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             }
 
             objective.SetDetails(details);
+        }
+
+        public void AddReview(ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
+        {
+            _improvementPlanReviews.Add(new ImprovementPlanReview(improvementPlanReviewId, Id, reviewDate, reviewer));
         }
     }
 }
