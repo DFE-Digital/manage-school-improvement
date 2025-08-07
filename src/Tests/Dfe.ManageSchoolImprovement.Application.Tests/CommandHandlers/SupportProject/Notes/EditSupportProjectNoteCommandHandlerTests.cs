@@ -31,9 +31,10 @@ public class EditSupportProjectNoteCommandHandlerTests
 
         var command = new EditSupportProjectNote.EditSupportProjectNoteCommand(
             _mockSupportProjectNote.SupportProjectId!,
-            "Note",_mockSupportProjectNote.Id,_mockSupportProjectNote.CreatedBy);
+            "Note",_mockSupportProjectNote.Id!,
+            _mockSupportProjectNote.CreatedBy);
         
-        _mockSupportProject.AddNote(_mockSupportProjectNote.Id,
+        _mockSupportProject.AddNote(_mockSupportProjectNote.Id!,
             _mockSupportProjectNote.Note, 
             _mockSupportProjectNote.CreatedBy,
             _mockSupportProjectNote.CreatedOn,

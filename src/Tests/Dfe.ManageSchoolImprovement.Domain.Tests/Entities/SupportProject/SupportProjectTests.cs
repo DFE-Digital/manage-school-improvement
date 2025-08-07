@@ -721,29 +721,33 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
-            var name = "John";
             var author = "Author";
-            var organisation = "Organisation";
-            var email = "john@school.gov.uk";
-            var phone = "0123456789";
-            var roleId = RolesIds.DirectorOfEducation;
-            var otherRoleName = "Other Role";
             var supportProjectId = new SupportProjectId(1);
             var createdOn = DateTime.UtcNow;
+            
+            var details = new SupportProjectContactDetails
+            {
+                Name = "John",
+                RoleId = RolesIds.DirectorOfEducation,
+                OtherRoleName = "Other Role",
+                Organisation = "Organisation",
+                Email = "john@school.gov.uk",
+                Phone = "0123456789"
+            };
 
             // Act
-            supportProject.AddContact(supportProjectContactId, name, roleId, otherRoleName, organisation, email, phone, author, createdOn, supportProjectId);
+            supportProject.AddContact(supportProjectContactId, details, author, createdOn, supportProjectId);
 
             // Assert
             supportProject.Contacts.Should().NotBeNull();
             foreach (var contact in supportProject.Contacts)
             {
-                contact.Name.Should().Be(name);
-                contact.RoleId.Should().Be(roleId);
-                contact.OtherRoleName.Should().Be(otherRoleName);
-                contact.Organisation.Should().Be(organisation);
-                contact.Email.Should().Be(email);
-                contact.Phone.Should().Be(phone);
+                contact.Name.Should().Be(details.Name);
+                contact.RoleId.Should().Be(details.RoleId);
+                contact.OtherRoleName.Should().Be(details.OtherRoleName);
+                contact.Organisation.Should().Be(details.Organisation);
+                contact.Email.Should().Be(details.Email);
+                contact.Phone.Should().Be(details.Phone);
                 contact.CreatedOn.Should().Be(createdOn);
                 contact.CreatedBy.Should().Be(author);
                 contact.SupportProjectId.Should().Be(supportProjectId);
@@ -758,43 +762,44 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-            var name = "John";
             var author = "Author";
-            var organisation = "Organisation";
-            var email = "john@school.gov.uk";
-            var phone = "0123456789";
             var createdOn = DateTime.UtcNow;
+            
+            var details = new SupportProjectContactDetails
+            {
+                Name = "John",
+                RoleId = RolesIds.DirectorOfEducation,
+                OtherRoleName = null,
+                Organisation = "Organisation",
+                Email = "john@school.gov.uk",
+                Phone = "0123456789"
+            };
 
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
             supportProject.AddContact(
                 supportProjectContactId,
-                name,
-                RolesIds.ChairOfGovernors,
-                "",
-               organisation,
-                email,
-                phone,
+                details,
                 author,
                 createdOn,
-                supportProject.Id);
+                supportProject.Id!);
 
-            var roleId = RolesIds.Other;
-            var otherRoleName = "Other Role";
+            details.RoleId = RolesIds.Other;
+            details.OtherRoleName = "Other Role";
             var lastModifiedOn = DateTime.UtcNow;
 
             // Act
-            supportProject.EditContact(supportProjectContactId, name, roleId, otherRoleName, organisation, email, phone, author, lastModifiedOn);
+            supportProject.EditContact(supportProjectContactId, details, author, lastModifiedOn);
 
             // Assert
             supportProject.Contacts.Should().NotBeNull();
             foreach (var contact in supportProject.Contacts)
             {
-                contact.Name.Should().Be(name);
-                contact.RoleId.Should().Be(roleId);
-                contact.OtherRoleName.Should().Be(otherRoleName);
-                contact.Organisation.Should().Be(organisation);
-                contact.Email.Should().Be(email);
-                contact.Phone.Should().Be(phone);
+                contact.Name.Should().Be(details.Name);
+                contact.RoleId.Should().Be(details.RoleId);
+                contact.OtherRoleName.Should().Be(details.OtherRoleName);
+                contact.Organisation.Should().Be(details.Organisation);
+                contact.Email.Should().Be(details.Email);
+                contact.Phone.Should().Be(details.Phone);
                 contact.CreatedOn.Should().Be(createdOn);
                 contact.CreatedBy.Should().Be(author);
                 contact.SupportProjectId.Should().Be(supportProject.Id);
@@ -875,7 +880,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
 
             // Act
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Assert
             supportProject.ImprovementPlans.Should().HaveCount(1);
@@ -893,8 +898,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var plan2Id = new ImprovementPlanId(Guid.NewGuid());
 
             // Act
-            supportProject.AddImprovementPlan(plan1Id, supportProject.Id);
-            supportProject.AddImprovementPlan(plan2Id, supportProject.Id);
+            supportProject.AddImprovementPlan(plan1Id, supportProject.Id!);
+            supportProject.AddImprovementPlan(plan2Id, supportProject.Id!);
 
             // Assert
             supportProject.ImprovementPlans.Should().HaveCount(2);
@@ -912,7 +917,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var areaOfImprovement = "QualityOfEducation";
             var details = "Improve mathematics outcomes";
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, areaOfImprovement, details);
@@ -954,7 +959,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var leadershipObjective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
             var behaviorObjective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act - Add objectives in mixed order to test area-specific ordering
             supportProject.AddImprovementPlanObjective(qualityObjective1Id, improvementPlanId, "QualityOfEducation", "Quality Objective 1");
@@ -992,7 +997,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var objective3Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
             var objective4Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act - Add multiple objectives to the same improvement area
             supportProject.AddImprovementPlanObjective(objective1Id, improvementPlanId, "QualityOfEducation", "First objective");
@@ -1026,7 +1031,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
             var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, areaOfImprovement, details);
@@ -1046,7 +1051,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             supportProject.SetImprovementPlanObjectivesComplete(improvementPlanId, objectivesSectionComplete);
@@ -1080,7 +1085,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var originalDetails = "Original details";
             var updatedDetails = "Updated comprehensive details";
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, "QualityOfEducation", originalDetails);
 
             // Act
@@ -1114,7 +1119,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
             var nonExistentObjectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act & Assert
             var exception = Assert.Throws<KeyNotFoundException>(() =>
@@ -1135,7 +1140,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
             var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
             supportProject.AddImprovementPlanObjective(objectiveId, improvementPlanId, "QualityOfEducation", "Original details");
 
             // Act
@@ -1156,7 +1161,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var objective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
             var updatedDetails = "Updated details for objective 2";
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
             supportProject.AddImprovementPlanObjective(objective1Id, improvementPlanId, "QualityOfEducation", "Objective 1 details");
             supportProject.AddImprovementPlanObjective(objective2Id, improvementPlanId, "LeadershipAndManagement", "Objective 2 details");
 
@@ -1179,7 +1184,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             var improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
 
-            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id);
+            supportProject.AddImprovementPlan(improvementPlanId, supportProject.Id!);
 
             // Act
             var improvementPlans = supportProject.ImprovementPlans;

@@ -6,13 +6,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
     public interface ISupportProjectRepository : IRepository<SupportProject>
     {
         Task<(IEnumerable<SupportProject> projects, int totalCount)> SearchForSupportProjects(
-            string? title,
-            IEnumerable<string>? states,
-            IEnumerable<string>? assignedUsers,
-            IEnumerable<string>? assignedAdvisers,
-            IEnumerable<string>? regions,
-            IEnumerable<string>? localAuthorities,
-            IEnumerable<string>? trusts,
+            SupportProjectSearchCriteria searchCriteria,
             int page,
             int count,
             CancellationToken cancellationToken);

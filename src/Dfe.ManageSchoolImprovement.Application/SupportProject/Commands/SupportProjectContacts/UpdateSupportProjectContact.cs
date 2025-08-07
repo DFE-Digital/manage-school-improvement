@@ -23,8 +23,18 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
         public async Task<SupportProjectContactId> Handle(UpdateSupportProjectContactCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken) ?? throw new ArgumentException($"Support project with id {request.SupportProjectId} not found");
-            
-            supportProject.EditContact(request.Id, request.Name, request.RoleId, request.OtherRoleName, request.Organisation, request.Email, request.Phone, request.Author, _dateTimeProvider.Now);
+
+            var details = new SupportProjectContactDetails
+            {
+                Name = request.Name,
+                RoleId = request.RoleId,
+                OtherRoleName = request.OtherRoleName,
+                Organisation = request.Organisation,
+                Email = request.Email,
+                Phone = request.Phone
+            };
+
+            supportProject.EditContact(request.Id, details, request.Author, _dateTimeProvider.Now);
             
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

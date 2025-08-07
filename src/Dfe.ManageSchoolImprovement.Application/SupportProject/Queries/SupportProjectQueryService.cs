@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using DfE.CoreLibs.Contracts.Academies.V4;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 {
@@ -20,31 +21,24 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         }
 
         public async Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
-            string? title,
-            IEnumerable<string>? states,
-            IEnumerable<string>? assignedUsers,
-            IEnumerable<string>? assignedAdvisers,
-            IEnumerable<string>? regions,
-            IEnumerable<string>? localAuthorities,
-            IEnumerable<string>? trusts,
-            string pagePath,
-            int page,
-            int count,
+            SupportProjectSearchRequest request,
             CancellationToken cancellationToken)
         {
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
-                title, 
-                states, 
-                assignedUsers, 
-                assignedAdvisers, 
-                regions, 
-                localAuthorities,
-                trusts,
-                page, 
-                count, 
+                new SupportProjectSearchCriteria(
+                    request.Title, 
+                    request.States, 
+                    request.AssignedUsers, 
+                    request.AssignedAdvisers, 
+                    request.Regions, 
+                    request.LocalAuthorities,
+                    request.Trusts
+                    ),
+                request.Page, 
+                request.Count,
                 cancellationToken);
 
-            var pageResponse = PagingResponseFactory.Create(pagePath, page, count, totalCount, []);
+            var pageResponse = PagingResponseFactory.Create(request.PagePath, request.Page, request.Count, totalCount, []);
 
             var result = projects.Select(x => mapper.Map<SupportProjectDto>(x)).ToList();
 

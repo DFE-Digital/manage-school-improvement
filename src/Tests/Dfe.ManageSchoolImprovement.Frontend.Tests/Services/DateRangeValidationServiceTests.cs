@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
                 var data = new TheoryData<DateRangeTestCase>();
             
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1), 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
                     DateRange.Past, 
                     true, 
                     ""));
@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
                     "You must enter a date in the past"));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1), 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
                     DateRange.PastOrToday, 
                     true, 
                     ""));
@@ -38,7 +38,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
                     "You must enter today's date or a date in the past"));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1), 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
                     DateRange.Future, 
                     false, 
                     "You must enter a date in the future"));
@@ -50,7 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
                     ""));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1), 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
                     DateRange.FutureOrToday, 
                     false, 
                     "You must enter today's date or a date in the future"));
@@ -62,7 +62,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
                     ""));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1), 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
                     DateRange.PastOrFuture, 
                     true, 
                     ""));

@@ -1,4 +1,4 @@
-using DfE.CoreLibs.Http.Interfaces;
+using ICorrelationContext = DfE.CoreLibs.Http.Interfaces.ICorrelationContext;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 
@@ -11,6 +11,7 @@ public class DfeHttpClientFactory : IDfeHttpClientFactory
     private readonly ICorrelationContext _correlationContext;
 
     public const string AcademiesClientName = "AcademiesClient";
+    private const string CorrelationIdHeaderKey = "x-correlationId";
 
     public DfeHttpClientFactory(IHttpClientFactory httpClientFactory, ICorrelationContext correlationContext)
     {
@@ -35,8 +36,7 @@ public class DfeHttpClientFactory : IDfeHttpClientFactory
     public HttpClient CreateClient(string name)
     {
         var httpClient = _httpClientFactory.CreateClient(name);
-        // had to leave this in for now as the core libs version is set to internal
-        httpClient.DefaultRequestHeaders.Add(Academisation.CorrelationIdMiddleware.Keys.HeaderKey, _correlationContext.CorrelationId.ToString());
+        httpClient.DefaultRequestHeaders.Add(CorrelationIdHeaderKey, _correlationContext.CorrelationId.ToString());
         return httpClient;
     }
 }
