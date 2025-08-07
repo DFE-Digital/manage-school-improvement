@@ -19,9 +19,8 @@ describe("Navigate through footer links", () => {
 
         Logger.log("Get accessibility and cookies link");
         cy.contains('a', 'Accessibility statement').should('be.visible').click()
-        cy.url().then(href => {
-            expect(href).includes('accessibility')
-        });
+        Logger.log("Acessibility statement link opened in another tab");
+        
         cy.contains('a', 'Cookies').should('be.visible').click()
         cy.url().then(href => {
             expect(href).includes('cookie')
