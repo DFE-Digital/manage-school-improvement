@@ -10,9 +10,11 @@
 {
     <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
-|| Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true)
+         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true)
     {
-        <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" cy-data="task-updated-success-notification">
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+             aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
+             cy-data="task-updated-success-notification">
             <div class="govuk-notification-banner__header">
                 <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
                     Success
@@ -30,7 +32,8 @@
         </div>
     }
 }
-<partial name="_ProjectHeader" model="Model.SupportProject" />
+
+<partial name="_ProjectHeader" model="Model.SupportProject"/>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @if (Model.SupportProject.EngagementConcernRecorded is true)
@@ -41,6 +44,15 @@
                         <h2 class="govuk-summary-card__title">
                             Engagement concern
                         </h2>
+                        <div class="govuk-summary-list__actions">
+                            <a
+                                asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page"
+                                asp-route-id="@Model.SupportProject.Id"
+                                class="govuk-link"
+                                data-cy="engagement-concern-change-link">
+                                Change
+                            </a>
+                        </div>
                     </div>
                     <div class="govuk-summary-card__content">
                         <dl class="govuk-summary-list">
@@ -51,6 +63,16 @@
                                 <dd class="govuk-summary-list__value">
                                     @Model.DateRaised.ToDateString()
                                 </dd>
+
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Details
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.EngagementConcernDetails
+                                </dd>
+
                             </div>
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key">
@@ -72,7 +94,7 @@
                                     </dd>
                                     <dd class="govuk-summary-list__actions">
                                         <a class="govuk-link govuk-!-padding-left-50 change-link"
-                                           asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" 
+                                           asp-page="@Links.EngagementConcern.ReasonForEscalation.Page"
                                            asp-route-id="@Model.SupportProject.Id"
                                            asp-route-changelinkclicked="true"
                                            asp-route-returnpage="@Links.EngagementConcern.Index.Page">
@@ -89,7 +111,7 @@
                                     </dd>
                                     <dd class="govuk-summary-list__actions">
                                         <a class="govuk-link govuk-!-padding-left-50 change-link"
-                                           asp-page="@Links.EngagementConcern.DateOfDecision.Page" 
+                                           asp-page="@Links.EngagementConcern.DateOfDecision.Page"
                                            asp-route-id="@Model.SupportProject.Id"
                                            asp-route-changelinkclicked="true"
                                            asp-route-returnpage="@Links.EngagementConcern.Index.Page">
@@ -110,6 +132,15 @@
                         <h2 class="govuk-summary-card__title">
                             Information powers
                         </h2>
+                        <div class="govuk-summary-list__actions">
+                            <a
+                                asp-page="@Links.EngagementConcern.RecordUseOfInformationPowers.Page"
+                                asp-route-id="@Model.SupportProject.Id"
+                                class="govuk-link"
+                                data-cy="information-powers-change-link">
+                                Change
+                            </a>
+                        </div>
                     </div>
                     <div class="govuk-summary-card__content">
                         <dl class="govuk-summary-list">
@@ -133,19 +164,23 @@
                     </div>
                 </div>
             }
-            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button" data-module="govuk-button" data-cy="information-powers-btn">
-                Update concern
-            </a>
-            <a asp-page="@Links.EngagementConcern.RecordUseOfInformationPowers.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" data-cy="record-information-powers-btn">
-                @(Model.SupportProject.InformationPowersInUse is true ? "Update use of information powers" : "Record use of information powers")
-            </a>
+            else
+            {
+                <a asp-page="@Links.EngagementConcern.RecordUseOfInformationPowers.Page"
+                   asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
+                   class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                   data-cy="record-information-powers-btn">
+                    Record use of information powers
+                </a>
+            }
         }
         else
         {
             <p class="govuk-body">
                 Enter details about situations where a school or responsible body does not respond to you.
             </p>
-            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+            <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id"
+               role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                 Record engagement concern
             </a>
         }
