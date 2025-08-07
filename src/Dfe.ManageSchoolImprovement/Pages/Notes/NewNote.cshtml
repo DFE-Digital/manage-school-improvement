@@ -30,7 +30,7 @@
                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                     </p>
                 }
-                <textarea class="govuk-textarea" id="project-note-body" name="project-note-body" rows="5">@Model.ProjectNoteBody</textarea>
+                <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : "")" id="project-note-body" name="project-note-body" rows="5">@Model.ProjectNoteBody</textarea>
             </div>
             <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                 Save note
