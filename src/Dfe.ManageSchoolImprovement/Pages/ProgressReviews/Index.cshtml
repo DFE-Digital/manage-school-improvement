@@ -70,7 +70,13 @@
                                     by @review.Reviewer
                                 </dt>
                                 <dd class="govuk-summary-list__value">
-                                    <a href="#" class="govuk-link">Record progress</a>
+                                    &nbsp;
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                    <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
+                                       asp-route-id="@Model.SupportProject.Id"
+                                       asp-route-reviewId="@review.ReadableId"
+                                       class="govuk-link">Record progress</a>
                                 </dd>
                             </div>
                         </dl>

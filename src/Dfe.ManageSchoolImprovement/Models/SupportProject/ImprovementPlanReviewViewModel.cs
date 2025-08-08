@@ -56,6 +56,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     .Select(ImprovementPlanObjectiveProgressViewModel.Create)
                     .ToList() ?? new List<ImprovementPlanObjectiveProgressViewModel>(),
                 ProgressStatus = progressStatus,
+                ProgressStatusClass = progressStatusCssClass
             };
         }
     }

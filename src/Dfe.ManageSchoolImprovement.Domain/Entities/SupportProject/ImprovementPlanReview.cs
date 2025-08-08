@@ -13,7 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             Reviewer = reviewer;
         }
 
-        public ImprovementPlanReviewId? Id { get; private set; }
+        public ImprovementPlanReviewId Id { get; private set; }
         public int ReadableId { get; }
         public ImprovementPlanId ImprovementPlanId { get; private set; }
         public DateTime CreatedOn { get; set; }
@@ -27,9 +27,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public IEnumerable<ImprovementPlanObjectiveProgress> ImprovementPlanObjectiveProgresses => _ImprovementPlanObjectiveProgresses.AsReadOnly();
         private readonly List<ImprovementPlanObjectiveProgress> _ImprovementPlanObjectiveProgresses = new();
 
-        public void AddObjectiveProgress(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details, int order)
+        public void AddObjectiveProgress(ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId,
+                                         ImprovementPlanObjectiveId improvementPlanObjectiveId,
+                                         ImprovementPlanReviewId improvementPlanReviewId,
+                                         string progressStatus,
+                                         string progressDetails)
         {
-            // _ImprovementPlanObjectiveProgresses.Add(new ImprovementPlanObjectiveProgress(improvementPlanObjectiveId, improvementPlanId, areaOfImprovement, details, order));
+            _ImprovementPlanObjectiveProgresses.Add(new ImprovementPlanObjectiveProgress(
+                improvementPlanObjectiveProgressId,
+                improvementPlanObjectiveId,
+                Id,
+                progressStatus,
+                progressDetails));
         }
     }
 }
