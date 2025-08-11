@@ -1,8 +1,4 @@
 @page "/engagement-concern/change-engagement-concern/{id:int}"
-@using Microsoft.AspNetCore.Hosting
-@using Microsoft.Extensions.DependencyInjection
-
-@inject IWebHostEnvironment Environment
 
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.ChangeEngagementConcernModel
 
@@ -17,7 +13,7 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -33,20 +29,22 @@
                     </legend>
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
-                            <input name="record-engagement-concern-hidden" type="hidden" value="false" />
+                            <input name="record-engagement-concern-hidden" type="hidden" value="false"/>
                             <input class="govuk-checkboxes__input"
                                    id="record-engagement-concern"
                                    name="record-engagement-concern"
                                    value="true"
                                    type="checkbox"
-                            @(Model.RecordEngagementConcern == true ? "checked" : "")
+                                   @(Model.RecordEngagementConcern == true ? "checked" : "")
                                    data-aria-controls="conditional-record-engagement-concern"/>
                             <label class="govuk-label govuk-checkboxes__label" for="record-engagement-concern">
                                 Record engagement concern with this school
                             </label>
                         </div>
-                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-record-engagement-concern">
-                            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                             id="conditional-record-engagement-concern">
+                            <div
+                                class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
                                 <label class="govuk-label" for="engagement-concern-details">
                                     Enter details about your engagement concern
                                 </label>
@@ -56,7 +54,10 @@
                                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                                     </p>
                                 }
-                                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")" id="engagement-concern-details" name="engagement-concern-details" rows="5">@Model.EngagementConcernDetails</textarea>
+                                <textarea
+                                    class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")"
+                                    id="engagement-concern-details" name="engagement-concern-details"
+                                    rows="5">@Model.EngagementConcernDetails</textarea>
                             </div>
                         </div>
                     </div>
@@ -68,14 +69,8 @@
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save and return
                 </button>
-                @if (Environment.IsDevelopment())
-                {
-                    @if (Model.SupportProject.EngagementConcernRecorded == true)
-                    {
-                        <a asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-button govuk-button--secondary" data-cy="escalate-engagement-concern-btn">Escalate concern</a>
-                    } 
-                }
-                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>
