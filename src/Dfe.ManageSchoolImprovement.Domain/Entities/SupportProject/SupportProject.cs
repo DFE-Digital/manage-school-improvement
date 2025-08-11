@@ -617,5 +617,18 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             improvementPlanObjectiveProgressId, improvementPlanObjectiveId, progressStatus, progressDetails);
     }
 
+    public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus, string progressDetails)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetImprovementPlanObjectiveProgressDetails(improvementPlanReviewId,
+            improvementPlanObjectiveProgressId, progressStatus, progressDetails);
+    }
+
     #endregion
 }

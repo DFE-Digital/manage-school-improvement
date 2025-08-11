@@ -4,9 +4,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
     public class ImprovementPlanReviewViewModel
     {
-        private const string ProgressStatusNotRecorded = "Progress not recorded";
-        private const string ProgressStatusPartlyRecorded = "Progress partly recorded";
-        private const string ProgressStatusRecorded = "Progress recorded";
+        internal const string ProgressStatusNotRecorded = "Progress not recorded";
+        internal const string ProgressStatusPartlyRecorded = "Progress partly recorded";
+        internal const string ProgressStatusRecorded = "Progress recorded";
 
         public Guid Id { get; set; }
         public int ReadableId { get; set; }

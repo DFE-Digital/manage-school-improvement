@@ -1,12 +1,12 @@
-@page "/ProgressReviews/{id:int}/RecordProgress"
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressModel
+@page "/ProgressReviews/{id:int}/ChangeProgress/{objectiveProgressId:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.ChangeProgressModel
 @{
-    ViewData["Title"] = "Record progress";
+    ViewData["Title"] = "Change progress";
 }
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewId="@Model.ReviewId" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -30,8 +30,6 @@
         </div>
         
         <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.ReviewId" />
-            <input type="hidden" asp-for="@Model.NextObjectiveId" />
             
             <govuk-radiobuttons-input 
                 heading="How is the school progressing with this objective?"
@@ -58,13 +56,6 @@
                 <button class="govuk-button" type="submit" data-module="govuk-button">
                     Save
                 </button>
-                <a asp-page="@Links.ProgressReviews.RecordProgress.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
-                   asp-route-reviewId="@Model.ReviewId"
-                   asp-route-objectiveId="@Model.NextObjectiveId"
-                   class="govuk-link">
-                    Skip this objective
-                </a>
             </div>
         </form>
     </div>

@@ -7,11 +7,11 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.AddImprovementPlanObjectiveProgress;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.SetImprovementPlanObjectiveProgressDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 
-public class RecordProgressModel(
+public class ChangeProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     IMediator mediator,
     ErrorService errorService)
@@ -19,15 +19,9 @@ public class RecordProgressModel(
 {
     public string ReturnPage { get; set; } = string.Empty;
 
-    [BindProperty]
-    public int ReviewId { get; set; }
-
-    [BindProperty]
-    public int? NextObjectiveId { get; set; }
-
-    public ImprovementPlanObjectiveViewModel Objective { get; private set; }
-    public ImprovementPlanReviewViewModel Review { get; private set; }
-    public ImprovementPlanViewModel ImprovementPlan { get; private set; }
+    public ImprovementPlanObjectiveViewModel? Objective { get; private set; }
+    public ImprovementPlanObjectiveProgressViewModel? ObjectiveProgress { get; private set; }
+    public ImprovementPlanReviewViewModel? ImprovementPlanReview { get; private set; }
 
     [BindProperty]
     [Required(ErrorMessage = "Select how the school is progressing with this objective")]
@@ -41,60 +35,66 @@ public class RecordProgressModel(
     public DateTime ReviewDate { get; set; }
     public string ReviewerName { get; set; } = string.Empty;
 
+    public ImprovementPlanId? ImprovementPlanId { get; set; }
+
     public string? ProgressStatusErrorMessage { get; set; } = null;
     public bool ShowProgressStatusError => ModelState.ContainsKey(nameof(ProgressStatus)) && ModelState[nameof(ProgressStatus)]?.Errors.Count > 0;
     public IList<RadioButtonsLabelViewModel> ProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, int reviewId, int? objectiveId, string? returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
+        ReturnPage = Links.ProgressReviews.Index.Page;
+
 
         await base.GetSupportProject(id, cancellationToken);
 
         // using readableId here as they are pastd through the url
-        LoadPageData(reviewId, objectiveId);
+        LoadPageData(objectiveProgressId);
         SetupProgressRadioButtons();
+
+        ProgressStatus = ObjectiveProgress?.HowIsSchoolProgressing ?? string.Empty;
+        ProgressDetails = ObjectiveProgress?.ProgressDetails ?? string.Empty;
 
         return Page();
     }
 
-    private void LoadPageData(int reviewId, int? objectiveId)
+    private void LoadPageData(int objectiveProgressId)
     {
-        ReviewId = reviewId;
-        ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == reviewId));
-        Review = ImprovementPlan?.ImprovementPlanReviews.Single(x => x.ReadableId == reviewId);
-        var objectives = ImprovementPlan?.ImprovementPlanObjectives.OrderBy(x => x.AreaOfImprovement).ThenBy(x => x.Order).ToList();
+        if (SupportProject == null) return;
 
-        if (objectiveId == null)
+        // Find the objective progress across all improvement plans and reviews
+        ObjectiveProgress = SupportProject.ImprovementPlans?
+            .SelectMany(plan => plan.ImprovementPlanReviews)
+            .SelectMany(review => review.ImprovementPlanObjectiveProgresses)
+            .FirstOrDefault(progress => progress.ReadableId == objectiveProgressId);
+
+        if (ObjectiveProgress == null) return;
+
+        ImprovementPlanReview = SupportProject.ImprovementPlans?
+            .SelectMany(plan => plan.ImprovementPlanReviews)
+            .FirstOrDefault(review => review.Id == ObjectiveProgress.ImprovementPlanReviewId);
+
+        Objective = SupportProject.ImprovementPlans?
+            .SelectMany(plan => plan.ImprovementPlanObjectives)
+            .FirstOrDefault(obj => obj.Id == ObjectiveProgress.ImprovementPlanObjectiveId);
+
+        if (ImprovementPlanReview != null && Objective != null)
         {
-
-            Objective = objectives?.First();
-            NextObjectiveId = objectives?[1].ReadableId;
+            ObjectiveTitle = Objective.Details;
+            AreaOfImprovement = Objective.AreaOfImprovement;
+            ReviewDate = ImprovementPlanReview.ReviewDate;
+            ReviewerName = ImprovementPlanReview.Reviewer;
+            ImprovementPlanId = new ImprovementPlanId(ImprovementPlanReview.ImprovementPlanId);
         }
-        else
-        {
-            Objective = objectives?.Single(x => x.ReadableId == objectiveId);
-
-            // Find the current objective's index and get the next one
-            var currentIndex = objectives?.FindIndex(x => x.ReadableId == objectiveId) ?? -1;
-            var nextIndex = currentIndex + 1;
-
-            NextObjectiveId = (objectives?.Count > nextIndex) ? objectives?[nextIndex].ReadableId : null;
-        }
-
-        ObjectiveTitle = Objective.Details;
-        AreaOfImprovement = Objective.AreaOfImprovement;
-        ReviewDate = Review.ReviewDate;
-        ReviewerName = Review.Reviewer;
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int reviewId, int? objectiveId, string? returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
-        LoadPageData(reviewId, objectiveId);
+        LoadPageData(objectiveProgressId);
 
         if (!ModelState.IsValid)
         {
@@ -108,11 +108,11 @@ public class RecordProgressModel(
             return Page();
         }
 
-        var result = await mediator.Send(new AddImprovementPlanObjectiveProgressCommand(
+        var result = await mediator.Send(new SetImprovementPlanObjectiveProgressDetailsCommand(
             new SupportProjectId(id),
-            new ImprovementPlanId(ImprovementPlan.Id),
-            new ImprovementPlanReviewId(Review.Id),
-            new ImprovementPlanObjectiveId(Objective.Id),
+            ImprovementPlanId,
+            new ImprovementPlanReviewId(ImprovementPlanReview.Id),
+            new ImprovementPlanObjectiveProgressId(ObjectiveProgress.Id),
             ProgressStatus!, ProgressDetails), cancellationToken);
 
         if (result == null)
@@ -121,17 +121,9 @@ public class RecordProgressModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        // Check if there are more objectives to review
-        if (NextObjectiveId.HasValue && returnPage != Links.ProgressReviews.ProgressSummary.Page)
-        {
-            // Redirect to the next objective
-            return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, objectiveId = NextObjectiveId });
-        }
-        else
-        {
-            // All objectives completed, redirect to summary
-            return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
-        }
+        // All objectives completed, redirect to summary
+        return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId = ImprovementPlanReview.ReadableId });
+
     }
 
 

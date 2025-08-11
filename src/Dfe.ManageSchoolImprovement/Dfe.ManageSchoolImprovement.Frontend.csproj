@@ -70,9 +70,5 @@
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\TaskList\NoteOfVisit\NoteOfVisit.cshtml" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="Pages\ProgressReviews\" />
-	</ItemGroup>
 
 </Project>

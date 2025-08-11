@@ -1,4 +1,5 @@
 @page "/ProgressReviews/{id:int}"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
 @{
     ViewData["Title"] = "Progress reviews";
@@ -72,12 +73,26 @@
                                 <dd class="govuk-summary-list__value">
                                     &nbsp;
                                 </dd>
-                                <dd class="govuk-summary-list__actions">
+                                @if (review.ProgressStatusClass == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
+                                {
+                                    <dd class="govuk-summary-list__actions govuk-!-width-one-third">
                                     <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
                                        asp-route-id="@Model.SupportProject.Id"
                                        asp-route-reviewId="@review.ReadableId"
                                        class="govuk-link">Record progress</a>
-                                </dd>
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="govuk-summary-list__actions govuk-!-width-one-third">
+                                        <a asp-page="@Links.ProgressReviews.ProgressSummary.Page"
+                                           asp-route-id="@Model.SupportProject.Id"
+                                           asp-route-reviewId="@review.ReadableId"
+                                           class="govuk-link">View progress summary</a>
+                                    </dd>
+
+                                }
+
                             </div>
                         </dl>
                         <p class="govuk-body govuk-!-margin-top-3">

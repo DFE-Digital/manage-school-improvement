@@ -40,5 +40,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
                 progressStatus,
                 progressDetails));
         }
+
+        public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus, string progressDetails)
+        {
+            var progress = _ImprovementPlanObjectiveProgresses.SingleOrDefault(x => x.Id == improvementPlanObjectiveProgressId);
+
+            if (progress == null)
+            {
+                throw new KeyNotFoundException($"Improvement plan review objective progress with id {improvementPlanObjectiveProgressId} not found");
+            }
+
+            progress.SetProgress(progressStatus, progressDetails);
+
+        }
     }
 }
