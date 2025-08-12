@@ -25,7 +25,18 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
 
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
 
-            supportProject.AddContact(supportProjectContactId, request.Name, request.RoleId, request.OtherRoleName, request.Organisation, request.Email, request.Phone, request.Author, _dateTimeProvider.Now, request.SupportProjectId);
+            var details = new SupportProjectContactDetails
+            {
+                Name = request.Name,
+                RoleId = request.RoleId,
+                OtherRoleName = request.OtherRoleName,
+                Organisation = request.Organisation,
+                Email = request.Email,
+                Phone = request.Phone
+            };
+
+
+            supportProject.AddContact(supportProjectContactId, details, request.Author, _dateTimeProvider.Now, request.SupportProjectId);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

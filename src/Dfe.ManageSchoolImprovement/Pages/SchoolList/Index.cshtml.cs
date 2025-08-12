@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
@@ -18,6 +19,20 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
 
     [BindProperty(SupportsGet = true)]
     public int TotalProjects { get; set; }
+
+    public SupportProjectSearchRequest SearchRequest => new()
+    {
+        Title = Filters.Title,
+        States = Filters.SelectedStatuses,
+        AssignedUsers = Filters.SelectedOfficers,
+        AssignedAdvisers = Filters.SelectedAdvisers,
+        Regions = Filters.SelectedRegions,
+        LocalAuthorities = Filters.SelectedLocalAuthorities,
+        Trusts = Filters.SelectedTrusts,
+        PagePath = Pagination.PagePath,
+        Page = Pagination.CurrentPage,
+        Count = Pagination.PageSize
+    };
     public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
     {
         Filters.PersistUsing(TempData).PopulateFrom(Request.Query);
@@ -26,8 +41,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
 
         var result =
            await supportProjectQueryService.SearchForSupportProjects(
-               Filters.Title, Filters.SelectedStatuses, Filters.SelectedOfficers, Filters.SelectedAdvisers, Filters.SelectedRegions,
-               Filters.SelectedLocalAuthorities, Filters.SelectedTrusts, Pagination.PagePath, Pagination.CurrentPage, Pagination.PageSize,
+               SearchRequest,
                cancellationToken);
 
         if (result.IsSuccess && result.Value != null)

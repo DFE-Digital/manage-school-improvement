@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
 using System.Linq.Expressions;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
 {
@@ -57,9 +58,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var supportProjectDtos = GetSupportProjectDtos(projects);
             var totalCount = 1;
 
-            _mockRepository.Setup(r => r.SearchForSupportProjects(It.IsAny<string?>(), It.IsAny<IEnumerable<string>?>(),
-                    It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<IEnumerable<string>?>(),
-                    It.IsAny<IEnumerable<string>?>(),
+            _mockRepository.Setup(r => r.SearchForSupportProjects(It.IsAny<SupportProjectSearchCriteria>(),
                     It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((projects, totalCount));
             foreach (var supportProjectDto in supportProjectDtos)
@@ -67,8 +66,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                 _mockMapper.Setup(m => m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>())).Returns(supportProjectDto);
             }
 
+            var supportProjectSearchRequest = new SupportProjectSearchRequest();
+
             // Act
-            var result = await _service.SearchForSupportProjects(null, null, null, null, null, null, null, "/path", 1, 10, CancellationToken.None);
+            var result = await _service.SearchForSupportProjects(supportProjectSearchRequest, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -304,7 +305,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var supportProjectDto = new List<SupportProjectDto>();
             foreach (var project in supportProjects)
             {
-                supportProjectDto.Add(new SupportProjectDto(project.Id.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region));
+                supportProjectDto.Add(new SupportProjectDto(project.Id!.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region));
             }
             return supportProjectDto;
         }
@@ -313,9 +314,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         {
             foreach (var item in schools)
             {
-                var project = projects.FirstOrDefault(p => p.Id.Value == item.Id);
+                var project = projects.FirstOrDefault(p => p.Id!.Value == item.Id);
                 Assert.NotNull(project);
-                Assert.Equal(item.Id, project.Id.Value);
+                Assert.Equal(item.Id, project.Id!.Value);
                 Assert.Equal(item.SchoolName, project.SchoolName);
                 Assert.Equal(item.SchoolUrn, project.SchoolUrn);
                 Assert.Equal(item.LocalAuthority, project.LocalAuthority);
