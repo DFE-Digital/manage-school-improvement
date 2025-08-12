@@ -630,5 +630,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             improvementPlanObjectiveProgressId, progressStatus, progressDetails);
     }
 
+    public void SetImprovementPlanReviewNextReviewDate(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, DateTime? nextReviewDate)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetNextReviewDate(improvementPlanReviewId, nextReviewDate);
+    }
+
     #endregion
 }

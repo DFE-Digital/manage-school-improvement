@@ -53,5 +53,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             progress.SetProgress(progressStatus, progressDetails);
 
         }
+
+        public void SetNextReviewDate(DateTime? nextReviewDate)
+        {
+            NextReviewDate = nextReviewDate;
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 
         public List<ImprovementPlanObjectiveProgressViewModel> ImprovementPlanObjectiveProgresses { get; set; } = new();
+        public DateTime? NextReviewDate { get; private set; }
 
         public static ImprovementPlanReviewViewModel Create(ImprovementPlanReviewDto dto, ImprovementPlanDto improvementPlanDto)
         {
@@ -51,6 +52,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ReadableId = dto.readableId,
                 ImprovementPlanId = dto.improvementPlanId,
                 ReviewDate = dto.reviewDate,
+                NextReviewDate = dto.nextReviewDate,
                 Reviewer = dto.reviewer,
                 ImprovementPlanObjectiveProgresses = dto.ImprovementPlanObjectiveProgresses?
                     .Select(ImprovementPlanObjectiveProgressViewModel.Create)

@@ -83,5 +83,17 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
                 progressStatus,
                 progressDetails);
         }
+
+        public void SetNextReviewDate(ImprovementPlanReviewId improvementPlanReviewId, DateTime? nextReviewDate)
+        {
+            var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
+
+            if (review == null)
+            {
+                throw new KeyNotFoundException($"Improvement plan review with id {improvementPlanReviewId} not found");
+            }
+
+            review.SetNextReviewDate(nextReviewDate);
+        }
     }
 }

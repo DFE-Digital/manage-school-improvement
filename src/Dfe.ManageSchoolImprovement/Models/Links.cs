@@ -135,6 +135,7 @@ public static class Links
         public static readonly LinkItem RecordProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgress");
         public static readonly LinkItem ChangeProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/ChangeProgress");
         public static readonly LinkItem ProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/ProgressSummary");
+        public static readonly LinkItem NextReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/NextReview");
     }
 
     public static class Public

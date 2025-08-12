@@ -71,12 +71,18 @@
         }
         
         <div class="govuk-button-group govuk-!-margin-top-7">
-            <a asp-page="@Links.ProgressReviews.Index.Page" 
+            <a asp-page="@Links.ProgressReviews.NextReview.Page" 
                asp-route-id="@Model.SupportProject?.Id" 
+               asp-route-reviewId="@Model.ReviewId"
                role="button" 
                draggable="false" 
                class="govuk-button" 
                data-module="govuk-button">
+                Continue
+            </a>
+            <a asp-page="@Links.ProgressReviews.Index.Page" 
+               asp-route-id="@Model.SupportProject?.Id" 
+               class="govuk-link">
                 Return to progress reviews
             </a>
         </div>

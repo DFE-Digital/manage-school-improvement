@@ -17,6 +17,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     // For now, we'll show mock data to demonstrate the UI
     public bool NoProgressReviewsRecorded => ProgressReviews.Count == 0;
 
+    public ImprovementPlanReviewViewModel? CurrentProgressReview { get; private set; }
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         // Set the return page to the improvement plan tab
@@ -25,7 +27,19 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         await base.GetSupportProject(id, cancellationToken);
 
         ProgressReviews = SupportProject.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews ?? [];
+        SetCurrentProgressReview();
 
         return Page();
+    }
+
+    private void SetCurrentProgressReview()
+    {
+        if (ProgressReviews.Any())
+        {
+            // Get the most recent review by review date
+            CurrentProgressReview = ProgressReviews
+                .OrderByDescending(review => review.ReviewDate)
+                .FirstOrDefault();
+        }
     }
 }

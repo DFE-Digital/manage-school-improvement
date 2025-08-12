@@ -1,4 +1,5 @@
 @page "/ProgressReviews/{id:int}"
+@using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
 @{
@@ -16,26 +17,26 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Progress reviews
         </h1>
-        
+
         @if (Model.NoProgressReviewsRecorded)
         {
             <div class="govuk-inset-text">
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-2">No progress reviews recorded</h3>
                 <p class="govuk-body govuk-!-margin-bottom-0">You must enter details of a progress review first.</p>
             </div>
-            
+
             <div class="govuk-button-group">
-                <a asp-page="@Links.ProgressReviews.AddReview.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
+                <a asp-page="@Links.ProgressReviews.AddReview.Page"
+                   asp-route-id="@Model.SupportProject.Id"
                    asp-route-improvementplanid="@Model.SupportProject.ImprovementPlans!.First().Id"
-                   role="button" 
-                   draggable="false" 
-                   class="govuk-button" 
+                   role="button"
+                   draggable="false"
+                   class="govuk-button"
                    data-module="govuk-button">
                     Add review
                 </a>
-                <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
+                <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                   asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link">
                     Return to improvement plan
                 </a>
@@ -45,10 +46,27 @@
         {
             <!-- No more reviews needed section -->
             <div class="govuk-inset-text govuk-!-margin-bottom-6">
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h3>
-                <p class="govuk-body govuk-!-margin-bottom-2">
-                    <a href="#" class="govuk-link">Add next review date</a>
-                </p>
+                @if (Model.CurrentProgressReview?.NextReviewDate is null)
+                {
+                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h3>
+                    <p class="govuk-body govuk-!-margin-bottom-2">
+                        <a asp-page="@Links.ProgressReviews.NextReview.Page"
+                           asp-route-id="@Model.SupportProject.Id"
+                           asp-route-reviewid="@Model.CurrentProgressReview.ReadableId"
+                           class="govuk-link">Add next review date</a>
+                    </p>
+                }
+                else
+                {
+                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">The next review should happen on or around <strong>@Model.CurrentProgressReview.NextReviewDate.ToDateString()</strong></h3>
+                    <p class="govuk-body govuk-!-margin-bottom-2">
+                        <a asp-page="@Links.ProgressReviews.NextReview.Page"
+                           asp-route-id="@Model.SupportProject.Id"
+                           asp-route-reviewid="@Model.CurrentProgressReview.ReadableId"
+                           class="govuk-link">Change next review date</a>
+                    </p>
+                }
+
             </div>
 
             <!-- Progress review cards -->
@@ -67,7 +85,7 @@
                         <dl class="govuk-summary-list">
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
-                                    Reviewed on @review.ReviewDate.ToString("dd MMMM yyyy")<br>
+                                    Reviewed on @review.ReviewDate.ToDateString()<br>
                                     by @review.Reviewer
                                 </dt>
                                 <dd class="govuk-summary-list__value">
@@ -76,10 +94,10 @@
                                 @if (review.ProgressStatusClass == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                                 {
                                     <dd class="govuk-summary-list__actions govuk-!-width-one-third">
-                                    <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
-                                       asp-route-id="@Model.SupportProject.Id"
-                                       asp-route-reviewId="@review.ReadableId"
-                                       class="govuk-link">Record progress</a>
+                                        <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
+                                           asp-route-id="@Model.SupportProject.Id"
+                                           asp-route-reviewId="@review.ReadableId"
+                                           class="govuk-link">Record progress</a>
                                     </dd>
                                 }
                                 else
@@ -101,19 +119,19 @@
                     </div>
                 </div>
             }
-            
+
             <div class="govuk-button-group">
-                <a asp-page="@Links.ProgressReviews.AddReview.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
+                <a asp-page="@Links.ProgressReviews.AddReview.Page"
+                   asp-route-id="@Model.SupportProject.Id"
                    asp-route-improvementplanid="@Model.SupportProject.ImprovementPlans!.First().Id"
-                   role="button" 
-                   draggable="false" 
-                   class="govuk-button" 
+                   role="button"
+                   draggable="false"
+                   class="govuk-button"
                    data-module="govuk-button">
                     Add review
                 </a>
-                <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
+                <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                   asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link">
                     Return to improvement plan
                 </a>

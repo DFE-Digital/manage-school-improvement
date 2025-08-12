@@ -5,6 +5,7 @@
             int readableId,
             Guid improvementPlanId,
             DateTime reviewDate,
+            DateTime? nextReviewDate,
             string reviewer,
             IEnumerable<ImprovementPlanObjectiveProgressDto> ImprovementPlanObjectiveProgresses = null!
             )

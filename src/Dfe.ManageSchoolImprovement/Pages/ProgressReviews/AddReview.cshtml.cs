@@ -88,8 +88,14 @@ public class AddReviewModel(
         var result = await mediator.Send(new AddImprovementPlanReviewCommand(new SupportProjectId(id),
             new ImprovementPlanId(ImprovementPlanId), reviewer, ReviewDate!.Value), cancellationToken);
 
+        // get latest version of the support project
+        await base.GetSupportProject(id, cancellationToken);
+
+        var review = SupportProject.ImprovementPlans.SelectMany(x => x.ImprovementPlanReviews)
+            .SingleOrDefault(x => x.Id == result.Value);
+
         // For now, redirect back to the progress reviews index
-        return RedirectToPage(Links.ProgressReviews.Index.Page, new { id });
+        return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = review.ReadableId });
     }
 
     private void SetupRadioButtons()
