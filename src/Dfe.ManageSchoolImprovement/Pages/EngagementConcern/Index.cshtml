@@ -1,5 +1,9 @@
 @page "/engagement-concern/{id:int}"
 @using Dfe.Academisation.ExtensionMethods
+@using Microsoft.AspNetCore.Hosting
+
+@inject IWebHostEnvironment Environment
+
 @model IndexModel
 
 @{
@@ -44,15 +48,40 @@
                         <h2 class="govuk-summary-card__title">
                             Engagement concern
                         </h2>
-                        <div class="govuk-summary-list__action">
-                            <a
-                                asp-page="@Links.EngagementConcern.ChangeEngagementConcern.Page"
-                                asp-route-id="@Model.SupportProject.Id"
-                                class="govuk-link"
-                                data-cy="engagement-concern-change-link">
-                                Change
-                            </a>
-                        </div>
+                        @if (Environment.IsDevelopment())
+                        {
+                            <ul class="govuk-summary-list__action-list">
+                                <li class="govuk-summary-list__actions-list-item">
+                                    <a class="govuk-link"
+                                       asp-page="@Links.EngagementConcern.ChangeEngagementConcern.Page"
+                                       asp-route-id="@Model.SupportProject.Id"
+                                       data-cy="engagement-concern-change-link">
+                                        Change<span class="govuk-visually-hidden">Change</span>
+                                    </a></li>
+                                <li class="govuk-summary-list__actions-list-item">
+                                    <a class="govuk-link"
+                                       asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page"
+                                       asp-route-id="@Model.SupportProject.Id"
+                                       data-cy="engagement-concern-escalate-link">
+                                        Escalate<span class="govuk-visually-hidden">Escalate</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="govuk-summary-list__action-list">
+                                <li class="govuk-summary-list__actions-list-item">
+                                    <a
+                                        asp-page="@Links.EngagementConcern.ChangeEngagementConcern.Page"
+                                        asp-route-id="@Model.SupportProject.Id"
+                                        class="govuk-link"
+                                        data-cy="engagement-concern-change-link">
+                                        Change
+                                    </a>
+                                </li>
+                            </ul>
+                        }
                     </div>
                     <div class="govuk-summary-card__content">
                         <dl class="govuk-summary-list">
@@ -132,15 +161,17 @@
                         <h2 class="govuk-summary-card__title">
                             Information powers
                         </h2>
-                        <div class="govuk-summary-list__action">
-                            <a
-                                asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
-                                asp-route-id="@Model.SupportProject.Id"
-                                class="govuk-link"
-                                data-cy="information-powers-change-link">
-                                Change
-                            </a>
-                        </div>
+                        <ul class="govuk-summary-list__action-list">
+                            <li class="govuk-summary-list__actions-list-item">
+                                <a
+                                    asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
+                                    asp-route-id="@Model.SupportProject.Id"
+                                    class="govuk-link"
+                                    data-cy="information-powers-change-link">
+                                    Change
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="govuk-summary-card__content">
                         <dl class="govuk-summary-list">
