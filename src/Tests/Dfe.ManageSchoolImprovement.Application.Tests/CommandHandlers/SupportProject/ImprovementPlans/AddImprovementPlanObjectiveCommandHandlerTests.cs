@@ -63,7 +63,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         [InlineData("BehaviourAndAttitudes", "Improve student behavior")]
         [InlineData("Attendance", "Increase attendance rates")]
         [InlineData("PersonalDevelopment", "Develop character education")]
-        public async Task Handle_ValidCommandWithDifferentAreas_CreatesObjective(string areaOfImprovement, string details)
+        [InlineData("", "Valid details")]
+        [InlineData("QualityOfEducation", "")]
+        [InlineData("", "")]
+        public async Task Handle_ValidCommandWithDifferentAreasWithAndWithoutEmptyFields_CreatesObjective(string areaOfImprovement, string details)
         {
             // Arrange
             var command = new AddImprovementPlanObjective.AddImprovementPlanObjectiveCommand(
@@ -111,35 +114,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             
             Assert.Equal($"Support project with id {nonExistentId} not found", exception.Message);
         }
-
-        [Theory]
-        [InlineData("", "Valid details")]
-        [InlineData("QualityOfEducation", "")]
-        [InlineData("", "")]
-        public async Task Handle_CommandWithEmptyFields_StillCreatesObjective(string areaOfImprovement, string details)
-        {
-            // Arrange
-            var command = new AddImprovementPlanObjective.AddImprovementPlanObjectiveCommand(
-                _mockSupportProject.Id,
-                _improvementPlanId,
-                areaOfImprovement,
-                details
-            );
-
-            _mockSupportProjectRepository
-                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
-                .ReturnsAsync(_mockSupportProject);
-
-            var handler = new AddImprovementPlanObjective.AddImprovementPlanObjectiveCommandHandler(_mockSupportProjectRepository.Object);
-
-            // Act
-            var result = await handler.Handle(command, _cancellationToken);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ImprovementPlanObjectiveId>(result);
-        }
-
+        
         [Fact]
         public async Task Handle_RepositoryThrowsException_ExceptionPropagates()
         {

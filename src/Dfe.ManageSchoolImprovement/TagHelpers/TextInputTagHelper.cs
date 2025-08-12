@@ -1,6 +1,5 @@
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 

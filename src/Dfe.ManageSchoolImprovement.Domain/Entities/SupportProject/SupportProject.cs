@@ -24,7 +24,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         TrustReferenceNumber = trustReferenceNumber;
     }
     #region Properties
-    public SupportProjectId? Id { get; private set; }
+    public SupportProjectId Id { get; private set; } = null!;
 
     public string SchoolName { get; private set; } = string.Empty;
 
