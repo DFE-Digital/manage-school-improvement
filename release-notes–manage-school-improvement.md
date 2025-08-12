@@ -3,6 +3,19 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.14.1] - Q2 – Sprint 3 (Part 2) - 2025-08-12
+
+### 📌 User Stories
+
+- **227592** - Link to new accessibility statement
+- **224026** - Make it clearer how to edit entries into the Engagement Concern tab (Change links) 
+
+### 🐛 Bug Fixes
+
+- **220681** - Notes: Back link missing as well as Error message text is not displaying next to notes text box
+
+--
+
 ## 📅 [v0.14.0] - Q2 – Sprint 3 (Part 1) - 2025-08-06
 
 ### 📌 User Stories
