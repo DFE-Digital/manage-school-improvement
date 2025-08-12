@@ -13,48 +13,46 @@ class TaskList {
   // Assert 'Date Added' matches the expected value
   public hasDateAdded(date: string): this {
     cy.get('.govuk-summary-list__value').eq(0).should("contain.text", date);
-    return this; // Return this to allow method chaining
+    return this;
   }
 
   // Assert 'Date of last OFSTED inspection' matches the expected value
   public hasInspectionDate(date: string): this {
     cy.get('.govuk-summary-list__value').eq(1).should("contain.text", date);
-    return this; // Return this to allow method chaining
+    return this;
   }
 
   // Assert 'Quality of education' matches the expected value
   public hasQualityOfEducation(value: string): this {
     cy.get('.govuk-summary-list__value').eq(2).should("contain.text", value);
-    return this; // Return this to allow method chaining
+    return this;
   }
 
   // Assert 'Leadership and management' matches the expected value
   public hasLeadershipAndManagement(value: string): this {
     cy.get('.govuk-summary-list__value').eq(3).should("contain.text", value);
-    return this; // Return this to allow method chaining
+    return this;
   }
 
   // Assert 'Assigned to' matches the expected value
   public hasAssignedTo(value: string): this {
     cy.get('.govuk-summary-list__value').eq(4).should("contain.text", value);
-    return this; // Return this to allow method chaining
+    return this;
   }
 
   // Assert 'Advised by' matches the expected value
   public hasAdvisedBy(value: string): this {
     cy.get('.govuk-summary-list__value').eq(5).should("contain.text", value);
-    return this; // Return this to allow method chaining
+    return this;
   }
 
   public hasChangeLinks(): this {
-    // Get all links that have the visible text 'Change'
     cy.get('a')
       .filter(':visible')
       .contains('Change')
       .eq(0)
       .should('have.attr', 'href')
       .and('include', 'delivery-officer');
-
     cy.get(':nth-child(6) > .govuk-summary-list__actions > .govuk-link')
       .filter(':visible')
       .contains('Change')
@@ -68,7 +66,6 @@ class TaskList {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
     cy.contains("Ofsted reports")
-    cy.contains("Improvement plan")
     cy.contains("Contacts")
     cy.contains("Case Study")
     cy.contains("Engagement concern")
@@ -98,7 +95,6 @@ class TaskList {
     cy.contains('Review the improvement plan and confirm the funding band');
     cy.contains('Send the agreed improvement plan for approval');
     cy.contains('Record improvement plan decision');
-    cy.contains('Enter improvement plan objectives');
     cy.contains('Request improvement grant offer letter');
     cy.contains('Confirm improvement grant offer letter sent');
 
@@ -127,7 +123,6 @@ class TaskList {
     cy.get('#review-the-improvement-plan_status').contains('Not Started');
     cy.get("#send-agreed-improvement-plan_status").contains('Not Started');
     cy.get("#record-improvement-plan-decision_status").contains('Not Started');
-    cy.get("#enter-improvement-plan-objectives_status").contains('Not Started');
     cy.get('#request-improvement-grant-offer-letter_status').contains("Not Started");
     cy.get("#confirm-improvement-grant-offer-letter_status").contains('Not Started');
 

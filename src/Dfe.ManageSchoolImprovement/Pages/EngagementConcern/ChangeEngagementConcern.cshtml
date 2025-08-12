@@ -1,9 +1,9 @@
-@page "/engagement-concern/record-engagement-concern/{id:int}"
+@page "/engagement-concern/change-engagement-concern/{id:int}"
 
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.AddEngagementConcernModel
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.ChangeEngagementConcernModel
 
 @{
-    ViewData["Title"] = "Record engagement concern";
+    ViewData["Title"] = "Change engagement concern";
 }
 
 @section BeforeMain
@@ -13,7 +13,7 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -24,25 +24,27 @@
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <h1 class="govuk-fieldset__heading">
-                            Record engagement concern
+                            Change engagement concern
                         </h1>
                     </legend>
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
-                            <input name="record-engagement-concern-hidden" type="hidden" value="false" />
+                            <input name="record-engagement-concern-hidden" type="hidden" value="false"/>
                             <input class="govuk-checkboxes__input"
                                    id="record-engagement-concern"
                                    name="record-engagement-concern"
                                    value="true"
                                    type="checkbox"
-                            @(Model.RecordEngagementConcern == true ? "checked" : "")
+                                   @(Model.RecordEngagementConcern == true ? "checked" : "")
                                    data-aria-controls="conditional-record-engagement-concern"/>
                             <label class="govuk-label govuk-checkboxes__label" for="record-engagement-concern">
                                 Record engagement concern with this school
                             </label>
                         </div>
-                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-record-engagement-concern">
-                            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                             id="conditional-record-engagement-concern">
+                            <div
+                                class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
                                 <label class="govuk-label" for="engagement-concern-details">
                                     Enter details about your engagement concern
                                 </label>
@@ -52,7 +54,10 @@
                                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                                     </p>
                                 }
-                                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")" id="engagement-concern-details" name="engagement-concern-details" rows="5">@Model.EngagementConcernDetails</textarea>
+                                <textarea
+                                    class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")"
+                                    id="engagement-concern-details" name="engagement-concern-details"
+                                    rows="5">@Model.EngagementConcernDetails</textarea>
                             </div>
                         </div>
                     </div>
@@ -64,7 +69,8 @@
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save and return
                 </button>
-                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>
