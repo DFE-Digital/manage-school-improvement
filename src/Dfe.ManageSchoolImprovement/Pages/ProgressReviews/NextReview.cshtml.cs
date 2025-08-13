@@ -34,7 +34,7 @@ public class NextReviewModel(
 
     public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
-        ReturnPage = Links.ProgressReviews.ProgressSummary.Page;
+        ReturnPage = Links.ProgressReviews.Index.Page;
         ReviewId = reviewId;
 
         await base.GetSupportProject(id, cancellationToken);

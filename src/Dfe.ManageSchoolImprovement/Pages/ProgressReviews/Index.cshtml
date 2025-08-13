@@ -28,7 +28,7 @@
             <div class="govuk-button-group">
                 <a asp-page="@Links.ProgressReviews.AddReview.Page"
                    asp-route-id="@Model.SupportProject.Id"
-                   asp-route-improvementplanid="@Model.SupportProject.ImprovementPlans!.First().Id"
+                   asp-route-improvementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
                    role="button"
                    draggable="false"
                    class="govuk-button"
@@ -114,7 +114,10 @@
                             </div>
                         </dl>
                         <p class="govuk-body govuk-!-margin-top-3">
-                            <a href="#" class="govuk-link">Edit review details</a>
+                            <a asp-page="@Links.ProgressReviews.EditReview.Page"
+                               asp-route-id="@Model.SupportProject.Id"
+                               asp-route-reviewid="@review.ReadableId"
+                               class="govuk-link">Edit review details</a>
                         </p>
                     </div>
                 </div>

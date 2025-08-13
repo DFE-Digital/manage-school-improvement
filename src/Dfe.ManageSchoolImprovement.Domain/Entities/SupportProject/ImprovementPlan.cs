@@ -95,5 +95,17 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 
             review.SetNextReviewDate(nextReviewDate);
         }
+
+        public void SetImprovementPlanReviewDetails(ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
+        {
+            var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
+
+            if (review == null)
+            {
+                throw new KeyNotFoundException($"Improvement plan review with id {improvementPlanReviewId} not found");
+            }
+
+            review.SetDetails(reviewer, reviewDate);
+        }
     }
 }

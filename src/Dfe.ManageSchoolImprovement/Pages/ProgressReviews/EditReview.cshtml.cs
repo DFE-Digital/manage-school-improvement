@@ -5,11 +5,11 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews.AddImprovementPlanReview;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.SetImprovementPlanReviewDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 
-public class AddReviewModel(
+public class EditReviewModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
@@ -30,6 +30,9 @@ public class AddReviewModel(
     public string? CustomReviewerName { get; set; }
 
     [BindProperty]
+    public Guid ImprovementPlanReviewId { get; set; }
+
+    [BindProperty]
     public Guid ImprovementPlanId { get; set; }
 
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
@@ -37,7 +40,7 @@ public class AddReviewModel(
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, int improvementPlanId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
         // Set the return page to the progress reviews index
         ReturnPage = Links.ProgressReviews.Index.Page;
@@ -45,17 +48,30 @@ public class AddReviewModel(
         await base.GetSupportProject(id, cancellationToken);
         SetupRadioButtons();
 
-        var improvementPlan = SupportProject?.ImprovementPlans?.SingleOrDefault(x => x.ReadableId == improvementPlanId);
+        var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
 
-        if (improvementPlan != null)
+        if (improvementPlanReview != null)
         {
-            ImprovementPlanId = improvementPlan.Id;
+            ImprovementPlanId = improvementPlanReview.ImprovementPlanId;
+            ImprovementPlanReviewId = improvementPlanReview.Id;
+            ReviewDate = improvementPlanReview.ReviewDate;
+
+            if (improvementPlanReview.Reviewer != SupportProject?.AdviserFullName &&
+                improvementPlanReview.Reviewer != SupportProject?.AssignedDeliveryOfficerFullName)
+            {
+                CustomReviewerName = improvementPlanReview.Reviewer;
+                ReviewerSelection = "someone-else";
+            }
+            else
+            {
+                ReviewerSelection = improvementPlanReview.Reviewer;
+            }
         }
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
         // Validate the form
         if (!ReviewDate.HasValue)
@@ -90,17 +106,16 @@ public class AddReviewModel(
         }
 
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
-        var result = await mediator.Send(new AddImprovementPlanReviewCommand(new SupportProjectId(id),
-            new ImprovementPlanId(ImprovementPlanId), reviewer, ReviewDate!.Value), cancellationToken);
+        var result = await mediator.Send(new SetImprovementPlanReviewDetailsCommand(new SupportProjectId(id),
+            new ImprovementPlanId(ImprovementPlanId),
+            new ImprovementPlanReviewId(ImprovementPlanReviewId),
+            reviewer ?? string.Empty, ReviewDate!.Value), cancellationToken);
 
         // get latest version of the support project
         await base.GetSupportProject(id, cancellationToken);
 
-        var review = SupportProject.ImprovementPlans.SelectMany(x => x.ImprovementPlanReviews)
-            .SingleOrDefault(x => x.Id == result.Value);
-
         // For now, redirect back to the progress reviews index
-        return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = review.ReadableId });
+        return RedirectToPage(Links.ProgressReviews.Index.Page, new { id });
     }
 
     private void SetupRadioButtons()
