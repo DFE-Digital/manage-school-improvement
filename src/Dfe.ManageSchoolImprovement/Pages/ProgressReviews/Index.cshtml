@@ -72,55 +72,50 @@
             <!-- Progress review cards -->
             @foreach (var review in Model.ProgressReviews)
             {
-                <div class="govuk-summary-card govuk-!-margin-bottom-6">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">First Review</h2>
-                        <ul class="govuk-summary-card__actions">
-                            <li class="govuk-summary-card__action">
-                                <strong class="govuk-tag @review.ProgressStatusClass">@review.ProgressStatus</strong>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="govuk-summary-card__content">
-                        <dl class="govuk-summary-list">
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key govuk-!-width-one-half">
-                                    Reviewed on @review.ReviewDate.ToDateString()<br>
+                <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.ReviewTitleByReadableId.GetValueOrDefault(review.ReadableId, "Review")'>
+                    <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
+                        <div class='govuk-grid-row'>
+                            <div class='govuk-grid-column-two-thirds'>
+                                <h2 class='govuk-heading-s govuk-!-margin-bottom-5'>
+                                    @Model.ReviewTitleByReadableId.GetValueOrDefault(review.ReadableId, "Review")
+                                </h2>
+                            </div>
+                            <div class='govuk-grid-column-one-third govuk-!-text-align-right'>
+                                <strong class='govuk-tag @review.ProgressStatusClass'>@review.ProgressStatus</strong>
+                            </div>
+                        </div>
+                        <div class='govuk-grid-row'>
+                            <div class='govuk-grid-column-two-thirds'>
+                                <p class='govuk-body govuk-!-margin-bottom-0'>
+                                    <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br />
                                     by @review.Reviewer
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    &nbsp;
-                                </dd>
+                                </p>
+                            </div>
+                            <div class='govuk-grid-column-one-third govuk-!-text-align-right govuk-body'>
                                 @if (review.ProgressStatusClass == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                                 {
-                                    <dd class="govuk-summary-list__actions govuk-!-width-one-third">
-                                        <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
-                                           asp-route-id="@Model.SupportProject.Id"
-                                           asp-route-reviewId="@review.ReadableId"
-                                           class="govuk-link">Record progress</a>
-                                    </dd>
+                                    <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
+                                       asp-route-id='@Model.SupportProject.Id'
+                                       asp-route-reviewId='@review.ReadableId'
+                                       class='govuk-link'>Record progress</a>
                                 }
                                 else
                                 {
-                                    <dd class="govuk-summary-list__actions govuk-!-width-one-third">
-                                        <a asp-page="@Links.ProgressReviews.ProgressSummary.Page"
-                                           asp-route-id="@Model.SupportProject.Id"
-                                           asp-route-reviewId="@review.ReadableId"
-                                           class="govuk-link">View progress summary</a>
-                                    </dd>
-
+                                    <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
+                                       asp-route-id='@Model.SupportProject.Id'
+                                       asp-route-reviewId='@review.ReadableId'
+                                       class='govuk-link'>View progress review</a>
                                 }
-
                             </div>
-                        </dl>
-                        <p class="govuk-body govuk-!-margin-top-3">
-                            <a asp-page="@Links.ProgressReviews.EditReview.Page"
-                               asp-route-id="@Model.SupportProject.Id"
-                               asp-route-reviewid="@review.ReadableId"
-                               class="govuk-link">Edit review details</a>
+                        </div>
+                        <p class='govuk-body govuk-!-margin-top-2'>
+                            <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                               asp-route-id='@Model.SupportProject.Id'
+                               asp-route-reviewid='@review.ReadableId'
+                               class='govuk-link'>Edit review details</a>
                         </p>
-                    </div>
-                </div>
+                    </section>
+                </article>
             }
 
             <div class="govuk-button-group">
