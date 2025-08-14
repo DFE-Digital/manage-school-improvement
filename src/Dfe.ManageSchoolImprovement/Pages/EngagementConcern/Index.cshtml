@@ -14,7 +14,7 @@
 {
     <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
-         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true)
+         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
              aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -30,6 +30,7 @@
                     @(Model.EngagementConcernUpdated is true ? "Engagement concern updated" : "")
                     @(Model.EngagementConcernRemoved is true ? "Engagement concern removed" : "")
                     @(Model.InformationPowersRecorded is true ? "Use of information powers recorded" : "")
+                    @(Model.InformationPowersUpdated is true ? "Information powers updated" : "")
                     @(Model.InformationPowersRemoved is true ? "Information powers removed" : "")
                 </h3>
             </div>
