@@ -10,7 +10,6 @@ class TaskList {
     return this
   }
 
-  // Assert 'Date Added' matches the expected value
   public hasDateAdded(date: string): this {
     cy.get('.govuk-summary-list__value').eq(0).should("contain.text", date);
     return this;

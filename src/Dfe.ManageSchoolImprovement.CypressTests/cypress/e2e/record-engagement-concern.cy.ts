@@ -3,7 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import { Logger } from "cypress/common/logger";
 
-describe("User navigates to the Engagement Concern tab", () => {
+describe("User navigates to the Engagement Concern tab to record Engagement concern and information powers", () => {
     beforeEach(() => {
         cy.login();
         homePage
