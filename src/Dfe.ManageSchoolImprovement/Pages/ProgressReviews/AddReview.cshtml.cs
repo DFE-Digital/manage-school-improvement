@@ -37,7 +37,7 @@ public class AddReviewModel(
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, int improvementPlanId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
     {
         // Set the return page to the progress reviews index
         ReturnPage = Links.ProgressReviews.Index.Page;
@@ -45,7 +45,7 @@ public class AddReviewModel(
         await base.GetSupportProject(id, cancellationToken);
         SetupRadioButtons();
 
-        var improvementPlan = SupportProject?.ImprovementPlans?.SingleOrDefault(x => x.ReadableId == improvementPlanId);
+        var improvementPlan = SupportProject?.ImprovementPlans?.SingleOrDefault(x => x.ReadableId == readableImprovementPlanId);
 
         if (improvementPlan != null)
         {
@@ -55,7 +55,7 @@ public class AddReviewModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
     {
         // Validate the form
         if (!ReviewDate.HasValue)
@@ -90,8 +90,12 @@ public class AddReviewModel(
         }
 
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
-        var result = await mediator.Send(new AddImprovementPlanReviewCommand(new SupportProjectId(id),
-            new ImprovementPlanId(ImprovementPlanId), reviewer, ReviewDate!.Value), cancellationToken);
+        var result = await mediator.Send(
+            new AddImprovementPlanReviewCommand(
+                new SupportProjectId(id),
+                new ImprovementPlanId(ImprovementPlanId),
+                reviewer,
+                ReviewDate!.Value), cancellationToken);
 
         // get latest version of the support project
         await base.GetSupportProject(id, cancellationToken);
@@ -108,20 +112,28 @@ public class AddReviewModel(
 
         var radioButtons = new List<RadioButtonsLabelViewModel>();
 
-        radioButtons.Add(new RadioButtonsLabelViewModel
+        if (SupportProject != null && SupportProject.AdviserFullName != null)
         {
-            Id = "delivery-officer",
-            Name = SupportProject.AssignedDeliveryOfficerFullName,
-            Value = SupportProject.AssignedDeliveryOfficerFullName
-        });
 
-        radioButtons.Add(new RadioButtonsLabelViewModel
-        {
-            Id = "adviser",
-            Name = SupportProject.AdviserFullName,
-            Value = SupportProject.AdviserFullName
-        });
+            // delivery officer is optional for reviews, so check if they are assigned
+            if (SupportProject.AssignedDeliveryOfficerEmailAddress != null)
+            {
+                radioButtons.Add(new RadioButtonsLabelViewModel
+                {
+                    Id = "delivery-officer",
+                    Name = SupportProject.AssignedDeliveryOfficerFullName,
+                    Value = SupportProject.AssignedDeliveryOfficerFullName
+                });
+            }
 
+            radioButtons.Add(new RadioButtonsLabelViewModel
+            {
+                Id = "adviser",
+                Name = SupportProject.AdviserFullName,
+                Value = SupportProject.AdviserFullName
+            });
+
+        }
 
         // Add "Someone else" option with conditional input
         radioButtons.Add(new RadioButtonsLabelViewModel
@@ -159,5 +171,4 @@ public class AddReviewModel(
 
         return !ModelState.TryGetValue(nameof(CustomReviewerName), out var entry) || entry.Errors.Count == 0;
     }
-
 }

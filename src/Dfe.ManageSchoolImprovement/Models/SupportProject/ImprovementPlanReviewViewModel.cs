@@ -16,6 +16,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string ProgressStatusClass { get; set; } = string.Empty;
         public string ProgressStatus { get; set; } = string.Empty;
 
+        public string Title { get; set; } = string.Empty;
+        public int Order { get; set; }
+
 
         public List<ImprovementPlanObjectiveProgressViewModel> ImprovementPlanObjectiveProgresses { get; set; } = new();
         public DateTime? NextReviewDate { get; private set; }
@@ -58,7 +61,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     .Select(ImprovementPlanObjectiveProgressViewModel.Create)
                     .ToList() ?? new List<ImprovementPlanObjectiveProgressViewModel>(),
                 ProgressStatus = progressStatus,
-                ProgressStatusClass = progressStatusCssClass
+                ProgressStatusClass = progressStatusCssClass,
+                Title = dto.title,
+                Order = dto.order
             };
         }
     }

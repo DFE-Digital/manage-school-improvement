@@ -28,6 +28,7 @@ public class ChangeProgressModel(
     public string ProgressStatus { get; set; } = string.Empty;
 
     [BindProperty]
+    [Required(ErrorMessage = "Enter details about how the school is progressing with this objective")]
     public string ProgressDetails { get; set; } = string.Empty;
 
     public string ObjectiveTitle { get; set; } = string.Empty;
@@ -42,6 +43,7 @@ public class ChangeProgressModel(
     public IList<RadioButtonsLabelViewModel> ProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
+    public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) && ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, CancellationToken cancellationToken)
     {
@@ -138,25 +140,25 @@ public class ChangeProgressModel(
                 Value = "Complete"
             },
             new() {
-                Id = "progressing-well",
-                Name = "Progressing well",
-                Value = "Progressing well"
+                Id = "ahead-of-schedule",
+                Name = "Ahead of schedule",
+                Value = "Ahead of schedule"
             },
             new() {
-                Id = "not-progressing-as-required",
-                Name = "Not progressing as required",
-                Value = "Not progressing as required"
+                Id = "on-schedule",
+                Name = "On schedule",
+                Value = "On schedule"
+            },
+            new() {
+                Id = "behind-schedule",
+                Name = "Behind schedule",
+                Value = "Behind schedule"
             },
             new() {
                 Id = "not-started",
                 Name = "Not started",
                 Value = "Not started"
             },
-            new() {
-                Id = "review-not-taken-place",
-                Name = "Review not taken place",
-                Value = "Review not taken place"
-            }
         };
     }
 }

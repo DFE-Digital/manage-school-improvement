@@ -584,7 +584,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             );
     }
 
-    public void AddImprovementPlanReview(ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanId improvementPlanId, string reviewer, DateTime reviewDate)
+    public void AddImprovementPlanReview(
+        ImprovementPlanReviewId improvementPlanReviewId,
+        ImprovementPlanId improvementPlanId,
+        string reviewer,
+        DateTime reviewDate)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 

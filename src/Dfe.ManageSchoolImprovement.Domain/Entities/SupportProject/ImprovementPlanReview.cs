@@ -5,12 +5,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 {
     public class ImprovementPlanReview : IEntity<ImprovementPlanReviewId>
     {
-        public ImprovementPlanReview(ImprovementPlanReviewId id, ImprovementPlanId improvementPlanId, DateTime reviewDate, string reviewer)
+        public ImprovementPlanReview(
+            ImprovementPlanReviewId id,
+            ImprovementPlanId improvementPlanId,
+            DateTime reviewDate,
+            string reviewer,
+            string title,
+            int order)
         {
             Id = id;
             ImprovementPlanId = improvementPlanId;
             ReviewDate = reviewDate;
             Reviewer = reviewer;
+            Title = title;
+            Order = order;
         }
 
         public ImprovementPlanReviewId Id { get; private set; }
@@ -18,6 +26,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public ImprovementPlanId ImprovementPlanId { get; private set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public int Order { get; set; }
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
         public DateTime? NextReviewDate { get; set; }

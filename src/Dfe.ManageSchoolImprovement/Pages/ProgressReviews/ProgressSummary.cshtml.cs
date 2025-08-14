@@ -78,27 +78,11 @@ public class ProgressSummaryModel(
                         ObjectiveReadableId = obj.ReadableId,
                         Title = obj.Details,
                         Progress = objectiveProgress?.HowIsSchoolProgressing ?? "No progress recorded yet",
-                        Details = objectiveProgress?.ProgressDetails ?? "No progress recorded yet"
+                        Details = objectiveProgress?.ProgressDetails ?? "No details recorded yet"
                     };
                 }).ToList()
             })
             .OrderBy(group => group.AreaOfImprovement)
             .ToList();
-    }
-
-    public class ObjectiveProgressGroup
-    {
-        public string AreaOfImprovement { get; set; } = string.Empty;
-        public List<ObjectiveProgressViewModel> ObjectiveProgresses { get; set; } = [];
-    }
-
-    public class ObjectiveProgressViewModel
-    {
-        public Guid Id { get; set; }
-        public int ReadableId { get; set; }
-        public int ObjectiveReadableId { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Progress { get; set; } = string.Empty;
-        public string Details { get; set; } = string.Empty;
     }
 }

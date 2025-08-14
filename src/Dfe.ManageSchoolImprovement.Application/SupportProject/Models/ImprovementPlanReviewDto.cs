@@ -7,6 +7,8 @@
             DateTime reviewDate,
             DateTime? nextReviewDate,
             string reviewer,
+            string title,
+            int order,
             IEnumerable<ImprovementPlanObjectiveProgressDto> ImprovementPlanObjectiveProgresses = null!
             )
     {

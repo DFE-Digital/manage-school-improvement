@@ -14,4 +14,8 @@
     <Folder Include="Validators\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Utils\Dfe.ManageSchoolImprovement.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 {
@@ -50,7 +51,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 
         public void AddReview(ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
         {
-            _improvementPlanReviews.Add(new ImprovementPlanReview(improvementPlanReviewId, Id, reviewDate, reviewer));
+            var order = _improvementPlanReviews.Count + 1;
+            var title = $"{order.ToOrdinalWord()} Review";
+
+            _improvementPlanReviews.Add(new ImprovementPlanReview(improvementPlanReviewId, Id, reviewDate, reviewer, title, order));
         }
 
         public void AddImprovementPlanObjectiveProgress(ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, ImprovementPlanObjectiveId improvementPlanObjectiveId, string progressStatus, string progressDetails)

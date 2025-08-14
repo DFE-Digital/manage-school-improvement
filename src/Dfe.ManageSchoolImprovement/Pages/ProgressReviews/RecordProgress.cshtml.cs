@@ -34,6 +34,7 @@ public class RecordProgressModel(
     public string ProgressStatus { get; set; } = string.Empty;
 
     [BindProperty]
+    [Required(ErrorMessage = "Enter details about how the school is progressing with this objective")]
     public string ProgressDetails { get; set; } = string.Empty;
 
     public string ObjectiveTitle { get; set; } = string.Empty;
@@ -41,13 +42,16 @@ public class RecordProgressModel(
     public DateTime ReviewDate { get; set; }
     public string ReviewerName { get; set; } = string.Empty;
 
+    public bool ShowSkipObjectiveLink { get; set; } = false;
+
     public string? ProgressStatusErrorMessage { get; set; } = null;
     public bool ShowProgressStatusError => ModelState.ContainsKey(nameof(ProgressStatus)) && ModelState[nameof(ProgressStatus)]?.Errors.Count > 0;
     public IList<RadioButtonsLabelViewModel> ProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
+    public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) && ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
 
-    public async Task<IActionResult> OnGetAsync(int id, int reviewId, int? objectiveId, string? returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int reviewId, int? objectiveId, string? returnPage, bool? enableSkip, CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
@@ -57,6 +61,7 @@ public class RecordProgressModel(
         LoadPageData(reviewId, objectiveId);
         SetupProgressRadioButtons();
 
+        ShowSkipObjectiveLink = enableSkip ?? false;
         return Page();
     }
 
@@ -65,7 +70,22 @@ public class RecordProgressModel(
         ReviewId = reviewId;
         ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == reviewId));
         Review = ImprovementPlan?.ImprovementPlanReviews.Single(x => x.ReadableId == reviewId);
-        var objectives = ImprovementPlan?.ImprovementPlanObjectives.OrderBy(x => x.AreaOfImprovement).ThenBy(x => x.Order).ToList();
+
+        var areaConfigurations = new Dictionary<string, int>
+            {
+                { "Quality of education", 1 },
+                { "Leadership and management", 2 },
+                { "Behaviour and attitudes", 3 },
+                { "Attendance", 4 },
+                { "Personal development", 5 }
+            };
+
+        var objectives = ImprovementPlan.ImprovementPlanObjectives
+            .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
+            .GroupBy(o => o.AreaOfImprovement)
+            .OrderBy(group => areaConfigurations[group.Key])
+            .SelectMany(group => group)
+            .ToList();
 
         if (objectiveId == null)
         {
@@ -90,7 +110,7 @@ public class RecordProgressModel(
         ReviewerName = Review.Reviewer;
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int reviewId, int? objectiveId, string? returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int reviewId, int? objectiveId, string? returnPage, bool? enableSkip, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
@@ -125,7 +145,7 @@ public class RecordProgressModel(
         if (NextObjectiveId.HasValue && returnPage != Links.ProgressReviews.ProgressSummary.Page)
         {
             // Redirect to the next objective
-            return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, objectiveId = NextObjectiveId });
+            return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, objectiveId = NextObjectiveId, enableSkip = enableSkip });
         }
         else
         {
@@ -146,25 +166,25 @@ public class RecordProgressModel(
                 Value = "Complete"
             },
             new() {
-                Id = "progressing-well",
-                Name = "Progressing well",
-                Value = "Progressing well"
+                Id = "ahead-of-schedule",
+                Name = "Ahead of schedule",
+                Value = "Ahead of schedule"
             },
             new() {
-                Id = "not-progressing-as-required",
-                Name = "Not progressing as required",
-                Value = "Not progressing as required"
+                Id = "on-schedule",
+                Name = "On schedule",
+                Value = "On schedule"
+            },
+            new() {
+                Id = "behind-schedule",
+                Name = "Behind schedule",
+                Value = "Behind schedule"
             },
             new() {
                 Id = "not-started",
                 Name = "Not started",
                 Value = "Not started"
             },
-            new() {
-                Id = "review-not-taken-place",
-                Name = "Review not taken place",
-                Value = "Review not taken place"
-            }
         };
     }
 }

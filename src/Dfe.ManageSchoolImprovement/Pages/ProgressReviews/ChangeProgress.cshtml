@@ -39,16 +39,22 @@
                 radio-buttons="@Model.ProgressRadioButtons" 
                 error-message="@Model.ProgressStatusErrorMessage" />
             
-            <div class="govuk-form-group">
+            <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
                     <label class="govuk-label govuk-label--m" for="progress-details">
                         Details
                     </label>
                 </h2>
-                <textarea class="govuk-textarea" 
-                          id="progress-details" 
-                          name="ProgressDetails" 
-                          rows="5" 
+                @if (Model.ShowDetailsError)
+                {
+                    <p id="more-detail-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing with this objective
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
+                          id="progress-details"
+                          name="ProgressDetails"
+                          rows="5"
                           asp-for="@Model.ProgressDetails"></textarea>
             </div>
             

@@ -1,4 +1,5 @@
 @page "/ProgressReviews/{id:int}/RecordProgress"
+@using Dfe.Academisation.ExtensionMethods
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressModel
 @{
     ViewData["Title"] = "Record progress";
@@ -20,51 +21,74 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             @Model.ObjectiveTitle
         </h1>
-        
+
         <!-- Review details box -->
-        <div class="govuk-inset-text">
-            <p class="govuk-body govuk-!-margin-bottom-0">
-                <strong>Reviewed on @Model.ReviewDate.ToString("dd MMMM yyyy")</strong><br>
-                by @Model.ReviewerName
-            </p>
-        </div>
-        
+        <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
+            <div class='govuk-grid-row'>
+                <div class='govuk-grid-column-two-thirds'>
+                    <p class='govuk-body govuk-!-margin-bottom-0'>
+                        <strong>Reviewed on @Model.ReviewDate.ToDateString()</strong><br />
+                        <strong>by</strong> @Model.ReviewerName
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ReviewId" />
             <input type="hidden" asp-for="@Model.NextObjectiveId" />
-            
-            <govuk-radiobuttons-input 
-                heading="How is the school progressing with this objective?"
-                heading-style="govuk-fieldset__legend--m"
-                name="ProgressStatus"
-                asp-for="@Model.ProgressStatus"
-                radio-buttons="@Model.ProgressRadioButtons" 
-                error-message="@Model.ProgressStatusErrorMessage" />
-            
-            <div class="govuk-form-group">
+
+            <govuk-radiobuttons-input heading="How is the school progressing with this objective?"
+                                      heading-style="govuk-fieldset__legend--m"
+                                      name="ProgressStatus"
+                                      asp-for="@Model.ProgressStatus"
+                                      radio-buttons="@Model.ProgressRadioButtons"
+                                      error-message="@Model.ProgressStatusErrorMessage" />
+
+            <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
                     <label class="govuk-label govuk-label--m" for="progress-details">
                         Details
                     </label>
                 </h2>
-                <textarea class="govuk-textarea" 
-                          id="progress-details" 
-                          name="ProgressDetails" 
-                          rows="5" 
+                @if (Model.ShowDetailsError)
+                {
+                    <p id="more-detail-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing with this objective
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
+                          id="progress-details"
+                          name="ProgressDetails"
+                          rows="5"
                           asp-for="@Model.ProgressDetails"></textarea>
             </div>
-            
+
             <div class="govuk-button-group">
                 <button class="govuk-button" type="submit" data-module="govuk-button">
                     Save
                 </button>
-                <a asp-page="@Links.ProgressReviews.RecordProgress.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
-                   asp-route-reviewId="@Model.ReviewId"
-                   asp-route-objectiveId="@Model.NextObjectiveId"
-                   class="govuk-link">
-                    Skip this objective
-                </a>
+                @if (Model.NextObjectiveId == null && Model.ShowSkipObjectiveLink)
+                {
+                    <a asp-page="@Links.ProgressReviews.ProgressSummary.Page"
+                       asp-route-id="@Model.SupportProject.Id"
+                       asp-route-reviewId="@Model.ReviewId"
+                       asp-route-enableskip="true"
+                       class="govuk-link">
+                        Skip this objective
+                    </a>
+                }
+                else if (Model.ShowSkipObjectiveLink)
+                {
+                    <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
+                       asp-route-id="@Model.SupportProject.Id"
+                       asp-route-reviewId="@Model.ReviewId"
+                       asp-route-objectiveId="@Model.NextObjectiveId"
+                       asp-route-enableskip="true"
+                       class="govuk-link">
+                        Skip this objective
+                    </a>
+                }
             </div>
         </form>
     </div>

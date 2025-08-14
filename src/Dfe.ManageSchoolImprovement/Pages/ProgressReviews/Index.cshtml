@@ -20,15 +20,17 @@
 
         @if (Model.NoProgressReviewsRecorded)
         {
-            <div class="govuk-inset-text">
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-2">No progress reviews recorded</h3>
-                <p class="govuk-body govuk-!-margin-bottom-0">You must enter details of a progress review first.</p>
-            </div>
+            <article class="moj-ticket-panel" aria-label="No progress reviews">
+                <section class="moj-ticket-panel__content moj-ticket-panel__content--blue" aria-label="Section 1">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">No progress reviews recorded</h2>
+                    <p class="govuk-body">You must enter details of a progress review first.</p>
+                </section>
+            </article>
 
             <div class="govuk-button-group">
                 <a asp-page="@Links.ProgressReviews.AddReview.Page"
                    asp-route-id="@Model.SupportProject.Id"
-                   asp-route-improvementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                   asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
                    role="button"
                    draggable="false"
                    class="govuk-button"
@@ -72,31 +74,32 @@
             <!-- Progress review cards -->
             @foreach (var review in Model.ProgressReviews)
             {
-                <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.ReviewTitleByReadableId.GetValueOrDefault(review.ReadableId, "Review")'>
+                <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@review.Title'>
                     <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
                         <div class='govuk-grid-row'>
-                            <div class='govuk-grid-column-two-thirds'>
+                            <div class='govuk-grid-column-one-half'>
                                 <h2 class='govuk-heading-s govuk-!-margin-bottom-5'>
-                                    @Model.ReviewTitleByReadableId.GetValueOrDefault(review.ReadableId, "Review")
+                                    @review.Title
                                 </h2>
                             </div>
-                            <div class='govuk-grid-column-one-third govuk-!-text-align-right'>
+                            <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
                                 <strong class='govuk-tag @review.ProgressStatusClass'>@review.ProgressStatus</strong>
                             </div>
                         </div>
                         <div class='govuk-grid-row'>
-                            <div class='govuk-grid-column-two-thirds'>
+                            <div class='govuk-grid-column-one-half'>
                                 <p class='govuk-body govuk-!-margin-bottom-0'>
                                     <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br />
-                                    by @review.Reviewer
+                                    <strong>by</strong> @review.Reviewer
                                 </p>
                             </div>
-                            <div class='govuk-grid-column-one-third govuk-!-text-align-right govuk-body'>
+                            <div class='govuk-grid-column-one-half govuk-!-text-align-right govuk-body'>
                                 @if (review.ProgressStatusClass == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                                 {
                                     <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
                                        asp-route-id='@Model.SupportProject.Id'
                                        asp-route-reviewId='@review.ReadableId'
+                                       asp-route-enableskip="true"
                                        class='govuk-link'>Record progress</a>
                                 }
                                 else
@@ -121,7 +124,7 @@
             <div class="govuk-button-group">
                 <a asp-page="@Links.ProgressReviews.AddReview.Page"
                    asp-route-id="@Model.SupportProject.Id"
-                   asp-route-improvementplanid="@Model.SupportProject.ImprovementPlans!.First().Id"
+                   asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
                    role="button"
                    draggable="false"
                    class="govuk-button"
