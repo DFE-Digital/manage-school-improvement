@@ -85,6 +85,12 @@ class EngagementConcern {
         return this;
     }
 
+    public errorMessage(id: string, message: string): this {
+        cy.getById(id).should('contain', message);
+
+        return this;
+    }
+
     public hasSuccessNotification(expectedMessage: string): this {
         cy.get('.govuk-notification-banner--success')
             .should('be.visible')

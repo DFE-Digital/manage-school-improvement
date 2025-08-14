@@ -29,9 +29,14 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         engagementConcern.clickRecordEngagementConcern()
         engagementConcern.hasTitle('Record engagement concern - Manage school improvement')
         engagementConcern.checkCheckbox('record-engagement-concern')
-        engagementConcern.enterText("engagement-concern-details", "Recording new engagement concern")
+
+        //save without entering details and validate error message
+         engagementConcern.clickSaveAndReturn();
+         engagementConcern.errorMessage('more-detail-error', 'You must enter details')
 
         cy.executeAccessibilityTests()
+
+        engagementConcern.enterText("engagement-concern-details", "Recording new engagement concern")
 
         engagementConcern.clickSaveAndReturn();
         engagementConcern.hasSuccessNotification("Engagement concern recorded");
