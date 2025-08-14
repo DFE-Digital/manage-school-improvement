@@ -16,31 +16,26 @@ class TaskList {
     return this;
   }
 
-  // Assert 'Date of last OFSTED inspection' matches the expected value
   public hasInspectionDate(date: string): this {
     cy.get('.govuk-summary-list__value').eq(1).should("contain.text", date);
     return this;
   }
 
-  // Assert 'Quality of education' matches the expected value
   public hasQualityOfEducation(value: string): this {
     cy.get('.govuk-summary-list__value').eq(2).should("contain.text", value);
     return this;
   }
 
-  // Assert 'Leadership and management' matches the expected value
   public hasLeadershipAndManagement(value: string): this {
     cy.get('.govuk-summary-list__value').eq(3).should("contain.text", value);
     return this;
   }
 
-  // Assert 'Assigned to' matches the expected value
   public hasAssignedTo(value: string): this {
     cy.get('.govuk-summary-list__value').eq(4).should("contain.text", value);
     return this;
   }
 
-  // Assert 'Advised by' matches the expected value
   public hasAdvisedBy(value: string): this {
     cy.get('.govuk-summary-list__value').eq(5).should("contain.text", value);
     return this;
@@ -143,7 +138,7 @@ class TaskList {
   }
 
   public navigateToTab(tabName: string): this {
-    cy.get('.moj-sub-navigation__item')
+    cy.get('.moj-sub-navigation__link')
       .contains(tabName).click();
 
     return this;
