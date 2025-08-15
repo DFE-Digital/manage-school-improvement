@@ -33,6 +33,9 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     [TempData]
     public bool? InformationPowersRemoved { get; set; }
+    
+    [TempData]
+    public bool? InformationPowersUpdated { get; set; }
 
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)

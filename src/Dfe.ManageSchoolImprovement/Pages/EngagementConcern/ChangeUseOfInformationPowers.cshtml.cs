@@ -95,6 +95,8 @@ public class ChangeUseOfInformationPowersModel(
             return Page();
         }
 
+        TempData["InformationPowersUpdated"] = SupportProject.InformationPowersInUse is true && InformationPowersInUse is true &&
+                                               SupportProject.InformationPowersDetails != InformationPowersDetails;
         TempData["InformationPowersRecorded"] = (SupportProject.InformationPowersInUse == null || SupportProject.InformationPowersInUse == false) && InformationPowersInUse == true;
         TempData["InformationPowersRemoved"] = SupportProject.InformationPowersInUse == true && InformationPowersInUse == false;
 
