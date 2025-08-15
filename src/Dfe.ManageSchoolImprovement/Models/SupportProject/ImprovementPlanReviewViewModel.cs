@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public static ImprovementPlanReviewViewModel Create(ImprovementPlanReviewDto dto, ImprovementPlanDto improvementPlanDto)
         {
             var progressStatus = ProgressStatusNotRecorded;
-            var progressStatusCssClass = ProgressStatusNotRecorded;
+            var progressStatusCssClass = "govuk-tag--blue";
 
             if (dto.ImprovementPlanObjectiveProgresses != null && dto.ImprovementPlanObjectiveProgresses.Any())
             {
