@@ -31,23 +31,14 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
 
         private void ConfigureEntities()
         {
-            CreateMap<Domain.Entities.SupportProject.SupportProject, SupportProjectDto>()
-               .ForCtorParam("id", opt =>
-           opt.MapFrom(src => src.Id != null ? src.Id.Value : (int?)null)) // Map Id only if not null
-                .ReverseMap();
-            CreateMap<Domain.Entities.SupportProject.FundingHistory, FundingHistoryDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ReverseMap();
+            ConfigureSupportProject();
+            ConfigureFundingHistory();
+            ConfigureImprovementPlans();
+            ConfgureProgressReviews();
+        }
 
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlan, ImprovementPlanDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ReverseMap();
-
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjective, ImprovementPlanObjectiveDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
-               .ReverseMap();
-
+        private void ConfgureProgressReviews()
+        {
             CreateMap<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto>()
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
                .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
@@ -58,6 +49,32 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
                .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => src.ImprovementPlanReviewId != null ? src.ImprovementPlanReviewId.Value : (Guid?)null))
                .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => src.ImprovementPlanObjectiveId != null ? src.ImprovementPlanObjectiveId.Value : (Guid?)null))
                .ReverseMap();
+        }
+
+        private void ConfigureImprovementPlans()
+        {
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlan, ImprovementPlanDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+               .ReverseMap();
+
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjective, ImprovementPlanObjectiveDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
+               .ReverseMap();
+        }
+
+        private void ConfigureFundingHistory()
+        {
+            CreateMap<Domain.Entities.SupportProject.FundingHistory, FundingHistoryDto>()
+                           .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+                           .ReverseMap();
+        }
+
+        private void ConfigureSupportProject()
+        {
+            CreateMap<Domain.Entities.SupportProject.SupportProject, SupportProjectDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (int?)null)) // Map Id only if not null
+                .ReverseMap();
         }
     }
 }
