@@ -323,7 +323,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var result1 = await handler.Handle(command, _cancellationToken);
 
             // Reset the mock for second call
-            SetupMockSupportProject();
             var result2 = await handler.Handle(command, _cancellationToken);
 
             // Assert
