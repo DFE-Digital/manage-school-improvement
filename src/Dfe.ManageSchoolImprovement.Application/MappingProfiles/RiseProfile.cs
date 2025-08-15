@@ -4,52 +4,108 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
 {
-
     public class RiseProfile : Profile
     {
         public RiseProfile()
         {
-            // Explicit mapping from SupportProjectId to int and vice versa
-            CreateMap<SupportProjectId, int>()
-                .ConvertUsing(src => src.Value);
+            ConfigureValueObjectMappings();
+            ConfigureEntityMappings();
+        }
 
-            CreateMap<int, SupportProjectId>()
-                .ConvertUsing(value => new SupportProjectId(value));
+        private void ConfigureValueObjectMappings()
+        {
+            // SupportProjectId mappings
+            CreateValueObjectMapping<SupportProjectId, int>();
 
+            // FundingHistoryId mappings  
+            CreateValueObjectMapping<FundingHistoryId, Guid>();
+        }
+
+        private void ConfigureEntityMappings()
+        {
+            // SupportProject mapping (special case with int ID)
             CreateMap<Domain.Entities.SupportProject.SupportProject, SupportProjectDto>()
-               .ForCtorParam("id", opt =>
-           opt.MapFrom(src => src.Id != null ? src.Id.Value : (int?)null)) // Map Id only if not null
+                .ForCtorParam("id", opt => opt.MapFrom(src => ExtractNullableValue<SupportProjectId, int>(src.Id)))
                 .ReverseMap();
 
-            CreateMap<FundingHistoryId, Guid>()
-                .ConvertUsing(src => src.Value);
+            // Entities with Guid-based IDs
+            CreateEntityMapping<Domain.Entities.SupportProject.FundingHistory, FundingHistoryDto, FundingHistoryId>();
 
-            CreateMap<Guid, FundingHistoryId>()
-                .ConvertUsing(value => new FundingHistoryId(value));
+            CreateEntityMapping<Domain.Entities.SupportProject.ImprovementPlan, ImprovementPlanDto, ImprovementPlanId>();
 
-            CreateMap<Domain.Entities.SupportProject.FundingHistory, FundingHistoryDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ReverseMap();
+            CreateEntityMappingWithParent<Domain.Entities.SupportProject.ImprovementPlanObjective, ImprovementPlanObjectiveDto, ImprovementPlanObjectiveId>(
+                "improvementPlanId", src => ExtractNullableValue<ImprovementPlanId, Guid>(src.ImprovementPlanId));
 
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlan, ImprovementPlanDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ReverseMap();
+            CreateEntityMappingWithParent<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto, ImprovementPlanReviewId>(
+                "improvementPlanId", src => ExtractNullableValue<ImprovementPlanId, Guid>(src.ImprovementPlanId));
 
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjective, ImprovementPlanObjectiveDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
-               .ReverseMap();
+            CreateEntityMappingWithMultipleParents<Domain.Entities.SupportProject.ImprovementPlanObjectiveProgress, ImprovementPlanObjectiveProgressDto, ImprovementPlanObjectiveProgressId>();
+        }
 
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
-               .ReverseMap();
+        private void CreateValueObjectMapping<TValueObject, TPrimitive>()
+            where TValueObject : class
+        {
+            CreateMap<TValueObject, TPrimitive>()
+                .ConvertUsing(src => (TPrimitive)src.GetType().GetProperty("Value")!.GetValue(src)!);
 
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjectiveProgress, ImprovementPlanObjectiveProgressDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => src.ImprovementPlanReviewId != null ? src.ImprovementPlanReviewId.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => src.ImprovementPlanObjectiveId != null ? src.ImprovementPlanObjectiveId.Value : (Guid?)null))
-               .ReverseMap();
+            CreateMap<TPrimitive, TValueObject>()
+                .ConvertUsing(value => (TValueObject)Activator.CreateInstance(typeof(TValueObject), value)!);
+        }
+
+        private void CreateEntityMapping<TEntity, TDto, TId>(string? additionalParamName = null, Func<TEntity, object?>? additionalParamMapping = null)
+            where TEntity : class
+            where TDto : class
+        {
+            var mapping = CreateMap<TEntity, TDto>()
+                .ForCtorParam("id", opt => opt.MapFrom(src => ExtractNullableValue<TId, Guid>(GetEntityId<TEntity, TId>(src))));
+
+            if (additionalParamName != null && additionalParamMapping != null)
+            {
+                mapping.ForCtorParam(additionalParamName, opt => opt.MapFrom(additionalParamMapping));
+            }
+
+            mapping.ReverseMap();
+        }
+
+        private void CreateEntityMappingWithParent<TEntity, TDto, TId>(string parentParamName, Func<TEntity, object?> parentMapping)
+            where TEntity : class
+            where TDto : class
+        {
+            CreateMap<TEntity, TDto>()
+                .ForCtorParam("id", opt => opt.MapFrom(src => ExtractNullableValue<TId, Guid>(GetEntityId<TEntity, TId>(src))))
+                .ForCtorParam(parentParamName, opt => opt.MapFrom(parentMapping))
+                .ReverseMap();
+        }
+
+        private void CreateEntityMappingWithMultipleParents<TEntity, TDto, TId>()
+            where TEntity : class
+            where TDto : class
+        {
+            CreateMap<TEntity, TDto>()
+                .ForCtorParam("id", opt => opt.MapFrom(src => ExtractNullableValue<TId, Guid>(GetEntityId<TEntity, TId>(src))))
+                .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => ExtractNullableValue<ImprovementPlanReviewId, Guid>(GetPropertyValue<TEntity, ImprovementPlanReviewId>(src, "ImprovementPlanReviewId"))))
+                .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => ExtractNullableValue<ImprovementPlanObjectiveId, Guid>(GetPropertyValue<TEntity, ImprovementPlanObjectiveId>(src, "ImprovementPlanObjectiveId"))))
+                .ReverseMap();
+        }
+
+        private static TId? GetEntityId<TEntity, TId>(TEntity entity) where TEntity : class
+        {
+            return GetPropertyValue<TEntity, TId>(entity, "Id");
+        }
+
+        private static TProperty? GetPropertyValue<TEntity, TProperty>(TEntity entity, string propertyName) where TEntity : class
+        {
+            var property = typeof(TEntity).GetProperty(propertyName);
+            return property != null ? (TProperty?)property.GetValue(entity) : default;
+        }
+
+        private static TPrimitive? ExtractNullableValue<TValueObject, TPrimitive>(TValueObject? valueObject)
+            where TPrimitive : struct
+        {
+            if (valueObject == null) return null;
+
+            var valueProperty = typeof(TValueObject).GetProperty("Value");
+            return valueProperty != null ? (TPrimitive?)valueProperty.GetValue(valueObject) : null;
         }
     }
 }
