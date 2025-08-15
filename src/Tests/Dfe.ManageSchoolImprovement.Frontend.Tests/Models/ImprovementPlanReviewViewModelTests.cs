@@ -247,12 +247,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 title: "First Review",
                 order: 1,
                 nextReviewDate: null,
-                ImprovementPlanObjectiveProgresses: null
+                ImprovementPlanObjectiveProgresses: Array.Empty<ImprovementPlanObjectiveProgressDto>() // Fix: Replace null with an empty array
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>

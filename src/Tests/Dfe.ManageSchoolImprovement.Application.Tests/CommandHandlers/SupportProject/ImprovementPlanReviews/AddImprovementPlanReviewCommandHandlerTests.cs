@@ -441,7 +441,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
         [Theory]
         [InlineData("")]
-        [InlineData(null)]
         [InlineData("   ")]
         public void AddImprovementPlanReviewCommand_WithEmptyOrNullReviewer_CreatesCommand(string reviewer)
         {

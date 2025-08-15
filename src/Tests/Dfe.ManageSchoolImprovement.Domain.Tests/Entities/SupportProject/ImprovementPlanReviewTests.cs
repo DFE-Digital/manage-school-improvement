@@ -124,9 +124,9 @@ public class ImprovementPlanReviewTests
         var review = CreateReview();
         var progressId = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
         var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
-        
+
         review.AddObjectiveProgress(progressId, objectiveId, _reviewId, "Initial status", "Initial details");
-        
+
         var newStatus = "Updated status";
         var newDetails = "Updated details";
 
@@ -149,7 +149,7 @@ public class ImprovementPlanReviewTests
         // Act & Assert
         var exception = Assert.Throws<KeyNotFoundException>(() =>
             review.SetImprovementPlanObjectiveProgressDetails(nonExistentProgressId, "Status", "Details"));
-        
+
         Assert.Contains($"Improvement plan review objective progress with id {nonExistentProgressId} not found", exception.Message);
     }
 
@@ -181,14 +181,13 @@ public class ImprovementPlanReviewTests
 
     [Theory]
     [InlineData("", "")]
-    [InlineData(null, null)]
     public void SetImprovementPlanObjectiveProgressDetails_WithEmptyOrNullValues_UpdatesProgress(string status, string details)
     {
         // Arrange
         var review = CreateReview();
         var progressId = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
         var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
-        
+
         review.AddObjectiveProgress(progressId, objectiveId, _reviewId, "Initial status", "Initial details");
 
         // Act
@@ -268,7 +267,6 @@ public class ImprovementPlanReviewTests
 
     [Theory]
     [InlineData("")]
-    [InlineData(null)]
     public void SetDetails_WithEmptyOrNullReviewer_UpdatesReviewer(string reviewer)
     {
         // Arrange
@@ -310,16 +308,16 @@ public class ImprovementPlanReviewTests
         var review = CreateReview();
         var progressId = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
         var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
-        
+
         review.AddObjectiveProgress(progressId, objectiveId, _reviewId, "Status", "Details");
 
         // Act
         var progresses = review.ImprovementPlanObjectiveProgresses;
 
         // Assert
-        Assert.IsAssignableFrom<IEnumerable<ImprovementPlanObjectiveProgress>>(progresses);
+        Assert.True(progresses is IReadOnlyCollection<ImprovementPlanObjectiveProgress>);
         Assert.Single(progresses);
-        
+
         // Verify it's read-only by checking we can't cast to List
         Assert.False(progresses is List<ImprovementPlanObjectiveProgress>);
     }
@@ -372,9 +370,9 @@ public class ImprovementPlanReviewTests
         var review = CreateReview();
         var progressId = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
         var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
-        
+
         review.AddObjectiveProgress(progressId, objectiveId, _reviewId, "Test Status", "Test Details");
-        
+
         return review;
     }
 

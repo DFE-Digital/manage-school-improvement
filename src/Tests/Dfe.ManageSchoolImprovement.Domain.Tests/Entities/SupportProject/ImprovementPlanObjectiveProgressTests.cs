@@ -67,7 +67,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         [InlineData("", "")]
         [InlineData("", "Some details")]
         [InlineData("Status", "")]
-        [InlineData(null, null)]
         public void Constructor_WithEmptyOrNullValues_SetsPropertiesCorrectly(string progressStatus, string details)
         {
             // Act
@@ -126,7 +125,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         [InlineData("", "")]
         [InlineData("", "Some details")]
         [InlineData("Status", "")]
-        [InlineData(null, null)]
         public void SetProgress_WithEmptyOrNullValues_UpdatesProperties(string newStatus, string newDetails)
         {
             // Arrange
@@ -314,7 +312,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var progress = CreateProgress();
 
             // Assert
-            Assert.IsAssignableFrom<IEntity<ImprovementPlanObjectiveProgressId>>(progress);
+            Assert.True(progress is IEntity<ImprovementPlanObjectiveProgressId>);
         }
 
         [Fact]

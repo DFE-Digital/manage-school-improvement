@@ -636,7 +636,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var reviews = _improvementPlan.ImprovementPlanReviews;
 
             // Assert
-            Assert.IsAssignableFrom<IEnumerable<ImprovementPlanReview>>(reviews);
+            Assert.True(reviews is IReadOnlyCollection<ImprovementPlanReview>);
             Assert.Single(reviews);
 
             // Verify it's read-only by checking we can't cast to List

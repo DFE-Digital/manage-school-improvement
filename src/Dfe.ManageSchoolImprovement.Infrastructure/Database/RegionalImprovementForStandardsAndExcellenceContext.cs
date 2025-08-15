@@ -149,7 +149,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .IsRequired();
     }
 
-    private void ConfigureImprovementPlanObjectiveProgress(EntityTypeBuilder<ImprovementPlanObjectiveProgress> builder)
+    private static void ConfigureImprovementPlanObjectiveProgress(EntityTypeBuilder<ImprovementPlanObjectiveProgress> builder)
     {
         builder.ToTable("ImprovementPlanObjectiveProgresses", DefaultSchema, b => b.IsTemporal());
         builder.HasKey(a => a.Id);
@@ -168,7 +168,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
                 v => new ImprovementPlanReviewId(v));
     }
 
-    private void ConfigureImprovementPlanReview(EntityTypeBuilder<ImprovementPlanReview> builder)
+    private static void ConfigureImprovementPlanReview(EntityTypeBuilder<ImprovementPlanReview> builder)
     {
         builder.ToTable("ImprovementPlanReviews", DefaultSchema, b => b.IsTemporal());
         builder.HasKey(a => a.Id);
