@@ -530,7 +530,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
     {
-        _improvementPlans.Add(new ImprovementPlan(improvementPlanId, supportProjectId));
+        if (!_improvementPlans.Any(x => x.Id == improvementPlanId))
+        {
+            _improvementPlans.Add(new ImprovementPlan(improvementPlanId, supportProjectId));
+        }
     }
 
     public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)

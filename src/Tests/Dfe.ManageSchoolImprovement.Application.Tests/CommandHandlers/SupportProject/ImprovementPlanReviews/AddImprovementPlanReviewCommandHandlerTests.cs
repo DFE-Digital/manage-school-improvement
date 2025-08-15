@@ -1,30 +1,26 @@
 using AutoFixture;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
 
-namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.ImprovementPlans
+namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.ImprovementPlanReviews
 {
-    public class AddImprovementPlanObjectiveProgressCommandHandlerTests
+    public class AddImprovementPlanReviewCommandHandlerTests
     {
         private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
         private readonly CancellationToken _cancellationToken;
         private readonly Fixture _fixture;
         private readonly Domain.Entities.SupportProject.SupportProject _mockSupportProject;
         private readonly ImprovementPlanId _improvementPlanId;
-        private readonly ImprovementPlanReviewId _improvementPlanReviewId;
-        private readonly ImprovementPlanObjectiveId _improvementPlanObjectiveId;
 
-        public AddImprovementPlanObjectiveProgressCommandHandlerTests()
+        public AddImprovementPlanReviewCommandHandlerTests()
         {
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
             _cancellationToken = CancellationToken.None;
             _fixture = new Fixture();
             _mockSupportProject = _fixture.Create<Domain.Entities.SupportProject.SupportProject>();
             _improvementPlanId = new ImprovementPlanId(Guid.NewGuid());
-            _improvementPlanReviewId = new ImprovementPlanReviewId(Guid.NewGuid());
-            _improvementPlanObjectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
 
             // Set up the support project with the required improvement plan structure
             SetupMockSupportProject();
@@ -34,47 +30,33 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Add improvement plan to the support project
             _mockSupportProject.AddImprovementPlan(_improvementPlanId, _mockSupportProject.Id);
-
-            // Add an objective to the improvement plan
-            _mockSupportProject.AddImprovementPlanObjective(
-                _improvementPlanObjectiveId,
-                _improvementPlanId,
-                "Quality of education",
-                "Test objective");
-
-            // Add a review to the improvement plan
-            _mockSupportProject.AddImprovementPlanReview(
-                _improvementPlanReviewId,
-                _improvementPlanId,
-                "Test Reviewer",
-                DateTime.UtcNow);
         }
 
         [Fact]
-        public async Task Handle_ValidCommand_CreatesImprovementPlanObjectiveProgress()
+        public async Task Handle_ValidCommand_CreatesImprovementPlanReview()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var reviewer = "Test Reviewer";
+            var reviewDate = DateTime.UtcNow.Date;
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Good progress has been made"
+                reviewer,
+                reviewDate
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<ImprovementPlanObjectiveProgressId>(result);
+            Assert.IsType<ImprovementPlanReviewId>(result);
             _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
                 It.Is<SupportProjectId>(id => id == _mockSupportProject.Id),
                 _cancellationToken), Times.Once);
@@ -84,38 +66,34 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Theory]
-        [InlineData("On track", "Making excellent progress")]
-        [InlineData("Behind", "Some challenges encountered")]
-        [InlineData("At risk", "Significant issues need addressing")]
-        [InlineData("Complete", "All objectives have been met")]
-        [InlineData("Not started", "Objective not yet begun")]
-        [InlineData("", "Valid details with empty status")]
-        [InlineData("On track", "")]
-        [InlineData("", "")]
-        public async Task Handle_ValidCommandWithDifferentProgressStatuses_CreatesObjectiveProgress(string progressStatus, string progressDetails)
+        [InlineData("John Smith", "2024-01-15")]
+        [InlineData("Jane Doe", "2024-02-20")]
+        [InlineData("Dr. Williams", "2024-03-10")]
+        [InlineData("", "2024-04-05")]
+        [InlineData("Very Long Reviewer Name With Multiple Words", "2024-05-25")]
+        public async Task Handle_ValidCommandWithDifferentReviewers_CreatesReview(string reviewer, string reviewDateString)
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var reviewDate = DateTime.Parse(reviewDateString);
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                progressStatus,
-                progressDetails
+                reviewer,
+                reviewDate
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<ImprovementPlanObjectiveProgressId>(result);
+            Assert.IsType<ImprovementPlanReviewId>(result);
         }
 
         [Fact]
@@ -123,20 +101,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var nonExistentId = new SupportProjectId(999);
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 nonExistentId,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Test progress"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == nonExistentId), _cancellationToken))
                 .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
@@ -149,20 +125,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_RepositoryThrowsException_ExceptionPropagates()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Test progress"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.IsAny<SupportProjectId>(), _cancellationToken))
                 .ThrowsAsync(new InvalidOperationException("Database error"));
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
             await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -173,20 +147,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidCommand_UpdateAsyncCalledOnlyOnce()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Test progress"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             await handler.Handle(command, _cancellationToken);
@@ -198,23 +170,21 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Fact]
-        public async Task Handle_ValidCommand_ReturnsValidProgressId()
+        public async Task Handle_ValidCommand_ReturnsValidReviewId()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Detailed progress information for the objective"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -228,20 +198,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidCommand_CallsRepositoryMethodsInCorrectOrder()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Test progress"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             await handler.Handle(command, _cancellationToken);
@@ -256,74 +224,66 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Fact]
-        public async Task Handle_ValidCommand_AddsObjectiveProgressWithCorrectParameters()
+        public async Task Handle_ValidCommand_AddsReviewWithCorrectParameters()
         {
             // Arrange
-            var progressStatus = "On track";
-            var progressDetails = "Making good progress";
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var reviewer = "Dr. Smith";
+            var reviewDate = DateTime.UtcNow.Date;
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                progressStatus,
-                progressDetails
+                reviewer,
+                reviewDate
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
-            // Get the initial count of objective progresses in the review
+            // Get the initial count of reviews in the improvement plan
             var improvementPlan = _mockSupportProject.ImprovementPlans.First(ip => ip.Id == _improvementPlanId);
-            var review = improvementPlan.ImprovementPlanReviews.First(r => r.Id == _improvementPlanReviewId);
-            var initialProgressCount = review.ImprovementPlanObjectiveProgresses.Count();
+            var initialReviewCount = improvementPlan.ImprovementPlanReviews.Count();
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<ImprovementPlanObjectiveProgressId>(result);
+            Assert.IsType<ImprovementPlanReviewId>(result);
 
-            // Verify that a new objective progress was added
-            var finalProgressCount = review.ImprovementPlanObjectiveProgresses.Count();
-            Assert.Equal(initialProgressCount + 1, finalProgressCount);
+            // Verify that a new review was added
+            var finalReviewCount = improvementPlan.ImprovementPlanReviews.Count();
+            Assert.Equal(initialReviewCount + 1, finalReviewCount);
 
-            // Verify the added progress has the correct properties
-            var addedProgress = review.ImprovementPlanObjectiveProgresses.Last();
-            Assert.Equal(progressStatus, addedProgress.HowIsSchoolProgressing);
-            Assert.Equal(progressDetails, addedProgress.ProgressDetails);
-            Assert.Equal(_improvementPlanObjectiveId, addedProgress.ImprovementPlanObjectiveId);
-            Assert.Equal(_improvementPlanReviewId, addedProgress.ImprovementPlanReviewId);
+            // Verify the added review has the correct properties
+            var addedReview = improvementPlan.ImprovementPlanReviews.Last();
+            Assert.Equal(reviewer, addedReview.Reviewer);
+            Assert.Equal(reviewDate, addedReview.ReviewDate);
+            Assert.Equal(_improvementPlanId, addedReview.ImprovementPlanId);
         }
 
         [Fact]
-        public async Task Handle_ValidCommand_GeneratesUniqueProgressId()
+        public async Task Handle_ValidCommand_GeneratesUniqueReviewId()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Good progress"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result1 = await handler.Handle(command, _cancellationToken);
 
-            // Reset the mock for second call
-            SetupMockSupportProject();
             var result2 = await handler.Handle(command, _cancellationToken);
 
             // Assert
@@ -331,44 +291,66 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Fact]
-        public async Task Handle_WithLongProgressDetails_CreatesObjectiveProgress()
+        public async Task Handle_WithPastReviewDate_CreatesReview()
         {
             // Arrange
-            var longProgressDetails = new string('A', 2000); // Very long string
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var pastDate = DateTime.UtcNow.AddDays(-30);
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                longProgressDetails
+                "Past Reviewer",
+                pastDate
             );
 
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
                 .ReturnsAsync(_mockSupportProject);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<ImprovementPlanObjectiveProgressId>(result);
+            Assert.IsType<ImprovementPlanReviewId>(result);
+        }
+
+        [Fact]
+        public async Task Handle_WithFutureReviewDate_CreatesReview()
+        {
+            // Arrange
+            var futureDate = DateTime.UtcNow.AddDays(30);
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
+                _mockSupportProject.Id,
+                _improvementPlanId,
+                "Future Reviewer",
+                futureDate
+            );
+
+            _mockSupportProjectRepository
+                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
+                .ReturnsAsync(_mockSupportProject);
+
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
+
+            // Act
+            var result = await handler.Handle(command, _cancellationToken);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ImprovementPlanReviewId>(result);
         }
 
         [Fact]
         public async Task Handle_UpdateAsyncFails_PropagatesException()
         {
             // Arrange
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Good progress"
+                "Test Reviewer",
+                DateTime.UtcNow
             );
 
             _mockSupportProjectRepository
@@ -380,7 +362,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 .Setup(repo => repo.UpdateAsync(_mockSupportProject, _cancellationToken))
                 .ThrowsAsync(expectedException);
 
-            var handler = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
             var actualException = await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -389,36 +371,90 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
+        [Fact]
+        public async Task Handle_MultipleCalls_CreatesMultipleReviews()
+        {
+            // Arrange
+            var command1 = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
+                _mockSupportProject.Id,
+                _improvementPlanId,
+                "First Reviewer",
+                DateTime.UtcNow.AddDays(-1)
+            );
+            var command2 = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
+                _mockSupportProject.Id,
+                _improvementPlanId,
+                "Second Reviewer",
+                DateTime.UtcNow
+            );
+
+            _mockSupportProjectRepository
+                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), _cancellationToken))
+                .ReturnsAsync(_mockSupportProject);
+
+            var handler = new AddImprovementPlanReview.AddImprovementPlanReviewCommandCommandHandler(_mockSupportProjectRepository.Object);
+
+            // Act
+            var result1 = await handler.Handle(command1, _cancellationToken);
+            var result2 = await handler.Handle(command2, _cancellationToken);
+
+            // Assert
+            Assert.NotNull(result1);
+            Assert.NotNull(result2);
+            Assert.NotEqual(result1.Value, result2.Value);
+
+            var improvementPlan = _mockSupportProject.ImprovementPlans.First(ip => ip.Id == _improvementPlanId);
+            Assert.Equal(2, improvementPlan.ImprovementPlanReviews.Count());
+        }
+
         #region Command Tests
 
         [Fact]
-        public void AddImprovementPlanObjectiveProgressCommand_WithValidParameters_CreatesCommand()
+        public void AddImprovementPlanReviewCommand_WithValidParameters_CreatesCommand()
         {
-            // Arrange & Act
-            var command = new AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand(
+            // Arrange
+            var reviewer = "Test Reviewer";
+            var reviewDate = DateTime.UtcNow;
+
+            // Act
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
                 _mockSupportProject.Id,
                 _improvementPlanId,
-                _improvementPlanReviewId,
-                _improvementPlanObjectiveId,
-                "On track",
-                "Good progress"
+                reviewer,
+                reviewDate
             );
 
             // Assert
             Assert.Equal(_mockSupportProject.Id, command.SupportProjectId);
             Assert.Equal(_improvementPlanId, command.ImprovementPlanId);
-            Assert.Equal(_improvementPlanReviewId, command.ImprovementPlanReviewId);
-            Assert.Equal(_improvementPlanObjectiveId, command.ImprovementPlanObjectiveId);
-            Assert.Equal("On track", command.progressStatus);
-            Assert.Equal("Good progress", command.progressDetails);
+            Assert.Equal(reviewer, command.Reviewer);
+            Assert.Equal(reviewDate, command.ReviewDate);
         }
 
         [Fact]
-        public void AddImprovementPlanObjectiveProgressCommand_ImplementsIRequest()
+        public void AddImprovementPlanReviewCommand_ImplementsIRequest()
         {
             // Assert
-            Assert.True(typeof(AddImprovementPlanObjectiveProgress.AddImprovementPlanObjectiveProgressCommand)
-                .IsAssignableTo(typeof(MediatR.IRequest<ImprovementPlanObjectiveProgressId>)));
+            Assert.True(typeof(AddImprovementPlanReview.AddImprovementPlanReviewCommand)
+                .IsAssignableTo(typeof(MediatR.IRequest<ImprovementPlanReviewId>)));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("   ")]
+        public void AddImprovementPlanReviewCommand_WithEmptyOrNullReviewer_CreatesCommand(string reviewer)
+        {
+            // Arrange & Act
+            var command = new AddImprovementPlanReview.AddImprovementPlanReviewCommand(
+                _mockSupportProject.Id,
+                _improvementPlanId,
+                reviewer,
+                DateTime.UtcNow
+            );
+
+            // Assert
+            Assert.Equal(reviewer, command.Reviewer);
         }
 
         #endregion
