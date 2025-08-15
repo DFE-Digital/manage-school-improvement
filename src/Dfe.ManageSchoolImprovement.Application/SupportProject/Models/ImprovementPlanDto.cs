@@ -4,7 +4,8 @@
             int readableId,
             int supportProjectId,
             bool? objectivesSectionComplete,
-            IEnumerable<ImprovementPlanObjectiveDto> ImprovementPlanObjectives = null!
+            IEnumerable<ImprovementPlanObjectiveDto> ImprovementPlanObjectives = null!,
+            IEnumerable<ImprovementPlanReviewDto> ImprovementPlanReviews = null!
             )
     {
     }

@@ -1,0 +1,142 @@
+@page "/ProgressReviews/{id:int}"
+@using Dfe.Academisation.ExtensionMethods
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
+@{
+    ViewData["Title"] = "Progress reviews";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">Plan progress</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Progress reviews
+        </h1>
+
+        @if (Model.NoProgressReviewsRecorded)
+        {
+            <article class="moj-ticket-panel" aria-label="No progress reviews">
+                <section class="moj-ticket-panel__content moj-ticket-panel__content--blue" aria-label="Section 1">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">No progress reviews recorded</h2>
+                    <p class="govuk-body">You must enter details of a progress review first.</p>
+                </section>
+            </article>
+
+            <div class="govuk-button-group">
+                <a asp-page="@Links.ProgressReviews.AddReview.Page"
+                   asp-route-id="@Model.SupportProject.Id"
+                   asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                   role="button"
+                   draggable="false"
+                   class="govuk-button"
+                   data-module="govuk-button">
+                    Add review
+                </a>
+                <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                   asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">
+                    Return to improvement plan
+                </a>
+            </div>
+        }
+        else
+        {
+            <!-- No more reviews needed section -->
+            <div class="govuk-inset-text govuk-!-margin-bottom-6">
+                @if (Model.CurrentProgressReview?.NextReviewDate is null)
+                {
+                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h3>
+                    <p class="govuk-body govuk-!-margin-bottom-2">
+                        <a asp-page="@Links.ProgressReviews.NextReview.Page"
+                           asp-route-id="@Model.SupportProject.Id"
+                           asp-route-reviewid="@Model.CurrentProgressReview.ReadableId"
+                           class="govuk-link">Add next review date</a>
+                    </p>
+                }
+                else
+                {
+                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">The next review should happen on or around <strong>@Model.CurrentProgressReview.NextReviewDate.ToDateString()</strong></h3>
+                    <p class="govuk-body govuk-!-margin-bottom-2">
+                        <a asp-page="@Links.ProgressReviews.NextReview.Page"
+                           asp-route-id="@Model.SupportProject.Id"
+                           asp-route-reviewid="@Model.CurrentProgressReview.ReadableId"
+                           class="govuk-link">Change next review date</a>
+                    </p>
+                }
+
+            </div>
+
+            <!-- Progress review cards -->
+            @foreach (var review in Model.ProgressReviews)
+            {
+                <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@review.Title'>
+                    <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
+                        <div class='govuk-grid-row'>
+                            <div class='govuk-grid-column-one-half'>
+                                <h2 class='govuk-heading-s govuk-!-margin-bottom-5'>
+                                    @review.Title
+                                </h2>
+                            </div>
+                            <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
+                                <strong class='govuk-tag @review.ProgressStatusClass'>@review.ProgressStatus</strong>
+                            </div>
+                        </div>
+                        <div class='govuk-grid-row'>
+                            <div class='govuk-grid-column-one-half'>
+                                <p class='govuk-body govuk-!-margin-bottom-0'>
+                                    <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br />
+                                    <strong>by</strong> @review.Reviewer
+                                </p>
+                            </div>
+                            <div class='govuk-grid-column-one-half govuk-!-text-align-right govuk-body'>
+                                @if (review.ProgressStatusClass == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
+                                {
+                                    <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
+                                       asp-route-id='@Model.SupportProject.Id'
+                                       asp-route-reviewId='@review.ReadableId'
+                                       asp-route-enableskip="true"
+                                       class='govuk-link'>Record progress</a>
+                                }
+                                else
+                                {
+                                    <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
+                                       asp-route-id='@Model.SupportProject.Id'
+                                       asp-route-reviewId='@review.ReadableId'
+                                       class='govuk-link'>View progress review</a>
+                                }
+                            </div>
+                        </div>
+                        <p class='govuk-body govuk-!-margin-top-2'>
+                            <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                               asp-route-id='@Model.SupportProject.Id'
+                               asp-route-reviewid='@review.ReadableId'
+                               class='govuk-link'>Edit review details</a>
+                        </p>
+                    </section>
+                </article>
+            }
+
+            <div class="govuk-button-group">
+                <a asp-page="@Links.ProgressReviews.AddReview.Page"
+                   asp-route-id="@Model.SupportProject.Id"
+                   asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                   role="button"
+                   draggable="false"
+                   class="govuk-button"
+                   data-module="govuk-button">
+                    Add review
+                </a>
+                <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                   asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">
+                    Return to improvement plan
+                </a>
+            </div>
+        }
+    </div>
+</div> 

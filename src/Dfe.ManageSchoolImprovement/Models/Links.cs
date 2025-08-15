@@ -52,7 +52,7 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/OfstedReports/Index");
     }
-    
+
     public static class TaskList
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/TaskList/Index");
@@ -128,6 +128,17 @@ public static class Links
         public static readonly LinkItem EditAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/EditAnObjective");
         public static readonly LinkItem ImprovementPlanTab = AddLinkItem(backText: "Back", page: "/ImprovementPlan/ImprovementPlanTab");
 
+    }
+
+    public static class ProgressReviews
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProgressReviews/Index");
+        public static readonly LinkItem AddReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/AddReview");
+        public static readonly LinkItem EditReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/EditReview");
+        public static readonly LinkItem RecordProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgress");
+        public static readonly LinkItem ChangeProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/ChangeProgress");
+        public static readonly LinkItem ProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/ProgressSummary");
+        public static readonly LinkItem NextReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/NextReview");
     }
 
     public static class Public

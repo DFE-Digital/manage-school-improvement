@@ -530,7 +530,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
     {
-        _improvementPlans.Add(new ImprovementPlan(improvementPlanId, supportProjectId));
+        if (!_improvementPlans.Any(x => x.Id == improvementPlanId))
+        {
+            _improvementPlans.Add(new ImprovementPlan(improvementPlanId, supportProjectId));
+        }
     }
 
     public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)
@@ -582,6 +585,80 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             improvementPlanObjectiveId,
             details
             );
+    }
+
+    public void AddImprovementPlanReview(
+        ImprovementPlanReviewId improvementPlanReviewId,
+        ImprovementPlanId improvementPlanId,
+        string reviewer,
+        DateTime reviewDate)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.AddReview(improvementPlanReviewId, reviewer, reviewDate);
+
+
+    }
+
+    public void AddImprovementPlanObjectiveProgress(
+        ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId,
+        ImprovementPlanId improvementPlanId,
+        ImprovementPlanReviewId improvementPlanReviewId,
+        ImprovementPlanObjectiveId improvementPlanObjectiveId,
+        string progressStatus,
+        string progressDetails)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.AddImprovementPlanObjectiveProgress(improvementPlanReviewId,
+            improvementPlanObjectiveProgressId, improvementPlanObjectiveId, progressStatus, progressDetails);
+    }
+
+    public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus, string progressDetails)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetImprovementPlanObjectiveProgressDetails(improvementPlanReviewId,
+            improvementPlanObjectiveProgressId, progressStatus, progressDetails);
+    }
+
+    public void SetImprovementPlanReviewNextReviewDate(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, DateTime? nextReviewDate)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetNextReviewDate(improvementPlanReviewId, nextReviewDate);
+    }
+
+    public void SetImprovementPlanReviewDetails(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetImprovementPlanReviewDetails(improvementPlanReviewId, reviewer, reviewDate);
     }
 
     #endregion
