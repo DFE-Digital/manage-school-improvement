@@ -66,11 +66,12 @@ jobs:
           CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
           CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
           CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
+          CYPRESS_msiApi: ${{ secrets.AZURE_DEV_MSIAPI_ENDPOINT}}
         with:
           browser: ${{ matrix.browser }}
           working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
           wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
-          spec: cypress/e2e/*
+          spec: cypress/e2e/**/*.cy.ts
 
       - name: Run (test)
         if: inputs.environment == 'test'
@@ -81,6 +82,7 @@ jobs:
             CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
             CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
             CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
+            CYPRESS_msiApi: ${{ secrets.AZURE_TEST_MSIAPI_ENDPOINT}}
         with:
             browser: ${{ matrix.browser }}
             working-directory: src/Dfe.ManageSchoolImprovement.CypressTests

@@ -34,7 +34,7 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     public string Suffix { get; set; } = string.Empty;
 
     [HtmlAttributeName("asp-for")]
-    public ModelExpression For { get; set; }
+    public ModelExpression For { get; set; } = null!;
 
     [HtmlAttributeName("hint")]
     public string Hint { get; set; } = string.Empty;
@@ -56,7 +56,7 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     public string Email { get; set; } = string.Empty;
 
     [ViewContext]
-    public ViewContext ViewContext { get; set; }
+    public ViewContext ViewContext { get; set; } = null!;
 
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {

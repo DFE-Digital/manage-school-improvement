@@ -4,6 +4,7 @@
     const HISTORY_KEY = 'navigation_history';
     const MAX_HISTORY = 10;
     const SCHOOLS_LIST_PATH = '/schools-identified-for-targeted-intervention';
+    const SUPPRESS_SAVE_KEY = 'suppress_next_schools_scroll_save';
 
     // Get history from session storage
     function getNavigationHistory() {
@@ -17,6 +18,13 @@
     }
 
     function saveScrollPosition() {
+        // If we've explicitly suppressed the next save (e.g. after applying filters), skip saving
+        const suppressSave = sessionStorage.getItem(SUPPRESS_SAVE_KEY) === 'true';
+        if (suppressSave && window.location.pathname === SCHOOLS_LIST_PATH) {
+            sessionStorage.removeItem(SUPPRESS_SAVE_KEY);
+            return;
+        }
+
         const key = `scroll_${window.location.pathname}`;
         sessionStorage.setItem(key, window.scrollY);
 
@@ -94,8 +102,32 @@
         }
     }
 
+    function handleFilterSubmit(event) {
+        // Clear the stored scroll position for the schools list
+        sessionStorage.removeItem('schools_list_scroll');
+        // Set it to 0 to ensure top position
+        sessionStorage.setItem('schools_list_scroll', '0');
+
+        // Prevent the upcoming navigation from re-saving the current scroll position
+        sessionStorage.setItem(SUPPRESS_SAVE_KEY, 'true');
+        window.removeEventListener('beforeunload', saveScrollPosition);
+    }
+
     // Initialize
     function init() {
+        function bindFilterButton() {
+            const filterForm = document.querySelector('#filter-submit');
+            if (filterForm) {
+                filterForm.addEventListener('click', handleFilterSubmit);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bindFilterButton);
+        } else {
+            bindFilterButton();
+        }
+
         // Track current page
         addToHistory(window.location.pathname);
 
@@ -106,7 +138,7 @@
         document.addEventListener('click', handleLinkClick);
 
         // Check for back navigation on page load
-        window.addEventListener('DOMContentLoaded', () => {
+        function restoreScroll() {
             const isBackFromBrowser =
                 window.performance?.navigation?.type === 2 ||
                 window.performance?.getEntriesByType("navigation")[0]?.type === 'back_forward';
@@ -116,7 +148,13 @@
             if (isBackFromBrowser || isBackFromLink) {
                 restoreScrollPosition();
             }
-        });
+        }
+        
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', restoreScroll);
+        } else {
+            restoreScroll();
+        }
 
         // Update history after navigation
         window.addEventListener('popstate', () => {

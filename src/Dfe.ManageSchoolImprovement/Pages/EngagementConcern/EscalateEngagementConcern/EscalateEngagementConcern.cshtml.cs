@@ -24,7 +24,7 @@ public class EscalateEngagementConcernModel(
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ReturnPage = Links.EngagementConcern.RecordEngagementConcern.Page;
+        ReturnPage = Links.EngagementConcern.Index.Page;
         
         await base.GetSupportProject(id, cancellationToken);
 
