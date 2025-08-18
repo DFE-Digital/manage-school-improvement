@@ -1,7 +1,7 @@
-@page "/improvement-plan/edit-an-objective/{id:int}"
+@page "/improvement-plan/change-an-objective/{id:int}"
 @model EditAnObjectiveModel
 @{
-    ViewData["Title"] = "Edit an objective";
+    ViewData["Title"] = "Change an objective";
 }
 
 @section BeforeMain
@@ -18,7 +18,7 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SelectedAreaOfImprovement</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
-            Edit an objective
+            Change an objective
         </h1>
         <p class="govuk-body">Give details of the school's plan to improve in this area. You may want to copy and paste from the plan itself.</p>
         
@@ -40,12 +40,11 @@
             </div>
 
             <div class="govuk-button-group">
-                <button class="govuk-button" type="submit" name="action" value="add-another" data-module="govuk-button">
-                    Save and add another objective
+                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                    Save and return
                 </button>
-                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="finish" data-module="govuk-button">
-                    Save and finish
-                </button>
+                <a asp-page="@Links.ImprovementPlan.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>

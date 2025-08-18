@@ -75,20 +75,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             TaskUpdated = true;
 
-            // Get the action from the button clicked  
-            var action = Request.Form["action"].ToString();
+            // Redirect to review objectives page  
+            return RedirectToPage(@Links.ImprovementPlan.Index.Page, new { id });
 
-            // Determine where to redirect based on button clicked  
-            if (action == "add-another")
-            {
-                // Redirect back to select area page to add another objective  
-                return RedirectToPage(@Links.ImprovementPlan.SelectAnAreaOfImprovement.Page, new { id });
-            }
-            else // action == "review"  
-            {
-                // Redirect to review objectives page  
-                return RedirectToPage(@Links.ImprovementPlan.Index.Page, new { id });
-            }
         }
 
 
