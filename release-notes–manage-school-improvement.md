@@ -3,6 +3,18 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v0.15.0] - Q2 – Sprint 4 (Part 1) - 2025-08-18
+
+### 📌 User Stories
+
+- **208032** - Enter funding history task green button should say "Continue"
+
+### 🐛 Bug Fixes
+
+- **232291** - Success message is not displaying when user Change Information powers
+
+--
+
 ## 📅 [v0.14.1] - Q2 – Sprint 3 (Part 2) - 2025-08-12
 
 ### 📌 User Stories
