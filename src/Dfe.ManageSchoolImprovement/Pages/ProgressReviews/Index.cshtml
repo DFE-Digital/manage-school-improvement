@@ -94,7 +94,7 @@
                                 </p>
                             </div>
                             <div class='govuk-grid-column-one-half govuk-!-text-align-right govuk-body'>
-                                @if (review.ProgressStatusClass == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
+                                @if (review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                                 {
                                     <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
                                        asp-route-id='@Model.SupportProject.Id'
