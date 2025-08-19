@@ -1,3 +1,4 @@
+using Dfe.Academisation.ExtensionMethods;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
@@ -62,7 +63,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                     .ToList() ?? new List<ImprovementPlanObjectiveProgressViewModel>(),
                 ProgressStatus = progressStatus,
                 ProgressStatusClass = progressStatusCssClass,
-                Title = dto.title,
+                Title = dto.title.ToSentenceCase(),
                 Order = dto.order
             };
         }

@@ -19,6 +19,7 @@ public class ImprovementPlanTabModel(
     public bool IsAdviserAllocated { get; set; }
 
     public bool NoObjectivesRecorded => ImprovementPlan?.ImprovementPlanObjectives == null || ImprovementPlan.ImprovementPlanObjectives.Count == 0;
+    public bool ObjectivesComplete => ImprovementPlan?.ObjectivesSectionComplete ?? false;
 
     public List<ObjectiveProgressGroup> ObjectiveProgressGroups { get; set; } = [];
 

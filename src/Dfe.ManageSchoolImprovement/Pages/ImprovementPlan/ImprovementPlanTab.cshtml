@@ -13,13 +13,13 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">Improvement plan</h2>
-        @if (Model.NoObjectivesRecorded || !Model.IsAdviserAllocated)
+        @if (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)  || !Model.IsAdviserAllocated)
         {
             <p>As you add the improvement plan objectives they will be listed on this page.</p>
             <p>You will only be able to record a progress review when:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>an adviser has been allocated</li>
-                <li>all objectives have been added</li>
+                <li>all objectives have been added and marked as complete</li>
             </ul>
         }
         else
