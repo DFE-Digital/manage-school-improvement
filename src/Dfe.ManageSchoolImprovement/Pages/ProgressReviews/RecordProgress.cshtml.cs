@@ -84,7 +84,7 @@ public class RecordProgressModel(
             .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
             .GroupBy(o => o.AreaOfImprovement)
             .OrderBy(group => areaConfigurations[group.Key])
-            .SelectMany(group => group)
+            .SelectMany(group => group.OrderBy(o => o.Order))
             .ToList();
 
         if (objectiveId == null)
@@ -115,6 +115,7 @@ public class RecordProgressModel(
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
         LoadPageData(reviewId, objectiveId);
+        ShowSkipObjectiveLink = enableSkip ?? false;
 
         if (!ModelState.IsValid)
         {
@@ -145,7 +146,7 @@ public class RecordProgressModel(
         if (NextObjectiveId.HasValue && returnPage != Links.ProgressReviews.ProgressSummary.Page)
         {
             // Redirect to the next objective
-            return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, objectiveId = NextObjectiveId, enableSkip = enableSkip });
+            return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, objectiveId = NextObjectiveId, enableSkip });
         }
         else
         {

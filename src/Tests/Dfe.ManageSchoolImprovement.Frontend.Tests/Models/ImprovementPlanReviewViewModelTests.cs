@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
                 reviewer: "Test Reviewer",
-                title: "First Review",
+                title: "First review",
                 order: 1,
                 nextReviewDate: DateTime.Now.AddDays(30),
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
@@ -67,7 +67,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
                 reviewer: "Test Reviewer",
-                title: "First Review",
+                title: "First review",
                 order: 1,
                 nextReviewDate: null,
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
@@ -342,10 +342,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
         }
 
         [Theory]
-        [InlineData("First Review", 1)]
-        [InlineData("Second Review", 2)]
-        [InlineData("Third Review", 3)]
-        [InlineData("Final Review", 10)]
+        [InlineData("First review", 1)]
+        [InlineData("Second review", 2)]
+        [InlineData("Third review", 3)]
+        [InlineData("Final review", 10)]
         public void Create_WithDifferentTitlesAndOrders_ShouldSetCorrectTitleAndOrder(string title, int order)
         {
             // Arrange

@@ -57,10 +57,21 @@ public class AddReviewModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
     {
+        await base.GetSupportProject(id, cancellationToken);
+        // Get the previous review for validation
+        var previousReview = SupportProject?.ImprovementPlans?.SingleOrDefault(x => x.ReadableId == readableImprovementPlanId)?.ImprovementPlanReviews
+            .OrderByDescending(x => x.Order)
+            .FirstOrDefault();
+
         // Validate the form
         if (!ReviewDate.HasValue)
         {
             ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
+        }
+
+        if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
+        {
+            ModelState.AddModelError(nameof(ReviewDate), "The review date must be after the last review date");
         }
 
         if (string.IsNullOrWhiteSpace(ReviewerSelection))
@@ -75,7 +86,6 @@ public class AddReviewModel(
 
         if (!ModelState.IsValid)
         {
-            await base.GetSupportProject(id, cancellationToken);
             SetupRadioButtons();
 
             if (ShowReviewerSelectionError)

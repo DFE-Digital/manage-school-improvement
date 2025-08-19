@@ -73,10 +73,29 @@ public class EditReviewModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
+        await base.GetSupportProject(id, cancellationToken);
+        // Get the previous review for validation
+        var reviews = SupportProject?.ImprovementPlans?
+            .SingleOrDefault(x => x.Id == ImprovementPlanId)?
+            .ImprovementPlanReviews.OrderByDescending(x => x.Order).ToList();
+
+        // Find the current review being edited
+        var currentReviewIndex = reviews?.FindIndex(r => r.Id == ImprovementPlanReviewId) ?? -1;
+
+        // Get the previous review (next in the descending order list)
+        var previousReview = currentReviewIndex >= 0 && currentReviewIndex < (reviews?.Count - 1)
+            ? reviews?[currentReviewIndex + 1]
+            : null;
+
         // Validate the form
         if (!ReviewDate.HasValue)
         {
             ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
+        }
+
+        if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
+        {
+            ModelState.AddModelError(nameof(ReviewDate), "The review date must be after the last review date");
         }
 
         if (string.IsNullOrWhiteSpace(ReviewerSelection))
@@ -91,7 +110,6 @@ public class EditReviewModel(
 
         if (!ModelState.IsValid)
         {
-            await base.GetSupportProject(id, cancellationToken);
             SetupRadioButtons();
 
             if (ShowReviewerSelectionError)
@@ -123,20 +141,28 @@ public class EditReviewModel(
 
         var radioButtons = new List<RadioButtonsLabelViewModel>();
 
-        radioButtons.Add(new RadioButtonsLabelViewModel
+        if (SupportProject != null && SupportProject.AdviserFullName != null)
         {
-            Id = "delivery-officer",
-            Name = SupportProject.AssignedDeliveryOfficerFullName,
-            Value = SupportProject.AssignedDeliveryOfficerFullName
-        });
 
-        radioButtons.Add(new RadioButtonsLabelViewModel
-        {
-            Id = "adviser",
-            Name = SupportProject.AdviserFullName,
-            Value = SupportProject.AdviserFullName
-        });
+            // delivery officer is optional for reviews, so check if they are assigned
+            if (SupportProject.AssignedDeliveryOfficerEmailAddress != null)
+            {
+                radioButtons.Add(new RadioButtonsLabelViewModel
+                {
+                    Id = "delivery-officer",
+                    Name = SupportProject.AssignedDeliveryOfficerFullName,
+                    Value = SupportProject.AssignedDeliveryOfficerFullName
+                });
+            }
 
+            radioButtons.Add(new RadioButtonsLabelViewModel
+            {
+                Id = "adviser",
+                Name = SupportProject.AdviserFullName,
+                Value = SupportProject.AdviserFullName
+            });
+
+        }
 
         // Add "Someone else" option with conditional input
         radioButtons.Add(new RadioButtonsLabelViewModel
