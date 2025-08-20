@@ -20,6 +20,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string Title { get; set; } = string.Empty;
         public int Order { get; set; }
 
+        public string HowIsTheSchoolProgressingOverall { get; set; } = string.Empty;
+
+        public string OverallProgressDetails { get; set; } = string.Empty;
+
 
         public List<ImprovementPlanObjectiveProgressViewModel> ImprovementPlanObjectiveProgresses { get; set; } = new();
         public DateTime? NextReviewDate { get; private set; }
@@ -64,7 +68,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ProgressStatus = progressStatus,
                 ProgressStatusClass = progressStatusCssClass,
                 Title = dto.title.ToSentenceCase(),
-                Order = dto.order
+                Order = dto.order,
+                HowIsTheSchoolProgressingOverall = dto.howIsTheSchoolProgressingOverall,
+                OverallProgressDetails = dto.overallProgressDetails
             };
         }
     }

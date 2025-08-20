@@ -33,6 +33,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public DateTime? NextReviewDate { get; set; }
         public DateTime ReviewDate { get; set; }
         public string Reviewer { get; set; }
+        public string? HowIsTheSchoolProgressingOverall { get; set; }
+        public string? OverallProgressDetails { get; set; }
 
         public IEnumerable<ImprovementPlanObjectiveProgress> ImprovementPlanObjectiveProgresses => _ImprovementPlanObjectiveProgresses.AsReadOnly();
         private readonly List<ImprovementPlanObjectiveProgress> _ImprovementPlanObjectiveProgresses = new();
@@ -73,6 +75,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         {
             Reviewer = reviewer;
             ReviewDate = reviewDate;
+        }
+
+        public void SetOverallProgress(string howIsTheSchoolProgressingOverall, string overallProgressDetails)
+        {
+            HowIsTheSchoolProgressingOverall = howIsTheSchoolProgressingOverall;
+            OverallProgressDetails = overallProgressDetails;
         }
     }
 }
