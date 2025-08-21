@@ -14,16 +14,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: DateTime.Now.AddDays(30),
                 reviewer: "Test Reviewer",
                 title: "First review",
                 order: 1,
-                nextReviewDate: DateTime.Now.AddDays(30),
+                howIsTheSchoolProgressingOverall: "The school is making good progress",
+                overallProgressDetails: "Significant improvements in teaching quality",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>
@@ -52,6 +54,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(reviewDto.title, viewModel.Title);
             Assert.Equal(reviewDto.order, viewModel.Order);
             Assert.Equal(reviewDto.nextReviewDate, viewModel.NextReviewDate);
+            Assert.Equal(reviewDto.howIsTheSchoolProgressingOverall, viewModel.HowIsTheSchoolProgressingOverall);
+            Assert.Equal(reviewDto.overallProgressDetails, viewModel.OverallProgressDetails);
             Assert.Equal(ImprovementPlanReviewViewModel.ProgressStatusNotRecorded, viewModel.ProgressStatus);
             Assert.Equal("govuk-tag--blue", viewModel.ProgressStatusClass);
             Assert.Empty(viewModel.ImprovementPlanObjectiveProgresses);
@@ -66,16 +70,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: "First review",
                 order: 1,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "On track",
+                overallProgressDetails: "Good progress overall",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>
@@ -109,10 +115,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: "First Review",
                 order: 1,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "Making progress",
+                overallProgressDetails: "Some areas improving faster than others",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>
                 {
                     new ImprovementPlanObjectiveProgressDto(
@@ -128,7 +136,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>
@@ -173,10 +181,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: "First Review",
                 order: 1,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "Excellent progress",
+                overallProgressDetails: "All objectives are being met successfully",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>
                 {
                     new ImprovementPlanObjectiveProgressDto(
@@ -200,7 +210,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>
@@ -243,11 +253,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: "First Review",
                 order: 1,
-                nextReviewDate: null,
-                ImprovementPlanObjectiveProgresses: Array.Empty<ImprovementPlanObjectiveProgressDto>() // Fix: Replace null with an empty array
+                howIsTheSchoolProgressingOverall: "Not yet assessed",
+                overallProgressDetails: "Overall progress assessment pending",
+                ImprovementPlanObjectiveProgresses: Array.Empty<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
@@ -286,16 +298,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "",
                 title: "First Review",
                 order: 1,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "",
+                overallProgressDetails: "",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>(),
@@ -318,16 +332,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: "First Review",
                 order: 1,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "Steady progress",
+                overallProgressDetails: "Consistent improvement across most areas",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>(),
@@ -354,16 +370,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: title,
                 order: order,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "Variable progress",
+                overallProgressDetails: "Progress varies across different areas",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>(),
@@ -390,16 +408,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: pastDate,
+                nextReviewDate: futureDate,
                 reviewer: "Test Reviewer",
                 title: "Past Review",
                 order: 1,
-                nextReviewDate: futureDate,
+                howIsTheSchoolProgressingOverall: "Historical progress",
+                overallProgressDetails: "Review of past performance",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
             );
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>(),
@@ -439,6 +459,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(string.Empty, viewModel.ProgressStatus);
             Assert.Equal(string.Empty, viewModel.Title);
             Assert.Equal(0, viewModel.Order);
+            Assert.Equal(string.Empty, viewModel.HowIsTheSchoolProgressingOverall);
+            Assert.Equal(string.Empty, viewModel.OverallProgressDetails);
             Assert.Empty(viewModel.ImprovementPlanObjectiveProgresses);
             Assert.Null(viewModel.NextReviewDate);
         }
@@ -452,10 +474,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 readableId: 1,
                 improvementPlanId: Guid.NewGuid(),
                 reviewDate: DateTime.Now,
+                nextReviewDate: null,
                 reviewer: "Test Reviewer",
                 title: "First Review",
                 order: 1,
-                nextReviewDate: null,
+                howIsTheSchoolProgressingOverall: "Exceptional progress",
+                overallProgressDetails: "Progress exceeds expectations in all areas",
                 ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>
                 {
                     new ImprovementPlanObjectiveProgressDto(
@@ -479,7 +503,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 
             var improvementPlanDto = new ImprovementPlanDto(
                 id: reviewDto.improvementPlanId,
-                readableId: 1,                    // Add this parameter
+                readableId: 1,
                 supportProjectId: 1,
                 objectivesSectionComplete: true,
                 ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>
@@ -502,6 +526,82 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             // Assert
             Assert.Equal(ImprovementPlanReviewViewModel.ProgressStatusRecorded, viewModel.ProgressStatus);
             Assert.Equal("govuk-tag--green", viewModel.ProgressStatusClass);
+        }
+
+        [Theory]
+        [InlineData("On track", "Good progress being made")]
+        [InlineData("Behind schedule", "Some areas need improvement")]
+        [InlineData("Exceeding expectations", "Outstanding progress in all areas")]
+        [InlineData("At risk", "Serious concerns about current trajectory")]
+        [InlineData("", "")]
+        [InlineData("Complete", "All objectives successfully met")]
+        public void Create_WithDifferentOverallProgressValues_ShouldSetCorrectOverallProgress(string progressStatus, string progressDetails)
+        {
+            // Arrange
+            var reviewDto = new ImprovementPlanReviewDto(
+                id: Guid.NewGuid(),
+                readableId: 1,
+                improvementPlanId: Guid.NewGuid(),
+                reviewDate: DateTime.Now,
+                nextReviewDate: null,
+                reviewer: "Test Reviewer",
+                title: "Test Review",
+                order: 1,
+                howIsTheSchoolProgressingOverall: progressStatus,
+                overallProgressDetails: progressDetails,
+                ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
+            );
+
+            var improvementPlanDto = new ImprovementPlanDto(
+                id: reviewDto.improvementPlanId,
+                readableId: 1,
+                supportProjectId: 1,
+                objectivesSectionComplete: true,
+                ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>(),
+                ImprovementPlanReviews: new List<ImprovementPlanReviewDto>()
+            );
+
+            // Act
+            var viewModel = ImprovementPlanReviewViewModel.Create(reviewDto, improvementPlanDto);
+
+            // Assert
+            Assert.Equal(progressStatus, viewModel.HowIsTheSchoolProgressingOverall);
+            Assert.Equal(progressDetails, viewModel.OverallProgressDetails);
+        }
+
+        [Fact]
+        public void Create_WithNullOverallProgressValues_ShouldHandleNullValues()
+        {
+            // Arrange
+            var reviewDto = new ImprovementPlanReviewDto(
+                id: Guid.NewGuid(),
+                readableId: 1,
+                improvementPlanId: Guid.NewGuid(),
+                reviewDate: DateTime.Now,
+                nextReviewDate: null,
+                reviewer: "Test Reviewer",
+                title: "Test Review",
+                order: 1,
+                howIsTheSchoolProgressingOverall: null!,
+                overallProgressDetails: null!,
+                ImprovementPlanObjectiveProgresses: new List<ImprovementPlanObjectiveProgressDto>()
+            );
+
+            var improvementPlanDto = new ImprovementPlanDto(
+                id: reviewDto.improvementPlanId,
+                readableId: 1,
+                supportProjectId: 1,
+                objectivesSectionComplete: true,
+                ImprovementPlanObjectives: new List<ImprovementPlanObjectiveDto>(),
+                ImprovementPlanReviews: new List<ImprovementPlanReviewDto>()
+            );
+
+            // Act
+            var viewModel = ImprovementPlanReviewViewModel.Create(reviewDto, improvementPlanDto);
+
+            // Assert
+            Assert.Null(viewModel.HowIsTheSchoolProgressingOverall);
+            Assert.Null(viewModel.OverallProgressDetails);
         }
     }
 }
