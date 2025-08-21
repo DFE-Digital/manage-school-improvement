@@ -1,4 +1,4 @@
-@page "/ProgressReviews/{id:int}/RecordProgress"
+@page "/progress-reviews/{id:int}/record-progress"
 @using Dfe.Academisation.ExtensionMethods
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressModel
 @{
@@ -47,7 +47,7 @@
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
-                    <label class="govuk-label govuk-label--m" for="progress-details">
+                    <label class="govuk-label govuk-label--m" for="ProgressDetails">
                         Details
                     </label>
                 </h2>
@@ -58,7 +58,7 @@
                     </p>
                 }
                 <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
-                          id="progress-details"
+                          id="ProgressDetails"
                           name="ProgressDetails"
                           rows="5"
                           asp-for="@Model.ProgressDetails"></textarea>

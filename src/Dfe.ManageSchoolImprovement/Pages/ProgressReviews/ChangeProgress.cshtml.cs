@@ -45,9 +45,9 @@ public class ChangeProgressModel(
     public bool ShowError => _errorService.HasErrors();
     public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) && ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
 
-    public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = Links.ProgressReviews.Index.Page;
+        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
 
         await base.GetSupportProject(id, cancellationToken);
@@ -92,8 +92,10 @@ public class ChangeProgressModel(
         }
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, string? returnPage, CancellationToken cancellationToken)
     {
+        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
+
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
         LoadPageData(objectiveProgressId);
@@ -124,7 +126,7 @@ public class ChangeProgressModel(
         }
 
         // All objectives completed, redirect to summary
-        return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId = ImprovementPlanReview.ReadableId });
+        return RedirectToPage(returnPage, new { id, reviewId = ImprovementPlanReview.ReadableId });
 
     }
 

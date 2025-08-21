@@ -1,4 +1,4 @@
-@page "/ProgressReviews/{id:int}/OverallProgress/{reviewId:int}"
+@page "/progress-reviews/{id:int}/overall-progress/{reviewId:int}"
 @using Dfe.Academisation.ExtensionMethods
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.OverallProgressModel
 @{
@@ -7,7 +7,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewid="@Model.ReviewId" class="govuk-back-link">Back</a>
 }
 
 @if (Model.ShowError)

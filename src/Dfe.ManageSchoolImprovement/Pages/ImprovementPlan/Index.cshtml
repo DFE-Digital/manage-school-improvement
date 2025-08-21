@@ -1,4 +1,4 @@
-@page "/ImprovementPlan/{id:int}"
+@page "/task-list/improvement-plan/{id:int}"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan.IndexModel
 @{
     ViewData["Title"] = "Review objectives";
@@ -21,15 +21,15 @@
             Review objectives
         </h1>
 
-        <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id)' />
+        <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id)' />
+        <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id)' />
+        <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id)' />
+        <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id)' />
+        <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
         <form method="post" novalidate>
             <div class="govuk-form-group @(Model.ShowMarkAsCompleteError ? "govuk-form-group--error" : string.Empty)">

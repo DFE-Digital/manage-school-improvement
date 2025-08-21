@@ -1,4 +1,4 @@
-@page "/ProgressReviews/{id:int}/NextReview"
+@page "/progress-reviews/{id:int}/next-review"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.NextReviewModel
 @{
     ViewData["Title"] = "Is another review needed?";
@@ -17,55 +17,55 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="page-caption">Progress reviews</span>
-        
+
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ReviewId" />
-            
+
             <div class="govuk-form-group @(Model.ShowIsAnotherReviewNeededError ? "govuk-form-group--error" : "")">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        Is another review needed?
+                        <h1 class="govuk-fieldset__heading">
+                            Is another review needed?
+                        </h1>
                     </legend>
-                    
+
                     @if (Model.ShowIsAnotherReviewNeededError)
                     {
                         <p id="review-needed-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">Error:</span> @Model.IsAnotherReviewNeededErrorMessage
                         </p>
                     }
-                    
+
                     <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" 
-                                   id="yes" 
-                                   name="IsAnotherReviewNeeded" 
-                                   type="radio" 
-                                   value="yes" 
-                                   data-aria-controls="conditional-yes"
+                            <input class="govuk-radios__input"
+                                   id="yes"
+                                   name="IsAnotherReviewNeeded"
+                                   type="radio"
+                                   value="yes"
                                    checked="@(Model.IsAnotherReviewNeeded == "yes")"
                                    asp-for="@Model.IsAnotherReviewNeeded" />
                             <label class="govuk-label govuk-radios__label" for="yes">
                                 Yes
                             </label>
                         </div>
-                        
-                        <div id="conditional-yes" 
+
+                        <div id="conditional-yes"
                              class="govuk-radios__conditional @(Model.IsAnotherReviewNeeded == "yes" ? "" : "govuk-radios__conditional--hidden")">
-                            <govuk-date-input 
-                                heading-label="false" 
-                                label="Enter a date for the next review" 
-                                id="next-review-date" 
-                                name="NextReviewDate" 
-                                asp-for="@Model.NextReviewDate" 
-                                hint="For example, 27 3 2007." />
+                            <govuk-date-input heading-label="false"
+                                              label="Enter a date for the next review"
+                                              id="NextReviewDate"
+                                              name="NextReviewDate"
+                                              asp-for="@Model.NextReviewDate"
+                                              hint="For example, 27 3 2007." />
                         </div>
-                        
+
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" 
-                                   id="no" 
-                                   name="IsAnotherReviewNeeded" 
-                                   type="radio" 
-                                   value="no" 
+                            <input class="govuk-radios__input"
+                                   id="no"
+                                   name="IsAnotherReviewNeeded"
+                                   type="radio"
+                                   value="no"
                                    checked="@(Model.IsAnotherReviewNeeded == "no")"
                                    asp-for="@Model.IsAnotherReviewNeeded" />
                             <label class="govuk-label govuk-radios__label" for="no">
@@ -75,7 +75,7 @@
                     </div>
                 </fieldset>
             </div>
-            
+
             <button class="govuk-button" type="submit" data-module="govuk-button">
                 Save and return
             </button>

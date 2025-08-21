@@ -1,4 +1,4 @@
-@page "/improvement-plan-tab/{id:int}"
+@page "/improvement-plan/{id:int}"
 @using Dfe.Academisation.ExtensionMethods
 @model ImprovementPlanTabModel
 
@@ -36,15 +36,15 @@
         }
         @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded)
         {
-            <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id)' />
+            <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page)' />
 
-            <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id)' />
+            <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page)' />
 
-            <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id)' />
+            <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page)' />
 
-            <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id)' />
+            <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page)' />
 
-            <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id)' />
+            <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page)' />
         }
         else if (!Model.NoProgressReviewsRecorded)
         {
@@ -123,6 +123,7 @@
                                     <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
                                        asp-route-id="@Model.SupportProject?.Id"
                                        asp-route-objectiveProgressId="@objective.ReadableId"
+                                       asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
                                        class="govuk-link">
                                         Change<span class="govuk-visually-hidden"> @objective.Title</span>
                                     </a>
@@ -133,7 +134,7 @@
                                        asp-route-id="@Model.SupportProject?.Id"
                                            asp-route-reviewId="@Model.CurrentReview.ReadableId"
                                        asp-route-objectiveId="@objective.ObjectiveReadableId"
-                                       asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                       asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
                                        class="govuk-link">
                                         Record<span class="govuk-visually-hidden"> @objective.Title</span>
                                     </a>

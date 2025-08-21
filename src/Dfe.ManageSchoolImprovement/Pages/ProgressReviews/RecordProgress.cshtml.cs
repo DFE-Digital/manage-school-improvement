@@ -112,6 +112,8 @@ public class RecordProgressModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int reviewId, int? objectiveId, string? returnPage, bool? enableSkip, CancellationToken cancellationToken)
     {
+        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
+
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
         LoadPageData(reviewId, objectiveId);
@@ -151,7 +153,7 @@ public class RecordProgressModel(
         else
         {
             // All objectives completed, redirect to summary
-            return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
+            return RedirectToPage(returnPage, new { id, reviewId });
         }
     }
 

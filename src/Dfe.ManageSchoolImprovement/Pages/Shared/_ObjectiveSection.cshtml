@@ -1,4 +1,4 @@
-@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId)
+@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage)
 
 @if (Model.Objectives.Any())
 {
@@ -20,7 +20,8 @@
                         <dd class="govuk-summary-list__actions">
                                   <a class="govuk-link" asp-page="@Links.ImprovementPlan.ChangeAnObjective.Page" 
                                     asp-route-id="@Model.SupportProjectId"
-                                    asp-route-objectiveid="@objective.ReadableId">Change</a>
+                                    asp-route-objectiveid="@objective.ReadableId"
+                                    asp-route-returnpage="@Model.ReturnPage">Change</a>
                         </dd>
                     </div>
                 }

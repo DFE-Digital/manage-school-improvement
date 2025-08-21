@@ -33,7 +33,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
         public string ReturnPage { get; set; } = string.Empty;
 
-        public async Task<IActionResult> OnGet(int id, int ObjectiveId, string returnPage, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, int ObjectiveId, string? returnPage, CancellationToken cancellationToken)
         {
             ReturnPage = returnPage ?? Links.ImprovementPlan.Index.Page;
 
@@ -56,8 +56,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             return Page();
         }
-        public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPost(int id, int ObjectiveId, string? returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ?? Links.ImprovementPlan.Index.Page;
+
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -76,7 +78,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             TaskUpdated = true;
 
             // Redirect to review objectives page  
-            return RedirectToPage(@Links.ImprovementPlan.Index.Page, new { id });
+            return RedirectToPage(ReturnPage, new { id });
 
         }
 
