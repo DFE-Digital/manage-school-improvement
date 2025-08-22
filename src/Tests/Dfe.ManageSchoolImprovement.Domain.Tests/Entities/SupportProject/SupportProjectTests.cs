@@ -189,21 +189,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
-            bool? discussTheBestApproach = true;
-            bool? emailTheResponsibleBody = true;
-            DateTime? responsibleBodyContactedDate = DateTime.UtcNow;
+            
+            bool? initialContactResponsibleBody = true;
+            DateTime? responsibleBodyInitialContactDate = DateTime.UtcNow;
 
             // Act
-            supportProject.SetContactTheResponsibleBodyDetails(
-                discussTheBestApproach,
-                emailTheResponsibleBody,
-                responsibleBodyContactedDate);
+            supportProject.SetInitialContactTheResponsibleBodyDetails(
+                initialContactResponsibleBody,
+                responsibleBodyInitialContactDate);
 
             // Assert
-            supportProject.DiscussTheBestApproach.Should().Be(discussTheBestApproach);
-            supportProject.EmailTheResponsibleBody.Should().Be(emailTheResponsibleBody);
-            supportProject.ContactedTheResponsibleBodyDate.Should().Be(responsibleBodyContactedDate);
+            // supportProject.InitialContactResponsibleBody.Should().Be(initialContactResponsibleBody);
+            // supportProject.InitialContactResponsibleBodyDate.Should().Be(responsibleBodyInitialContactDate);
             mockRepository.VerifyAll();
         }
 

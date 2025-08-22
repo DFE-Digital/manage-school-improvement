@@ -56,13 +56,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<SupportProjectNote> _notes = new();
     private readonly List<SupportProjectContact> _contacts = new();
+    
 
-
-    public bool? DiscussTheBestApproach { get; private set; }
-
-    public bool? EmailTheResponsibleBody { get; private set; }
-
-    public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
+    // Add EmailTheResponsibleBody and ContactedTheResponsibleBodyDate back in here when needed - had to take them out for SonarQube
+    
+    public bool? InitialContactResponsibleBody { get; private set; }
+    
+    public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
     public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
 
@@ -263,11 +263,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             noteToUpdate.SetNote(note, author, date);
         }
     }
-    public void SetContactTheResponsibleBodyDetails(bool? discussTheBestApproach, bool? emailTheResponsibleBody, DateTime? responsibleBodyContactedDate)
+    public void SetInitialContactTheResponsibleBodyDetails(bool? initialContactResponsibleBody, DateTime? responsibleBodyInitialContactDate)
     {
-        DiscussTheBestApproach = discussTheBestApproach;
-        EmailTheResponsibleBody = emailTheResponsibleBody;
-        ContactedTheResponsibleBodyDate = responsibleBodyContactedDate;
+        InitialContactResponsibleBody = initialContactResponsibleBody;
+        InitialContactResponsibleBodyDate = responsibleBodyInitialContactDate;
     }
 
     public void SetAdviserConflictOfInterestDetails(bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool, bool? receiveCompletedConflictOfInterestForm, bool? saveCompletedConflictOfinterestFormInSharePoint, DateTime? dateConflictsOfInterestWereChecked)

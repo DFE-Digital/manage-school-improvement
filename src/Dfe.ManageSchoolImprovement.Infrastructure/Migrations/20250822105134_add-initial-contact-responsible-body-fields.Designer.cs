@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250822105134_add-initial-contact-responsible-body-fields")]
+    partial class addinitialcontactresponsiblebodyfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,9 +299,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("HowIsTheSchoolProgressingOverall")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ImprovementPlanId")
                         .HasColumnType("uniqueidentifier");
 
@@ -313,9 +313,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
-
-                    b.Property<string>("OverallProgressDetails")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
