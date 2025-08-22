@@ -45,6 +45,8 @@ public class ImprovementPlanReviewTests
         Assert.Equal(_order, review.Order);
         Assert.Empty(review.ImprovementPlanObjectiveProgresses);
         Assert.Null(review.NextReviewDate);
+        Assert.Null(review.HowIsTheSchoolProgressingOverall);
+        Assert.Null(review.OverallProgressDetails);
     }
 
     #endregion
@@ -299,6 +301,156 @@ public class ImprovementPlanReviewTests
 
     #endregion
 
+    #region SetOverallProgress Tests
+
+    [Fact]
+    public void SetOverallProgress_WithValidParameters_SetsOverallProgressProperties()
+    {
+        // Arrange
+        var review = CreateReview();
+        var howIsTheSchoolProgressing = "The school is making good progress";
+        var overallProgressDetails = "Significant improvements in teaching quality and student outcomes";
+
+        // Act
+        review.SetOverallProgress(howIsTheSchoolProgressing, overallProgressDetails);
+
+        // Assert
+        Assert.Equal(howIsTheSchoolProgressing, review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal(overallProgressDetails, review.OverallProgressDetails);
+    }
+
+    [Theory]
+    [InlineData("On track", "Good progress being made")]
+    [InlineData("Behind schedule", "Some areas need improvement")]
+    [InlineData("Exceeding expectations", "Outstanding progress in all areas")]
+    [InlineData("At risk", "Serious concerns about current trajectory")]
+    [InlineData("Complete", "All objectives have been successfully met")]
+    public void SetOverallProgress_WithDifferentProgressStatuses_SetsPropertiesCorrectly(string progressStatus, string details)
+    {
+        // Arrange
+        var review = CreateReview();
+
+        // Act
+        review.SetOverallProgress(progressStatus, details);
+
+        // Assert
+        Assert.Equal(progressStatus, review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal(details, review.OverallProgressDetails);
+    }
+
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("", "Some details")]
+    [InlineData("Status", "")]
+    [InlineData(null, null)]
+    [InlineData(null, "Details only")]
+    [InlineData("Status only", null)]
+    public void SetOverallProgress_WithEmptyOrNullValues_SetsPropertiesCorrectly(string? progressStatus, string? details)
+    {
+        // Arrange
+        var review = CreateReview();
+
+        // Act
+        review.SetOverallProgress(progressStatus!, details!);
+
+        // Assert
+        Assert.Equal(progressStatus, review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal(details, review.OverallProgressDetails);
+    }
+
+    [Fact]
+    public void SetOverallProgress_WithVeryLongDetails_SetsOverallProgressDetails()
+    {
+        // Arrange
+        var review = CreateReview();
+        var longDetails = new string('A', 2000); // Very long string
+        var progressStatus = "In progress";
+
+        // Act
+        review.SetOverallProgress(progressStatus, longDetails);
+
+        // Assert
+        Assert.Equal(progressStatus, review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal(longDetails, review.OverallProgressDetails);
+    }
+
+    [Fact]
+    public void SetOverallProgress_CalledMultipleTimes_UpdatesEachTime()
+    {
+        // Arrange
+        var review = CreateReview();
+
+        // Act & Assert - First update
+        review.SetOverallProgress("First status", "First details");
+        Assert.Equal("First status", review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal("First details", review.OverallProgressDetails);
+
+        // Act & Assert - Second update
+        review.SetOverallProgress("Second status", "Second details");
+        Assert.Equal("Second status", review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal("Second details", review.OverallProgressDetails);
+
+        // Act & Assert - Third update
+        review.SetOverallProgress("Final status", "Final details");
+        Assert.Equal("Final status", review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal("Final details", review.OverallProgressDetails);
+    }
+
+    [Fact]
+    public void SetOverallProgress_OverwritesPreviousValues_DoesNotRetainOldValues()
+    {
+        // Arrange
+        var review = CreateReview();
+        review.SetOverallProgress("Initial status", "Initial details");
+
+        // Act
+        review.SetOverallProgress("New status", "New details");
+
+        // Assert
+        Assert.NotEqual("Initial status", review.HowIsTheSchoolProgressingOverall);
+        Assert.NotEqual("Initial details", review.OverallProgressDetails);
+        Assert.Equal("New status", review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal("New details", review.OverallProgressDetails);
+    }
+
+    [Fact]
+    public void SetOverallProgress_WithSpecialCharacters_SetsPropertiesCorrectly()
+    {
+        // Arrange
+        var review = CreateReview();
+        var statusWithSpecialChars = "Status with special chars: !@#$%^&*()";
+        var detailsWithSpecialChars = "Details with special chars: <>&\"'";
+
+        // Act
+        review.SetOverallProgress(statusWithSpecialChars, detailsWithSpecialChars);
+
+        // Assert
+        Assert.Equal(statusWithSpecialChars, review.HowIsTheSchoolProgressingOverall);
+        Assert.Equal(detailsWithSpecialChars, review.OverallProgressDetails);
+    }
+
+    [Fact]
+    public void SetOverallProgress_DoesNotAffectOtherProperties()
+    {
+        // Arrange
+        var review = CreateReview();
+        var originalReviewer = review.Reviewer;
+        var originalReviewDate = review.ReviewDate;
+        var originalTitle = review.Title;
+        var originalOrder = review.Order;
+
+        // Act
+        review.SetOverallProgress("Overall status", "Overall details");
+
+        // Assert
+        Assert.Equal(originalReviewer, review.Reviewer);
+        Assert.Equal(originalReviewDate, review.ReviewDate);
+        Assert.Equal(originalTitle, review.Title);
+        Assert.Equal(originalOrder, review.Order);
+    }
+
+    #endregion
+
     #region Property Tests
 
     [Fact]
@@ -348,6 +500,26 @@ public class ImprovementPlanReviewTests
 
         // Assert
         Assert.Equal(newOrder, review.Order);
+    }
+
+    [Fact]
+    public void HowIsTheSchoolProgressingOverall_InitiallyNull()
+    {
+        // Arrange & Act
+        var review = CreateReview();
+
+        // Assert
+        Assert.Null(review.HowIsTheSchoolProgressingOverall);
+    }
+
+    [Fact]
+    public void OverallProgressDetails_InitiallyNull()
+    {
+        // Arrange & Act
+        var review = CreateReview();
+
+        // Assert
+        Assert.Null(review.OverallProgressDetails);
     }
 
     #endregion

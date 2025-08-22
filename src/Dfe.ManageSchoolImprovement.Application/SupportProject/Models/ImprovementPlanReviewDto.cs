@@ -9,6 +9,8 @@
             string reviewer,
             string title,
             int order,
+            string howIsTheSchoolProgressingOverall,
+            string overallProgressDetails,
             IEnumerable<ImprovementPlanObjectiveProgressDto> ImprovementPlanObjectiveProgresses = null!
             )
     {

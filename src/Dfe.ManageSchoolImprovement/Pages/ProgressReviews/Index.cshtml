@@ -1,4 +1,4 @@
-@page "/ProgressReviews/{id:int}"
+@page "/progress-reviews/{id:int}"
 @using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
@@ -60,7 +60,7 @@
                 }
                 else
                 {
-                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">The next review should happen on or around <strong>@Model.CurrentProgressReview.NextReviewDate.ToDateString()</strong></h3>
+                    <p class="govuk-body govuk-!-margin-bottom-2">The next review should happen on or around <strong>@Model.CurrentProgressReview.NextReviewDate.ToDateString()</strong></p>
                     <p class="govuk-body govuk-!-margin-bottom-2">
                         <a asp-page="@Links.ProgressReviews.NextReview.Page"
                            asp-route-id="@Model.SupportProject.Id"
@@ -96,10 +96,9 @@
                             <div class='govuk-grid-column-one-half govuk-!-text-align-right govuk-body'>
                                 @if (review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                                 {
-                                    <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
+                                    <a asp-page='@Links.ProgressReviews.OverallProgress.Page'
                                        asp-route-id='@Model.SupportProject.Id'
                                        asp-route-reviewId='@review.ReadableId'
-                                       asp-route-enableskip="true"
                                        class='govuk-link'>Record progress</a>
                                 }
                                 else

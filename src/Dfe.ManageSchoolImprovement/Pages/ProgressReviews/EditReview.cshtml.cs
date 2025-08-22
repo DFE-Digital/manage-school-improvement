@@ -46,7 +46,6 @@ public class EditReviewModel(
         ReturnPage = Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        SetupRadioButtons();
 
         var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
 
@@ -67,6 +66,8 @@ public class EditReviewModel(
                 ReviewerSelection = improvementPlanReview.Reviewer;
             }
         }
+
+        SetupRadioButtons();
 
         return Page();
     }

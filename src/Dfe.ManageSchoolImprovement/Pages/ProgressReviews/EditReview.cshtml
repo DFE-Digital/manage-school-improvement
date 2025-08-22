@@ -1,4 +1,4 @@
-@page "/ProgressReviews/{id:int}/EditReview/{reviewId:int}"
+@page "/progress-reviews/{id:int}/edit-review/{reviewId:int}"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.EditReviewModel
 @{
     ViewData["Title"] = "Edit progress review";
@@ -20,33 +20,31 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Edit progress review
         </h1>
-        
+
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ImprovementPlanId" />
             <input type="hidden" asp-for="@Model.ImprovementPlanReviewId" />
 
-            <govuk-date-input 
-                heading-label="false" 
-                label="Enter the date of the review" 
-                id="review-date" 
-                name="ReviewDate" 
-                asp-for="@Model.ReviewDate" 
-                hint="For example, 27 3 2007." />
-            
-            <govuk-radiobuttons-input 
-                heading="Who carried out the review?"
-                heading-style="govuk-fieldset__legend--m"
-                name="ReviewerSelection"
-                asp-for="@Model.ReviewerSelection"
-                radio-buttons="@Model.ReviewerRadioButtons"
-                error-message="@Model.ReviewerSelectionErrorMessage" />
-            
+            <govuk-date-input heading-label="false"
+                              label="Enter the date of the review"
+                              id="ReviewDate"
+                              name="ReviewDate"
+                              asp-for="@Model.ReviewDate"
+                              hint="For example, 27 3 2007." />
+
+            <govuk-radiobuttons-input heading="Who carried out the review?"
+                                      heading-style="govuk-fieldset__legend--m"
+                                      name="ReviewerSelection"
+                                      asp-for="@Model.ReviewerSelection"
+                                      radio-buttons="@Model.ReviewerRadioButtons"
+                                      error-message="@Model.ReviewerSelectionErrorMessage" />
+
             <div class="govuk-button-group">
                 <button class="govuk-button" type="submit" data-module="govuk-button">
                     Save and return
                 </button>
-                <a asp-page="@Links.ProgressReviews.Index.Page" 
-                   asp-route-id="@Model.SupportProject.Id" 
+                <a asp-page="@Links.ProgressReviews.Index.Page"
+                   asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link">
                     Cancel
                 </a>
