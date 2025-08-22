@@ -58,10 +58,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     private readonly List<SupportProjectContact> _contacts = new();
     
 
-    // Leaving these here as we will be using them in another task
-    // public bool? EmailTheResponsibleBody { get; private set; }
-    //
-    // public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
+    // Add EmailTheResponsibleBody and ContactedTheResponsibleBodyDate back in here when needed - had to take them out for SonarQube
     
     public bool? InitialContactResponsibleBody { get; private set; }
     
