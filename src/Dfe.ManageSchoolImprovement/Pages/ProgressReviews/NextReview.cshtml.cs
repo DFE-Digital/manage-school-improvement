@@ -53,7 +53,7 @@ public class NextReviewModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
@@ -61,6 +61,21 @@ public class NextReviewModel(
         if (IsAnotherReviewNeeded == "yes" && !NextReviewDate.HasValue)
         {
             ModelState.AddModelError(nameof(NextReviewDate), "Enter a date for the next review");
+        }
+
+        // Get the improvement plan and review from the support project
+        var improvementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
+        var review = improvementPlan?.ImprovementPlanReviews.Single(x => x.ReadableId == ReviewId);
+
+        if (improvementPlan == null || review == null)
+        {
+            _errorService.AddApiError();
+            return Page();
+        }
+
+        if (NextReviewDate <= review.ReviewDate)
+        {
+            ModelState.AddModelError(nameof(NextReviewDate), "Enter a valid date for the next review, it should be after the date of the most recently added review");
         }
 
         if (!ModelState.IsValid)
@@ -75,15 +90,9 @@ public class NextReviewModel(
             return Page();
         }
 
-        // Get the improvement plan and review from the support project
-        var improvementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
-        var review = improvementPlan?.ImprovementPlanReviews.Single(x => x.ReadableId == ReviewId);
 
-        if (improvementPlan == null || review == null)
-        {
-            _errorService.AddApiError();
-            return Page();
-        }
+
+
 
         var result = await mediator.Send(new SetImprovementPlanNextReviewDateCommand(
             new SupportProjectId(id),

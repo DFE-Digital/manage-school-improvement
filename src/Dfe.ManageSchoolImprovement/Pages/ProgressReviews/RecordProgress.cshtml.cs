@@ -53,7 +53,7 @@ public class RecordProgressModel(
 
     public async Task<IActionResult> OnGetAsync(int id, int reviewId, int? objectiveId, string? returnPage, bool? enableSkip, CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.OverallProgress.Page;
+        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 
@@ -112,7 +112,7 @@ public class RecordProgressModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int reviewId, int? objectiveId, string? returnPage, bool? enableSkip, CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.OverallProgress.Page;
+        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
