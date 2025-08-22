@@ -61,17 +61,17 @@
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
-                        <input name="contact-responsible-body-hidden" type="hidden" value="false" />
+                        <input name="initial-contact-responsible-body-hidden" type="hidden" value="false" />
                         <input class="govuk-checkboxes__input"
-                               id="contact-responsible-body"
-                               name="contact-responsible-body"
+                               id="initial-contact-responsible-body"
+                               name="initial-contact-responsible-body"
                                type="checkbox"
                                value="true"
                                checked="@Model.InitialContactResponsibleBody">
-                        <label class="govuk-label govuk-checkboxes__label" for="contact-responsible-body">
+                        <label class="govuk-label govuk-checkboxes__label" for="initial-contact-responsible-body">
                             Contact the responsible body
                         </label>
-                        <div id="contact-responsible-body-hint" class="govuk-hint govuk-checkboxes__hint">
+                        <div id="initial-contact-responsible-body-hint" class="govuk-hint govuk-checkboxes__hint">
                             There is
                             <a class="govuk-link"
                                href="@Configuration["TargetedInterventionGuidanceLink"]"

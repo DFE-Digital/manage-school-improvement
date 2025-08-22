@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250822104536_delete-discuss-best-approach-field")]
+    partial class deletediscussbestapproachfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -556,12 +559,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<bool?>("InformationPowersInUse")
                         .HasColumnType("bit");
-
-                    b.Property<bool?>("InitialContactResponsibleBody")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("InitialContactResponsibleBodyDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("InitialDiagnosisMatchingDecision")
                         .HasColumnType("nvarchar(max)");

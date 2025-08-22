@@ -41,9 +41,9 @@ public class MakeInitialContactWithResponsibleBodyModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        ResponsibleBodyInitialContactDate = SupportProject.ContactedTheResponsibleBodyDate ?? null;
+        ResponsibleBodyInitialContactDate = SupportProject.InitialContactResponsibleBodyDate ?? null;
 
-        InitialContactResponsibleBody = SupportProject.EmailTheResponsibleBody;
+        InitialContactResponsibleBody = SupportProject.InitialContactResponsibleBody;
 
         return Page();
     }

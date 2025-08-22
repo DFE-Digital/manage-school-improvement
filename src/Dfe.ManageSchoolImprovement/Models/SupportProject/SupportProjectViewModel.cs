@@ -48,11 +48,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public string LastInspectionDate { get; set; } = string.Empty;
 
-        public bool? DiscussTheBestApproach { get; private set; }
-
         public bool? EmailTheResponsibleBody { get; private set; }
 
         public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
+        
+        public bool? InitialContactResponsibleBody { get; private set; }
+        
+        public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
         public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
 
@@ -202,9 +204,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 TrustName = supportProjectDto.TrustName,
                 TrustReferenceNumber = supportProjectDto.TrustReferenceNumber,
                 Notes = supportProjectDto.Notes,
-                DiscussTheBestApproach = supportProjectDto.discussTheBestApproach,
-                EmailTheResponsibleBody = supportProjectDto.emailTheResponsibleBody,
-                ContactedTheResponsibleBodyDate = supportProjectDto.contactedTheResponsibleBodyDate,
+                EmailTheResponsibleBody = supportProjectDto.EmailTheResponsibleBody,
+                ContactedTheResponsibleBodyDate = supportProjectDto.ContactedTheResponsibleBodyDate,
+                InitialContactResponsibleBody = supportProjectDto.InitialContactResponsibleBody,
+                InitialContactResponsibleBodyDate = supportProjectDto.InitialContactResponsibleBodyDate,
                 SendConflictOfInterestFormToProposedAdviserAndTheSchool = supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool,
                 ReceiveCompletedConflictOfInterestForm = supportProjectDto.ReceiveCompletedConflictOfInterestForm,
                 SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,

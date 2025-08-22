@@ -7,16 +7,14 @@ public static class TaskStatusViewModel
 {
     public static TaskListStatus ContactedTheResponsibleBodyTaskStatus(SupportProjectViewModel SupportProject)
     {
-        if (SupportProject.DiscussTheBestApproach.Equals(true) &&
-            SupportProject.EmailTheResponsibleBody.Equals(true) &&
-            SupportProject.ContactedTheResponsibleBodyDate.HasValue)
+        if (SupportProject.InitialContactResponsibleBody.Equals(true) &&
+            SupportProject.InitialContactResponsibleBodyDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (SupportProject.DiscussTheBestApproach.Equals(null) &&
-            SupportProject.EmailTheResponsibleBody.Equals(null) &&
-            !SupportProject.ContactedTheResponsibleBodyDate.HasValue)
+        if (SupportProject.InitialContactResponsibleBody.Equals(null) &&
+            !SupportProject.InitialContactResponsibleBodyDate.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
