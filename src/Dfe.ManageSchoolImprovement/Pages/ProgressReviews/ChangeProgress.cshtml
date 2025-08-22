@@ -7,7 +7,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewId="@Model.ImprovementPlanReview.ReadableId" class="govuk-back-link">Back</a>
 }
 
 @if (Model.ShowError)
