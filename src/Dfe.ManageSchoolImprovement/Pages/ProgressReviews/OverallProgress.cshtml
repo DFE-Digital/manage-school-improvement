@@ -46,7 +46,7 @@
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
-                    <label class="govuk-label govuk-label--m" for="overall-progress-details">
+                    <label class="govuk-label govuk-label--m" for="OverallProgressDetails">
                         Details
                     </label>
                 </h2>
@@ -57,7 +57,7 @@
                     </p>
                 }
                 <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
-                          id="overall-progress-details"
+                          id="OverallProgressDetails"
                           name="OverallProgressDetails"
                           rows="5"
                           asp-for="@Model.OverallProgressDetails"></textarea>
