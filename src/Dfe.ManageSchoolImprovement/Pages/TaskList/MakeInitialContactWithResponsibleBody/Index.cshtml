@@ -1,0 +1,105 @@
+@page "/task-list/make-initial-contact-with-responsible-body/{id:int}"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
+@using Dfe.Academisation.ExtensionMethods
+
+@inject IConfiguration Configuration
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.MakeInitialContactWithResponsibleBody.MakeInitialContactWithResponsibleBodyModel
+
+@{
+    ViewData["Title"] = "Make initial contact with the responsible body";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+   <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Make initial contact with the responsible body
+        </h1>
+        <p class="govuk-body">Let the local authority or trust know the school is eligible for targeted intervention and 
+            explain the process. You should also inform the diocese if this is a faith school.</p>
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        When to contact the diocese for faith schools
+                    </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p>If it is a Catholic school, you must inform the diocese before the local authority or trust.</p>
+                <p>For other faith schools, you must tell the diocese at the same time as the local authority or trust.</p>
+
+            </div>
+        </details>
+        
+        <p class="govuk-body">You should decide in your RISE team who is best placed to contact the responsible body about 
+            this school.</p>
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Who should make initial contact
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p>The person who should contact the responsible depends on the circumstances of the school and responsible 
+                    body, and their relationship with DfE.</p>
+                <p>Depending on the type of school, it would be one of the trust relationship manager, the local authority 
+                    lead or a member of the RISE team.</p>
+                <p>Discuss what the best approach is for this responsible body as a team and make your decision based on 
+                    your collective knowledge.</p>
+            </div>
+        </details>        
+        <form method="post" novalidate>
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="contact-responsible-body-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input"
+                               id="contact-responsible-body"
+                               name="contact-responsible-body"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.InitialContactResponsibleBody">
+                        <label class="govuk-label govuk-checkboxes__label" for="contact-responsible-body">
+                            Contact the responsible body
+                        </label>
+                        <div id="contact-responsible-body-hint" class="govuk-hint govuk-checkboxes__hint">
+                            There is
+                            <a class="govuk-link"
+                               href="@Configuration["TargetedInterventionGuidanceLink"]"
+                               rel="noreferrer noopener"
+                               target="_blank">guidance on SharePoint (opens in new tab)</a>
+                            that contains links to a call script and answers to commonly asked questions that can help
+                            you.
+                                <details class="govuk-details govuk-!-margin-top-3 margin-bottom-minus-10">
+                                    <summary class="govuk-details__summary">
+                                        <span class="govuk-details__summary-text">
+                                            What to say when you notify the responsible body
+                                        </span>
+                                    </summary>
+                                    <div class="govuk-details__text">
+                                        <p>You should reassure the responsible body that RISE targeted intervention is a
+                                            collaborative process.</p>
+                                        <p>Explain that the RISE team and adviser will work together with the responsible
+                                            body and school and their experience, plans and views will be taken into account.</p>
+                                    </div>
+                                </details>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <govuk-date-input heading-label="false" label="Enter the date of initial contact" id="responsible-body-initial-contact-date" name="responsible-body-initial-contact-date" asp-for="@Model.ResponsibleBodyInitialContactDate" hint="For example, 1 7 2024." />
+            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>

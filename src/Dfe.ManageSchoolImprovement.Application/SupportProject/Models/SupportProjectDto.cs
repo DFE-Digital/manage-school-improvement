@@ -16,6 +16,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? discussTheBestApproach = null,
         bool? emailTheResponsibleBody = null,
         DateTime? contactedTheResponsibleBodyDate = null,
+        bool? initialContactResponsibleBody = null,
+        DateTime? initialContactResponsibleBodyDate = null,
         bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool = null,
         bool? ReceiveCompletedConflictOfInterestForm = null,
         bool? SaveCompletedConflictOfinterestFormInSharePoint = null,
