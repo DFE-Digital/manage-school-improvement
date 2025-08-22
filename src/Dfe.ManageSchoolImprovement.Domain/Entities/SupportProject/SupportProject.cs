@@ -58,9 +58,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     private readonly List<SupportProjectContact> _contacts = new();
     
 
-    public bool? EmailTheResponsibleBody { get; private set; }
-
-    public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
+    // Leaving these here as we will be using them in another task
+    // public bool? EmailTheResponsibleBody { get; private set; }
+    //
+    // public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
     
     public bool? InitialContactResponsibleBody { get; private set; }
     
