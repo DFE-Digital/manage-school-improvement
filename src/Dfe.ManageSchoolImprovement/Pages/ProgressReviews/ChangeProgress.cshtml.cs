@@ -47,7 +47,7 @@ public class ChangeProgressModel(
 
     public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
+        ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
 
 
         await base.GetSupportProject(id, cancellationToken);
@@ -94,7 +94,7 @@ public class ChangeProgressModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, string? returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
+        ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         SetupProgressRadioButtons();
@@ -126,7 +126,7 @@ public class ChangeProgressModel(
         }
 
         // All objectives completed, redirect to summary
-        return RedirectToPage(returnPage, new { id, reviewId = ImprovementPlanReview.ReadableId });
+        return RedirectToPage(ReturnPage, new { id, reviewId = ImprovementPlanReview.ReadableId });
 
     }
 

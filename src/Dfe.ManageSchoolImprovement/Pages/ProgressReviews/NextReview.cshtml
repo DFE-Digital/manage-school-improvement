@@ -44,6 +44,7 @@
                                    type="radio"
                                    value="yes"
                                    checked="@(Model.IsAnotherReviewNeeded == "yes")"
+                                   data-aria-controls="conditional-yes"
                                    asp-for="@Model.IsAnotherReviewNeeded" />
                             <label class="govuk-label govuk-radios__label" for="yes">
                                 Yes
