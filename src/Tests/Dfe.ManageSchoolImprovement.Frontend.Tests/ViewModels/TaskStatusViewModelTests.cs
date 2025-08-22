@@ -8,19 +8,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
 {
     public class TaskStatusViewModelTests
     {
-        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus> ContactedTheResponsibleBodyTaskStatusCases = new()
+        public static readonly TheoryData<bool?, DateTime?, TaskListStatus> ContactedTheResponsibleBodyTaskStatusCases = new()
         {
-            {null, null, null, TaskListStatus.NotStarted },
-            {true, false, null, TaskListStatus.InProgress},
-            {true, true, DateTime.Now, TaskListStatus.Complete }
+            {null, null, TaskListStatus.NotStarted },
+            {false, null, TaskListStatus.InProgress},
+            {true, DateTime.Now, TaskListStatus.Complete }
         };
 
         [Theory, MemberData(nameof(ContactedTheResponsibleBodyTaskStatusCases))]
-        public void ContactedTheResponsibleBodyTaskStatusShouldReturnCorrectStatus(bool? discussTheBestApproach, bool? emailTheResponsibleBody, DateTime? contactedResponsibleBodyDate, TaskListStatus expectedTaskListStatus)
+        public void ContactedTheResponsibleBodyTaskStatusShouldReturnCorrectStatus(bool? initialContactResponsibleBody, DateTime? initialContactResponsibleBodyDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, discussTheBestApproach: discussTheBestApproach, emailTheResponsibleBody: emailTheResponsibleBody,
-                 contactedTheResponsibleBodyDate: contactedResponsibleBodyDate));
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, InitialContactResponsibleBody: initialContactResponsibleBody,
+                 InitialContactResponsibleBodyDate: initialContactResponsibleBodyDate));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(supportProjectModel);

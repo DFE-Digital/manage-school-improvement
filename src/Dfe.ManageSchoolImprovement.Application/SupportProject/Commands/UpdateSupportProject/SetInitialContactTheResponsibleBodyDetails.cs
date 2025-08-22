@@ -4,19 +4,18 @@ using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
-public record SetContactTheResponsibleBodyDetailsCommand(
+public record SetInitialContactTheResponsibleBodyDetailsCommand(
     SupportProjectId SupportProjectId,
-    bool? discussTheBestApproach,
-    bool? emailTheResponsibleBody,
-    DateTime? responsibleBodyContactedDate
+    bool? InitialContactResponsibleBody,
+    DateTime? ResponsibleBodyInitialContactDate
 ) : IRequest<bool>;
 
-public class SetContactTheResponsibleBodyDetails
+public class SetInitialContactTheResponsibleBodyDetails
 {
-    public class SetContactTheResponsibleBodyDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
-        : IRequestHandler<SetContactTheResponsibleBodyDetailsCommand, bool>
+    public class SetInitialContactTheResponsibleBodyDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
+        : IRequestHandler<SetInitialContactTheResponsibleBodyDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetContactTheResponsibleBodyDetailsCommand request,
+        public async Task<bool> Handle(SetInitialContactTheResponsibleBodyDetailsCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
@@ -26,7 +25,7 @@ public class SetContactTheResponsibleBodyDetails
                 return false;
             }
             
-            supportProject.SetContactTheResponsibleBodyDetails(request.discussTheBestApproach, request.emailTheResponsibleBody,request.responsibleBodyContactedDate);
+            supportProject.SetInitialContactTheResponsibleBodyDetails(request.InitialContactResponsibleBody,request.ResponsibleBodyInitialContactDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
