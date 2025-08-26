@@ -40,6 +40,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.login();
     cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
+
   // Initial project creation
   it("Should be able to add a new school to the system", () => {
     homePage.AddSchool();
@@ -126,19 +127,18 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 3: Contact the responsible body
-  it("Should complete the 'Contact the responsible body' task", () => {
+  it("Should complete the 'Make initial contact with the responsible body' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Contact the responsible body' task");
-    taskList.selectTask("Contact the responsible body");
-    taskListActions.hasHeader("Contact the responsible body");
-    taskListActions.selectButtonOrCheckbox("discuss-best-approach");
+    taskList.selectTask("Make initial contact with the responsible body");
+    taskListActions.hasHeader("Make initial contact with the responsible body");
+    taskListActions.selectButtonOrCheckbox("initial-contact-responsible-body");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("confirm_responsible_body_status");
-    taskList.selectTask("Contact the responsible body");
-    taskListActions.selectButtonOrCheckbox("email-responsible-body");
-    taskListActions.enterDate("responsible-body-contacted-date", "01", "01", "2024");
+    taskList.selectTask("Make initial contact with the responsible body");
+    taskListActions.enterDate("responsible-body-initial-contact-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm_responsible_body_status");

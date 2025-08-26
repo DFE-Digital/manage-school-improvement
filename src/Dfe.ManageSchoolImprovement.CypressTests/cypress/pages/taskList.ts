@@ -71,7 +71,7 @@ class TaskList {
   public hasTasks(): this {
     cy.contains('Confirm eligibility');
     cy.contains('Enter the funding history');
-    cy.contains('Contact the responsible body');
+    cy.contains('Make initial contact with the responsible body');
     cy.contains('Record the responsible body\'s response');
     cy.contains('Check potential adviser conflicts of interest');
     cy.contains('Allocate an adviser');
