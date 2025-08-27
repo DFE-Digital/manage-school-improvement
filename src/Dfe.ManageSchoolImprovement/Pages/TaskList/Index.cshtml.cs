@@ -11,7 +11,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public string ReturnPage { get; set; }
 
     public TaskListStatus ConfirmEligibilityTaskListStatus { get; set; }
-    public TaskListStatus ContactTheResponsibleBodyTaskListStatus { get; set; }
+    public TaskListStatus InitialContactWithResponsibleBodyTaskListStatus { get; set; }
+    public TaskListStatus SendFormalNotificationTaskListStatus { get; set; }
     public TaskListStatus RecordTheSchoolResponseTaskListStatus { get; set; }
     public TaskListStatus CheckThePotentialAdviserConflictsOfInterestTaskListStatus { get; set; }
     public TaskListStatus SendIntroductoryEmailTaskListStatus { get; set; }
@@ -55,7 +56,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         await base.GetSupportProject(id, cancellationToken);
 
-        ContactTheResponsibleBodyTaskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
+        InitialContactWithResponsibleBodyTaskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
         RecordTheSchoolResponseTaskListStatus = TaskStatusViewModel.RecordTheSchoolResponseTaskStatus(SupportProject);
         CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskStatusViewModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus(SupportProject);
         AllocateAdviserTaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);

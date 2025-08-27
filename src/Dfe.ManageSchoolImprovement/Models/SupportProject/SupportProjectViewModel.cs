@@ -48,9 +48,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public string LastInspectionDate { get; set; } = string.Empty;
 
-        public bool? EmailTheResponsibleBody { get; private set; }
+        public bool? FormalNotificationSent { get; private set; }
 
-        public DateTime? ContactedTheResponsibleBodyDate { get; private set; }
+        public DateTime? DateFormalNotificationSent { get; private set; }
+        
+        public bool? UseEnrolmentLetterTemplateToDraftEmail { get; private set;}
+        
+        public bool? AttachTargetedInterventionInformationSheet { get; private set;}
+        
+        public bool? AddRecipientsForFormalNotification { get; private set;}
         
         public bool? InitialContactResponsibleBody { get; private set; }
         
@@ -204,8 +210,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 TrustName = supportProjectDto.TrustName,
                 TrustReferenceNumber = supportProjectDto.TrustReferenceNumber,
                 Notes = supportProjectDto.Notes,
-                EmailTheResponsibleBody = supportProjectDto.EmailTheResponsibleBody,
-                ContactedTheResponsibleBodyDate = supportProjectDto.ContactedTheResponsibleBodyDate,
+                FormalNotificationSent = supportProjectDto.FormalNotificationSent,
+                DateFormalNotificationSent = supportProjectDto.DateFormalNotificationSent,
+                UseEnrolmentLetterTemplateToDraftEmail = supportProjectDto.UseEnrolmentLetterTemplateToDraftEmail,
+                AttachTargetedInterventionInformationSheet = supportProjectDto.AttachTargetedInterventionInformationSheet,
+                AddRecipientsForFormalNotification = supportProjectDto.AddRecipientsForFormalNotification,
                 InitialContactResponsibleBody = supportProjectDto.InitialContactResponsibleBody,
                 InitialContactResponsibleBodyDate = supportProjectDto.InitialContactResponsibleBodyDate,
                 SendConflictOfInterestFormToProposedAdviserAndTheSchool = supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool,
