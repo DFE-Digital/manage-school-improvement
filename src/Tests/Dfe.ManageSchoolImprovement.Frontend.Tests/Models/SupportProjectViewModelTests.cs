@@ -19,8 +19,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 Region: "Region",
                 TrustName: "Test Trust",
                 TrustReferenceNumber: "TR123456",
-                EmailTheResponsibleBody: true,
-                ContactedTheResponsibleBodyDate: DateTime.Now,
+                FormalNotificationSent: true,
+                DateFormalNotificationSent: DateTime.Now,
                 SendConflictOfInterestFormToProposedAdviserAndTheSchool: true,
                 ReceiveCompletedConflictOfInterestForm: true,
                 SaveCompletedConflictOfinterestFormInSharePoint: true,
@@ -85,8 +85,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.TrustName, viewModel.TrustName);
             Assert.Equal(supportProjectDto.TrustReferenceNumber, viewModel.TrustReferenceNumber);
             Assert.Equal(supportProjectDto.Notes, viewModel.Notes);
-            Assert.Equal(supportProjectDto.EmailTheResponsibleBody, viewModel.EmailTheResponsibleBody);
-            Assert.Equal(supportProjectDto.ContactedTheResponsibleBodyDate, viewModel.ContactedTheResponsibleBodyDate);
+            Assert.Equal(supportProjectDto.FormalNotificationSent, viewModel.FormalNotificationSent);
+            Assert.Equal(supportProjectDto.DateFormalNotificationSent, viewModel.DateFormalNotificationSent);
             Assert.Equal(supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool, viewModel.SendConflictOfInterestFormToProposedAdviserAndTheSchool);
             Assert.Equal(supportProjectDto.ReceiveCompletedConflictOfInterestForm, viewModel.ReceiveCompletedConflictOfInterestForm);
             Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);
