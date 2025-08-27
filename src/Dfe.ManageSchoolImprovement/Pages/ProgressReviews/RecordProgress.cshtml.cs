@@ -150,10 +150,14 @@ public class RecordProgressModel(
             // Redirect to the next objective
             return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, objectiveId = NextObjectiveId, enableSkip });
         }
+        else if (returnPage is not null)
+        {
+            return RedirectToPage(returnPage, new { id, reviewId });
+        }
         else
         {
             // All objectives completed, redirect to summary
-            return RedirectToPage(returnPage, new { id, reviewId });
+            return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
         }
     }
 
