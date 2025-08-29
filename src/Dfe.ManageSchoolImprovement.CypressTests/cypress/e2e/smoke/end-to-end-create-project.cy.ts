@@ -479,7 +479,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
   // Task 22: Enter improvement plan objectives //Not visible in Test environment
-  it.skip("Should complete the 'Enter improvement plan objectives' task", () => {
+  it("Should complete the 'Enter improvement plan objectives' task", () => {
     homePage.selectSchoolName(schoolLong);
     
     Logger.log("Selecting 'Enter improvement plan objectives' task");
