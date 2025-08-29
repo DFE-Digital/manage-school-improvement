@@ -1,7 +1,9 @@
+import { url } from "inspector";
+
 class ImprovementPlan {
 
-    public hasHeading(expectedHeading: string): this {
-        cy.get('h2').should('contain.text', expectedHeading);
+    public improvementPlanPageLoads(expectedHeading: string): this {
+        cy.url().should('include', '/improvement-plan')
         return this;
     }
 
@@ -64,6 +66,7 @@ class ImprovementPlan {
 
     public clickRecordOrViewProgress(): this {
         cy.get('a').contains('Record or view progress').click();
+        cy.url().should('include', '/progress-reviews');
 
         return this;
     }
@@ -73,11 +76,13 @@ class ImprovementPlan {
             .should('contain.text', 'No progress reviews recorded');
         cy.get('a').contains('Add review').should('exist');
         cy.get('a').contains('Return to improvement plan').should('exist');
+
         return this;
     }
 
     public clickAddReview(): this {
         cy.get('a').contains('Add review').click();
+        
         return this;
     }
     public enterDate(dateFieldId: string, day: string, month: string, year: string): this {

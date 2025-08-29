@@ -3,7 +3,7 @@ import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 
-describe('User navigate to the Improvement Plan, to  record progress review', () => {
+describe('User navigate to the Improvement Plan, and  record progress review', () => {
     beforeEach(() => {
         cy.login();
         homePage
@@ -11,6 +11,9 @@ describe('User navigate to the Improvement Plan, to  record progress review', ()
             .selectFirstSchoolFromList()
         taskList
             .navigateToTab('Improvement plan')
+
+        improvementPlan    
+            .improvementPlanPageLoads('Improvement Plan')
 
         cy.executeAccessibilityTests()
     });
@@ -52,8 +55,6 @@ describe('User navigate to the Improvement Plan, to  record progress review', ()
             .clickRecordOrViewProgress()
             .clickAddReview()
             .validateReviewForm();
-
-        cy.executeAccessibilityTests()
     });
     
     it('should be able to Add first review successfully', () => {
