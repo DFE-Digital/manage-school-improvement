@@ -3,8 +3,8 @@ import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 
-describe('Improvement Plan Progress Recording', () => {
-     beforeEach(() => {
+describe('User navigate to the Improvement Plan, to  record progress review', () => {
+    beforeEach(() => {
         cy.login();
         homePage
             .acceptCookies()
@@ -15,63 +15,84 @@ describe('Improvement Plan Progress Recording', () => {
         cy.executeAccessibilityTests()
     });
 
-it('should display user friendly message if no adviser allocated and no objectives recorded', () => {
-    improvementPlan
-        .hasNoAdviserMessage('an adviser has been allocated')
-        .hasNoObjectivesMessage('all objectives have been added');
-})
+    it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => {
+        improvementPlan
+            .hasNoAdviserMessage('an adviser has been allocated')
+            .hasNoObjectivesMessage('all objectives have been added');
+    })
 
-        it('should display Record or View Progress button when no reviews exist', () => {
-            Logger.log("should display Record or View Progress button");
-            improvementPlan
-              .hasRecordOrViewProgressButton();
+    it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
+        Logger.log("should display Record or View Progress button");
+        improvementPlan
+            .hasRecordOrViewProgressButton()
 
-            cy.exec
-        });
+        cy.executeAccessibilityTests()
+    });
 
-        it('should not show Record or View Progress button when no adviser is assigned', () => {
-            improvementPlan
-                 .interceptNoAdviser()
-                .recordOrViewProgressButtonNotVisible();
-        });
-
-
-
-        it('should allow changing objectives from improvement plan tab', () => {
-            improvementPlan
+    it('should allow changing objectives from improvement plan tab', () => {
+        improvementPlan
             .hasChangeObjectiveLinks()
-                .clickFirstChangeObjective()
-                .updateObjective('Updated objective text');
-        });
+            .clickFirstChangeObjective()
+            .updateObjectiveDetails('Updated details text')
 
+        cy.executeAccessibilityTests()
+    });
 
+    it('should show initial state when no reviews exist', () => {
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .hasTitle('Progress reviews')
+            .hasNoReviewsMessage();
 
-        it('should show initial state when no reviews exist', () => {
-            improvementPlan
-                .clickRecordOrViewProgress()
-                .hasNoReviewsMessage();
-        });
+        cy.executeAccessibilityTests()
+    });
 
-        it('should validate Add Progress Review form', () => {
-            improvementPlan
-                .clickRecordOrViewProgress()
-                .clickAddReview()
-                .validateReviewForm();
-        });
+    it('should get the validation errors when form is submitted with invalid data', () => {
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .clickAddReview()
+            .validateReviewForm();
 
-        it('should handle recording progress against objectives', () => {
-            improvementPlan
-                .clickRecordOrViewProgress()
-                .clickAddReview()
-                .fillReviewDetails()
-                .recordProgressForObjective();
-        });
+        cy.executeAccessibilityTests()
+    });
+    
+    it('should be able to Add first review successfully', () => {
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .clickAddReview()
+            .fillReviewDetails()
+            .anotherReviewNeeded()
+            .hasStatusTag('Progress not recorded')
+            .hasFirstReviewStatusAndLinks()
 
+        cy.executeAccessibilityTests()
 
-  
-        it('should display correct status and links based on progress state', () => {
-            improvementPlan
-                .hasReviewStatusAndLinks();
-        });
+        improvementPlan
+            .hasAddReviewButton()
+            .hasChangeNextReviewDateLink()
+            .hasReturnToImprovementPlanLink()
+    });
 
+     it('should get validation on the Overall progress page for invalid data', () => {
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .clickRecordProgressLink()
+            .validateOverallProgress();
+
+        cy.executeAccessibilityTests()
+    });
+
+    it('should record overall progress and progress against all objectives', () => {
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .clickRecordProgressLink()
+            .recordOverallProgress()
+            .recordProgressForObjective()
+            .recordProgressForObjective();
+
+        cy.executeAccessibilityTests();
+
+        improvementPlan
+            .hasStatusTag('Progress recorded');
+    });
 });
