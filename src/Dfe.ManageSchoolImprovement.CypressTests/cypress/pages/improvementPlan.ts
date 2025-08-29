@@ -188,7 +188,7 @@ class ImprovementPlan {
             cy.get('a').contains('Record progress').should('exist');
         });
 
-        return this;``
+        return this;
     }
 
     public hasStatusTag(status: string): this {
