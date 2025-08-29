@@ -71,6 +71,12 @@ class TaskListActions {
         return this;
     }
 
+    public selectSaveAndAddAnotherObjectiveButton(): this {
+      cy.get('[value="add-another"]').click();
+
+      return this;
+
+    }
 }
 
 const taskListActions = new TaskListActions();
