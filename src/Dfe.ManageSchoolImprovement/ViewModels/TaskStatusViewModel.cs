@@ -22,6 +22,29 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
+    public static TaskListStatus SendFormalNotificationTaskStatus(SupportProjectViewModel SupportProject)
+    {
+        if (SupportProject.UseEnrolmentLetterTemplateToDraftEmail.Equals(true) &&
+            SupportProject.AttachTargetedInterventionInformationSheet.Equals(true) &&
+            SupportProject.AddRecipientsForFormalNotification.Equals(true) &&
+            SupportProject.FormalNotificationSent.Equals(true) &&
+            SupportProject.DateFormalNotificationSent.HasValue)
+        {
+            return TaskListStatus.Complete;
+        }
+
+        if (SupportProject.UseEnrolmentLetterTemplateToDraftEmail.Equals(null) &&
+            SupportProject.AttachTargetedInterventionInformationSheet.Equals(null) &&
+            SupportProject.AddRecipientsForFormalNotification.Equals(null) &&
+            SupportProject.FormalNotificationSent.Equals(null) &&
+            !SupportProject.DateFormalNotificationSent.HasValue)
+        {
+            return TaskListStatus.NotStarted;
+        }
+        
+        return TaskListStatus.InProgress;
+    }
+
     public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&

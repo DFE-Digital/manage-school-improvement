@@ -17,20 +17,20 @@ public class SendFormalNotificationModel(
 {
     [BindProperty(Name = "use-enrolment-letter-template-to-draft-email")]
     public bool? UseEnrolmentLetterTemplateToDraftEmail { get; set; }
-    
+
     [BindProperty(Name = "attach-targeted-intervention-information-sheet")]
     public bool? AttachTargetedInterventionInformationSheet { get; set; }
-    
+
     [BindProperty(Name = "add-recipients")]
     public bool? AddRecipients { get; set; }
-    
-    [BindProperty(Name = "send-email")]
-    public bool? SendEmail { get; set; }
+
+    [BindProperty(Name = "send-email")] public bool? SendEmail { get; set; }
 
     [BindProperty(Name = "date-of-formal-contact", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [Display(Name = "Enter the date of formal contact")]
     public DateTime? DateOfFormalContact { get; set; }
+
     public bool ShowError { get; set; }
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
@@ -46,10 +46,10 @@ public class SendFormalNotificationModel(
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
-        UseEnrolmentLetterTemplateToDraftEmail = true;
-        AttachTargetedInterventionInformationSheet = true;
-        AddRecipients = true;
+
+        UseEnrolmentLetterTemplateToDraftEmail = SupportProject.UseEnrolmentLetterTemplateToDraftEmail ?? null;
+        AttachTargetedInterventionInformationSheet = SupportProject.AttachTargetedInterventionInformationSheet ?? null;
+        AddRecipients = SupportProject.AddRecipientsForFormalNotification ?? null;
         SendEmail = SupportProject.FormalNotificationSent ?? null;
         DateOfFormalContact = SupportProject.DateFormalNotificationSent ?? null;
 
@@ -65,16 +65,17 @@ public class SendFormalNotificationModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        // var request = new SetInitialContactTheResponsibleBodyDetailsCommand(new SupportProjectId(id),
-        //     UseEnrolmentLetterTemplateToDraftEmail, DateOfFormalContact);
+        var request = new SetSendFormalNotificationCommand(new SupportProjectId(id),
+            UseEnrolmentLetterTemplateToDraftEmail, AttachTargetedInterventionInformationSheet, AddRecipients,
+            SendEmail, DateOfFormalContact);
 
-        // var result = await mediator.Send(request, cancellationToken);
-        //
-        // if (!result)
-        // {
-        //     _errorService.AddApiError();
-        //     return await base.GetSupportProject(id, cancellationToken);
-        // }
+        var result = await mediator.Send(request, cancellationToken);
+
+        if (!result)
+        {
+            _errorService.AddApiError();
+            return await base.GetSupportProject(id, cancellationToken);
+        }
 
         TaskUpdated = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });

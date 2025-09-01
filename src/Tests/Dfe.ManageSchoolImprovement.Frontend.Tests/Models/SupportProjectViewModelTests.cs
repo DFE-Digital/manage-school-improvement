@@ -21,6 +21,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 TrustReferenceNumber: "TR123456",
                 FormalNotificationSent: true,
                 DateFormalNotificationSent: DateTime.Now,
+                UseEnrolmentLetterTemplateToDraftEmail: true,
+                AttachTargetedInterventionInformationSheet: true,
+                AddRecipientsForFormalNotification: true,
                 SendConflictOfInterestFormToProposedAdviserAndTheSchool: true,
                 ReceiveCompletedConflictOfInterestForm: true,
                 SaveCompletedConflictOfinterestFormInSharePoint: true,
@@ -87,6 +90,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.Notes, viewModel.Notes);
             Assert.Equal(supportProjectDto.FormalNotificationSent, viewModel.FormalNotificationSent);
             Assert.Equal(supportProjectDto.DateFormalNotificationSent, viewModel.DateFormalNotificationSent);
+            Assert.Equal(supportProjectDto.UseEnrolmentLetterTemplateToDraftEmail, viewModel.UseEnrolmentLetterTemplateToDraftEmail);
+            Assert.Equal(supportProjectDto.AttachTargetedInterventionInformationSheet, viewModel.AttachTargetedInterventionInformationSheet);
+            Assert.Equal(supportProjectDto.AddRecipientsForFormalNotification, viewModel.AddRecipientsForFormalNotification);
             Assert.Equal(supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool, viewModel.SendConflictOfInterestFormToProposedAdviserAndTheSchool);
             Assert.Equal(supportProjectDto.ReceiveCompletedConflictOfInterestForm, viewModel.ReceiveCompletedConflictOfInterestForm);
             Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);

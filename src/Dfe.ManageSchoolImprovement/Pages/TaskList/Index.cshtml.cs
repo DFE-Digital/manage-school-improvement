@@ -59,6 +59,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         InitialContactWithResponsibleBodyTaskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
         RecordTheSchoolResponseTaskListStatus = TaskStatusViewModel.RecordTheSchoolResponseTaskStatus(SupportProject);
         CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskStatusViewModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus(SupportProject);
+        SendFormalNotificationTaskListStatus = TaskStatusViewModel.SendFormalNotificationTaskStatus(SupportProject);
         AllocateAdviserTaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
         SendIntroductoryEmailTaskListStatus = TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(SupportProject);
         ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus = TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(SupportProject);

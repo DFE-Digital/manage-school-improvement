@@ -87,6 +87,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
 
             // Assert
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.InitialContactWithResponsibleBodyTaskListStatus);
+            Assert.Equal(TaskListStatus.NotStarted, _indexModel.SendFormalNotificationTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.RecordTheSchoolResponseTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.AllocateAdviserTaskListStatus);
