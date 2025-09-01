@@ -57,15 +57,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     private readonly List<SupportProjectNote> _notes = new();
     private readonly List<SupportProjectContact> _contacts = new();
     
-    public bool? FormalNotificationSent { get; private set; }
-    
-    public DateTime? DateFormalNotificationSent { get; private set; }
-    
     public bool? UseEnrolmentLetterTemplateToDraftEmail { get; private set; }
-    
     public bool? AttachTargetedInterventionInformationSheet { get; private set; }
-    
     public bool? AddRecipientsForFormalNotification { get; private set; }
+    public bool? FormalNotificationSent { get; private set; }
+    public DateTime? DateFormalNotificationSent { get; private set; }
     
     public bool? InitialContactResponsibleBody { get; private set; }
     
