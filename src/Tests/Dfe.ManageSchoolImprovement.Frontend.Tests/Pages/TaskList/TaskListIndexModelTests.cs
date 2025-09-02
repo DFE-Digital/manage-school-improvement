@@ -86,7 +86,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             var result = await _indexModel.OnGetAsync(projectId, cancellationToken);
 
             // Assert
-            Assert.Equal(TaskListStatus.NotStarted, _indexModel.ContactTheResponsibleBodyTaskListStatus);
+            Assert.Equal(TaskListStatus.NotStarted, _indexModel.InitialContactWithResponsibleBodyTaskListStatus);
+            Assert.Equal(TaskListStatus.NotStarted, _indexModel.SendFormalNotificationTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.RecordTheSchoolResponseTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus);
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.AllocateAdviserTaskListStatus);
