@@ -33,8 +33,7 @@ public class AddReviewModel(
     public Guid ImprovementPlanId { get; set; }
 
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
-
-    public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
+    
     public bool ShowError => _errorService.HasErrors();
 
     public async Task<IActionResult> OnGetAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
@@ -63,39 +62,40 @@ public class AddReviewModel(
             .OrderByDescending(x => x.Order)
             .FirstOrDefault();
 
+        var reviewDateErrorMessage = "Enter the date of the review";
+        var reviewerSelectionErrorMessage = "Select who carried out the review";
+        var wrongReviewDateErrorMessage = "The review date must be after the last review date";
+        var customReviewerNameErrorMessage = "Enter the name of the person who did this review";
+
         // Validate the form
         if (!ReviewDate.HasValue)
         {
-            ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
+            _errorService.AddError(nameof(ReviewDate), reviewDateErrorMessage);
+            ModelState.AddModelError(nameof(ReviewDate), reviewDateErrorMessage);
         }
-
-        if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
-        {
-            ModelState.AddModelError(nameof(ReviewDate), "The review date must be after the last review date");
-        }
-
+        
         if (string.IsNullOrWhiteSpace(ReviewerSelection))
         {
-            ModelState.AddModelError(nameof(ReviewerSelection), "Select who carried out the review");
+            _errorService.AddError(nameof(ReviewerSelection), reviewerSelectionErrorMessage);
+            ReviewerSelectionErrorMessage = reviewerSelectionErrorMessage;
+            ModelState.AddModelError(nameof(ReviewerSelection), reviewerSelectionErrorMessage);
+        }
+        
+        if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
+        {
+            _errorService.AddError(nameof(ReviewDate), wrongReviewDateErrorMessage);
+            ModelState.AddModelError(nameof(ReviewDate), wrongReviewDateErrorMessage);
         }
 
         if (ReviewerSelection == "someone-else" && string.IsNullOrWhiteSpace(CustomReviewerName))
         {
-            ModelState.AddModelError(nameof(CustomReviewerName), "Enter the name of the person who did this review");
+            _errorService.AddError(nameof(CustomReviewerName), customReviewerNameErrorMessage);
+            ModelState.AddModelError(nameof(CustomReviewerName), customReviewerNameErrorMessage);
         }
 
         if (!ModelState.IsValid)
         {
             SetupRadioButtons();
-
-            if (ShowReviewerSelectionError)
-            {
-                ReviewerSelectionErrorMessage = "Select who carried out the review";
-                _errorService.AddError(ReviewerRadioButtons.First().Id, ReviewerSelectionErrorMessage);
-            }
-
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-
             return Page();
         }
 
