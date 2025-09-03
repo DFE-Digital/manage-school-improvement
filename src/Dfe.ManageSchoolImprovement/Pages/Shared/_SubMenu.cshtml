@@ -1,8 +1,3 @@
-@using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
-@using Microsoft.AspNetCore.Hosting
-
-@inject IWebHostEnvironment Environment
-
 @{
     var id = ViewContext.RouteData.Values["id"];
 }
@@ -29,16 +24,13 @@
                 Ofsted reports
             </sub-menu-link>
         </li>
-        @if (Environment.IsDevelopment())
-        {
-            <li class="moj-sub-navigation__item">
-                <sub-menu-link class="moj-sub-navigation__link"
-                               asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
-                               asp-route-id="@id">
-                    Improvement plan
-                </sub-menu-link>
-            </li>
-        }
+        <li class="moj-sub-navigation__item">
+            <sub-menu-link class="moj-sub-navigation__link"
+                           asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                           asp-route-id="@id">
+                Improvement plan
+            </sub-menu-link>
+        </li>
         <li class="moj-sub-navigation__item">
             <sub-menu-link class="moj-sub-navigation__link"
                            asp-page="@Links.Contacts.Index.Page"
