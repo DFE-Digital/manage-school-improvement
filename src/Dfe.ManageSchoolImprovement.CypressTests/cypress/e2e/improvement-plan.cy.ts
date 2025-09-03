@@ -1,7 +1,7 @@
-import improvementPlan from '../pages/improvementPlan';
 import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
+import improvementPlan from '../pages/improvementPlan';
 
 describe('User navigate to the Improvement Plan, and  record progress review', () => {
     beforeEach(() => {
@@ -13,9 +13,7 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
             .navigateToTab('Improvement plan')
 
         improvementPlan    
-            .improvementPlanPageLoads('Improvement Plan')
-
-        cy.executeAccessibilityTests()
+            .improvementPlanPageLoads()
     });
 
     it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => {
@@ -72,28 +70,24 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
             .hasAddReviewButton()
             .hasChangeNextReviewDateLink()
             .hasReturnToImprovementPlanLink()
+
+        cy.executeAccessibilityTests()   
+        
+
     });
 
-     it('should get validation on the Overall progress page for invalid data', () => {
+     it('should be able to Record first review successfully', () => {
         improvementPlan
             .clickRecordOrViewProgress()
             .clickRecordProgressLink()
-            .validateOverallProgress();
-
-        cy.executeAccessibilityTests()
-    });
-
-    it('should record overall progress and progress against all objectives', () => {
-        improvementPlan
-            .clickRecordOrViewProgress()
-            .clickRecordProgressLink()
+            .validateOverallProgress()
             .recordOverallProgress()
             .recordProgressForObjective()
             .recordProgressForObjective();
 
-        cy.executeAccessibilityTests();
+        cy.executeAccessibilityTests()    
 
         improvementPlan
-            .hasStatusTag('Progress recorded');
+            .hasStatusTag('Progress recorded');   
     });
 });
