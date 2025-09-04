@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250827140054_rename-formal-notification-sent-fields")]
+    partial class renameformalnotificationsentfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,9 +373,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("AddRecipientsForFormalNotification")
-                        .HasColumnType("bit");
-
                     b.Property<string>("AdviserEmailAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -392,9 +392,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("AttachSchoolImprovementPlan")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("AttachTargetedInterventionInformationSheet")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("CaseStudyCandidate")
@@ -681,9 +678,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<string>("TrustReferenceNumber")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("UseEnrolmentLetterTemplateToDraftEmail")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
