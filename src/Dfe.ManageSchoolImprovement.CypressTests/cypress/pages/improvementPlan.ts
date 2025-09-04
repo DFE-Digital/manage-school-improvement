@@ -1,7 +1,7 @@
 class ImprovementPlan {
 
-    public improvementPlanPageLoads(expectedHeading: string): this {
-        cy.url().should('include', '/improvement-plan')
+    public improvementPlanPageLoads(): this {
+        cy.url().should('contain', '/improvement-plan')
         return this;
     }
 
@@ -17,6 +17,18 @@ class ImprovementPlan {
 
     public hasAddReviewButton(): this {
         cy.get('a').contains('Add review').should('exist');
+        return this;
+    }
+
+    public selectAddAnotherObjective(buttonText: string): this {
+        cy.get('.govuk-button--secondary').contains(buttonText).click();
+        return this;
+    }
+
+    public clickRecordProgressLink(): this {
+        cy.get('a').contains('Record progress').click()
+        cy.url().should('include', '/progress-reviews');
+        
         return this;
     }
 
@@ -120,12 +132,6 @@ class ImprovementPlan {
         cy.getById('yes').check();
         this.enterDate('NextReviewDate', '12', '12', '2026');
         cy.get('[type="submit"]').contains('Save and return').click();
-
-        return this;
-    }
-
-    public clickRecordProgressLink(): this {
-        cy.get('a').contains('Record progress').click()
 
         return this;
     }
