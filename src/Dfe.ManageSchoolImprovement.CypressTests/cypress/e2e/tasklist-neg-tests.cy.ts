@@ -1,6 +1,5 @@
 import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
-import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import improvementPlan from "cypress/pages/improvementPlan";
