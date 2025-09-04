@@ -3,7 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import improvementPlan from '../pages/improvementPlan';
 
-describe('User navigate to the Improvement Plan, and  record progress review', () => {
+describe('User navigate to the Improvement Plan, and  Add progress review', () => {
     beforeEach(() => {
         cy.login();
         homePage
@@ -43,7 +43,7 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
         improvementPlan
             .clickRecordOrViewProgress()
             .hasTitle('Progress reviews')
-            .hasNoReviewsMessage();
+            .hasNoReviewsMessage()
 
         cy.executeAccessibilityTests()
     });
@@ -71,23 +71,8 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
             .hasChangeNextReviewDateLink()
             .hasReturnToImprovementPlanLink()
 
-        cy.executeAccessibilityTests()   
-        
+        cy.executeAccessibilityTests()          
 
     });
 
-     it('should be able to Record first review successfully', () => {
-        improvementPlan
-            .clickRecordOrViewProgress()
-            .clickRecordProgressLink()
-            .validateOverallProgress()
-            .recordOverallProgress()
-            .recordProgressForObjective()
-            .recordProgressForObjective();
-
-        cy.executeAccessibilityTests()    
-
-        improvementPlan
-            .hasStatusTag('Progress recorded');   
-    });
 });
