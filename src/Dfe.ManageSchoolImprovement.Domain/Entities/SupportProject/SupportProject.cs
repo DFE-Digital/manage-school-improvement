@@ -208,6 +208,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public IEnumerable<ImprovementPlan> ImprovementPlans => _improvementPlans.AsReadOnly();
 
     private readonly List<ImprovementPlan> _improvementPlans = new();
+    
+    public bool? InterimExecutiveBoardCreated { get; private set; }
+    public string? InterimExecutiveBoardCreatedDetails { get; private set; }
+    public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
 
     #endregion
 
@@ -687,5 +691,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     }
 
+    public void SetInterimExecutiveBoardCreated(bool? interimExecutiveBoardCreated,
+        string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)
+    {
+        InterimExecutiveBoardCreated = interimExecutiveBoardCreated;
+        InterimExecutiveBoardCreatedDetails = interimExecutiveBoardCreatedDetails;
+        InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
+    }
+    
     #endregion
 }

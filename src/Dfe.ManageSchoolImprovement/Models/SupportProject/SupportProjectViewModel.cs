@@ -195,6 +195,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? AssessmentToolTwoCompleted { get; set; }
 
         public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
+        
+        public bool? InterimExecutiveBoardCreated { get; set; }
+        public string? InterimExecutiveBoardCreatedDetails { get; set; }
+        public DateTime? InterimExecutiveBoardCreatedDate { get; set; }
 
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
@@ -303,7 +307,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
                 DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent,
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
-
+                InterimExecutiveBoardCreated = supportProjectDto.InterimExecutiveBoardCreated,
+                InterimExecutiveBoardCreatedDetails = supportProjectDto.InterimExecutiveBoardCreatedDetails,
+                InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate
             };
         }
     }

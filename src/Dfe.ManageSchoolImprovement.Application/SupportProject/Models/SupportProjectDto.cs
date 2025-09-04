@@ -104,7 +104,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? IndicativeFundingBand = null,
         bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = null,
         DateTime? DateTemplatesAndIndicativeFundingBandSent = null,
-        IEnumerable<ImprovementPlanDto> ImprovementPlans = null!
+        IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
+        bool? InterimExecutiveBoardCreated = null,
+        string? InterimExecutiveBoardCreatedDetails = null,
+        DateTime? InterimExecutiveBoardCreatedDate = null
     )
     { }
 }

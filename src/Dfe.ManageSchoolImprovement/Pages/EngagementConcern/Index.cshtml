@@ -205,6 +205,13 @@
                     Record use of information powers
                 </a>
             }
+            // if/else for use of ieb, not if academy, not if already in use
+            <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+               asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
+               class="govuk-button govuk-button--secondary" data-module="govuk-button"
+               data-cy="record-ieb-btn">
+                Record use of interim executive board
+            </a>
         }
         else
         {
