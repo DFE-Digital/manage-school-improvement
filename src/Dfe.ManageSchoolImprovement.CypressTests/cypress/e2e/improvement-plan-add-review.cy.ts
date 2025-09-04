@@ -23,7 +23,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     })
 
     it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
-        Logger.log("should display Record or View Progress button");
+        Logger.log("Record or View Progress button is visible");
         improvementPlan
             .hasRecordOrViewProgressButton()
 
@@ -31,6 +31,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     });
 
     it('should allow changing objectives from improvement plan tab', () => {
+        Logger.log("change objective details");
         improvementPlan
             .hasChangeObjectiveLinks()
             .clickFirstChangeObjective()
@@ -56,6 +57,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     });
     
     it('should be able to Add first review successfully', () => {
+        Logger.log("add First review");
         improvementPlan
             .clickRecordOrViewProgress()
             .clickAddReview()

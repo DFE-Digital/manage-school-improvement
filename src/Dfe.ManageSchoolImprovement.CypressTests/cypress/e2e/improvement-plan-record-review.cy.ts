@@ -15,6 +15,7 @@ describe('User navigate to the Improvement Plan, and record progress review', ()
     });
 
      it('should be able to Record first review successfully', () => {
+        Logger.log("record first review");
         improvementPlan
             .clickRecordOrViewProgress()
             .clickRecordProgressLink()
