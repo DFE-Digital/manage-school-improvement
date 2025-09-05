@@ -106,6 +106,8 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-eligibility-status");
+
+    cy.executeAccessibilityTests();  
   });
 
   // Task 2: Funding history
@@ -124,6 +126,8 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     fundingHistory.confirmFundingHistory();
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("funding_history_status");
+
+    cy.executeAccessibilityTests();  
   });
 
   // Task 3: Contact the responsible body
@@ -561,6 +565,9 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-improvement-grant-offer-letter_status");
+
+    cy.executeAccessibilityTests();
+
   });
   
 });

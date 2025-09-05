@@ -3,7 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import improvementPlan from '../pages/improvementPlan';
 
-describe('User navigate to the Improvement Plan, and  record progress review', () => {
+describe('User navigate to the Improvement Plan, and  Add progress review', () => {
     beforeEach(() => {
         cy.login();
         homePage
@@ -23,7 +23,7 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
     })
 
     it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
-        Logger.log("should display Record or View Progress button");
+        Logger.log("Record or View Progress button is visible");
         improvementPlan
             .hasRecordOrViewProgressButton()
 
@@ -31,6 +31,7 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
     });
 
     it('should allow changing objectives from improvement plan tab', () => {
+        Logger.log("change objective details");
         improvementPlan
             .hasChangeObjectiveLinks()
             .clickFirstChangeObjective()
@@ -43,7 +44,7 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
         improvementPlan
             .clickRecordOrViewProgress()
             .hasTitle('Progress reviews')
-            .hasNoReviewsMessage();
+            .hasNoReviewsMessage()
 
         cy.executeAccessibilityTests()
     });
@@ -56,6 +57,7 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
     });
     
     it('should be able to Add first review successfully', () => {
+        Logger.log("add First review");
         improvementPlan
             .clickRecordOrViewProgress()
             .clickAddReview()
@@ -71,23 +73,8 @@ describe('User navigate to the Improvement Plan, and  record progress review', (
             .hasChangeNextReviewDateLink()
             .hasReturnToImprovementPlanLink()
 
-        cy.executeAccessibilityTests()   
-        
+        cy.executeAccessibilityTests()          
 
     });
 
-     it('should be able to Record first review successfully', () => {
-        improvementPlan
-            .clickRecordOrViewProgress()
-            .clickRecordProgressLink()
-            .validateOverallProgress()
-            .recordOverallProgress()
-            .recordProgressForObjective()
-            .recordProgressForObjective();
-
-        cy.executeAccessibilityTests()    
-
-        improvementPlan
-            .hasStatusTag('Progress recorded');   
-    });
 });

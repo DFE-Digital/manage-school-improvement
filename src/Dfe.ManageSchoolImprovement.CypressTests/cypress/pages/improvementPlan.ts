@@ -1,6 +1,8 @@
 class ImprovementPlan {
 
     public improvementPlanPageLoads(): this {
+        cy.get('body').should('be.visible');
+        cy.get('h2').should('contain.text', 'Improvement plan');
         cy.url().should('contain', '/improvement-plan')
         return this;
     }
@@ -38,9 +40,9 @@ class ImprovementPlan {
     }
 
     public hasRecordOrViewProgressButton(): this {
-        cy.get('[role="button"]')
-            .should('exist')
-            .and('contain.text', 'Record or view progress');
+        cy.get('.govuk-button')
+            .invoke('text')
+            .then(text => expect(text.trim()).to.eq('Record or view progress'));
         return this;
     }
 
@@ -75,7 +77,8 @@ class ImprovementPlan {
     }
 
     public clickRecordOrViewProgress(): this {
-        cy.get('a').contains('Record or view progress').click();
+        cy.get('.govuk-button').contains('Record or view progress').should('exist');
+        cy.get('.govuk-button').contains('Record or view progress').click();
         cy.url().should('include', '/progress-reviews');
 
         return this;
@@ -203,6 +206,11 @@ class ImprovementPlan {
 
         });
 
+        return this;
+    }
+
+    public clickRecordOrViewProgressForce(): this {
+         cy.get('.govuk-button').contains('Record or view progress').click({ force: true });
         return this;
     }
 }
