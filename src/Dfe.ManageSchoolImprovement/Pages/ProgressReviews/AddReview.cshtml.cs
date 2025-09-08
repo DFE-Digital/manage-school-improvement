@@ -33,7 +33,7 @@ public class AddReviewModel(
     public Guid ImprovementPlanId { get; set; }
 
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
-    
+
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
@@ -64,16 +64,6 @@ public class AddReviewModel(
             .FirstOrDefault();
 
         // Validate the form
-        if (!ReviewDate.HasValue)
-        {
-            ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
-        }
-
-        if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
-        {
-            ModelState.AddModelError(nameof(ReviewDate), "The review date must be after the last review date");
-        }
-
         if (string.IsNullOrWhiteSpace(ReviewerSelection))
         {
             ModelState.AddModelError(nameof(ReviewerSelection), "Select who carried out the review");
@@ -84,17 +74,27 @@ public class AddReviewModel(
             ModelState.AddModelError(nameof(CustomReviewerName), "Enter the name of the person who did this review");
         }
 
+        if (!ReviewDate.HasValue)
+        {
+            ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
+        }
+
+        if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
+        {
+            ModelState.AddModelError(nameof(ReviewDate), "The review date must be after the last review date");
+        }
+
         if (!ModelState.IsValid)
         {
             SetupRadioButtons();
+
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
 
             if (ShowReviewerSelectionError)
             {
                 ReviewerSelectionErrorMessage = "Select who carried out the review";
                 _errorService.AddError(ReviewerRadioButtons.First().Id, ReviewerSelectionErrorMessage);
             }
-
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
 
             return Page();
         }
