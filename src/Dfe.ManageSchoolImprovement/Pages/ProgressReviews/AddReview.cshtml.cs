@@ -64,16 +64,6 @@ public class AddReviewModel(
             .FirstOrDefault();
 
         // Validate the form
-        if (string.IsNullOrWhiteSpace(ReviewerSelection))
-        {
-            ModelState.AddModelError(nameof(ReviewerSelection), "Select who carried out the review");
-        }
-
-        if (ReviewerSelection == "someone-else" && string.IsNullOrWhiteSpace(CustomReviewerName))
-        {
-            ModelState.AddModelError(nameof(CustomReviewerName), "Enter the name of the person who did this review");
-        }
-
         if (!ReviewDate.HasValue)
         {
             ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
@@ -82,6 +72,16 @@ public class AddReviewModel(
         if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
         {
             ModelState.AddModelError(nameof(ReviewDate), "The review date must be after the last review date");
+        }
+
+        if (string.IsNullOrWhiteSpace(ReviewerSelection))
+        {
+            ModelState.AddModelError(nameof(ReviewerSelection), "Select who carried out the review");
+        }
+
+        if (ReviewerSelection == "someone-else" && string.IsNullOrWhiteSpace(CustomReviewerName))
+        {
+            ModelState.AddModelError(nameof(CustomReviewerName), "Enter the name of the person who did this review");
         }
 
         if (!ModelState.IsValid)
