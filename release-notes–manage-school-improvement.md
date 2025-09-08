@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.1.0] - Q2 – Sprint 5 (Part 2) - 2025-09-08
+
+### 📌 User Stories
+
+- **236096** - Release the Escalate to mandation feature
+
+--
+
 ## 📅 [v1.0.0] - Q2 – Sprint 5 (Part 1) - 2025-09-04
 
 ### 📌 User Stories
