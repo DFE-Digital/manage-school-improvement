@@ -166,7 +166,7 @@
                         <ul class="govuk-summary-list__action-list">
                             <li class="govuk-summary-list__actions-list-item">
                                 <a
-                                    asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+                                    asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
                                     asp-route-id="@Model.SupportProject.Id"
                                     class="govuk-link"
                                     data-cy="ieb-created-change-link">
@@ -249,10 +249,8 @@
                 </a>
             }
 
-            // if/else for use of ieb, not if academy, not if already in use
-            @if (
-                // string.IsNullOrEmpty(Model.SupportProject.TrustName) || 
-                Model.SupportProject.InterimExecutiveBoardCreated is null)
+            @if (Model.SupportProject.InterimExecutiveBoardCreated != true)
+                @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
             {
                 <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
                    asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"

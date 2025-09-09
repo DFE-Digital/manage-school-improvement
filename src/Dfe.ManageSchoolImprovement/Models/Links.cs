@@ -108,6 +108,7 @@ public static class Links
         public static readonly LinkItem ChangeEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeEngagementConcern");
         public static readonly LinkItem ChangeUseOfInformationPowers = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInformationPowers");
         public static readonly LinkItem RecordUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordUseOfInterimExecutiveBoard");
+        public static readonly LinkItem ChangeUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInterimExecutiveBoard");
     }
 
     public static class CaseStudy

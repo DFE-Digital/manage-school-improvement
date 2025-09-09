@@ -13,7 +13,7 @@ public class SetSupportProjectIebDetails
         DateTime? InterimExecutiveBoardCreatedDate
     ) : IRequest<bool>;
 
-    public class SetSupportProjectInformationPowersDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
+    public class SetSupportProjectIebDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetSupportProjectIebDetailsCommand, bool>
     {
         public async Task<bool> Handle(SetSupportProjectIebDetailsCommand request, CancellationToken cancellationToken)
