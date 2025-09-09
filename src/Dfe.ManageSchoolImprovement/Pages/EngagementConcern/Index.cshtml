@@ -1,6 +1,7 @@
 @page "/engagement-concern/{id:int}"
 @using Dfe.Academisation.ExtensionMethods
 @using Microsoft.AspNetCore.Hosting
+@using Microsoft.EntityFrameworkCore
 
 @inject IWebHostEnvironment Environment
 
@@ -154,6 +155,48 @@
                     </div>
                 </div>
             </form>
+            
+            @if (Model.SupportProject.InterimExecutiveBoardCreated is true)
+            {
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">
+                            Interim executive board
+                        </h2>
+                        <ul class="govuk-summary-list__action-list">
+                            <li class="govuk-summary-list__actions-list-item">
+                                <a
+                                    asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+                                    asp-route-id="@Model.SupportProject.Id"
+                                    class="govuk-link"
+                                    data-cy="ieb-created-change-link">
+                                    Change
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Date used
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.SupportProject.InterimExecutiveBoardCreatedDate.ToDateString()
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Details
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.SupportProject.InterimExecutiveBoardCreatedDetails
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            }
 
             @if (Model.SupportProject.InformationPowersInUse is true)
             {
@@ -205,13 +248,19 @@
                     Record use of information powers
                 </a>
             }
+
             // if/else for use of ieb, not if academy, not if already in use
-            <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
-               asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
-               class="govuk-button govuk-button--secondary" data-module="govuk-button"
-               data-cy="record-ieb-btn">
-                Record use of interim executive board
-            </a>
+            @if (
+                // string.IsNullOrEmpty(Model.SupportProject.TrustName) || 
+                Model.SupportProject.InterimExecutiveBoardCreated is null)
+            {
+                <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+                   asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
+                   class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                   data-cy="record-ieb-btn">
+                    Record use of interim executive board
+                </a>
+            }
         }
         else
         {

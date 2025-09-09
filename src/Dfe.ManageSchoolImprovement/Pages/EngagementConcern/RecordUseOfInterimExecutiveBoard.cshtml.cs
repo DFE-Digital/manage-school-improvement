@@ -22,8 +22,8 @@ public class RecordUseOfInterimExecutiveBoardModel(
 
     public bool ShowError => _errorService.HasErrors();
 
-    public bool ShowDetailsError => ModelState.ContainsKey("information-powers-details") &&
-                                  ModelState["information-powers-details"]?.Errors.Count > 0;
+    public bool ShowDetailsError => ModelState.ContainsKey("ieb-created-details") &&
+                                  ModelState["ieb-created-details"]?.Errors.Count > 0;
 
     [BindProperty(Name = "ieb-created-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]

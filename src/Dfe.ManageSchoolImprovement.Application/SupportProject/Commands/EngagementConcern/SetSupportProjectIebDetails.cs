@@ -25,7 +25,7 @@ public class SetSupportProjectIebDetails
                 return false;
             }
 
-            supportProject.SetInformationPowersDetails(
+            supportProject.SetInterimExecutiveBoardCreated(
                 request.InterimExecutiveBoardCreated,
                 request.InterimExecutiveBoardCreatedDetails,
                 request.InterimExecutiveBoardCreatedDate);
