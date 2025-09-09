@@ -33,7 +33,7 @@ public class AddReviewModel(
     public Guid ImprovementPlanId { get; set; }
 
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
-    
+
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
@@ -88,13 +88,13 @@ public class AddReviewModel(
         {
             SetupRadioButtons();
 
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+
             if (ShowReviewerSelectionError)
             {
                 ReviewerSelectionErrorMessage = "Select who carried out the review";
                 _errorService.AddError(ReviewerRadioButtons.First().Id, ReviewerSelectionErrorMessage);
             }
-
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
 
             return Page();
         }
