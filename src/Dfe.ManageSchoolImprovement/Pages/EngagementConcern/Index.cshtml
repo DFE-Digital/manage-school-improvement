@@ -14,7 +14,8 @@
 {
     <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
-             || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true)
+         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
+         || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
              aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -32,13 +33,16 @@
                     @(Model.InformationPowersRecorded is true ? "Use of information powers recorded" : "")
                     @(Model.InformationPowersUpdated is true ? "Information powers updated" : "")
                     @(Model.InformationPowersRemoved is true ? "Information powers removed" : "")
+                    @(Model.InterimExecutiveBoardRecorded is true ? "Use of interim executive board recorded" : "")
+                    @(Model.InterimExecutiveBoardUpdated is true ? "Interim executive board updated" : "")
+                    @(Model.InterimExecutiveBoardRemoved is true ? "Interim executive board removed" : "")
                 </h3>
             </div>
         </div>
     }
 }
 
-<partial name="_ProjectHeader" model="Model.SupportProject" />
+<partial name="_ProjectHeader" model="Model.SupportProject"/>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @if (Model.SupportProject.EngagementConcernRecorded is true)
@@ -138,6 +142,48 @@
                     </div>
                 </div>
             </form>
+            
+            @if (Model.SupportProject.InterimExecutiveBoardCreated is true)
+            {
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">
+                            Interim executive board
+                        </h2>
+                        <ul class="govuk-summary-list__action-list">
+                            <li class="govuk-summary-list__actions-list-item">
+                                <a
+                                    asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
+                                    asp-route-id="@Model.SupportProject.Id"
+                                    class="govuk-link"
+                                    data-cy="ieb-created-change-link">
+                                    Change
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Date used
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.SupportProject.InterimExecutiveBoardCreatedDate.ToDateString()
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Details
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.SupportProject.InterimExecutiveBoardCreatedDetails
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            }
 
             @if (Model.SupportProject.InformationPowersInUse is true)
             {
@@ -186,6 +232,17 @@
                    class="govuk-button govuk-button--secondary" data-module="govuk-button"
                    data-cy="record-information-powers-btn">
                     Record use of information powers
+                </a>
+            }
+
+            @if (Model.SupportProject.InterimExecutiveBoardCreated != true)
+                @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
+            {
+                <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+                   asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
+                   class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                   data-cy="record-ieb-btn">
+                    Record use of interim executive board
                 </a>
             }
         }

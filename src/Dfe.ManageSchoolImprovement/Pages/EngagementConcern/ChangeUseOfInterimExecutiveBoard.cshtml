@@ -1,0 +1,121 @@
+@page "/engagement-concern/change-use-of-interim-executive-board/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.ChangeUseOfInterimExecutiveBoardModel
+
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "Change use of interim executive board";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <form method="post">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                            Change use of interim executive board
+                        </h1>
+                    </legend>
+
+                    <p class="govuk-body">Interim executive boards (IEBs) are temporary boards who replace the existing
+                        governors at a local authority maintained school.</p>
+                    <p class="govuk-body">An IEB should only be used if all other attempts to engage with the governors
+                        have failed.</p>
+                    <p class="govuk-body">You must read the latest <a class="govuk-link"
+                                                                      href="@Configuration["IEBGuidanceLink"]"
+                                                                      rel="noreferrer noopener"
+                                                                      target="_blank">detailed guidance on how to create
+                            an IEB (opens
+                            in new tab)</a>.</p>
+
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+                                How to create interim executive boards
+                            </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <p class="govuk-body"></p>
+                            <p class="govuk-body"></p>
+                        </div>
+                    </details>
+
+                    <p class="govuk-body">An IEB is a small group of experienced people who temporarily take over the
+                        role of a school's governing body.</p>
+                    <p class="govuk-body">Their job is to improve how the school is run and help raise educational
+                        standards.</p>
+                    <p class="govuk-body">DfE can only create an IEB after a period of formal consultation with the
+                        local authority and governing body. The diocese or foundation trust must also be consulted if it
+                        is a faith school or part of a foundation.</p>
+                    <p class="govuk-body">After the consultation, a regional director must decide if an IEB is needed.</p>
+                    <p class="govuk-body">An IEB can only be created with a regional director's approval.</p>
+
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input name="ieb-created-hidden" type="hidden" value="false"/>
+                            <input class="govuk-checkboxes__input"
+                                   id="ieb-created"
+                                   name="ieb-created"
+                                   value="true"
+                                   type="checkbox"
+                                   @(Model.InterimExecutiveBoardCreated == true ? "checked" : "")
+                                   data-aria-controls="conditional-ieb-created"/>
+                            <label class="govuk-label govuk-checkboxes__label" for="ieb-created">
+                                Interim executive board created
+                            </label>
+                        </div>
+
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                             id="conditional-ieb-created">
+
+                            <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
+                                <label class="govuk-label" for="ieb-created-details">
+                                    Give details of the IEB, who is on it and why it is necessary.
+                                </label>
+                                @if (Model.ShowDetailsError)
+                                {
+                                    <p id="more-detail-error" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden">Error:</span> You must enter details
+                                    </p>
+                                }
+                                <textarea class="govuk-textarea"
+                                          id="ieb-created-details"
+                                          name="ieb-created-details"
+                                          rows="5"
+                                          aria-describedby="ieb-created-details-hint">@Model.InterimExecutiveBoardCreatedDetails</textarea>
+                            </div>
+
+                            <div class="govuk-form-group">
+                                <govuk-date-input heading-label="true"
+                                                  label="Date of regional director's decision to create an IEB"
+                                                  id="ieb-created-date"
+                                                  name="ieb-created-date"
+                                                  asp-for="@Model.InterimExecutiveBoardCreatedDate"/>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="govuk-button-group govuk-body">
+                <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="save-ieb-created-btn">
+                    Save and return
+                </button>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+

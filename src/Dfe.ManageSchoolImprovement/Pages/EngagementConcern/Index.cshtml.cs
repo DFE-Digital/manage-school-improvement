@@ -27,7 +27,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public string? EngagementConcernEscalationReason { get; set; }
 
     public DateTime? DateEscalated { get; set; }
-
+    
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
 
@@ -36,7 +36,15 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     
     [TempData]
     public bool? InformationPowersUpdated { get; set; }
+    
+    [TempData]
+    public bool? InterimExecutiveBoardRecorded { get; set; }
 
+    [TempData]
+    public bool? InterimExecutiveBoardRemoved { get; set; }
+    
+    [TempData]
+    public bool? InterimExecutiveBoardUpdated { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
