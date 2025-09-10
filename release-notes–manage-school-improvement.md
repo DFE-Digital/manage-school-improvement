@@ -3,6 +3,30 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.1.0] - Q2 – Sprint 5 (Part 2) - 2025-09-08
+
+### 📌 User Stories
+
+- **236096** - Release the Escalate to mandation feature
+
+--
+
+## 📅 [v1.0.0] - Q2 – Sprint 5 (Part 1) - 2025-09-04
+
+### 📌 User Stories
+
+- **225330** - Monitoring- View or record progress against objectives
+- **232183** - Monitoring- make it mandatory to complete both the progress and details fields when reviewing progress towards objectives
+- **231322** - Monitoring- Record and view overall school progress
+- **224088** - Add new "Make initial contact with the responsible body" task
+- **224071** - Update "Contact the responsible body" task to "Send the formal notification"
+
+### 🐛 Bug Fixes
+
+- **234632** - H2 heading font size not very distinct from paragraph text
+
+--
+
 ## 📅 [v0.15.0] - Q2 – Sprint 4 (Part 1) - 2025-08-18
 
 ### 📌 User Stories

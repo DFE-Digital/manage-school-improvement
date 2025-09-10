@@ -59,7 +59,7 @@ describe("User select the school", () => {
         taskList
             .navigateToTab('Improvement plan');
         improvementPlan
-            .hasHeading('Improvement plan')
+            .improvementPlanPageLoads()
 
         cy.executeAccessibilityTests()
     });

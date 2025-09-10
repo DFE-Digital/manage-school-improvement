@@ -113,13 +113,13 @@ public class EditReviewModel(
         {
             SetupRadioButtons();
 
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+
             if (ShowReviewerSelectionError)
             {
                 ReviewerSelectionErrorMessage = "Select who carried out the review";
                 _errorService.AddError(ReviewerRadioButtons.First().Id, ReviewerSelectionErrorMessage);
             }
-
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
 
             return Page();
         }

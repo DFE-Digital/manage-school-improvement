@@ -73,8 +73,9 @@ class TaskList {
     cy.contains('Confirm eligibility');
     cy.contains('Enter the funding history');
     cy.contains('Make initial contact with the responsible body');
-    cy.contains('Record the responsible body\'s response');
     cy.contains('Check potential adviser conflicts of interest');
+    cy.contains('Send the formal notification');
+    cy.contains('Record the responsible body\'s response');
     cy.contains('Allocate an adviser');
     cy.contains('Send introductory email');
     cy.contains("Arrange adviser's initial visit");
@@ -86,11 +87,12 @@ class TaskList {
     cy.contains('Record supporting organisation appointment');
     cy.contains('Add supporting organisation contact details');
     cy.contains('Request planning grant offer letter');
+    cy.contains('Confirm planning grant offer letter sent');
     cy.contains('Share indicative funding band and the improvement plan template');
     cy.contains('Review the improvement plan and confirm the funding band');
     cy.contains('Send the agreed improvement plan for approval');
     cy.contains('Record improvement plan decision');
-     cy.contains('Enter improvement plan objectives');
+    cy.contains('Enter improvement plan objectives');
     cy.contains('Request improvement grant offer letter');
     cy.contains('Confirm improvement grant offer letter sent');
 
@@ -103,6 +105,7 @@ class TaskList {
     cy.get('#confirm_responsible_body_status').contains('Not Started');
     cy.get('#record-school-response_status').contains("Not Started");
     cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains("Not Started");
+    cy.get('#send-formal-notification_status').contains("Not Started");
     cy.get('#AllocateAdviser_status').contains("Not Started");
     cy.get('#send-introductory-email-request-improvement-plan_status').contains("Not Started");
     cy.get('#adviser-school-visit_status').contains("Not Started");
