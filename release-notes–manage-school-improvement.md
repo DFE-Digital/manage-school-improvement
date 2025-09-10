@@ -3,6 +3,14 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.1.1] - Q2 – Sprint 5 (Part 3) - 2025-09-09
+
+### 🐛 Bug Fixes
+
+- **234569** - Monitoring: Ensure the error messages in the Error Summary appear in the correct order.
+
+--
+
 ## 📅 [v1.1.0] - Q2 – Sprint 5 (Part 2) - 2025-09-08
 
 ### 📌 User Stories
