@@ -95,8 +95,7 @@ public class RecordUseOfInterimExecutiveBoardModel(
             return Page();
         }
         
-        TempData["InterimExecutiveBoardCreated"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
-        // TempData["InformationPowersRemoved"] = SupportProject.InterimExecutiveBoardCreated == true && InterimExecutiveBoardCreated == false;
+        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

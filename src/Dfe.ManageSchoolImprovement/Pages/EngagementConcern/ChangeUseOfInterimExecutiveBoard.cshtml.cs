@@ -95,10 +95,10 @@ public class ChangeUseOfInterimExecutiveBoardModel(
             return Page();
         }
 
-        TempData["InformationPowersUpdated"] = SupportProject.InterimExecutiveBoardCreated is true && InterimExecutiveBoardCreated is true &&
+        TempData["InterimExecutiveBoardUpdated"] = SupportProject.InterimExecutiveBoardCreated is true && InterimExecutiveBoardCreated is true &&
                                                SupportProject.InterimExecutiveBoardCreatedDetails != InterimExecutiveBoardCreatedDetails;
-        TempData["InterimExecutiveBoardCreated"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
-        // TempData["InformationPowersRemoved"] = SupportProject.InformationPowersInUse == true && InformationPowersInUse == false;
+        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
+        TempData["InterimExecutiveBoardRemoved"] = SupportProject.InterimExecutiveBoardCreated == true && InterimExecutiveBoardCreated == false;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }
