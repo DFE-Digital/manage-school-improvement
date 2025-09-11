@@ -70,6 +70,17 @@
                                     Escalate<span class="govuk-visually-hidden">Escalate</span>
                                 </a>
                             </li>
+                            @if (Model.SupportProject.EngagementConcernRaisedDate != null)
+                            {
+                                <li class="govuk-summary-list__actions-list-item">
+                                    <a class="govuk-link"
+                                    asp-page="@Links.EngagementConcern.ResolveEngagementConcern.Page"
+                                    asp-route-id="@Model.SupportProject.Id"
+                                    data-cy="engagement-concern-resolve-link">
+                                        Resolve<span class="govuk-visually-hidden">Resolve</span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="govuk-summary-card__content">
