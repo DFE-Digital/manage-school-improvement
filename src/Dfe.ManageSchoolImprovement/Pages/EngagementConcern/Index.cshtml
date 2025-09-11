@@ -15,7 +15,7 @@
     <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
          || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
-         || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true)
+         || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
              aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -34,7 +34,8 @@
                     @(Model.InformationPowersUpdated is true ? "Information powers updated" : "")
                     @(Model.InformationPowersRemoved is true ? "Information powers removed" : "")
                     @(Model.InterimExecutiveBoardRecorded is true ? "Use of interim executive board recorded" : "")
-                    @(Model.InterimExecutiveBoardUpdated is true ? "Interim executive board updated" : "")
+                    @* @(Model.InterimExecutiveBoardUpdated is true ? "Interim executive board updated" : "") *@
+                    @(Model.InterimExecutiveBoardDateUpdated is true || Model.InterimExecutiveBoardUpdated is true ? "Interim executive board updated" : "")
                     @(Model.InterimExecutiveBoardRemoved is true ? "Interim executive board removed" : "")
                 </h3>
             </div>

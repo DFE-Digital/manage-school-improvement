@@ -96,14 +96,6 @@
                                           rows="5"
                                           aria-describedby="ieb-created-details-hint">@Model.InterimExecutiveBoardCreatedDetails</textarea>
                             </div>
-
-                            <div class="govuk-form-group">
-                                <govuk-date-input heading-label="true"
-                                                  label="Date of regional director's decision to create an IEB"
-                                                  id="ieb-created-date"
-                                                  name="ieb-created-date"
-                                                  asp-for="@Model.InterimExecutiveBoardCreatedDate"/>
-                            </div>
                         </div>
                     </div>
                 </fieldset>
@@ -111,7 +103,7 @@
 
             <div class="govuk-button-group govuk-body">
                 <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="save-ieb-created-btn">
-                    Save and return
+                    Confirm and continue
                 </button>
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
             </div>
