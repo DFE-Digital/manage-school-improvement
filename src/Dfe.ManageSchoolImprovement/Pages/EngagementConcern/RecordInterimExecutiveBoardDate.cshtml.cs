@@ -81,7 +81,7 @@ public class RecordInterimExecutiveBoardDateModel(
             return Page();
         }
         
-        TempData["InterimExecutiveBoardRecorded"] = SupportProject.InterimExecutiveBoardCreatedDate == null && InterimExecutiveBoardCreatedDate is not null;
+        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && interimExecutiveBoardCreated == true;
         TempData["InterimExecutiveBoardDateUpdated"] = SupportProject.InterimExecutiveBoardCreatedDate is not null && SupportProject.InterimExecutiveBoardCreatedDate != InterimExecutiveBoardCreatedDate;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });

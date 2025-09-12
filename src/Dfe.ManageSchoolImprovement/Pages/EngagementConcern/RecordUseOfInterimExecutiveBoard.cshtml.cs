@@ -60,23 +60,6 @@ public class RecordUseOfInterimExecutiveBoardModel(
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
-        var request = new SetSupportProjectIebDetailsCommand(
-            new SupportProjectId(id),
-            InterimExecutiveBoardCreated,
-            InterimExecutiveBoardCreatedDetails,
-            null);
-        
-        var result = await mediator.Send(request, cancellationToken);
-        
-        if (!result)
-        {
-            _errorService.AddApiError();
-            await base.GetSupportProject(id, cancellationToken);
-            return Page();
-        }
-        
-        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
-
         return RedirectToPage(@Links.EngagementConcern.RecordInterimExecutiveBoardDate.Page, new { id, InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails });
     }
 
