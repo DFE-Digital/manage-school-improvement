@@ -31,14 +31,14 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         engagementConcern.checkCheckbox('record-engagement-concern')
 
         //save without entering details and validate error message
-         engagementConcern.clickSaveAndReturn();
-         engagementConcern.errorMessage('more-detail-error', 'You must enter details')
+        engagementConcern.clickButton('Save and return');
+        engagementConcern.errorMessage('more-detail-error', 'You must enter details')
 
         cy.executeAccessibilityTests()
 
         engagementConcern.enterText("engagement-concern-details", "Recording new engagement concern")
 
-        engagementConcern.clickSaveAndReturn();
+        engagementConcern.clickButton('Save and return');
         engagementConcern.hasSuccessNotification("Engagement concern recorded");
         engagementConcern.hasFieldsNotEmpty();
         engagementConcern.hasEngagementConcernChangeLink("Change");
@@ -66,7 +66,7 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
 
         cy.executeAccessibilityTests()
 
-        engagementConcern.clickSaveAndReturn();
+        engagementConcern.clickButton('Save and return');
         engagementConcern.hasSuccessNotification("Use of information powers recorded");
         engagementConcern.hasFieldsNotEmpty();
         engagementConcern.hasInformationPowersChangeLink("Change");
@@ -79,7 +79,7 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         engagementConcern.hasEngagementConcernChangeLink("Change")
         engagementConcern.clickEngagementConcernChangeLink();
         engagementConcern.enterText("engagement-concern-details", "Add new details");
-        engagementConcern.clickSaveAndReturn();
+        engagementConcern.clickButton('Save and return');
         engagementConcern.hasSuccessNotification("Engagement concern updated");
 
         cy.executeAccessibilityTests();
@@ -90,7 +90,7 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         engagementConcern.hasInformationPowersChangeLink("Change")
         engagementConcern.clickInformationPowersChangeLink();
         engagementConcern.enterText("information-powers-details", "Add new details");
-        engagementConcern.clickSaveAndReturn();
+        engagementConcern.clickButton('Save and return');
         engagementConcern.hasSuccessNotification("Information powers updated");
 
         cy.executeAccessibilityTests();

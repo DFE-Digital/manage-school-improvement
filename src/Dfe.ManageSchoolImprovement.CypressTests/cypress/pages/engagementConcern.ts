@@ -28,6 +28,13 @@ class EngagementConcern {
         return this;
     }
 
+    public clickEscalateLink(): this {
+        cy.getByCyData('engagement-concern-escalate-link').click();
+        cy.url().should('include', '/escalate-engagement-concern');
+
+        return this;
+    }
+
     public recordConcernPageIsVisible(): this {
         cy.url().should('include', '/record-engagement-concern');
         cy.title().should('eq', 'Record engagement concern - Manage school improvement');
@@ -56,6 +63,26 @@ class EngagementConcern {
         return this;
     }
 
+    public hasRecordUseOfInterimExecutiveBoardButton(): this {
+        cy.get('[role="button"]').should("be.visible");
+
+        return this;
+    }
+
+    public clickRecordUseOfInterimExecutiveBoard(): this {
+        cy.get('body').then($body => {
+            const buttonExists = $body.find('[role="button"]:contains("Record use of interim executive board")').length > 0;
+
+            if (buttonExists) {
+                cy.get('[role="button"]').contains('Record use of interim executive board').click({ force: true });
+                cy.log('Clicked Record use of interim executive board button');
+            } else {
+                expect(buttonExists, 'Use of interim executive board already existing').to.be.true;
+            }
+        });
+
+        return this;
+    }
 
     public checkCheckbox(id: string): this {
         cy.getById(id).check();
@@ -78,8 +105,8 @@ class EngagementConcern {
         return this;
     }
 
-    public clickSaveAndReturn(): this {
-        cy.get('[type="submit"]').should('contain', 'Save and return')
+    public clickButton(text): this {
+        cy.get('[type="submit"]').should('contain.text', text)
             .click();
 
         return this;
@@ -104,6 +131,12 @@ class EngagementConcern {
         cy.get('.govuk-summary-list__value').each(($el) => {
             cy.wrap($el).should('not.be.empty');
         });
+
+        return this;
+    }
+
+    public clickViewEngagementConcern(): this {
+        cy.getByCyData('escalate-confirmation-btn').click();
 
         return this;
     }
