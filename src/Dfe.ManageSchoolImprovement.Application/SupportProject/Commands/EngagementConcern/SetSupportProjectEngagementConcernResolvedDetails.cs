@@ -9,7 +9,7 @@ public class SetSupportProjectEngagementConcernResolvedDetails
 {
     public record SetSupportProjectEngagementConcernResolvedDetailsCommand(
         SupportProjectId SupportProjectId,
-        bool? EgagementConcernResolved,
+        bool? EngagementConcernResolved,
         string? EngagementConcernResolvedDetails,
         DateTime? EngagementConcernResolvedDate
     ) : IRequest<bool>;
@@ -27,7 +27,7 @@ public class SetSupportProjectEngagementConcernResolvedDetails
                 return false;
             }
 
-            supportProject.SetEngagementConcernResolvedDetails(request.EgagementConcernResolved, request.EngagementConcernResolvedDetails, request.EngagementConcernResolvedDate);
+            supportProject.SetEngagementConcernResolvedDetails(request.EngagementConcernResolved, request.EngagementConcernResolvedDetails, request.EngagementConcernResolvedDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

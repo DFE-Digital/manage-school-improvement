@@ -482,7 +482,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("DiscussChoiceWithSfso")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("EgagementConcernResolved")
+                    b.Property<bool?>("EngagementConcernResolved")
                         .HasColumnType("bit");
 
                     b.Property<string>("EngagementConcernDetails")

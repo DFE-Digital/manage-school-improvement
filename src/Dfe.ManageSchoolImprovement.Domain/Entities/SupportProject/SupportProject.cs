@@ -185,7 +185,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? EngagementConcernRaisedDate { get; private set; }
     public string? EngagementConcernResolvedDetails { get; private set; }
-    public bool? EgagementConcernResolved { get; private set; }
+    public bool? EngagementConcernResolved { get; private set; }
     public DateTime? EngagementConcernResolvedDate { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
@@ -702,9 +702,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
     }
 
-    public void SetEngagementConcernResolvedDetails(bool? egagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+    public void SetEngagementConcernResolvedDetails(bool? engagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
     {
-        EgagementConcernResolved = egagementConcernResolved;
+        EngagementConcernResolved = engagementConcernResolved;
         EngagementConcernResolvedDate = engagementConcernResolvedDate;
         EngagementConcernResolvedDetails = engagementConcernResolvedDetails;
     }

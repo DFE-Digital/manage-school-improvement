@@ -19,9 +19,16 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <form method="post">
-            <partial name="_DateInput" model="@Model.DateInputViewModel" />
-
+        <h1 class="govuk-heading-l">
+            Enter date concern was resolved
+        </h1>
+        <form method="post" novalidate>
+            <govuk-date-input heading-label="false" 
+                              label="Enter date concern was resolved" 
+                              id="date-concern-resolved" 
+                              name="date-concern-resolved" 
+                              asp-for="@Model.DateConcernResolved" 
+                              hint="For example, 1 7 2024." />
             <div class="govuk-button-group govuk-body">
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save

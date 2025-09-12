@@ -312,7 +312,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
                 InterimExecutiveBoardCreated = supportProjectDto.InterimExecutiveBoardCreated,
                 InterimExecutiveBoardCreatedDetails = supportProjectDto.InterimExecutiveBoardCreatedDetails,
-                InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate
+                InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate,
+                EngagementConcernResolved = supportProjectDto.EngagementConcernResolved,
+                EngagementConcernResolvedDate = supportProjectDto.EngagementConcernResolvedDate,
+                EngagementConcernResolvedDetails = supportProjectDto.EngagementConcernResolvedDetails
             };
         }
     }

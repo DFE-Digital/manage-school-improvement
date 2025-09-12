@@ -2,10 +2,8 @@
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernResolvedDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.ResolveEngagementConcern;
@@ -16,14 +14,12 @@ public class DateConcernResolvedModel(
     IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
     IDateValidationMessageProvider
 {
-    public string ReturnPage { get; set; }
+    public string ReturnPage { get; set; } = string.Empty;
 
-    [BindProperty(Name = "date-concern-resolved", BinderType = typeof(DateInputModelBinder))]
+    [BindProperty(Name = "date-concern-resolved")]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Enter date concern was resolved")]
+    [ModelBinder(BinderType = typeof(DateInputModelBinder))]
     public DateTime? DateConcernResolved { get; set; }
-
-    public DateInputViewModel DateInputViewModel { get; set; } = new();
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -52,18 +48,7 @@ public class DateConcernResolvedModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        // Set up the date input view model
-        DateInputViewModel = new DateInputViewModel
-        {
-            Id = "date-concern-resolved",
-            Name = "date-concern-resolved",
-            Label = "Enter date concern was resolved",
-            HeadingLabel = true,
-            Hint = "For example, 1 7 2024.",
-            Day = "",
-            Month = "",
-            Year = ""
-        };
+        DateConcernResolved = SupportProject?.EngagementConcernResolvedDate;
 
         return Page();
     }
@@ -72,31 +57,15 @@ public class DateConcernResolvedModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // Rebuild the date input view model for display
-        DateInputViewModel = new DateInputViewModel
+        if (!DateConcernResolved.HasValue)
         {
-            Id = "date-concern-resolved",
-            Name = "date-concern-resolved",
-            Label = "Enter date concern was resolved",
-            HeadingLabel = true,
-            Hint = "For example, 1 7 2024.",
-            Day = Request.Form["date-concern-resolved-day"].FirstOrDefault() ?? "",
-            Month = Request.Form["date-concern-resolved-month"].FirstOrDefault() ?? "",
-            Year = Request.Form["date-concern-resolved-year"].FirstOrDefault() ?? ""
-        };
+            ModelState.AddModelError("date-concern-resolved", "You must enter a date");
+        }
 
         if (!ModelState.IsValid)
         {
-            // Set error state for the date input
-            var dayError = ModelState.ContainsKey("date-concern-resolved-day") && ModelState["date-concern-resolved-day"]?.Errors.Count > 0;
-            var monthError = ModelState.ContainsKey("date-concern-resolved-month") && ModelState["date-concern-resolved-month"]?.Errors.Count > 0;
-            var yearError = ModelState.ContainsKey("date-concern-resolved-year") && ModelState["date-concern-resolved-year"]?.Errors.Count > 0;
-
-            DateInputViewModel.DayInvalid = dayError;
-            DateInputViewModel.MonthInvalid = monthError;
-            DateInputViewModel.YearInvalid = yearError;
-            DateInputViewModel.ErrorMessage = "You must enter a date";
-
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
 

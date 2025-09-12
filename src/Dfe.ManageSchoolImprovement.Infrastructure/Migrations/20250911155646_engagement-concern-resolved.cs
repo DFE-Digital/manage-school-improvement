@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -12,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "EgagementConcernResolved",
+                name: "EngagementConcernResolved",
                 schema: "RISE",
                 table: "SupportProject",
                 type: "bit",
@@ -52,7 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "EgagementConcernResolved",
+                name: "EngagementConcernResolved",
                 schema: "RISE",
                 table: "SupportProject")
                 .Annotation("SqlServer:IsTemporal", true)
