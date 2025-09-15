@@ -12,7 +12,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    <a asp-page="@Model.ReturnPage" class="govuk-back-link" data-cy="back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
          || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
          || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
@@ -71,7 +71,7 @@
                                     Escalate<span class="govuk-visually-hidden">Escalate</span>
                                 </a>
                             </li>
-                            @if (Model.SupportProject.EngagementConcernRaisedDate != null)
+                            @if (Model.SupportProject.EngagementConcernRecorded is true && Model.SupportProject.EngagementConcernResolved is null)
                             {
                                 <li class="govuk-summary-list__actions-list-item">
                                     <a class="govuk-link"
@@ -127,7 +127,8 @@
                                            asp-page="@Links.EngagementConcern.ReasonForEscalation.Page"
                                            asp-route-id="@Model.SupportProject.Id"
                                            asp-route-changelinkclicked="true"
-                                           asp-route-returnpage="@Links.EngagementConcern.Index.Page">
+                                           asp-route-returnpage="@Links.EngagementConcern.Index.Page"
+                                           data-cy="escalation-reason-change-link">
                                             Change<span class="govuk-visually-hidden">Change</span>
                                         </a>
                                     </dd>
@@ -144,7 +145,8 @@
                                            asp-page="@Links.EngagementConcern.DateOfDecision.Page"
                                            asp-route-id="@Model.SupportProject.Id"
                                            asp-route-changelinkclicked="true"
-                                           asp-route-returnpage="@Links.EngagementConcern.Index.Page">
+                                           asp-route-returnpage="@Links.EngagementConcern.Index.Page"
+                                           data-cy="escalation-date-change-link">
                                             Change<span class="govuk-visually-hidden">Change</span>
                                         </a>
                                     </dd>
@@ -276,7 +278,7 @@
                 <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
                    asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
                    class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                   data-cy="record-ieb-btn">
+                       data-cy="record-ieb-btn">
                     Record use of interim executive board
                 </a>
             }
@@ -287,7 +289,8 @@
                 Enter details about situations where a school or responsible body does not respond to you.
             </p>
             <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id"
-               role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+               role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button"
+               data-cy="record-engagement-concern-button">
                 Record engagement concern
             </a>
         }

@@ -8,7 +8,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.ResolveEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Links.EngagementConcern.ResolveEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link" data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -28,9 +28,10 @@
                               id="date-concern-resolved" 
                               name="date-concern-resolved" 
                               asp-for="@Model.DateConcernResolved" 
-                              hint="For example, 1 7 2024." />
+                              hint="For example, 1 7 2024."
+                              data-cy="date-concern-resolved-input" />
             <div class="govuk-button-group govuk-body">
-                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="save-and-return-button">
                     Save and return
                 </button>
             </div>

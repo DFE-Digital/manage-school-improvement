@@ -8,7 +8,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link" data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -36,7 +36,8 @@
                                    value="true"
                                    type="checkbox"
                             @(Model.MarkConcernResolved == true ? "checked" : "")
-                                   data-aria-controls="conditional-mark-concern-resolved"/>
+                                   data-aria-controls="conditional-mark-concern-resolved"
+                                   data-cy="mark-concern-resolved-checkbox"/>
                             <label class="govuk-label govuk-checkboxes__label" for="mark-concern-resolved">
                                 Mark engagement concern with this school as resolved
                             </label>
@@ -52,7 +53,7 @@
                                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                                     </p>
                                 }
-                                <textarea class="govuk-textarea @(Model.ShowResolutionDetailsError ? "govuk-textarea--error" : "")" id="resolution-details" name="resolution-details" rows="5">@Model.ResolutionDetails</textarea>
+                                <textarea class="govuk-textarea @(Model.ShowResolutionDetailsError ? "govuk-textarea--error" : "")" id="resolution-details" name="resolution-details" rows="5" data-cy="resolution-details-textarea">@Model.ResolutionDetails</textarea>
                             </div>
                         </div>
                     </div>
@@ -60,10 +61,10 @@
             </div>
 
             <div class="govuk-button-group govuk-body">
-                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="confirm-and-continue-button">
                     Confirm and continue
                 </button>
-                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link" data-cy="cancel-link">Cancel</a>
             </div>
         </form>
     </div>
