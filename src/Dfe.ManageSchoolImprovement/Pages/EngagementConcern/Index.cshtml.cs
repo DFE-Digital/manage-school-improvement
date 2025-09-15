@@ -45,6 +45,9 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     
     [TempData]
     public bool? InterimExecutiveBoardUpdated { get; set; }
+    
+    [TempData]
+    public bool? InterimExecutiveBoardDateUpdated  { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
