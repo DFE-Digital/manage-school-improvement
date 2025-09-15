@@ -36,9 +36,9 @@ describe("User navigates to the Engagement Concern tab to Escalate an engagement
         engagementConcern.errorMessage('escalate-decision-date-error', 'You must enter a date')
         engagementConcern.enterDate("escalate-decision-date", "5", "10", "2024");
         engagementConcern.clickButton('Save');
-        engagementConcern.hasTitle('Escalation confirmation - Manage school improvement');
+        engagementConcern.hasRecordedNotification("Escalation recorded");
         engagementConcern.clickViewEngagementConcern();
-        engagementConcern.hasTitle('Escalate engagement concern - Manage school improvement')
+        engagementConcern.hasTitle('Engagement concern - Manage school improvement');
         engagementConcern.hasFieldsNotEmpty();
     });
 

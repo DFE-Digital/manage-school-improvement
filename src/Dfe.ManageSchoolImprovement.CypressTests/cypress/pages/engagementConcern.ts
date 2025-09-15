@@ -28,6 +28,12 @@ class EngagementConcern {
         return this;
     }
 
+    public clickChangeLinkForIEB(linkText: string): this {
+        cy.getByCyData('ieb-created-change-link').should('contain', linkText).click();
+
+        return this;
+    }
+
     public clickEscalateLink(): this {
         cy.getByCyData('engagement-concern-escalate-link').click();
         cy.url().should('include', '/escalate-engagement-concern');
@@ -80,6 +86,15 @@ class EngagementConcern {
                 expect(buttonExists, 'Use of interim executive board already existing').to.be.true;
             }
         });
+
+        return this;
+    }   
+
+    public showHowToCreateIEBSection(): this {
+        cy.get('.govuk-details__summary-text').contains('How to create interim executive boards').click();
+        cy.get('.govuk-details__text')
+            .should('be.visible')
+            .and('not.be.empty');
 
         return this;
     }
@@ -148,6 +163,13 @@ class EngagementConcern {
 
         return this;
     }
+     public hasRecordedNotification(expectedMessage: string): this {
+        cy.get('.govuk-panel')
+            .should('be.visible')
+            .should('contain', expectedMessage);
+
+        return this;
+    }
 
     public clickEngagementConcernChangeLink(): this {
         cy.getByCyData('engagement-concern-change-link').click();
@@ -177,6 +199,12 @@ class EngagementConcern {
         cy.getByCyData('engagement-concern-escalate-link')
             .should('be.visible')
             .contains(linkText)
+
+        return this;
+    }
+
+    public unCheckCheckbox(id: string): this {
+        cy.getById(id).uncheck();
 
         return this;
     }

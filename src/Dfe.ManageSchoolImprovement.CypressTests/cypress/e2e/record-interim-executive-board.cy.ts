@@ -24,6 +24,14 @@ describe("User navigates to the Engagement Concern tab to record use of interim 
         cy.executeAccessibilityTests()
     });
 
+    it("should be able to expand 'How to create interim executive boards' section", () => {
+        Logger.log("check that How to create IEB section expands with text");
+        engagementConcern.hasRecordUseOfInterimExecutiveBoardButton();
+        engagementConcern.clickRecordUseOfInterimExecutiveBoard()
+        engagementConcern.showHowToCreateIEBSection();
+
+        cy.executeAccessibilityTests()
+    });
 
     it("should be able to record use of interim executive board", () => {
         Logger.log("record use of interim executive board");
@@ -54,4 +62,14 @@ describe("User navigates to the Engagement Concern tab to record use of interim 
 
         cy.executeAccessibilityTests()
     });
+
+it("should be able to make changes to interim executive board when ieb already recorded", () => {
+    Logger.log("Change the details of interim executive board");
+    engagementConcern.clickChangeLinkForIEB('Change');
+    engagementConcern.hasTitle('Change use of interim executive board - Manage school improvement')
+    engagementConcern.unCheckCheckbox('ieb-created')
+    engagementConcern.clickButton('Confirm and continue');
+    engagementConcern.hasSuccessNotification("Interim executive board removed");
+  });   
+
 });
