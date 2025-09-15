@@ -856,16 +856,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var primaryReason = "this is a reason";
             var escalationDetails = "this is some details";
             var dateOfDecision = DateTime.UtcNow;
+            var warningNotice = "this is a warning notice";
 
             // Act
             supportProject.SetEngagementConcernEscalation(
-                confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision);
+                confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision, warningNotice);
 
             // Assert
             supportProject.EngagementConcernEscalationConfirmStepsTaken.Should().Be(confirmStepsTaken);
             supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(primaryReason);
             supportProject.EngagementConcernEscalationDetails.Should().Be(escalationDetails);
             supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(dateOfDecision);
+            supportProject.EngagementConcernEscalationWarningNotice.Should().Be(warningNotice);
             mockRepository.VerifyAll();
         }
 

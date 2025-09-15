@@ -17,6 +17,8 @@ public class DateOfDecisionModel(
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [ModelBinder(BinderType = typeof(DateInputModelBinder))]
     public DateTime? DateOfDecision { get; set; }
+    
+    private string? WarningNotice { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -37,6 +39,7 @@ public class DateOfDecisionModel(
         await base.GetSupportProject(id, cancellationToken);
 
         DateOfDecision = SupportProject.EngagementConcernEscalationDateOfDecision;
+        
 
         return Page();
     }
@@ -48,6 +51,9 @@ public class DateOfDecisionModel(
         bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
+        await base.GetSupportProject(id, cancellationToken);
+        WarningNotice = string.IsNullOrEmpty(SupportProject.TrustName) ? "NEIA Issued" : "TWN Issued";
+        
         if (!DateOfDecision.HasValue)
         {
             ModelState.AddModelError("escalate-decision-date", "You must enter a date");
@@ -66,7 +72,8 @@ public class DateOfDecisionModel(
                 ConfirmStepsTaken = confirmStepsTaken,
                 PrimaryReason = primaryReason,
                 Details = escalationDetails,
-                DateOfDecision = DateOfDecision
+                DateOfDecision = DateOfDecision,
+                WarningNotice = WarningNotice
             },
             changeLinkClicked,
             cancellationToken);

@@ -182,6 +182,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? EngagementConcernEscalationDetails { get; private set; }
 
     public DateTime? EngagementConcernEscalationDateOfDecision { get; private set; }
+    
+    public string? EngagementConcernEscalationWarningNotice { get; private set; }
 
     public DateTime? EngagementConcernRaisedDate { get; private set; }
 
@@ -530,12 +532,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
-        string? escalationDetails, DateTime? dateOfDecision)
+        string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
     {
         EngagementConcernEscalationConfirmStepsTaken = confirmStepsTaken;
         EngagementConcernEscalationPrimaryReason = primaryReason;
         EngagementConcernEscalationDetails = escalationDetails;
         EngagementConcernEscalationDateOfDecision = dateOfDecision;
+        EngagementConcernEscalationWarningNotice = warningNotice;
     }
 
     public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails, DateTime? powersUsedDate)

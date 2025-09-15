@@ -14,7 +14,7 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -24,256 +24,300 @@
                 <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
                 <h2 class="govuk-heading-l">Escalate an engagement concern</h2>
                 @* this is for local authority schools - change based on school type todo *@
-                <p class="govuk-body">
-                    This will record that the school has been issued a NEIA (notice to enter into arrangements).
-                </p>
+                @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
+                {
+                    <p class="govuk-body">
+                        This will record that the school has been issued a NEIA (notice to enter into arrangements).
+                    </p>
+                }
+                else
+                {
+                    <p class="govuk-body">
+                        This will record that the school has been issued a TWN (termination warning notice).
+                    </p>
+                }
+
                 <p class="govuk-body">
                     Only use these notices as a last resort.
                 </p>
                 <hr class="govuk-section-break govuk-section-break--m">
-                
-                <fieldset class="govuk-fieldset" aria-describedby="before-using-notice-hint">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h2 class="govuk-fieldset__heading">Before you consider using a notice</h2>
-                    </legend>
-                    <div class="govuk-hint" id="before-using-notice-hint">
-                        You must complete the following steps before you can use a notice to mandate engagement.
-                    </div>
-                    <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
-                        @if (Model.ShowCheckboxError)
-                        {
-                            <p id="more-detail-error" class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> You must complete all actions before you can continue
-                            </p>
-                        }
-                        <div class="govuk-checkboxes__item">
-                            <input name="use-existing-relationships-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="use-existing-relationships"
-                                   name="use-existing-relationships"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-use-existing-relationships"
-                                   data-cy="use-existing-relationships-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="use-existing-relationships">
-                                Use existing relationships to encourage voluntary engagement
-                            </label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="follow-mediation-process-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="follow-mediation-process"
-                                   name="follow-mediation-process"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-follow-mediation-process"
-                                   data-cy="follow-mediation-process-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="follow-mediation-process">
-                                Follow the mediation process to resolve issues informally
-                            </label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="use-information-powers-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="use-information-powers"
-                                   name="use-information-powers"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-use-information-powers"
-                                   data-cy="use-information-powers-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="use-information-powers">
-                                Consider the use of information powers if mediation fails
-                            </label>
-                        </div>
-                    </div>
-                </fieldset>
 
-                <fieldset class="govuk-fieldset" aria-describedby="notice-approval-hint">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h2 class="govuk-fieldset__heading">Get approval to use a notice</h2>
-                    </legend>
-                    <div class="govuk-hint" id="notice-approval-hint">
-                        You must gather evidence and get approval before using a notice.
-                    </div>
-                    <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
-                        @if (Model.ShowCheckboxError)
-                        {
-                            <p id="more-detail-error" class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> You must complete all actions before you can continue
-                            </p>
-                        }
-                        <div class="govuk-checkboxes__item">
-                            <input name="gather-evidence-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="gather-evidence"
-                                   name="gather-evidence"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-gather-evidence"
-                                   data-cy="gather-evidence-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="gather-evidence">
-                                Gather evidence to show mandation is necessary
-                            </label>
+                <div class="govuk-form-group @(Model.ShowBeforeUsingNoticeError ? "govuk-form-group--error" : "")">
+                    <fieldset class="govuk-fieldset" aria-describedby="before-using-notice-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h2 class="govuk-fieldset__heading">Before you consider using a notice</h2>
+                        </legend>
+                        <div class="govuk-hint" id="before-using-notice-hint">
+                            You must complete the following steps before you can use a notice to mandate engagement.
                         </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="get-approval-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="get-approval"
-                                   name="get-approval"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-get-approval"
-                                   data-cy="get-approval-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="get-approval">
-                                Get approval to mandate from a regional director
-                            </label>
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                            @if (Model.ShowBeforeUsingNoticeError)
+                            {
+                                <p id="before-using-notice-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> You must complete all actions in
+                                    Before you consider using a notice
+                                </p>
+                            }
+                            <div class="govuk-checkboxes__item">
+                                <input name="use-existing-relationships-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="use-existing-relationships"
+                                       name="use-existing-relationships"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.UseExistingRelationships == true ? "checked" : "")
+                                       data-aria-controls="conditional-use-existing-relationships"
+                                       data-cy="use-existing-relationships-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="use-existing-relationships">
+                                    Use existing relationships to encourage voluntary engagement
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="follow-mediation-process-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="follow-mediation-process"
+                                       name="follow-mediation-process"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.FollowMediationProcess == true ? "checked" : "")
+                                       data-aria-controls="conditional-follow-mediation-process"
+                                       data-cy="follow-mediation-process-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="follow-mediation-process">
+                                    Follow the mediation process to resolve issues informally
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="use-information-powers-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="use-information-powers"
+                                       name="use-information-powers"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.UseInformationPowers == true ? "checked" : "")
+                                       data-aria-controls="conditional-use-information-powers"
+                                       data-cy="use-information-powers-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="use-information-powers">
+                                    Consider the use of information powers if mediation fails
+                                </label>
+                            </div>
                         </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="complete-moderation-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="complete-moderation"
-                                   name="complete-moderation"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-complete-moderation"
-                                   data-cy="complete-moderation-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="complete-moderation">
-                                Complete the mandation moderation process
-                            </label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="draft-notice-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="draft-notice"
-                                   name="draft-notice"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-draft-notice"
-                                   data-cy="draft-notice-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="draft-notice">
-                                Draft the notice
-                            </label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="consult-la-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="consult-la"
-                                   name="consult-la"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-consult-la"
-                                   data-cy="consult-la-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="consult-la">
-                                Consult the local authority lead about the actions in the notice, the notification letter and any contextual information that may help
-                            </label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="carry-out-assessment-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="carry-out-assessment"
-                                   name="carry-out-assessment"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-carry-out-assessment"
-                                   data-cy="carry-out-assessment-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="carry-out-assessment">
-                                Carry out the Public Sector Equality Duty assessment and save it in SharePoint
-                            </label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="submit-notice-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="submit-notice"
-                                   name="submit-notice"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-submit-notice"
-                                   data-cy="submit-notice-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="submit-notice">
-                                Submit the draft notice to SOPU for Legal Advisers Office clearance using the <a class="govuk-link"
-                                                                                                                 href="@Configuration["SOPUCommissioningForm"]"
-                                                                                                                 rel="noreferrer noopener"
-                                                                                                                 target="_blank">SOPU commissioning form</a>
-                            </label>
-                        </div>
-                    </div>
-                </fieldset>
+                    </fieldset>
+                </div>
 
-                <fieldset class="govuk-fieldset" aria-describedby="issuing-notice-hint">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h2 class="govuk-fieldset__heading">Issuing a notice</h2>
-                    </legend>
-                    <div class="govuk-hint" id="issuing-notice-hint">
-                        Before issuing a notice you must:
-                    </div>
-                    <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
-                        @if (Model.ShowCheckboxError)
-                        {
-                            <p id="more-detail-error" class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> You must complete all actions before you can continue
-                            </p>
-                        }
-                        <div class="govuk-checkboxes__item">
-                            <input name="notify-responsible-body-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="notify-responsible-body"
-                                   name="notify-responsible-body"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-notify-responsible-body"
-                                   data-cy="notify-responsible-body-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="notify-responsible-body">
-                                Notify the school's responsible body, and diocese or foundation governors if applicable
-                            </label>
+                <div class="govuk-form-group @(Model.ShowGetApprovalError ? "govuk-form-group--error" : "")">
+                    <fieldset class="govuk-fieldset" aria-describedby="notice-approval-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h2 class="govuk-fieldset__heading">Get approval to use a notice</h2>
+                        </legend>
+                        <div class="govuk-hint" id="notice-approval-hint">
+                            You must gather evidence and get approval before using a notice.
                         </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="send-notice-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="send-notice"
-                                   name="send-notice"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-send-notice"
-                                   data-cy="send-notice-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="send-notice">
-                                Send the NEIA to the school and responsible body from the regional director's mailbox
-                            </label>
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                            @if (Model.ShowGetApprovalError)
+                            {
+                                <p id="get-approval-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> You must complete all actions in
+                                    Get approval to use a notice
+                                </p>
+                            }
+                            <div class="govuk-checkboxes__item">
+                                <input name="gather-evidence-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="gather-evidence"
+                                       name="gather-evidence"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.GatherEvidence == true ? "checked" : "")
+                                       data-aria-controls="conditional-gather-evidence"
+                                       data-cy="gather-evidence-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="gather-evidence">
+                                    Gather evidence to show mandation is necessary
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="get-approval-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="get-approval"
+                                       name="get-approval"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.GetApproval == true ? "checked" : "")
+                                       data-aria-controls="conditional-get-approval"
+                                       data-cy="get-approval-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="get-approval">
+                                    Get approval to mandate from a regional director
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="complete-moderation-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="complete-moderation"
+                                       name="complete-moderation"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.CompleteModeration == true ? "checked" : "")
+                                       data-aria-controls="conditional-complete-moderation"
+                                       data-cy="complete-moderation-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="complete-moderation">
+                                    Complete the mandation moderation process
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="draft-notice-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="draft-notice"
+                                       name="draft-notice"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.DraftNotice == true ? "checked" : "")
+                                       data-aria-controls="conditional-draft-notice"
+                                       data-cy="draft-notice-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="draft-notice">
+                                    Draft the notice
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="consult-la-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="consult-la"
+                                       name="consult-la"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.ConsultLa == true ? "checked" : "")
+                                       data-aria-controls="conditional-consult-la"
+                                       data-cy="consult-la-checkbox"/>
+                                @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
+                                {
+                                    <label class="govuk-label govuk-checkboxes__label" for="consult-la">
+                                        Consult the local authority lead about the actions in the notice, the notification
+                                        letter and any contextual information that may help
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="govuk-label govuk-checkboxes__label" for="consult-la">
+                                        Consult the trust relationship manager about the actions in the notice, the notification letter and any contextual information that may help
+                                    </label> 
+                                }
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="carry-out-assessment-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="carry-out-assessment"
+                                       name="carry-out-assessment"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.CarryOutAssessment == true ? "checked" : "")
+                                       data-aria-controls="conditional-carry-out-assessment"
+                                       data-cy="carry-out-assessment-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="carry-out-assessment">
+                                    Carry out the Public Sector Equality Duty assessment and save it in SharePoint
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="submit-notice-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="submit-notice"
+                                       name="submit-notice"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.SubmitNotice == true ? "checked" : "")
+                                       data-aria-controls="conditional-submit-notice"
+                                       data-cy="submit-notice-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="submit-notice">
+                                    Submit the draft notice to SOPU for Legal Advisers Office clearance using the <a
+                                        class="govuk-link"
+                                        href="@Configuration["SOPUCommissioningForm"]"
+                                        rel="noreferrer noopener"
+                                        target="_blank">SOPU commissioning form</a>
+                                </label>
+                            </div>
                         </div>
-                        <div class="govuk-checkboxes__item">
-                            <input name="complete-form-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input @(Model.ShowCheckboxError ? "govuk-form-group--error" : "")"
-                                   id="complete-form"
-                                   name="complete-form"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.ConfirmStepsTaken == true ? "checked" : "")
-                                   data-aria-controls="conditional-complete-form"
-                                   data-cy="complete-form-checkbox"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="complete-form">
-                                <a class="govuk-link"
-                                   href="@Configuration["SOPUCommissioningForm"]"
-                                   rel="noreferrer noopener"
-                                   target="_blank">Complete the SOPU commissioning form</a> to request they record the notice in the Warning Notice Tracker
-                            </label>
+                    </fieldset>
+                </div>
+                <div class="govuk-form-group @(Model.ShowIssuingNoticeError ? "govuk-form-group--error" : "")">
+                    <fieldset class="govuk-fieldset" aria-describedby="issuing-notice-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h2 class="govuk-fieldset__heading">Issuing a notice</h2>
+                        </legend>
+                        <div class="govuk-hint" id="issuing-notice-hint">
+                            Before issuing a notice you must:
                         </div>
-                    </div>
-                </fieldset>
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                            @if (Model.ShowIssuingNoticeError)
+                            {
+                                <p id="issuing-notice-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> You must complete all actions in
+                                    Issuing a notice
+                                </p>
+                            }
+                            <div class="govuk-checkboxes__item">
+                                <input name="notify-responsible-body-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="notify-responsible-body"
+                                       name="notify-responsible-body"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.NotifyResponsibleBody == true ? "checked" : "")
+                                       data-aria-controls="conditional-notify-responsible-body"
+                                       data-cy="notify-responsible-body-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="notify-responsible-body">
+                                    Notify the school's responsible body, and diocese or foundation governors if
+                                    applicable
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="send-notice-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="send-notice"
+                                       name="send-notice"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.SendNotice == true ? "checked" : "")
+                                       data-aria-controls="conditional-send-notice"
+                                       data-cy="send-notice-checkbox"/>
+                                @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
+                                {
+                                    <label class="govuk-label govuk-checkboxes__label" for="send-notice">
+                                        Send the NEIA to the school and responsible body from the regional director's
+                                        mailbox
+                                    </label>  
+                                }
+                                else
+                                {
+                                    <label class="govuk-label govuk-checkboxes__label" for="send-notice">
+                                        Send the TWN to the school and responsible body from the regional director's
+                                        mailbox
+                                    </label>
+                                }
+
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input name="complete-form-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="complete-form"
+                                       name="complete-form"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.CompleteForm == true ? "checked" : "")
+                                       data-aria-controls="conditional-complete-form"
+                                       data-cy="complete-form-checkbox"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="complete-form">
+                                    <a class="govuk-link"
+                                       href="@Configuration["SOPUCommissioningForm"]"
+                                       rel="noreferrer noopener"
+                                       target="_blank">Complete the SOPU commissioning form</a> to request they record
+                                    the notice in the Warning Notice Tracker
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
 
             </div>
             <div class="govuk-button-group govuk-body">
-                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="escalate-confirm-steps-taken-btn">
+                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button"
+                        data-cy="escalate-confirm-steps-taken-btn">
                     Confirm and continue
                 </button>
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"

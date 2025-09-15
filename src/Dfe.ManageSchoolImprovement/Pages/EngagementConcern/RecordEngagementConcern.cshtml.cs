@@ -5,8 +5,10 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernDetails;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.
+    SetSupportProjectEngagementConcernDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.
+    SetSupportProjectEngagementConcernEscalation;
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -28,10 +30,11 @@ public class AddEngagementConcernModel(
     public DateTime? DateEngagementConcernRaised { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
-    
+
     private const string EngagementConcernDetailsKey = "engagement-concern-details";
 
-    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) && ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
+    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) &&
+                                                    ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -60,9 +63,14 @@ public class AddEngagementConcernModel(
             return Page();
         }
 
-        TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
-        TempData["EngagementConcernRecorded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
-        TempData["EngagementConcernRemoved"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false;
+        TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true &&
+                                               RecordEngagementConcern is true &&
+                                               SupportProject.EngagementConcernDetails != EngagementConcernDetails;
+        TempData["EngagementConcernRecorded"] =
+            (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) &&
+            RecordEngagementConcern is true;
+        TempData["EngagementConcernRemoved"] =
+            SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false;
 
         DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
 
@@ -74,7 +82,8 @@ public class AddEngagementConcernModel(
             DateEngagementConcernRaised = null;
         }
 
-        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
+        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id),
+            RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -87,7 +96,9 @@ public class AddEngagementConcernModel(
 
         if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
         {
-            var escalationRequest = new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
+            var escalationRequest =
+                new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null,
+                    null, null);
             var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
             if (escalationResult == false)
             {
