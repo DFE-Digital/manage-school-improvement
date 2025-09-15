@@ -84,7 +84,7 @@ public class DateConcernResolvedModel(
             return Page();
         }
 
-        // For now, redirect back to the resolve concern index
-        return RedirectToPage(@Links.EngagementConcern.ResolveEngagementConcern.Page, new { id });
+        // redirect back to the engagement concern index
+        return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }
 }

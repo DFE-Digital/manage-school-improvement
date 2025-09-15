@@ -38,7 +38,8 @@ public class IndexModel(
         await base.GetSupportProject(id, cancellationToken);
 
         // Pre-check the checkbox if there's already a resolution recorded
-        //MarkConcernResolved = SupportProject.EngagementConcernResolved;
+        MarkConcernResolved = SupportProject.EngagementConcernResolved;
+        ResolutionDetails = SupportProject.EngagementConcernResolvedDetails;
 
         return Page();
     }
@@ -62,7 +63,7 @@ public class IndexModel(
             new SupportProjectId(id),
             MarkConcernResolved,
             ResolutionDetails,
-            null);
+            SupportProject.EngagementConcernResolvedDate);
 
         var result = await mediator.Send(request, cancellationToken);
 

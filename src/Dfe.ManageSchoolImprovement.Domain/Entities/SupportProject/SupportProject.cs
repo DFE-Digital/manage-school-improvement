@@ -705,8 +705,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetEngagementConcernResolvedDetails(bool? engagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
     {
         EngagementConcernResolved = engagementConcernResolved;
-        EngagementConcernResolvedDate = engagementConcernResolvedDate;
         EngagementConcernResolvedDetails = engagementConcernResolvedDetails;
+        EngagementConcernResolvedDate = engagementConcernResolvedDate;
     }
 
     #endregion
