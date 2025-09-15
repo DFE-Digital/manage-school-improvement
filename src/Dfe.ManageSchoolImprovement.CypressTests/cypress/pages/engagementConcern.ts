@@ -28,6 +28,19 @@ class EngagementConcern {
         return this;
     }
 
+    public clickChangeLinkForIEB(linkText: string): this {
+        cy.getByCyData('ieb-created-change-link').should('contain', linkText).click();
+
+        return this;
+    }
+
+    public clickEscalateLink(): this {
+        cy.getByCyData('engagement-concern-escalate-link').click();
+        cy.url().should('include', '/escalate-engagement-concern');
+
+        return this;
+    }
+
     public recordConcernPageIsVisible(): this {
         cy.url().should('include', '/record-engagement-concern');
         cy.title().should('eq', 'Record engagement concern - Manage school improvement');
@@ -56,6 +69,35 @@ class EngagementConcern {
         return this;
     }
 
+    public hasRecordUseOfInterimExecutiveBoardButton(): this {
+        cy.get('[role="button"]').should("be.visible");
+
+        return this;
+    }
+
+    public clickRecordUseOfInterimExecutiveBoard(): this {
+        cy.get('body').then($body => {
+            const buttonExists = $body.find('[role="button"]:contains("Record use of interim executive board")').length > 0;
+
+            if (buttonExists) {
+                cy.get('[role="button"]').contains('Record use of interim executive board').click({ force: true });
+                cy.log('Clicked Record use of interim executive board button');
+            } else {
+                expect(buttonExists, 'Use of interim executive board already existing').to.be.true;
+            }
+        });
+
+        return this;
+    }   
+
+    public showHowToCreateIEBSection(): this {
+        cy.get('.govuk-details__summary-text').contains('How to create interim executive boards').click();
+        cy.get('.govuk-details__text')
+            .should('be.visible')
+            .and('not.be.empty');
+
+        return this;
+    }
 
     public checkCheckbox(id: string): this {
         cy.getById(id).check();
@@ -78,8 +120,8 @@ class EngagementConcern {
         return this;
     }
 
-    public clickSaveAndReturn(): this {
-        cy.get('[type="submit"]').should('contain', 'Save and return')
+    public clickButton(text): this {
+        cy.get('[type="submit"]').should('contain.text', text)
             .click();
 
         return this;
@@ -108,10 +150,23 @@ class EngagementConcern {
         return this;
     }
 
+    public clickViewEngagementConcern(): this {
+        cy.getByCyData('escalate-confirmation-btn').click();
+
+        return this;
+    }
+
     public hasEngagementConcernChangeLink(linkText: string): this {
         cy.get('[data-cy="engagement-concern-change-link"]')
             .should('be.visible')
             .contains(linkText);
+
+        return this;
+    }
+     public hasRecordedNotification(expectedMessage: string): this {
+        cy.get('.govuk-panel')
+            .should('be.visible')
+            .should('contain', expectedMessage);
 
         return this;
     }
@@ -144,6 +199,12 @@ class EngagementConcern {
         cy.getByCyData('engagement-concern-escalate-link')
             .should('be.visible')
             .contains(linkText)
+
+        return this;
+    }
+
+    public unCheckCheckbox(id: string): this {
+        cy.getById(id).uncheck();
 
         return this;
     }
