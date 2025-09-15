@@ -13,7 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 public class RecordUseOfInterimExecutiveBoardModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
 
@@ -25,24 +25,9 @@ public class RecordUseOfInterimExecutiveBoardModel(
     public bool ShowDetailsError => ModelState.ContainsKey("ieb-created-details") &&
                                   ModelState["ieb-created-details"]?.Errors.Count > 0;
 
-    [BindProperty(Name = "ieb-created-date", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Required]
-    public DateTime? InterimExecutiveBoardCreatedDate { get; set; }
-
     [BindProperty(Name = "ieb-created")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? InterimExecutiveBoardCreated { get; set; }
-
-    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-    {
-        return $"Date must include a {string.Join(" and ", missingParts)}";
-    }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"You must enter a date";
-    }
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -54,7 +39,6 @@ public class RecordUseOfInterimExecutiveBoardModel(
 
         InterimExecutiveBoardCreated = SupportProject.InterimExecutiveBoardCreated;
         InterimExecutiveBoardCreatedDetails = SupportProject.InterimExecutiveBoardCreatedDetails;
-        InterimExecutiveBoardCreatedDate = SupportProject.InterimExecutiveBoardCreatedDate;
 
         return Page();
     }
@@ -71,33 +55,12 @@ public class RecordUseOfInterimExecutiveBoardModel(
         if (InterimExecutiveBoardCreated != true)
         {
             InterimExecutiveBoardCreatedDetails = null;
-            InterimExecutiveBoardCreatedDate = null;
-
-            // Override the validation on the date helper as it is only required when InterimExecutiveBoardCreated == true 
-            ModelState.Remove("ieb-created-date");
         }
 
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
-        var request = new SetSupportProjectIebDetailsCommand(
-            new SupportProjectId(id),
-            InterimExecutiveBoardCreated,
-            InterimExecutiveBoardCreatedDetails,
-            InterimExecutiveBoardCreatedDate);
-        
-        var result = await mediator.Send(request, cancellationToken);
-        
-        if (!result)
-        {
-            _errorService.AddApiError();
-            await base.GetSupportProject(id, cancellationToken);
-            return Page();
-        }
-        
-        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
-
-        return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
+        return RedirectToPage(@Links.EngagementConcern.RecordInterimExecutiveBoardDate.Page, new { id, InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails });
     }
 
 }

@@ -111,6 +111,7 @@ public static class Links
         public static readonly LinkItem ChangeUseOfInformationPowers = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInformationPowers");
         public static readonly LinkItem RecordUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordUseOfInterimExecutiveBoard");
         public static readonly LinkItem ChangeUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInterimExecutiveBoard");
+        public static readonly LinkItem RecordInterimExecutiveBoardDate = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordInterimExecutiveBoardDate");
     }
 
     public static class CaseStudy
