@@ -1404,7 +1404,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var originalReason = "Original escalation reason";
             var originalEscalationDetails = "Original escalation details";
             var originalDecisionDate = DateTime.UtcNow.AddDays(-5);
-            supportProject.SetEngagementConcernEscalation(originalStepsTaken, originalReason, originalEscalationDetails, originalDecisionDate);
+            var originalWarningNotice = "Original warning notice";
+            supportProject.SetEngagementConcernEscalation(originalStepsTaken, originalReason, originalEscalationDetails, originalDecisionDate, originalWarningNotice);
 
             // Act - Set resolved details
             supportProject.SetEngagementConcernResolvedDetails(true, "Resolution details", DateTime.UtcNow);
@@ -1417,6 +1418,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(originalReason);
             supportProject.EngagementConcernEscalationDetails.Should().Be(originalEscalationDetails);
             supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(originalDecisionDate);
+            supportProject.EngagementConcernEscalationWarningNotice.Should().Be(originalWarningNotice);
             mockRepository.VerifyAll();
         }
     }
