@@ -56,15 +56,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<SupportProjectNote> _notes = new();
     private readonly List<SupportProjectContact> _contacts = new();
-    
+
     public bool? UseEnrolmentLetterTemplateToDraftEmail { get; private set; }
     public bool? AttachTargetedInterventionInformationSheet { get; private set; }
     public bool? AddRecipientsForFormalNotification { get; private set; }
     public bool? FormalNotificationSent { get; private set; }
     public DateTime? DateFormalNotificationSent { get; private set; }
-    
+
     public bool? InitialContactResponsibleBody { get; private set; }
-    
+
     public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
     public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
@@ -186,6 +186,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? EngagementConcernEscalationWarningNotice { get; private set; }
 
     public DateTime? EngagementConcernRaisedDate { get; private set; }
+    public string? EngagementConcernResolvedDetails { get; private set; }
+    public bool? EngagementConcernResolved { get; private set; }
+    public DateTime? EngagementConcernResolvedDate { get; private set; }
 
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
@@ -210,7 +213,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public IEnumerable<ImprovementPlan> ImprovementPlans => _improvementPlans.AsReadOnly();
 
     private readonly List<ImprovementPlan> _improvementPlans = new();
-    
+
     public bool? InterimExecutiveBoardCreated { get; private set; }
     public string? InterimExecutiveBoardCreatedDetails { get; private set; }
     public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
@@ -701,6 +704,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InterimExecutiveBoardCreatedDetails = interimExecutiveBoardCreatedDetails;
         InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
     }
-    
+
+    public void SetEngagementConcernResolvedDetails(bool? engagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+    {
+        EngagementConcernResolved = engagementConcernResolved;
+        EngagementConcernResolvedDetails = engagementConcernResolvedDetails;
+        EngagementConcernResolvedDate = engagementConcernResolvedDate;
+    }
+
     #endregion
 }
