@@ -186,6 +186,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? EngagementConcernEscalationDetails { get; set; }
 
         public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
+        
+        public string? EngagementConcernEscalationWarningNotice { get; set; }
 
         public DateTime? EngagementConcernRaisedDate { get; set; }
         public DateTime? EngagementConcernResolvedDate { get; set; }
@@ -300,6 +302,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 EngagementConcernEscalationPrimaryReason = supportProjectDto.EngagementConcernEscalationPrimaryReason,
                 EngagementConcernEscalationDetails = supportProjectDto.EngagementConcernEscalationDetails,
                 EngagementConcernEscalationDateOfDecision = supportProjectDto.EngagementConcernEscalationDateOfDecision,
+                EngagementConcernEscalationWarningNotice = supportProjectDto.EngagementConcernEscalationWarningNotice,
                 EngagementConcernRaisedDate = supportProjectDto.EngagementConcernRaisedDate,
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,

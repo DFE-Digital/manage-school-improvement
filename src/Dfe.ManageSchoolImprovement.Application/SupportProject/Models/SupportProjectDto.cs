@@ -95,6 +95,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? EngagementConcernEscalationPrimaryReason = null,
         string? EngagementConcernEscalationDetails = null,
         DateTime? EngagementConcernEscalationDateOfDecision = null,
+        string? EngagementConcernEscalationWarningNotice = null,
         DateTime? EngagementConcernRaisedDate = null,
         bool? EngagementConcernResolved = null,
         string? EngagementConcernResolvedDetails = null,

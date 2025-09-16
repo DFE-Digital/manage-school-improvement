@@ -856,16 +856,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var primaryReason = "this is a reason";
             var escalationDetails = "this is some details";
             var dateOfDecision = DateTime.UtcNow;
+            var warningNotice = "this is a warning notice";
 
             // Act
             supportProject.SetEngagementConcernEscalation(
-                confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision);
+                confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision, warningNotice);
 
             // Assert
             supportProject.EngagementConcernEscalationConfirmStepsTaken.Should().Be(confirmStepsTaken);
             supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(primaryReason);
             supportProject.EngagementConcernEscalationDetails.Should().Be(escalationDetails);
             supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(dateOfDecision);
+            supportProject.EngagementConcernEscalationWarningNotice.Should().Be(warningNotice);
             mockRepository.VerifyAll();
         }
 
@@ -1402,7 +1404,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var originalReason = "Original escalation reason";
             var originalEscalationDetails = "Original escalation details";
             var originalDecisionDate = DateTime.UtcNow.AddDays(-5);
-            supportProject.SetEngagementConcernEscalation(originalStepsTaken, originalReason, originalEscalationDetails, originalDecisionDate);
+            var originalWarningNotice = "Original warning notice";
+            supportProject.SetEngagementConcernEscalation(originalStepsTaken, originalReason, originalEscalationDetails, originalDecisionDate, originalWarningNotice);
 
             // Act - Set resolved details
             supportProject.SetEngagementConcernResolvedDetails(true, "Resolution details", DateTime.UtcNow);
@@ -1415,6 +1418,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(originalReason);
             supportProject.EngagementConcernEscalationDetails.Should().Be(originalEscalationDetails);
             supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(originalDecisionDate);
+            supportProject.EngagementConcernEscalationWarningNotice.Should().Be(originalWarningNotice);
             mockRepository.VerifyAll();
         }
     }
