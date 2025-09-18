@@ -2,7 +2,7 @@
 @model ReasonForEscalationModel
 
 @{
-    ViewData["Title"] = "Reason for escalation";
+    ViewData["Title"] = "Reason for escalation to mandation";
 }
 
 @section BeforeMain
@@ -12,13 +12,13 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <form method="post">
+        <form method="post" novalidate>
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -41,7 +41,8 @@
                     <h2 class="govuk-heading-m">Details of escalation</h2>
                     <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                         <label class="govuk-label govuk-!-margin-bottom-2" for="escalation-details">
-                            Enter details of any contentious or complicated issues. This can include past or present legal action, political affiliations and conflicts of interest.
+                            Enter details of any contentious or complicated issues. This can include past or present
+                            legal action, political affiliations and conflicts of interest.
                         </label>
                         @if (Model.ShowDetailsError)
                         {
@@ -49,12 +50,15 @@
                                 <span class="govuk-visually-hidden">Error:</span> You must enter details
                             </p>
                         }
-                        <textarea class="govuk-textarea" id="escalation-details" name="escalation-details" rows="5">@Model.EscalationDetails</textarea>
+                        <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : "")"
+                                  id="escalation-details" name="escalation-details" rows="5"
+                                  asp-for="@Model.EscalationDetails"></textarea>
                     </div>
                 </fieldset>
             </div>
             <div class="govuk-button-group govuk-body">
-                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="escalate-primary-reason-btn">
+                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button"
+                        data-cy="escalate-primary-reason-btn">
                     Continue
                 </button>
             </div>

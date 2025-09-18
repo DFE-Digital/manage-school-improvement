@@ -2,6 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -9,7 +10,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 
 public class EscalateEngagementConcernModel(
     ISupportProjectQueryService supportProjectQueryService,
-    ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    ErrorService errorService,
+    IMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator)
 {
     public string ReturnPage { get; set; }
     
@@ -124,8 +126,22 @@ public class EscalateEngagementConcernModel(
             return Page();
         }
 
-        ConfirmStepsTaken = true;
+        // ConfirmStepsTaken = true;
+        
+        return await HandleEscalationPost(
+            id,
+            new EngagementConcernEscalationDetails
+                {
+                    ConfirmStepsTaken = true
+                },
+            changeLinkClicked: false,
+            cancellationToken: cancellationToken);
         
         return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id, ConfirmStepsTaken });
+    }
+    
+    protected internal override IActionResult GetDefaultRedirect(int id, object? routeValues = default)
+    {
+        return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id });
     }
 }

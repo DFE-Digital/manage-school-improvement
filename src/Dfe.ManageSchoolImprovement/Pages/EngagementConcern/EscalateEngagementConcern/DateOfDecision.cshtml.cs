@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -13,9 +14,9 @@ public class DateOfDecisionModel(
 {
     public string ReturnPage { get; set; }
 
-    [BindProperty(Name = "escalate-decision-date")]
+    [BindProperty(Name = "escalate-decision-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [ModelBinder(BinderType = typeof(DateInputModelBinder))]
+    [Required]
     public DateTime? DateOfDecision { get; set; }
     
     private string? WarningNotice { get; set; }
@@ -45,9 +46,6 @@ public class DateOfDecisionModel(
     }
 
     public async Task<IActionResult> OnPostAsync(int id,
-        bool? confirmStepsTaken,
-        string? primaryReason,
-        string? escalationDetails,
         bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
@@ -69,9 +67,9 @@ public class DateOfDecisionModel(
             id,
             new EngagementConcernEscalationDetails
             {
-                ConfirmStepsTaken = confirmStepsTaken,
-                PrimaryReason = primaryReason,
-                Details = escalationDetails,
+                ConfirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken,
+                PrimaryReason = SupportProject.EngagementConcernEscalationPrimaryReason,
+                Details = SupportProject.EngagementConcernEscalationDetails,
                 DateOfDecision = DateOfDecision,
                 WarningNotice = WarningNotice
             },
