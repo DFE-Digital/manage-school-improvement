@@ -4,7 +4,7 @@
 @inject IConfiguration Configuration
 
 @{
-    ViewData["Title"] = "Escalate engagement concern";
+    ViewData["Title"] = "Escalate an engagement concern";
 }
 
 @section BeforeMain
@@ -23,7 +23,6 @@
             <div class="govuk-form-group">
                 <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
                 <h2 class="govuk-heading-l">Escalate an engagement concern</h2>
-                @* this is for local authority schools - change based on school type todo *@
                 @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
                 {
                     <p class="govuk-body">
@@ -50,7 +49,7 @@
                         <div class="govuk-hint" id="before-using-notice-hint">
                             You must complete the following steps before you can use a notice to mandate engagement.
                         </div>
-                        <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                        <div class="govuk-checkboxes" id="before-using-notice" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
                             @if (Model.ShowBeforeUsingNoticeError)
                             {
                                 <p id="before-using-notice-error" class="govuk-error-message">
@@ -60,12 +59,12 @@
                             }
                             <div class="govuk-checkboxes__item">
                                 <input name="use-existing-relationships-hidden" type="hidden" value="false"/>
-                                <input class="govuk-checkboxes__input"
+                                <input class="govuk-checkboxes__input @(Model.ShowBeforeUsingNoticeError ? "govuk-checkbox--error" : "")"
                                        id="use-existing-relationships"
                                        name="use-existing-relationships"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.UseExistingRelationships == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-use-existing-relationships"
                                        data-cy="use-existing-relationships-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="use-existing-relationships">
@@ -79,7 +78,7 @@
                                        name="follow-mediation-process"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.FollowMediationProcess == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-follow-mediation-process"
                                        data-cy="follow-mediation-process-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="follow-mediation-process">
@@ -93,7 +92,7 @@
                                        name="use-information-powers"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.UseInformationPowers == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-use-information-powers"
                                        data-cy="use-information-powers-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="use-information-powers">
@@ -112,7 +111,7 @@
                         <div class="govuk-hint" id="notice-approval-hint">
                             You must gather evidence and get approval before using a notice.
                         </div>
-                        <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                        <div class="govuk-checkboxes" id="get-approval" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
                             @if (Model.ShowGetApprovalError)
                             {
                                 <p id="get-approval-error" class="govuk-error-message">
@@ -127,7 +126,7 @@
                                        name="gather-evidence"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.GatherEvidence == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-gather-evidence"
                                        data-cy="gather-evidence-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="gather-evidence">
@@ -141,7 +140,7 @@
                                        name="get-approval"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.GetApproval == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-get-approval"
                                        data-cy="get-approval-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="get-approval">
@@ -155,7 +154,7 @@
                                        name="complete-moderation"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.CompleteModeration == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-complete-moderation"
                                        data-cy="complete-moderation-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="complete-moderation">
@@ -169,7 +168,7 @@
                                        name="draft-notice"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.DraftNotice == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-draft-notice"
                                        data-cy="draft-notice-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="draft-notice">
@@ -183,7 +182,7 @@
                                        name="consult-la"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.ConsultLa == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-consult-la"
                                        data-cy="consult-la-checkbox"/>
                                 @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
@@ -207,7 +206,7 @@
                                        name="carry-out-assessment"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.CarryOutAssessment == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-carry-out-assessment"
                                        data-cy="carry-out-assessment-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="carry-out-assessment">
@@ -221,7 +220,7 @@
                                        name="submit-notice"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.SubmitNotice == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-submit-notice"
                                        data-cy="submit-notice-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="submit-notice">
@@ -243,7 +242,7 @@
                         <div class="govuk-hint" id="issuing-notice-hint">
                             Before issuing a notice you must:
                         </div>
-                        <div class="govuk-checkboxes" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                        <div class="govuk-checkboxes" id="issuing-notice" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
                             @if (Model.ShowIssuingNoticeError)
                             {
                                 <p id="issuing-notice-error" class="govuk-error-message">
@@ -258,7 +257,7 @@
                                        name="notify-responsible-body"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.NotifyResponsibleBody == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-notify-responsible-body"
                                        data-cy="notify-responsible-body-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="notify-responsible-body">
@@ -273,7 +272,7 @@
                                        name="send-notice"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.SendNotice == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-send-notice"
                                        data-cy="send-notice-checkbox"/>
                                 @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
@@ -299,7 +298,7 @@
                                        name="complete-form"
                                        value="true"
                                        type="checkbox"
-                                       @(Model.CompleteForm == true ? "checked" : "")
+                                       @(Model.ConfirmStepsTaken == true ? "checked" : "")
                                        data-aria-controls="conditional-complete-form"
                                        data-cy="complete-form-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="complete-form">
