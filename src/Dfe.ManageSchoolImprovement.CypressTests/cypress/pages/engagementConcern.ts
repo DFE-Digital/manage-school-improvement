@@ -12,7 +12,7 @@ class EngagementConcern {
             const buttonExists = $body.find('[role="button"]:contains("Record engagement concern")').length > 0;
 
             if (buttonExists) {
-                cy.get('[role="button"]').contains('Record engagement concern').click({ force: true });
+                cy.getByCyData('record-engagement-concern-button').contains('Record engagement concern').click();
                 cy.log('Clicked Record engagement concern button');
             } else {
                 expect(buttonExists, 'Engagement concern already existing').to.be.true;
@@ -24,6 +24,13 @@ class EngagementConcern {
 
     public hasTitle(expectedTitle: string): this {
         cy.title().should('eq', expectedTitle);
+
+        return this;
+    }
+
+    public reasonForEscalationPageDisplayed(): this {
+        cy.url().should('include', 'engagement-concern/reason-for-escalation');
+        cy.title().should('eq', 'Reason for escalation to mandation - Manage school improvement');
 
         return this;
     }
@@ -44,6 +51,8 @@ class EngagementConcern {
     public recordConcernPageIsVisible(): this {
         cy.url().should('include', '/record-engagement-concern');
         cy.title().should('eq', 'Record engagement concern - Manage school improvement');
+
+        cy.getByCyData('back-link').should('be.visible');
 
         return this;
     }
@@ -70,7 +79,7 @@ class EngagementConcern {
     }
 
     public hasRecordUseOfInterimExecutiveBoardButton(): this {
-        cy.get('[role="button"]').should("be.visible");
+        cy.getByCyData('record-ieb-btn').should("be.visible");
 
         return this;
     }
@@ -80,7 +89,7 @@ class EngagementConcern {
             const buttonExists = $body.find('[role="button"]:contains("Record use of interim executive board")').length > 0;
 
             if (buttonExists) {
-                cy.get('[role="button"]').contains('Record use of interim executive board').click({ force: true });
+                cy.getByCyData('record-ieb-btn').contains('Record use of interim executive board').click({ force: true });
                 cy.log('Clicked Record use of interim executive board button');
             } else {
                 expect(buttonExists, 'Use of interim executive board already existing').to.be.true;
@@ -101,6 +110,12 @@ class EngagementConcern {
 
     public checkCheckbox(id: string): this {
         cy.getById(id).check();
+
+        return this;
+    }
+
+    public checkEscalationCheckbox(id: string): this {
+        cy.getByCyData(id+'-checkbox').check();
 
         return this;
     }
@@ -164,7 +179,7 @@ class EngagementConcern {
         return this;
     }
      public hasRecordedNotification(expectedMessage: string): this {
-        cy.get('.govuk-panel')
+        cy.get('.govuk-panel__title')
             .should('be.visible')
             .should('contain', expectedMessage);
 
