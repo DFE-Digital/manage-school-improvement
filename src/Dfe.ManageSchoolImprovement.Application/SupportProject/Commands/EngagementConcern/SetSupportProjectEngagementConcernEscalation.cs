@@ -12,7 +12,8 @@ public class SetSupportProjectEngagementConcernEscalation
         bool? EngagementConcernEscalationConfirmStepsTaken,
         string? EngagementConcernEscalationPrimaryReason,
         string? EngagementConcernEscalationDetails,
-        DateTime? EngagementConcernEscalationDateOfDecision
+        DateTime? EngagementConcernEscalationDateOfDecision,
+        string? EngagementConcernEscalationWarningNotice
     ) : IRequest<bool>;
 
     public class SetSupportProjectEngagementConcernEscalationCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -29,7 +30,7 @@ public class SetSupportProjectEngagementConcernEscalation
             }
 
             supportProject.SetEngagementConcernEscalation(request.EngagementConcernEscalationConfirmStepsTaken, request.EngagementConcernEscalationPrimaryReason,
-                request.EngagementConcernEscalationDetails, request.EngagementConcernEscalationDateOfDecision);
+                request.EngagementConcernEscalationDetails, request.EngagementConcernEscalationDateOfDecision, request.EngagementConcernEscalationWarningNotice);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

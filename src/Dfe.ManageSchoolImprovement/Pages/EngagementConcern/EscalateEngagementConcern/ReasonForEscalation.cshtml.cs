@@ -86,10 +86,7 @@ public class ReasonForEscalationModel(
     {
         var values = new
         {
-            id,
-            confirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken,
-            PrimaryReason,
-            EscalationDetails
+            id
         };
         return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, values);
     }

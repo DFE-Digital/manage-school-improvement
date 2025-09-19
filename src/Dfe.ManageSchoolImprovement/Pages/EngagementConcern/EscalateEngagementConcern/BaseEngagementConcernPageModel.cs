@@ -38,7 +38,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
                 ConfirmStepsTaken = escalationDetails.ConfirmStepsTaken ?? SupportProject?.EngagementConcernEscalationConfirmStepsTaken,
                 PrimaryReason = escalationDetails.PrimaryReason ?? SupportProject?.EngagementConcernEscalationPrimaryReason,
                 Details = escalationDetails.Details ?? SupportProject?.EngagementConcernEscalationDetails,
-                DateOfDecision = escalationDetails.DateOfDecision ?? SupportProject?.EngagementConcernEscalationDateOfDecision
+                DateOfDecision = escalationDetails.DateOfDecision ?? SupportProject?.EngagementConcernEscalationDateOfDecision,
+                WarningNotice = escalationDetails.WarningNotice ?? SupportProject?.EngagementConcernEscalationWarningNotice
             };
 
             var request = new SetSupportProjectEngagementConcernEscalationCommand(
@@ -46,7 +47,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
                 details.ConfirmStepsTaken,
                 details.PrimaryReason,
                 details.Details,
-                details.DateOfDecision);
+                details.DateOfDecision,
+                details.WarningNotice);
 
             var result = await _mediator.Send(request, cancellationToken);
 

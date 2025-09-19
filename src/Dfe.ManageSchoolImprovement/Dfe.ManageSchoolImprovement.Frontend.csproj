@@ -70,5 +70,9 @@
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\TaskList\NoteOfVisit\NoteOfVisit.cshtml" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Pages\EngagementConcern\ResolveEngagementConcern\" />
+	</ItemGroup>
 
 </Project>
