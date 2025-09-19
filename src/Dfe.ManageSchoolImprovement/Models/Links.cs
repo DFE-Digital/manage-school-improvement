@@ -100,8 +100,6 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/EngagementConcern/Index");
         public static readonly LinkItem RecordEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordEngagementConcern");
-        public static readonly LinkItem ResolveEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/ResolveEngagementConcern/Index");
-        public static readonly LinkItem ResolveEngagementConcernDate = AddLinkItem(backText: "Back", page: "/EngagementConcern/ResolveEngagementConcern/DateConcernResolved");
         public static readonly LinkItem EscalateEngagementConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/EscalateEngagementConcern");
         public static readonly LinkItem ReasonForEscalation = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/ReasonForEscalation");
         public static readonly LinkItem DateOfDecision = AddLinkItem(backText: "Back", page: "/EngagementConcern/EscalateEngagementConcern/DateOfDecision");
