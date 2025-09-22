@@ -2,7 +2,7 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using MediatR;
 
-namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
+namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 
 
 public class SetSupportProjectEngagementConcernEscalation

@@ -218,6 +218,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? InterimExecutiveBoardCreatedDetails { get; private set; }
     public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
 
+    public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
+    private readonly List<EngagementConcern> _engagementConcerns = new();
+
     #endregion
 
     public static SupportProject Create(
@@ -533,7 +536,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         EngagementConcernDetails = engagementConcernDetails;
         EngagementConcernRaisedDate = engagementConcernRaisedDate;
     }
-
+    
     public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
         string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
     {
@@ -542,6 +545,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         EngagementConcernEscalationDetails = escalationDetails;
         EngagementConcernEscalationDateOfDecision = dateOfDecision;
         EngagementConcernEscalationWarningNotice = warningNotice;
+    }
+
+    public void AddEngagementConcern(EngagementConcernId engagementConcernId, SupportProjectId supportProjectId, bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
+    {
+        _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId, engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate));
     }
 
     public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails, DateTime? powersUsedDate)
