@@ -30,13 +30,15 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var engagementConcernEscalationPrimaryReason = "a very good reason";
             var engagementConcernEscalationDetails = "some excellent details";
             var engagementConcernEscalationDateOfDecision =  DateTime.UtcNow;
+            var engagementConcernEscalationWarningNotice = "TWN issued";
 
             var command = new SetSupportProjectEngagementConcernEscalationCommand(
                 _mockSupportProject.Id,
                 engagementConcernEscalationConfirmStepsTaken,
                 engagementConcernEscalationPrimaryReason,
                 engagementConcernEscalationDetails,
-                engagementConcernEscalationDateOfDecision
+                engagementConcernEscalationDateOfDecision,
+                engagementConcernEscalationWarningNotice
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
@@ -65,7 +67,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var command = new SetSupportProjectEngagementConcernEscalationCommand(
-                _mockSupportProject.Id, null, null, null, null
+                _mockSupportProject.Id, null, null, null, null, null
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
@@ -96,13 +98,15 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var engagementConcernEscalationPrimaryReason = "a very good reason";
             var engagementConcernEscalationDetails = "some excellent details";
             var engagementConcernEscalationDateOfDecision =  DateTime.UtcNow;
+            var engagementConcernEscalationWarningNotice = "TWN issued";
 
             var command = new SetSupportProjectEngagementConcernEscalationCommand(
                 _mockSupportProject.Id, 
                 engagementConcernEscalationConfirmStepsTaken, 
                 engagementConcernEscalationPrimaryReason, 
                 engagementConcernEscalationDetails, 
-                engagementConcernEscalationDateOfDecision
+                engagementConcernEscalationDateOfDecision,
+                engagementConcernEscalationWarningNotice
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),

@@ -1,8 +1,8 @@
-@page "/engagement-concern/date-of-decision/{id:int}"
+@page "/engagement-concern/date-of-approval-to-mandate/{id:int}"
 @model DateOfDecisionModel
 
 @{
-    ViewData["Title"] = "Date of decision to escalate";
+    ViewData["Title"] = "Enter date of regional director's approval to mandate";
 }
 
 @section BeforeMain
@@ -20,9 +20,13 @@
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <form method="post">
             <div class="govuk-form-group">
-                <h2 class="govuk-heading-l">Date of decision to escalate</h2>
-                <p class="govuk-body">Enter the date the decision was made to escalate this concern.</p>
-                <govuk-date-input heading-label="false" id="escalate-decision-date" name="escalate-decision-date" asp-for="@Model.DateOfDecision" />
+                <h2 class="govuk-heading-l">Enter date of regional director's approval to mandate</h2>
+                <govuk-date-input 
+                    heading-label="false" 
+                    hint="For example, 1 7 2024."
+                    id="escalate-decision-date" 
+                    name="escalate-decision-date" 
+                    asp-for="@Model.DateOfDecision" />
                 <div class="govuk-button-group govuk-body">
                     <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="escalate-date-decision-btn">
                         Save

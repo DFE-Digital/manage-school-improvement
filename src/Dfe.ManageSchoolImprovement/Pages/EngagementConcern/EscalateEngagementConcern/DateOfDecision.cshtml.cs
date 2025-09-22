@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -13,10 +14,12 @@ public class DateOfDecisionModel(
 {
     public string ReturnPage { get; set; }
 
-    [BindProperty(Name = "escalate-decision-date")]
+    [BindProperty(Name = "escalate-decision-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [ModelBinder(BinderType = typeof(DateInputModelBinder))]
+    [Required]
     public DateTime? DateOfDecision { get; set; }
+    
+    private string? WarningNotice { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -37,17 +40,18 @@ public class DateOfDecisionModel(
         await base.GetSupportProject(id, cancellationToken);
 
         DateOfDecision = SupportProject.EngagementConcernEscalationDateOfDecision;
+        
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id,
-        bool? confirmStepsTaken,
-        string? primaryReason,
-        string? escalationDetails,
         bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
+        await base.GetSupportProject(id, cancellationToken);
+        WarningNotice = string.IsNullOrEmpty(SupportProject.TrustName) ? "NEIA Issued" : "TWN Issued";
+        
         if (!DateOfDecision.HasValue)
         {
             ModelState.AddModelError("escalate-decision-date", "You must enter a date");
@@ -63,10 +67,11 @@ public class DateOfDecisionModel(
             id,
             new EngagementConcernEscalationDetails
             {
-                ConfirmStepsTaken = confirmStepsTaken,
-                PrimaryReason = primaryReason,
-                Details = escalationDetails,
-                DateOfDecision = DateOfDecision
+                ConfirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken,
+                PrimaryReason = SupportProject.EngagementConcernEscalationPrimaryReason,
+                Details = SupportProject.EngagementConcernEscalationDetails,
+                DateOfDecision = DateOfDecision,
+                WarningNotice = WarningNotice
             },
             changeLinkClicked,
             cancellationToken);

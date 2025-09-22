@@ -12,7 +12,7 @@ class EngagementConcern {
             const buttonExists = $body.find('[role="button"]:contains("Record engagement concern")').length > 0;
 
             if (buttonExists) {
-                cy.get('[role="button"]').contains('Record engagement concern').click({ force: true });
+                cy.getByCyData('record-engagement-concern-button').contains('Record engagement concern').click();
                 cy.log('Clicked Record engagement concern button');
             } else {
                 expect(buttonExists, 'Engagement concern already existing').to.be.true;
@@ -28,9 +28,31 @@ class EngagementConcern {
         return this;
     }
 
+    public reasonForEscalationPageDisplayed(): this {
+        cy.url().should('include', 'engagement-concern/reason-for-escalation');
+        cy.title().should('eq', 'Reason for escalation to mandation - Manage school improvement');
+
+        return this;
+    }
+
+    public clickChangeLinkForIEB(linkText: string): this {
+        cy.getByCyData('ieb-created-change-link').should('contain', linkText).click();
+
+        return this;
+    }
+
+    public clickEscalateLink(): this {
+        cy.getByCyData('engagement-concern-escalate-link').click();
+        cy.url().should('include', '/escalate-engagement-concern');
+
+        return this;
+    }
+
     public recordConcernPageIsVisible(): this {
         cy.url().should('include', '/record-engagement-concern');
         cy.title().should('eq', 'Record engagement concern - Manage school improvement');
+
+        cy.getByCyData('back-link').should('be.visible');
 
         return this;
     }
@@ -56,9 +78,44 @@ class EngagementConcern {
         return this;
     }
 
+    public hasRecordUseOfInterimExecutiveBoardButton(): this {
+        cy.getByCyData('record-ieb-btn').should("be.visible");
+
+        return this;
+    }
+
+    public clickRecordUseOfInterimExecutiveBoard(): this {
+        cy.get('body').then($body => {
+            const buttonExists = $body.find('[role="button"]:contains("Record use of interim executive board")').length > 0;
+
+            if (buttonExists) {
+                cy.getByCyData('record-ieb-btn').contains('Record use of interim executive board').click({ force: true });
+                cy.log('Clicked Record use of interim executive board button');
+            } else {
+                expect(buttonExists, 'Use of interim executive board already existing').to.be.true;
+            }
+        });
+
+        return this;
+    }   
+
+    public showHowToCreateIEBSection(): this {
+        cy.get('.govuk-details__summary-text').contains('How to create interim executive boards').click();
+        cy.get('.govuk-details__text')
+            .should('be.visible')
+            .and('not.be.empty');
+
+        return this;
+    }
 
     public checkCheckbox(id: string): this {
         cy.getById(id).check();
+
+        return this;
+    }
+
+    public checkEscalationCheckbox(id: string): this {
+        cy.getByCyData(id+'-checkbox').check();
 
         return this;
     }
@@ -78,8 +135,8 @@ class EngagementConcern {
         return this;
     }
 
-    public clickSaveAndReturn(): this {
-        cy.get('[type="submit"]').should('contain', 'Save and return')
+    public clickButton(text): this {
+        cy.get('[type="submit"]').should('contain.text', text)
             .click();
 
         return this;
@@ -108,10 +165,23 @@ class EngagementConcern {
         return this;
     }
 
+    public clickViewEngagementConcern(): this {
+        cy.getByCyData('escalate-confirmation-btn').click();
+
+        return this;
+    }
+
     public hasEngagementConcernChangeLink(linkText: string): this {
         cy.get('[data-cy="engagement-concern-change-link"]')
             .should('be.visible')
             .contains(linkText);
+
+        return this;
+    }
+     public hasRecordedNotification(expectedMessage: string): this {
+        cy.get('.govuk-panel__title')
+            .should('be.visible')
+            .should('contain', expectedMessage);
 
         return this;
     }
@@ -144,6 +214,12 @@ class EngagementConcern {
         cy.getByCyData('engagement-concern-escalate-link')
             .should('be.visible')
             .contains(linkText)
+
+        return this;
+    }
+
+    public unCheckCheckbox(id: string): this {
+        cy.getById(id).uncheck();
 
         return this;
     }

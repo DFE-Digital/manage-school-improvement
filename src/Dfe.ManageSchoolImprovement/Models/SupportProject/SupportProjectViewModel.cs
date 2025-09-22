@@ -51,15 +51,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? FormalNotificationSent { get; private set; }
 
         public DateTime? DateFormalNotificationSent { get; private set; }
-        
-        public bool? UseEnrolmentLetterTemplateToDraftEmail { get; private set;}
-        
-        public bool? AttachTargetedInterventionInformationSheet { get; private set;}
-        
-        public bool? AddRecipientsForFormalNotification { get; private set;}
-        
+
+        public bool? UseEnrolmentLetterTemplateToDraftEmail { get; private set; }
+
+        public bool? AttachTargetedInterventionInformationSheet { get; private set; }
+
+        public bool? AddRecipientsForFormalNotification { get; private set; }
+
         public bool? InitialContactResponsibleBody { get; private set; }
-        
+
         public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
         public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
@@ -186,8 +186,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? EngagementConcernEscalationDetails { get; set; }
 
         public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
+        
+        public string? EngagementConcernEscalationWarningNotice { get; set; }
 
         public DateTime? EngagementConcernRaisedDate { get; set; }
+        public DateTime? EngagementConcernResolvedDate { get; set; }
+        public string? EngagementConcernResolvedDetails { get; set; }
+        public bool? EngagementConcernResolved { get; set; }
 
         public bool? InformationPowersInUse { get; set; }
         public string? InformationPowersDetails { get; set; }
@@ -195,7 +200,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? AssessmentToolTwoCompleted { get; set; }
 
         public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
-        
+
         public bool? InterimExecutiveBoardCreated { get; set; }
         public string? InterimExecutiveBoardCreatedDetails { get; set; }
         public DateTime? InterimExecutiveBoardCreatedDate { get; set; }
@@ -297,6 +302,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 EngagementConcernEscalationPrimaryReason = supportProjectDto.EngagementConcernEscalationPrimaryReason,
                 EngagementConcernEscalationDetails = supportProjectDto.EngagementConcernEscalationDetails,
                 EngagementConcernEscalationDateOfDecision = supportProjectDto.EngagementConcernEscalationDateOfDecision,
+                EngagementConcernEscalationWarningNotice = supportProjectDto.EngagementConcernEscalationWarningNotice,
                 EngagementConcernRaisedDate = supportProjectDto.EngagementConcernRaisedDate,
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
@@ -309,7 +315,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
                 InterimExecutiveBoardCreated = supportProjectDto.InterimExecutiveBoardCreated,
                 InterimExecutiveBoardCreatedDetails = supportProjectDto.InterimExecutiveBoardCreatedDetails,
-                InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate
+                InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate,
+                EngagementConcernResolved = supportProjectDto.EngagementConcernResolved,
+                EngagementConcernResolvedDate = supportProjectDto.EngagementConcernResolvedDate,
+                EngagementConcernResolvedDetails = supportProjectDto.EngagementConcernResolvedDetails
             };
         }
     }
