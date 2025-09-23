@@ -14,8 +14,8 @@
 {
     <a asp-page="@Model.ReturnPage" class="govuk-back-link" data-cy="back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
-         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
-         || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
+                     || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
+                     || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
              aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -42,7 +42,7 @@
     }
 }
 
-<partial name="_ProjectHeader" model="Model.SupportProject"/>
+<partial name="_ProjectHeader" model="Model.SupportProject" />
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @if (Model.SupportProject.EngagementConcernRecorded is true)
@@ -71,7 +71,7 @@
                                        data-cy="engagement-concern-escalate-link">
                                         Escalate<span class="govuk-visually-hidden">Escalate</span>
                                     </a>
-                                </li> 
+                                </li>
                             }
                         </ul>
                     </div>
@@ -97,7 +97,7 @@
                             </div>
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key">
-                                    Escalated?
+                                    Escalated
                                 </dt>
                                 <dd class="govuk-summary-list__value">
                                     @(Model.EngagementConcernEscalated ? "Yes" : "No")
@@ -143,11 +143,22 @@
                                     </dd>
                                 </div>
                             }
+                            @if (Model.SupportProject.EngagementConcernResolved is false)
+                            {
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">
+                                        Resolved
+                                    </dt>
+                                    <dd class="govuk-summary-list__value">
+                                        No
+                                    </dd>
+                                </div>
+                            }
                             @if (Model.SupportProject.EngagementConcernResolved is true)
                             {
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key">
-                                        Date resolved
+                                        Resolved
                                     </dt>
                                     <dd class="govuk-summary-list__value">
                                         @Model.SupportProject.EngagementConcernResolvedDate.ToDateString()
@@ -170,7 +181,7 @@
                     </div>
                 </div>
             </form>
-            
+
             @if (Model.SupportProject.InterimExecutiveBoardCreated is true)
             {
                 <div class="govuk-summary-card">
@@ -180,11 +191,10 @@
                         </h2>
                         <ul class="govuk-summary-list__action-list">
                             <li class="govuk-summary-list__actions-list-item">
-                                <a
-                                    asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
-                                    asp-route-id="@Model.SupportProject.Id"
-                                    class="govuk-link"
-                                    data-cy="ieb-created-change-link">
+                                <a asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
+                                   asp-route-id="@Model.SupportProject.Id"
+                                   class="govuk-link"
+                                   data-cy="ieb-created-change-link">
                                     Change
                                 </a>
                             </li>
@@ -265,14 +275,14 @@
 
             @if (Model.SupportProject.InterimExecutiveBoardCreated != true)
                 @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
-            {
-                <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
-                   asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
-                   class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                {
+                    <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+                       asp-route-id="@Model.SupportProject.Id" role="button" draggable="false"
+                       class="govuk-button govuk-button--secondary" data-module="govuk-button"
                        data-cy="record-ieb-btn">
-                    Record use of interim executive board
-                </a>
-            }
+                        Record use of interim executive board
+                    </a>
+                }
         }
         else
         {
