@@ -14,8 +14,8 @@
 {
     <a asp-page="@Model.ReturnPage" class="govuk-back-link" data-cy="back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
-         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
-         || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
+                     || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
+                     || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
              aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -42,7 +42,7 @@
     }
 }
 
-<partial name="_ProjectHeader" model="Model.SupportProject"/>
+<partial name="_ProjectHeader" model="Model.SupportProject" />
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @if (Model.EngagementConcerns.Count() > 0)
@@ -172,11 +172,22 @@
                                         </dd>
                                     </div>
                                 }
+                                @if (concern.EngagementConcernResolved is false)
+                                {
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Resolved
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            No
+                                        </dd>
+                                    </div>
+                                }
                                 @if (concern.EngagementConcernResolved is true)
                                 {
                                     <div class="govuk-summary-list__row">
                                         <dt class="govuk-summary-list__key">
-                                            Date resolved
+                                            Resolved
                                         </dt>
                                         <dd class="govuk-summary-list__value">
                                             @concern.EngagementConcernResolvedDate.ToDateString()

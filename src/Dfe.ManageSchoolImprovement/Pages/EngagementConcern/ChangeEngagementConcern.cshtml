@@ -13,58 +13,71 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary" />
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Change engagement concern
+        </h1>
         <form method="post">
+            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
+                <label class="govuk-label govuk-label--m" for="engagement-concern-details">
+                    Concern details
+                </label>
+                <div id="engagement-concern-details-hint" class="govuk-hint">
+                    Enter details about your concern
+                </div>
+
+                @if (Model.ShowRecordEngagementConcernError)
+                {
+                    <p id="more-detail-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> You must enter concern details
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")"
+                          id="engagement-concern-details" name="engagement-concern-details"
+                          rows="5">@Model.EngagementConcernDetails</textarea>
+            </div>
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading">
-                            Change engagement concern
-                        </h1>
-                    </legend>
-                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                        <div class="govuk-checkboxes__item">
-                            <input name="record-engagement-concern-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input"
-                                   id="record-engagement-concern"
-                                   name="record-engagement-concern"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.RecordEngagementConcern == true ? "checked" : "")
-                                   data-aria-controls="conditional-record-engagement-concern"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="record-engagement-concern">
-                                Record engagement concern with this school
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h2 class="govuk-fieldset__heading">Resolve concern</h2>
+                </legend>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input name="mark-concern-resolved-hidden" type="hidden" value="false" />
+                        <input class="govuk-checkboxes__input"
+                               id="mark-concern-resolved"
+                               name="mark-concern-resolved"
+                               value="true"
+                               type="checkbox"
+                               @(Model.MarkConcernResolved == true ? "checked" : "")
+                               data-aria-controls="conditional-mark-concern-resolved"
+                               data-cy="mark-concern-resolved-checkbox" />
+                        <label class="govuk-label govuk-checkboxes__label" for="mark-concern-resolved">
+                            This engagement concern has been resolved
+                        </label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-mark-concern-resolved">
+                        <div class="govuk-form-group @(Model.ShowResolutionDetailsError ? "govuk-form-group--error" : "")">
+                            <label class="govuk-label" for="resolution-details">
+                                Enter details about how this concern was resolved.
                             </label>
-                        </div>
-                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                             id="conditional-record-engagement-concern">
-                            <div
-                                class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
-                                <label class="govuk-label" for="engagement-concern-details">
-                                    Enter details about your engagement concern
-                                </label>
-                                @if (Model.ShowRecordEngagementConcernError)
-                                {
-                                    <p id="more-detail-error" class="govuk-error-message">
-                                        <span class="govuk-visually-hidden">Error:</span> You must enter details
-                                    </p>
-                                }
-                                <textarea
-                                    class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")"
-                                    id="engagement-concern-details" name="engagement-concern-details"
-                                    rows="5">@Model.EngagementConcernDetails</textarea>
-                            </div>
+                            @if (Model.ShowResolutionDetailsError)
+                            {
+                                <p id="resolution-details-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> You must enter resolution details
+                                </p>
+                            }
+                            <textarea class="govuk-textarea @(Model.ShowResolutionDetailsError ? "govuk-textarea--error" : "")" id="resolution-details" name="resolution-details" rows="5" data-cy="resolution-details-textarea">@Model.ResolutionDetails</textarea>
                         </div>
                     </div>
-                </fieldset>
+                </div>
+            </fieldset>
             </div>
-
-
             <div class="govuk-button-group govuk-body">
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save and return

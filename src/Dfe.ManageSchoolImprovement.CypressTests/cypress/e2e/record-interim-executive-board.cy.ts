@@ -3,7 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import { Logger } from "cypress/common/logger";
 
-describe("User navigates to the Engagement Concern tab to record use of interim executive board", () => {
+describe("User navigates to the Engagement Concern tab to record use of interim executive board for non-academy school type", () => {
     beforeEach(() => {
         cy.login();
         homePage
