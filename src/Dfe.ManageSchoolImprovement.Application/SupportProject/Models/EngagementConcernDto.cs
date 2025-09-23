@@ -1,8 +1,9 @@
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
 {
     public record EngagementConcernDto(
-        Guid id,
-        int Id,
+        Guid Id,
         int supportProjectId,
         bool? EngagementConcernRecorded,
         string? EngagementConcernDetails,

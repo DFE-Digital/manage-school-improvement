@@ -530,12 +530,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         CaseStudyDetails = caseStudyDetails;
     }
 
-    public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
-    {
-        EngagementConcernRecorded = engagementConcernRecorded;
-        EngagementConcernDetails = engagementConcernDetails;
-        EngagementConcernRaisedDate = engagementConcernRaisedDate;
-    }
+    // public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
+    // {
+    //     EngagementConcernRecorded = engagementConcernRecorded;
+    //     EngagementConcernDetails = engagementConcernDetails;
+    //     EngagementConcernRaisedDate = engagementConcernRaisedDate;
+    // }
     
     public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
         string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
@@ -550,6 +550,16 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void AddEngagementConcern(EngagementConcernId engagementConcernId, SupportProjectId supportProjectId, bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
     {
         _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId, engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate));
+    }
+
+    public void EditEngagementConcern(EngagementConcernId engagementConcernId,
+        bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
+    {
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetEngagementConcernDetails(engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate);
+        }
     }
 
     public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails, DateTime? powersUsedDate)

@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -6,7 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
-    AddEngagementConcern;
+    EditEngagementConcern;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
     SetSupportProjectEngagementConcernEscalation;
 
@@ -30,6 +31,9 @@ public class ChangeEngagementConcernModel(
     public DateTime? DateEngagementConcernRaised { get; set; }
     
     public string? WarningNotice { get; set; }
+    
+    [BindProperty]
+    public Guid EngagementConcernId { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -38,16 +42,21 @@ public class ChangeEngagementConcernModel(
     public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) &&
                                                     ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, Guid engagementconcernid, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
         ReturnPage = @Links.EngagementConcern.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == engagementconcernid);
 
-        RecordEngagementConcern = SupportProject.EngagementConcernRecorded;
-        EngagementConcernDetails = SupportProject.EngagementConcernDetails;
+        if (engagementConcern != null)
+        {
+            RecordEngagementConcern = engagementConcern.EngagementConcernRecorded;
+            EngagementConcernDetails = engagementConcern.EngagementConcernDetails;
+        }
 
         return Page();
     }
@@ -85,7 +94,7 @@ public class ChangeEngagementConcernModel(
             WarningNotice = null;
         }
 
-        var request = new AddEngagementConcernCommand(new SupportProjectId(id),
+        var request = new EditEngagementConcernCommand(new EngagementConcernId(EngagementConcernId), new SupportProjectId(id),
             RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
 
         var result = await mediator.Send(request, cancellationToken);

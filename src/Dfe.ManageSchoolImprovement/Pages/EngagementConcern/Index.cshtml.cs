@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +18,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
-
-    public DateTime? DateRaised { get; set; }
     
-    public string? EngagementConcernDetails { get; set; }
-
-    public bool EngagementConcernEscalated { get; set; }
-
-    public string? EngagementConcernEscalationReason { get; set; }
-
-    public DateTime? DateEscalated { get; set; }
+    public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
     
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
@@ -57,15 +50,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         await base.GetSupportProject(id, cancellationToken);
 
-        DateRaised = SupportProject.EngagementConcernRaisedDate;
-        EngagementConcernDetails = SupportProject.EngagementConcernDetails;
-        EngagementConcernEscalated =
-            (SupportProject.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
-            !string.IsNullOrEmpty(SupportProject.EngagementConcernEscalationPrimaryReason) &&
-            !string.IsNullOrEmpty(SupportProject.EngagementConcernEscalationDetails) &&
-            SupportProject.EngagementConcernEscalationDateOfDecision.HasValue;
-        EngagementConcernEscalationReason = SupportProject.EngagementConcernEscalationPrimaryReason;
-        DateEscalated = SupportProject.EngagementConcernEscalationDateOfDecision;
+        EngagementConcerns = SupportProject.EngagementConcerns;
 
         return Page();
     }
