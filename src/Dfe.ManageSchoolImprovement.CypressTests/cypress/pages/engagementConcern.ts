@@ -8,16 +8,8 @@ class EngagementConcern {
     }
 
     public clickRecordEngagementConcern(): this {
-        cy.get('body').then($body => {
-            const buttonExists = $body.find('[role="button"]:contains("Record engagement concern")').length > 0;
-
-            if (buttonExists) {
-                cy.getByCyData('record-engagement-concern-button').contains('Record engagement concern').click();
-                cy.log('Clicked Record engagement concern button');
-            } else {
-                expect(buttonExists, 'Engagement concern already existing').to.be.true;
-            }
-        });
+        cy.getByCyData('record-engagement-concern-button').should('be.visible').click();
+        cy.url().should('include', '/engagement-concern/record-engagement-concern');
 
         return this;
     }
@@ -58,16 +50,10 @@ class EngagementConcern {
     }
 
     public clickRecordUserOfInformationPowersButton(): this {
-        cy.get('body').then($body => {
-            const buttonExists = $body.find('[role="button"]:contains("Record use of information powers")').length > 0;
+        cy.getByCyData('record-information-powers-btn').should('be.visible').click();
 
-            if (buttonExists) {
-                cy.get('[role="button"]').contains('Record use of information powers').click({ force: true });
-                cy.log('Clicked Record use of information powers');
-            } else {
-                expect(buttonExists, 'Use of Information powers already existing').to.be.true;
-            }
-        });
+        cy.url().should('include', '/engagement-concern/record-use-of-information-powers');
+        cy.title().should('eq', 'Record use of information powers - Manage school improvement');
 
         return this;
     }
@@ -85,16 +71,9 @@ class EngagementConcern {
     }
 
     public clickRecordUseOfInterimExecutiveBoard(): this {
-        cy.get('body').then($body => {
-            const buttonExists = $body.find('[role="button"]:contains("Record use of interim executive board")').length > 0;
-
-            if (buttonExists) {
-                cy.getByCyData('record-ieb-btn').contains('Record use of interim executive board').click({ force: true });
-                cy.log('Clicked Record use of interim executive board button');
-            } else {
-                expect(buttonExists, 'Use of interim executive board already existing').to.be.true;
-            }
-        });
+        cy.getByCyData('record-ieb-btn').click();
+        cy.url().should('include', '/engagement-concern/record-use-of-interim-executive-board');
+        cy.title().should('eq', 'Record use of interim executive board - Manage school improvement');
 
         return this;
     }   
@@ -182,6 +161,12 @@ class EngagementConcern {
         cy.get('.govuk-panel__title')
             .should('be.visible')
             .should('contain', expectedMessage);
+
+        return this;
+    }
+
+    public checkResolveConcernCheckbox(): this {
+        cy.getByCyData('mark-concern-resolved-checkbox').check();
 
         return this;
     }

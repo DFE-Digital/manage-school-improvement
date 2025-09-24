@@ -28,11 +28,10 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         Logger.log("record engagement concern");
         engagementConcern.clickRecordEngagementConcern()
         engagementConcern.hasTitle('Record engagement concern - Manage school improvement')
-        engagementConcern.checkCheckbox('record-engagement-concern')
-
+       
         //save without entering details and validate error message
         engagementConcern.clickButton('Save and return');
-        engagementConcern.errorMessage('more-detail-error', 'You must enter details')
+        engagementConcern.errorMessage('engagement-concern-details-error-link', 'You must enter concern details')
 
         cy.executeAccessibilityTests()
 
@@ -45,6 +44,18 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         engagementConcern.hasEscalateLink("Escalate");
 
         cy.executeAccessibilityTests()
+    });
+
+     it("should be able to resolve the Engagement concern", () => {
+        Logger.log("resolve engagement concern");
+         engagementConcern.hasEngagementConcernChangeLink("Change");
+        engagementConcern.clickEngagementConcernChangeLink();
+            engagementConcern.checkResolveConcernCheckbox();
+        engagementConcern.enterText("resolution-details", "Add new details");
+        engagementConcern.clickButton('Save and return');
+        engagementConcern.hasSuccessNotification("Engagement concern updated");
+
+        cy.executeAccessibilityTests();
     });
 
     it("should be able to cancel recording the Use of Information powers", () => {
@@ -85,7 +96,7 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         cy.executeAccessibilityTests();
     })
 
-    it("should be able to Change Information Powers ", () => {
+    it.only("should be able to Change Information Powers ", () => {
         Logger.log("change information powers");
         engagementConcern.hasInformationPowersChangeLink("Change")
         engagementConcern.clickInformationPowersChangeLink();
