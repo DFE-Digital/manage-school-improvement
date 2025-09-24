@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    [Migration("20250922110232_engagement-concern-table")]
+    [Migration("20250924142944_engagement-concern-table")]
     partial class engagementconcerntable
     {
         /// <inheritdoc />
@@ -58,9 +58,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<DateTime?>("EngagementConcernRaisedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("EngagementConcernRecorded")
-                        .HasColumnType("bit");
-
                     b.Property<bool?>("EngagementConcernResolved")
                         .HasColumnType("bit");
 
@@ -85,6 +82,12 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
+
+                    b.Property<int>("ReadableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReadableId"));
 
                     b.Property<int>("SupportProjectId")
                         .HasColumnType("int");

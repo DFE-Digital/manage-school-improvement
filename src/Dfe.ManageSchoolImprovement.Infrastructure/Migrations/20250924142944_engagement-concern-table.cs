@@ -22,6 +22,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
+                    ReadableId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "EngagementConcernsHistory")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
                     SupportProjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalHistoryTableName", "EngagementConcernsHistory")
@@ -47,12 +54,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
                     LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                        .Annotation("SqlServer:IsTemporal", true)
-                        .Annotation("SqlServer:TemporalHistoryTableName", "EngagementConcernsHistory")
-                        .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")
-                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
-                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    EngagementConcernRecorded = table.Column<bool>(type: "bit", nullable: true)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalHistoryTableName", "EngagementConcernsHistory")
                         .Annotation("SqlServer:TemporalHistoryTableSchema", "RISE")

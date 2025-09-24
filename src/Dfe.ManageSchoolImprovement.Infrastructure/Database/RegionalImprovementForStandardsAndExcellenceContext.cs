@@ -195,7 +195,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
     {
         builder.ToTable("EngagementConcerns", DefaultSchema, b => b.IsTemporal());
         builder.HasKey(a => a.Id);
-
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
         builder.Property(e => e.Id)
             .HasConversion(
                 v => v!.Value,

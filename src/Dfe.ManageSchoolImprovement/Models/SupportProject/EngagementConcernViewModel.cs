@@ -6,6 +6,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
     public class EngagementConcernViewModel
     {
         public EngagementConcernId Id { get; set; }
+        
+        public int ReadableId { get; set; }
         public int SupportProjectId { get; set; }
         public string? EngagementConcernDetails { get; set; }
         public DateTime? EngagementConcernRaisedDate { get; set; }
@@ -23,7 +25,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
             return new EngagementConcernViewModel
             {
                 Id = new EngagementConcernId(engagementConcern.Id),
-                SupportProjectId = engagementConcern.supportProjectId,
+                ReadableId = engagementConcern.ReadableId,
+                SupportProjectId = engagementConcern.SupportProjectId,
                 EngagementConcernDetails = engagementConcern.EngagementConcernDetails,
                 EngagementConcernRaisedDate = engagementConcern.EngagementConcernRaisedDate,
                 EngagementConcernResolved = engagementConcern.EngagementConcernResolved,
