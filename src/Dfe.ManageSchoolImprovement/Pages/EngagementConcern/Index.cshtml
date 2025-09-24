@@ -65,9 +65,9 @@
                                         Change<span class="govuk-visually-hidden">Change</span>
                                     </a>
                                 </li>
-                                @if (concern.EngagementConcernEscalationConfirmStepsTaken != true &&
-                                     string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
-                                     string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
+                                @if (concern.EngagementConcernEscalationConfirmStepsTaken != true ||
+                                     string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) ||
+                                     string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) ||
                                      !concern.EngagementConcernEscalationDateOfDecision.HasValue)
                                 {
                                     <li class="govuk-summary-list__actions-list-item">

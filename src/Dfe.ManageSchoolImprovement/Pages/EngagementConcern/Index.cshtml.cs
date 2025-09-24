@@ -19,7 +19,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
     
-    public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
+    // public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
     
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
@@ -42,6 +42,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [TempData]
     public bool? InterimExecutiveBoardDateUpdated  { get; set; }
 
+    public List<EngagementConcernViewModel> EngagementConcerns { get; set; } = [];
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
@@ -49,8 +51,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         ReturnPage = @Links.SchoolList.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        EngagementConcerns = SupportProject.EngagementConcerns;
+        
+        EngagementConcerns = SupportProject?.EngagementConcerns?.OrderByDescending(x => x.EngagementConcernRaisedDate).ToList() ?? [];
 
         return Page();
     }
