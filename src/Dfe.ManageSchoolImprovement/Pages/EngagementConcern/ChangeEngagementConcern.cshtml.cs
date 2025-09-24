@@ -3,10 +3,12 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernDetails;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.
+    SetSupportProjectEngagementConcernDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernResolvedDetails;
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -14,24 +16,35 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 public class ChangeEngagementConcernModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IMediator mediator,
+    IDateTimeProvider dateTimeProvider) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
-    public string ReturnPage { get; set; }
+    public string ReturnPage { get; set; } = string.Empty;
 
     [BindProperty(Name = "engagement-concern-details")]
     public string? EngagementConcernDetails { get; set; }
 
-    [BindProperty(Name = "record-engagement-concern")]
-    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
-    public bool? RecordEngagementConcern { get; set; }
-
     public DateTime? DateEngagementConcernRaised { get; set; }
 
+    public string? WarningNotice { get; set; }
+
     public bool ShowError => _errorService.HasErrors();
-    
+
     private const string EngagementConcernDetailsKey = "engagement-concern-details";
 
-    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) && ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
+    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) &&
+                                                    ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
+
+    [BindProperty(Name = "resolution-details")]
+    public string? ResolutionDetails { get; set; }
+
+    [BindProperty(Name = "mark-concern-resolved")]
+    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
+    public bool? MarkConcernResolved { get; set; }
+
+    private const string ResolutionDetailsKey = "resolution-details";
+
+    public bool ShowResolutionDetailsError => ModelState.ContainsKey(ResolutionDetailsKey) && ModelState[ResolutionDetailsKey]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -41,8 +54,9 @@ public class ChangeEngagementConcernModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        RecordEngagementConcern = SupportProject.EngagementConcernRecorded;
         EngagementConcernDetails = SupportProject.EngagementConcernDetails;
+        MarkConcernResolved = SupportProject.EngagementConcernResolved;
+        ResolutionDetails = SupportProject.EngagementConcernResolvedDetails;
 
         return Page();
     }
@@ -52,29 +66,30 @@ public class ChangeEngagementConcernModel(
         // set support project so we can compare values for success banner
         await base.GetSupportProject(id, cancellationToken);
 
-        if (RecordEngagementConcern is true && string.IsNullOrEmpty(EngagementConcernDetails))
+        if (string.IsNullOrEmpty(EngagementConcernDetails))
         {
-            _errorService.AddError(EngagementConcernDetailsKey, "You must enter details");
-            ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter details");
+            ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter concern details");
+        }
 
+        if (MarkConcernResolved == true && string.IsNullOrWhiteSpace(ResolutionDetails))
+        {
+            ModelState.AddModelError(ResolutionDetailsKey, "You must enter resolution details");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            this._errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
         }
 
-        TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is true && SupportProject.EngagementConcernDetails != EngagementConcernDetails;
-        TempData["EngagementConcernRecorded"] = (SupportProject.EngagementConcernRecorded is null || SupportProject.EngagementConcernRecorded is false) && RecordEngagementConcern is true;
-        TempData["EngagementConcernRemoved"] = SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is false;
+        TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernDetails != EngagementConcernDetails ||
+            SupportProject.EngagementConcernResolved != MarkConcernResolved ||
+            SupportProject.EngagementConcernResolvedDetails != ResolutionDetails;
 
-        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? DateTime.Now;
+        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
 
-        //reset details if removed
-        if (RecordEngagementConcern is false)
-        {
-            RecordEngagementConcern = null;
-            EngagementConcernDetails = null;
-            DateEngagementConcernRaised = null;
-        }
-
-        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id), RecordEngagementConcern, EngagementConcernDetails, DateEngagementConcernRaised);
+        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id),
+            true, EngagementConcernDetails, DateEngagementConcernRaised);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -85,16 +100,19 @@ public class ChangeEngagementConcernModel(
             return Page();
         }
 
-        if (SupportProject.EngagementConcernRecorded is true && RecordEngagementConcern is null)
+        var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                new SupportProjectId(id),
+                MarkConcernResolved,
+                MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
+                MarkConcernResolved is null || MarkConcernResolved is false ? null : dateTimeProvider.Now);
+
+        var resolveResult = await mediator.Send(resolveRequest, cancellationToken);
+
+        if (!resolveResult)
         {
-            var escalationRequest = new SetSupportProjectEngagementConcernEscalationCommand(new SupportProjectId(id), null, null, null, null);
-            var escalationResult = await mediator.Send(escalationRequest, cancellationToken);
-            if (escalationResult == false)
-            {
-                _errorService.AddApiError();
-                await base.GetSupportProject(id, cancellationToken);
-                return Page();
-            }
+            _errorService.AddApiError();
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
         }
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
