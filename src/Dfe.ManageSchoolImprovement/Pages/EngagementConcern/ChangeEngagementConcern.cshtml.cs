@@ -58,8 +58,10 @@ public class ChangeEngagementConcernModel(
 
         await base.GetSupportProject(id, cancellationToken);
         
-        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == engagementconcernid);
-
+        EngagementConcernId = engagementconcernid;
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
+        
         if (engagementConcern != null)
         {
             EngagementConcernDetails = engagementConcern.EngagementConcernDetails;
@@ -74,6 +76,8 @@ public class ChangeEngagementConcernModel(
     {
         // set support project so we can compare values for success banner
         await base.GetSupportProject(id, cancellationToken);
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
+
 
         if (string.IsNullOrEmpty(EngagementConcernDetails))
         {
@@ -91,11 +95,15 @@ public class ChangeEngagementConcernModel(
             return Page();
         }
 
-        TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernDetails != EngagementConcernDetails ||
-            SupportProject.EngagementConcernResolved != MarkConcernResolved ||
-            SupportProject.EngagementConcernResolvedDetails != ResolutionDetails;
+        if (engagementConcern != null)
+        {
+            TempData["EngagementConcernUpdated"] = engagementConcern.EngagementConcernDetails != EngagementConcernDetails ||
+                                                   engagementConcern.EngagementConcernResolved != MarkConcernResolved ||
+                                                   engagementConcern.EngagementConcernResolvedDetails != ResolutionDetails;
+        }
 
-        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
+
+        DateEngagementConcernRaised = engagementConcern?.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
 
         var request = new EditEngagementConcernCommand(new EngagementConcernId(EngagementConcernId), new SupportProjectId(id),
             EngagementConcernDetails, DateEngagementConcernRaised);
@@ -110,7 +118,7 @@ public class ChangeEngagementConcernModel(
         }
 
         var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
-                new EngagementConcernId(EngagementConcernId),
+            new EngagementConcernId(EngagementConcernId),
                 new SupportProjectId(id),
                 MarkConcernResolved,
                 MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,

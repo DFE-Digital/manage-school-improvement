@@ -24,6 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
         protected internal abstract IActionResult GetDefaultRedirect(int id, object? routeValues = default);
 
         protected internal async Task<IActionResult> HandleEscalationPost(
+            Guid engagementConcernId,
             int id,
             EngagementConcernEscalationDetails escalationDetails,
             bool? changeLinkClicked,
@@ -31,18 +32,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
             CancellationToken cancellationToken = default)
         {
             await base.GetSupportProject(id, cancellationToken);
+            var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == engagementConcernId);
+
 
             // If entering from change link, use existing values from SupportProject
             var details = escalationDetails with
             {
-                ConfirmStepsTaken = escalationDetails.ConfirmStepsTaken ?? SupportProject?.EngagementConcernEscalationConfirmStepsTaken,
-                PrimaryReason = escalationDetails.PrimaryReason ?? SupportProject?.EngagementConcernEscalationPrimaryReason,
-                Details = escalationDetails.Details ?? SupportProject?.EngagementConcernEscalationDetails,
-                DateOfDecision = escalationDetails.DateOfDecision ?? SupportProject?.EngagementConcernEscalationDateOfDecision,
-                WarningNotice = escalationDetails.WarningNotice ?? SupportProject?.EngagementConcernEscalationWarningNotice
+                ConfirmStepsTaken = escalationDetails.ConfirmStepsTaken ?? engagementConcern?.EngagementConcernEscalationConfirmStepsTaken,
+                PrimaryReason = escalationDetails.PrimaryReason ?? engagementConcern?.EngagementConcernEscalationPrimaryReason,
+                Details = escalationDetails.Details ?? engagementConcern?.EngagementConcernEscalationDetails,
+                DateOfDecision = escalationDetails.DateOfDecision ?? engagementConcern?.EngagementConcernEscalationDateOfDecision,
+                WarningNotice = escalationDetails.WarningNotice ?? engagementConcern?.EngagementConcernEscalationWarningNotice
             };
 
             var request = new SetSupportProjectEngagementConcernEscalationCommand(
+                new EngagementConcernId(engagementConcernId),
                 new SupportProjectId(id),
                 details.ConfirmStepsTaken,
                 details.PrimaryReason,

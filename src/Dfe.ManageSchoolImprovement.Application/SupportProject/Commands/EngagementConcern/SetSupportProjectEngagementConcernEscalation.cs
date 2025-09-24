@@ -8,6 +8,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Engage
 public class SetSupportProjectEngagementConcernEscalation
 {
     public record SetSupportProjectEngagementConcernEscalationCommand(
+        EngagementConcernId engagementConcernId,
         SupportProjectId SupportProjectId,
         bool? EngagementConcernEscalationConfirmStepsTaken,
         string? EngagementConcernEscalationPrimaryReason,
@@ -29,7 +30,7 @@ public class SetSupportProjectEngagementConcernEscalation
                 return false;
             }
 
-            supportProject.SetEngagementConcernEscalation(request.EngagementConcernEscalationConfirmStepsTaken, request.EngagementConcernEscalationPrimaryReason,
+            supportProject.SetEngagementConcernEscalation(request.engagementConcernId, request.EngagementConcernEscalationConfirmStepsTaken, request.EngagementConcernEscalationPrimaryReason,
                 request.EngagementConcernEscalationDetails, request.EngagementConcernEscalationDateOfDecision, request.EngagementConcernEscalationWarningNotice);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);

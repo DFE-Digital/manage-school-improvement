@@ -566,21 +566,14 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         CaseStudyDetails = caseStudyDetails;
     }
 
-    // public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
-    // {
-    //     EngagementConcernRecorded = engagementConcernRecorded;
-    //     EngagementConcernDetails = engagementConcernDetails;
-    //     EngagementConcernRaisedDate = engagementConcernRaisedDate;
-    // }
-
-    public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
+    public void SetEngagementConcernEscalation(EngagementConcernId engagementConcernId, bool? confirmStepsTaken, string? primaryReason,
         string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
     {
-        EngagementConcernEscalationConfirmStepsTaken = confirmStepsTaken;
-        EngagementConcernEscalationPrimaryReason = primaryReason;
-        EngagementConcernEscalationDetails = escalationDetails;
-        EngagementConcernEscalationDateOfDecision = dateOfDecision;
-        EngagementConcernEscalationWarningNotice = warningNotice;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetEngagementConcernEscalationDetails(confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision, warningNotice);
+        }
     }
 
     public void AddEngagementConcern(EngagementConcernId engagementConcernId, SupportProjectId supportProjectId,

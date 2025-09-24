@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
@@ -19,6 +20,9 @@ public class ReasonForEscalationModel(
 
     [BindProperty(Name = "escalation-details")]
     public string? EscalationDetails { get; set; } = null!;
+    
+    [BindProperty]
+    public Guid EngagementConcernId { get; set; }
 
     public required IList<RadioButtonsLabelViewModel> PrimaryReasonRadioButtons { get; set; }
 
@@ -32,15 +36,21 @@ public class ReasonForEscalationModel(
 
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, string returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, Guid engagementConcernId, string returnPage, CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.EngagementConcern.EscalateEngagementConcern.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+        EngagementConcernId = engagementConcernId;
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
 
-        PrimaryReason = SupportProject.EngagementConcernEscalationPrimaryReason;
-        EscalationDetails = SupportProject.EngagementConcernEscalationDetails;
-
+        if (engagementConcern != null)
+        {
+            PrimaryReason = engagementConcern.EngagementConcernEscalationPrimaryReason;
+            EscalationDetails = engagementConcern.EngagementConcernEscalationDetails;
+        }
+        
         PrimaryReasonRadioButtons = GetRadioButtons();
         return Page();
     }
@@ -70,6 +80,7 @@ public class ReasonForEscalationModel(
         }
 
         return await HandleEscalationPost(
+            EngagementConcernId,
             id,
             new EngagementConcernEscalationDetails
             {
@@ -86,7 +97,8 @@ public class ReasonForEscalationModel(
     {
         var values = new
         {
-            id
+            id,
+            engagementConcernId = EngagementConcernId
         };
         return RedirectToPage(@Links.EngagementConcern.DateOfDecision.Page, values);
     }

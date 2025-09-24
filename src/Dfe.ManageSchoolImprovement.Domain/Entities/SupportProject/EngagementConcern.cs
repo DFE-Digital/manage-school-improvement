@@ -51,7 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             EngagementConcernResolvedDate = engagementConcernResolvedDate;
         }
 
-        public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
+        public void SetEngagementConcernEscalationDetails(bool? confirmStepsTaken, string? primaryReason,
             string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
         {
             EngagementConcernEscalationConfirmStepsTaken = confirmStepsTaken;
