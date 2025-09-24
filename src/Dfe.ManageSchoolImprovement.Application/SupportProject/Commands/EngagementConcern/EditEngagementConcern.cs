@@ -9,7 +9,6 @@ public class EditEngagementConcern
     public record EditEngagementConcernCommand(
         EngagementConcernId EngagementConcernId,
         SupportProjectId SupportProjectId,
-        bool? EngagementConcernRecorded,
         string? EngagementConcernDetails,
         DateTime? EngagementConcernRaisedDate
     ) : IRequest<bool>;
@@ -29,7 +28,7 @@ public class EditEngagementConcern
             
 
             supportProject.EditEngagementConcern(request.EngagementConcernId,
-                request.EngagementConcernRecorded, request.EngagementConcernDetails,
+                request.EngagementConcernDetails,
                 request.EngagementConcernRaisedDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);

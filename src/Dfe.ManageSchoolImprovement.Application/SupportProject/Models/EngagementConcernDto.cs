@@ -5,7 +5,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
     public record EngagementConcernDto(
         Guid Id,
         int supportProjectId,
-        bool? EngagementConcernRecorded,
         string? EngagementConcernDetails,
         DateTime? EngagementConcernRaisedDate,
         bool? EngagementConcernResolved,

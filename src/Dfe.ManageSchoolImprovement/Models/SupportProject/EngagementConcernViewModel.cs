@@ -7,7 +7,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
     {
         public EngagementConcernId Id { get; set; }
         public int SupportProjectId { get; set; }
-        public bool? EngagementConcernRecorded { get; set; }
         public string? EngagementConcernDetails { get; set; }
         public DateTime? EngagementConcernRaisedDate { get; set; }
         public bool? EngagementConcernResolved { get; set; }
@@ -25,7 +24,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
             {
                 Id = new EngagementConcernId(engagementConcern.Id),
                 SupportProjectId = engagementConcern.supportProjectId,
-                EngagementConcernRecorded = engagementConcern.EngagementConcernRecorded,
                 EngagementConcernDetails = engagementConcern.EngagementConcernDetails,
                 EngagementConcernRaisedDate = engagementConcern.EngagementConcernRaisedDate,
                 EngagementConcernResolved = engagementConcern.EngagementConcernResolved,

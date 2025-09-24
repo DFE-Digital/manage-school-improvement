@@ -8,9 +8,11 @@ public class AddEngagementConcern
 {
     public record AddEngagementConcernCommand(
         SupportProjectId SupportProjectId,
-        bool? EngagementConcernRecorded,
         string? EngagementConcernDetails,
-        DateTime? EngagementConcernRaisedDate
+        DateTime? EngagementConcernRaisedDate,
+        bool? EngagementConcernResolved,
+        string? EngagementConcernResolvedDetails,
+        DateTime? EngagementConcernResolvedDate
     ) : IRequest<bool>;
 
     public class AddEngagementConcernCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -29,8 +31,11 @@ public class AddEngagementConcern
             var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
 
             supportProject.AddEngagementConcern(engagementConcernId, request.SupportProjectId,
-                request.EngagementConcernRecorded, request.EngagementConcernDetails,
-                request.EngagementConcernRaisedDate);
+                request.EngagementConcernDetails,
+                request.EngagementConcernRaisedDate,
+                request.EngagementConcernResolved,
+                request.EngagementConcernResolvedDetails,
+                request.EngagementConcernResolvedDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

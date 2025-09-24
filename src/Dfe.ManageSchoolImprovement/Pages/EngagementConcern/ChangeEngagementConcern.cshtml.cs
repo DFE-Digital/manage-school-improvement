@@ -110,6 +110,7 @@ public class ChangeEngagementConcernModel(
         }
 
         var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                new EngagementConcernId(EngagementConcernId),
                 new SupportProjectId(id),
                 MarkConcernResolved,
                 MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
