@@ -10,7 +10,7 @@ public class EmailValidationAttribute : ValidationAttribute
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        if (value is string email && !EmailFormatRegex.IsMatch(email))
+        if (value is string email && !EmailFormatRegex.IsMatch(email.Trim()))
         {
             return new ValidationResult("Email address must be in the correct format");
         }
