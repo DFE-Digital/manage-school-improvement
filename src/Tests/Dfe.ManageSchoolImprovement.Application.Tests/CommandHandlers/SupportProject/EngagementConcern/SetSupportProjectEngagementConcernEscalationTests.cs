@@ -1,9 +1,8 @@
 using AutoFixture;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectEngagementConcernEscalation;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.EngagementConcern
 {
@@ -23,9 +22,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Fact]
-        public async Task Handle_ValidCommand_UpdatesSupportProject()
+        public async Task Handle_ValidCommand_UpdatesEngagementConcern()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernEscalationConfirmStepsTaken = true;
             var engagementConcernEscalationPrimaryReason = "a very good reason";
             var engagementConcernEscalationDetails = "some excellent details";
@@ -33,6 +33,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var engagementConcernEscalationWarningNotice = "TWN issued";
 
             var command = new SetSupportProjectEngagementConcernEscalationCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernEscalationConfirmStepsTaken,
                 engagementConcernEscalationPrimaryReason,
@@ -52,22 +53,21 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Verify
             Assert.IsType<bool>(result);
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernEscalationConfirmStepsTaken == engagementConcernEscalationConfirmStepsTaken &&
-                        x.EngagementConcernEscalationPrimaryReason == engagementConcernEscalationPrimaryReason &&
-                        x.EngagementConcernEscalationDetails == engagementConcernEscalationDetails &&
-                        x.EngagementConcernEscalationDateOfDecision == engagementConcernEscalationDateOfDecision), It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var command = new SetSupportProjectEngagementConcernEscalationCommand(
-                _mockSupportProject.Id, null, null, null, null, null
+                engagementConcernId, _mockSupportProject.Id, null, null, null, null, null
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
@@ -86,7 +86,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                         x.EngagementConcernEscalationConfirmStepsTaken == null && 
                         x.EngagementConcernEscalationPrimaryReason == null && 
                         x.EngagementConcernEscalationDetails == null &&
-                        x.EngagementConcernEscalationDateOfDecision == null), 
+                        x.EngagementConcernEscalationDateOfDecision == null &&
+                        x.EngagementConcernEscalationWarningNotice == null), 
                     It.IsAny<CancellationToken>()),
                 Times.Once);
         }
@@ -94,6 +95,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         [Fact]
         public async Task Handle_ProjectNotFound_ReturnsFalse()
         {
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernEscalationConfirmStepsTaken = true;
             var engagementConcernEscalationPrimaryReason = "a very good reason";
             var engagementConcernEscalationDetails = "some excellent details";
@@ -101,6 +103,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var engagementConcernEscalationWarningNotice = "TWN issued";
 
             var command = new SetSupportProjectEngagementConcernEscalationCommand(
+                engagementConcernId,
                 _mockSupportProject.Id, 
                 engagementConcernEscalationConfirmStepsTaken, 
                 engagementConcernEscalationPrimaryReason, 

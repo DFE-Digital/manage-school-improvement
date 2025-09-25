@@ -8,7 +8,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
 public class SetSupportProjectEngagementConcernResolvedDetails
 {
     public record SetSupportProjectEngagementConcernResolvedDetailsCommand(
-        EngagementConcernId engagementConcernId,
+        EngagementConcernId EngagementConcernId,
         SupportProjectId SupportProjectId,
         bool? EngagementConcernResolved,
         string? EngagementConcernResolvedDetails,
@@ -28,7 +28,7 @@ public class SetSupportProjectEngagementConcernResolvedDetails
                 return false;
             }
 
-            supportProject.SetEngagementConcernResolvedDetails(request.engagementConcernId, request.EngagementConcernResolved, request.EngagementConcernResolvedDetails, request.EngagementConcernResolvedDate);
+            supportProject.SetEngagementConcernResolvedDetails(request.EngagementConcernId, request.EngagementConcernResolved, request.EngagementConcernResolvedDetails, request.EngagementConcernResolvedDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
