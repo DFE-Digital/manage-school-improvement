@@ -18,7 +18,7 @@ public partial class NameValidationAttribute : ValidationAttribute
         string name = (string)value;
 
         // Check if the name matches the regex
-        return NameRegex.IsMatch(name);
+        return NameRegex.IsMatch(name.Trim());
     }
 
     public override string FormatErrorMessage(string name)

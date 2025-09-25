@@ -9,24 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
 
-public class IndexModel(ISupportProjectQueryService supportProjectQueryService,ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService,errorService),IDateValidationMessageProvider
+public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "name")]
     [NameValidation]
-    public string? Name  { get; set; }
-    
+    public string? Name { get; set; }
+
     [EmailValidation(ErrorMessage = "Email address must be in correct format")]
     [BindProperty(Name = "email-address")]
-    
-    public string? EmailAddress  { get; set; }
-    
+
+    public string? EmailAddress { get; set; }
+
     public bool ShowError { get; set; }
-    
+
     [BindProperty(Name = "date-supporting-organisation-details-added", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    
-    public DateTime? DateSupportingOrganisationDetailsAdded  { get; set; }
-    
+
+    public DateTime? DateSupportingOrganisationDetailsAdded { get; set; }
+
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
@@ -36,20 +36,23 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,E
     {
         return $"Enter the date the supporting organisation contact details were added";
     }
-    
+
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
+
         Name = SupportProject.SupportingOrganisationContactName;
         EmailAddress = SupportProject.SupportingOrganisationContactEmailAddress;
         DateSupportingOrganisationDetailsAdded = SupportProject.DateSupportingOrganisationContactDetailsAdded;
 
         return Page();
     }
-    
-    public async Task<IActionResult> OnPost(int id,CancellationToken cancellationToken)
+
+    public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
+        // trim any trailing whitespace from the name and email address
+        Name = Name?.Trim();
+        EmailAddress = EmailAddress?.Trim();
 
         if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
         {
@@ -62,17 +65,17 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,E
             ShowError = true;
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
-        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id),Name,EmailAddress,DateSupportingOrganisationDetailsAdded );
+
+        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress, DateSupportingOrganisationDetailsAdded);
 
         var result = await mediator.Send(request, cancellationToken);
-       
+
         if (!result)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
+
         TaskUpdated = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
     }
