@@ -80,9 +80,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository.Verify(
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernRecorded == null && 
-                        x.EngagementConcernDetails == null && 
-                        x.EngagementConcernRaisedDate == null), 
+                        x.EngagementConcerns.First().EngagementConcernDetails == null && 
+                        x.EngagementConcerns.First().EngagementConcernRaisedDate == null), 
                     It.IsAny<CancellationToken>()),
                 Times.Once);
         }

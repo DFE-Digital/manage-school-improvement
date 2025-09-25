@@ -1,4 +1,5 @@
 using AutoFixture;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
@@ -36,7 +37,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                     It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var setSupportProjectEngagementConcernDetailsCommandHandler =
-                new EditdEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+                new EditEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
@@ -56,15 +57,30 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+            _mockSupportProjectRepository
+                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+            
+            var addEngagementConcernCommandHandler =
+                new AddEngagementConcern.AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+
+            var addEngagementConcernCommand = new AddEngagementConcern.AddEngagementConcernCommand(
+                _mockSupportProject.Id, 
+                "details", 
+                DateTime.UtcNow,
+                false,
+                null,
+                null
+            );
+            await addEngagementConcernCommandHandler.Handle(addEngagementConcernCommand, _cancellationToken);
+            
+            var engagementConcernId = _mockSupportProject.EngagementConcerns.First().Id;
             
             var command = new EditEngagementConcernCommand(
                 engagementConcernId, _mockSupportProject.Id, null, null
             );
-            _mockSupportProjectRepository
-                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var setSupportProjectEngagementConcernDetailsCommandHandler = new EditdEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+
+            var setSupportProjectEngagementConcernDetailsCommandHandler = new EditEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
@@ -75,10 +91,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository.Verify(
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernDetails == null && 
-                        x.EngagementConcernRaisedDate == null), 
+                        x.EngagementConcerns.First().EngagementConcernDetails == null && 
+                        x.EngagementConcerns.First().EngagementConcernRaisedDate == null), 
                     It.IsAny<CancellationToken>()),
-                Times.Once);
+                Times.AtLeastOnce);
         }
 
         [Fact]
@@ -95,7 +111,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == nonExistentId), _cancellationToken))
                 .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
-            var handler = new EditdEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new EditEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>

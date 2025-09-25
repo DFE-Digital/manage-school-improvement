@@ -13,7 +13,7 @@ public class EditEngagementConcern
         DateTime? EngagementConcernRaisedDate
     ) : IRequest<bool>;
 
-    public class EditdEngagementConcernCommandHandler(ISupportProjectRepository supportProjectRepository)
+    public class EditEngagementConcernCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<EditEngagementConcernCommand, bool>
     {
         public async Task<bool> Handle(EditEngagementConcernCommand request, CancellationToken cancellationToken)

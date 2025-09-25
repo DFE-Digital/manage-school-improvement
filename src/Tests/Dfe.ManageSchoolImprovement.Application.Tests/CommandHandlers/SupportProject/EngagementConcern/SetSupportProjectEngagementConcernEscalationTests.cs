@@ -1,4 +1,5 @@
 using AutoFixture;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
@@ -65,13 +66,28 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
-            var command = new SetSupportProjectEngagementConcernEscalationCommand(
-                engagementConcernId, _mockSupportProject.Id, null, null, null, null, null
-            );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                     It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+            
+            var addEngagementConcernCommandHandler =
+                new AddEngagementConcern.AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+
+            var addEngagementConcernCommand = new AddEngagementConcern.AddEngagementConcernCommand(
+                _mockSupportProject.Id, 
+                "details", 
+                DateTime.UtcNow,
+                false,
+                null,
+                null
+            );
+            await addEngagementConcernCommandHandler.Handle(addEngagementConcernCommand, _cancellationToken);
+            
+            var engagementConcernId = _mockSupportProject.EngagementConcerns.First().Id;
+            var command = new SetSupportProjectEngagementConcernEscalationCommand(
+                engagementConcernId, _mockSupportProject.Id, null, null, null, null, null
+            );
+            
             var setSupportProjectEngagementConcernEscalationCommandHandler = new SetSupportProjectEngagementConcernEscalationCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
@@ -83,13 +99,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository.Verify(
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernEscalationConfirmStepsTaken == null && 
-                        x.EngagementConcernEscalationPrimaryReason == null && 
-                        x.EngagementConcernEscalationDetails == null &&
-                        x.EngagementConcernEscalationDateOfDecision == null &&
-                        x.EngagementConcernEscalationWarningNotice == null), 
+                        x.EngagementConcerns.First().EngagementConcernEscalationConfirmStepsTaken == null && 
+                        x.EngagementConcerns.First().EngagementConcernEscalationPrimaryReason == null && 
+                        x.EngagementConcerns.First().EngagementConcernEscalationDetails == null &&
+                        x.EngagementConcerns.First().EngagementConcernEscalationDateOfDecision == null &&
+                        x.EngagementConcerns.First().EngagementConcernEscalationWarningNotice == null), 
                     It.IsAny<CancellationToken>()),
-                Times.Once);
+                Times.AtLeastOnce);
         }
 
         [Fact]
