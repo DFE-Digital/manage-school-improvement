@@ -49,7 +49,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var result = await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
-            Assert.NotNull(result);
             Assert.IsType<bool>(result);
             _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
                 It.Is<SupportProjectId>(id => id == _mockSupportProject.Id),

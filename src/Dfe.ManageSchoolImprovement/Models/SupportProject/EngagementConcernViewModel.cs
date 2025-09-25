@@ -5,7 +5,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
     public class EngagementConcernViewModel
     {
-        public EngagementConcernId Id { get; set; }
+        public required EngagementConcernId Id { get; set; }
         
         public int ReadableId { get; set; }
         public int SupportProjectId { get; set; }
