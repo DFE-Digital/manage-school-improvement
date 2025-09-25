@@ -96,7 +96,7 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         cy.executeAccessibilityTests();
     })
 
-    it.only("should be able to Change Information Powers ", () => {
+    it("should be able to Change Information Powers ", () => {
         Logger.log("change information powers");
         engagementConcern.hasInformationPowersChangeLink("Change")
         engagementConcern.clickInformationPowersChangeLink();
