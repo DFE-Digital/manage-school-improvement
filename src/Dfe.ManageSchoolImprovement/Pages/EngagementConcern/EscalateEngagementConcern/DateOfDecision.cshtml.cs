@@ -53,7 +53,6 @@ public class DateOfDecisionModel(
     }
 
     public async Task<IActionResult> OnPostAsync(int id,
-        bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
@@ -83,7 +82,6 @@ public class DateOfDecisionModel(
                 DateOfDecision = DateOfDecision,
                 WarningNotice = WarningNotice
             },
-            changeLinkClicked,
             cancellationToken);
     }
 

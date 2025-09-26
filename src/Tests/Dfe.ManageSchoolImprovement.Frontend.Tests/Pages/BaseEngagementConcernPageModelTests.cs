@@ -98,37 +98,6 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
         }
 
         [Fact]
-        public async Task HandleEscalationPost_WhenChangeLinkClicked_RedirectsToIndexPage()
-        {
-            // Arrange
-            const int id = 1;
-            var engagementConcernId = Guid.NewGuid();
-            _mockSupportProjectQueryService
-                .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now)));
-
-            _mockMediator
-                .Setup(x => x.Send(It.IsAny<SetSupportProjectEngagementConcernEscalationCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(true);
-
-            // Act
-            var result = await _sut.HandleEscalationPost(engagementConcernId,
-                id,
-                new EngagementConcernEscalationDetails
-                {
-                    ConfirmStepsTaken = true,
-                    PrimaryReason = "reason",
-                    Details = "details",
-                    DateOfDecision = DateTime.Today
-                }, true);
-
-            // Assert
-            Assert.IsType<RedirectToPageResult>(result);
-            var redirectResult = (RedirectToPageResult)result;
-            Assert.Equal("/EngagementConcern/Index", redirectResult.PageName);
-        }
-
-        [Fact]
         public async Task HandleEscalationPost_UsesExistingValuesWhenParametersAreNull()
         {
             // Arrange

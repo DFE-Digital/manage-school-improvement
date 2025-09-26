@@ -57,7 +57,6 @@ public class ReasonForEscalationModel(
 
     public async Task<IActionResult> OnPostAsync(int id,
         bool? confirmStepsTaken,
-        bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
         if (EscalationDetails == null || PrimaryReason == null)
@@ -89,7 +88,6 @@ public class ReasonForEscalationModel(
                 Details = EscalationDetails,
                 DateOfDecision = null // Date of decision will be handled in the next step
             },
-            changeLinkClicked,
             cancellationToken);
     }
 
