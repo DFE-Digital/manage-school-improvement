@@ -31,7 +31,7 @@ describe("User navigates to the Engagement Concern tab to Escalate an engagement
     });
 
 
-    it("should Escalate an engagement concern", () => {
+    it("should be able to Escalate an engagement concern", () => {
         engagementConcern.hasEscalateLink('Escalate');
         engagementConcern.clickEscalateLink();
         engagementConcern.hasTitle('Escalate an engagement concern - Manage school improvement')

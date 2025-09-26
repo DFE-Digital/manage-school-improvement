@@ -46,7 +46,7 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
         cy.executeAccessibilityTests()
     });
 
-     it("should be able to resolve the Engagement concern", () => {
+    it("should be able to resolve the Engagement concern", () => {
         Logger.log("resolve engagement concern");
          engagementConcern.hasEngagementConcernChangeLink("Change");
         engagementConcern.clickEngagementConcernChangeLink();
@@ -106,4 +106,17 @@ describe("User navigates to the Engagement Concern tab to record Engagement conc
 
         cy.executeAccessibilityTests();
     })
+
+    it("should be able to record multiple Engagement concern", () => {
+
+        Logger.log("record another engagement concern");
+        engagementConcern.clickRecordEngagementConcern()
+        engagementConcern.hasTitle('Record engagement concern - Manage school improvement') 
+        engagementConcern.enterText("engagement-concern-details", "Recording new engagement concern")
+        engagementConcern.clickButton('Save and return');
+        engagementConcern.hasSuccessNotification("Engagement concern recorded");
+        engagementConcern.hasFieldsNotEmpty();
+        engagementConcern.hasRecordEngagementConcernButton();
+
+    });
 });
