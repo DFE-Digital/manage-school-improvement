@@ -23,7 +23,25 @@
             Record engagement concern
         </h1>
         <form method="post">
-            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
+            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error" : "")">
+                <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
+                    Concern summary
+                </label>
+                <div id="engagement-concern-summary-hint" class="govuk-hint">
+                    Enter a short summary of your concern
+                </div>
+
+                @if (Model.ShowRecordEngagementConcernSummaryError)
+                {
+                    <p id="summary-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> You must enter a summary
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-textarea--error" : "")"
+                          id="engagement-concern-summary" name="engagement-concern-summary"
+                          rows="3">@Model.EngagementConcernSummary</textarea>
+            </div>
+            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernDetailsError ? "govuk-form-group--error" : "")">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-details">
                     Concern details
                 </label>
@@ -31,13 +49,13 @@
                     Enter details about your concern
                 </div>
 
-                @if (Model.ShowRecordEngagementConcernError)
+                @if (Model.ShowRecordEngagementConcernDetailsError)
                 {
                     <p id="more-detail-error" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span> You must enter concern details
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")"
+                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernDetailsError ? "govuk-textarea--error" : "")"
                           id="engagement-concern-details" name="engagement-concern-details"
                           rows="5">@Model.EngagementConcernDetails</textarea>
             </div>
@@ -49,7 +67,7 @@
 
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
-                        <input name="mark-concern-resolved-hidden" type="hidden" value="false" />
+                        <input name="mark-concern-resolved-hidden" type="hidden" value="false"/>
                         <input class="govuk-checkboxes__input"
                                id="mark-concern-resolved"
                                name="mark-concern-resolved"
@@ -57,7 +75,7 @@
                                type="checkbox"
                                @(Model.MarkConcernResolved == true ? "checked" : "")
                                data-aria-controls="conditional-mark-concern-resolved"
-                               data-cy="mark-concern-resolved-checkbox" />
+                               data-cy="mark-concern-resolved-checkbox"/>
                         <label class="govuk-label govuk-checkboxes__label" for="mark-concern-resolved">
                             This engagement concern has been resolved
                         </label>

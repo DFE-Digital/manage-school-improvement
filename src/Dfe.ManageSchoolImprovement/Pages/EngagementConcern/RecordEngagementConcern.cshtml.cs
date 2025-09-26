@@ -10,7 +10,8 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eng
     AddEngagementConcern;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
     SetSupportProjectEngagementConcernEscalation;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernResolvedDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.
+    SetSupportProjectEngagementConcernResolvedDetails;
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -26,14 +27,23 @@ public class AddEngagementConcernModel(
     [BindProperty(Name = "engagement-concern-details")]
     public string? EngagementConcernDetails { get; set; }
 
+    [BindProperty(Name = "engagement-concern-summary")]
+    public string? EngagementConcernSummary { get; set; }
+
     public DateTime? DateEngagementConcernRaised { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
     private const string EngagementConcernDetailsKey = "engagement-concern-details";
 
-    public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) &&
-                                                    ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
+    private const string EngagementConcernSummaryKey = "engagement-concern-summary";
+
+
+    public bool ShowRecordEngagementConcernDetailsError => ModelState.ContainsKey(EngagementConcernDetailsKey) &&
+                                                           ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
+
+    public bool ShowRecordEngagementConcernSummaryError => ModelState.ContainsKey(EngagementConcernSummaryKey) &&
+                                                           ModelState[EngagementConcernSummaryKey]?.Errors.Count > 0;
 
     [BindProperty(Name = "resolution-details")]
     public string? ResolutionDetails { get; set; }
@@ -44,7 +54,9 @@ public class AddEngagementConcernModel(
 
     private const string ResolutionDetailsKey = "resolution-details";
 
-    public bool ShowResolutionDetailsError => ModelState.ContainsKey(ResolutionDetailsKey) && ModelState[ResolutionDetailsKey]?.Errors.Count > 0;
+    public bool ShowResolutionDetailsError => ModelState.ContainsKey(ResolutionDetailsKey) &&
+                                              ModelState[ResolutionDetailsKey]?.Errors.Count > 0;
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
@@ -66,6 +78,11 @@ public class AddEngagementConcernModel(
             ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter concern details");
         }
 
+        if (string.IsNullOrEmpty(EngagementConcernSummary))
+        {
+            ModelState.AddModelError(EngagementConcernSummaryKey, "You must enter concern details");
+        }
+
         if (MarkConcernResolved == true && string.IsNullOrWhiteSpace(ResolutionDetails))
         {
             ModelState.AddModelError(ResolutionDetailsKey, "You must enter resolution details");
@@ -82,10 +99,12 @@ public class AddEngagementConcernModel(
         DateEngagementConcernRaised = dateTimeProvider.Now;
 
         var request = new AddEngagementConcernCommand(new SupportProjectId(id),
-            EngagementConcernDetails, DateEngagementConcernRaised,
-        MarkConcernResolved,
-        MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
-        MarkConcernResolved is null || MarkConcernResolved is false ? null : dateTimeProvider.Now);
+            EngagementConcernDetails, 
+            EngagementConcernSummary,
+            DateEngagementConcernRaised,
+            MarkConcernResolved,
+            MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
+            MarkConcernResolved is null || MarkConcernResolved is false ? null : dateTimeProvider.Now);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -95,20 +114,6 @@ public class AddEngagementConcernModel(
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-
-//         var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
-//                 // new EngagementConcernId(EngagementConcernId), 
-//                 new SupportProjectId(id),
-// );
-
-        // var resolveResult = await mediator.Send(resolveRequest, cancellationToken);
-
-        // if (!resolveResult)
-        // {
-        //     _errorService.AddApiError();
-        //     await base.GetSupportProject(id, cancellationToken);
-        //     return Page();
-        // }
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

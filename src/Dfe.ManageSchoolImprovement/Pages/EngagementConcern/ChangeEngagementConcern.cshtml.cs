@@ -24,6 +24,9 @@ public class ChangeEngagementConcernModel(
 
     [BindProperty(Name = "engagement-concern-details")]
     public string? EngagementConcernDetails { get; set; }
+    
+    [BindProperty(Name = "engagement-concern-summary")]
+    public string? EngagementConcernSummary { get; set; }
 
     public DateTime? DateEngagementConcernRaised { get; set; }
 
@@ -35,9 +38,14 @@ public class ChangeEngagementConcernModel(
     public bool ShowError => _errorService.HasErrors();
 
     private const string EngagementConcernDetailsKey = "engagement-concern-details";
+    
+    private const string EngagementConcernSummaryKey = "engagement-concern-summary";
 
     public bool ShowRecordEngagementConcernError => ModelState.ContainsKey(EngagementConcernDetailsKey) &&
                                                     ModelState[EngagementConcernDetailsKey]?.Errors.Count > 0;
+    
+    public bool ShowRecordEngagementConcernSummaryError => ModelState.ContainsKey(EngagementConcernSummaryKey) &&
+                                                           ModelState[EngagementConcernSummaryKey]?.Errors.Count > 0;
 
     [BindProperty(Name = "resolution-details")]
     public string? ResolutionDetails { get; set; }
@@ -65,6 +73,7 @@ public class ChangeEngagementConcernModel(
         if (engagementConcern != null)
         {
             EngagementConcernDetails = engagementConcern.EngagementConcernDetails;
+            EngagementConcernSummary = engagementConcern.EngagementConcernSummary;
             MarkConcernResolved = engagementConcern.EngagementConcernResolved;
             ResolutionDetails = engagementConcern.EngagementConcernResolvedDetails;
         }
@@ -83,6 +92,11 @@ public class ChangeEngagementConcernModel(
         {
             ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter concern details");
         }
+        
+        if (string.IsNullOrEmpty(EngagementConcernSummary))
+        {
+            ModelState.AddModelError(EngagementConcernSummaryKey, "You must enter concern details");
+        }
 
         if (MarkConcernResolved == true && string.IsNullOrWhiteSpace(ResolutionDetails))
         {
@@ -98,6 +112,7 @@ public class ChangeEngagementConcernModel(
         if (engagementConcern != null)
         {
             TempData["EngagementConcernUpdated"] = engagementConcern.EngagementConcernDetails != EngagementConcernDetails ||
+                                                   engagementConcern.EngagementConcernSummary != EngagementConcernSummary ||
                                                    engagementConcern.EngagementConcernResolved != MarkConcernResolved ||
                                                    engagementConcern.EngagementConcernResolvedDetails != ResolutionDetails;
         }
@@ -106,7 +121,7 @@ public class ChangeEngagementConcernModel(
         DateEngagementConcernRaised = engagementConcern?.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
 
         var request = new EditEngagementConcernCommand(new EngagementConcernId(EngagementConcernId), new SupportProjectId(id),
-            EngagementConcernDetails, DateEngagementConcernRaised);
+            EngagementConcernDetails, EngagementConcernSummary, DateEngagementConcernRaised);
 
         var result = await mediator.Send(request, cancellationToken);
 

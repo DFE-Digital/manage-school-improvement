@@ -23,6 +23,24 @@
             Change engagement concern
         </h1>
         <form method="post">
+            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error" : "")">
+                <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
+                    Concern summary
+                </label>
+                <div id="engagement-concern-summary-hint" class="govuk-hint">
+                    Enter a short summary of your concern
+                </div>
+
+                @if (Model.ShowRecordEngagementConcernSummaryError)
+                {
+                    <p id="summary-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> You must enter a summary
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-textarea--error" : "")"
+                          id="engagement-concern-summary" name="engagement-concern-summary"
+                          rows="3">@Model.EngagementConcernSummary</textarea>
+            </div>
             <div class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-details">
                     Concern details
