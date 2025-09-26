@@ -146,7 +146,6 @@ public class EscalateEngagementConcernModel(
                 {
                     ConfirmStepsTaken = true
                 },
-            changeLinkClicked: false,
             cancellationToken: cancellationToken);
         
         return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id, EngagementConcernId, ConfirmStepsTaken });

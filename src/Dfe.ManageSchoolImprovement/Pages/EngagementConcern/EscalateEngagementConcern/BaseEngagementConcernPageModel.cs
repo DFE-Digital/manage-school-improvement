@@ -27,7 +27,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
             Guid engagementConcernId,
             int id,
             EngagementConcernEscalationDetails escalationDetails,
-            bool? changeLinkClicked,
             object? routeValues = default,
             CancellationToken cancellationToken = default)
         {
@@ -61,11 +60,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
                 _errorService.AddApiError();
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();
-            }
-
-            if (changeLinkClicked == true)
-            {
-                return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
             }
 
             return GetDefaultRedirect(id, routeValues);

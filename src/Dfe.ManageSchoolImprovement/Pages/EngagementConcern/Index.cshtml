@@ -160,17 +160,6 @@
                                             <dd class="govuk-summary-list__value">
                                                 @concern.EngagementConcernEscalationPrimaryReason
                                             </dd>
-                                            @* <dd class="govuk-summary-list__actions"> *@
-                                            @*     <a class="govuk-link govuk-!-padding-left-50 change-link" *@
-                                            @*        asp-page="@Links.EngagementConcern.ReasonForEscalation.Page" *@
-                                            @*        asp-route-id="@Model.SupportProject.Id" *@
-                                            @*        asp-route-engagementconcernid="@concern.Id.Value" *@
-                                            @*        asp-route-changelinkclicked="true" *@
-                                            @*        asp-route-returnpage="@Links.EngagementConcern.Index.Page" *@
-                                            @*        data-cy="escalation-reason-change-link"> *@
-                                            @*         Change<span class="govuk-visually-hidden">Change</span> *@
-                                            @*     </a> *@
-                                            @* </dd> *@
                                         </div>
                                         <div class="govuk-summary-list__row">
                                             <dt class="govuk-summary-list__key">
@@ -179,17 +168,6 @@
                                             <dd class="govuk-summary-list__value">
                                                 @concern.EngagementConcernEscalationDetails
                                             </dd>
-                                            @* <dd class="govuk-summary-list__actions"> *@
-                                            @*     <a class="govuk-link govuk-!-padding-left-50 change-link" *@
-                                            @*        asp-page="@Links.EngagementConcern.DateOfDecision.Page" *@
-                                            @*        asp-route-id="@Model.SupportProject.Id" *@
-                                            @*        asp-route-engagementconcernid="@concern.Id.Value" *@
-                                            @*        asp-route-changelinkclicked="true" *@
-                                            @*        asp-route-returnpage="@Links.EngagementConcern.Index.Page" *@
-                                            @*        data-cy="escalation-date-change-link"> *@
-                                            @*         Change<span class="govuk-visually-hidden">Change</span> *@
-                                            @*     </a> *@
-                                            @* </dd> *@
                                         </div>
                                     }
                                     @if (concern.EngagementConcernResolved is false or null)
