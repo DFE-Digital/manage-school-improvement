@@ -19,6 +19,9 @@ public class DateOfDecisionModel(
     public DateTime? DateOfDecision { get; set; }
 
     private string? WarningNotice { get; set; }
+    
+    [BindProperty]
+    public Guid EngagementConcernId { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -32,25 +35,30 @@ public class DateOfDecisionModel(
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
 
-    public async Task<IActionResult> OnGetAsync(int id, string returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, Guid engagementConcernId, string returnPage, CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.EngagementConcern.ReasonForEscalation.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+        EngagementConcernId = engagementConcernId;
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
 
-        DateOfDecision = SupportProject.EngagementConcernEscalationDateOfDecision;
-
-
+        if (engagementConcern != null)
+        {
+            DateOfDecision = engagementConcern.EngagementConcernEscalationDateOfDecision;
+        }
+        
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id,
-
-        bool? changeLinkClicked,
         CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        WarningNotice = string.IsNullOrEmpty(SupportProject.TrustName) ? "NEIA Issued" : "TWN Issued";
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
+
+        WarningNotice = string.IsNullOrEmpty(SupportProject?.TrustName) ? "NEIA Issued" : "TWN Issued";
 
         if (!DateOfDecision.HasValue)
         {
@@ -64,21 +72,21 @@ public class DateOfDecisionModel(
         }
 
         return await HandleEscalationPost(
+            EngagementConcernId,
             id,
             new EngagementConcernEscalationDetails
             {
-                ConfirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken,
-                PrimaryReason = SupportProject.EngagementConcernEscalationPrimaryReason,
-                Details = SupportProject.EngagementConcernEscalationDetails,
+                ConfirmStepsTaken = engagementConcern?.EngagementConcernEscalationConfirmStepsTaken,
+                PrimaryReason = engagementConcern?.EngagementConcernEscalationPrimaryReason,
+                Details = engagementConcern?.EngagementConcernEscalationDetails,
                 DateOfDecision = DateOfDecision,
                 WarningNotice = WarningNotice
             },
-            changeLinkClicked,
             cancellationToken);
     }
 
     protected internal override IActionResult GetDefaultRedirect(int id, object? routeValues = default)
     {
-        return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id });
+        return RedirectToPage(@Links.EngagementConcern.EscalationConfirmation.Page, new { id, engagementConcernId = EngagementConcernId });
     }
 }

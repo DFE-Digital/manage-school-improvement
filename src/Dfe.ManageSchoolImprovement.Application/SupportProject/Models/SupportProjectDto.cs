@@ -1,3 +1,4 @@
+using System.Collections;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
@@ -111,7 +112,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
         bool? InterimExecutiveBoardCreated = null,
         string? InterimExecutiveBoardCreatedDetails = null,
-        DateTime? InterimExecutiveBoardCreatedDate = null
+        DateTime? InterimExecutiveBoardCreatedDate = null,
+        IEnumerable<EngagementConcernDto> EngagementConcerns = null!
     )
     { }
 }

@@ -5,7 +5,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 {
-    private SupportProject() { }
+    private SupportProject()
+    {
+    }
+
     public SupportProject(
         SupportProjectId id,
         string schoolName,
@@ -23,7 +26,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         TrustName = trustName;
         TrustReferenceNumber = trustReferenceNumber;
     }
+
     #region Properties
+
     public SupportProjectId Id { get; private set; } = null!;
 
     public string SchoolName { get; private set; } = string.Empty;
@@ -78,8 +83,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? SchoolResponseDate { get; private set; }
 
     public bool?
-        HasAcknowledgedAndWillEngage
-    { get; private set; }
+        HasAcknowledgedAndWillEngage { get; private set; }
 
     public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
@@ -171,25 +175,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? CaseStudyCandidate { get; private set; }
 
-    public bool? EngagementConcernRecorded { get; private set; }
-
-    public string? EngagementConcernDetails { get; private set; }
-
-    public bool? EngagementConcernEscalationConfirmStepsTaken { get; private set; }
-
-    public string? EngagementConcernEscalationPrimaryReason { get; private set; }
-
-    public string? EngagementConcernEscalationDetails { get; private set; }
-
-    public DateTime? EngagementConcernEscalationDateOfDecision { get; private set; }
-    
-    public string? EngagementConcernEscalationWarningNotice { get; private set; }
-
-    public DateTime? EngagementConcernRaisedDate { get; private set; }
-    public string? EngagementConcernResolvedDetails { get; private set; }
-    public bool? EngagementConcernResolved { get; private set; }
-    public DateTime? EngagementConcernResolvedDate { get; private set; }
-
     public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
 
     private readonly List<FundingHistory> _fundingHistories = new();
@@ -206,7 +191,14 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? InformationPowersDetails { get; private set; }
     public DateTime? PowersUsedDate { get; private set; }
     public bool? IndicativeFundingBandCalculated { get; private set; }
-    public bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody { get; private set; }
+
+    public bool?
+        ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody
+    {
+        get;
+        private set;
+    }
+
     public string? IndicativeFundingBand { get; private set; }
     public DateTime? DateTemplatesAndIndicativeFundingBandSent { get; private set; }
 
@@ -217,6 +209,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? InterimExecutiveBoardCreated { get; private set; }
     public string? InterimExecutiveBoardCreatedDetails { get; private set; }
     public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
+
+    public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
+    private readonly List<EngagementConcern> _engagementConcerns = new();
 
     #endregion
 
@@ -242,23 +237,27 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     #region Methods
+
     public void SetDeliveryOfficer(string assignedDeliveryOfficerFullName, string assignedDeliveryOfficerEmailAddress)
     {
         AssignedDeliveryOfficerFullName = assignedDeliveryOfficerFullName;
         AssignedDeliveryOfficerEmailAddress = assignedDeliveryOfficerEmailAddress;
     }
 
-    public void AddNote(SupportProjectNoteId id, string note, string author, DateTime date, SupportProjectId supportProjectId)
+    public void AddNote(SupportProjectNoteId id, string note, string author, DateTime date,
+        SupportProjectId supportProjectId)
     {
         _notes.Add(new SupportProjectNote(id, note, author, date, supportProjectId));
     }
 
-    public void AddContact(SupportProjectContactId id, SupportProjectContactDetails details, string author, DateTime createOn, SupportProjectId supportProjectId)
+    public void AddContact(SupportProjectContactId id, SupportProjectContactDetails details, string author,
+        DateTime createOn, SupportProjectId supportProjectId)
     {
         _contacts.Add(new SupportProjectContact(id, details, author, createOn, supportProjectId));
     }
 
-    public void EditContact(SupportProjectContactId id, SupportProjectContactDetails details, string author, DateTime lastModifiedOn)
+    public void EditContact(SupportProjectContactId id, SupportProjectContactDetails details, string author,
+        DateTime lastModifiedOn)
     {
         var contactToUpdate = _contacts.SingleOrDefault(x => x.Id == id);
         if (contactToUpdate != null)
@@ -275,7 +274,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             noteToUpdate.SetNote(note, author, date);
         }
     }
-    public void SetInitialContactTheResponsibleBodyDetails(bool? initialContactResponsibleBody, DateTime? responsibleBodyInitialContactDate)
+
+    public void SetInitialContactTheResponsibleBodyDetails(bool? initialContactResponsibleBody,
+        DateTime? responsibleBodyInitialContactDate)
     {
         InitialContactResponsibleBody = initialContactResponsibleBody;
         InitialContactResponsibleBodyDate = responsibleBodyInitialContactDate;
@@ -292,14 +293,19 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateFormalNotificationSent = dateFormalNotificationSent;
     }
 
-    public void SetAdviserConflictOfInterestDetails(bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool, bool? receiveCompletedConflictOfInterestForm, bool? saveCompletedConflictOfinterestFormInSharePoint, DateTime? dateConflictsOfInterestWereChecked)
+    public void SetAdviserConflictOfInterestDetails(bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool,
+        bool? receiveCompletedConflictOfInterestForm, bool? saveCompletedConflictOfinterestFormInSharePoint,
+        DateTime? dateConflictsOfInterestWereChecked)
     {
-        SendConflictOfInterestFormToProposedAdviserAndTheSchool = sendConflictOfInterestFormToProposedAdviserAndTheSchool;
+        SendConflictOfInterestFormToProposedAdviserAndTheSchool =
+            sendConflictOfInterestFormToProposedAdviserAndTheSchool;
         ReceiveCompletedConflictOfInterestForm = receiveCompletedConflictOfInterestForm;
         SaveCompletedConflictOfinterestFormInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
         DateConflictsOfInterestWereChecked = dateConflictsOfInterestWereChecked;
     }
-    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcknowledgedAndWillEngage, bool? hasSavedSchoolResponseinSharePoint)
+
+    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcknowledgedAndWillEngage,
+        bool? hasSavedSchoolResponseinSharePoint)
     {
         SchoolResponseDate = schoolResponseDate;
         HasAcknowledgedAndWillEngage = hasAcknowledgedAndWillEngage;
@@ -313,7 +319,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AdviserFullName = adviserFullName;
     }
 
-    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser, bool? remindAdviserToCopyRiseTeamWhenSentEmail)
+    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser,
+        bool? remindAdviserToCopyRiseTeamWhenSentEmail)
     {
         IntroductoryEmailSentDate = introductoryEmailSentDate;
         HasShareEmailTemplateWithAdviser = hasShareEmailTemplateWithAdviser;
@@ -326,7 +333,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         GiveTheAdviserTheNoteOfVisitTemplate = giveTheAdviserTheNoteOfVisitTemplate;
     }
 
-    public void SetCompleteAndSaveInitialDiagnosisTemplate(DateTime? savedAssessmentTemplateInSharePointDate, bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate)
+    public void SetCompleteAndSaveInitialDiagnosisTemplate(DateTime? savedAssessmentTemplateInSharePointDate,
+        bool? hasTalkToAdviserAboutFindings, bool? hasCompleteAssessmentTemplate)
     {
         SavedAssessmentTemplateInSharePointDate = savedAssessmentTemplateInSharePointDate;
         HasTalkToAdviserAboutFindings = hasTalkToAdviserAboutFindings;
@@ -349,21 +357,26 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
     }
 
-    public void SetRecordInitialDiagnosisMatchingDecision(DateTime? regionalDirectorDecisionDate, string? initialDiagnosisMatchingDecision, string? initialDiagnosisMatchingDecisionNotes)
+    public void SetRecordInitialDiagnosisMatchingDecision(DateTime? regionalDirectorDecisionDate,
+        string? initialDiagnosisMatchingDecision, string? initialDiagnosisMatchingDecisionNotes)
     {
         RegionalDirectorDecisionDate = regionalDirectorDecisionDate;
         InitialDiagnosisMatchingDecision = initialDiagnosisMatchingDecision;
         InitialDiagnosisMatchingDecisionNotes = initialDiagnosisMatchingDecisionNotes;
     }
 
-    public void SetSupportingOrganisationContactDetails(DateTime? dateSupportingOrganisationContactDetailsAdded, string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
+    public void SetSupportingOrganisationContactDetails(DateTime? dateSupportingOrganisationContactDetailsAdded,
+        string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
     {
         DateSupportingOrganisationContactDetailsAdded = dateSupportingOrganisationContactDetailsAdded;
         SupportingOrganisationContactName = supportingOrganisationContactName;
         SupportingOrganisationContactEmailAddress = supportingOrganisationContactEmailAddress;
     }
 
-    public void SetDueDiligenceOnPreferredSupportingOrganisationDetails(bool? checkOrganisationHasCapacityAndWillingToProvideSupport, bool? checkChoiceWithTrustRelationshipManagerOrLaLead, bool? discussChoiceWithSfso, bool? checkTheOrganisationHasAVendorAccount, DateTime? dateDueDiligenceCompleted)
+    public void SetDueDiligenceOnPreferredSupportingOrganisationDetails(
+        bool? checkOrganisationHasCapacityAndWillingToProvideSupport,
+        bool? checkChoiceWithTrustRelationshipManagerOrLaLead, bool? discussChoiceWithSfso,
+        bool? checkTheOrganisationHasAVendorAccount, DateTime? dateDueDiligenceCompleted)
     {
         CheckOrganisationHasCapacityAndWillingToProvideSupport = checkOrganisationHasCapacityAndWillingToProvideSupport;
         CheckChoiceWithTrustRelationshipManagerOrLaLead = checkChoiceWithTrustRelationshipManagerOrLaLead;
@@ -372,14 +385,16 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateDueDiligenceCompleted = dateDueDiligenceCompleted;
     }
 
-    public void SetRecordSupportingOrganisationAppointment(DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes)
+    public void SetRecordSupportingOrganisationAppointment(DateTime? regionalDirectorAppointmentDate,
+        bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes)
     {
         RegionalDirectorAppointmentDate = regionalDirectorAppointmentDate;
         HasConfirmedSupportingOrganisationAppointment = hasConfirmedSupportingOrganisationAppointment;
         DisapprovingSupportingOrganisationAppointmentNotes = disapprovingSupportingOrganisationAppointmentNotes;
     }
 
-    public void SetRecordImprovementPlanDecision(DateTime? regionalDirectorImprovementPlanDecisionDate, bool? hasApprovedImprovementPlanDecision, string? disapprovingImprovementPlanDecisionNotes)
+    public void SetRecordImprovementPlanDecision(DateTime? regionalDirectorImprovementPlanDecisionDate,
+        bool? hasApprovedImprovementPlanDecision, string? disapprovingImprovementPlanDecisionNotes)
     {
         RegionalDirectorImprovementPlanDecisionDate = regionalDirectorImprovementPlanDecisionDate;
         HasApprovedImprovementPlanDecision = hasApprovedImprovementPlanDecision;
@@ -389,7 +404,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetIndicativeFundingBandAndImprovementPlanTemplateDetails(
         bool? indicativeFundingBandCalculated,
         string? indicativeFundingBand,
-        bool? improvementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
+        bool?
+            improvementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
         DateTime? dateTemplatesAndIndicativeFundingBandSent)
     {
         IndicativeFundingBandCalculated = indicativeFundingBandCalculated;
@@ -399,7 +415,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateTemplatesAndIndicativeFundingBandSent = dateTemplatesAndIndicativeFundingBandSent;
     }
 
-    public void SetSendAgreedImprovementPlanForApproval(bool? hasSavedImprovementPlanInSharePoint, bool? hasEmailedAgreedPlanToRegionalDirectorForApproval)
+    public void SetSendAgreedImprovementPlanForApproval(bool? hasSavedImprovementPlanInSharePoint,
+        bool? hasEmailedAgreedPlanToRegionalDirectorForApproval)
     {
         HasSavedImprovementPlanInSharePoint = hasSavedImprovementPlanInSharePoint;
         HasEmailedAgreedPlanToRegionalDirectorForApproval = hasEmailedAgreedPlanToRegionalDirectorForApproval;
@@ -432,13 +449,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         ConfirmPlanClearedByRiseGrantTeam = confirmPlanClearedByRiseGrantTeam;
     }
 
-    public void SetRequestImprovementGrantOfferLetter(DateTime? dateTeamContactedForRequestingImprovementGrantOfferLetter,
-            bool? includeContactDetails,
-            bool? attachSchoolImprovementPlan,
-            bool? copyInRegionalDirector,
-            bool? sendEmailToGrantTeam)
+    public void SetRequestImprovementGrantOfferLetter(
+        DateTime? dateTeamContactedForRequestingImprovementGrantOfferLetter,
+        bool? includeContactDetails,
+        bool? attachSchoolImprovementPlan,
+        bool? copyInRegionalDirector,
+        bool? sendEmailToGrantTeam)
     {
-        DateTeamContactedForRequestingImprovementGrantOfferLetter = dateTeamContactedForRequestingImprovementGrantOfferLetter;
+        DateTeamContactedForRequestingImprovementGrantOfferLetter =
+            dateTeamContactedForRequestingImprovementGrantOfferLetter;
         IncludeContactDetails = includeContactDetails;
         AttachSchoolImprovementPlan = attachSchoolImprovementPlan;
         CopyInRegionalDirector = copyInRegionalDirector;
@@ -488,31 +507,32 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     public void AddFundingHistory(FundingHistoryId id,
-            SupportProjectId supportProjectId,
-            string fundingType,
-            decimal fundingAmount,
-            string financialYear,
-            int fundingRounds,
-            string comments)
+        SupportProjectId supportProjectId,
+        string fundingType,
+        decimal fundingAmount,
+        string financialYear,
+        int fundingRounds,
+        string comments)
     {
-        _fundingHistories.Add(new FundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear, fundingRounds, comments));
+        _fundingHistories.Add(new FundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear,
+            fundingRounds, comments));
     }
 
     public void EditFundingHistory(FundingHistoryId id,
-            string fundingType,
-            decimal fundingAmount,
-            string financialYear,
-            int fundingRounds,
-            string comments)
+        string fundingType,
+        decimal fundingAmount,
+        string financialYear,
+        int fundingRounds,
+        string comments)
     {
         var fundingHistory = _fundingHistories.SingleOrDefault(x => x.Id == id);
         if (fundingHistory != null)
         {
             fundingHistory.SetValues(fundingType,
-             fundingAmount,
-             financialYear,
-             fundingRounds,
-             comments);
+                fundingAmount,
+                financialYear,
+                fundingRounds,
+                comments);
         }
     }
 
@@ -527,24 +547,36 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         CaseStudyDetails = caseStudyDetails;
     }
 
-    public void SetEngagementConcernDetails(bool? engagementConcernRecorded, string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
-    {
-        EngagementConcernRecorded = engagementConcernRecorded;
-        EngagementConcernDetails = engagementConcernDetails;
-        EngagementConcernRaisedDate = engagementConcernRaisedDate;
-    }
-
-    public void SetEngagementConcernEscalation(bool? confirmStepsTaken, string? primaryReason,
+    public void SetEngagementConcernEscalation(EngagementConcernId engagementConcernId, bool? confirmStepsTaken, string? primaryReason,
         string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
     {
-        EngagementConcernEscalationConfirmStepsTaken = confirmStepsTaken;
-        EngagementConcernEscalationPrimaryReason = primaryReason;
-        EngagementConcernEscalationDetails = escalationDetails;
-        EngagementConcernEscalationDateOfDecision = dateOfDecision;
-        EngagementConcernEscalationWarningNotice = warningNotice;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetEngagementConcernEscalationDetails(confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision, warningNotice);
+        }
     }
 
-    public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails, DateTime? powersUsedDate)
+    public void AddEngagementConcern(EngagementConcernId engagementConcernId, SupportProjectId supportProjectId,
+        string? engagementConcernDetails, DateTime? engagementConcernRaisedDate, bool? engagementConcernResolved,
+        string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+    {
+        _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId, engagementConcernDetails,
+            engagementConcernRaisedDate, engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate));
+    }
+
+    public void EditEngagementConcern(EngagementConcernId engagementConcernId,
+        string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
+    {
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetEngagementConcernDetails(engagementConcernDetails, engagementConcernRaisedDate);
+        }
+    }
+
+    public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails,
+        DateTime? powersUsedDate)
     {
         InformationPowersInUse = informationPowersInUse;
         InformationPowersDetails = informationPowersDetails;
@@ -559,7 +591,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
     }
 
-    public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)
+    public void AddImprovementPlanObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId,
+        ImprovementPlanId improvementPlanId, string areaOfImprovement, string details)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -580,10 +613,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             areaOfImprovement,
             details,
             order
-            );
+        );
     }
 
-    public void SetImprovementPlanObjectivesComplete(ImprovementPlanId improvementPlanId, bool objectivesSectionComplete)
+    public void SetImprovementPlanObjectivesComplete(ImprovementPlanId improvementPlanId,
+        bool objectivesSectionComplete)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -595,7 +629,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetObjectivesComplete(objectivesSectionComplete);
     }
 
-    public void SetImprovementPlanObjectiveDetails(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string details)
+    public void SetImprovementPlanObjectiveDetails(ImprovementPlanObjectiveId improvementPlanObjectiveId,
+        ImprovementPlanId improvementPlanId, string details)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -607,7 +642,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetObjectiveDetails(
             improvementPlanObjectiveId,
             details
-            );
+        );
     }
 
     public void AddImprovementPlanReview(
@@ -624,8 +659,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
 
         improvementPlan.AddReview(improvementPlanReviewId, reviewer, reviewDate);
-
-
     }
 
     public void AddImprovementPlanObjectiveProgress(
@@ -647,7 +680,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             improvementPlanObjectiveProgressId, improvementPlanObjectiveId, progressStatus, progressDetails);
     }
 
-    public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus, string progressDetails)
+    public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanId improvementPlanId,
+        ImprovementPlanReviewId improvementPlanReviewId,
+        ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus,
+        string progressDetails)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -660,7 +696,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             improvementPlanObjectiveProgressId, progressStatus, progressDetails);
     }
 
-    public void SetImprovementPlanReviewNextReviewDate(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, DateTime? nextReviewDate)
+    public void SetImprovementPlanReviewNextReviewDate(ImprovementPlanId improvementPlanId,
+        ImprovementPlanReviewId improvementPlanReviewId, DateTime? nextReviewDate)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -672,7 +709,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetNextReviewDate(improvementPlanReviewId, nextReviewDate);
     }
 
-    public void SetImprovementPlanReviewDetails(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
+    public void SetImprovementPlanReviewDetails(ImprovementPlanId improvementPlanId,
+        ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -684,7 +722,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetImprovementPlanReviewDetails(improvementPlanReviewId, reviewer, reviewDate);
     }
 
-    public void SetOverallProgress(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId, string howIsTheSchoolProgressingOverall, string overallProgressDetails)
+    public void SetOverallProgress(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId,
+        string howIsTheSchoolProgressingOverall, string overallProgressDetails)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -693,8 +732,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
         }
 
-        improvementPlan.SetOverallProgress(improvementPlanReviewId, howIsTheSchoolProgressingOverall, overallProgressDetails);
-
+        improvementPlan.SetOverallProgress(improvementPlanReviewId, howIsTheSchoolProgressingOverall,
+            overallProgressDetails);
     }
 
     public void SetInterimExecutiveBoardCreated(bool? interimExecutiveBoardCreated,
@@ -705,11 +744,16 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
     }
 
-    public void SetEngagementConcernResolvedDetails(bool? engagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+    public void SetEngagementConcernResolvedDetails(EngagementConcernId engagementConcernId,
+        bool? engagementConcernResolved, string? engagementConcernResolvedDetails,
+        DateTime? engagementConcernResolvedDate)
     {
-        EngagementConcernResolved = engagementConcernResolved;
-        EngagementConcernResolvedDetails = engagementConcernResolvedDetails;
-        EngagementConcernResolvedDate = engagementConcernResolvedDate;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetEngagementConcernResolvedDetails(engagementConcernResolved,
+                engagementConcernResolvedDetails, engagementConcernResolvedDate);
+        }
     }
 
     #endregion

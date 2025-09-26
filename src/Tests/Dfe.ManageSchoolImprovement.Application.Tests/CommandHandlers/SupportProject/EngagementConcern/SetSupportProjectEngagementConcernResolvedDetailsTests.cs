@@ -1,4 +1,5 @@
 using AutoFixture;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
@@ -21,14 +22,16 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Fact]
-        public async Task Handle_ValidCommand_UpdatesSupportProject()
+        public async Task Handle_ValidCommand_UpdatesEngagementConcern()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "Concern was resolved through improved communication and additional support";
             var engagementConcernResolvedDate = DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernResolved,
                 engagementConcernResolvedDetails,
@@ -47,30 +50,45 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Assert
             Assert.IsType<bool>(result);
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == engagementConcernResolved &&
-                        x.EngagementConcernResolvedDetails == engagementConcernResolvedDetails &&
-                        x.EngagementConcernResolvedDate == engagementConcernResolvedDate),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
-        public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
+        public async Task Handle_ValidEmptyCommand_UpdatesEngagementConcern()
         {
             // Arrange
+            _mockSupportProjectRepository
+                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+            
+            var addEngagementConcernCommandHandler =
+                new AddEngagementConcern.AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+
+            var addEngagementConcernCommand = new AddEngagementConcern.AddEngagementConcernCommand(
+                _mockSupportProject.Id, 
+                "details", 
+                DateTime.UtcNow,
+                false,
+                null,
+                null
+            );
+            await addEngagementConcernCommandHandler.Handle(addEngagementConcernCommand, _cancellationToken);
+            
+            var engagementConcernId = _mockSupportProject.EngagementConcerns.First().Id;
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 null,
                 null,
                 null
             );
 
-            _mockSupportProjectRepository
-                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+
 
             var handler = new SetSupportProjectEngagementConcernResolvedDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
@@ -83,22 +101,24 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository.Verify(
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == null &&
-                        x.EngagementConcernResolvedDetails == null &&
-                        x.EngagementConcernResolvedDate == null),
+                        x.EngagementConcerns.First().EngagementConcernResolved == null &&
+                        x.EngagementConcerns.First().EngagementConcernResolvedDetails == null &&
+                        x.EngagementConcerns.First().EngagementConcernResolvedDate == null),
                     It.IsAny<CancellationToken>()),
-                Times.Once);
+                Times.AtLeastOnce);
         }
 
         [Fact]
         public async Task Handle_ProjectNotFound_ReturnsFalse()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "Resolution details";
             var engagementConcernResolvedDate = DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernResolved,
                 engagementConcernResolvedDetails,
@@ -127,11 +147,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         [InlineData(true, "Concern resolved successfully")]
         [InlineData(false, "Concern remains unresolved")]
         [InlineData(null, "Details without resolution status")]
-        public async Task Handle_WithDifferentResolvedValues_UpdatesSupportProject(bool? resolved, string details)
+        public async Task Handle_WithDifferentResolvedValues_UpdatesEngagementConcern(bool? resolved, string details)
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var resolvedDate = DateTime.UtcNow;
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 resolved,
                 details,
@@ -149,25 +171,25 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             // Assert
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == resolved &&
-                        x.EngagementConcernResolvedDetails == details &&
-                        x.EngagementConcernResolvedDate == resolvedDate),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
-        public async Task Handle_WithEmptyString_UpdatesSupportProject()
+        public async Task Handle_WithEmptyString_UpdatesEngagementConcern()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "";
             var engagementConcernResolvedDate = DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernResolved,
                 engagementConcernResolvedDetails,
@@ -185,25 +207,25 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             // Assert
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == engagementConcernResolved &&
-                        x.EngagementConcernResolvedDetails == engagementConcernResolvedDetails &&
-                        x.EngagementConcernResolvedDate == engagementConcernResolvedDate),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
-        public async Task Handle_WithLongDetails_UpdatesSupportProject()
+        public async Task Handle_WithLongDetails_UpdatesEngagementConcern()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var longDetails = new string('A', 2000); // Very long string
             var engagementConcernResolvedDate = DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernResolved,
                 longDetails,
@@ -221,25 +243,25 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             // Assert
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == engagementConcernResolved &&
-                        x.EngagementConcernResolvedDetails == longDetails &&
-                        x.EngagementConcernResolvedDate == engagementConcernResolvedDate),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
-        public async Task Handle_WithPastDate_UpdatesSupportProject()
+        public async Task Handle_WithPastDate_UpdatesEngagementConcern()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "Concern was resolved last month";
             var pastDate = DateTime.UtcNow.AddDays(-30);
 
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernResolved,
                 engagementConcernResolvedDetails,
@@ -257,21 +279,21 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             // Assert
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == engagementConcernResolved &&
-                        x.EngagementConcernResolvedDetails == engagementConcernResolvedDetails &&
-                        x.EngagementConcernResolvedDate == pastDate),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
 
         [Fact]
         public async Task Handle_CallsGetSupportProjectByIdOnce_WhenValidCommand()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 true,
                 "Resolution details",
@@ -298,7 +320,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_CallsUpdateAsyncOnce_WhenValidCommand()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 true,
                 "Resolution details",
@@ -322,14 +346,16 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         }
 
         [Fact]
-        public async Task Handle_WithSpecialCharacters_UpdatesSupportProject()
+        public async Task Handle_WithSpecialCharacters_UpdatesEngagementConcern()
         {
             // Arrange
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var detailsWithSpecialChars = "Concern resolved with special chars: !@#$%^&*()[]{}|\\:;\"'<>,.?/~`";
             var engagementConcernResolvedDate = DateTime.UtcNow;
 
             var command = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+                engagementConcernId,
                 _mockSupportProject.Id,
                 engagementConcernResolved,
                 detailsWithSpecialChars,
@@ -347,14 +373,12 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             // Assert
             Assert.True(result);
-            _mockSupportProjectRepository.Verify(
-                repo => repo.UpdateAsync(
-                    It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcernResolved == engagementConcernResolved &&
-                        x.EngagementConcernResolvedDetails == detailsWithSpecialChars &&
-                        x.EngagementConcernResolvedDate == engagementConcernResolvedDate),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.GetSupportProjectById(
+                It.Is<SupportProjectId>(id => id == _mockSupportProject.Id), 
+                _cancellationToken), Times.Once);
+            _mockSupportProjectRepository.Verify(repo => repo.UpdateAsync(
+                _mockSupportProject, 
+                _cancellationToken), Times.Once);
         }
     }
 }

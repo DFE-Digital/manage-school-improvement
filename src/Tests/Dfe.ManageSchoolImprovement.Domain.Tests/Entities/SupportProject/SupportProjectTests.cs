@@ -824,26 +824,57 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.CaseStudyDetails.Should().Be(caseStudyDetails);
             mockRepository.VerifyAll();
         }
-
+        
         [Fact]
-        public void SetEngagementConcernDetails_WithValidDetails_SetsTheCorrectProperties()
+        public void AddEngagementConcern_WithValidDetails_SetsTheCorrectProperties()
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
-            var engagementConcernRecorded = true;
+            
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernDetails = "test details";
             var engagementConcernRaisedDate = DateTime.UtcNow;
-
+            var engagementConcernResolved = true;
+            var engagementConcernResolvedDetails = "resolved details";
+            var engagementConcernResolvedDate = DateTime.UtcNow;
+        
             // Act
-            supportProject.SetEngagementConcernDetails(
-                engagementConcernRecorded, engagementConcernDetails, engagementConcernRaisedDate);
-
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                engagementConcernDetails, engagementConcernRaisedDate, engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate);
+        
             // Assert
-            supportProject.EngagementConcernRecorded.Should().Be(engagementConcernRecorded);
-            supportProject.EngagementConcernDetails.Should().Be(engagementConcernDetails);
-            supportProject.EngagementConcernRaisedDate.Should().Be(engagementConcernRaisedDate);
-            mockRepository.VerifyAll();
+            supportProject.EngagementConcerns.Should().HaveCount(1);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.Id.Should().Be(engagementConcernId);
+            addedPlan.EngagementConcernDetails.Should().Be(engagementConcernDetails);
+            addedPlan.EngagementConcernRaisedDate.Should().Be(engagementConcernRaisedDate);
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
+        }
+        
+        [Fact]
+        public void EditEngagementConcern_WithValidDetails_SetsTheCorrectProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+            var engagementConcernDetails = "changed details";
+            var engagementConcernRaisedDate = DateTime.UtcNow;
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
+            // Act
+            supportProject.EditEngagementConcern(engagementConcernId,
+                engagementConcernDetails, engagementConcernRaisedDate);
+        
+            // Assert
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.Id.Should().Be(engagementConcernId);
+            addedPlan.EngagementConcernDetails.Should().Be(engagementConcernDetails);
+            addedPlan.EngagementConcernRaisedDate.Should().Be(engagementConcernRaisedDate);
         }
 
         [Fact]
@@ -851,23 +882,29 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+            
             var confirmStepsTaken = true;
             var primaryReason = "this is a reason";
             var escalationDetails = "this is some details";
             var dateOfDecision = DateTime.UtcNow;
             var warningNotice = "this is a warning notice";
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernEscalation(
+            supportProject.SetEngagementConcernEscalation(engagementConcernId,
                 confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision, warningNotice);
-
+        
             // Assert
-            supportProject.EngagementConcernEscalationConfirmStepsTaken.Should().Be(confirmStepsTaken);
-            supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(primaryReason);
-            supportProject.EngagementConcernEscalationDetails.Should().Be(escalationDetails);
-            supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(dateOfDecision);
-            supportProject.EngagementConcernEscalationWarningNotice.Should().Be(warningNotice);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.Id.Should().Be(engagementConcernId);
+            addedPlan.EngagementConcernEscalationConfirmStepsTaken.Should().Be(confirmStepsTaken);
+            addedPlan.EngagementConcernEscalationPrimaryReason.Should().Be(primaryReason);
+            addedPlan.EngagementConcernEscalationDetails.Should().Be(escalationDetails);
+            addedPlan.EngagementConcernEscalationDateOfDecision.Should().Be(dateOfDecision);
+            addedPlan.EngagementConcernEscalationWarningNotice.Should().Be(warningNotice);
             mockRepository.VerifyAll();
         }
 
@@ -1198,19 +1235,24 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+        
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "Concern was resolved through improved communication and additional support";
             var engagementConcernResolvedDate = DateTime.UtcNow;
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(engagementConcernResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
-            supportProject.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
             mockRepository.VerifyAll();
         }
 
@@ -1219,22 +1261,27 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             bool? engagementConcernResolved = null;
             string? engagementConcernResolvedDetails = null;
             DateTime? engagementConcernResolvedDate = null;
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().BeNull();
-            supportProject.EngagementConcernResolvedDetails.Should().BeNull();
-            supportProject.EngagementConcernResolvedDate.Should().BeNull();
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().BeNull();
+            addedPlan.EngagementConcernResolvedDetails.Should().BeNull();
+            addedPlan.EngagementConcernResolvedDate.Should().BeNull();
             mockRepository.VerifyAll();
         }
-
+        
         [Theory]
         [InlineData(true, "Concern resolved successfully", "2024-01-15")]
         [InlineData(false, "Concern remains unresolved", "2024-01-16")]
@@ -1247,15 +1294,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             DateTime? resolvedDate = dateString != null ? DateTime.Parse(dateString) : null;
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(resolved, details, resolvedDate);
-
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId, resolved, details, resolvedDate);
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(resolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(details);
-            supportProject.EngagementConcernResolvedDate.Should().Be(resolvedDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(resolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(details);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(resolvedDate);
             mockRepository.VerifyAll();
         }
 
@@ -1264,19 +1316,24 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "";
             var engagementConcernResolvedDate = DateTime.UtcNow;
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(engagementConcernResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be("");
-            supportProject.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be("");
+            addedPlan.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
             mockRepository.VerifyAll();
         }
 
@@ -1285,19 +1342,24 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        
             var engagementConcernResolved = true;
             var longDetails = new string('A', 2000); // Very long string
             var engagementConcernResolvedDate = DateTime.UtcNow;
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, longDetails, engagementConcernResolvedDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(engagementConcernResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(longDetails);
-            supportProject.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(longDetails);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
             mockRepository.VerifyAll();
         }
 
@@ -1306,19 +1368,24 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        
             var engagementConcernResolved = true;
             var detailsWithSpecialChars = "Concern resolved with special chars: !@#$%^&*()[]{}|\\:;\"'<>,.?/~`";
             var engagementConcernResolvedDate = DateTime.UtcNow;
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, detailsWithSpecialChars, engagementConcernResolvedDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(engagementConcernResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(detailsWithSpecialChars);
-            supportProject.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(detailsWithSpecialChars);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(engagementConcernResolvedDate);
             mockRepository.VerifyAll();
         }
 
@@ -1327,21 +1394,26 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // First call
-            supportProject.SetEngagementConcernResolvedDetails(true, "First resolution details", DateTime.UtcNow.AddDays(-1));
-
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId, true, "First resolution details", DateTime.UtcNow.AddDays(-1));
+        
             var newResolved = false;
             var newDetails = "Updated resolution details";
             var newDate = DateTime.UtcNow;
-
+        
             // Act - Second call
-            supportProject.SetEngagementConcernResolvedDetails(newResolved, newDetails, newDate);
-
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId, newResolved, newDetails, newDate);
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(newResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(newDetails);
-            supportProject.EngagementConcernResolvedDate.Should().Be(newDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(newResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(newDetails);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(newDate);
             mockRepository.VerifyAll();
         }
 
@@ -1350,40 +1422,50 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        
             var engagementConcernResolved = true;
             var engagementConcernResolvedDetails = "Concern was resolved last month";
             var pastDate = DateTime.UtcNow.AddDays(-30);
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, engagementConcernResolvedDetails, pastDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(engagementConcernResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
-            supportProject.EngagementConcernResolvedDate.Should().Be(pastDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(pastDate);
             mockRepository.VerifyAll();
         }
-
+        
         [Fact]
         public void SetEngagementConcernResolvedDetails_WithFutureDate_SetsTheCorrectProperties()
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        
             var engagementConcernResolved = false;
             var engagementConcernResolvedDetails = "Expected resolution date";
             var futureDate = DateTime.UtcNow.AddDays(30);
-
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id,
+                "test details", DateTime.UtcNow.AddDays(-1), null, null, null);
+        
             // Act
-            supportProject.SetEngagementConcernResolvedDetails(
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId,
                 engagementConcernResolved, engagementConcernResolvedDetails, futureDate);
-
+        
             // Assert
-            supportProject.EngagementConcernResolved.Should().Be(engagementConcernResolved);
-            supportProject.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
-            supportProject.EngagementConcernResolvedDate.Should().Be(futureDate);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernResolved.Should().Be(engagementConcernResolved);
+            addedPlan.EngagementConcernResolvedDetails.Should().Be(engagementConcernResolvedDetails);
+            addedPlan.EngagementConcernResolvedDate.Should().Be(futureDate);
             mockRepository.VerifyAll();
         }
 
@@ -1392,33 +1474,37 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
+            var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        
             // Set initial engagement concern details
-            var originalRecorded = true;
             var originalDetails = "Original concern details";
             var originalRaisedDate = DateTime.UtcNow.AddDays(-10);
-            supportProject.SetEngagementConcernDetails(originalRecorded, originalDetails, originalRaisedDate);
-
+            var originalResolved = false;
+            var originalResolvedDetails = "";
+            var originalResolvedDate = DateTime.UtcNow.AddDays(-5);
+            
+            supportProject.AddEngagementConcern(engagementConcernId, supportProject.Id, originalDetails, originalRaisedDate, originalResolved, originalResolvedDetails, originalResolvedDate);
+        
             // Set escalation details
             var originalStepsTaken = true;
             var originalReason = "Original escalation reason";
             var originalEscalationDetails = "Original escalation details";
             var originalDecisionDate = DateTime.UtcNow.AddDays(-5);
             var originalWarningNotice = "Original warning notice";
-            supportProject.SetEngagementConcernEscalation(originalStepsTaken, originalReason, originalEscalationDetails, originalDecisionDate, originalWarningNotice);
-
+            supportProject.SetEngagementConcernEscalation(engagementConcernId, originalStepsTaken, originalReason, originalEscalationDetails, originalDecisionDate, originalWarningNotice);
+        
             // Act - Set resolved details
-            supportProject.SetEngagementConcernResolvedDetails(true, "Resolution details", DateTime.UtcNow);
-
+            supportProject.SetEngagementConcernResolvedDetails(engagementConcernId, true, "Resolution details", DateTime.UtcNow);
+        
             // Assert - Other engagement properties remain unchanged
-            supportProject.EngagementConcernRecorded.Should().Be(originalRecorded);
-            supportProject.EngagementConcernDetails.Should().Be(originalDetails);
-            supportProject.EngagementConcernRaisedDate.Should().Be(originalRaisedDate);
-            supportProject.EngagementConcernEscalationConfirmStepsTaken.Should().Be(originalStepsTaken);
-            supportProject.EngagementConcernEscalationPrimaryReason.Should().Be(originalReason);
-            supportProject.EngagementConcernEscalationDetails.Should().Be(originalEscalationDetails);
-            supportProject.EngagementConcernEscalationDateOfDecision.Should().Be(originalDecisionDate);
-            supportProject.EngagementConcernEscalationWarningNotice.Should().Be(originalWarningNotice);
+            var addedPlan = supportProject.EngagementConcerns.First();
+            addedPlan.EngagementConcernDetails.Should().Be(originalDetails);
+            addedPlan.EngagementConcernRaisedDate.Should().Be(originalRaisedDate);
+            addedPlan.EngagementConcernEscalationConfirmStepsTaken.Should().Be(originalStepsTaken);
+            addedPlan.EngagementConcernEscalationPrimaryReason.Should().Be(originalReason);
+            addedPlan.EngagementConcernEscalationDetails.Should().Be(originalEscalationDetails);
+            addedPlan.EngagementConcernEscalationDateOfDecision.Should().Be(originalDecisionDate);
+            addedPlan.EngagementConcernEscalationWarningNotice.Should().Be(originalWarningNotice);
             mockRepository.VerifyAll();
         }
     }

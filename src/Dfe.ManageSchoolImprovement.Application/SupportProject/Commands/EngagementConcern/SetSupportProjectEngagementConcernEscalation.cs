@@ -2,12 +2,13 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using MediatR;
 
-namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote;
+namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 
 
 public class SetSupportProjectEngagementConcernEscalation
 {
     public record SetSupportProjectEngagementConcernEscalationCommand(
+        EngagementConcernId engagementConcernId,
         SupportProjectId SupportProjectId,
         bool? EngagementConcernEscalationConfirmStepsTaken,
         string? EngagementConcernEscalationPrimaryReason,
@@ -29,7 +30,7 @@ public class SetSupportProjectEngagementConcernEscalation
                 return false;
             }
 
-            supportProject.SetEngagementConcernEscalation(request.EngagementConcernEscalationConfirmStepsTaken, request.EngagementConcernEscalationPrimaryReason,
+            supportProject.SetEngagementConcernEscalation(request.engagementConcernId, request.EngagementConcernEscalationConfirmStepsTaken, request.EngagementConcernEscalationPrimaryReason,
                 request.EngagementConcernEscalationDetails, request.EngagementConcernEscalationDateOfDecision, request.EngagementConcernEscalationWarningNotice);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);

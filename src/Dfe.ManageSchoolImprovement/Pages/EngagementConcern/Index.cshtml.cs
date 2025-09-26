@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +18,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
-
-    public DateTime? DateRaised { get; set; }
-    
-    public string? EngagementConcernDetails { get; set; }
-
-    public bool EngagementConcernEscalated { get; set; }
-
-    public string? EngagementConcernEscalationReason { get; set; }
-
-    public DateTime? DateEscalated { get; set; }
     
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
@@ -49,6 +40,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [TempData]
     public bool? InterimExecutiveBoardDateUpdated  { get; set; }
 
+    public List<EngagementConcernViewModel> EngagementConcerns { get; set; } = [];
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
@@ -56,16 +49,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         ReturnPage = @Links.SchoolList.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        DateRaised = SupportProject.EngagementConcernRaisedDate;
-        EngagementConcernDetails = SupportProject.EngagementConcernDetails;
-        EngagementConcernEscalated =
-            (SupportProject.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
-            !string.IsNullOrEmpty(SupportProject.EngagementConcernEscalationPrimaryReason) &&
-            !string.IsNullOrEmpty(SupportProject.EngagementConcernEscalationDetails) &&
-            SupportProject.EngagementConcernEscalationDateOfDecision.HasValue;
-        EngagementConcernEscalationReason = SupportProject.EngagementConcernEscalationPrimaryReason;
-        DateEscalated = SupportProject.EngagementConcernEscalationDateOfDecision;
+        
+        EngagementConcerns = SupportProject?.EngagementConcerns?.OrderByDescending(x => x.EngagementConcernRaisedDate).ToList() ?? [];
 
         return Page();
     }

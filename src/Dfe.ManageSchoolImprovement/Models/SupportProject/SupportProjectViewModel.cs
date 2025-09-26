@@ -193,6 +193,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? EngagementConcernResolvedDate { get; set; }
         public string? EngagementConcernResolvedDetails { get; set; }
         public bool? EngagementConcernResolved { get; set; }
+        
+        public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
 
         public bool? InformationPowersInUse { get; set; }
         public string? InformationPowersDetails { get; set; }
@@ -318,7 +320,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate,
                 EngagementConcernResolved = supportProjectDto.EngagementConcernResolved,
                 EngagementConcernResolvedDate = supportProjectDto.EngagementConcernResolvedDate,
-                EngagementConcernResolvedDetails = supportProjectDto.EngagementConcernResolvedDetails
+                EngagementConcernResolvedDetails = supportProjectDto.EngagementConcernResolvedDetails,
+                EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>()
             };
         }
     }

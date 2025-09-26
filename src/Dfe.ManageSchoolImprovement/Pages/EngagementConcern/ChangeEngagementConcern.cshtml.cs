@@ -6,9 +6,10 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.
-    SetSupportProjectEngagementConcernDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
+    EditEngagementConcern;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernResolvedDetails;
+
 
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -27,6 +28,9 @@ public class ChangeEngagementConcernModel(
     public DateTime? DateEngagementConcernRaised { get; set; }
 
     public string? WarningNotice { get; set; }
+    
+    [BindProperty]
+    public Guid EngagementConcernId { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -45,19 +49,26 @@ public class ChangeEngagementConcernModel(
     private const string ResolutionDetailsKey = "resolution-details";
 
     public bool ShowResolutionDetailsError => ModelState.ContainsKey(ResolutionDetailsKey) && ModelState[ResolutionDetailsKey]?.Errors.Count > 0;
-
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    
+    public async Task<IActionResult> OnGetAsync(int id, Guid engagementconcernid, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
         ReturnPage = @Links.EngagementConcern.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        EngagementConcernDetails = SupportProject.EngagementConcernDetails;
-        MarkConcernResolved = SupportProject.EngagementConcernResolved;
-        ResolutionDetails = SupportProject.EngagementConcernResolvedDetails;
-
+        
+        EngagementConcernId = engagementconcernid;
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
+        
+        if (engagementConcern != null)
+        {
+            EngagementConcernDetails = engagementConcern.EngagementConcernDetails;
+            MarkConcernResolved = engagementConcern.EngagementConcernResolved;
+            ResolutionDetails = engagementConcern.EngagementConcernResolvedDetails;
+        }
+        
         return Page();
     }
 
@@ -65,6 +76,8 @@ public class ChangeEngagementConcernModel(
     {
         // set support project so we can compare values for success banner
         await base.GetSupportProject(id, cancellationToken);
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
+
 
         if (string.IsNullOrEmpty(EngagementConcernDetails))
         {
@@ -82,14 +95,18 @@ public class ChangeEngagementConcernModel(
             return Page();
         }
 
-        TempData["EngagementConcernUpdated"] = SupportProject.EngagementConcernDetails != EngagementConcernDetails ||
-            SupportProject.EngagementConcernResolved != MarkConcernResolved ||
-            SupportProject.EngagementConcernResolvedDetails != ResolutionDetails;
+        if (engagementConcern != null)
+        {
+            TempData["EngagementConcernUpdated"] = engagementConcern.EngagementConcernDetails != EngagementConcernDetails ||
+                                                   engagementConcern.EngagementConcernResolved != MarkConcernResolved ||
+                                                   engagementConcern.EngagementConcernResolvedDetails != ResolutionDetails;
+        }
 
-        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
 
-        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id),
-            true, EngagementConcernDetails, DateEngagementConcernRaised);
+        DateEngagementConcernRaised = engagementConcern?.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
+
+        var request = new EditEngagementConcernCommand(new EngagementConcernId(EngagementConcernId), new SupportProjectId(id),
+            EngagementConcernDetails, DateEngagementConcernRaised);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -101,6 +118,7 @@ public class ChangeEngagementConcernModel(
         }
 
         var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+            new EngagementConcernId(EngagementConcernId),
                 new SupportProjectId(id),
                 MarkConcernResolved,
                 MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
