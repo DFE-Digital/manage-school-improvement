@@ -44,7 +44,7 @@ public class RecordUseOfInformationPowersModel(
         return $"You must enter a date";
     }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
@@ -52,9 +52,11 @@ public class RecordUseOfInformationPowersModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        InformationPowersInUse = SupportProject.InformationPowersInUse;
-        InformationPowersDetails = SupportProject.InformationPowersDetails;
-        PowersUsedDate = SupportProject.PowersUsedDate;
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+
+        InformationPowersInUse = engagementConcern.InformationPowersInUse;
+        InformationPowersDetails = engagementConcern.InformationPowersDetails;
+        PowersUsedDate = engagementConcern.PowersUsedDate;
 
         return Page();
     }

@@ -18,29 +18,32 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
-    
+
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
 
     [TempData]
     public bool? InformationPowersRemoved { get; set; }
-    
+
     [TempData]
     public bool? InformationPowersUpdated { get; set; }
-    
+
     [TempData]
     public bool? InterimExecutiveBoardRecorded { get; set; }
 
     [TempData]
     public bool? InterimExecutiveBoardRemoved { get; set; }
-    
+
     [TempData]
     public bool? InterimExecutiveBoardUpdated { get; set; }
-    
+
     [TempData]
-    public bool? InterimExecutiveBoardDateUpdated  { get; set; }
+    public bool? InterimExecutiveBoardDateUpdated { get; set; }
 
     public List<EngagementConcernViewModel> EngagementConcerns { get; set; } = [];
+
+    public bool MultipleActiveEngagementConcernsWithoutIeb { get; set; } = false;
+    public bool MultipleActiveEngagementConcernsWithoutInformationPowers { get; set; } = false;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -49,8 +52,11 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         ReturnPage = @Links.SchoolList.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        
+
         EngagementConcerns = SupportProject?.EngagementConcerns?.OrderByDescending(x => x.EngagementConcernRaisedDate).ToList() ?? [];
+
+        //MultipleActiveEngagementConcernsWithoutIeb = EngagementConcerns.Where(x => x.EngagementConcernResolved is false && x.)
+
 
         return Page();
     }

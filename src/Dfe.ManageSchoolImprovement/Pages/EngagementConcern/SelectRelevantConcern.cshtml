@@ -1,0 +1,69 @@
+@page "/engagement-concern/select-relevant-concern/{id:int}"
+
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.SelectRelevantConcernModel
+
+@{
+    ViewData["Title"] = "Select the relevant concern";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Select the relevant concern
+        </h1>
+        <form method="post">
+            <div class="govuk-form-group @(Model.ShowConcernSelectionError ? "govuk-form-group--error" : "")">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h2 class="govuk-fieldset__heading">Select the relevant concern</h2>
+                    </legend>
+                    
+                    @if (Model.ShowConcernSelectionError)
+                    {
+                        <p id="concern-selection-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> You must select a concern
+                        </p>
+                    }
+
+                    <div class="govuk-radios" data-module="govuk-radios">
+                        @for (int i = 0; i < Model.AvailableConcerns.Count; i++)
+                        {
+                            var concern = Model.AvailableConcerns[i];
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" 
+                                       id="concern-@i" 
+                                       name="SelectedConcernId" 
+                                       type="radio" 
+                                       value="@concern.Id"
+                                       @(Model.SelectedConcernId == concern.Id ? "checked" : "")
+                                       data-cy="concern-radio-@i" />
+                                <label class="govuk-label govuk-radios__label" for="concern-@i">
+                                    @concern.Summary
+                                    <span class="govuk-hint">Recorded on @concern.RecordedDate.ToString("d MMMM yyyy")</span>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div class="govuk-button-group govuk-body">
+                <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button" data-cy="save-and-continue-btn">
+                    Save and continue
+                </button>
+                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

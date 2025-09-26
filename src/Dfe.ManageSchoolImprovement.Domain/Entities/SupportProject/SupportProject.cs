@@ -83,7 +83,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? SchoolResponseDate { get; private set; }
 
     public bool?
-        HasAcknowledgedAndWillEngage { get; private set; }
+        HasAcknowledgedAndWillEngage
+    { get; private set; }
 
     public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
@@ -575,12 +576,16 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
     }
 
-    public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails,
+    public void SetInformationPowersDetails(EngagementConcernId engagementConcernId,
+        bool? informationPowersInUse, string? informationPowersDetails,
         DateTime? powersUsedDate)
     {
-        InformationPowersInUse = informationPowersInUse;
-        InformationPowersDetails = informationPowersDetails;
-        PowersUsedDate = powersUsedDate;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetInformationPowersDetails(informationPowersInUse, informationPowersDetails,
+            powersUsedDate);
+        }
     }
 
     public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
@@ -736,12 +741,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             overallProgressDetails);
     }
 
-    public void SetInterimExecutiveBoardCreated(bool? interimExecutiveBoardCreated,
+    public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId, bool? interimExecutiveBoardCreated,
         string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)
     {
-        InterimExecutiveBoardCreated = interimExecutiveBoardCreated;
-        InterimExecutiveBoardCreatedDetails = interimExecutiveBoardCreatedDetails;
-        InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern != null)
+        {
+            engagementConcern.SetInterimExecutiveBoardCreated(interimExecutiveBoardCreated,
+         interimExecutiveBoardCreatedDetails, interimExecutiveBoardCreatedDate);
+        }
     }
 
     public void SetEngagementConcernResolvedDetails(EngagementConcernId engagementConcernId,

@@ -7,6 +7,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Engage
 public class SetSupportProjectIebDetails
 {
     public record SetSupportProjectIebDetailsCommand(
+        EngagementConcernId EngagementConcernId,
         SupportProjectId SupportProjectId,
         bool? InterimExecutiveBoardCreated,
         string? InterimExecutiveBoardCreatedDetails,
@@ -26,6 +27,7 @@ public class SetSupportProjectIebDetails
             }
 
             supportProject.SetInterimExecutiveBoardCreated(
+                request.EngagementConcernId,
                 request.InterimExecutiveBoardCreated,
                 request.InterimExecutiveBoardCreatedDetails,
                 request.InterimExecutiveBoardCreatedDate);
