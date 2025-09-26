@@ -7,6 +7,12 @@ class EngagementConcern {
         return this;
     }
 
+    public hasRecordEngagementConcernButton(): this {
+        cy.getByCyData('record-engagement-concern-button').should('be.visible');
+
+        return this;
+    }
+
     public clickRecordEngagementConcern(): this {
         cy.getByCyData('record-engagement-concern-button').should('be.visible').click();
         cy.url().should('include', '/engagement-concern/record-engagement-concern');
@@ -34,7 +40,7 @@ class EngagementConcern {
     }
 
     public clickEscalateLink(): this {
-        cy.getByCyData('engagement-concern-escalate-link').click();
+        cy.getByCyData('engagement-concern-escalate-link').first().click();
         cy.url().should('include', '/escalate-engagement-concern');
 
         return this;
@@ -133,6 +139,12 @@ class EngagementConcern {
             .find('.govuk-notification-banner__content')
             .should('contain', expectedMessage);
 
+        return this;
+    }
+
+    public hasMoreThanOneEngagementConcern(): this {
+        cy.get('h2').should('contain', 'Concern raised ' + new Date().toLocaleDateString()).its('length').should('be.gte', 1);
+        
         return this;
     }
 
