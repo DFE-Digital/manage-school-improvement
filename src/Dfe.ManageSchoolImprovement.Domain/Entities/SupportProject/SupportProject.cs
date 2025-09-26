@@ -563,9 +563,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         EngagementConcernDetails engagementConcernDetails)
     {
         _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId,
-            engagementConcernDetails.Details, engagementConcernDetails.Summary,
-            engagementConcernDetails.RaisedDate, engagementConcernDetails.Resolved,
-            engagementConcernDetails.ResolvedDetails, engagementConcernDetails.ResolvedDate));
+            engagementConcernDetails
+        ));
     }
 
     public void EditEngagementConcern(EngagementConcernId engagementConcernId,
