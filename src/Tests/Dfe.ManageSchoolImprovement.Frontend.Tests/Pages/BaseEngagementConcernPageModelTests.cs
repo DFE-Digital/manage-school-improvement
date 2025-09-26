@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernEscalation;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectEngagementConcernEscalation;
 
 namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEngagementConcern
 {
@@ -34,6 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
         {
             // Arrange
             const int id = 1;
+            var engagementConcernId = Guid.NewGuid();
             var confirmStepsTaken = true;
             var primaryReason = "Test Reason";
             var escalationDetails = "Test Details";
@@ -49,6 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
 
             // Act
             var result = await _sut.HandleEscalationPost(
+                engagementConcernId,
                 id,
                 new EngagementConcernEscalationDetails
                 {
@@ -70,6 +72,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
         {
             // Arrange
             const int id = 1;
+            var engagementConcernId = Guid.NewGuid();
             _mockSupportProjectQueryService
                 .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now)));
@@ -79,7 +82,8 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
                 .ReturnsAsync(false);
 
             // Act
-            var result = await _sut.HandleEscalationPost(id,
+            var result = await _sut.HandleEscalationPost(engagementConcernId,
+                id,
                 new EngagementConcernEscalationDetails
                 {
                     ConfirmStepsTaken = true,
@@ -91,7 +95,6 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
 
             // Assert
             Assert.IsType<PageResult>(result);
-            //_mockErrorService.Verify(x => x.AddApiError(), Times.Once);
         }
 
         [Fact]
@@ -99,6 +102,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
         {
             // Arrange
             const int id = 1;
+            var engagementConcernId = Guid.NewGuid();
             _mockSupportProjectQueryService
                 .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now)));
@@ -108,7 +112,8 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
                 .ReturnsAsync(true);
 
             // Act
-            var result = await _sut.HandleEscalationPost(id,
+            var result = await _sut.HandleEscalationPost(engagementConcernId,
+                id,
                 new EngagementConcernEscalationDetails
                 {
                     ConfirmStepsTaken = true,
@@ -128,27 +133,40 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
         {
             // Arrange
             const int id = 1;
+            var engagementConcernId = Guid.NewGuid();
+            var engagementConcernDetails = "some details";
+            var engagementConcernRaisedDate = DateTime.UtcNow.AddDays(-5);
             var existingConfirmStepsTaken = true;
             var existingPrimaryReason = "Existing Reason";
             var existingDetails = "Existing Details";
             var existingDate = DateTime.Today.AddDays(-1);
+            var existingWarningNotice = "Existing Warning Notice";
 
-            var supportProjectDto = new SupportProjectDto(Id: id, CreatedOn: DateTime.Now,
+            var engagementConcernDto = new EngagementConcernDto(engagementConcernId, 
+                1, 
+                id,
+                engagementConcernDetails,
+                engagementConcernRaisedDate,
+                false,
+                null,
+                null,
                 EngagementConcernEscalationConfirmStepsTaken: existingConfirmStepsTaken,
                 EngagementConcernEscalationPrimaryReason: existingPrimaryReason,
                 EngagementConcernEscalationDetails: existingDetails,
-                EngagementConcernEscalationDateOfDecision: existingDate);
+                EngagementConcernEscalationDateOfDecision: existingDate,
+                EngagementConcernEscalationWarningNotice: existingWarningNotice);
 
             _mockSupportProjectQueryService
                 .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Result<SupportProjectDto?>.Success(supportProjectDto));
+                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now, EngagementConcerns: new[] { engagementConcernDto })));
 
             _mockMediator
                  .Setup(x => x.Send(It.IsAny<SetSupportProjectEngagementConcernEscalationCommand>(), It.IsAny<CancellationToken>()))
                  .ReturnsAsync(true);
 
             // Act
-            var result = await _sut.HandleEscalationPost(id,
+            var result = await _sut.HandleEscalationPost(engagementConcernId,
+                id,
                 new EngagementConcernEscalationDetails
                 {
                     ConfirmStepsTaken = null,

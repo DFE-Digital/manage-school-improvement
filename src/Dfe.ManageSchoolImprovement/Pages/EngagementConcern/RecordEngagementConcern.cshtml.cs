@@ -6,8 +6,10 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.
-    SetSupportProjectEngagementConcernDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
+    AddEngagementConcern;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
+    SetSupportProjectEngagementConcernEscalation;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProjectNote.SetSupportProjectEngagementConcernResolvedDetails;
 
 
@@ -23,10 +25,6 @@ public class AddEngagementConcernModel(
 
     [BindProperty(Name = "engagement-concern-details")]
     public string? EngagementConcernDetails { get; set; }
-
-    [BindProperty(Name = "record-engagement-concern")]
-    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
-    public bool? RecordEngagementConcern { get; set; }
 
     public DateTime? DateEngagementConcernRaised { get; set; }
 
@@ -55,10 +53,6 @@ public class AddEngagementConcernModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        EngagementConcernDetails = SupportProject.EngagementConcernDetails;
-        MarkConcernResolved = SupportProject.EngagementConcernResolved;
-        ResolutionDetails = SupportProject.EngagementConcernResolvedDetails;
-
         return Page();
     }
 
@@ -83,14 +77,15 @@ public class AddEngagementConcernModel(
             return Page();
         }
 
-        TempData["EngagementConcernRecorded"] = SupportProject.EngagementConcernDetails != EngagementConcernDetails ||
-            SupportProject.EngagementConcernResolved != MarkConcernResolved ||
-            SupportProject.EngagementConcernResolvedDetails != ResolutionDetails;
+        TempData["EngagementConcernRecorded"] = true;
 
-        DateEngagementConcernRaised = SupportProject.EngagementConcernRaisedDate ?? dateTimeProvider.Now;
+        DateEngagementConcernRaised = dateTimeProvider.Now;
 
-        var request = new SetSupportProjectEngagementConcernDetailsCommand(new SupportProjectId(id),
-            true, EngagementConcernDetails, DateEngagementConcernRaised);
+        var request = new AddEngagementConcernCommand(new SupportProjectId(id),
+            EngagementConcernDetails, DateEngagementConcernRaised,
+        MarkConcernResolved,
+        MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
+        MarkConcernResolved is null || MarkConcernResolved is false ? null : dateTimeProvider.Now);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -101,20 +96,19 @@ public class AddEngagementConcernModel(
             return Page();
         }
 
-        var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
-                new SupportProjectId(id),
-                MarkConcernResolved,
-                MarkConcernResolved is null || MarkConcernResolved is false ? null : ResolutionDetails,
-                MarkConcernResolved is null || MarkConcernResolved is false ? null : dateTimeProvider.Now);
+//         var resolveRequest = new SetSupportProjectEngagementConcernResolvedDetailsCommand(
+//                 // new EngagementConcernId(EngagementConcernId), 
+//                 new SupportProjectId(id),
+// );
 
-        var resolveResult = await mediator.Send(resolveRequest, cancellationToken);
+        // var resolveResult = await mediator.Send(resolveRequest, cancellationToken);
 
-        if (!resolveResult)
-        {
-            _errorService.AddApiError();
-            await base.GetSupportProject(id, cancellationToken);
-            return Page();
-        }
+        // if (!resolveResult)
+        // {
+        //     _errorService.AddApiError();
+        //     await base.GetSupportProject(id, cancellationToken);
+        //     return Page();
+        // }
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

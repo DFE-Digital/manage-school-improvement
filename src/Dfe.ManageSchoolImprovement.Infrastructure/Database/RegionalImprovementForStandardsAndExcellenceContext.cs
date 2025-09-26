@@ -43,6 +43,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<ImprovementPlanObjective>(ConfigureImprovementPlanObjective);
         modelBuilder.Entity<ImprovementPlanReview>(ConfigureImprovementPlanReview);
         modelBuilder.Entity<ImprovementPlanObjectiveProgress>(ConfigureImprovementPlanObjectiveProgress);
+        modelBuilder.Entity<EngagementConcern>(ConfigureEngagementConcerns);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -77,6 +78,12 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
 
         supportProjectConfiguration
             .HasMany(a => a.ImprovementPlans)
+            .WithOne()
+            .HasForeignKey(SupportProjectForeignKeyName)
+            .IsRequired();
+        
+        supportProjectConfiguration
+            .HasMany(a => a.EngagementConcerns)
             .WithOne()
             .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
@@ -182,6 +189,17 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey("ImprovementPlanReviewId")
             .IsRequired();
+    }
+    
+    private static void ConfigureEngagementConcerns(EntityTypeBuilder<EngagementConcern> builder)
+    {
+        builder.ToTable("EngagementConcerns", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new EngagementConcernId(v));
     }
 
 

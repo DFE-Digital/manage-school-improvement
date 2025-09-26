@@ -68,6 +68,9 @@ public class EscalateEngagementConcernModel(
     public bool? CompleteForm { get; set; }
     
     public bool? ConfirmStepsTaken { get; set; }
+    
+    [BindProperty]
+    public Guid EngagementConcernId { get; set; }
     public bool ShowError => _errorService.HasErrors();
     
     public static string BeforeUsingNoticeError => "before-using-notice";
@@ -83,13 +86,21 @@ public class EscalateEngagementConcernModel(
     public bool ShowIssuingNoticeError => ModelState.ContainsKey(IssuingNoticeError) && ModelState[IssuingNoticeError]?.Errors.Count > 0;
 
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, Guid engagementconcernid, CancellationToken cancellationToken)
     {
         ReturnPage = Links.EngagementConcern.Index.Page;
         
         await base.GetSupportProject(id, cancellationToken);
+        
+        EngagementConcernId = engagementconcernid;
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);
 
-        ConfirmStepsTaken = SupportProject.EngagementConcernEscalationConfirmStepsTaken;
+        if (engagementConcern != null)
+        {
+            ConfirmStepsTaken = engagementConcern.EngagementConcernEscalationConfirmStepsTaken;
+        }
+        
         
         return Page();
     }
@@ -125,10 +136,11 @@ public class EscalateEngagementConcernModel(
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-
-        // ConfirmStepsTaken = true;
+        
+        await base.GetSupportProject(id, cancellationToken);
         
         return await HandleEscalationPost(
+            EngagementConcernId,
             id,
             new EngagementConcernEscalationDetails
                 {
@@ -137,11 +149,11 @@ public class EscalateEngagementConcernModel(
             changeLinkClicked: false,
             cancellationToken: cancellationToken);
         
-        return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id, ConfirmStepsTaken });
+        return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id, EngagementConcernId, ConfirmStepsTaken });
     }
     
     protected internal override IActionResult GetDefaultRedirect(int id, object? routeValues = default)
     {
-        return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id });
+        return RedirectToPage(@Links.EngagementConcern.ReasonForEscalation.Page, new { id, engagementConcernId=EngagementConcernId });
     }
 }

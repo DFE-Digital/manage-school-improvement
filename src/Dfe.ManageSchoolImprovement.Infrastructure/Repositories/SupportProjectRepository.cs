@@ -173,6 +173,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.ImprovementPlans)
                 .ThenInclude(x => x.ImprovementPlanReviews)
                 .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .Include(x => x.EngagementConcerns)
                 .AsQueryable();
         }
 
