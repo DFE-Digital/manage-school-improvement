@@ -21,6 +21,9 @@ export default defineConfig({
     },
   },
   e2e: {
+    experimentalMemoryManagement: true,  // helps clear renderer memory
+    numTestsKeptInMemory: 0,             // reduces memory footprint
+    
     setupNodeEvents(on, config) {
 
       on("before:run", () => {
