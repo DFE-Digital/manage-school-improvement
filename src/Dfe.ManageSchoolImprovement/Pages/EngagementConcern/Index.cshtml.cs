@@ -19,8 +19,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [TempData]
     public bool? EngagementConcernUpdated { get; set; }
     
-    // public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
-    
     [TempData]
     public bool? InformationPowersRecorded { get; set; }
 
