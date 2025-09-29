@@ -23,7 +23,9 @@
             Record engagement concern
         </h1>
         <form method="post">
-            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error" : "")">
+            <div class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error" : "")"
+                 data-module="govuk-character-count"
+                 data-maxlength="200">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
                     Concern summary
                 </label>
@@ -37,9 +39,12 @@
                         <span class="govuk-visually-hidden">Error:</span> You must enter a summary
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-textarea--error" : "")"
+                <textarea class="govuk-textarea govuk-js-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-textarea--error" : "")"
                           id="engagement-concern-summary" name="engagement-concern-summary"
                           rows="3">@Model.EngagementConcernSummary</textarea>
+                <div id="engagement-concern-summary-info" class="govuk-hint govuk-character-count__message">
+                    You can enter up to 200 characters
+                </div>
             </div>
             <div class="govuk-form-group @(Model.ShowRecordEngagementConcernDetailsError ? "govuk-form-group--error" : "")">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-details">

@@ -559,13 +559,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     public void AddEngagementConcern(EngagementConcernId engagementConcernId, SupportProjectId supportProjectId,
-        string? engagementConcernDetails, string? engagementConcernSummary, DateTime? engagementConcernRaisedDate,
-        bool? engagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+        EngagementConcernDetails? engagementConcernDetails)
     {
-        _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId,
-            engagementConcernDetails, engagementConcernSummary, engagementConcernRaisedDate,
-            engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate
-        ));
+        if (engagementConcernDetails != null)
+            _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId,
+                engagementConcernDetails
+            ));
     }
 
     public void EditEngagementConcern(EngagementConcernId engagementConcernId,

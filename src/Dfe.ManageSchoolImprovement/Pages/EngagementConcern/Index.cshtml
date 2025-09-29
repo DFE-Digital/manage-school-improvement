@@ -91,7 +91,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @if (Model.EngagementConcerns.Count() > 0)
+        @if (Model.EngagementConcerns.Count > 0)
         {
             @foreach (var concern in Model.EngagementConcerns)
             {
@@ -133,12 +133,19 @@
                             <dl class="govuk-summary-list">
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key">
+                                        Summary of the concern
+                                    </dt>
+                                    <dd class="govuk-summary-list__value">
+                                        @concern.EngagementConcernSummary
+                                    </dd>
+                                </div>
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">
                                         Details of the concern
                                     </dt>
                                     <dd class="govuk-summary-list__value">
                                         @concern.EngagementConcernDetails
                                     </dd>
-
                                 </div>
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key">
@@ -146,18 +153,18 @@
                                     </dt>
                                     <dd class="govuk-summary-list__value">
                                         @((concern.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
-                                              !string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
-                                              !string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
-                                              concern.EngagementConcernEscalationDateOfDecision.HasValue
+                                          !string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
+                                          !string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
+                                          concern.EngagementConcernEscalationDateOfDecision.HasValue
                                             ? @concern.EngagementConcernEscalationDateOfDecision.ToDateString()
                                             : "No")
                                     </dd>
                                 </div>
 
                                 @if ((concern.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
-                                         !string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
-                                         !string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
-                                         concern.EngagementConcernEscalationDateOfDecision.HasValue)
+                                     !string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
+                                     !string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
+                                     concern.EngagementConcernEscalationDateOfDecision.HasValue)
                                 {
                                     <div class="govuk-summary-list__row">
                                         <dt class="govuk-summary-list__key">

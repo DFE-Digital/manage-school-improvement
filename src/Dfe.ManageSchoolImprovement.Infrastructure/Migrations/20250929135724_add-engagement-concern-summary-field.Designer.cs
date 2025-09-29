@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    [Migration("20250929082808_add-engagement-concern-summary-field")]
+    [Migration("20250929135724_add-engagement-concern-summary-field")]
     partial class addengagementconcernsummaryfield
     {
         /// <inheritdoc />
