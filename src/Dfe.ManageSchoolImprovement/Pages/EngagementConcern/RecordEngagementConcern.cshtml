@@ -59,12 +59,13 @@
                           id="engagement-concern-details" name="engagement-concern-details"
                           rows="5">@Model.EngagementConcernDetails</textarea>
             </div>
-
+            <div class="govuk-form-group">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                    <h2 class="govuk-heading-m">Resolve concern</h2>
+                    <h1 class="govuk-fieldset__heading">Mark this engagement concern as resolved</h1>
                 </legend>
 
+                
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
                         <input name="mark-concern-resolved-hidden" type="hidden" value="false"/>
@@ -97,6 +98,7 @@
                 </div>
 
             </fieldset>
+            </div>
 
             <div class="govuk-button-group govuk-body">
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">

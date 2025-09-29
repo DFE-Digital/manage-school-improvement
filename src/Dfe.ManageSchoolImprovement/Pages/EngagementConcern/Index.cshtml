@@ -14,8 +14,8 @@
 {
     <a asp-page="@Model.ReturnPage" class="govuk-back-link" data-cy="back-link">@Links.SchoolList.Index.BackText</a>
     @if (Model.EngagementConcernRecorded is true || Model.EngagementConcernUpdated is true || Model.EngagementConcernRemoved is true
-                     || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
-                     || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
+         || Model.InformationPowersRecorded is true || Model.InformationPowersRemoved is true || Model.InformationPowersUpdated is true
+         || Model.InterimExecutiveBoardRecorded is true || Model.InterimExecutiveBoardRemoved is true || Model.InterimExecutiveBoardUpdated is true || Model.InterimExecutiveBoardDateUpdated is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
              aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -42,7 +42,7 @@
     }
 }
 
-<partial name="_ProjectHeader" model="Model.SupportProject" />
+<partial name="_ProjectHeader" model="Model.SupportProject"/>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-l">Engagement concerns</h2>
@@ -61,7 +61,8 @@
         {
             <div class="govuk-button-group">
                 <div class="govuk-!-margin-top-5">
-                    <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.SupportProject.Id"
+                    <a asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page"
+                       asp-route-id="@Model.SupportProject.Id"
                        role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button"
                        data-cy="record-engagement-concern-button">
                         Record engagement concern
@@ -81,218 +82,222 @@
                            data-cy="record-ieb-btn">
                             Record use of interim executive board
                         </a>
-
                     }
                 </div>
             </div>
-            @if (Model.EngagementConcerns.Count() > 0)
+        }
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @if (Model.EngagementConcerns.Count() > 0)
+        {
+            @foreach (var concern in Model.EngagementConcerns)
             {
-                @foreach (var concern in Model.EngagementConcerns)
-                {
-                    <form method="post">
-                        <h2 class="govuk-heading-m">Concern raised @concern.EngagementConcernRaisedDate.ToDateString()</h2>
-                        <div class="govuk-summary-card">
-                            <div class="govuk-summary-card__title-wrapper">
-                                <h2 class="govuk-summary-card__title">
-                                    Engagement concern
-                                </h2>
-                                <ul class="govuk-summary-list__action-list">
+                <form method="post">
+                    <h2 class="govuk-heading-m">Concern raised @concern.EngagementConcernRaisedDate.ToDateString()</h2>
+                    <div class="govuk-summary-card">
+                        <div class="govuk-summary-card__title-wrapper">
+                            <h2 class="govuk-summary-card__title">
+                                Engagement concern
+                            </h2>
+                            <ul class="govuk-summary-list__action-list">
+                                <li class="govuk-summary-list__actions-list-item">
+                                    <a class="govuk-link"
+                                       asp-page="@Links.EngagementConcern.ChangeEngagementConcern.Page"
+                                       asp-route-id="@Model.SupportProject.Id"
+                                       asp-route-engagementconcernid="@concern.Id.Value"
+                                       data-cy="engagement-concern-change-link">
+                                        Change<span class="govuk-visually-hidden">Change</span>
+                                    </a>
+                                </li>
+                                @if (concern.EngagementConcernEscalationConfirmStepsTaken != true ||
+                                     string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) ||
+                                     string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) ||
+                                     !concern.EngagementConcernEscalationDateOfDecision.HasValue)
+                                {
                                     <li class="govuk-summary-list__actions-list-item">
                                         <a class="govuk-link"
-                                           asp-page="@Links.EngagementConcern.ChangeEngagementConcern.Page"
+                                           asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page"
                                            asp-route-id="@Model.SupportProject.Id"
                                            asp-route-engagementconcernid="@concern.Id.Value"
-                                           data-cy="engagement-concern-change-link">
-                                            Change<span class="govuk-visually-hidden">Change</span>
+                                           data-cy="engagement-concern-escalate-link">
+                                            Escalate<span class="govuk-visually-hidden">Escalate</span>
                                         </a>
                                     </li>
-                                    @if (concern.EngagementConcernEscalationConfirmStepsTaken != true ||
-                                         string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) ||
-                                         string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) ||
-                                         !concern.EngagementConcernEscalationDateOfDecision.HasValue)
-                                    {
-                                        <li class="govuk-summary-list__actions-list-item">
-                                            <a class="govuk-link"
-                                               asp-page="@Links.EngagementConcern.EscalateEngagementConcern.Page"
-                                               asp-route-id="@Model.SupportProject.Id"
-                                               asp-route-engagementconcernid="@concern.Id.Value"
-                                               data-cy="engagement-concern-escalate-link">
-                                                Escalate<span class="govuk-visually-hidden">Escalate</span>
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                            <div class="govuk-summary-card__content">
-                                <dl class="govuk-summary-list">
-                                    <div class="govuk-summary-list__row">
-                                        <dt class="govuk-summary-list__key">
-                                            Details of the concern
-                                        </dt>
-                                        <dd class="govuk-summary-list__value">
-                                            @concern.EngagementConcernDetails
-                                        </dd>
+                                }
+                            </ul>
+                        </div>
+                        <div class="govuk-summary-card__content">
+                            <dl class="govuk-summary-list">
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">
+                                        Details of the concern
+                                    </dt>
+                                    <dd class="govuk-summary-list__value">
+                                        @concern.EngagementConcernDetails
+                                    </dd>
 
-                                    </div>
-                                    <div class="govuk-summary-list__row">
-                                        <dt class="govuk-summary-list__key">
-                                            Escalated
-                                        </dt>
-                                        <dd class="govuk-summary-list__value">
-                                            @((concern.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
+                                </div>
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">
+                                        Escalated
+                                    </dt>
+                                    <dd class="govuk-summary-list__value">
+                                        @((concern.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
                                               !string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
                                               !string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
                                               concern.EngagementConcernEscalationDateOfDecision.HasValue
-                                                ? @concern.EngagementConcernEscalationDateOfDecision.ToDateString()
-                                                : "No")
-                                        </dd>
-                                    </div>
+                                            ? @concern.EngagementConcernEscalationDateOfDecision.ToDateString()
+                                            : "No")
+                                    </dd>
+                                </div>
 
-                                    @if ((concern.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
+                                @if ((concern.EngagementConcernEscalationConfirmStepsTaken ?? false) &&
                                          !string.IsNullOrEmpty(concern.EngagementConcernEscalationPrimaryReason) &&
                                          !string.IsNullOrEmpty(concern.EngagementConcernEscalationDetails) &&
                                          concern.EngagementConcernEscalationDateOfDecision.HasValue)
-                                    {
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">
-                                                Primary reason for escalation
-                                            </dt>
-                                            <dd class="govuk-summary-list__value">
-                                                @concern.EngagementConcernEscalationPrimaryReason
-                                            </dd>
-                                        </div>
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">
-                                                Details of escalation
-                                            </dt>
-                                            <dd class="govuk-summary-list__value">
-                                                @concern.EngagementConcernEscalationDetails
-                                            </dd>
-                                        </div>
-                                    }
-                                    @if (concern.EngagementConcernResolved is false or null)
-                                    {
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">
-                                                Resolved
-                                            </dt>
-                                            <dd class="govuk-summary-list__value">
-                                                No
-                                            </dd>
-                                        </div>
-                                    }
-                                    @if (concern.EngagementConcernResolved is true)
-                                    {
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">
-                                                Resolved
-                                            </dt>
-                                            <dd class="govuk-summary-list__value">
-                                                @concern.EngagementConcernResolvedDate.ToDateString()
-                                            </dd>
-                                            <dd class="govuk-summary-list__actions">
-                                            </dd>
-                                        </div>
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">
-                                                Details of resolution
-                                            </dt>
-                                            <dd class="govuk-summary-list__value">
-                                                @concern.EngagementConcernResolvedDetails
-                                            </dd>
-                                            <dd class="govuk-summary-list__actions">
-                                            </dd>
-                                        </div>
-                                    }
-                                </dl>
-                            </div>
+                                {
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Primary reason for escalation
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            @concern.EngagementConcernEscalationPrimaryReason
+                                        </dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Details of escalation
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            @concern.EngagementConcernEscalationDetails
+                                        </dd>
+                                    </div>
+                                }
+                                @if (concern.EngagementConcernResolved is false or null)
+                                {
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Resolved
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            No
+                                        </dd>
+                                    </div>
+                                }
+                                @if (concern.EngagementConcernResolved is true)
+                                {
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Resolved
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            @concern.EngagementConcernResolvedDate.ToDateString()
+                                        </dd>
+                                        <dd class="govuk-summary-list__actions">
+                                        </dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Details of resolution
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            @concern.EngagementConcernResolvedDetails
+                                        </dd>
+                                        <dd class="govuk-summary-list__actions">
+                                        </dd>
+                                    </div>
+                                }
+                            </dl>
                         </div>
-                    </form>
-                }
+                    </div>
+                </form>
             }
+        }
 
-            @if (Model.SupportProject.InterimExecutiveBoardCreated is true)
-            {
-                <div class="govuk-summary-card">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">
-                            Interim executive board
-                        </h2>
-                        <ul class="govuk-summary-list__action-list">
-                            <li class="govuk-summary-list__actions-list-item">
-                                <a
-                                    asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
-                                    asp-route-id="@Model.SupportProject.Id"
-                                    class="govuk-link"
-                                    data-cy="ieb-created-change-link">
-                                    Change
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="govuk-summary-card__content">
-                        <dl class="govuk-summary-list">
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Date used
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.InterimExecutiveBoardCreatedDate.ToDateString()
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Details
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.InterimExecutiveBoardCreatedDetails
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
+        @if (Model.SupportProject.InterimExecutiveBoardCreated is true)
+        {
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">
+                        Interim executive board
+                    </h2>
+                    <ul class="govuk-summary-list__action-list">
+                        <li class="govuk-summary-list__actions-list-item">
+                            <a
+                                asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
+                                asp-route-id="@Model.SupportProject.Id"
+                                class="govuk-link"
+                                data-cy="ieb-created-change-link">
+                                Change
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            }
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Date used
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.SupportProject.InterimExecutiveBoardCreatedDate.ToDateString()
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Details
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.SupportProject.InterimExecutiveBoardCreatedDetails
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        }
 
-            @if (Model.SupportProject.InformationPowersInUse is true)
-            {
-                <div class="govuk-summary-card">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">
-                            Information powers
-                        </h2>
-                        <ul class="govuk-summary-list__action-list">
-                            <li class="govuk-summary-list__actions-list-item">
-                                <a asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
-                                   asp-route-id="@Model.SupportProject.Id"
-                                   class="govuk-link"
-                                   data-cy="information-powers-change-link">
-                                    Change
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="govuk-summary-card__content">
-                        <dl class="govuk-summary-list">
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Date used
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.PowersUsedDate.ToDateString()
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Details
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.InformationPowersDetails
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
+        @if (Model.SupportProject.InformationPowersInUse is true)
+        {
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">
+                        Information powers
+                    </h2>
+                    <ul class="govuk-summary-list__action-list">
+                        <li class="govuk-summary-list__actions-list-item">
+                            <a asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
+                               asp-route-id="@Model.SupportProject.Id"
+                               class="govuk-link"
+                               data-cy="information-powers-change-link">
+                                Change
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            }
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Date used
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.SupportProject.PowersUsedDate.ToDateString()
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Details
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.SupportProject.InformationPowersDetails
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
         }
     </div>
 </div>
