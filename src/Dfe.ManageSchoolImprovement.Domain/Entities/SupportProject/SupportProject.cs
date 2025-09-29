@@ -125,8 +125,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
-
-
+    
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }

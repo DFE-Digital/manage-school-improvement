@@ -154,6 +154,52 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                 schema: "RISE",
                 table: "EngagementConcerns",
                 column: "SupportProjectId");
+            
+                        migrationBuilder.Sql(@"
+                DECLARE @SupportProjectId INT;
+
+                DECLARE RowCursor CURSOR FOR
+                SELECT Id
+                FROM Rise.SupportProject
+                WHERE EngagementConcernRecorded is not null;
+
+                OPEN RowCursor;
+
+                FETCH NEXT FROM RowCursor INTO @SupportProjectId;
+
+                WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    -- Process each row
+                    insert into rise.engagementConcerns (Id, SupportProjectId, CreatedOn, CreatedBy) values(NEWID(), @SupportProjectId, GETDATE(), 'System');
+
+                    FETCH NEXT FROM RowCursor INTO @SupportProjectId;
+                END;
+
+                CLOSE RowCursor;
+                DEALLOCATE RowCursor;
+            ");           
+
+ migrationBuilder.Sql(@"
+                UPDATE RISE.EngagementConcerns
+
+                SET
+                EngagementConcerns.EngagementConcernDetails=SupportProject.EngagementConcernDetails,
+                EngagementConcerns.EngagementConcernRaisedDate=SupportProject.EngagementConcernRaisedDate,
+                EngagementConcerns.EngagementConcernResolved=SupportProject.EngagementConcernResolved,
+                EngagementConcerns.EngagementConcernResolvedDetails=SupportProject.EngagementConcernResolvedDetails,
+                EngagementConcerns.EngagementConcernResolvedDate=SupportProject.EngagementConcernResolvedDate,
+                EngagementConcerns.EngagementConcernEscalationConfirmStepsTaken=SupportProject.EngagementConcernEscalationConfirmStepsTaken,
+                EngagementConcerns.EngagementConcernEscalationPrimaryReason=SupportProject.EngagementConcernEscalationPrimaryReason,
+                EngagementConcerns.EngagementConcernEscalationDetails=SupportProject.EngagementConcernEscalationDetails,
+                EngagementConcerns.EngagementConcernEscalationDateOfDecision=SupportProject.EngagementConcernEscalationDateOfDecision,
+                EngagementConcerns.EngagementConcernEscalationWarningNotice=SupportProject.EngagementConcernEscalationWarningNotice
+
+                FROM RISE.EngagementConcerns
+
+                INNER JOIN RISE.SupportProject
+
+                ON  EngagementConcerns.SupportProjectId=SupportProject.Id;
+            ");
         }
 
         /// <inheritdoc />

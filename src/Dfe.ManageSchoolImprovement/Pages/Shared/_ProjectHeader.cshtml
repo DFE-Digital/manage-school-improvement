@@ -2,6 +2,7 @@
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
 @using System.Security.Claims
 @using System.Globalization
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 @{
     DateTime createdDate = @Model.CreatedOn;
@@ -12,12 +13,14 @@
         lastInspectionDate = DateTime.ParseExact(Model.LastInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
     }
 
+    var engagementConcerns = new List<EngagementConcernViewModel>(Model.EngagementConcerns);
+
     bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
     bool deliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
     var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
     var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
-    bool engagementConcern = Model.EngagementConcernRecorded ?? false;
+    bool engagementConcern = engagementConcerns.Any();
 }
 
 <div class="govuk-grid-row">
