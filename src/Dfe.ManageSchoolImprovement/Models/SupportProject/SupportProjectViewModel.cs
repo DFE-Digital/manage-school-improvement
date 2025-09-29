@@ -167,10 +167,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? PreviousUrn { get; set; }
         public bool? CaseStudyCandidate { get; set; }
         public string? CaseStudyDetails { get; set; }
-
-        public bool? EngagementConcernRecorded { get; set; }
-
-        public string? EngagementConcernDetails { get; set; }
         public bool? IncludeContactDetails { get; set; }
 
         public bool? AttachSchoolImprovementPlan { get; set; }
@@ -178,21 +174,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? CopyInRegionalDirector { get; set; }
 
         public bool? SendEmailToGrantTeam { get; set; }
-
-        public bool? EngagementConcernEscalationConfirmStepsTaken { get; set; }
-
-        public string? EngagementConcernEscalationPrimaryReason { get; set; }
-
-        public string? EngagementConcernEscalationDetails { get; set; }
-
-        public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
-        
-        public string? EngagementConcernEscalationWarningNotice { get; set; }
-
-        public DateTime? EngagementConcernRaisedDate { get; set; }
-        public DateTime? EngagementConcernResolvedDate { get; set; }
-        public string? EngagementConcernResolvedDetails { get; set; }
-        public bool? EngagementConcernResolved { get; set; }
         
         public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
 
@@ -294,18 +275,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 FundingHistories = supportProjectDto.FundingHistories?.Select(x => FundingHistoryViewModel.Create(x)) ?? new List<FundingHistoryViewModel>(),
                 CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
                 CaseStudyDetails = supportProjectDto.CaseStudyDetails,
-                EngagementConcernRecorded = supportProjectDto.EngagementConcernRecorded,
-                EngagementConcernDetails = supportProjectDto.EngagementConcernDetails,
                 IncludeContactDetails = supportProjectDto.IncludeContactDetails,
                 AttachSchoolImprovementPlan = supportProjectDto.AttachSchoolImprovementPlan,
                 CopyInRegionalDirector = supportProjectDto.CopyInRegionalDirector,
                 SendEmailToGrantTeam = supportProjectDto.SendEmailToGrantTeam,
-                EngagementConcernEscalationConfirmStepsTaken = supportProjectDto.EngagementConcernEscalationConfirmStepsTaken,
-                EngagementConcernEscalationPrimaryReason = supportProjectDto.EngagementConcernEscalationPrimaryReason,
-                EngagementConcernEscalationDetails = supportProjectDto.EngagementConcernEscalationDetails,
-                EngagementConcernEscalationDateOfDecision = supportProjectDto.EngagementConcernEscalationDateOfDecision,
-                EngagementConcernEscalationWarningNotice = supportProjectDto.EngagementConcernEscalationWarningNotice,
-                EngagementConcernRaisedDate = supportProjectDto.EngagementConcernRaisedDate,
                 InformationPowersInUse = supportProjectDto.InformationPowersInUse,
                 InformationPowersDetails = supportProjectDto.InformationPowersDetails,
                 PowersUsedDate = supportProjectDto.PowersUsedDate,
@@ -318,9 +291,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 InterimExecutiveBoardCreated = supportProjectDto.InterimExecutiveBoardCreated,
                 InterimExecutiveBoardCreatedDetails = supportProjectDto.InterimExecutiveBoardCreatedDetails,
                 InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate,
-                EngagementConcernResolved = supportProjectDto.EngagementConcernResolved,
-                EngagementConcernResolvedDate = supportProjectDto.EngagementConcernResolvedDate,
-                EngagementConcernResolvedDetails = supportProjectDto.EngagementConcernResolvedDetails,
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>()
             };
         }
