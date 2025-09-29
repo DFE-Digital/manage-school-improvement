@@ -13,7 +13,13 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? EngagementConcernEscalationPrimaryReason,
         string? EngagementConcernEscalationDetails,
         DateTime? EngagementConcernEscalationDateOfDecision,
-        string? EngagementConcernEscalationWarningNotice
+        string? EngagementConcernEscalationWarningNotice,
+        bool? InformationPowersInUse = null,
+        string? InformationPowersDetails = null,
+        DateTime? PowersUsedDate = null,
+        bool? InterimExecutiveBoardCreated = null,
+        string? InterimExecutiveBoardCreatedDetails = null,
+        DateTime? InterimExecutiveBoardCreatedDate = null
     )
     {
     }

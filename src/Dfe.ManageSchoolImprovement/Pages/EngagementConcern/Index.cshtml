@@ -207,91 +207,90 @@
                                 </dl>
                             </div>
                         </div>
+                        @if (concern.InterimExecutiveBoardCreated is true)
+                        {
+                            <div class="govuk-summary-card">
+                                <div class="govuk-summary-card__title-wrapper">
+                                    <h2 class="govuk-summary-card__title">
+                                        Interim executive board
+                                    </h2>
+                                    <ul class="govuk-summary-list__action-list">
+                                        <li class="govuk-summary-list__actions-list-item">
+                                            <a asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
+                                               asp-route-id="@Model.SupportProject.Id"
+                                               class="govuk-link"
+                                               data-cy="ieb-created-change-link">
+                                                Change
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="govuk-summary-card__content">
+                                    <dl class="govuk-summary-list">
+                                        <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">
+                                                Date used
+                                            </dt>
+                                            <dd class="govuk-summary-list__value">
+                                                @concern.InterimExecutiveBoardCreatedDate.ToDateString()
+                                            </dd>
+                                        </div>
+                                        <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">
+                                                Details
+                                            </dt>
+                                            <dd class="govuk-summary-list__value">
+                                                @concern.InterimExecutiveBoardCreatedDetails
+                                            </dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                        }
+
+                        @if (concern.InformationPowersInUse is true)
+                        {
+                            <div class="govuk-summary-card">
+                                <div class="govuk-summary-card__title-wrapper">
+                                    <h2 class="govuk-summary-card__title">
+                                        Information powers
+                                    </h2>
+                                    <ul class="govuk-summary-list__action-list">
+                                        <li class="govuk-summary-list__actions-list-item">
+                                            <a asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
+                                               asp-route-id="@Model.SupportProject.Id"
+                                               class="govuk-link"
+                                               data-cy="information-powers-change-link">
+                                                Change
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="govuk-summary-card__content">
+                                    <dl class="govuk-summary-list">
+                                        <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">
+                                                Date used
+                                            </dt>
+                                            <dd class="govuk-summary-list__value">
+                                                @concern.PowersUsedDate.ToDateString()
+                                            </dd>
+                                        </div>
+                                        <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">
+                                                Details
+                                            </dt>
+                                            <dd class="govuk-summary-list__value">
+                                                @concern.InformationPowersDetails
+                                            </dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                        }
                     </form>
                 }
-            }
 
-            @if (Model.SupportProject.InterimExecutiveBoardCreated is true)
-            {
-                <div class="govuk-summary-card">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">
-                            Interim executive board
-                        </h2>
-                        <ul class="govuk-summary-list__action-list">
-                            <li class="govuk-summary-list__actions-list-item">
-                                <a
-                                    asp-page="@Links.EngagementConcern.ChangeUseOfInterimExecutiveBoard.Page"
-                                    asp-route-id="@Model.SupportProject.Id"
-                                    class="govuk-link"
-                                    data-cy="ieb-created-change-link">
-                                    Change
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="govuk-summary-card__content">
-                        <dl class="govuk-summary-list">
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Date used
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.InterimExecutiveBoardCreatedDate.ToDateString()
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Details
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.InterimExecutiveBoardCreatedDetails
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
-                </div>
-            }
-
-            @if (Model.SupportProject.InformationPowersInUse is true)
-            {
-                <div class="govuk-summary-card">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">
-                            Information powers
-                        </h2>
-                        <ul class="govuk-summary-list__action-list">
-                            <li class="govuk-summary-list__actions-list-item">
-                                <a asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
-                                   asp-route-id="@Model.SupportProject.Id"
-                                   class="govuk-link"
-                                   data-cy="information-powers-change-link">
-                                    Change
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="govuk-summary-card__content">
-                        <dl class="govuk-summary-list">
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Date used
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.PowersUsedDate.ToDateString()
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Details
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.SupportProject.InformationPowersDetails
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
-                </div>
             }
         }
     </div>

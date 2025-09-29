@@ -2,7 +2,6 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -34,26 +33,32 @@ public class RecordInterimExecutiveBoardDateModel(
         return $"You must enter a date";
     }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
         ReturnPage = @Links.EngagementConcern.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        
-        InterimExecutiveBoardCreatedDate = SupportProject.InterimExecutiveBoardCreatedDate;
+
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern != null)
+        {
+            InterimExecutiveBoardCreatedDate = engagementConcern.InterimExecutiveBoardCreatedDate;
+        }
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id,
+        int readableEngagementConcernId,
         bool? interimExecutiveBoardCreated,
         string? interimExecutiveBoardCreatedDetails,
         CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
+
         if (!InterimExecutiveBoardCreatedDate.HasValue)
         {
             ModelState.AddModelError("ieb-created-date", "You must enter a date");
@@ -65,24 +70,31 @@ public class RecordInterimExecutiveBoardDateModel(
             if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
         }
 
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern?.Id == null)
+        {
+            throw new InvalidOperationException($"Engagement concern with readable ID {readableEngagementConcernId} not found");
+        }
 
         var request = new SetSupportProjectIebDetailsCommand(
+            engagementConcern.Id,
             new SupportProjectId(id),
             interimExecutiveBoardCreated,
             interimExecutiveBoardCreatedDetails,
             InterimExecutiveBoardCreatedDate);
-        
+
         var result = await mediator.Send(request, cancellationToken);
-        
+
         if (!result)
         {
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-        
-        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && interimExecutiveBoardCreated == true;
-        TempData["InterimExecutiveBoardDateUpdated"] = SupportProject.InterimExecutiveBoardCreatedDate is not null && SupportProject.InterimExecutiveBoardCreatedDate != InterimExecutiveBoardCreatedDate;
+
+        TempData["InterimExecutiveBoardRecorded"] = (engagementConcern.InterimExecutiveBoardCreated == null || engagementConcern.InterimExecutiveBoardCreated == false) && interimExecutiveBoardCreated == true;
+        TempData["InterimExecutiveBoardDateUpdated"] = engagementConcern.InterimExecutiveBoardCreatedDate is not null && engagementConcern.InterimExecutiveBoardCreatedDate != InterimExecutiveBoardCreatedDate;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

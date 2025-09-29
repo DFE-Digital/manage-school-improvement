@@ -1,4 +1,3 @@
-using System.Collections;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
@@ -101,18 +100,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? EngagementConcernResolved = null,
         string? EngagementConcernResolvedDetails = null,
         DateTime? EngagementConcernResolvedDate = null,
-        bool? InformationPowersInUse = null,
-        string? InformationPowersDetails = null,
-        DateTime? PowersUsedDate = null,
         bool? AssessmentToolTwoCompleted = null,
         bool? IndicativeFundingBandCalculated = null,
         string? IndicativeFundingBand = null,
         bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = null,
         DateTime? DateTemplatesAndIndicativeFundingBandSent = null,
         IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
-        bool? InterimExecutiveBoardCreated = null,
-        string? InterimExecutiveBoardCreatedDetails = null,
-        DateTime? InterimExecutiveBoardCreatedDate = null,
         IEnumerable<EngagementConcernDto> EngagementConcerns = null!
     )
     { }
