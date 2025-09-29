@@ -6,17 +6,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
     public class EngagementConcern : IEntity<EngagementConcernId>
     {
         public EngagementConcern(EngagementConcernId id, SupportProjectId supportProjectId,
-            EngagementConcernDetails engagementConcernDetails
+            string? engagementConcernDetails, string? engagementConcernSummary, DateTime? engagementConcernRaisedDate,
+            bool? engagementConcernResolved, string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate
             )
         {
             Id = id;
             SupportProjectId = supportProjectId;
-            EngagementConcernDetails = engagementConcernDetails.Details;
-            EngagementConcernSummary = engagementConcernDetails.Summary;
-            EngagementConcernRaisedDate = engagementConcernDetails.RaisedDate;
-            EngagementConcernResolved = engagementConcernDetails.Resolved;
-            EngagementConcernResolvedDetails = engagementConcernDetails.ResolvedDetails;
-            EngagementConcernResolvedDate = engagementConcernDetails.ResolvedDate;
+            EngagementConcernDetails = engagementConcernDetails;
+            EngagementConcernSummary = engagementConcernSummary;
+            EngagementConcernRaisedDate = engagementConcernRaisedDate;
+            EngagementConcernResolved = engagementConcernResolved;
+            EngagementConcernResolvedDetails = engagementConcernResolvedDetails;
+            EngagementConcernResolvedDate = engagementConcernResolvedDate;
         }
 
         public EngagementConcernId Id { get; }

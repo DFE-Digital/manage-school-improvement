@@ -30,18 +30,19 @@ public class AddEngagementConcern
             }
 
             var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
-            var details = new EngagementConcernDetails
-            {
-                Details = request.EngagementConcernDetails,
-                Summary = request.EngagementConcernSummary,
-                RaisedDate = request.EngagementConcernRaisedDate,
-                Resolved = request.EngagementConcernResolved,
-                ResolvedDetails = request.EngagementConcernResolvedDetails,
-                ResolvedDate = request.EngagementConcernResolvedDate,
-            };
+            // var details = new EngagementConcernDetails
+            // {
+            //     Details = request.EngagementConcernDetails,
+            //     Summary = request.EngagementConcernSummary,
+            //     RaisedDate = request.EngagementConcernRaisedDate,
+            //     Resolved = request.EngagementConcernResolved,
+            //     ResolvedDetails = request.EngagementConcernResolvedDetails,
+            //     ResolvedDate = request.EngagementConcernResolvedDate,
+            // };
 
             supportProject.AddEngagementConcern(engagementConcernId, request.SupportProjectId,
-                details);
+                request.EngagementConcernDetails, request.EngagementConcernSummary, request.EngagementConcernRaisedDate,
+                request.EngagementConcernResolved, request.EngagementConcernResolvedDetails, request.EngagementConcernResolvedDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

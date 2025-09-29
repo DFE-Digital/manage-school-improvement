@@ -5,6 +5,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         int ReadableId,
         int SupportProjectId,
         string? EngagementConcernDetails,
+        string? EngagementConcernSummary,
         DateTime? EngagementConcernRaisedDate,
         bool? EngagementConcernResolved,
         string? EngagementConcernResolvedDetails,
@@ -13,8 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? EngagementConcernEscalationPrimaryReason,
         string? EngagementConcernEscalationDetails,
         DateTime? EngagementConcernEscalationDateOfDecision,
-        string? EngagementConcernEscalationWarningNotice,
-        string? EngagementConcernSummary
+        string? EngagementConcernEscalationWarningNotice
     )
     {
     }
