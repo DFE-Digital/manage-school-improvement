@@ -1,22 +1,26 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 {
     public class EngagementConcern : IEntity<EngagementConcernId>
     {
+        private EngagementConcern()
+        {
+            Id = default!;
+            SupportProjectId = default!;
+        }
         public EngagementConcern(EngagementConcernId id, SupportProjectId supportProjectId,
-            string? engagementConcernDetails, DateTime? engagementConcernRaisedDate, bool? engagementConcernResolved,
-            string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+            EngagementConcernDetails engagementConcernDetails)
         {
             Id = id;
             SupportProjectId = supportProjectId;
-            EngagementConcernDetails = engagementConcernDetails;
-            EngagementConcernRaisedDate = engagementConcernRaisedDate;
-            EngagementConcernResolved = engagementConcernResolved;
-            EngagementConcernResolvedDetails = engagementConcernResolvedDetails;
-            EngagementConcernResolvedDate = engagementConcernResolvedDate;
+            EngagementConcernDetails = engagementConcernDetails.Details;
+            EngagementConcernSummary = engagementConcernDetails.Summary;
+            EngagementConcernRaisedDate = engagementConcernDetails.RaisedDate;
+            EngagementConcernResolved = engagementConcernDetails.Resolved;
+            EngagementConcernResolvedDetails = engagementConcernDetails.ResolvedDetails;
+            EngagementConcernResolvedDate = engagementConcernDetails.ResolvedDate;
         }
 
         public EngagementConcernId Id { get; }
@@ -27,6 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
         public string? EngagementConcernDetails { get; set; }
+        public string? EngagementConcernSummary { get; set; }
         public DateTime? EngagementConcernRaisedDate { get; set; }
         public bool? EngagementConcernResolved { get; set; }
         public string? EngagementConcernResolvedDetails { get; set; }
@@ -37,9 +42,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
         public string? EngagementConcernEscalationWarningNotice { get; set; }
 
-        public void SetEngagementConcernDetails(string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
+        public void SetEngagementConcernDetails(string? engagementConcernDetails, string? engagementConcernSummary, DateTime? engagementConcernRaisedDate)
         {
             EngagementConcernDetails = engagementConcernDetails;
+            EngagementConcernSummary = engagementConcernSummary;
             EngagementConcernRaisedDate = engagementConcernRaisedDate;
         }
 

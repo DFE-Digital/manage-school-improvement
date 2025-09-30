@@ -5,6 +5,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         int ReadableId,
         int SupportProjectId,
         string? EngagementConcernDetails,
+        string? EngagementConcernSummary,
         DateTime? EngagementConcernRaisedDate,
         bool? EngagementConcernResolved,
         string? EngagementConcernResolvedDetails,

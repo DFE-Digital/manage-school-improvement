@@ -13,7 +13,7 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -23,7 +23,44 @@
             Record engagement concern
         </h1>
         <form method="post">
-            <div class="govuk-form-group @(Model.ShowRecordEngagementConcernError ? "govuk-form-group--error" : "")">
+            <div
+                class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError  ? "govuk-form-group--error" : "")"
+                data-module="govuk-character-count"
+                data-maxlength="200">
+                <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
+                    Concern summary
+                </label>
+                <div id="engagement-concern-summary-hint" class="govuk-hint">
+                    Enter a short summary of your concern
+                </div>
+
+                @if (Model.ShowRecordEngagementConcernSummaryError)
+                {
+                    @if (Model.EngagementConcernSummary == null)
+                    {
+                        <p id="summary-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> You must enter a summary
+                        </p>
+                    }
+                    else
+                    {
+                        <p id="character-count-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Concern summary must be 200 characters or less
+                        </p>
+                    }
+
+                }
+                <textarea
+                    class="govuk-textarea govuk-js-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-textarea--error" : "")"
+                    id="engagement-concern-summary" name="engagement-concern-summary"
+                    rows="3">@Model.EngagementConcernSummary</textarea>
+                <div id="engagement-concern-summary-info" class="govuk-hint govuk-character-count__message">
+                    You can enter up to 200 characters
+                </div>
+            </div>
+
+            <div
+                class="govuk-form-group @(Model.ShowRecordEngagementConcernDetailsError ? "govuk-form-group--error" : "")">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-details">
                     Concern details
                 </label>
@@ -31,15 +68,16 @@
                     Enter details about your concern
                 </div>
 
-                @if (Model.ShowRecordEngagementConcernError)
+                @if (Model.ShowRecordEngagementConcernDetailsError)
                 {
                     <p id="more-detail-error" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span> You must enter concern details
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowRecordEngagementConcernError ? "govuk-textarea--error" : "")"
-                          id="engagement-concern-details" name="engagement-concern-details"
-                          rows="5">@Model.EngagementConcernDetails</textarea>
+                <textarea
+                    class="govuk-textarea @(Model.ShowRecordEngagementConcernDetailsError ? "govuk-textarea--error" : "")"
+                    id="engagement-concern-details" name="engagement-concern-details"
+                    rows="5">@Model.EngagementConcernDetails</textarea>
             </div>
             <div class="govuk-form-group">
             <fieldset class="govuk-fieldset">
@@ -77,14 +115,15 @@
                     </div>
                 </div>
 
-            </fieldset>
+                </fieldset>
             </div>
 
             <div class="govuk-button-group govuk-body">
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                     Save and return
                 </button>
-                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>

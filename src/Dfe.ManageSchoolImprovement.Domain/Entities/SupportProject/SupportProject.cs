@@ -546,31 +546,35 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         CaseStudyDetails = caseStudyDetails;
     }
 
-    public void SetEngagementConcernEscalation(EngagementConcernId engagementConcernId, bool? confirmStepsTaken, string? primaryReason,
+    public void SetEngagementConcernEscalation(EngagementConcernId engagementConcernId, bool? confirmStepsTaken,
+        string? primaryReason,
         string? escalationDetails, DateTime? dateOfDecision, string? warningNotice)
     {
         var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
         if (engagementConcern != null)
         {
-            engagementConcern.SetEngagementConcernEscalationDetails(confirmStepsTaken, primaryReason, escalationDetails, dateOfDecision, warningNotice);
+            engagementConcern.SetEngagementConcernEscalationDetails(confirmStepsTaken, primaryReason, escalationDetails,
+                dateOfDecision, warningNotice);
         }
     }
 
     public void AddEngagementConcern(EngagementConcernId engagementConcernId, SupportProjectId supportProjectId,
-        string? engagementConcernDetails, DateTime? engagementConcernRaisedDate, bool? engagementConcernResolved,
-        string? engagementConcernResolvedDetails, DateTime? engagementConcernResolvedDate)
+        EngagementConcernDetails? engagementConcernDetails)
     {
-        _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId, engagementConcernDetails,
-            engagementConcernRaisedDate, engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate));
+        if (engagementConcernDetails != null)
+            _engagementConcerns.Add(new EngagementConcern(engagementConcernId, supportProjectId,
+                engagementConcernDetails
+            ));
     }
 
     public void EditEngagementConcern(EngagementConcernId engagementConcernId,
-        string? engagementConcernDetails, DateTime? engagementConcernRaisedDate)
+        string? engagementConcernDetails, string? engagementConcernSummary, DateTime? engagementConcernRaisedDate)
     {
         var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
         if (engagementConcern != null)
         {
-            engagementConcern.SetEngagementConcernDetails(engagementConcernDetails, engagementConcernRaisedDate);
+            engagementConcern.SetEngagementConcernDetails(engagementConcernDetails, engagementConcernSummary,
+                engagementConcernRaisedDate);
         }
     }
 
