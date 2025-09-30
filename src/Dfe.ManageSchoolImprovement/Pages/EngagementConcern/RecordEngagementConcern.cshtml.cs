@@ -75,17 +75,22 @@ public class AddEngagementConcernModel(
 
         if (string.IsNullOrEmpty(EngagementConcernDetails))
         {
-            ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter concern details");
+            ModelState.AddModelError(EngagementConcernDetailsKey, "Enter details");
         }
 
         if (string.IsNullOrEmpty(EngagementConcernSummary))
         {
-            ModelState.AddModelError(EngagementConcernSummaryKey, "You must enter concern details");
+            ModelState.AddModelError(EngagementConcernSummaryKey, "Enter a summary");
+        }
+        
+        if (EngagementConcernSummary?.Length > 200)
+        {
+            ModelState.AddModelError(EngagementConcernSummaryKey, "Concern summary must be 200 characters or less");
         }
 
         if (MarkConcernResolved == true && string.IsNullOrWhiteSpace(ResolutionDetails))
         {
-            ModelState.AddModelError(ResolutionDetailsKey, "You must enter resolution details");
+            ModelState.AddModelError(ResolutionDetailsKey, "Enter details");
         }
 
         if (!ModelState.IsValid)

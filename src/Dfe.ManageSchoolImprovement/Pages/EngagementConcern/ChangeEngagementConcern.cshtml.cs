@@ -29,8 +29,6 @@ public class ChangeEngagementConcernModel(
     public string? EngagementConcernSummary { get; set; }
 
     public DateTime? DateEngagementConcernRaised { get; set; }
-
-    public string? WarningNotice { get; set; }
     
     [BindProperty]
     public Guid EngagementConcernId { get; set; }
@@ -46,7 +44,7 @@ public class ChangeEngagementConcernModel(
     
     public bool ShowRecordEngagementConcernSummaryError => ModelState.ContainsKey(EngagementConcernSummaryKey) &&
                                                            ModelState[EngagementConcernSummaryKey]?.Errors.Count > 0;
-
+    
     [BindProperty(Name = "resolution-details")]
     public string? ResolutionDetails { get; set; }
 
@@ -90,17 +88,22 @@ public class ChangeEngagementConcernModel(
 
         if (string.IsNullOrEmpty(EngagementConcernDetails))
         {
-            ModelState.AddModelError(EngagementConcernDetailsKey, "You must enter concern details");
+            ModelState.AddModelError(EngagementConcernDetailsKey, "Enter details");
         }
         
         if (string.IsNullOrEmpty(EngagementConcernSummary))
         {
-            ModelState.AddModelError(EngagementConcernSummaryKey, "You must enter concern details");
+                ModelState.AddModelError(EngagementConcernSummaryKey, "Enter a summary");
+        }
+
+        if (EngagementConcernSummary?.Length > 200)
+        {
+            ModelState.AddModelError(EngagementConcernSummaryKey, "Concern summary must be 200 characters or less");
         }
 
         if (MarkConcernResolved == true && string.IsNullOrWhiteSpace(ResolutionDetails))
         {
-            ModelState.AddModelError(ResolutionDetailsKey, "You must enter resolution details");
+            ModelState.AddModelError(ResolutionDetailsKey, "Enter details");
         }
 
         if (!ModelState.IsValid)
