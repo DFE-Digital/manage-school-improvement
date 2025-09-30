@@ -5,7 +5,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 {
     public class EngagementConcern : IEntity<EngagementConcernId>
     {
-        private EngagementConcern() {}
+        private EngagementConcern()
+        {
+            Id = default!;
+            SupportProjectId = default!;
+        }
         public EngagementConcern(EngagementConcernId id, SupportProjectId supportProjectId,
             EngagementConcernDetails engagementConcernDetails)
         {
