@@ -104,6 +104,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
             const int id = 1;
             var engagementConcernId = Guid.NewGuid();
             var engagementConcernDetails = "some details";
+            var engagementConcernSummary = "some summary";
             var engagementConcernRaisedDate = DateTime.UtcNow.AddDays(-5);
             var existingConfirmStepsTaken = true;
             var existingPrimaryReason = "Existing Reason";
@@ -115,6 +116,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
                 1, 
                 id,
                 engagementConcernDetails,
+                engagementConcernSummary,
                 engagementConcernRaisedDate,
                 false,
                 null,

@@ -10,6 +10,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public int ReadableId { get; set; }
         public int SupportProjectId { get; set; }
         public string? EngagementConcernDetails { get; set; }
+        public string? EngagementConcernSummary { get; set; }
         public DateTime? EngagementConcernRaisedDate { get; set; }
         public bool? EngagementConcernResolved { get; set; }
         public string? EngagementConcernResolvedDetails { get; set; }
@@ -39,6 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 EngagementConcernRaisedDate = engagementConcern.EngagementConcernRaisedDate,
                 EngagementConcernResolved = engagementConcern.EngagementConcernResolved,
                 EngagementConcernResolvedDetails = engagementConcern.EngagementConcernResolvedDetails,
+                EngagementConcernSummary = engagementConcern.EngagementConcernSummary,
                 EngagementConcernResolvedDate = engagementConcern.EngagementConcernResolvedDate,
                 EngagementConcernEscalationConfirmStepsTaken =
                     engagementConcern.EngagementConcernEscalationConfirmStepsTaken,

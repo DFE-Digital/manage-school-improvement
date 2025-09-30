@@ -72,6 +72,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var addEngagementConcernCommand = new AddEngagementConcern.AddEngagementConcernCommand(
                 _mockSupportProject.Id, 
                 "details", 
+                "summary",
                 DateTime.UtcNow,
                 false,
                 null,

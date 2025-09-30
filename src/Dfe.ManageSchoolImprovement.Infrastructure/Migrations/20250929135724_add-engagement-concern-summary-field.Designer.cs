@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250929135724_add-engagement-concern-summary-field")]
+    partial class addengagementconcernsummaryfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +70,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<string>("EngagementConcernSummary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InformationPowersDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("InformationPowersInUse")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("InterimExecutiveBoardCreated")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("InterimExecutiveBoardCreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InterimExecutiveBoardCreatedDetails")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -97,9 +85,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
-
-                    b.Property<DateTime?>("PowersUsedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ReadableId")
                         .ValueGeneratedOnAdd()
@@ -648,6 +633,12 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("IndicativeFundingBandCalculated")
                         .HasColumnType("bit");
 
+                    b.Property<string>("InformationPowersDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("InformationPowersInUse")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("InitialContactResponsibleBody")
                         .HasColumnType("bit");
 
@@ -658,6 +649,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InitialDiagnosisMatchingDecisionNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("InterimExecutiveBoardCreated")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("InterimExecutiveBoardCreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InterimExecutiveBoardCreatedDetails")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("IntroductoryEmailSentDate")
@@ -682,6 +682,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
+
+                    b.Property<DateTime?>("PowersUsedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("ReceiveCompletedConflictOfInterestForm")
                         .HasColumnType("bit");
