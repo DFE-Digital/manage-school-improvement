@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ public class SelectRelevantConcernModel(
     [BindProperty(Name = "SelectedConcernId")]
     public int? SelectedConcernId { get; set; }
 
-    public List<ConcernSummary> AvailableConcerns { get; set; } = new();
+    public List<EngagementConcernViewModel>? AvailableConcerns { get; set; } = null;
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -25,7 +26,7 @@ public class SelectRelevantConcernModel(
     public bool ShowConcernSelectionError => ModelState.ContainsKey(ConcernSelectionKey) &&
                                              ModelState[ConcernSelectionKey]?.Errors.Count > 0;
 
-    public async Task<IActionResult> OnGetAsync(int id, string? returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, string? returnPage, string nextPage, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
@@ -33,28 +34,24 @@ public class SelectRelevantConcernModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        // Populate available concerns - this would typically come from a service
-        // For now, using sample data as shown in the image
-        AvailableConcerns = new List<ConcernSummary>
-        {
-            new ConcernSummary
-            {
-                Id = 1,
-                Summary = "summary 1",
-                RecordedDate = new DateTime(2025, 3, 1)
-            },
-            new ConcernSummary
-            {
-                Id = 2,
-                Summary = "summary 2",
-                RecordedDate = new DateTime(2025, 11, 12)
-            }
-        };
+        SetAvailableConcerns(nextPage);
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    private void SetAvailableConcerns(string? nextPage)
+    {
+        if (nextPage == Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page)
+        {
+            AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).ToList();
+        }
+        else if (nextPage == Links.EngagementConcern.RecordUseOfInformationPowers.Page)
+        {
+            AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).ToList();
+        }
+    }
+
+    public async Task<IActionResult> OnPostAsync(int id, string nextPage, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
@@ -66,37 +63,12 @@ public class SelectRelevantConcernModel(
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
-            
-            // Re-populate available concerns for display
-            AvailableConcerns = new List<ConcernSummary>
-            {
-                new ConcernSummary
-                {
-                    Id = 1,
-                    Summary = "summary 1",
-                    RecordedDate = new DateTime(2025, 3, 1)
-                },
-                new ConcernSummary
-                {
-                    Id = 2,
-                    Summary = "summary 2",
-                    RecordedDate = new DateTime(2025, 11, 12)
-                }
-            };
-            
+
+            SetAvailableConcerns(nextPage);
+
             return Page();
         }
 
-        // Here you would typically process the selected concern
-        // For example, redirect to a specific concern detail page or perform an action
-        
-        return RedirectToPage(ReturnPage, new { id });
+        return RedirectToPage(nextPage, new { id, readableEngagementConcernId = SelectedConcernId });
     }
-}
-
-public class ConcernSummary
-{
-    public int Id { get; set; }
-    public string Summary { get; set; } = string.Empty;
-    public DateTime RecordedDate { get; set; }
 }

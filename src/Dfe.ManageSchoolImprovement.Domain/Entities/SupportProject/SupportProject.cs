@@ -125,7 +125,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
-    
+
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }
@@ -187,9 +187,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? SendEmailToGrantTeam { get; private set; }
 
-    public bool? InformationPowersInUse { get; private set; }
-    public string? InformationPowersDetails { get; private set; }
-    public DateTime? PowersUsedDate { get; private set; }
     public bool? IndicativeFundingBandCalculated { get; private set; }
 
     public bool?
@@ -206,11 +203,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<ImprovementPlan> _improvementPlans = new();
 
-    public bool? InterimExecutiveBoardCreated { get; private set; }
-    public string? InterimExecutiveBoardCreatedDetails { get; private set; }
-    public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
-
     public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
+
     private readonly List<EngagementConcern> _engagementConcerns = new();
 
     #endregion

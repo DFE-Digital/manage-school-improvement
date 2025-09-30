@@ -42,8 +42,11 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public List<EngagementConcernViewModel> EngagementConcerns { get; set; } = [];
 
-    public bool MultipleActiveEngagementConcernsWithoutIeb { get; set; } = false;
-    public bool MultipleActiveEngagementConcernsWithoutInformationPowers { get; set; } = false;
+    public int MultipleActiveEngagementConcernsWithoutIebCount { get; set; } = 0;
+    public int? EngagementConcernWithoutIebReadableId { get; set; } = null;
+    public int MultipleActiveEngagementConcernsWithoutInformationPowersCount { get; set; } = 0;
+    public int? EngagementConcernWithoutInformationPowersId { get; set; } = null;
+
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -55,8 +58,21 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         EngagementConcerns = SupportProject?.EngagementConcerns?.OrderByDescending(x => x.EngagementConcernRaisedDate).ToList() ?? [];
 
-        //MultipleActiveEngagementConcernsWithoutIeb = EngagementConcerns.Where(x => x.EngagementConcernResolved is false && x.)
+        // we need to know what page to navigate to associate ieb and information powers, if there are multiple per category then we have to go to the select relevant concern page
+        // else we go to the next avaialable concern
+        MultipleActiveEngagementConcernsWithoutIebCount = EngagementConcerns.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).Count();
 
+        if (MultipleActiveEngagementConcernsWithoutIebCount == 1)
+        {
+            EngagementConcernWithoutIebReadableId = EngagementConcerns.Single(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).ReadableId;
+        }
+
+        MultipleActiveEngagementConcernsWithoutInformationPowersCount = EngagementConcerns.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).Count();
+
+        if (MultipleActiveEngagementConcernsWithoutInformationPowersCount == 1)
+        {
+            EngagementConcernWithoutInformationPowersId = EngagementConcerns.Single(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).ReadableId;
+        }
 
         return Page();
     }
