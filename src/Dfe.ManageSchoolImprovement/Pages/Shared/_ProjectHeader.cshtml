@@ -2,6 +2,7 @@
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
 @using System.Security.Claims
 @using System.Globalization
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 @{
     DateTime createdDate = @Model.CreatedOn;
@@ -12,12 +13,14 @@
         lastInspectionDate = DateTime.ParseExact(Model.LastInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
     }
 
+    var engagementConcerns = new List<EngagementConcernViewModel>(Model.EngagementConcerns);
+
     bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
     bool deliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
     var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
     var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
-    // bool engagementConcern = Model.EngagementConcernRecorded ?? false;
+    bool engagementConcern = engagementConcerns.Any();
 }
 
 <div class="govuk-grid-row">
@@ -120,17 +123,17 @@
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
                 </dd>
             </div>
-          @* <div class="govuk-summary-list__row"> *@
-          @*     <dt class="govuk-summary-list__key"> *@
-          @*         Engagement concern *@
-          @*     </dt> *@
-          @*     <dd class="govuk-summary-list__value"> *@
-          @*         @(engagementConcern ? "Yes" : "No") *@
-          @*     </dd> *@
-          @*     <dd class="govuk-summary-list__actions"> *@
-          @*         <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a> *@
-          @*     </dd> *@
-          @* </div> *@
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Engagement concern
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  @(engagementConcern ? "Yes" : "No")
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                  <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a>
+              </dd>
+          </div>
         </dl> 
         @if (User.IsInRole(Role.Support))
         {
