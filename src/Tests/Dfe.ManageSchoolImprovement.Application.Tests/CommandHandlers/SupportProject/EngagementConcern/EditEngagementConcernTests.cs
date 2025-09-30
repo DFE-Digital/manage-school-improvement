@@ -28,10 +28,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernDetails = "test details";
+            var engagementConcernSummary = "test summary";
             var engagementConcernRaisedDate =  DateTime.UtcNow;
 
             var command = new EditEngagementConcernCommand(
-                engagementConcernId, _mockSupportProject.Id, engagementConcernDetails, engagementConcernRaisedDate
+                engagementConcernId, _mockSupportProject.Id, engagementConcernDetails, engagementConcernSummary, engagementConcernRaisedDate
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
@@ -67,6 +68,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var addEngagementConcernCommand = new AddEngagementConcern.AddEngagementConcernCommand(
                 _mockSupportProject.Id, 
                 "details", 
+                "summary",
                 DateTime.UtcNow,
                 false,
                 null,
@@ -77,7 +79,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var engagementConcernId = _mockSupportProject.EngagementConcerns.First().Id;
             
             var command = new EditEngagementConcernCommand(
-                engagementConcernId, _mockSupportProject.Id, null, null
+                engagementConcernId, _mockSupportProject.Id, null, null, null
             );
 
             var setSupportProjectEngagementConcernDetailsCommandHandler = new EditEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
@@ -102,11 +104,12 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
             var engagementConcernDetails = "test details";
+            var engagementConcernSummary = "test summary";
             var engagementConcernRaisedDate =  DateTime.UtcNow;
             var nonExistentId = new SupportProjectId(999);
 
             var command = new EditEngagementConcernCommand(
-                engagementConcernId, nonExistentId, engagementConcernDetails, engagementConcernRaisedDate
+                engagementConcernId, nonExistentId, engagementConcernDetails, engagementConcernSummary, engagementConcernRaisedDate
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == nonExistentId), _cancellationToken))

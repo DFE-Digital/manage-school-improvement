@@ -20,43 +20,44 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         public void Constructor_ShouldInitializePropertiesCorrectly()
         {
             // Arrange
-            var details = "Test concern details";
-            var raisedDate = DateTime.Now;
-            var resolved = true;
-            var resolvedDetails = "Test resolved details";
-            var resolvedDate = DateTime.Now;
+            var engagementConcernDetails = new EngagementConcernDetails()
+            {
+                Details = "Test concern details",
+                Summary = "Test concern summary",
+                RaisedDate = DateTime.Now,
+                Resolved = true,
+                ResolvedDetails = "Test resolved details",
+                ResolvedDate = DateTime.Now,
+            };
 
             // Act
             var concern = new EngagementConcern(
                 _testId,
                 _supportProjectId,
-                details,
-                raisedDate,
-                resolved,
-                resolvedDetails,
-                resolvedDate
+                engagementConcernDetails
             );
 
             // Assert
             Assert.Equal(_testId, concern.Id);
             Assert.Equal(_supportProjectId, concern.SupportProjectId);
-            Assert.Equal(details, concern.EngagementConcernDetails);
-            Assert.Equal(raisedDate, concern.EngagementConcernRaisedDate);
-            Assert.Equal(resolved, concern.EngagementConcernResolved);
-            Assert.Equal(resolvedDetails, concern.EngagementConcernResolvedDetails);
-            Assert.Equal(resolvedDate, concern.EngagementConcernResolvedDate);
+            Assert.Equal(engagementConcernDetails.Details, concern.EngagementConcernDetails);
+            Assert.Equal(engagementConcernDetails.RaisedDate, concern.EngagementConcernRaisedDate);
+            Assert.Equal(engagementConcernDetails.Resolved, concern.EngagementConcernResolved);
+            Assert.Equal(engagementConcernDetails.ResolvedDetails, concern.EngagementConcernResolvedDetails);
+            Assert.Equal(engagementConcernDetails.ResolvedDate, concern.EngagementConcernResolvedDate);
         }
 
         [Fact]
         public void SetEngagementConcernDetails_ShouldUpdateProperties()
         {
             // Arrange
-            var concern = new EngagementConcern(_testId, _supportProjectId, null, null, null, null, null);
+            var concern = new EngagementConcern(_testId, _supportProjectId, new EngagementConcernDetails());
             var details = "Updated concern details";
+            var summary = "Updated concern summary";
             var raisedDate = DateTime.Now;
 
             // Act
-            concern.SetEngagementConcernDetails(details, raisedDate);
+            concern.SetEngagementConcernDetails(details, summary, raisedDate);
 
             // Assert
             Assert.Equal(details, concern.EngagementConcernDetails);
@@ -67,7 +68,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         public void SetEngagementConcernResolvedDetails_ShouldUpdateProperties()
         {
             // Arrange
-            var concern = new EngagementConcern(_testId, _supportProjectId, null, null, null, null, null);
+            var concern = new EngagementConcern(_testId, _supportProjectId, new EngagementConcernDetails());
             var resolved = true;
             var resolvedDetails = "Resolution details";
             var resolvedDate = DateTime.Now;
@@ -85,7 +86,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         public void SetEngagementConcernEscalationDetails_ShouldUpdateProperties()
         {
             // Arrange
-            var concern = new EngagementConcern(_testId, _supportProjectId, null, null, null, null, null);
+            var concern = new EngagementConcern(_testId, _supportProjectId, new EngagementConcernDetails());
             var confirmStepsTaken = true;
             var primaryReason = "Primary reason";
             var escalationDetails = "Escalation details";
@@ -111,7 +112,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         public void Constructor_WithNullValues_ShouldCreateValidInstance()
         {
             // Arrange & Act
-            var concern = new EngagementConcern(_testId, _supportProjectId, null, null, null, null, null);
+            var concern = new EngagementConcern(_testId, _supportProjectId, new EngagementConcernDetails());
 
             // Assert
             Assert.NotNull(concern);

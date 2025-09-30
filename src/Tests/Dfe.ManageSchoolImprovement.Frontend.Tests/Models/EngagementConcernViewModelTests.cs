@@ -15,6 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 ReadableId: 123,
                 SupportProjectId: 456,
                 EngagementConcernDetails: "Test Details",
+                EngagementConcernSummary: "Test Summary",
                 EngagementConcernRaisedDate: DateTime.Now,
                 EngagementConcernResolved: true,
                 EngagementConcernResolvedDetails: "Resolution Details",
@@ -34,6 +35,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(dto.ReadableId, viewModel.ReadableId);
             Assert.Equal(dto.SupportProjectId, viewModel.SupportProjectId);
             Assert.Equal(dto.EngagementConcernDetails, viewModel.EngagementConcernDetails);
+            Assert.Equal(dto.EngagementConcernSummary, viewModel.EngagementConcernSummary);
             Assert.Equal(dto.EngagementConcernRaisedDate, viewModel.EngagementConcernRaisedDate);
             Assert.Equal(dto.EngagementConcernResolved, viewModel.EngagementConcernResolved);
             Assert.Equal(dto.EngagementConcernResolvedDetails, viewModel.EngagementConcernResolvedDetails);
@@ -55,6 +57,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 ReadableId: 123,
                 SupportProjectId: 456,
                 EngagementConcernDetails: null,
+                EngagementConcernSummary: null,
                 EngagementConcernRaisedDate: null,
                 EngagementConcernResolved: null,
                 EngagementConcernResolvedDetails: null,
@@ -74,6 +77,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(dto.ReadableId, viewModel.ReadableId);
             Assert.Equal(dto.SupportProjectId, viewModel.SupportProjectId);
             Assert.Null(viewModel.EngagementConcernDetails);
+            Assert.Null(viewModel.EngagementConcernSummary);
             Assert.Null(viewModel.EngagementConcernRaisedDate);
             Assert.Null(viewModel.EngagementConcernResolved);
             Assert.Null(viewModel.EngagementConcernResolvedDetails);
@@ -95,6 +99,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 ReadableId: 123,
                 SupportProjectId: 456,
                 EngagementConcernDetails: null,
+                EngagementConcernSummary: null,
                 EngagementConcernRaisedDate: null,
                 EngagementConcernResolved: null,
                 EngagementConcernResolvedDetails: null,

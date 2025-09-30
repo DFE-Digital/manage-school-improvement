@@ -14,7 +14,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
         public AddEngagementConcernTests()
         {
-
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
             var fixture = new Fixture();
             _mockSupportProject = fixture.Create<Domain.Entities.SupportProject.SupportProject>();
@@ -26,14 +25,16 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var engagementConcernDetails = "test details";
-            var engagementConcernRaisedDate =  DateTime.UtcNow;
+            var engagementConcernSummary = "test summary";
+            var engagementConcernRaisedDate = DateTime.UtcNow;
             var engagementConcernResolved = true;
-            var engagementConcernResolvedDetails =  "concern resolved";
-            var engagementConcernResolvedDate =  DateTime.UtcNow;
+            var engagementConcernResolvedDetails = "concern resolved";
+            var engagementConcernResolvedDate = DateTime.UtcNow;
 
             var command = new AddEngagementConcernCommand(
-                _mockSupportProject.Id, 
-                engagementConcernDetails, 
+                _mockSupportProject.Id,
+                engagementConcernDetails,
+                engagementConcernSummary,
                 engagementConcernRaisedDate,
                 engagementConcernResolved,
                 engagementConcernResolvedDetails,
@@ -46,7 +47,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 new AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result =
+                await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.IsType<bool>(result);
@@ -63,15 +65,17 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var command = new AddEngagementConcernCommand(
-                _mockSupportProject.Id, null, null, null, null, null
+                _mockSupportProject.Id, null, null, null, null, null, null
             );
             _mockSupportProjectRepository
                 .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                     It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var setSupportProjectEngagementConcernDetailsCommandHandler = new AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
+            var setSupportProjectEngagementConcernDetailsCommandHandler =
+                new AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
-            var result = await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
+            var result =
+                await setSupportProjectEngagementConcernDetailsCommandHandler.Handle(command, _cancellationToken);
 
             // Verify
             Assert.IsType<bool>(result);
@@ -79,8 +83,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             _mockSupportProjectRepository.Verify(
                 repo => repo.UpdateAsync(
                     It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                        x.EngagementConcerns.First().EngagementConcernDetails == null && 
-                        x.EngagementConcerns.First().EngagementConcernRaisedDate == null), 
+                        x.EngagementConcerns.First().EngagementConcernDetails == null &&
+                        x.EngagementConcerns.First().EngagementConcernRaisedDate == null),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
         }
@@ -89,15 +93,19 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ProjectNotFound_ReturnsFalse()
         {
             var engagementConcernDetails = "test details";
-            var engagementConcernRaisedDate =  DateTime.UtcNow;
+            var engagementConcernSummary = "test summary";
+            var engagementConcernRaisedDate = DateTime.UtcNow;
             var engagementConcernResolved = true;
-            var engagementConcernResolvedDetails =  "concern resolved";
-            var engagementConcernResolvedDate =  DateTime.UtcNow;
+            var engagementConcernResolvedDetails = "concern resolved";
+            var engagementConcernResolvedDate = DateTime.UtcNow;
             var nonExistentId = new SupportProjectId(999);
-            var command = new AddEngagementConcernCommand(nonExistentId, engagementConcernDetails, engagementConcernRaisedDate, engagementConcernResolved, engagementConcernResolvedDetails, engagementConcernResolvedDate);
+            var command = new AddEngagementConcernCommand(nonExistentId, engagementConcernDetails,
+                engagementConcernSummary, engagementConcernRaisedDate, engagementConcernResolved,
+                engagementConcernResolvedDetails, engagementConcernResolvedDate);
 
             _mockSupportProjectRepository
-                .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == nonExistentId), _cancellationToken))
+                .Setup(repo =>
+                    repo.GetSupportProjectById(It.Is<SupportProjectId>(id => id == nonExistentId), _cancellationToken))
                 .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
 
             var handler = new AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
@@ -107,7 +115,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 handler.Handle(command, _cancellationToken));
 
             Assert.Equal($"Support project with id {nonExistentId} not found", exception.Message);
-
         }
     }
 }
