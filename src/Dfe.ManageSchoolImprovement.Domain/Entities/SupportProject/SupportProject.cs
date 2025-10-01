@@ -578,11 +578,14 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateTime? powersUsedDate)
     {
         var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
-        if (engagementConcern != null)
+        if (engagementConcern == null)
         {
-            engagementConcern.SetInformationPowersDetails(informationPowersInUse, informationPowersDetails,
-            powersUsedDate);
+            throw new InvalidOperationException($"Engagement concern with id {engagementConcernId} not found.");
         }
+
+        engagementConcern.SetInformationPowersDetails(informationPowersInUse, informationPowersDetails,
+        powersUsedDate);
+
     }
 
     public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
@@ -742,11 +745,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)
     {
         var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
-        if (engagementConcern != null)
+
+        if (engagementConcern == null)
         {
-            engagementConcern.SetInterimExecutiveBoardCreated(interimExecutiveBoardCreated,
-         interimExecutiveBoardCreatedDetails, interimExecutiveBoardCreatedDate);
+            throw new InvalidOperationException($"Engagement concern with id {engagementConcernId} not found.");
         }
+
+        engagementConcern.SetInterimExecutiveBoardCreated(interimExecutiveBoardCreated,
+        interimExecutiveBoardCreatedDetails, interimExecutiveBoardCreatedDate);
+
     }
 
     public void SetEngagementConcernResolvedDetails(EngagementConcernId engagementConcernId,
