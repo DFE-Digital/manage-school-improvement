@@ -29,6 +29,14 @@ public class SetSupportProjectIebDetailsTests
         var interimExecutiveBoardCreatedDetails = "test details";
         var interimExecutiveBoardCreatedDate = DateTime.UtcNow;
 
+        // Add an engagement concern to the mock support project
+        var engagementConcernDetails = new EngagementConcernDetails
+        {
+            Details = "Test engagement concern",
+            Summary = "Test summary"
+        };
+        _mockSupportProject.AddEngagementConcern(engagementConcernId, _mockSupportProject.Id, engagementConcernDetails);
+
         var command = new SetSupportProjectIebDetailsCommand(
             engagementConcernId,
             _mockSupportProject.Id,
@@ -63,6 +71,14 @@ public class SetSupportProjectIebDetailsTests
     {
         // Arrange
         var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+
+        // Add an engagement concern to the mock support project
+        var engagementConcernDetails = new EngagementConcernDetails
+        {
+            Details = "Test engagement concern",
+            Summary = "Test summary"
+        };
+        _mockSupportProject.AddEngagementConcern(engagementConcernId, _mockSupportProject.Id, engagementConcernDetails);
 
         var command = new SetSupportProjectIebDetailsCommand(
             engagementConcernId,
@@ -131,5 +147,35 @@ public class SetSupportProjectIebDetailsTests
                 It.IsAny<Domain.Entities.SupportProject.SupportProject>(),
                 It.IsAny<CancellationToken>()),
             Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_EngagementConcernNotFound_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var nonExistentEngagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        var interimExecutiveBoardCreated = true;
+        var interimExecutiveBoardCreatedDetails = "test details";
+        var interimExecutiveBoardCreatedDate = DateTime.UtcNow;
+
+        var command = new SetSupportProjectIebDetailsCommand(
+            nonExistentEngagementConcernId,
+            _mockSupportProject.Id,
+            interimExecutiveBoardCreated,
+            interimExecutiveBoardCreatedDetails,
+            interimExecutiveBoardCreatedDate
+        );
+
+        _mockSupportProjectRepository
+            .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
+                It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+
+        var handler = new SetSupportProjectIebDetailsCommandHandler(_mockSupportProjectRepository.Object);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            handler.Handle(command, _cancellationToken));
+
+        Assert.Contains($"Engagement concern with id {nonExistentEngagementConcernId} not found", exception.Message);
     }
 }

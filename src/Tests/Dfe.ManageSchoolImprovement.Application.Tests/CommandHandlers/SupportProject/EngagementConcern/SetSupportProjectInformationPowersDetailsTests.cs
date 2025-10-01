@@ -29,6 +29,14 @@ public class SetSupportProjectInformationPowersDetailsTests
         var informationPowersDetails = "test details";
         var powersUsedDate = DateTime.UtcNow;
 
+        // Add an engagement concern to the mock support project
+        var engagementConcernDetails = new EngagementConcernDetails
+        {
+            Details = "Test engagement concern",
+            Summary = "Test summary"
+        };
+        _mockSupportProject.AddEngagementConcern(engagementConcernId, _mockSupportProject.Id, engagementConcernDetails);
+
         var command = new SetSupportProjectInformationPowersDetailsCommand(
             engagementConcernId,
             _mockSupportProject.Id,
@@ -63,6 +71,14 @@ public class SetSupportProjectInformationPowersDetailsTests
     {
         // Arrange
         var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+
+        // Add an engagement concern to the mock support project
+        var engagementConcernDetails = new EngagementConcernDetails
+        {
+            Details = "Test engagement concern",
+            Summary = "Test summary"
+        };
+        _mockSupportProject.AddEngagementConcern(engagementConcernId, _mockSupportProject.Id, engagementConcernDetails);
 
         var command = new SetSupportProjectInformationPowersDetailsCommand(
             engagementConcernId,
@@ -131,5 +147,35 @@ public class SetSupportProjectInformationPowersDetailsTests
                 It.IsAny<Domain.Entities.SupportProject.SupportProject>(),
                 It.IsAny<CancellationToken>()),
             Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_EngagementConcernNotFound_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var nonExistentEngagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        var informationPowersInUse = true;
+        var informationPowersDetails = "test details";
+        var powersUsedDate = DateTime.UtcNow;
+
+        var command = new SetSupportProjectInformationPowersDetailsCommand(
+            nonExistentEngagementConcernId,
+            _mockSupportProject.Id,
+            informationPowersInUse,
+            informationPowersDetails,
+            powersUsedDate
+        );
+
+        _mockSupportProjectRepository
+            .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
+                It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+
+        var handler = new SetSupportProjectInformationPowersDetailsCommandHandler(_mockSupportProjectRepository.Object);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            handler.Handle(command, _cancellationToken));
+
+        Assert.Contains($"Engagement concern with id {nonExistentEngagementConcernId} not found", exception.Message);
     }
 }
