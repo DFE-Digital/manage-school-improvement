@@ -44,7 +44,7 @@ public class ChangeUseOfInformationPowersModel(
         return $"You must enter a date";
     }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
@@ -52,16 +52,28 @@ public class ChangeUseOfInformationPowersModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        InformationPowersInUse = SupportProject.InformationPowersInUse;
-        InformationPowersDetails = SupportProject.InformationPowersDetails;
-        PowersUsedDate = SupportProject.PowersUsedDate;
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern != null)
+        {
+            InformationPowersInUse = engagementConcern.InformationPowersInUse;
+            InformationPowersDetails = engagementConcern.InformationPowersDetails;
+            PowersUsedDate = engagementConcern.PowersUsedDate;
+        }
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
+
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern?.Id == null)
+        {
+            throw new InvalidOperationException($"Engagement concern with readable ID {readableEngagementConcernId} not found");
+        }
 
         if (InformationPowersInUse == true && string.IsNullOrEmpty(InformationPowersDetails))
         {
@@ -81,6 +93,7 @@ public class ChangeUseOfInformationPowersModel(
         if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
         var request = new SetSupportProjectInformationPowersDetailsCommand(
+            engagementConcern.Id,
             new SupportProjectId(id),
             InformationPowersInUse,
             InformationPowersDetails,
@@ -95,10 +108,10 @@ public class ChangeUseOfInformationPowersModel(
             return Page();
         }
 
-        TempData["InformationPowersUpdated"] = SupportProject.InformationPowersInUse is true && InformationPowersInUse is true &&
-                                               SupportProject.InformationPowersDetails != InformationPowersDetails;
-        TempData["InformationPowersRecorded"] = (SupportProject.InformationPowersInUse == null || SupportProject.InformationPowersInUse == false) && InformationPowersInUse == true;
-        TempData["InformationPowersRemoved"] = SupportProject.InformationPowersInUse == true && InformationPowersInUse == false;
+        TempData["InformationPowersUpdated"] = engagementConcern.InformationPowersInUse is true && InformationPowersInUse is true &&
+                                               engagementConcern.InformationPowersDetails != InformationPowersDetails;
+        TempData["InformationPowersRecorded"] = (engagementConcern.InformationPowersInUse == null || engagementConcern.InformationPowersInUse == false) && InformationPowersInUse == true;
+        TempData["InformationPowersRemoved"] = engagementConcern.InformationPowersInUse == true && InformationPowersInUse == false;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

@@ -5,7 +5,6 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectIebDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
@@ -19,7 +18,7 @@ public class ChangeUseOfInterimExecutiveBoardModel(
 
     [BindProperty(Name = "ieb-created-details")]
     public string? InterimExecutiveBoardCreatedDetails { get; set; }
-    
+
     private DateTime? InterimExecutiveBoardCreatedDate { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
@@ -31,7 +30,7 @@ public class ChangeUseOfInterimExecutiveBoardModel(
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? InterimExecutiveBoardCreated { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
@@ -39,18 +38,29 @@ public class ChangeUseOfInterimExecutiveBoardModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        InterimExecutiveBoardCreated = SupportProject.InterimExecutiveBoardCreated;
-        InterimExecutiveBoardCreatedDetails = SupportProject.InterimExecutiveBoardCreatedDetails;
-        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+        if (engagementConcern != null)
+        {
+            InterimExecutiveBoardCreated = engagementConcern.InterimExecutiveBoardCreated;
+            InterimExecutiveBoardCreatedDetails = engagementConcern.InterimExecutiveBoardCreatedDetails;
+        }
+
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
-        InterimExecutiveBoardCreatedDate = SupportProject.InterimExecutiveBoardCreatedDate;
+
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern?.Id == null)
+        {
+            throw new InvalidOperationException($"Engagement concern with readable ID {readableEngagementConcernId} not found");
+        }
+
+        InterimExecutiveBoardCreatedDate = engagementConcern.InterimExecutiveBoardCreatedDate;
 
         if (InterimExecutiveBoardCreated == true && string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails))
         {
@@ -67,13 +77,14 @@ public class ChangeUseOfInterimExecutiveBoardModel(
         if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
         var request = new SetSupportProjectIebDetailsCommand(
+            engagementConcern.Id,
             new SupportProjectId(id),
             InterimExecutiveBoardCreated,
             InterimExecutiveBoardCreatedDetails,
             InterimExecutiveBoardCreatedDate);
-        
+
         var result = await mediator.Send(request, cancellationToken);
-        
+
         if (!result)
         {
             _errorService.AddApiError();
@@ -81,16 +92,16 @@ public class ChangeUseOfInterimExecutiveBoardModel(
             return Page();
         }
 
-        TempData["InterimExecutiveBoardUpdated"] = SupportProject.InterimExecutiveBoardCreated is true && InterimExecutiveBoardCreated is true &&
-                                               SupportProject.InterimExecutiveBoardCreatedDetails != InterimExecutiveBoardCreatedDetails;
-        TempData["InterimExecutiveBoardRecorded"] = (SupportProject.InterimExecutiveBoardCreated == null || SupportProject.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
-        TempData["InterimExecutiveBoardRemoved"] = SupportProject.InterimExecutiveBoardCreated == true && InterimExecutiveBoardCreated == false;
+        TempData["InterimExecutiveBoardUpdated"] = engagementConcern.InterimExecutiveBoardCreated is true && InterimExecutiveBoardCreated is true &&
+                                               engagementConcern.InterimExecutiveBoardCreatedDetails != InterimExecutiveBoardCreatedDetails;
+        TempData["InterimExecutiveBoardRecorded"] = (engagementConcern.InterimExecutiveBoardCreated == null || engagementConcern.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
+        TempData["InterimExecutiveBoardRemoved"] = engagementConcern.InterimExecutiveBoardCreated == true && InterimExecutiveBoardCreated == false;
 
         if (InterimExecutiveBoardCreated != true)
         {
             return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
         }
-        
+
         return RedirectToPage(@Links.EngagementConcern.RecordInterimExecutiveBoardDate.Page, new { id, InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails });
     }
 

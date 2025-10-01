@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20250929150451_engagement-concern-ieb-and-information-powers-fields")]
+    partial class engagementconcerniebandinformationpowersfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +65,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EngagementConcernResolvedDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EngagementConcernSummary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InformationPowersDetails")
@@ -648,6 +648,12 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("IndicativeFundingBandCalculated")
                         .HasColumnType("bit");
 
+                    b.Property<string>("InformationPowersDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("InformationPowersInUse")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("InitialContactResponsibleBody")
                         .HasColumnType("bit");
 
@@ -658,6 +664,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InitialDiagnosisMatchingDecisionNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("InterimExecutiveBoardCreated")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("InterimExecutiveBoardCreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InterimExecutiveBoardCreatedDetails")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("IntroductoryEmailSentDate")
@@ -682,6 +697,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasColumnName("PeriodStart");
+
+                    b.Property<DateTime?>("PowersUsedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("ReceiveCompletedConflictOfInterestForm")
                         .HasColumnType("bit");

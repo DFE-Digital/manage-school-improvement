@@ -177,16 +177,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         
         public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
 
-        public bool? InformationPowersInUse { get; set; }
-        public string? InformationPowersDetails { get; set; }
-        public DateTime? PowersUsedDate { get; set; }
         public bool? AssessmentToolTwoCompleted { get; set; }
 
         public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
-
-        public bool? InterimExecutiveBoardCreated { get; set; }
-        public string? InterimExecutiveBoardCreatedDetails { get; set; }
-        public DateTime? InterimExecutiveBoardCreatedDate { get; set; }
 
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
@@ -279,18 +272,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AttachSchoolImprovementPlan = supportProjectDto.AttachSchoolImprovementPlan,
                 CopyInRegionalDirector = supportProjectDto.CopyInRegionalDirector,
                 SendEmailToGrantTeam = supportProjectDto.SendEmailToGrantTeam,
-                InformationPowersInUse = supportProjectDto.InformationPowersInUse,
-                InformationPowersDetails = supportProjectDto.InformationPowersDetails,
-                PowersUsedDate = supportProjectDto.PowersUsedDate,
+
                 AssessmentToolTwoCompleted = supportProjectDto.AssessmentToolTwoCompleted,
                 IndicativeFundingBandCalculated = supportProjectDto.IndicativeFundingBandCalculated,
                 IndicativeFundingBand = supportProjectDto.IndicativeFundingBand,
                 ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
                 DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent,
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
-                InterimExecutiveBoardCreated = supportProjectDto.InterimExecutiveBoardCreated,
-                InterimExecutiveBoardCreatedDetails = supportProjectDto.InterimExecutiveBoardCreatedDetails,
-                InterimExecutiveBoardCreatedDate = supportProjectDto.InterimExecutiveBoardCreatedDate,
+
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>()
             };
         }

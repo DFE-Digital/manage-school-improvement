@@ -7,6 +7,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Engage
 public class SetSupportProjectInformationPowersDetails
 {
     public record SetSupportProjectInformationPowersDetailsCommand(
+        EngagementConcernId EngagementConcernId,
         SupportProjectId SupportProjectId,
         bool? InformationPowersInUse,
         string? InformationPowersDetails,
@@ -26,6 +27,7 @@ public class SetSupportProjectInformationPowersDetails
             }
 
             supportProject.SetInformationPowersDetails(
+                request.EngagementConcernId,
                 request.InformationPowersInUse,
                 request.InformationPowersDetails,
                 request.PowersUsedDate);

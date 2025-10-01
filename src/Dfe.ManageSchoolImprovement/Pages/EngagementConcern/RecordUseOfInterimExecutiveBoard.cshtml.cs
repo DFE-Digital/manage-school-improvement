@@ -1,12 +1,9 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectIebDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 
@@ -29,7 +26,7 @@ public class RecordUseOfInterimExecutiveBoardModel(
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? InterimExecutiveBoardCreated { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
@@ -37,13 +34,17 @@ public class RecordUseOfInterimExecutiveBoardModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        InterimExecutiveBoardCreated = SupportProject.InterimExecutiveBoardCreated;
-        InterimExecutiveBoardCreatedDetails = SupportProject.InterimExecutiveBoardCreatedDetails;
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
 
+        if (engagementConcern != null)
+        {
+            InterimExecutiveBoardCreated = engagementConcern.InterimExecutiveBoardCreated;
+            InterimExecutiveBoardCreatedDetails = engagementConcern.InterimExecutiveBoardCreatedDetails;
+        }
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
@@ -60,7 +61,7 @@ public class RecordUseOfInterimExecutiveBoardModel(
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
-        return RedirectToPage(@Links.EngagementConcern.RecordInterimExecutiveBoardDate.Page, new { id, InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails });
+        return RedirectToPage(@Links.EngagementConcern.RecordInterimExecutiveBoardDate.Page, new { id, readableEngagementConcernId, InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails });
     }
 
 }

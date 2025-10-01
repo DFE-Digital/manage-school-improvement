@@ -83,7 +83,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? SchoolResponseDate { get; private set; }
 
     public bool?
-        HasAcknowledgedAndWillEngage { get; private set; }
+        HasAcknowledgedAndWillEngage
+    { get; private set; }
 
     public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
@@ -124,7 +125,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
-    
+
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }
@@ -186,9 +187,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? SendEmailToGrantTeam { get; private set; }
 
-    public bool? InformationPowersInUse { get; private set; }
-    public string? InformationPowersDetails { get; private set; }
-    public DateTime? PowersUsedDate { get; private set; }
     public bool? IndicativeFundingBandCalculated { get; private set; }
 
     public bool?
@@ -205,11 +203,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<ImprovementPlan> _improvementPlans = new();
 
-    public bool? InterimExecutiveBoardCreated { get; private set; }
-    public string? InterimExecutiveBoardCreatedDetails { get; private set; }
-    public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
-
     public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
+
     private readonly List<EngagementConcern> _engagementConcerns = new();
 
     #endregion
@@ -578,12 +573,19 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
     }
 
-    public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails,
+    public void SetInformationPowersDetails(EngagementConcernId engagementConcernId,
+        bool? informationPowersInUse, string? informationPowersDetails,
         DateTime? powersUsedDate)
     {
-        InformationPowersInUse = informationPowersInUse;
-        InformationPowersDetails = informationPowersDetails;
-        PowersUsedDate = powersUsedDate;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+        if (engagementConcern == null)
+        {
+            throw new InvalidOperationException($"Engagement concern with id {engagementConcernId} not found.");
+        }
+
+        engagementConcern.SetInformationPowersDetails(informationPowersInUse, informationPowersDetails,
+        powersUsedDate);
+
     }
 
     public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
@@ -739,12 +741,19 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             overallProgressDetails);
     }
 
-    public void SetInterimExecutiveBoardCreated(bool? interimExecutiveBoardCreated,
+    public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId, bool? interimExecutiveBoardCreated,
         string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)
     {
-        InterimExecutiveBoardCreated = interimExecutiveBoardCreated;
-        InterimExecutiveBoardCreatedDetails = interimExecutiveBoardCreatedDetails;
-        InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
+        var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
+
+        if (engagementConcern == null)
+        {
+            throw new InvalidOperationException($"Engagement concern with id {engagementConcernId} not found.");
+        }
+
+        engagementConcern.SetInterimExecutiveBoardCreated(interimExecutiveBoardCreated,
+        interimExecutiveBoardCreatedDetails, interimExecutiveBoardCreatedDate);
+
     }
 
     public void SetEngagementConcernResolvedDetails(EngagementConcernId engagementConcernId,
