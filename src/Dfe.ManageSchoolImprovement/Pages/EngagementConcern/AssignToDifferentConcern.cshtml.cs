@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 
-public class SelectRelevantConcernModel(
+public class AssignToDifferentConcernModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
@@ -43,11 +43,11 @@ public class SelectRelevantConcernModel(
     {
         if (nextPage == Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page)
         {
-            AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).OrderBy(x => x.EngagementConcernRaisedDate).ToList();
+            AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).ToList();
         }
         else if (nextPage == Links.EngagementConcern.RecordUseOfInformationPowers.Page)
         {
-            AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).OrderBy(x => x.EngagementConcernRaisedDate).ToList();
+            AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).ToList();
         }
     }
 

@@ -96,27 +96,27 @@
                         @if (Model.MultipleActiveEngagementConcernsWithoutIebCount == 1)
                         {
                             <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
-                               asp-route-id="@Model.SupportProject.Id"
-                               asp-route-readableEngagementConcernId="@Model.EngagementConcernWithoutIebReadableId"
-                               role="button" draggable="false"
-                               class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                               data-cy="record-ieb-btn">
+                            asp-route-id="@Model.SupportProject.Id"
+                            asp-route-readableEngagementConcernId="@Model.EngagementConcernWithoutIebReadableId"
+                            role="button" draggable="false"
+                            class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                            data-cy="record-ieb-btn">
+                                Record use of interim executive board
+                            </a>
+                        }
+                        else if (Model.MultipleActiveEngagementConcernsWithoutInformationPowersCount > 1)
+                        {
+                            <a asp-page="@Links.EngagementConcern.SelectRelevantConcern.Page"
+                            asp-route-id="@Model.SupportProject.Id"
+                            asp-route-nextpage="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
+                            role="button" draggable="false"
+                            class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                            data-cy="record-ieb-btn">
                                 Record use of interim executive board
                             </a>
                         }
                     }
-                    else if (Model.MultipleActiveEngagementConcernsWithoutInformationPowersCount > 1)
-                    {
-                        <a asp-page="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
-                           asp-route-id="@Model.SupportProject.Id"
-                           asp-route-nextpage="@Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page"
-                           role="button" draggable="false"
-                           class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                           data-cy="record-ieb-btn">
-                            Record use of interim executive board
-                        </a>
-                    }
-                    
+
                 </div>
             </div>
         }
@@ -306,6 +306,7 @@
                                     <li class="govuk-summary-list__actions-list-item">
                                         <a asp-page="@Links.EngagementConcern.ChangeUseOfInformationPowers.Page"
                                            asp-route-id="@Model.SupportProject.Id"
+                                           asp-route-readableEngagementConcernId="@concern.ReadableId"
                                            class="govuk-link"
                                            data-cy="information-powers-change-link">
                                             Change

@@ -1,10 +1,10 @@
-@page "/engagement-concern/select-relevant-concern/{id:int}"
+@page "/engagement-concern/assign-to-different-concern/{id:int}"
 @using Dfe.Academisation.ExtensionMethods
 
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.SelectRelevantConcernModel
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.AssignToDifferentConcernModel
 
 @{
-    ViewData["Title"] = "Select the relevant concern";
+    ViewData["Title"] = "Assign to different concern";
 }
 
 @section BeforeMain
@@ -50,7 +50,7 @@
                                            @(Model.SelectedConcernId == concern.ReadableId ? "checked" : "")
                                            data-cy="concern-radio-@i" />
                                     <label class="govuk-label govuk-radios__label" for="concern-@i">
-                                        @concern.EngagementConcernSummary<br />
+                                        @concern.EngagementConcernDetails
                                         <span class="govuk-hint">Recorded on @concern.EngagementConcernRaisedDate.ToDateString()</span>
                                     </label>
                                 </div>
