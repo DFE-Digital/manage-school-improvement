@@ -39,7 +39,7 @@
                     @if (Model.EngagementConcernSummary == null)
                     {
                         <p id="summary-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> You must enter a summary
+                            <span class="govuk-visually-hidden">Error:</span> Enter a summary
                         </p>
                     }
                     else
@@ -71,7 +71,7 @@
                 @if (Model.ShowRecordEngagementConcernDetailsError)
                 {
                     <p id="more-detail-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> You must enter concern details
+                        <span class="govuk-visually-hidden">Error:</span> Enter details
                     </p>
                 }
                 <textarea
@@ -107,7 +107,7 @@
                             @if (Model.ShowResolutionDetailsError)
                             {
                                 <p id="resolution-details-error" class="govuk-error-message">
-                                    <span class="govuk-visually-hidden">Error:</span> You must enter resolution details
+                                    <span class="govuk-visually-hidden">Error:</span> Enter details
                                 </p>
                             }
                             <textarea class="govuk-textarea @(Model.ShowResolutionDetailsError ? "govuk-textarea--error" : "")" id="resolution-details" name="resolution-details" rows="5" data-cy="resolution-details-textarea">@Model.ResolutionDetails</textarea>
