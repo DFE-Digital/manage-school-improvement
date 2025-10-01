@@ -6,12 +6,14 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-selectedareaofimprovement="@(Model.ReturnPage == Links.ImprovementPlan.SelectAnAreaOfImprovement.Page ? Model.SelectedAreaOfImprovement : null)" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id"
+        asp-route-selectedareaofimprovement="@(Model.ReturnPage == Links.ImprovementPlan.SelectAnAreaOfImprovement.Page ? Model.SelectedAreaOfImprovement : null)"
+        class="govuk-back-link" data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
 {
-   <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary" />
 }
 
 <div class="govuk-grid-row">
@@ -20,8 +22,9 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Add an objective
         </h1>
-        <p class="govuk-body">Give details of the school's plan to improve in this area. You may want to copy and paste from the plan itself.</p>
-        
+        <p class="govuk-body">Give details of the school's plan to improve in this area. You may want to copy and paste
+            from the plan itself.</p>
+
         <form method="post" novalidate>
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : string.Empty)">
                 <label class="govuk-label govuk-visually-hidden" for="@nameof(Model.ObjectiveDetails)">
@@ -33,14 +36,18 @@
                         <span class="govuk-visually-hidden">Error:</span> Enter details of the objective
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)" id="@nameof(Model.ObjectiveDetails)" name="@nameof(Model.ObjectiveDetails)" rows="10" asp-for="@Model.ObjectiveDetails"></textarea>
+                <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : string.Empty)"
+                    id="@nameof(Model.ObjectiveDetails)" name="@nameof(Model.ObjectiveDetails)" rows="10"
+                    asp-for="@Model.ObjectiveDetails" data-cy="objective-details-textarea"></textarea>
             </div>
 
             <div class="govuk-button-group">
-                <button class="govuk-button" type="submit" name="action" value="add-another" data-module="govuk-button">
+                <button class="govuk-button" type="submit" name="action" value="add-another" data-module="govuk-button"
+                    data-cy="save-and-add-another-button">
                     Save and add another objective
                 </button>
-                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="finish" data-module="govuk-button">
+                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="finish"
+                    data-module="govuk-button" data-cy="save-and-finish-button">
                     Save and finish
                 </button>
             </div>
