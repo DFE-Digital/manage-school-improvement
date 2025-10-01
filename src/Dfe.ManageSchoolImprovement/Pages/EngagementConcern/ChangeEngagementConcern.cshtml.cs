@@ -81,6 +81,7 @@ public class ChangeEngagementConcernModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
+        EngagementConcernSummary = EngagementConcernSummary?.Trim();
         // set support project so we can compare values for success banner
         await base.GetSupportProject(id, cancellationToken);
         var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.Id.Value == EngagementConcernId);

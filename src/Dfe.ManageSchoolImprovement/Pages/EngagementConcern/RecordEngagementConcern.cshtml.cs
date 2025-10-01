@@ -70,6 +70,7 @@ public class AddEngagementConcernModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
+        EngagementConcernSummary = EngagementConcernSummary?.Trim();
         // set support project so we can compare values for success banner
         await base.GetSupportProject(id, cancellationToken);
 
