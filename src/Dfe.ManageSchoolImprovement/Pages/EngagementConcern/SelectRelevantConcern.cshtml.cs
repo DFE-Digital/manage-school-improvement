@@ -28,8 +28,6 @@ public class SelectRelevantConcernModel(
 
     public async Task<IActionResult> OnGetAsync(int id, string? returnPage, string nextPage, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
-
         ReturnPage = returnPage ?? Links.EngagementConcern.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
