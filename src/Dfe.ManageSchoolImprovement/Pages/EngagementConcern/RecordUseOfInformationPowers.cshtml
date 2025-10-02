@@ -7,7 +7,8 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+        data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -27,16 +28,19 @@
                         </h1>
                     </legend>
 
-                    <p class="govuk-body">Information powers can be used to compel a school to share information the department needs.</p>
+                    <p class="govuk-body">Information powers can be used to compel a school to share information the
+                        department needs.</p>
 
-                    <details class="govuk-details" data-module="govuk-details">
-                        <summary class="govuk-details__summary">
+                    <details class="govuk-details" data-module="govuk-details"
+                        data-cy="how-to-use-information-powers-details">
+                        <summary class="govuk-details__summary" data-cy="how-to-use-information-powers-summary">
                             <span class="govuk-details__summary-text">
                                 How to use information powers
                             </span>
                         </summary>
                         <div class="govuk-details__text">
-                            <p class="govuk-body">To use information powers, you must email the school and inform them that the department is going to use the powers.</p>
+                            <p class="govuk-body">To use information powers, you must email the school and inform them
+                                that the department is going to use the powers.</p>
                             <p class="govuk-body">For example, use a phrase like "Under information powers, then..."</p>
                         </div>
                     </details>
@@ -54,11 +58,9 @@
                                 <span class="govuk-visually-hidden">Error:</span> Enter details
                             </p>
                         }
-                        <textarea class="govuk-textarea"
-                                  id="information-powers-details"
-                                  name="information-powers-details"
-                                  rows="5"
-                                  aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
+                        <textarea class="govuk-textarea" data-cy="information-powers-details-textarea"
+                            id="information-powers-details" name="information-powers-details" rows="5"
+                            aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
                     </div>
 
                     <div class="govuk-form-group">
@@ -67,22 +69,20 @@
                                 Enter date the school was informed of the use of information powers
                             </label>
                         </h1>
-                        <govuk-date-input heading-label="true"
-                                          hint="For example, 1 7 2024."
-                                          id="powers-used-date"
-                                          name="powers-used-date"
-                                          asp-for="@Model.PowersUsedDate"/>
+                        <govuk-date-input heading-label="true" hint="For example, 1 7 2024." id="powers-used-date"
+                            name="powers-used-date" data-cy="powers-used-date-input" asp-for="@Model.PowersUsedDate" />
                     </div>
                 </fieldset>
             </div>
 
             <div class="govuk-button-group govuk-body">
-                <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="save-information-powers-btn">
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="save-information-powers-btn">
                     Save and return
                 </button>
-                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                    class="govuk-link" data-cy="cancel-link">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-
