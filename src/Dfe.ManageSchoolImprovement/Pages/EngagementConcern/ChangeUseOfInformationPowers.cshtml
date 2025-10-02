@@ -41,48 +41,60 @@
                         </div>
                     </details>
 
-                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                        <div class="govuk-checkboxes__item">
-                            <input name="information-powers-in-use-hidden" type="hidden" value="false" />
-                            <input class="govuk-checkboxes__input"
-                                   id="information-powers-in-use"
-                                   name="information-powers-in-use"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.InformationPowersInUse == true ? "checked" : "")
-                                   data-aria-controls="conditional-information-powers"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="information-powers-in-use">
-                                Information powers in use
+                    <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--m" for="information-powers-details">
+                                Enter details
                             </label>
-                        </div>
-                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-information-powers">
-
-                                <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
-                                    <label class="govuk-label" for="information-powers-details">
-                                        Enter details about why and how the powers have been used. Describe what information you used the powers to get.
-                                    </label>
-                                    @if (Model.ShowDetailsError)
-                                    {
-                                        <p id="more-detail-error" class="govuk-error-message">
-                                            <span class="govuk-visually-hidden">Error:</span> You must enter details
-                                        </p>
-                                    }
-                                    <textarea class="govuk-textarea"
+                        </h1>
+                        <div class="govuk-hint">Describe why and how the powers have been used.</div>
+                        @if (Model.ShowDetailsError)
+                        {
+                            <p id="more-detail-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> You must enter details
+                            </p>
+                        }
+                        <textarea class="govuk-textarea"
                                               id="information-powers-details"
                                               name="information-powers-details"
                                               rows="5"
                                               aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
-                                </div>
+                    </div>
 
-                                <div class="govuk-form-group">
-                                    <govuk-date-input heading-label="true"
-                                                      label="Date powers used"
-                                                      hint="Enter the date the school was informed of the use of powers. For example, 1 7 2024."
-                                                      id="powers-used-date"
-                                                      name="powers-used-date"
-                                                      asp-for="@Model.PowersUsedDate" />
-                                </div>
+                    <div class="govuk-form-group">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--m" for="powers-used-date">
+                                Enter date the school was informed of the use of information powers
+                            </label>
+                        </h1>
+                        <govuk-date-input heading-label="true"
+                                          hint="For example, 1 7 2024."
+                                          id="powers-used-date"
+                                          name="powers-used-date"
+                                          asp-for="@Model.PowersUsedDate"/>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--m" for="remove-information-powers">
+                                Remove information powers
+                            </label>
+                        </h1>
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input name="remove-information-powers-hidden" type="hidden" value="false"/>
+                                <input class="govuk-checkboxes__input"
+                                       id="remove-information-powers"
+                                       name="remove-information-powers"
+                                       value="true"
+                                       type="checkbox"
+                                       @(Model.RemoveInformationPowers is true ? "checked" : "")
+                                       data-aria-controls="conditional-information-powers"/>
+                                <label class="govuk-label govuk-checkboxes__label" for="remove-information-powers">
+                                    Information powers removed
+                                </label>
                             </div>
+                        </div>
                     </div>
                 </fieldset>
             </div>
