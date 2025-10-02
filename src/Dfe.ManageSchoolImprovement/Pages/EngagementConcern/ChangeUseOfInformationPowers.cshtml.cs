@@ -40,7 +40,7 @@ public class ChangeUseOfInformationPowersModel(
 
     string IDateValidationMessageProvider.AllMissing(string displayName)
     {
-        return $"You must enter a date";
+        return "Enter a date";
     }
 
     public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
@@ -76,12 +76,12 @@ public class ChangeUseOfInformationPowersModel(
 
         if (RemoveInformationPowers == false && string.IsNullOrEmpty(InformationPowersDetails))
         {
-            ModelState.AddModelError("information-powers-details", "You must enter details");
+            ModelState.AddModelError("information-powers-details", "Enter details");
         }
         
         if (RemoveInformationPowers == false && !PowersUsedDate.HasValue)
         {
-            ModelState.AddModelError("powers-used-date", "You must enter a date");
+            ModelState.AddModelError("powers-used-date", "Enter a date");
         }
 
         if (RemoveInformationPowers == true)
