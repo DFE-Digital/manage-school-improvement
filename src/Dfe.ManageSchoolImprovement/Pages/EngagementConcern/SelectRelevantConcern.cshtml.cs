@@ -21,10 +21,11 @@ public class SelectRelevantConcernModel(
 
     public bool ShowError => _errorService.HasErrors();
 
-    private const string ConcernSelectionKey = "SelectedConcernId";
+    private const string ConcernSelectionKey = "SelectedConcernId-0";
 
     public bool ShowConcernSelectionError => ModelState.ContainsKey(ConcernSelectionKey) &&
                                              ModelState[ConcernSelectionKey]?.Errors.Count > 0;
+    public bool IsInformationPowers { get; set; } = false;
 
     public async Task<IActionResult> OnGetAsync(int id, string? returnPage, string nextPage, CancellationToken cancellationToken)
     {
@@ -45,22 +46,28 @@ public class SelectRelevantConcernModel(
         }
         else if (nextPage == Links.EngagementConcern.RecordUseOfInformationPowers.Page)
         {
+            IsInformationPowers = true;
             AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).OrderBy(x => x.EngagementConcernRaisedDate).ToList();
         }
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, string nextPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, string? returnPage, string nextPage, CancellationToken cancellationToken)
     {
+        ReturnPage = returnPage ?? Links.EngagementConcern.Index.Page;
+
         await base.GetSupportProject(id, cancellationToken);
 
         if (!SelectedConcernId.HasValue)
         {
-            ModelState.AddModelError(ConcernSelectionKey, "You must select a concern");
+            ModelState.AddModelError(ConcernSelectionKey, $"Select which concern the {(IsInformationPowers ? "Information powers" : "Interim executive board")} is related to");
         }
 
         if (!ModelState.IsValid)
         {
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            // Create a list that includes both form keys AND our manual error key
+            var allKeys = Request.Form.Keys.Union(new[] { ConcernSelectionKey }).ToList();
+
+            _errorService.AddErrors(allKeys, ModelState);
 
             SetAvailableConcerns(nextPage);
 

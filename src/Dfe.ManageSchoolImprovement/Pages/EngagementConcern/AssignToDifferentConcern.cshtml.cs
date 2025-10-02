@@ -27,7 +27,7 @@ public class AssignToDifferentConcernModel(
 
     public bool ShowError => _errorService.HasErrors();
 
-    private const string ConcernSelectionKey = "SelectedConcernId";
+    private const string ConcernSelectionKey = "SelectedConcernId-0";
 
     public bool ShowConcernSelectionError => ModelState.ContainsKey(ConcernSelectionKey) &&
                                              ModelState[ConcernSelectionKey]?.Errors.Count > 0;
@@ -67,13 +67,18 @@ public class AssignToDifferentConcernModel(
 
         if (!SelectedConcernId.HasValue)
         {
-            ModelState.AddModelError(ConcernSelectionKey, "You must select a concern");
+            ModelState.AddModelError(ConcernSelectionKey, $"Select which concern the {(assignType == AssignInfoPowersToDifferentConcern ? "Information powers" : "Interim executive board")} is related to");
         }
 
-        SetAvailableConcerns(assignType);
+        if (!ModelState.IsValid)
+        {
+            // Create a list that includes both form keys AND our manual error key
+            var allKeys = Request.Form.Keys.Union([ConcernSelectionKey]).ToList();
 
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
+            SetAvailableConcerns(assignType);
+            this._errorService.AddErrors(allKeys, ModelState);
+            return Page();
+        }
 
         var currentEngagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
         var newEngagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == SelectedConcernId);

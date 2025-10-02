@@ -19,7 +19,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l">@(Model.IsInformationPowers ? "Information powers" : "Interim executive board")</span>
         <form method="post">
             <div class="govuk-form-group @(Model.ShowConcernSelectionError ? "govuk-form-group--error" : "")">
                 <fieldset class="govuk-fieldset">
@@ -30,26 +30,25 @@
                     @if (Model.ShowConcernSelectionError)
                     {
                         <p id="concern-selection-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> You must select a concern
+                            <span class="govuk-visually-hidden">Error:</span> Select which concern the @(Model.IsInformationPowers ? "Information powers" : "Interim executive board") is related to
                         </p>
                     }
 
                     <div class="govuk-radios" data-module="govuk-radios">
                         @if (Model.AvailableConcerns != null && Model.AvailableConcerns.Any())
                         {
-
                             @for (int i = 0; i < Model.AvailableConcerns.Count; i++)
                             {
                                 var concern = Model.AvailableConcerns[i];
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input"
-                                           id="concern-@i"
+                                           id="SelectedConcernId-@i"
                                            name="SelectedConcernId"
                                            type="radio"
                                            value="@concern.ReadableId"
                                            @(Model.SelectedConcernId == concern.ReadableId ? "checked" : "")
                                            data-cy="concern-radio-@i" />
-                                    <label class="govuk-label govuk-radios__label" for="concern-@i">
+                                    <label class="govuk-label govuk-radios__label" for="SelectedConcernId-@i">
                                         @concern.EngagementConcernSummary<br />
                                         <span class="govuk-hint">Recorded on @concern.EngagementConcernRaisedDate.ToDateString()</span>
                                     </label>
