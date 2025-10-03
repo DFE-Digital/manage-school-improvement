@@ -58,7 +58,7 @@
                                 <span class="govuk-visually-hidden">Error:</span> Enter details
                             </p>
                         }
-                        <textarea class="govuk-textarea" data-cy="information-powers-details-textarea"
+                        <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")" data-cy="information-powers-details-textarea"
                             id="information-powers-details" name="information-powers-details" rows="5"
                             aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
                     </div>

@@ -12,23 +12,35 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 public class ChangeUseOfInterimExecutiveBoardModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
     [BindProperty(Name = "ieb-created-details")]
     public string? InterimExecutiveBoardCreatedDetails { get; set; }
 
-    private DateTime? InterimExecutiveBoardCreatedDate { get; set; }
+    [BindProperty(Name = "ieb-created-date", BinderType = typeof(DateInputModelBinder))]
+    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    public DateTime? InterimExecutiveBoardCreatedDate { get; set; }
+    
+    [BindProperty(Name = "remove-ieb")]
+    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
+    public bool? RemoveInterimExecutiveBoard { get; set; } = false;
 
     public bool ShowError => _errorService.HasErrors();
 
     public bool ShowDetailsError => ModelState.ContainsKey("ieb-created-details") &&
                                     ModelState["ieb-created-details"]?.Errors.Count > 0;
 
-    [BindProperty(Name = "ieb-created")]
-    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
-    public bool? InterimExecutiveBoardCreated { get; set; }
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
+    {
+        return $"Date must include a {string.Join(" and ", missingParts)}";
+    }
+
+    string IDateValidationMessageProvider.AllMissing(string displayName)
+    {
+        return $"You must enter a date";
+    }
 
     public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
@@ -38,48 +50,56 @@ public class ChangeUseOfInterimExecutiveBoardModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.ReadableId == readableEngagementConcernId);
         if (engagementConcern != null)
         {
-            InterimExecutiveBoardCreated = engagementConcern.InterimExecutiveBoardCreated;
+            RemoveInterimExecutiveBoard = !engagementConcern.InterimExecutiveBoardCreated;
             InterimExecutiveBoardCreatedDetails = engagementConcern.InterimExecutiveBoardCreatedDetails;
+            InterimExecutiveBoardCreatedDate = engagementConcern.InterimExecutiveBoardCreatedDate;
         }
-
-
+        
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.ReadableId == readableEngagementConcernId);
 
-        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
 
         if (engagementConcern?.Id == null)
         {
             throw new InvalidOperationException($"Engagement concern with readable ID {readableEngagementConcernId} not found");
         }
+        
 
-        InterimExecutiveBoardCreatedDate = engagementConcern.InterimExecutiveBoardCreatedDate;
-
-        if (InterimExecutiveBoardCreated == true && string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails))
+        if (RemoveInterimExecutiveBoard == false && string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails))
         {
             ModelState.AddModelError("ieb-created-details", "You must enter details");
         }
-
-        if (InterimExecutiveBoardCreated != true)
+        
+        if (RemoveInterimExecutiveBoard == false && !InterimExecutiveBoardCreatedDate.HasValue)
+        {
+            ModelState.AddModelError("ieb-created-date", "Enter a date");
+        }
+        
+        if (RemoveInterimExecutiveBoard == true)
         {
             InterimExecutiveBoardCreatedDetails = null;
             InterimExecutiveBoardCreatedDate = null;
         }
 
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
+        }
 
         var request = new SetSupportProjectIebDetailsCommand(
             engagementConcern.Id,
             new SupportProjectId(id),
-            InterimExecutiveBoardCreated,
+            !RemoveInterimExecutiveBoard,
             InterimExecutiveBoardCreatedDetails,
             InterimExecutiveBoardCreatedDate);
 
@@ -92,17 +112,11 @@ public class ChangeUseOfInterimExecutiveBoardModel(
             return Page();
         }
 
-        TempData["InterimExecutiveBoardUpdated"] = engagementConcern.InterimExecutiveBoardCreated is true && InterimExecutiveBoardCreated is true &&
+        TempData["InterimExecutiveBoardUpdated"] = engagementConcern.InterimExecutiveBoardCreated is true && RemoveInterimExecutiveBoard is false &&
                                                engagementConcern.InterimExecutiveBoardCreatedDetails != InterimExecutiveBoardCreatedDetails;
-        TempData["InterimExecutiveBoardRecorded"] = (engagementConcern.InterimExecutiveBoardCreated == null || engagementConcern.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
-        TempData["InterimExecutiveBoardRemoved"] = engagementConcern.InterimExecutiveBoardCreated == true && InterimExecutiveBoardCreated == false;
-
-        if (InterimExecutiveBoardCreated != true)
-        {
+        TempData["InterimExecutiveBoardRemoved"] = engagementConcern.InterimExecutiveBoardCreated == true && RemoveInterimExecutiveBoard is true;
+        
             return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
         }
-
-        return RedirectToPage(@Links.EngagementConcern.RecordInterimExecutiveBoardDate.Page, new { id, InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails });
-    }
 
 }
