@@ -64,8 +64,9 @@ public class ChangeUseOfInterimExecutiveBoardModel(
     public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.ReadableId == readableEngagementConcernId);
 
-        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
 
         if (engagementConcern?.Id == null)
         {
