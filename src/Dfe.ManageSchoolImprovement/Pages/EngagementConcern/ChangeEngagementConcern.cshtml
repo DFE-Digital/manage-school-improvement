@@ -23,8 +23,7 @@
             Change engagement concern
         </h1>
         <form method="post">
-            <div
-                class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError  ? "govuk-form-group--error" : "")"
+            <div class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error govuk-js-character-count--error" : "")"
                 data-module="govuk-character-count"
                 data-maxlength="200">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
