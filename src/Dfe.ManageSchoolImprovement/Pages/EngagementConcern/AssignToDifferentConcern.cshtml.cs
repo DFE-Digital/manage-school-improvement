@@ -40,12 +40,12 @@ public class AssignToDifferentConcernModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        SetAvailableConcerns(assignType);
+        SetAvailableConcerns(assignType, readableEngagementConcernId);
 
         return Page();
     }
 
-    private void SetAvailableConcerns(string assignType)
+    private void SetAvailableConcerns(string assignType, int readableEngagementConcernId)
     {
         AssignType = assignType;
 
@@ -57,6 +57,21 @@ public class AssignToDifferentConcernModel(
         {
             AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse != true).OrderBy(x => x.EngagementConcernRaisedDate).ToList();
         }
+
+        // add the current concern to the list so it is clear which one it is currently assigned to
+        if (AvailableConcerns != null && AvailableConcerns.Any())
+        {
+            if (SupportProject?.EngagementConcerns != null)
+            {
+                var concernToAdd = SupportProject.EngagementConcerns.SingleOrDefault(x => x.ReadableId == readableEngagementConcernId);
+                if (concernToAdd != null)
+                {
+                    SelectedConcernId = concernToAdd.ReadableId;
+                    AvailableConcerns.Add(concernToAdd);
+                }
+            }
+        }
+
     }
 
     public async Task<IActionResult> OnPostAsync(int id, string? returnPage, int readableEngagementConcernId, string assignType, CancellationToken cancellationToken)
@@ -75,7 +90,7 @@ public class AssignToDifferentConcernModel(
             // Create a list that includes both form keys AND our manual error key
             var allKeys = Request.Form.Keys.Union([ConcernSelectionKey]).ToList();
 
-            SetAvailableConcerns(assignType);
+            SetAvailableConcerns(assignType, readableEngagementConcernId);
             this._errorService.AddErrors(allKeys, ModelState);
             return Page();
         }

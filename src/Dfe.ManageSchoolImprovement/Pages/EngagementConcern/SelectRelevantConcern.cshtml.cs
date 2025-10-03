@@ -26,6 +26,8 @@ public class SelectRelevantConcernModel(
     public bool ShowConcernSelectionError => ModelState.ContainsKey(ConcernSelectionKey) &&
                                              ModelState[ConcernSelectionKey]?.Errors.Count > 0;
     public bool IsInformationPowers { get; set; } = false;
+    public bool ActiveEngagementConcernsWithIeb { get; private set; } = false;
+    public bool ActiveEngagementConcernsWithInformationPowers { get; private set; } = false;
 
     public async Task<IActionResult> OnGetAsync(int id, string? returnPage, string nextPage, CancellationToken cancellationToken)
     {
@@ -40,6 +42,9 @@ public class SelectRelevantConcernModel(
 
     private void SetAvailableConcerns(string? nextPage)
     {
+        ActiveEngagementConcernsWithIeb = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated == true).Any() ?? false;
+        ActiveEngagementConcernsWithInformationPowers = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InformationPowersInUse == true).Any() ?? false;
+
         if (nextPage == Links.EngagementConcern.RecordUseOfInterimExecutiveBoard.Page)
         {
             AvailableConcerns = SupportProject?.EngagementConcerns?.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).OrderBy(x => x.EngagementConcernRaisedDate).ToList();
