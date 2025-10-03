@@ -20,7 +20,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <form method="post">
+        <form method="post" novalidate>
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -73,7 +73,7 @@
                                 <span class="govuk-visually-hidden">Error:</span> Enter details
                             </p>
                         }
-                        <textarea class="govuk-textarea"
+                        <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
                                           id="ieb-created-details"
                                           name="ieb-created-details"
                                           rows="5"
