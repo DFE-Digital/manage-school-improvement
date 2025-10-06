@@ -21,7 +21,8 @@
                                   <a class="govuk-link" asp-page="@Links.ImprovementPlan.ChangeAnObjective.Page" 
                                     asp-route-id="@Model.SupportProjectId"
                                     asp-route-objectiveid="@objective.ReadableId"
-                                    asp-route-returnpage="@Model.ReturnPage">Change</a>
+                                    asp-route-returnpage="@Model.ReturnPage"
+                                    data-cy="objective-summary-change-link">Change</a>
                         </dd>
                     </div>
                 }

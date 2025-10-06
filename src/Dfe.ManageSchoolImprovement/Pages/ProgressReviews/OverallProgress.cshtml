@@ -7,7 +7,8 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewid="@Model.ReviewId" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewid="@Model.ReviewId"
+        class="govuk-back-link" data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -38,11 +39,9 @@
             <input type="hidden" asp-for="@Model.ReviewId" />
 
             <govuk-radiobuttons-input heading="How is the school progressing overall?"
-                                      heading-style="govuk-fieldset__legend--m"
-                                      name="OverallProgressStatus"
-                                      asp-for="@Model.OverallProgressStatus"
-                                      radio-buttons="@Model.OverallProgressRadioButtons"
-                                      error-message="@Model.OverallProgressStatusErrorMessage" />
+                heading-style="govuk-fieldset__legend--m" name="OverallProgressStatus"
+                asp-for="@Model.OverallProgressStatus" radio-buttons="@Model.OverallProgressRadioButtons"
+                data-cy="overall-progress-status-radios" error-message="@Model.OverallProgressStatusErrorMessage" />
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
@@ -53,36 +52,33 @@
                 @if (Model.ShowDetailsError)
                 {
                     <p id="overall-progress-details-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing overall
+                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing
+                        overall
                     </p>
                 }
                 <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
-                          id="OverallProgressDetails"
-                          name="OverallProgressDetails"
-                          rows="5"
-                          asp-for="@Model.OverallProgressDetails"></textarea>
+                    id="OverallProgressDetails" name="OverallProgressDetails" rows="5"
+                    data-cy="overall-progress-details-textarea" asp-for="@Model.OverallProgressDetails"></textarea>
             </div>
 
             <div class="govuk-button-group">
-                @if(Model.ReturnPage == Links.ProgressReviews.Index.Page)
+                @if (Model.ReturnPage == Links.ProgressReviews.Index.Page)
                 {
-                    <button class="govuk-button" type="submit" data-module="govuk-button">
+                    <button class="govuk-button" type="submit" data-module="govuk-button" data-cy="save-button">
                         Save
                     </button>
                 }
                 else
                 {
-                    <button class="govuk-button" type="submit" data-module="govuk-button">
+                    <button class="govuk-button" type="submit" data-module="govuk-button" data-cy="save-and-return-button">
                         Save and return
                     </button>
-                    <a asp-page="@Model.ReturnPage"
-                       asp-route-id="@Model.SupportProject.Id"
-                       asp-route-reviewid="@Model.ReviewId"
-                       class="govuk-link">
+                    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id"
+                        asp-route-reviewid="@Model.ReviewId" class="govuk-link" data-cy="cancel-link">
                         Cancel
                     </a>
                 }
             </div>
         </form>
     </div>
-</div> 
+</div>
