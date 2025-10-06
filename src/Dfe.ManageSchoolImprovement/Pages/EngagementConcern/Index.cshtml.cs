@@ -41,7 +41,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public bool? InterimExecutiveBoardDateUpdated { get; set; }
 
     public List<EngagementConcernViewModel> EngagementConcerns { get; set; } = [];
-
+    public bool AllEngagementConcernsResolved { get; private set; } = true;
     public int ActiveEngagementConcernsWithoutIebCount { get; set; } = 0;
     public bool ActiveEngagementConcernsWithIeb { get; set; } = false;
     public int? EngagementConcernWithoutIebReadableId { get; set; } = null;
@@ -59,7 +59,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         await base.GetSupportProject(id, cancellationToken);
 
         EngagementConcerns = SupportProject?.EngagementConcerns?.OrderByDescending(x => x.EngagementConcernRaisedDate).ToList() ?? [];
-
+        AllEngagementConcernsResolved = !EngagementConcerns.Any(x => x.EngagementConcernResolved != true);
         // we need to know what page to navigate to associate ieb and information powers, if there are multiple per category then we have to go to the select relevant concern page
         // else we go to the next avaialable concern
         ActiveEngagementConcernsWithoutIebCount = EngagementConcerns.Where(x => x.EngagementConcernResolved != true && x.InterimExecutiveBoardCreated != true).Count();
