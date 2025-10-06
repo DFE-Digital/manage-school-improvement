@@ -78,7 +78,7 @@
                             Record use of information powers
                         </a>
                     }
-                    else
+                    else if (!Model.AllEngagementConcernsResolved)
                     {
                         <a asp-page="@Links.EngagementConcern.SelectRelevantConcern.Page"
                            asp-route-id="@Model.SupportProject.Id"
@@ -104,7 +104,7 @@
                                 Record use of interim executive board
                             </a>
                         }
-                        else
+                        else if (!Model.AllEngagementConcernsResolved)
                         {
                             <a asp-page="@Links.EngagementConcern.SelectRelevantConcern.Page"
                                asp-route-id="@Model.SupportProject.Id"
