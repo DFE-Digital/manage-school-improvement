@@ -110,7 +110,9 @@ jobs:
           path: src/Dfe.ManageSchoolImprovement.CypressTests/mochareports
 
       - name: Report results
+        env:
+          INPUTENV: ${{ inputs.environment }}
         if: always()
-        run: npm run cy:notify -- --custom-text="Environment ${{ inputs.environment }}, See more information https://github.com/DFE-Digital/regional-improvement-for-standards-and-excellence/actions/runs/${{github.run_id}}"
+        run: npm run cy:notify -- --custom-text="Environment $INPUTENV, See more information https://github.com/DFE-Digital/regional-improvement-for-standards-and-excellence/actions/runs/${{github.run_id}}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
