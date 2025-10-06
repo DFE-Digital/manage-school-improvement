@@ -7,7 +7,8 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewId="@Model.ReviewId" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewId="@Model.ReviewId"
+        class="govuk-back-link" data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -39,11 +40,9 @@
             <input type="hidden" asp-for="@Model.NextObjectiveId" />
 
             <govuk-radiobuttons-input heading="How is the school progressing with this objective?"
-                                      heading-style="govuk-fieldset__legend--m"
-                                      name="ProgressStatus"
-                                      asp-for="@Model.ProgressStatus"
-                                      radio-buttons="@Model.ProgressRadioButtons"
-                                      error-message="@Model.ProgressStatusErrorMessage" />
+                heading-style="govuk-fieldset__legend--m" name="ProgressStatus" asp-for="@Model.ProgressStatus"
+                radio-buttons="@Model.ProgressRadioButtons" error-message="@Model.ProgressStatusErrorMessage"
+                data-cy="progress-status-radios" />
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
@@ -54,51 +53,45 @@
                 @if (Model.ShowDetailsError)
                 {
                     <p id="more-detail-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing with this objective
+                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing
+                        with this objective
                     </p>
                 }
                 <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
-                          id="ProgressDetails"
-                          name="ProgressDetails"
-                          rows="5"
-                          asp-for="@Model.ProgressDetails"></textarea>
+                    id="ProgressDetails" name="ProgressDetails" rows="5" data-cy="progress-details-textarea"
+                    asp-for="@Model.ProgressDetails"></textarea>
             </div>
 
             <div class="govuk-button-group">
                 @if (!Model.ShowSkipObjectiveLink)
                 {
-                    <button class="govuk-button" type="submit" data-module="govuk-button">
+                    <button class="govuk-button" type="submit" data-cy="save-and-return-button" data-module="govuk-button">
                         Save and return
                     </button>
                 }
                 @if (Model.NextObjectiveId == null && Model.ShowSkipObjectiveLink)
                 {
-                    <button class="govuk-button" type="submit" data-module="govuk-button">
+                    <button class="govuk-button" type="submit" data-cy="save-button" data-module="govuk-button">
                         Save
                     </button>
-                    <a asp-page="@Links.ProgressReviews.ProgressSummary.Page"
-                       asp-route-id="@Model.SupportProject.Id"
-                       asp-route-reviewId="@Model.ReviewId"
-                       asp-route-enableskip="true"
-                       class="govuk-link">
+                    <a asp-page="@Links.ProgressReviews.ProgressSummary.Page" asp-route-id="@Model.SupportProject.Id"
+                        asp-route-reviewId="@Model.ReviewId" asp-route-enableskip="true" class="govuk-link"
+                        data-cy="skip-objective-link">
                         Skip this objective
                     </a>
                 }
                 else if (Model.ShowSkipObjectiveLink)
                 {
-                    <button class="govuk-button" type="submit" data-module="govuk-button">
+                    <button class="govuk-button" type="submit" data-cy="save-button" data-module="govuk-button">
                         Save
                     </button>
-                    <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
-                       asp-route-id="@Model.SupportProject.Id"
-                       asp-route-reviewId="@Model.ReviewId"
-                       asp-route-objectiveId="@Model.NextObjectiveId"
-                       asp-route-enableskip="true"
-                       class="govuk-link">
+                    <a asp-page="@Links.ProgressReviews.RecordProgress.Page" asp-route-id="@Model.SupportProject.Id"
+                        asp-route-reviewId="@Model.ReviewId" asp-route-objectiveId="@Model.NextObjectiveId"
+                        asp-route-enableskip="true" class="govuk-link" data-cy="skip-objective-link">
                         Skip this objective
                     </a>
                 }
             </div>
         </form>
     </div>
-</div> 
+</div>

@@ -6,7 +6,8 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewId="@Model.ReviewId" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewId="@Model.ReviewId"
+        class="govuk-back-link" data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -38,37 +39,26 @@
 
                     <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                   id="yes"
-                                   name="IsAnotherReviewNeeded"
-                                   type="radio"
-                                   value="yes"
-                                   checked="@(Model.IsAnotherReviewNeeded == "yes")"
-                                   data-aria-controls="conditional-yes"
-                                   asp-for="@Model.IsAnotherReviewNeeded" />
+                            <input class="govuk-radios__input" id="yes" name="IsAnotherReviewNeeded" type="radio"
+                                value="yes" checked="@(Model.IsAnotherReviewNeeded == "yes")"
+                                data-aria-controls="conditional-yes" asp-for="@Model.IsAnotherReviewNeeded"
+                                data-cy="another-review-needed-yes-radio" />
                             <label class="govuk-label govuk-radios__label" for="yes">
                                 Yes
                             </label>
                         </div>
 
                         <div id="conditional-yes"
-                             class="govuk-radios__conditional @(Model.IsAnotherReviewNeeded == "yes" ? "" : "govuk-radios__conditional--hidden")">
-                            <govuk-date-input heading-label="false"
-                                              label="Enter a date for the next review"
-                                              id="NextReviewDate"
-                                              name="NextReviewDate"
-                                              asp-for="@Model.NextReviewDate"
-                                              hint="For example, 27 3 2007." />
+                            class="govuk-radios__conditional @(Model.IsAnotherReviewNeeded == "yes" ? "" : "govuk-radios__conditional--hidden")">
+                            <govuk-date-input heading-label="false" label="Enter a date for the next review"
+                                id="NextReviewDate" name="NextReviewDate" asp-for="@Model.NextReviewDate"
+                                hint="For example, 27 3 2007." data-cy="next-review-date-input" />
                         </div>
 
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                   id="no"
-                                   name="IsAnotherReviewNeeded"
-                                   type="radio"
-                                   value="no"
-                                   checked="@(Model.IsAnotherReviewNeeded == "no")"
-                                   asp-for="@Model.IsAnotherReviewNeeded" />
+                            <input class="govuk-radios__input" id="no" name="IsAnotherReviewNeeded" type="radio"
+                                value="no" checked="@(Model.IsAnotherReviewNeeded == "no")"
+                                asp-for="@Model.IsAnotherReviewNeeded" data-cy="another-review-needed-no-radio" />
                             <label class="govuk-label govuk-radios__label" for="no">
                                 No
                             </label>
@@ -77,9 +67,9 @@
                 </fieldset>
             </div>
 
-            <button class="govuk-button" type="submit" data-module="govuk-button">
+            <button class="govuk-button" type="submit" data-module="govuk-button" data-cy="save-and-return-button">
                 Save and return
             </button>
         </form>
     </div>
-</div> 
+</div>
