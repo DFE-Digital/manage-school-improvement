@@ -24,8 +24,9 @@
             @if ((Model.ActiveEngagementConcernsWithIeb && !Model.IsInformationPowers) || (Model.ActiveEngagementConcernsWithInformationPowers && Model.IsInformationPowers))
             {
                 <h1 class="govuk-heading-l">Select the relevant concern</h1>
-                <p class="govuk-body">There are no concerns available to assign the @(Model.IsInformationPowers ? "use of information powers" : "use of interim executive board") to. Only one active concern can have this at any one time. </p>
-                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-button">Return</a>
+                <p class="govuk-body">You cannot record a @(Model.IsInformationPowers ? "use of information powers. Information powers are already in use." : "use of interim executive board (IEB). An IEB is already in place.")</p>
+                 <p>You must resolve the related active engagement concern first.</p>
+                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-button">Go back</a>
 
             }
             else
