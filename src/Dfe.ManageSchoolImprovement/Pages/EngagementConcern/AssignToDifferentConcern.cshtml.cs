@@ -109,6 +109,11 @@ public class AssignToDifferentConcernModel(
         }
 
         var supportProjectId = new SupportProjectId(id);
+        if (currentEngagementConcern.Id == newEngagementConcern.Id)
+        {
+            // No change, just return to the concern details page
+            return RedirectToPage(Links.EngagementConcern.Index.Page, new { id });
+        }
 
         if (assignType == AssignIebToDifferentConcern)
         {

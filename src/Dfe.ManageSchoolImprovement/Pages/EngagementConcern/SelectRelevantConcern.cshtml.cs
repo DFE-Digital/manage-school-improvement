@@ -61,6 +61,7 @@ public class SelectRelevantConcernModel(
         ReturnPage = returnPage ?? Links.EngagementConcern.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+        SetAvailableConcerns(nextPage);
 
         if (!SelectedConcernId.HasValue)
         {
@@ -73,8 +74,6 @@ public class SelectRelevantConcernModel(
             var allKeys = Request.Form.Keys.Union(new[] { ConcernSelectionKey }).ToList();
 
             _errorService.AddErrors(allKeys, ModelState);
-
-            SetAvailableConcerns(nextPage);
 
             return Page();
         }

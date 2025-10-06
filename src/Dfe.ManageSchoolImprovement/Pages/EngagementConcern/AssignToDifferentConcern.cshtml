@@ -76,8 +76,9 @@
             else
             {
                 <h1 class="govuk-heading-l">Assign to different concern</h1>
-                <p class="govuk-body">There are no concerns available to assign the @(Model.AssignType == AssignToDifferentConcernModel.AssignInfoPowersToDifferentConcern ? "use of information powers" : "use of interim executive board") to. Only one active concern can have this at any one time. </p>
-                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-button">Return</a>
+                <p class="govuk-body">You cannot assign this @(Model.AssignType == AssignToDifferentConcernModel.AssignInfoPowersToDifferentConcern ? "use of information powers" : "use of interim executive board") to another engagement cocnern.</p>
+                <p>There are no other active concerns. </p>
+                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-button">Go back</a>
             }
         </form>
     </div>
