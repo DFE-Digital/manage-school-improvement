@@ -24,36 +24,45 @@ public class SetSupportProjectInformationPowersDetailsTests
     public async Task Handle_ValidCommand_UpdatesSupportProject()
     {
         // Arrange
+        var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
         var informationPowersInUse = true;
         var informationPowersDetails = "test details";
         var powersUsedDate = DateTime.UtcNow;
 
+        // Add an engagement concern to the mock support project
+        var engagementConcernDetails = new EngagementConcernDetails
+        {
+            Details = "Test engagement concern",
+            Summary = "Test summary"
+        };
+        _mockSupportProject.AddEngagementConcern(engagementConcernId, _mockSupportProject.Id, engagementConcernDetails);
+
         var command = new SetSupportProjectInformationPowersDetailsCommand(
-            _mockSupportProject.Id, 
-            informationPowersInUse, 
+            engagementConcernId,
+            _mockSupportProject.Id,
+            informationPowersInUse,
             informationPowersDetails,
             powersUsedDate
         );
-        
+
         _mockSupportProjectRepository
             .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                 It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        
+
         var handler = new SetSupportProjectInformationPowersDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act
         var result = await handler.Handle(command, _cancellationToken);
 
-        // Verify
+        // Assert
         Assert.IsType<bool>(result);
         Assert.True(result);
         _mockSupportProjectRepository.Verify(
-            repo => repo.UpdateAsync(
-                It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                    x.InformationPowersInUse == informationPowersInUse &&
-                    x.InformationPowersDetails == informationPowersDetails &&
-                    x.PowersUsedDate == powersUsedDate), 
+            repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                 It.IsAny<CancellationToken>()),
+            Times.Once);
+        _mockSupportProjectRepository.Verify(
+            repo => repo.UpdateAsync(_mockSupportProject, It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
@@ -61,32 +70,42 @@ public class SetSupportProjectInformationPowersDetailsTests
     public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
     {
         // Arrange
+        var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
+
+        // Add an engagement concern to the mock support project
+        var engagementConcernDetails = new EngagementConcernDetails
+        {
+            Details = "Test engagement concern",
+            Summary = "Test summary"
+        };
+        _mockSupportProject.AddEngagementConcern(engagementConcernId, _mockSupportProject.Id, engagementConcernDetails);
+
         var command = new SetSupportProjectInformationPowersDetailsCommand(
-            _mockSupportProject.Id, 
-            null, 
+            engagementConcernId,
+            _mockSupportProject.Id,
+            null,
             null,
             null
         );
-        
+
         _mockSupportProjectRepository
             .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                 It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-        
+
         var handler = new SetSupportProjectInformationPowersDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act
         var result = await handler.Handle(command, _cancellationToken);
 
-        // Verify
+        // Assert
         Assert.IsType<bool>(result);
         Assert.True(result);
         _mockSupportProjectRepository.Verify(
-            repo => repo.UpdateAsync(
-                It.Is<Domain.Entities.SupportProject.SupportProject>(x =>
-                    x.InformationPowersInUse == null && 
-                    x.InformationPowersDetails == null &&
-                    x.PowersUsedDate == null), 
+            repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                 It.IsAny<CancellationToken>()),
+            Times.Once);
+        _mockSupportProjectRepository.Verify(
+            repo => repo.UpdateAsync(_mockSupportProject, It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
@@ -94,33 +113,69 @@ public class SetSupportProjectInformationPowersDetailsTests
     public async Task Handle_ProjectNotFound_ReturnsFalse()
     {
         // Arrange
+        var engagementConcernId = new EngagementConcernId(Guid.NewGuid());
         var informationPowersInUse = true;
         var informationPowersDetails = "test details";
         var powersUsedDate = DateTime.UtcNow;
 
         var command = new SetSupportProjectInformationPowersDetailsCommand(
-            _mockSupportProject.Id, 
-            informationPowersInUse, 
+            engagementConcernId,
+            _mockSupportProject.Id,
+            informationPowersInUse,
             informationPowersDetails,
             powersUsedDate
         );
-        
+
         _mockSupportProjectRepository
             .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
                 It.IsAny<CancellationToken>())).ReturnsAsync(null as Domain.Entities.SupportProject.SupportProject);
-        
+
         var handler = new SetSupportProjectInformationPowersDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act
         var result = await handler.Handle(command, _cancellationToken);
 
-        // Verify
+        // Assert
         Assert.IsType<bool>(result);
         Assert.False(result);
         _mockSupportProjectRepository.Verify(
+            repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+        _mockSupportProjectRepository.Verify(
             repo => repo.UpdateAsync(
                 It.IsAny<Domain.Entities.SupportProject.SupportProject>(),
-                It.IsAny<CancellationToken>()), 
+                It.IsAny<CancellationToken>()),
             Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_EngagementConcernNotFound_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var nonExistentEngagementConcernId = new EngagementConcernId(Guid.NewGuid());
+        var informationPowersInUse = true;
+        var informationPowersDetails = "test details";
+        var powersUsedDate = DateTime.UtcNow;
+
+        var command = new SetSupportProjectInformationPowersDetailsCommand(
+            nonExistentEngagementConcernId,
+            _mockSupportProject.Id,
+            informationPowersInUse,
+            informationPowersDetails,
+            powersUsedDate
+        );
+
+        _mockSupportProjectRepository
+            .Setup(repo => repo.GetSupportProjectById(It.Is<SupportProjectId>(x => x == _mockSupportProject.Id),
+                It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
+
+        var handler = new SetSupportProjectInformationPowersDetailsCommandHandler(_mockSupportProjectRepository.Object);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            handler.Handle(command, _cancellationToken));
+
+        Assert.Contains($"Engagement concern with id {nonExistentEngagementConcernId} not found", exception.Message);
     }
 }

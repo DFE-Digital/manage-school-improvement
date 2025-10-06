@@ -1,4 +1,4 @@
-@page "/engagement-concern/record-use-of-interim-executive-board/{id:int}"
+@page "/engagement-concern/{id:int}/{readableEngagementConcernId:int}/record-use-of-interim-executive-board"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.RecordUseOfInterimExecutiveBoardModel
 
 @inject IConfiguration Configuration
@@ -20,7 +20,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <form method="post">
+        <form method="post" novalidate>
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -58,42 +58,38 @@
                             <p class="govuk-body">An IEB can only be created with a regional director's approval.</p>
                         </div>
                     </details>
-                    
-                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                        <div class="govuk-checkboxes__item">
-                            <input name="ieb-created-hidden" type="hidden" value="false"/>
-                            <input class="govuk-checkboxes__input"
-                                   id="ieb-created"
-                                   name="ieb-created"
-                                   value="true"
-                                   type="checkbox"
-                                   @(Model.InterimExecutiveBoardCreated == true ? "checked" : "")
-                                   data-aria-controls="conditional-ieb-created"/>
-                            <label class="govuk-label govuk-checkboxes__label" for="ieb-created">
-                                Interim executive board created
-                            </label>
-                        </div>
-                        
-                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                             id="conditional-ieb-created">
+                
 
-                            <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
-                                <label class="govuk-label" for="ieb-created-details">
-                                    Give details of the IEB, who is on it and why it is necessary.
-                                </label>
-                                @if (Model.ShowDetailsError)
-                                {
-                                    <p id="more-detail-error" class="govuk-error-message">
-                                        <span class="govuk-visually-hidden">Error:</span> You must enter details
-                                    </p>
-                                }
-                                <textarea class="govuk-textarea"
+                    <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--m" for="ieb-created-details">
+                                Enter details
+                            </label>
+                        </h1>
+                        <div class="govuk-hint">Give details of the IEB, who is on it and why it is necessary.</div>
+                        @if (Model.ShowDetailsError)
+                        {
+                            <p id="more-detail-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> Enter details
+                            </p>
+                        }
+                        <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
                                           id="ieb-created-details"
                                           name="ieb-created-details"
                                           rows="5"
                                           aria-describedby="ieb-created-details-hint">@Model.InterimExecutiveBoardCreatedDetails</textarea>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="govuk-form-group">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--m" for="ieb-created-date">
+                                Enter date of regional director's decision to create and interim executive board
+                            </label>
+                        </h1>
+                        <govuk-date-input heading-label="true"
+                                          hint="For example, 1 7 2024."
+                                          id="ieb-created-date"
+                                          name="ieb-created-date"
+                                          asp-for="@Model.InterimExecutiveBoardCreatedDate"/>
                     </div>
                 </fieldset>
             </div>
@@ -101,7 +97,7 @@
             <div class="govuk-button-group govuk-body">
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                         data-cy="save-ieb-created-btn">
-                    Confirm and continue
+                    Save and return
                 </button>
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link">Cancel</a>

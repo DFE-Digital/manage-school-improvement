@@ -42,6 +42,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public DateTime? EngagementConcernEscalationDateOfDecision { get; set; }
         public string? EngagementConcernEscalationWarningNotice { get; set; }
 
+        public bool? InformationPowersInUse { get; private set; }
+        public string? InformationPowersDetails { get; private set; }
+        public DateTime? PowersUsedDate { get; private set; }
+
+        public bool? InterimExecutiveBoardCreated { get; private set; }
+        public string? InterimExecutiveBoardCreatedDetails { get; private set; }
+        public DateTime? InterimExecutiveBoardCreatedDate { get; private set; }
+
         public void SetEngagementConcernDetails(string? engagementConcernDetails, string? engagementConcernSummary, DateTime? engagementConcernRaisedDate)
         {
             EngagementConcernDetails = engagementConcernDetails;
@@ -66,6 +74,21 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             EngagementConcernEscalationDetails = escalationDetails;
             EngagementConcernEscalationDateOfDecision = dateOfDecision;
             EngagementConcernEscalationWarningNotice = warningNotice;
+        }
+        public void SetInformationPowersDetails(bool? informationPowersInUse, string? informationPowersDetails,
+            DateTime? powersUsedDate)
+        {
+            InformationPowersInUse = informationPowersInUse;
+            InformationPowersDetails = informationPowersDetails;
+            PowersUsedDate = powersUsedDate;
+        }
+
+        public void SetInterimExecutiveBoardCreated(bool? interimExecutiveBoardCreated,
+            string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)
+        {
+            InterimExecutiveBoardCreated = interimExecutiveBoardCreated;
+            InterimExecutiveBoardCreatedDetails = interimExecutiveBoardCreatedDetails;
+            InterimExecutiveBoardCreatedDate = interimExecutiveBoardCreatedDate;
         }
     }
 }

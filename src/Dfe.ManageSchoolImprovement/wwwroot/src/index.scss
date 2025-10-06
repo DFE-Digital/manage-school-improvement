@@ -128,3 +128,11 @@ ul .autocomplete__option {
 .show-white-space {
    white-space: pre-wrap;
 }
+
+.govuk-js-character-count--error .govuk-js-character-count {
+	border-color: #d4351c
+}
+
+.govuk-js-character-count--error .govuk-js-character-count:focus {
+	border-color: #0b0c0c
+}
