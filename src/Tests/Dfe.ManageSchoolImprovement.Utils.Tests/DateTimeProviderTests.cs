@@ -4,7 +4,7 @@ namespace Dfe.ManageSchoolImprovement.Utils.Tests
 {
     public class DateTimeProviderTests
     {
-        private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly DateTimeProvider _dateTimeProvider;
 
         public DateTimeProviderTests()
         {

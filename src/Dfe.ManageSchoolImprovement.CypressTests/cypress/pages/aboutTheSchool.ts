@@ -24,7 +24,7 @@ class AboutTheSchool {
       'Number on roll (NOR)'
     ];
 
-    expectedFields.forEach(fieldName => {
+    for(const fieldName of expectedFields) {
       cy.get('dl.govuk-summary-list')
         .find('dt.govuk-summary-list__key')
         .contains(fieldName)
@@ -32,7 +32,7 @@ class AboutTheSchool {
         .find('dd.govuk-summary-list__value')
         .should('exist')
         .and('not.be.empty');
-    });
+    }
 
     cy.get('.govuk-summary-card__content').within(() => {
       cy.get('dd.govuk-summary-list__value').each($el => {
