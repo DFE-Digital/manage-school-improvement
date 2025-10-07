@@ -5,8 +5,8 @@
 @{
     ViewData["Title"] = "Improvement plan";
 
-    var currentReviewHowIsTheSchoolProgressingOverall = string.IsNullOrEmpty(Model.CurrentReview.HowIsTheSchoolProgressingOverall) ? "No progress recorded yet" : Model.CurrentReview.HowIsTheSchoolProgressingOverall;
-    var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentReview.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentReview.OverallProgressDetails;
+    var currentReviewHowIsTheSchoolProgressingOverall = string.IsNullOrEmpty(Model.CurrentReview?.HowIsTheSchoolProgressingOverall) ? "No progress recorded yet" : Model.CurrentReview.HowIsTheSchoolProgressingOverall;
+    var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentReview?.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentReview.OverallProgressDetails;
 }
 
 @section BeforeMain {
