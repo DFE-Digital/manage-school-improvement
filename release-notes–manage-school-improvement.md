@@ -3,6 +3,28 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.2.0] - Q2 – Sprint 7 - 2025-10-07
+
+### 📌 User Stories (Mandation)
+
+- **238850** - Remove the "Change" links from the engagement concern summary card
+- **228478** - Include checklist in the escalate to mandation journey
+- **236378** - Understand technically exactly how automating contacts would work and where we get all data points from
+- **236193** - Mark engagement concerns as resolved
+- **234934** - Flag when an IEB has been issued
+- **236189** - Add multiple instances of engagement concerns
+- **237598** - Add engagement concern summary to concern flow
+- **237018** - Iterate the IEB and Information Powers journeys so they are tied to a particular Engagement Concern
+- **238396** - Update the Information Powers feature to the new design
+- **238401** - Update the Interim Executive Board feature to the new design
+
+### 🐛 Bug Fixes
+
+- **238906** - Trailing whitespace on email and name inputs causing incorrect validation message
+- **235656** - Monitoring: Overall progress fields are not displaying any value (eg.EMPTY) if it's not recorded
+
+--
+
 ## 📅 [v1.1.1] - Q2 – Sprint 5 (Part 3) - 2025-09-09
 
 ### 🐛 Bug Fixes
