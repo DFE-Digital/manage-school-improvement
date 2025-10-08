@@ -206,6 +206,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
 
     private readonly List<EngagementConcern> _engagementConcerns = new();
+    public string? Cohort { get; private set; }
+
 
     #endregion
 
