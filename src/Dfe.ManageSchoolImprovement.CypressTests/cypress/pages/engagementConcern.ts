@@ -34,7 +34,7 @@ class EngagementConcern {
     }
 
     public clickChangeLinkForIEB(linkText: string): this {
-        cy.getByCyData('ieb-created-change-link').should('contain', linkText).click();
+        cy.getByCyData('ieb-change-link').should('contain', linkText).click();
 
         return this;
     }
@@ -58,7 +58,7 @@ class EngagementConcern {
     public clickRecordUserOfInformationPowersButton(): this {
         cy.getByCyData('record-information-powers-btn').should('be.visible').click();
 
-        cy.url().should('include', '/engagement-concern/record-use-of-information-powers');
+        cy.url().should('include', '/record-use-of-information-powers');
         cy.title().should('eq', 'Record use of information powers - Manage school improvement');
 
         return this;
@@ -78,11 +78,11 @@ class EngagementConcern {
 
     public clickRecordUseOfInterimExecutiveBoard(): this {
         cy.getByCyData('record-ieb-btn').click();
-        cy.url().should('include', '/engagement-concern/record-use-of-interim-executive-board');
+        cy.url().should('include', '/record-use-of-interim-executive-board');
         cy.title().should('eq', 'Record use of interim executive board - Manage school improvement');
 
         return this;
-    }   
+    }
 
     public showHowToCreateIEBSection(): this {
         cy.get('.govuk-details__summary-text').contains('How to create interim executive boards').click();
@@ -100,7 +100,7 @@ class EngagementConcern {
     }
 
     public checkEscalationCheckbox(id: string): this {
-        cy.getByCyData(id+'-checkbox').check();
+        cy.getByCyData(id + '-checkbox').check();
 
         return this;
     }
@@ -144,7 +144,7 @@ class EngagementConcern {
 
     public hasMoreThanOneEngagementConcern(): this {
         cy.get('h2').should('contain', 'Concern raised ' + new Date().toLocaleDateString()).its('length').should('be.gte', 1);
-        
+
         return this;
     }
 
@@ -169,7 +169,7 @@ class EngagementConcern {
 
         return this;
     }
-     public hasRecordedNotification(expectedMessage: string): this {
+    public hasRecordedNotification(expectedMessage: string): this {
         cy.get('.govuk-panel__title')
             .should('be.visible')
             .should('contain', expectedMessage);
@@ -189,6 +189,18 @@ class EngagementConcern {
 
         return this;
 
+    }
+
+    public hasIEBAssignToDifferentConcernLink(): this {
+        cy.getByCyData('ieb-assign-change-link').should('be.visible');
+
+        return this;
+    }
+
+    public hasIPAssignToDifferentConcernLink(): this {
+        cy.getByCyData('information-powers-assign-link').should('be.visible');
+
+        return this;
     }
 
     public hasInformationPowersChangeLink(linkText: string): this {

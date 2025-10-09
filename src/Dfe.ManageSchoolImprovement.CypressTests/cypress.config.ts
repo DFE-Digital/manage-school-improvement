@@ -20,10 +20,7 @@ export default defineConfig({
       json: true,
     },
   },
-  e2e: {
-    experimentalMemoryManagement: true,  // helps clear renderer memory
-    numTestsKeptInMemory: 0,             // reduces memory footprint
-    
+  e2e: {   
     setupNodeEvents(on, config) {
 
       on("before:run", () => {
