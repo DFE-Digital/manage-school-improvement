@@ -2073,5 +2073,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             engagementConcern.InterimExecutiveBoardCreatedDetails.Should().Be(detailsWithSpecialChars);
             mockRepository.VerifyAll();
         }
+
+        [Fact]
+        public void CreateSupportProject_WithCohort_ShouldBeNull()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            // Assert
+            supportProject.Cohort.Should().BeNull();
+            mockRepository.VerifyAll();
+        }
     }
 }
