@@ -32,7 +32,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetSchoolResponseCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -52,7 +51,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetSchoolResponseCommand(
                 _mockSupportProject.Id,
-                null,
                 null,
                 null
             );
@@ -78,13 +76,12 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetSchoolResponseCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint
             );
 
-            _mockSupportProjectRepository.Setup(repo => 
+            _mockSupportProjectRepository.Setup(repo =>
                 repo.FindAsync(
-                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
                     It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
             var handler = new SetSchoolResponseCommandHandler(_mockSupportProjectRepository.Object);
 

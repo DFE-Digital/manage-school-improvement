@@ -300,12 +300,16 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateConflictsOfInterestWereChecked = dateConflictsOfInterestWereChecked;
     }
 
-    public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcknowledgedAndWillEngage,
+    public void SetSchoolResponse(DateTime? schoolResponseDate,
         bool? hasSavedSchoolResponseinSharePoint)
     {
-        SchoolResponseDate = schoolResponseDate;
-        HasAcknowledgedAndWillEngage = hasAcknowledgedAndWillEngage;
-        HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
+        // old fields
+        //SchoolResponseDate = schoolResponseDate;   
+        //HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
+
+        SaveCompletedConflictOfinterestFormInSharePoint = hasSavedSchoolResponseinSharePoint;
+        DateConflictsOfInterestWereChecked = schoolResponseDate;
+
     }
 
     public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated, string? adviserFullName)

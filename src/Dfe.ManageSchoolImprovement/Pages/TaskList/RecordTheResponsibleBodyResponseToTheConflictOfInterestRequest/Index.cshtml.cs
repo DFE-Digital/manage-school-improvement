@@ -17,9 +17,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
         [Display(Name = "school response")]
         public DateTime? SchoolResponseDate { get; set; }
 
-        [BindProperty(Name = "HasAcknowledgedAndWillEngage")]
-        public bool? HasAcknowledgedAndWillEngage { get; set; }
-
         [BindProperty(Name = "has-saved-school-response-in-sharepoint")]
         public bool? HasSavedSchoolResponseinSharePoint { get; set; }
 
@@ -40,9 +37,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasAcknowledgedAndWillEngage = SupportProject.HasAcknowledgedAndWillEngage;
-            HasSavedSchoolResponseinSharePoint = SupportProject.HasSavedSchoolResponseinSharePoint;
-            SchoolResponseDate = SupportProject.SchoolResponseDate;
+            //HasAcknowledgedAndWillEngage = SupportProject.HasAcknowledgedAndWillEngage;
+            HasSavedSchoolResponseinSharePoint = SupportProject.SaveCompletedConflictOfinterestFormInSharePoint;
+            SchoolResponseDate = SupportProject.DateConflictsOfInterestWereChecked;
             TargetedSupportRadioButtoons = GetRadioButtons();
             return Page();
         }
@@ -56,7 +53,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetSchoolResponseCommand(new SupportProjectId(id), SchoolResponseDate, HasAcknowledgedAndWillEngage, HasSavedSchoolResponseinSharePoint);
+            var request = new SetSchoolResponseCommand(new SupportProjectId(id), SchoolResponseDate, HasSavedSchoolResponseinSharePoint);
 
             var result = await mediator.Send(request, cancellationToken);
 

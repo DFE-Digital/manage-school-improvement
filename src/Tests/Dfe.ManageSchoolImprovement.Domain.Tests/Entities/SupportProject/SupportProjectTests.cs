@@ -34,7 +34,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Act
             supportProject.SetSchoolResponse(
                 schoolResponseDate,
-                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint);
 
             // Assert
