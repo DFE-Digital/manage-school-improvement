@@ -64,6 +64,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public bool? ReviewAdvisersConflictOfInterestForm { get; private set; }
         
+        public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; private set; }
+        
         public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
 
         public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
@@ -201,6 +203,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 InitialContactResponsibleBody = supportProjectDto.InitialContactResponsibleBody,
                 InitialContactResponsibleBodyDate = supportProjectDto.InitialContactResponsibleBodyDate,
                 ReviewAdvisersConflictOfInterestForm = supportProjectDto.ReviewAdvisersConflictOfInterestForm,
+                SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
                 DateConflictOfInterestDeclarationChecked = supportProjectDto.DateConflictOfInterestDeclarationChecked,
                 DateConflictsOfInterestWereChecked = supportProjectDto.DateConflictsOfInterestWereChecked,
                 SchoolResponseDate = supportProjectDto.SchoolResponseDate,

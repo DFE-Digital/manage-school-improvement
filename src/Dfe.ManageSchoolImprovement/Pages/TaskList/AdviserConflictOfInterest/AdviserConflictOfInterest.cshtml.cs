@@ -21,7 +21,7 @@ public class AdviserConflictOfInterest(
 
     [BindProperty(Name = "date-conflict-of-interest-declaration-checked", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date conflicts of interest were checked")]
+    [Display(Name = "date conflict of interest declaration checked")]
     public DateTime? DateConflictOfInterestDeclarationChecked { get; set; }
 
     public bool ShowError { get; set; }

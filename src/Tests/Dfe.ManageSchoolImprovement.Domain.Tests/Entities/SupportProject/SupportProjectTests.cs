@@ -108,24 +108,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
-            bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool = true;
-            bool? receiveCompletedConflictOfInterestForm = true;
-            bool? saveCompletedConflictOfinterestFormInSharePoint = true;
-            DateTime? dateConflictsOfInterestWereChecked = DateTime.UtcNow;
+            
+            bool? reviewAdvisersConflictOfInterestForm = true;
+            DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
 
             // Act
             supportProject.SetAdviserConflictOfInterestDetails(
-                sendConflictOfInterestFormToProposedAdviserAndTheSchool,
-                receiveCompletedConflictOfInterestForm,
-                saveCompletedConflictOfinterestFormInSharePoint,
-                dateConflictsOfInterestWereChecked);
+                reviewAdvisersConflictOfInterestForm,
+                dateConflictOfInterestDeclarationChecked);
 
             // Assert
-            supportProject.SendConflictOfInterestFormToProposedAdviserAndTheSchool.Should().Be(sendConflictOfInterestFormToProposedAdviserAndTheSchool);
-            supportProject.ReceiveCompletedConflictOfInterestForm.Should().Be(receiveCompletedConflictOfInterestForm);
-            supportProject.SaveCompletedConflictOfinterestFormInSharePoint.Should().Be(saveCompletedConflictOfinterestFormInSharePoint);
-            supportProject.DateConflictsOfInterestWereChecked.Should().Be(dateConflictsOfInterestWereChecked);
+            supportProject.ReviewAdvisersConflictOfInterestForm.Should().Be(reviewAdvisersConflictOfInterestForm);
+            supportProject.DateConflictOfInterestDeclarationChecked.Should().Be(dateConflictOfInterestDeclarationChecked);
             mockRepository.VerifyAll();
         }
 

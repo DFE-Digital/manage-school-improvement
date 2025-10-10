@@ -21,6 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? InitialContactResponsibleBody = null,
         DateTime? InitialContactResponsibleBodyDate = null,
         bool? ReviewAdvisersConflictOfInterestForm = null,
+        bool? SaveCompletedConflictOfinterestFormInSharePoint = null,
         DateTime? DateConflictOfInterestDeclarationChecked = null,
         DateTime? DateConflictsOfInterestWereChecked = null,
         DateTime? SchoolResponseDate = null,
