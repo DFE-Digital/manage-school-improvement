@@ -74,11 +74,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? ReviewAdvisersConflictOfInterestForm { get; private set; }
 
-    public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; private set; }
+    public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; }
 
     public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
     
-    public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
+    public DateTime? DateConflictsOfInterestWereChecked { get; }
 
     public DateTime? SchoolResponseDate { get; private set; }
 
