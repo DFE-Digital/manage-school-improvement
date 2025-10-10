@@ -3,6 +3,15 @@
 Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.2.1] - Q3 – Sprint 1 (Part 1) - 2025-10-10
+
+### 📌 User Stories
+
+- **240404** - Add "Cohort" field to MSI database
+- **239965** - Adjust the validation for "area of improvement" within the "Enter school improvement plan objectives" task
+
+--
+
 ## 📅 [v1.2.0] - Q2 – Sprint 7 - 2025-10-07
 
 ### 📌 User Stories (Mandation)
