@@ -6,12 +6,13 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+        data-cy="back-link">Back</a>
 }
 
 @if (Model.ShowError)
 {
-   <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary" />
 }
 
 <div class="govuk-grid-row">
@@ -20,15 +21,16 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Select an area of improvement
         </h1>
-        <p class="govuk-body">Add one objective at a time. The plan must include at least one objective each for Quality of education and Leadership and management.</p>
-        
-        <form method="post" novalidate>
-            <govuk-radiobuttons-input name="@nameof(Model.SelectedAreaOfImprovement)" 
-                                      radio-buttons="@Model.RadioButtons" 
-                                      asp-for="@Model.SelectedAreaOfImprovement"
-                                      error-message="@Model.SelectedAreaOfImprovementErrorMessage"/>
+        <p class="govuk-body">Add one objective at a time. The plan must include at least one objective for either Quality
+            of education, or Leadership and management.</p>
 
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+        <form method="post" novalidate>
+            <govuk-radiobuttons-input name="@nameof(Model.SelectedAreaOfImprovement)"
+                radio-buttons="@Model.RadioButtons" asp-for="@Model.SelectedAreaOfImprovement"
+                error-message="@Model.SelectedAreaOfImprovementErrorMessage" />
+
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                data-cy="save-and-continue-button">
                 Save and continue
             </button>
         </form>

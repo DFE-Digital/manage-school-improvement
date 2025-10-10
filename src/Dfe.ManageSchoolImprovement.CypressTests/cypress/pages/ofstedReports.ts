@@ -40,7 +40,7 @@ class OfstedReports {
             'Leadership and management',
         ];
 
-        expectedFields.forEach(fieldName => {
+        for (const fieldName of expectedFields) {
             cy.get('dl.govuk-summary-list')
                 .find('dt.govuk-summary-list__key')
                 .contains(fieldName)
@@ -48,7 +48,7 @@ class OfstedReports {
                 .find('dd.govuk-summary-list__value')
                 .should('exist')
                 .and('not.be.empty');
-        });
+        }
 
         cy.get('.govuk-summary-card__content').each(($el, index) => {
             cy.wrap($el).within(() => {

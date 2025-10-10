@@ -8,7 +8,7 @@ class ContactDetails {
         const randomFirstName = 'First' + firstNameSuffix;
         const randomOrganisation = 'Org' + orgSuffix;
         const randomEmail = `test.${emailSuffix}@example.com`;
-        const randomPhone = '079'+ timestamp.substring(0, 9).replace(/[a-z]/g, '5');
+        const randomPhone = '079'+ timestamp.substring(0, 9).replaceAll(/[a-z]/g, '5');
 
         cy.getByName('name').type(randomFirstName);
         cy.getByName('organisation').type(randomOrganisation);

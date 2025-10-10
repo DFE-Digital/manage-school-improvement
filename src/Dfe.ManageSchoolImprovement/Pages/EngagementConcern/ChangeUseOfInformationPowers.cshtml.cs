@@ -27,12 +27,11 @@ public class ChangeUseOfInformationPowersModel(
 
     [BindProperty(Name = "powers-used-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Required]
     public DateTime? PowersUsedDate { get; set; }
 
-    [BindProperty(Name = "information-powers-in-use")]
+    [BindProperty(Name = "remove-information-powers")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
-    public bool? InformationPowersInUse { get; set; }
+    public bool? RemoveInformationPowers { get; set; } = false;
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
@@ -41,10 +40,10 @@ public class ChangeUseOfInformationPowersModel(
 
     string IDateValidationMessageProvider.AllMissing(string displayName)
     {
-        return $"You must enter a date";
+        return "Enter a date";
     }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
@@ -52,23 +51,40 @@ public class ChangeUseOfInformationPowersModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        InformationPowersInUse = SupportProject.InformationPowersInUse;
-        InformationPowersDetails = SupportProject.InformationPowersDetails;
-        PowersUsedDate = SupportProject.PowersUsedDate;
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(a => a.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern != null)
+        {
+            RemoveInformationPowers = !engagementConcern.InformationPowersInUse;
+            InformationPowersDetails = engagementConcern.InformationPowersDetails;
+            PowersUsedDate = engagementConcern.PowersUsedDate;
+        }
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        if (InformationPowersInUse == true && string.IsNullOrEmpty(InformationPowersDetails))
+        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+
+        if (engagementConcern?.Id == null)
         {
-            ModelState.AddModelError("information-powers-details", "You must enter details");
+            throw new InvalidOperationException($"Engagement concern with readable ID {readableEngagementConcernId} not found");
         }
 
-        if (InformationPowersInUse != true)
+        if (RemoveInformationPowers == false && string.IsNullOrEmpty(InformationPowersDetails))
+        {
+            ModelState.AddModelError("information-powers-details", "Enter details");
+        }
+        
+        if (RemoveInformationPowers == false && !PowersUsedDate.HasValue)
+        {
+            ModelState.AddModelError("powers-used-date", "Enter a date");
+        }
+
+        if (RemoveInformationPowers == true)
         {
             InformationPowersDetails = null;
             PowersUsedDate = null;
@@ -81,8 +97,9 @@ public class ChangeUseOfInformationPowersModel(
         if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
 
         var request = new SetSupportProjectInformationPowersDetailsCommand(
+            engagementConcern.Id,
             new SupportProjectId(id),
-            InformationPowersInUse,
+            !RemoveInformationPowers,
             InformationPowersDetails,
             PowersUsedDate);
 
@@ -95,10 +112,9 @@ public class ChangeUseOfInformationPowersModel(
             return Page();
         }
 
-        TempData["InformationPowersUpdated"] = SupportProject.InformationPowersInUse is true && InformationPowersInUse is true &&
-                                               SupportProject.InformationPowersDetails != InformationPowersDetails;
-        TempData["InformationPowersRecorded"] = (SupportProject.InformationPowersInUse == null || SupportProject.InformationPowersInUse == false) && InformationPowersInUse == true;
-        TempData["InformationPowersRemoved"] = SupportProject.InformationPowersInUse == true && InformationPowersInUse == false;
+        TempData["InformationPowersUpdated"] = engagementConcern.InformationPowersInUse is true && RemoveInformationPowers is false &&
+                                               engagementConcern.InformationPowersDetails != InformationPowersDetails;
+        TempData["InformationPowersRemoved"] = engagementConcern.InformationPowersInUse == true && RemoveInformationPowers is true;
 
         return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });
     }

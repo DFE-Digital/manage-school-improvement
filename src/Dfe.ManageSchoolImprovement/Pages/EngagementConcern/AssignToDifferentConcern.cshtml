@@ -1,0 +1,85 @@
+@page "/engagement-concern/{id:int}/{readableEngagementConcernId:int}/assign-to-different-concern"
+@using Dfe.Academisation.ExtensionMethods
+
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.AssignToDifferentConcernModel
+
+@{
+    ViewData["Title"] = "Assign to different concern";
+}
+
+@section BeforeMain
+{
+    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@(Model.AssignType == AssignToDifferentConcernModel.AssignInfoPowersToDifferentConcern ? "Information powers" : "Interim executive board")</span>
+        <form method="post">
+            @if (Model.AvailableConcerns != null && Model.AvailableConcerns.Any())
+            {
+                <div class="govuk-form-group @(Model.ShowConcernSelectionError ? "govuk-form-group--error" : "")">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading">Assign to different concern</h1>
+                        </legend>
+
+
+                        <div id="event-name-hint" class="govuk-hint">
+                            Select the concern you want to move @(Model.AssignType == AssignToDifferentConcernModel.AssignInfoPowersToDifferentConcern ? "use of information powers" : "use of interim executive board") to
+                        </div>
+                        @if (Model.ShowConcernSelectionError)
+                        {
+                            <p id="concern-selection-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> Select which concern the @(Model.AssignType == AssignToDifferentConcernModel.AssignInfoPowersToDifferentConcern ? "Information powers" : "Interim executive board") is related to
+                            </p>
+                        }
+
+                        <div class="govuk-radios" data-module="govuk-radios">
+                            @if (Model.AvailableConcerns != null && Model.AvailableConcerns.Any())
+                            {
+                                @for (int i = 0; i < Model.AvailableConcerns.Count; i++)
+                                {
+                                    var concern = Model.AvailableConcerns[i];
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input"
+                                               id="SelectedConcernId-@i"
+                                               name="SelectedConcernId"
+                                               type="radio"
+                                               value="@concern.ReadableId"
+                                               @(Model.SelectedConcernId == concern.ReadableId ? "checked" : "")
+                                               data-cy="concern-radio-@i" />
+                                        <label class="govuk-label govuk-radios__label" for="concern-@i">
+                                            @concern.EngagementConcernSummary<br />
+                                            <span class="govuk-hint">Recorded on @concern.EngagementConcernRaisedDate.ToDateString()</span>
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                    </fieldset>
+                </div>
+
+                <div class="govuk-button-group govuk-body">
+                    <button type="submit" draggable="false" class="govuk-button" data-module="govuk-button" data-cy="save-and-continue-btn">
+                        Save and return
+                    </button>
+                    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                </div>
+            }
+            else
+            {
+                <h1 class="govuk-heading-l">Assign to different concern</h1>
+                <p class="govuk-body">You cannot assign this @(Model.AssignType == AssignToDifferentConcernModel.AssignInfoPowersToDifferentConcern ? "use of information powers" : "use of interim executive board") to another engagement concern.</p>
+                <p>There are no other active concerns. </p>
+                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-button">Go back</a>
+            }
+        </form>
+    </div>
+</div>

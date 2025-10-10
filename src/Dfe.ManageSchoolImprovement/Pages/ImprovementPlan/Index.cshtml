@@ -6,7 +6,8 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+        data-cy="back-to-task-list-link">Back</a>
 }
 
 @if (Model.ShowError)
@@ -21,29 +22,37 @@
             Review objectives
         </h1>
 
-        <partial name="_ObjectiveSection" model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
+        <partial name="_ObjectiveSection"
+            model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
+        <partial name="_ObjectiveSection"
+            model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
+        <partial name="_ObjectiveSection"
+            model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
+        <partial name="_ObjectiveSection"
+            model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
-        <partial name="_ObjectiveSection" model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
+        <partial name="_ObjectiveSection"
+            model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page)' />
 
         <form method="post" novalidate>
             <div class="govuk-form-group @(Model.ShowMarkAsCompleteError ? "govuk-form-group--error" : string.Empty)">
                 @if (Model.ShowMarkAsCompleteError)
                 {
                     <p id="nationality-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> You must add at least one objective for Quality of Education and Leadership and Management before marking as complete.
+                        <span class="govuk-visually-hidden">Error:</span> Add at least one Quality of
+                        education objective, or at least one Leadership and management objective
                     </p>
                 }
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
 
                     <div class="govuk-checkboxes__item">
 
-                        <input class="govuk-checkboxes__input" id="@nameof(Model.MarkAsComplete)" name="@nameof(Model.MarkAsComplete)" type="checkbox" value="true" asp-for="@Model.MarkAsComplete">
+                        <input class="govuk-checkboxes__input" id="@nameof(Model.MarkAsComplete)"
+                            name="@nameof(Model.MarkAsComplete)" type="checkbox" value="true"
+                            asp-for="@Model.MarkAsComplete" data-cy="mark-as-complete-checkbox">
                         <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.MarkAsComplete)">
                             Mark this section as complete, you can still make changes later
                         </label>
@@ -51,10 +60,12 @@
                 </div>
             </div>
             <div class="govuk-button-group">
-                <button class="govuk-button" type="submit" name="action" value="save" data-module="govuk-button">
+                <button class="govuk-button" type="submit" name="action" value="save" data-module="govuk-button"
+                    data-cy="save-and-return-button">
                     Save and return
                 </button>
-                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="add-another" data-module="govuk-button">
+                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="add-another"
+                    data-module="govuk-button" data-cy="add-another-objective-button">
                     Add another objective
                 </button>
             </div>

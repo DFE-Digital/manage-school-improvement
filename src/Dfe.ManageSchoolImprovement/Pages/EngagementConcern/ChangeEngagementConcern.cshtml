@@ -23,8 +23,7 @@
             Change engagement concern
         </h1>
         <form method="post">
-            <div
-                class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError  ? "govuk-form-group--error" : "")"
+            <div class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error govuk-js-character-count--error" : "")"
                 data-module="govuk-character-count"
                 data-maxlength="200">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
@@ -39,7 +38,7 @@
                     @if (Model.EngagementConcernSummary == null)
                     {
                         <p id="summary-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> You must enter a summary
+                            <span class="govuk-visually-hidden">Error:</span> Enter a summary
                         </p>  
                     }
                     else
@@ -69,7 +68,7 @@
                 @if (Model.ShowRecordEngagementConcernError)
                 {
                     <p id="more-detail-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> You must enter concern details
+                        <span class="govuk-visually-hidden">Error:</span> Enter details
                     </p>
                 }
                 <textarea
@@ -107,8 +106,7 @@
                                 @if (Model.ShowResolutionDetailsError)
                                 {
                                     <p id="resolution-details-error" class="govuk-error-message">
-                                        <span class="govuk-visually-hidden">Error:</span> You must enter resolution
-                                        details
+                                        <span class="govuk-visually-hidden">Error:</span> Enter details
                                     </p>
                                 }
                                 <textarea
