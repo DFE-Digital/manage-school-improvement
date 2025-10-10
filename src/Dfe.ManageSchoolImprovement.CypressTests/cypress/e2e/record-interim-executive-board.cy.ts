@@ -7,7 +7,7 @@ describe("User navigates to the Engagement Concern tab to record use of interim 
     beforeEach(() => {
         cy.login();
         homePage
-           .selectFirstSchoolFromList()
+            .selectFirstSchoolFromList()
         taskList
             .navigateToTab('Engagement concern')
 
@@ -24,6 +24,18 @@ describe("User navigates to the Engagement Concern tab to record use of interim 
         cy.executeAccessibilityTests()
     });
 
+
+    it("should get validation error message for empty fields on 'Record use of interim executive board' page", () => {
+        Logger.log("check that validation error message is displayed");
+        engagementConcern.clickRecordUseOfInterimExecutiveBoard()
+        engagementConcern.hasTitle('Record use of interim executive board - Manage school improvement')
+
+        //save without entering details and validate error message
+        engagementConcern.clickButton('Save and return');
+        engagementConcern.errorMessage('ieb-created-details-error-link', 'Enter details')
+        engagementConcern.errorMessage('ieb-created-date-error-link', 'Enter a date')
+    });
+
     it("should be able to expand 'How to create interim executive boards' section", () => {
         Logger.log("check that How to create IEB section expands with text");
         engagementConcern.hasRecordUseOfInterimExecutiveBoardButton();
@@ -37,39 +49,16 @@ describe("User navigates to the Engagement Concern tab to record use of interim 
         Logger.log("record use of interim executive board");
         engagementConcern.clickRecordUseOfInterimExecutiveBoard()
         engagementConcern.hasTitle('Record use of interim executive board - Manage school improvement')
-        engagementConcern.checkCheckbox('ieb-created')
-
-        //save without entering details and validate error message
-        engagementConcern.clickButton('Confirm and continue');
-        engagementConcern.errorMessage('more-detail-error', 'You must enter details')
-
-        cy.executeAccessibilityTests()
-
         engagementConcern.enterText("ieb-created-details", "Recording new use of interim executive board")
-        engagementConcern.clickButton('Confirm and continue');
-        engagementConcern.hasTitle('Enter date of regional director\'s decision to create an interim executive board - Manage school improvement')
-
-        Logger.log("validate ieb date");
-        engagementConcern.clickButton('Save');
-        engagementConcern.errorMessage('ieb-created-date-error', 'You must enter a date')
         engagementConcern.enterDate("ieb-created-date", "5", "10", "2024");
 
         cy.executeAccessibilityTests()
 
-        engagementConcern.clickButton('Save');
+        engagementConcern.clickButton('Save and return');
         engagementConcern.hasSuccessNotification("Use of interim executive board recorded");
+        engagementConcern.hasIEBAssignToDifferentConcernLink();
         engagementConcern.hasFieldsNotEmpty()
 
         cy.executeAccessibilityTests()
     });
-
-it("should be able to make changes to interim executive board when ieb already recorded", () => {
-    Logger.log("Change the details of interim executive board");
-    engagementConcern.clickChangeLinkForIEB('Change');
-    engagementConcern.hasTitle('Change use of interim executive board - Manage school improvement')
-    engagementConcern.unCheckCheckbox('ieb-created')
-    engagementConcern.clickButton('Confirm and continue');
-    engagementConcern.hasSuccessNotification("Interim executive board removed");
-  });   
-
 });

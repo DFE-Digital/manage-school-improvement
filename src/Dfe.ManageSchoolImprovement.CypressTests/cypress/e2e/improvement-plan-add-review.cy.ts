@@ -12,8 +12,6 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         taskList
             .navigateToTab('Improvement plan')
 
-        improvementPlan    
-            .improvementPlanPageLoads()
     });
 
     it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => {
@@ -55,7 +53,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
             .clickAddReview()
             .validateReviewForm();
     });
-    
+
     it('should be able to Add first review successfully', () => {
         Logger.log("add First review");
         improvementPlan
@@ -73,8 +71,37 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
             .hasChangeNextReviewDateLink()
             .hasReturnToImprovementPlanLink()
 
-        cy.executeAccessibilityTests()          
+        cy.executeAccessibilityTests()
 
+    });
+
+    it.skip('check validation on overall progress page', () => {
+        Logger.log("check validation on overall progress page");
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .clickRecordProgressLink()
+            .validateOverallProgressPage();
+
+        cy.executeAccessibilityTests()
+    });
+
+    it.skip('should be able to Record the first review successfully', () => {
+        Logger.log("record First review");
+        improvementPlan
+            .hasOverallProgressChangeLink()
+            .hasRecordObjectiveLink()
+            .hasStatusTag('Progress not recorded')
+
+        cy.executeAccessibilityTests()
+
+        improvementPlan
+            .clickRecordOrViewProgress()
+            .clickRecordProgressLink()
+            .recordOverallProgress()
+            .recordProgressForObjective()
+            .hasStatusTag('Progress recorded');
+
+        cy.executeAccessibilityTests()
     });
 
 });

@@ -28,9 +28,9 @@ class ImprovementPlan {
     }
 
     public clickRecordProgressLink(): this {
-        cy.get('a').contains('Record progress').click()
-        cy.url().should('include', '/progress-reviews');
-        
+        cy.getByCyData('record-progress-link').click()
+        cy.url().should('include', '/overall-progress');
+
         return this;
     }
 
@@ -40,14 +40,15 @@ class ImprovementPlan {
     }
 
     public hasRecordOrViewProgressButton(): this {
-        cy.get('.govuk-button')
-            .invoke('text')
-            .then(text => expect(text.trim()).to.eq('Record or view progress'));
+        cy.getByCyData('record-or-view-progress-button')
+            .should('be.visible')
+            .and('contain.text', 'Record or view progress');
         return this;
     }
 
     public recordOrViewProgressButtonNotVisible(): this {
-        cy.get('[data-testid="record-view-progress-btn"]').should('not.exist');
+        cy.getByCyData('record-or-view-progress-button').should('not.exist');
+
         return this;
     }
 
@@ -77,10 +78,16 @@ class ImprovementPlan {
     }
 
     public clickRecordOrViewProgress(): this {
-        cy.get('.govuk-button').contains('Record or view progress').should('exist');
-        cy.get('.govuk-button').contains('Record or view progress').click();
+        cy.getByCyData('record-or-view-progress-button').should('exist');
+        cy.getByCyData('record-or-view-progress-button').click();
         cy.url().should('include', '/progress-reviews');
 
+        return this;
+    }
+
+    public hasProgressReviewsPageLoaded(): this {
+        cy.url().should('include', '/progress-reviews');
+        cy.get('h1').should('contain.text', 'Progress reviews');
         return this;
     }
 
@@ -94,8 +101,8 @@ class ImprovementPlan {
     }
 
     public clickAddReview(): this {
-        cy.get('a').contains('Add review').click();
-        
+        cy.getByCyData('add-review-button').click();
+
         return this;
     }
     public enterDate(dateFieldId: string, day: string, month: string, year: string): this {
@@ -139,7 +146,7 @@ class ImprovementPlan {
         return this;
     }
 
-    public validateOverallProgress(): this {
+    public validateOverallProgressPage(): this {
         cy.url().should('include', '/overall-progress')
         cy.get('[type="submit"]').contains('Save').click();
         cy.getByCyData('error-summary').should('be.visible');
@@ -152,8 +159,8 @@ class ImprovementPlan {
     public recordOverallProgress(): this {
         cy.url().should('include', '/overall-progress')
         cy.getByCyData('select-radio-school-not-improving').check()
-        cy.getById('OverallProgressDetails').type('Overall progress details')
-        cy.get('[type="submit"]').contains('Save').click();
+        cy.getByCyData('overall-progress-details-textarea').type('Overall progress details')
+        cy.getByCyData('save-button').click();
 
         return this;
 
@@ -177,14 +184,25 @@ class ImprovementPlan {
         return this;
     }
 
+    public hasOverallProgressChangeLink(): this {
+        cy.getByCyData('change-overall-progress-link').should('exist');
+
+        return this;
+    }
+
+    public hasRecordObjectiveLink(): this {
+        cy.getByCyData('record-objective-link').first().should('exist');
+        return this;
+    }
+
     public recordProgressForObjective(): this {
         cy.url().should('include', '/record-progress')
         do {
             cy.get('.govuk-fieldset__legend').should('contain.text', 'How is the school progressing with this objective?')
             cy.getByCyData('select-radio-on-schedule').check();
-            cy.getById('ProgressDetails').type('Test progress comments');
-            cy.get('a').contains('Skip this objective').should('exist');
-            cy.get('[type="submit"]').contains('Save').click();
+            cy.getByCyData('progress-details-textarea').type('Test progress comments');
+            cy.getByCyData('skip-objective-link').should('exist');
+            cy.getByCyData('save-button').click();
         } while (cy.url().should('not.include', '/progress-summary'));
 
         return this;
@@ -210,7 +228,7 @@ class ImprovementPlan {
     }
 
     public clickRecordOrViewProgressForce(): this {
-         cy.get('.govuk-button').contains('Record or view progress').click({ force: true });
+        cy.get('.govuk-button').contains('Record or view progress').click({ force: true });
         return this;
     }
 }
