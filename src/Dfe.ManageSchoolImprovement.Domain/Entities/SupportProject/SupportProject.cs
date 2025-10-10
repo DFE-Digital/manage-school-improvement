@@ -72,12 +72,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
-    public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
-
-    public bool? ReceiveCompletedConflictOfInterestForm { get; private set; }
+    public bool? ReviewAdvisersConflictOfInterestForm { get; private set; }
 
     public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; private set; }
 
+    public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
+    
     public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
 
     public DateTime? SchoolResponseDate { get; private set; }
@@ -289,15 +289,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateFormalNotificationSent = dateFormalNotificationSent;
     }
 
-    public void SetAdviserConflictOfInterestDetails(bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool,
-        bool? receiveCompletedConflictOfInterestForm, bool? saveCompletedConflictOfinterestFormInSharePoint,
-        DateTime? dateConflictsOfInterestWereChecked)
+    public void SetAdviserConflictOfInterestDetails(
+        bool? reviewAdvisersConflictOfInterestForm, 
+        DateTime? dateConflictOfInterestDeclarationChecked)
     {
-        SendConflictOfInterestFormToProposedAdviserAndTheSchool =
-            sendConflictOfInterestFormToProposedAdviserAndTheSchool;
-        ReceiveCompletedConflictOfInterestForm = receiveCompletedConflictOfInterestForm;
-        SaveCompletedConflictOfinterestFormInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
-        DateConflictsOfInterestWereChecked = dateConflictsOfInterestWereChecked;
+        ReviewAdvisersConflictOfInterestForm = reviewAdvisersConflictOfInterestForm;
+        DateConflictOfInterestDeclarationChecked = dateConflictOfInterestDeclarationChecked;
     }
 
     public void SetSchoolResponse(DateTime? schoolResponseDate, bool? hasAcknowledgedAndWillEngage,

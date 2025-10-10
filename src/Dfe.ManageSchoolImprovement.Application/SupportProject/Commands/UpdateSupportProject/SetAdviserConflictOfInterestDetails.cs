@@ -8,29 +8,27 @@ public class SetAdviserConflictOfInterestDetails
 {
     public record SetAdviserConflictOfInterestDetailsCommand(
         SupportProjectId SupportProjectId,
-        bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool,
-        bool? ReceiveCompletedConflictOfInterestForm,
-        bool? SaveCompletedConflictOfinterestFormInSharePoint,
-        DateTime? DateConflictsOfInterestWereChecked
+        bool? ReviewAdvisersConflictOfInterestForm,
+        DateTime? DateConflictOfInterestDeclarationChecked
     ) : IRequest<bool>;
 
     public class SetAdviserConflictOfInterestDetailsHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetAdviserConflictOfInterestDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetAdviserConflictOfInterestDetailsCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(SetAdviserConflictOfInterestDetailsCommand request,
+            CancellationToken cancellationToken)
         {
-
-            var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
+            var supportProject =
+                await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
 
             if (supportProject is null)
             {
                 return false;
             }
 
-            supportProject.SetAdviserConflictOfInterestDetails(request.SendConflictOfInterestFormToProposedAdviserAndTheSchool,
-                                                               request.ReceiveCompletedConflictOfInterestForm,
-                                                               request.SaveCompletedConflictOfinterestFormInSharePoint,
-                                                               request.DateConflictsOfInterestWereChecked);
+            supportProject.SetAdviserConflictOfInterestDetails(
+                request.ReviewAdvisersConflictOfInterestForm,
+                request.DateConflictOfInterestDeclarationChecked);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

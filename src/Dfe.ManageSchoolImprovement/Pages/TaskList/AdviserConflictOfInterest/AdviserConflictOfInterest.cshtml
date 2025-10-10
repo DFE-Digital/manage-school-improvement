@@ -1,6 +1,4 @@
 @page "/task-list/adviser-conflict-of-interest/{id:int}"
-@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
-@using Dfe.Academisation.ExtensionMethods
 @model AdviserConflictOfInterest
 
 @{
@@ -14,7 +12,7 @@
 
 @if (Model.ShowError)
 {
-   <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -23,13 +21,21 @@
         <h1 class="govuk-heading-l">
             Check potential adviser conflicts of interest
         </h1>
-        <p class="govuk-body">For example, if the potential adviser used to work for the school or trust involved.</p>
+        <p class="govuk-body">The adviser completed a conflict of interest declaration when they began working with
+            DfE.</p>
+        <p class="govuk-body">Use this to check for any conflicts of interest they may have with this school or its
+            responsible body.</p>
         <form method="post" novalidate>
-            <govuk-checkbox-input label="Send conflict of interest form to proposed adviser and the school" id="send-conflict-of-interest-form-to-proposed-adviser-and-the-school" name="send-conflict-of-interest-form-to-proposed-adviser-and-the-school" asp-for="@Model.SendConflictOfInterestFormToProposedAdviserAndTheSchool" />
-            <govuk-checkbox-input label="Receive completed conflict of interest form" id="receive-completed-conflict-of-interest-form" name="receive-completed-conflict-of-interest-form" asp-for="@Model.ReceiveCompletedConflictOfInterestForm" />
-            <govuk-checkbox-input label="Save completed conflict of interest form in SharePoint" id="save-completed-conflict-of-interest-form-in-sharepoint" name="save-completed-conflict-of-interest-form-in-sharepoint" asp-for="@Model.SaveCompletedConflictOfinterestFormInSharePoint" />
-            <govuk-date-input heading-label="false" label="Enter date when conflicts of interest were checked" id="date-conflicts-of-interest-were-checked" name="date-conflicts-of-interest-were-checked" asp-for="@Model.DateConflictsOfInterestWereChecked" hint="For example, 1 7 2024." />
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+            <govuk-checkbox-input label="Review the adviser's conflict of interest declaration"
+                                  id="review-advisers-conflict-of-interest-form"
+                                  name="review-advisers-conflict-of-interest-form"
+                                  asp-for="@Model.ReviewAdvisersConflictOfInterestForm"/>
+            <govuk-date-input heading-label="false" label="Enter date when adviser's conflict of interest declaration was checked"
+                              id="date-conflict-of-interest-declaration-checked"
+                              name="date-conflicts-of-interest-declaration-checked"
+                              asp-for="@Model.DateConflictOfInterestDeclarationChecked" hint="For example, 1 7 2024."/>
+            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>

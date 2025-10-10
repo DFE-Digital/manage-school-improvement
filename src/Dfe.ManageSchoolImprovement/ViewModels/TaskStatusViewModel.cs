@@ -67,18 +67,14 @@ public static class TaskStatusViewModel
     public static TaskListStatus CheckThePotentialAdviserConflictsOfInterestTaskListStatus(
         SupportProjectViewModel supportProject)
     {
-        if (supportProject.SendConflictOfInterestFormToProposedAdviserAndTheSchool.HasValue
-            && supportProject.ReceiveCompletedConflictOfInterestForm.HasValue
-            && supportProject.SaveCompletedConflictOfinterestFormInSharePoint.HasValue
-            && supportProject.DateConflictsOfInterestWereChecked.HasValue)
+        if (supportProject.ReviewAdvisersConflictOfInterestForm.HasValue
+            && supportProject.DateConflictOfInterestDeclarationChecked.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.SendConflictOfInterestFormToProposedAdviserAndTheSchool.HasValue
-            && !supportProject.ReceiveCompletedConflictOfInterestForm.HasValue
-            && !supportProject.SaveCompletedConflictOfinterestFormInSharePoint.HasValue
-            && !supportProject.DateConflictsOfInterestWereChecked.HasValue)
+        if (!supportProject.ReviewAdvisersConflictOfInterestForm.HasValue
+            && !supportProject.DateConflictOfInterestDeclarationChecked.HasValue)
         {
             return TaskListStatus.NotStarted;
         }

@@ -62,11 +62,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
-        public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
-
-        public bool? ReceiveCompletedConflictOfInterestForm { get; private set; }
-
-        public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; private set; }
+        public bool? ReviewAdvisersConflictOfInterestForm { get; private set; }
+        
+        public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
 
         public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
 
@@ -202,9 +200,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AddRecipientsForFormalNotification = supportProjectDto.AddRecipientsForFormalNotification,
                 InitialContactResponsibleBody = supportProjectDto.InitialContactResponsibleBody,
                 InitialContactResponsibleBodyDate = supportProjectDto.InitialContactResponsibleBodyDate,
-                SendConflictOfInterestFormToProposedAdviserAndTheSchool = supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool,
-                ReceiveCompletedConflictOfInterestForm = supportProjectDto.ReceiveCompletedConflictOfInterestForm,
-                SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
+                ReviewAdvisersConflictOfInterestForm = supportProjectDto.ReviewAdvisersConflictOfInterestForm,
+                DateConflictOfInterestDeclarationChecked = supportProjectDto.DateConflictOfInterestDeclarationChecked,
                 DateConflictsOfInterestWereChecked = supportProjectDto.DateConflictsOfInterestWereChecked,
                 SchoolResponseDate = supportProjectDto.SchoolResponseDate,
                 HasAcknowledgedAndWillEngage = supportProjectDto.HasAcknowledgedAndWillEngage,
