@@ -26,17 +26,13 @@ public class SetAdviserConflictOfInterestDetailsTests
     public async Task Handle_ValidCommand_UpdatesSupportProject()
     {
         // Arrange
-        bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool = true;
-        bool? receiveCompletedConflictOfInterestForm = true;
-        bool? saveCompletedConflictOfinterestFormInSharePoint = true;
-        DateTime? dateConflictsOfInterestWereChecked = DateTime.UtcNow;
+        bool? reviewAdvisersConflictOfInterestForm = true;
+        DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
 
         var command = new SetAdviserConflictOfInterestDetailsCommand(
             _mockSupportProject.Id,
-            sendConflictOfInterestFormToProposedAdviserAndTheSchool,
-            receiveCompletedConflictOfInterestForm,
-            saveCompletedConflictOfinterestFormInSharePoint,
-            dateConflictsOfInterestWereChecked
+            reviewAdvisersConflictOfInterestForm,
+            dateConflictOfInterestDeclarationChecked
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var SetAdviserConflictOfInterestDetailsCommandHandler = new SetAdviserConflictOfInterestDetailsHandler(_mockSupportProjectRepository.Object);
@@ -55,7 +51,7 @@ public class SetAdviserConflictOfInterestDetailsTests
         // Arrange 
         var command = new SetAdviserConflictOfInterestDetailsCommand(
             _mockSupportProject.Id,
-            null, null, null, null
+            null, null
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var SetAdviserConflictOfInterestDetailsCommandHandler = new SetAdviserConflictOfInterestDetailsHandler(_mockSupportProjectRepository.Object);
@@ -72,18 +68,13 @@ public class SetAdviserConflictOfInterestDetailsTests
     public async Task Handle_ProjectNotFound_ReturnsFalse()
     {
         // Arrange
-        // Arrange
-        bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool = true;
-        bool? receiveCompletedConflictOfInterestForm = true;
-        bool? saveCompletedConflictOfinterestFormInSharePoint = true;
-        DateTime? dateConflictsOfInterestWereChecked = DateTime.UtcNow;
+        bool? reviewAdvisersConflictOfInterestForm = true;
+        DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
 
         var command = new SetAdviserConflictOfInterestDetailsCommand(
             _mockSupportProject.Id,
-            sendConflictOfInterestFormToProposedAdviserAndTheSchool,
-            receiveCompletedConflictOfInterestForm,
-            saveCompletedConflictOfinterestFormInSharePoint,
-            dateConflictsOfInterestWereChecked
+            reviewAdvisersConflictOfInterestForm,
+            dateConflictOfInterestDeclarationChecked
         );
 
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);

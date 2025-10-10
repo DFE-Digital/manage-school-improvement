@@ -149,28 +149,25 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<bool?, bool?, bool?, DateTime?, TaskListStatus>
+        public static readonly TheoryData<bool?, DateTime?, TaskListStatus>
             CheckThePotentialAdviserConflictsOfInterestTaskListStatusCases = new()
             {
-                { null, null, null, null, TaskListStatus.NotStarted },
-                { false, false, false, null, TaskListStatus.InProgress },
-                { false, true, true, null, TaskListStatus.InProgress },
-                { true, true, true, DateTime.Now, TaskListStatus.Complete }
+                { null, null, TaskListStatus.NotStarted },
+                { null, DateTime.Now, TaskListStatus.InProgress },
+                { true, null, TaskListStatus.InProgress },
+                { true, DateTime.Now, TaskListStatus.Complete }
             };
 
         [Theory, MemberData(nameof(CheckThePotentialAdviserConflictsOfInterestTaskListStatusCases))]
         public void CheckThePotentialAdviserConflictsOfInterestTaskListStatusShouldReturnCorrectStatus(
-            bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool, bool? receiveCompletedConflictOfInterestForm,
-            bool? saveCompletedConflictOfinterestFormInSharePoint, DateTime? dateConflictsOfInterestWereChecked,
+            bool? reviewAdvisersConflictOfInterestForm,
+            DateTime? dateConflictOfInterestDeclarationChecked,
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
-                SendConflictOfInterestFormToProposedAdviserAndTheSchool:
-                sendConflictOfInterestFormToProposedAdviserAndTheSchool,
-                ReceiveCompletedConflictOfInterestForm: receiveCompletedConflictOfInterestForm,
-                SaveCompletedConflictOfinterestFormInSharePoint: saveCompletedConflictOfinterestFormInSharePoint,
-                DateConflictsOfInterestWereChecked: dateConflictsOfInterestWereChecked));
+                ReviewAdvisersConflictOfInterestForm: reviewAdvisersConflictOfInterestForm,
+                DateConflictOfInterestDeclarationChecked: dateConflictOfInterestDeclarationChecked));
 
             //Action 
             var taskListStatus =

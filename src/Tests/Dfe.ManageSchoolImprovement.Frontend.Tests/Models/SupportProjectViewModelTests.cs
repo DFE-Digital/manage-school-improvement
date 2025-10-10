@@ -24,9 +24,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 UseEnrolmentLetterTemplateToDraftEmail: true,
                 AttachTargetedInterventionInformationSheet: true,
                 AddRecipientsForFormalNotification: true,
-                SendConflictOfInterestFormToProposedAdviserAndTheSchool: true,
-                ReceiveCompletedConflictOfInterestForm: true,
+                ReviewAdvisersConflictOfInterestForm: true,
                 SaveCompletedConflictOfinterestFormInSharePoint: true,
+                DateConflictOfInterestDeclarationChecked: DateTime.Now,
                 DateConflictsOfInterestWereChecked: DateTime.Now,
                 SchoolResponseDate: DateTime.Now,
                 HasAcknowledgedAndWillEngage: true,
@@ -93,8 +93,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.UseEnrolmentLetterTemplateToDraftEmail, viewModel.UseEnrolmentLetterTemplateToDraftEmail);
             Assert.Equal(supportProjectDto.AttachTargetedInterventionInformationSheet, viewModel.AttachTargetedInterventionInformationSheet);
             Assert.Equal(supportProjectDto.AddRecipientsForFormalNotification, viewModel.AddRecipientsForFormalNotification);
-            Assert.Equal(supportProjectDto.SendConflictOfInterestFormToProposedAdviserAndTheSchool, viewModel.SendConflictOfInterestFormToProposedAdviserAndTheSchool);
-            Assert.Equal(supportProjectDto.ReceiveCompletedConflictOfInterestForm, viewModel.ReceiveCompletedConflictOfInterestForm);
+            Assert.Equal(supportProjectDto.ReviewAdvisersConflictOfInterestForm, viewModel.ReviewAdvisersConflictOfInterestForm);
             Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);
             Assert.Equal(supportProjectDto.DateConflictsOfInterestWereChecked, viewModel.DateConflictsOfInterestWereChecked);
             Assert.Equal(supportProjectDto.SchoolResponseDate, viewModel.SchoolResponseDate);
