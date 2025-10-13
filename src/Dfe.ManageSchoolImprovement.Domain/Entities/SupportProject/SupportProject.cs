@@ -76,17 +76,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool? ReceiveCompletedConflictOfInterestForm { get; private set; }
 
-    public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; private set; }
+    public bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint { get; private set; }
 
-    public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
-
-    public DateTime? SchoolResponseDate { get; private set; }
+    public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; private set; }
 
     public bool?
         HasAcknowledgedAndWillEngage
     { get; private set; }
-
-    public bool? HasSavedSchoolResponseinSharePoint { get; private set; }
 
     public DateTime? DateAdviserAllocated { get; private set; }
     public string? AdviserEmailAddress { get; private set; }
@@ -296,19 +292,21 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SendConflictOfInterestFormToProposedAdviserAndTheSchool =
             sendConflictOfInterestFormToProposedAdviserAndTheSchool;
         ReceiveCompletedConflictOfInterestForm = receiveCompletedConflictOfInterestForm;
-        SaveCompletedConflictOfinterestFormInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
-        DateConflictsOfInterestWereChecked = dateConflictsOfInterestWereChecked;
+        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
+        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = dateConflictsOfInterestWereChecked;
     }
 
-    public void SetSchoolResponse(DateTime? schoolResponseDate,
+    public void SetResponsibleBodyResponseToTheConflictOfInterestRequest(DateTime? schoolResponseDate,
         bool? hasSavedSchoolResponseinSharePoint)
     {
         // old fields
-        //SchoolResponseDate = schoolResponseDate;   
+        //SchoolResponseDate = schoolResponseDate;
+        //HasAcknowledgedAndWillEngage = hasAcknowledgedAndWillEngage;
         //HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
 
-        SaveCompletedConflictOfinterestFormInSharePoint = hasSavedSchoolResponseinSharePoint;
-        DateConflictsOfInterestWereChecked = schoolResponseDate;
+        //responsible body's response to the conflict of interest request
+        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = hasSavedSchoolResponseinSharePoint;
+        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = schoolResponseDate;
 
     }
 

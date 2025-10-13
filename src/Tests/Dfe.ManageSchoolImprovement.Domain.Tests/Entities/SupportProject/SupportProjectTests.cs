@@ -28,18 +28,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             DateTime? schoolResponseDate = DateTime.Now;
-            bool? hasAcceptedTargetedSupport = true;
             bool? hasSavedSchoolResponseinSharePoint = true;
 
             // Act
-            supportProject.SetSchoolResponse(
+            supportProject.SetResponsibleBodyResponseToTheConflictOfInterestRequest(
                 schoolResponseDate,
                 hasSavedSchoolResponseinSharePoint);
 
             // Assert
-            supportProject.SchoolResponseDate.Should().Be(schoolResponseDate);
-            supportProject.HasAcknowledgedAndWillEngage.Should().Be(hasAcceptedTargetedSupport);
-            supportProject.HasSavedSchoolResponseinSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.Should().Be(schoolResponseDate);
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
             mockRepository.VerifyAll();
         }
 
@@ -123,8 +121,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Assert
             supportProject.SendConflictOfInterestFormToProposedAdviserAndTheSchool.Should().Be(sendConflictOfInterestFormToProposedAdviserAndTheSchool);
             supportProject.ReceiveCompletedConflictOfInterestForm.Should().Be(receiveCompletedConflictOfInterestForm);
-            supportProject.SaveCompletedConflictOfinterestFormInSharePoint.Should().Be(saveCompletedConflictOfinterestFormInSharePoint);
-            supportProject.DateConflictsOfInterestWereChecked.Should().Be(dateConflictsOfInterestWereChecked);
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint.Should().Be(saveCompletedConflictOfinterestFormInSharePoint);
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.Should().Be(dateConflictsOfInterestWereChecked);
             mockRepository.VerifyAll();
         }
 

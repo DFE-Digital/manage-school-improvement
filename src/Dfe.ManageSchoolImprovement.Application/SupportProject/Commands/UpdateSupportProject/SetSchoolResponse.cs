@@ -23,7 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetSchoolResponse(request.SchoolResponseDate, request.HasSavedSchoolResponseinSharePoint);
+            supportProject.SetResponsibleBodyResponseToTheConflictOfInterestRequest(request.SchoolResponseDate, request.HasSavedSchoolResponseinSharePoint);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
