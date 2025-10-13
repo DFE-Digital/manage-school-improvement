@@ -72,10 +72,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
-    public bool? SendConflictOfInterestFormToProposedAdviserAndTheSchool { get; private set; }
+    public bool? ReviewAdvisersConflictOfInterestForm { get; private set; }
 
-    public bool? ReceiveCompletedConflictOfInterestForm { get; private set; }
+    public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; }
 
+    public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
+    
+    public DateTime? DateConflictsOfInterestWereChecked { get; }
     public bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint { get; private set; }
 
     public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; private set; }
@@ -285,15 +288,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateFormalNotificationSent = dateFormalNotificationSent;
     }
 
-    public void SetAdviserConflictOfInterestDetails(bool? sendConflictOfInterestFormToProposedAdviserAndTheSchool,
-        bool? receiveCompletedConflictOfInterestForm, bool? saveCompletedConflictOfinterestFormInSharePoint,
-        DateTime? dateConflictsOfInterestWereChecked)
+    public void SetAdviserConflictOfInterestDetails(
+        bool? reviewAdvisersConflictOfInterestForm, 
+        DateTime? dateConflictOfInterestDeclarationChecked)
     {
-        SendConflictOfInterestFormToProposedAdviserAndTheSchool =
-            sendConflictOfInterestFormToProposedAdviserAndTheSchool;
-        ReceiveCompletedConflictOfInterestForm = receiveCompletedConflictOfInterestForm;
-        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = saveCompletedConflictOfinterestFormInSharePoint;
-        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = dateConflictsOfInterestWereChecked;
+        ReviewAdvisersConflictOfInterestForm = reviewAdvisersConflictOfInterestForm;
+        DateConflictOfInterestDeclarationChecked = dateConflictOfInterestDeclarationChecked;
     }
 
     public void SetResponsibleBodyResponseToTheConflictOfInterestRequest(DateTime? schoolResponseDate,
