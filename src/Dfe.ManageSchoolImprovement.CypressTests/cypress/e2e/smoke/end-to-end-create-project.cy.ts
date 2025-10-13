@@ -155,14 +155,12 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     Logger.log("Selecting 'Check potential adviser conflicts of interest' task");
     taskList.selectTask("Check potential adviser conflicts of interest");
     taskListActions.hasHeader("Check potential adviser conflicts of interest");
-    taskListActions.selectButtonOrCheckbox("send-conflict-of-interest-form-to-proposed-adviser-and-the-school");
+    taskListActions.selectButtonOrCheckbox("review-advisers-conflict-of-interest-form");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("CheckPotentialAdviserConflictsOfInterest_status");
     taskList.selectTask("Check potential adviser conflicts of interest");
-    taskListActions.selectButtonOrCheckbox("receive-completed-conflict-of-interest-form");
-    taskListActions.selectButtonOrCheckbox("save-completed-conflict-of-interest-form-in-sharepoint");
-    taskListActions.enterDate("date-conflicts-of-interest-were-checked", "01", "01", "2024");
+    taskListActions.enterDate("date-conflict-of-interest-declaration-checked", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("CheckPotentialAdviserConflictsOfInterest_status");
