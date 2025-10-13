@@ -4,7 +4,8 @@
 
 @if (showBanner)
 {
-    <div data-test="cookie-banner" class="govuk-cookie-banner" data-nosnippet role="region" aria-label="Cookies on Manage school improvement" id="govCookieBanner">
+    <div data-test="cookie-banner" class="govuk-cookie-banner" data-nosnippet role="region"
+         aria-label="Cookies on Manage school improvement" id="govCookieBanner">
         <div class="govuk-cookie-banner__message govuk-width-container" id="cookieBanner">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -15,30 +16,41 @@
                         <p class="govuk-body">
                             We use some essential cookies to make Manage school improvement work.
                         </p>
-                        <p class="govuk-body">We&#39;d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
-                    </div>
-                    <div class="govuk-button-group">
-                        <button type="button" class="govuk-button" data-test="cookie-banner-accept" data-module="govuk-button" id="acceptCookie">
-                            Accept analytics cookies
-                        </button>
-                        <button type="button" class="govuk-button" data-test="cookie-banner-reject" data-module="govuk-button" id="rejectCookie">
-                            Reject analytics cookies
-                        </button>
-                        <a class="govuk-link" data-test="cookie-banner-link-1" asp-page="@Links.Public.CookiePreferences.Page">View cookies</a>
+                        <p class="govuk-body">We&#39;d also like to use analytics cookies so we can understand how you
+                            use the service and make improvements.</p>
                     </div>
                 </div>
             </div>
+            <div class="govuk-button-group">
+                <button type="button" class="govuk-button" data-test="cookie-banner-accept" data-module="govuk-button"
+                        id="acceptCookie">
+                    Accept analytics cookies
+                </button>
+                <button type="button" class="govuk-button" data-test="cookie-banner-reject" data-module="govuk-button"
+                        id="rejectCookie">
+                    Reject analytics cookies
+                </button>
+                <a class="govuk-link" data-test="cookie-banner-link-1" asp-page="@Links.Public.CookiePreferences.Page">View
+                    cookies</a>
+            </div>
+
+
         </div>
         <div class="govuk-cookie-banner__message govuk-width-container" role="alert" id="acceptCookieBanner" hidden>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="govuk-cookie-banner__content">
-                        <p class="govuk-body">You&#39;ve accepted analytics cookies. You can <a class="govuk-link" data-test="cookie-banner-link-2" asp-page="@Links.Public.CookiePreferences.Page" asp-route-returnUrl="@Context.Request.Path">change your cookie settings</a> at any time.</p>
+                        <p class="govuk-body">You&#39;ve accepted analytics cookies. You can <a class="govuk-link"
+                                                                                                data-test="cookie-banner-link-2"
+                                                                                                asp-page="@Links.Public.CookiePreferences.Page"
+                                                                                                asp-route-returnUrl="@Context.Request.Path">change
+                                your cookie settings</a> at any time.</p>
                     </div>
                 </div>
             </div>
             <div class="govuk-button-group">
-                <button type="button" class="govuk-button" draggable="false" data-module="govuk-button" data-test="hide-cookie-banner-accept" id="acceptCookieBtn">
+                <button type="button" class="govuk-button" draggable="false" data-module="govuk-button"
+                        data-test="hide-cookie-banner-accept" id="acceptCookieBtn">
                     Hide cookie message
                 </button>
             </div>
@@ -47,51 +59,59 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="govuk-cookie-banner__content">
-                        <p class="govuk-body">You&#39;ve rejected analytics cookies. You can <a class="govuk-link" data-test="cookie-banner-link-2" asp-page="@Links.Public.CookiePreferences.Page" asp-route-returnUrl="@Context.Request.Path">change your cookie settings</a> at any time.</p>
+                        <p class="govuk-body">You&#39;ve rejected analytics cookies. You can <a class="govuk-link"
+                                                                                                data-test="cookie-banner-link-2"
+                                                                                                asp-page="@Links.Public.CookiePreferences.Page"
+                                                                                                asp-route-returnUrl="@Context.Request.Path">change
+                                your cookie settings</a> at any time.</p>
                     </div>
                 </div>
             </div>
             <div class="govuk-button-group">
-                <button type="button" class="govuk-button" draggable="false" data-test="hide-cookie-banner-reject" data-module="govuk-button" id="rejectCookieBtn">
+                <button type="button" class="govuk-button" draggable="false" data-test="hide-cookie-banner-reject"
+                        data-module="govuk-button" id="rejectCookieBtn">
                     Hide cookie message
                 </button>
             </div>
         </div>
     </div>
     <script type="text/javascript" asp-add-nonce>
-        function getData(url) {
+        function getData (url) {
             fetch(url)
-               .catch(error => {
-                  console.error('There was a problem with the fetch operation:', error);
-               });
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error)
+                })
         }
-        function hideDiv(id) {
-            var cookieBanner = document.getElementById(id);
-            cookieBanner.style.display = "none";
+
+        function hideDiv (id) {
+            var cookieBanner = document.getElementById(id)
+            cookieBanner.style.display = 'none'
         }
-        function displayConfirmationNotification(id) {
-            var toggleDiv = document.getElementById(id);
-            if (toggleDiv.style.display === "none" || toggleDiv.style.display === "") {
-                toggleDiv.style.display = "block";
+
+        function displayConfirmationNotification (id) {
+            var toggleDiv = document.getElementById(id)
+            if (toggleDiv.style.display === 'none' || toggleDiv.style.display === '') {
+                toggleDiv.style.display = 'block'
             }
         }
-        document.querySelector('#acceptCookie').onclick = () =>{ 
-            getData('@Links.Public.CookiePreferencesURL.Page' + '?consent=true&returnUrl=' + '@System.Web.HttpUtility.UrlEncode(Context.Request.Path)');
-            hideDiv("cookieBanner");
-            displayConfirmationNotification("acceptCookieBanner");
-        };
 
-        document.querySelector('#rejectCookie').onclick = () =>{
-            getData('@Links.Public.CookiePreferencesURL.Page' + '?consent=false&returnUrl=' + '@System.Web.HttpUtility.UrlEncode(Context.Request.Path)');
-            hideDiv("cookieBanner");
-            displayConfirmationNotification("rejectCookieBanner");
-        };
+        document.querySelector('#acceptCookie').onclick = () => {
+            getData('@Links.Public.CookiePreferencesURL.Page' + '?consent=true&returnUrl=' + '@System.Web.HttpUtility.UrlEncode(Context.Request.Path)')
+            hideDiv('cookieBanner')
+            displayConfirmationNotification('acceptCookieBanner')
+        }
+
+        document.querySelector('#rejectCookie').onclick = () => {
+            getData('@Links.Public.CookiePreferencesURL.Page' + '?consent=false&returnUrl=' + '@System.Web.HttpUtility.UrlEncode(Context.Request.Path)')
+            hideDiv('cookieBanner')
+            displayConfirmationNotification('rejectCookieBanner')
+        }
 
         document.querySelector('#acceptCookieBtn').onclick = () => {
-            hideDiv("govCookieBanner");
+            hideDiv('govCookieBanner')
         }
         document.querySelector('#rejectCookieBtn').onclick = () => {
-            hideDiv("govCookieBanner");
+            hideDiv('govCookieBanner')
         }
     </script>
 }
