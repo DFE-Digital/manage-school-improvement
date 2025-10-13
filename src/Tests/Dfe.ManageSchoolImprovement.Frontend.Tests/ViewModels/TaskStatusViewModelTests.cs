@@ -69,18 +69,17 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus>
+        public static readonly TheoryData<bool?, DateTime?, TaskListStatus>
             RecordTheSchoolResponseTaskStatusCases = new()
             {
-                { null, null, null, TaskListStatus.NotStarted },
-                { false, false, null, TaskListStatus.InProgress },
-                { false, true, null, TaskListStatus.InProgress },
-                { true, true, DateTime.Now, TaskListStatus.Complete }
+                { null, null, TaskListStatus.NotStarted },
+                { false, null, TaskListStatus.InProgress },
+                { true, DateTime.Now, TaskListStatus.Complete }
             };
 
         [Theory, MemberData(nameof(RecordTheSchoolResponseTaskStatusCases))]
         public void RecordTheSchoolResponseTaskStatusShouldReturnCorrectStatus(bool? hasSavedSchoolResponseinSharePoint,
-            bool? hasAcceptedTargetedSupport, DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
+            DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,

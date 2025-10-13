@@ -85,7 +85,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public bool?
         HasAcknowledgedAndWillEngage
-    { get; private set; }
+    { get; }
 
     public DateTime? DateAdviserAllocated { get; private set; }
     public string? AdviserEmailAddress { get; private set; }

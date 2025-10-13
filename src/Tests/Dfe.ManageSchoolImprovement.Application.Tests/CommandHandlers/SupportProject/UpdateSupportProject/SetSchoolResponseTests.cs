@@ -26,7 +26,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
-            var hasAcceptedTargetedSupport = true;
             var hasSavedSchoolResponseinSharePoint = true;
 
             var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
@@ -70,7 +69,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
-            var hasAcceptedTargetedSupport = true;
             var hasSavedSchoolResponseinSharePoint = true;
 
             var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
