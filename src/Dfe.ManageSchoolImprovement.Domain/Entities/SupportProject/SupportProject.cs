@@ -77,7 +77,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; }
 
     public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
-    
+
     public DateTime? DateConflictsOfInterestWereChecked { get; }
     public bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint { get; private set; }
 
@@ -289,24 +289,19 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     public void SetAdviserConflictOfInterestDetails(
-        bool? reviewAdvisersConflictOfInterestForm, 
+        bool? reviewAdvisersConflictOfInterestForm,
         DateTime? dateConflictOfInterestDeclarationChecked)
     {
         ReviewAdvisersConflictOfInterestForm = reviewAdvisersConflictOfInterestForm;
         DateConflictOfInterestDeclarationChecked = dateConflictOfInterestDeclarationChecked;
     }
 
-    public void SetResponsibleBodyResponseToTheConflictOfInterestRequest(DateTime? schoolResponseDate,
-        bool? hasSavedSchoolResponseinSharePoint)
+    public void SetResponsibleBodyResponseToTheConflictOfInterestRequest(
+        DateTime? responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
+        bool? responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)
     {
-        // old fields
-        //SchoolResponseDate = schoolResponseDate;
-        //HasAcknowledgedAndWillEngage = hasAcknowledgedAndWillEngage;
-        //HasSavedSchoolResponseinSharePoint = hasSavedSchoolResponseinSharePoint;
-
-        //responsible body's response to the conflict of interest request
-        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = hasSavedSchoolResponseinSharePoint;
-        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = schoolResponseDate;
+        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint;
+        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate;
 
     }
 

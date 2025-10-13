@@ -41,22 +41,20 @@ public static class TaskStatusViewModel
         {
             return TaskListStatus.NotStarted;
         }
-        
+
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus RecordTheSchoolResponseTaskStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus ResponsibleBodyResponseToTheConflictOfInterestRequestStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.HasSavedSchoolResponseinSharePoint.Equals(true) &&
-            supportProject.HasAcknowledgedAndWillEngage.HasValue &&
-            supportProject.SchoolResponseDate.HasValue)
+        if (supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint.HasValue &&
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.HasSavedSchoolResponseinSharePoint.HasValue &&
-            !supportProject.HasAcknowledgedAndWillEngage.HasValue &&
-            !supportProject.SchoolResponseDate.HasValue)
+        if (!supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint.HasValue &&
+            !supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue)
         {
             return TaskListStatus.NotStarted;
         }

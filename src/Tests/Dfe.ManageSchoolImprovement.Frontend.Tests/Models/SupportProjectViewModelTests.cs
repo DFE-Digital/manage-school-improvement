@@ -25,12 +25,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 AttachTargetedInterventionInformationSheet: true,
                 AddRecipientsForFormalNotification: true,
                 ReviewAdvisersConflictOfInterestForm: true,
-                SaveCompletedConflictOfinterestFormInSharePoint: true,
+                ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint: true,
                 DateConflictOfInterestDeclarationChecked: DateTime.Now,
-                DateConflictsOfInterestWereChecked: DateTime.Now,
-                SchoolResponseDate: DateTime.Now,
-                HasAcknowledgedAndWillEngage: true,
-                HasSavedSchoolResponseinSharePoint: true,
+                ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate: DateTime.Now,
                 DateAdviserAllocated: DateTime.Now,
                 AdviserEmailAddress: "adviser@example.com",
                 IntroductoryEmailSentDate: DateTime.Now,
@@ -94,11 +91,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.AttachTargetedInterventionInformationSheet, viewModel.AttachTargetedInterventionInformationSheet);
             Assert.Equal(supportProjectDto.AddRecipientsForFormalNotification, viewModel.AddRecipientsForFormalNotification);
             Assert.Equal(supportProjectDto.ReviewAdvisersConflictOfInterestForm, viewModel.ReviewAdvisersConflictOfInterestForm);
-            Assert.Equal(supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint, viewModel.SaveCompletedConflictOfinterestFormInSharePoint);
-            Assert.Equal(supportProjectDto.DateConflictsOfInterestWereChecked, viewModel.DateConflictsOfInterestWereChecked);
-            Assert.Equal(supportProjectDto.SchoolResponseDate, viewModel.SchoolResponseDate);
-            Assert.Equal(supportProjectDto.HasAcknowledgedAndWillEngage, viewModel.HasAcknowledgedAndWillEngage);
-            Assert.Equal(supportProjectDto.HasSavedSchoolResponseinSharePoint, viewModel.HasSavedSchoolResponseinSharePoint);
+            Assert.Equal(supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint, viewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint);
+            Assert.Equal(supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate, viewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate);
             Assert.Equal(supportProjectDto.HasShareEmailTemplateWithAdviser, viewModel.HasShareEmailTemplateWithAdviser);
             Assert.Equal(supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail, viewModel.RemindAdviserToCopyRiseTeamWhenSentEmail);
             Assert.Equal(supportProjectDto.IntroductoryEmailSentDate, viewModel.IntroductoryEmailSentDate);

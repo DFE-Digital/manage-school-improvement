@@ -84,11 +84,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
-                SchoolResponseDate: schoolResponseDate, HasAcknowledgedAndWillEngage: hasAcceptedTargetedSupport,
-                HasSavedSchoolResponseinSharePoint: hasSavedSchoolResponseinSharePoint));
+                ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate: schoolResponseDate,
+                ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint: hasSavedSchoolResponseinSharePoint));
 
             //Action 
-            var taskListStatus = TaskStatusViewModel.RecordTheSchoolResponseTaskStatus(supportProjectModel);
+            var taskListStatus = TaskStatusViewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);
