@@ -7,7 +7,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     beforeEach(() => {
         cy.login();
         homePage
-            .acceptCookies()
+            .rejectCookies()
             .selectFirstSchoolFromList()
         taskList
             .navigateToTab('Improvement plan')
@@ -75,11 +75,10 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
 
     });
 
-    it.skip('check validation on overall progress page', () => {
+    it('check validation on overall progress page', () => {
         Logger.log("check validation on overall progress page");
         improvementPlan
-            .clickRecordOrViewProgress()
-            .clickRecordProgressLink()
+            .clickChangeOverallProgressLink()
             .validateOverallProgressPage();
 
         cy.executeAccessibilityTests()
@@ -87,13 +86,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
 
     it.skip('should be able to Record the first review successfully', () => {
         Logger.log("record First review");
-        improvementPlan
-            .hasOverallProgressChangeLink()
-            .hasRecordObjectiveLink()
-            .hasStatusTag('Progress not recorded')
-
-        cy.executeAccessibilityTests()
-
+  
         improvementPlan
             .clickRecordOrViewProgress()
             .clickRecordProgressLink()
