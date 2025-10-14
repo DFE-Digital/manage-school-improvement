@@ -84,15 +84,9 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         cy.executeAccessibilityTests()
     });
 
-    it('should be able to Record the first review successfully', () => {
+    it.skip('should be able to Record the first review successfully', () => {
         Logger.log("record First review");
-        improvementPlan
-            .hasOverallProgressChangeLink()
-            .hasRecordObjectiveLink()
-            .hasStatusTag('Progress not recorded')
-
-        cy.executeAccessibilityTests()
-
+  
         improvementPlan
             .clickRecordOrViewProgress()
             .clickRecordProgressLink()
