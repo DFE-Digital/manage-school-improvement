@@ -85,6 +85,13 @@ class ImprovementPlan {
         return this;
     }
 
+    public clickChangeOverallProgressLink(): this {
+        cy.getByCyData('change-overall-progress-link').click();
+        cy.url().should('include', '/overall-progress');    
+
+        return this;
+    }
+
     public hasProgressReviewsPageLoaded(): this {
         cy.url().should('include', '/progress-reviews');
         cy.get('h1').should('contain.text', 'Progress reviews');
@@ -147,8 +154,7 @@ class ImprovementPlan {
     }
 
     public validateOverallProgressPage(): this {
-        cy.url().should('include', '/overall-progress')
-        cy.get('[type="submit"]').contains('Save').click();
+        cy.get('[type="submit"]').contains('Save and return').click();
         cy.getByCyData('error-summary').should('be.visible');
         cy.getByCyData('error-summary').should('contain.text', 'Select how the school is progressing overall');
         cy.getByCyData('error-summary').should('contain.text', 'Enter details about how the school is progressing overall');

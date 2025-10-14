@@ -43,6 +43,13 @@ class HomePage {
     return this;
   }
 
+  public rejectCookies(): this {
+    cy.get('[data-test="cookie-banner-reject"]').contains('Reject analytics cookies').click()
+    cy.get('.govuk-cookie-banner__heading').should('not.be.visible')
+
+    return this;
+  }
+
   public viewCookiesPage(): this {
     cy.get('[data-test="cookie-banner-link-1"]').click()
     cy.url().should('include', '/cookie-preferences')

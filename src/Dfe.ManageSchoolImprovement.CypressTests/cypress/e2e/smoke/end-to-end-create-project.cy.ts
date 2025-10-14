@@ -188,26 +188,23 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   });
 
 
-  // Task 6: Record the responsible body's response
-  it("Should complete the 'Record the responsible body's response' task", () => {
+  // Task 6: Record the responsible body's response to the conflict of interest request
+  it("Should complete the 'Record the responsible body's response to the conflict of interest request", () => {
     homePage.selectSchoolName(schoolLong);
     
-    Logger.log("Selecting 'Record the responsible body's response' task");
-    taskList.selectTask("Record the responsible body's response");
-    taskListActions.hasHeader("Record the responsible body's response");
-    taskListActions.selectButtonOrCheckbox("acknowledged");
+    Logger.log("Selecting 'Record the responsible body's response to the conflict of interest request' task");
+    taskList.selectTask("Record the responsible body's response to the conflict of interest request");
+    taskListActions.hasHeader("Record the responsible body's response to the conflict of interest request");
+    taskListActions.selectButtonOrCheckbox("ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("record-school-response_status");
-    taskList.selectTask("Record the responsible body's response");
-    taskListActions.selectButtonOrCheckbox("has-saved-school-response-in-sharepoint");
-    taskListActions.enterDate("school-response-date", "01", "01", "2024");
+    taskList.selectTask("Record the responsible body's response to the conflict of interest request");
+    taskListActions.enterDate("ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-school-response_status");
   });
-
-
 
   // Task 7: Allocate an adviser
   it("Should complete the 'Allocate an adviser' task", () => {
