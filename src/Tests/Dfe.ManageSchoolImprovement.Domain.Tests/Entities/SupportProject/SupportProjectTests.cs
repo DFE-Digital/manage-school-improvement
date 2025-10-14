@@ -28,19 +28,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             DateTime? schoolResponseDate = DateTime.Now;
-            bool? hasAcceptedTargetedSupport = true;
             bool? hasSavedSchoolResponseinSharePoint = true;
 
             // Act
-            supportProject.SetSchoolResponse(
+            supportProject.SetResponsibleBodyResponseToTheConflictOfInterestRequest(
                 schoolResponseDate,
-                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint);
 
             // Assert
-            supportProject.SchoolResponseDate.Should().Be(schoolResponseDate);
-            supportProject.HasAcknowledgedAndWillEngage.Should().Be(hasAcceptedTargetedSupport);
-            supportProject.HasSavedSchoolResponseinSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.Should().Be(schoolResponseDate);
+            supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint.Should().Be(hasSavedSchoolResponseinSharePoint);
             mockRepository.VerifyAll();
         }
 

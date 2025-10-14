@@ -63,22 +63,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? InitialContactResponsibleBodyDate { get; private set; }
 
         public bool? ReviewAdvisersConflictOfInterestForm { get; private set; }
-        
-        public bool? SaveCompletedConflictOfinterestFormInSharePoint { get; private set; }
-        
+
+        public bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint { get; private set; }
+
         public DateTime? DateConflictOfInterestDeclarationChecked { get; private set; }
 
-        public DateTime? DateConflictsOfInterestWereChecked { get; private set; }
+        public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; private set; }
 
         public IEnumerable<SupportProjectNote>? Notes { get; set; }
 
         public IEnumerable<SupportProjectContact>? Contacts { get; set; }
-
-        public DateTime? SchoolResponseDate { get; set; }
-
-        public bool? HasAcknowledgedAndWillEngage { get; set; }
-
-        public bool? HasSavedSchoolResponseinSharePoint { get; set; }
 
         public DateTime? DateAdviserAllocated { get; private set; }
         public string? AdviserEmailAddress { get; private set; }
@@ -174,7 +168,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? CopyInRegionalDirector { get; set; }
 
         public bool? SendEmailToGrantTeam { get; set; }
-        
+
         public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
 
         public bool? AssessmentToolTwoCompleted { get; set; }
@@ -203,12 +197,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 InitialContactResponsibleBody = supportProjectDto.InitialContactResponsibleBody,
                 InitialContactResponsibleBodyDate = supportProjectDto.InitialContactResponsibleBodyDate,
                 ReviewAdvisersConflictOfInterestForm = supportProjectDto.ReviewAdvisersConflictOfInterestForm,
-                SaveCompletedConflictOfinterestFormInSharePoint = supportProjectDto.SaveCompletedConflictOfinterestFormInSharePoint,
+                ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
                 DateConflictOfInterestDeclarationChecked = supportProjectDto.DateConflictOfInterestDeclarationChecked,
-                DateConflictsOfInterestWereChecked = supportProjectDto.DateConflictsOfInterestWereChecked,
-                SchoolResponseDate = supportProjectDto.SchoolResponseDate,
-                HasAcknowledgedAndWillEngage = supportProjectDto.HasAcknowledgedAndWillEngage,
-                HasSavedSchoolResponseinSharePoint = supportProjectDto.HasSavedSchoolResponseinSharePoint,
+                ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
                 HasShareEmailTemplateWithAdviser = supportProjectDto.HasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
                 IntroductoryEmailSentDate = supportProjectDto.IntroductoryEmailSentDate,

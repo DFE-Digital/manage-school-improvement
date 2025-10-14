@@ -58,6 +58,9 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
                 v => v!.Value,
                 v => new SupportProjectId(v));
 
+        // Add this line to explicitly configure the read-only Cohort property
+        supportProjectConfiguration.Property(e => e.Cohort);
+
         supportProjectConfiguration
             .HasMany(a => a.Notes)
             .WithOne()
@@ -81,7 +84,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
-        
+
         supportProjectConfiguration
             .HasMany(a => a.EngagementConcerns)
             .WithOne()
@@ -190,7 +193,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasForeignKey("ImprovementPlanReviewId")
             .IsRequired();
     }
-    
+
     private static void ConfigureEngagementConcerns(EntityTypeBuilder<EngagementConcern> builder)
     {
         builder.ToTable("EngagementConcerns", DefaultSchema, b => b.IsTemporal());

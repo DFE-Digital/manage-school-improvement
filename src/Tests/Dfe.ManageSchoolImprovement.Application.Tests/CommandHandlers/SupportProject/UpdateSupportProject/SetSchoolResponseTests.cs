@@ -26,17 +26,15 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
-            var hasAcceptedTargetedSupport = true;
             var hasSavedSchoolResponseinSharePoint = true;
 
-            var command = new SetSchoolResponseCommand(
+            var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var handler = new SetSchoolResponseCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -50,14 +48,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_ValidEmptyCommand_UpdatesSupportProject()
         {
             // Arrange
-            var command = new SetSchoolResponseCommand(
+            var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 _mockSupportProject.Id,
-                null,
                 null,
                 null
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
-            var handler = new SetSchoolResponseCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -72,21 +69,19 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
-            var hasAcceptedTargetedSupport = true;
             var hasSavedSchoolResponseinSharePoint = true;
 
-            var command = new SetSchoolResponseCommand(
+            var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasAcceptedTargetedSupport,
                 hasSavedSchoolResponseinSharePoint
             );
 
-            _mockSupportProjectRepository.Setup(repo => 
+            _mockSupportProjectRepository.Setup(repo =>
                 repo.FindAsync(
-                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+                    It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
                     It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
-            var handler = new SetSchoolResponseCommandHandler(_mockSupportProjectRepository.Object);
+            var handler = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act
             var result = await handler.Handle(command, _cancellationToken);
