@@ -1,4 +1,4 @@
-﻿using Dfe.PrepareConversions.Data.Models;
+﻿using Dfe.ManageSchoolImprovement.Frontend.Models;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 {
