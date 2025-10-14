@@ -4,14 +4,9 @@
 @inject IConfiguration Configuration
 
 @{
-    string PageOrPages()
-    {
-        if (Model.Pagination.TotalPages == 1)
-        {
-            return "page";
-        }
-        return "pages";
-    }
+    var pages = Model.Pagination.TotalPages == 1 ? "page" : "pages";
+
+    var schools = Model.TotalProjects == 1 ? "school" : "schools";
 
     bool schoolAdded = (bool)(TempData["schoolAdded"] ?? false);
 
@@ -34,7 +29,7 @@
                         Filters applied
                     </h3>
                     <p class="govuk-body">
-                        @Model.TotalProjects schools found on @Model.Pagination.TotalPages @PageOrPages() of results
+                        @Model.TotalProjects @schools found on @Model.Pagination.TotalPages @pages of results
                     </p>
                 </div>
             </div>
