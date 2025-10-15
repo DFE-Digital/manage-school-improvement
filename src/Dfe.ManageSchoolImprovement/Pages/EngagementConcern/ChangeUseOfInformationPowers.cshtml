@@ -7,13 +7,16 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
-        data-cy="back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link"
+           data-cy="back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -57,9 +60,10 @@
                                 <span class="govuk-visually-hidden">Error:</span> Enter details
                             </p>
                         }
-                        <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")" data-cy="information-powers-details-textarea"
-                            id="information-powers-details" name="information-powers-details" rows="5"
-                            aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
+                        <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
+                                  data-cy="information-powers-details-textarea"
+                                  id="information-powers-details" name="information-powers-details" rows="5"
+                                  aria-describedby="information-powers-details-hint">@Model.InformationPowersDetails</textarea>
                     </div>
 
                     <div class="govuk-form-group">
@@ -69,7 +73,8 @@
                             </label>
                         </h1>
                         <govuk-date-input heading-label="true" hint="For example, 1 7 2024." id="powers-used-date"
-                            name="powers-used-date" asp-for="@Model.PowersUsedDate" data-cy="powers-used-date-input" />
+                                          name="powers-used-date" asp-for="@Model.PowersUsedDate"
+                                          data-cy="powers-used-date-input"/>
                     </div>
 
                     <div class="govuk-form-group">
@@ -80,11 +85,11 @@
                         </h1>
                         <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
-                                <input name="remove-information-powers-hidden" type="hidden" value="false" />
+                                <input name="remove-information-powers-hidden" type="hidden" value="false"/>
                                 <input class="govuk-checkboxes__input" data-cy="remove-information-powers-checkbox"
-                                    id="remove-information-powers" name="remove-information-powers" value="true"
-                                    type="checkbox" @(Model.RemoveInformationPowers is true ? "checked" : "")
-                                    data-aria-controls="conditional-information-powers" />
+                                       id="remove-information-powers" name="remove-information-powers" value="true"
+                                       type="checkbox" @(Model.RemoveInformationPowers is true ? "checked" : "")
+                                       data-aria-controls="conditional-information-powers"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="remove-information-powers">
                                     Information powers removed
                                 </label>
@@ -96,11 +101,11 @@
 
             <div class="govuk-button-group govuk-body">
                 <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="save-information-powers-btn">
+                        data-cy="save-information-powers-btn">
                     Save and return
                 </button>
                 <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
-                    class="govuk-link" data-cy="cancel-link">Cancel</a>
+                   class="govuk-link" data-cy="cancel-link">Cancel</a>
             </div>
         </form>
     </div>

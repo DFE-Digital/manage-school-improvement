@@ -6,26 +6,30 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 <div class="govuk-grid-row" xmlns="http://www.w3.org/1999/html">
-    <div class="govuk-grid-column-two-thirds"> 
+    <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Confirm you want to delete this school
         </h1>
-       <p class="govuk-body" data-cy="instruction-to-adviser">
-           If you delete this school it will no longer appear in Manage school improvement.
-       </p>
-       <p class="govuk-body" data-cy="instruction-to-adviser-2">
-           However it will remain in the database and can be recovered in the future if necessary.
-       </p>
+        <p class="govuk-body" data-cy="instruction-to-adviser">
+            If you delete this school it will no longer appear in Manage school improvement.
+        </p>
+        <p class="govuk-body" data-cy="instruction-to-adviser-2">
+            However it will remain in the database and can be recovered in the future if necessary.
+        </p>
 
-         <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.IsSchoolDeleted" />
+        <form method="post" novalidate>
+            <input type="hidden" asp-for="@Model.IsSchoolDeleted"/>
             <span class="govuk-!-margin-right-2">
-                <button class="govuk-button govuk-button--warning" data-module="govuk-button" id="delete-school-confirmation">
+                <button class="govuk-button govuk-button--warning" data-module="govuk-button"
+                        id="delete-school-confirmation">
                     Delete school
                 </button>
             </span>
@@ -37,8 +41,8 @@
 </div>
 
 <script type="application/javascript" asp-add-nonce>
-    document.querySelector('#delete-school-confirmation').onclick = () =>{
-        document.querySelector('#IsSchoolDeleted').value = true;
-        document.querySelector('form').submit();
-    };
+    document.querySelector('#delete-school-confirmation').onclick = () => {
+        document.querySelector('#IsSchoolDeleted').value = true
+        document.querySelector('form').submit()
+    }
 </script>

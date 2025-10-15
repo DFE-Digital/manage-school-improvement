@@ -9,5 +9,6 @@
       Model.LinkPage = redirect;
    }
 }
-
-<a asp-page="@Model.LinkPage" asp-all-route-data="@Model.LinkRouteValues" class="govuk-back-link" data-cy="select-backlink">@(overideBackLink ? "Back" : Model.LinkText)</a>
+<nav aria-label="back navigation">
+   <a asp-page="@Model.LinkPage" asp-all-route-data="@Model.LinkRouteValues" class="govuk-back-link" data-cy="select-backlink">@(overideBackLink ? "Back" : Model.LinkText)</a>
+</nav>

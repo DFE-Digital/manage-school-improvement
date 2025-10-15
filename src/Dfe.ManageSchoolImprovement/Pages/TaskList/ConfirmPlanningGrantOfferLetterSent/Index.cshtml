@@ -6,12 +6,15 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
 {
-   <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -21,9 +24,13 @@
             Confirm planning grant offer letter sent
         </h1>
         <form method="post" novalidate>
-            <p class="govuk-body" data-cy="school-confirmtion-target-support">The grant team send the grant offer letter by email to the supporting organisation and the responsible body. You should be copied in.</p>
-            <govuk-date-input heading-label="false" label="Enter date planning grant offer letter sent" id="planning-grant-offer-letter-sent-date" name="planning-grant-offer-letter-sent-date" asp-for="@Model.PlanningGrantOfferLetterSentDate" hint="For example, 1 7 2024."/>
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+            <p class="govuk-body" data-cy="school-confirmtion-target-support">The grant team send the grant offer letter
+                by email to the supporting organisation and the responsible body. You should be copied in.</p>
+            <govuk-date-input heading-label="false" label="Enter date planning grant offer letter sent"
+                              id="planning-grant-offer-letter-sent-date" name="planning-grant-offer-letter-sent-date"
+                              asp-for="@Model.PlanningGrantOfferLetterSentDate" hint="For example, 1 7 2024."/>
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>

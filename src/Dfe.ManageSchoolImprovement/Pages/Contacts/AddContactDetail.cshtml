@@ -5,7 +5,9 @@
 }
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    </nav>
 }
 @if (Model.ShowError)
 {
@@ -16,7 +18,7 @@
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-xl">
             Add contact details
-        </h1>  
+        </h1>
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.RoleId" />
             <input type="hidden" asp-for="@Model.OtherRole" />

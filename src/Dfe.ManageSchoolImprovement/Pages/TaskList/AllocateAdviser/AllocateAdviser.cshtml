@@ -9,13 +9,14 @@
 
 @section BeforeMain
 {
-    
-    <a asp-page="@Model.Referrer" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.Referrer" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
 {
-   <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -36,7 +37,7 @@
                             Enter the name of the adviser
                         </label>
                     </h2>
-                    <input type="hidden" id="adviser-input" name="AdviserInput" />
+                    <input type="hidden" id="adviser-input" name="AdviserInput"/>
                     <select name="SelectedName" class="autocomplete__menu govuk-select" id="adviser">
                         <option value=""></option>
                         @{
@@ -44,20 +45,27 @@
                             {
                                 if (Model.AdviserEmailAddress == riseAdviser.EmailAddress)
                                 {
-                                    <option value="@riseAdviser.EmailAddress" selected>@(riseAdviser.FullName) (@riseAdviser.EmailAddress)</option>
+                                    <option value="@riseAdviser.EmailAddress"
+                                            selected>@(riseAdviser.FullName) (@riseAdviser.EmailAddress)
+                                    </option>
                                 }
                                 else
                                 {
-                                    <option value="@riseAdviser.EmailAddress">@(riseAdviser.FullName) (@riseAdviser.EmailAddress)</option>
+                                    <option
+                                        value="@riseAdviser.EmailAddress">@(riseAdviser.FullName) (@riseAdviser.EmailAddress)
+                                    </option>
                                 }
                             }
                         }
                     </select>
                 </div>
             </div>
-            <govuk-date-input heading-label="false" label="Enter date the adviser was allocated" id="date-adviser-allocated" name="date-adviser-allocated" asp-for="@Model.DateAdviserAllocated" hint="For example, 1 7 2024." />
+            <govuk-date-input heading-label="false" label="Enter date the adviser was allocated"
+                              id="date-adviser-allocated" name="date-adviser-allocated"
+                              asp-for="@Model.DateAdviserAllocated" hint="For example, 1 7 2024."/>
             <input type="hidden" asp-for="@Model.Referrer"/>
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>
@@ -65,13 +73,13 @@
 </div>
 
 <script type="application/javascript" asp-add-nonce>
-    var deliveryOfficerSelect = document.querySelector('#adviser');
+    var deliveryOfficerSelect = document.querySelector('#adviser')
     accessibleAutocomplete.enhanceSelectElement({
         selectElement: deliveryOfficerSelect
-    });
-    document.querySelector('#adviser-input').value = document.querySelector('#adviser').value;
+    })
+    document.querySelector('#adviser-input').value = document.querySelector('#adviser').value
 
-    document.querySelector('#adviser').addEventListener('change',function(){
-         document.querySelector('#adviser-input').value = this.value;
-    });
+    document.querySelector('#adviser').addEventListener('change', function () {
+        document.querySelector('#adviser-input').value = this.value
+    })
 </script>

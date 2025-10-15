@@ -5,27 +5,15 @@
 
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Notes.IndexModel
 @{
-    // string DisplayDate(DateTime date)
-    // {
-    //     var info = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
-    //     var isBritishSummerTime = info.IsDaylightSavingTime(date);
-        
-    //     var correctDateTime = date;
-
-    //     if (isBritishSummerTime)
-    //     {
-    //         correctDateTime = correctDateTime.AddHours(1);
-    //     }
-    //     return $"{correctDateTime:dd} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(correctDateTime.ToString("MMMM"))} {correctDateTime:yyyy} at {correctDateTime:hh:mm tt}".ToLower();
-    // }
-        
     ViewData["Title"] = "Notes";
     TempData["AssignmentReferrer"] = @Links.Notes.Index.Page;
 }
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage"  class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage"  class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    </nav>
 }
 
 @if (Model.NewNote || Model.EditNote)

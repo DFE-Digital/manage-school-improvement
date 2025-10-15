@@ -9,12 +9,15 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
 {
-   <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -23,10 +26,15 @@
         <h1 class="govuk-heading-l">
             Confirm improvement grant offer letter sent
         </h1>
-        <p class="govuk-body">The grant team should have copied you into the email they send the school's responsible body.</p>
+        <p class="govuk-body">The grant team should have copied you into the email they send the school's responsible
+            body.</p>
         <form method="post" novalidate>
-            <govuk-date-input heading-label="false" label="Enter date improvement grant offer letter sent" id="date-improvement-grant-offer-letter-sent" name="date-improvement-grant-offer-letter-sent" asp-for="@Model.DateImprovementGrantOfferLetterSent" hint="For example, 1 7 2024." />
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+            <govuk-date-input heading-label="false" label="Enter date improvement grant offer letter sent"
+                              id="date-improvement-grant-offer-letter-sent"
+                              name="date-improvement-grant-offer-letter-sent"
+                              asp-for="@Model.DateImprovementGrantOfferLetterSent" hint="For example, 1 7 2024."/>
+            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>

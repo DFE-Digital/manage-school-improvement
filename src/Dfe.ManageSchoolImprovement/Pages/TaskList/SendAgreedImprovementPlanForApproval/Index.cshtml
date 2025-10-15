@@ -6,7 +6,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 
@@ -17,11 +20,17 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Send the agreed improvement plan for approval
         </h1>
-        <p class="govuk-body" data-cy="instruction-to-adviser">Save a copy of the plan in the school's SharePoint folder, then send it to the relevant regional director for approval.</p>
+        <p class="govuk-body" data-cy="instruction-to-adviser">Save a copy of the plan in the school's SharePoint
+            folder, then send it to the relevant regional director for approval.</p>
         <form method="post" novalidate>
-            <govuk-checkbox-input label="Save agreed improvement plan in SharePoint" id="save-agreed-improvement-plan-in-sp" name="save-agreed-improvement-plan-in-sp" asp-for="@Model.HasSavedImprovementPlanInSharePoint" />
-            <govuk-checkbox-input label="Email agreed plan to regional director for approval" id="email-agreed-plan-to-rg" name="email-agreed-plan-to-rg" asp-for="@Model.HasEmailedAgreedPlanToRegionalDirectorForApproval" /> 
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+            <govuk-checkbox-input label="Save agreed improvement plan in SharePoint"
+                                  id="save-agreed-improvement-plan-in-sp" name="save-agreed-improvement-plan-in-sp"
+                                  asp-for="@Model.HasSavedImprovementPlanInSharePoint"/>
+            <govuk-checkbox-input label="Email agreed plan to regional director for approval"
+                                  id="email-agreed-plan-to-rg" name="email-agreed-plan-to-rg"
+                                  asp-for="@Model.HasEmailedAgreedPlanToRegionalDirectorForApproval"/>
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>
