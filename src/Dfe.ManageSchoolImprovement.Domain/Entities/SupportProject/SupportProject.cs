@@ -83,10 +83,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; private set; }
 
-    public bool?
-        HasAcknowledgedAndWillEngage
-    { get; }
-
     public DateTime? DateAdviserAllocated { get; private set; }
     public string? AdviserEmailAddress { get; private set; }
     public string? AdviserFullName { get; private set; }
