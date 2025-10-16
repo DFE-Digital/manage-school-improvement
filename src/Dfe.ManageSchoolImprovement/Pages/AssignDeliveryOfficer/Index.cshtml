@@ -7,7 +7,9 @@
 
 @section BeforeMain
 {
-   <a asp-page="@TempData["AssignmentReferrer"]" asp-route-id="@Model.Id" class="govuk-back-link">Back</a>
+   <nav aria-label="back navigation">
+      <a asp-page="@TempData["AssignmentReferrer"]" asp-route-id="@Model.Id" class="govuk-back-link">Back</a>
+   </nav>
 }
 
 <div class="govuk-grid-row">
@@ -46,7 +48,9 @@
                   Continue
                </button>
                <input type="hidden" name="UnassignAdviser" id="UnassignAdviser"/>
-               <span class="govuk-body govuk-!-margin-right-2 govuk-!-margin-left-1">or </span><a href="#" id="unassign-link" class="govuk-link">Unassign</a>
+               <span class="govuk-body govuk-!-margin-right-2 govuk-!-margin-left-1">or </span><a href="#"
+                                                                                                  id="unassign-link"
+                                                                                                  class="govuk-link">Unassign</a>
             </div>
          </form>
       </div>
@@ -55,18 +59,18 @@
 </div>
 
 <script type="application/javascript" asp-add-nonce>
-    var deliveryOfficerSelect = document.querySelector('#adviser');
-    accessibleAutocomplete.enhanceSelectElement({
-        selectElement: deliveryOfficerSelect
-    });
-      document.querySelector('#adviser-input').value = document.querySelector('#adviser').value;
+   var deliveryOfficerSelect = document.querySelector('#adviser')
+   accessibleAutocomplete.enhanceSelectElement({
+      selectElement: deliveryOfficerSelect
+   })
+   document.querySelector('#adviser-input').value = document.querySelector('#adviser').value
 
-    document.querySelector('#adviser').addEventListener('change',function(){
-         document.querySelector('#adviser-input').value = this.value;
-    });
+   document.querySelector('#adviser').addEventListener('change', function () {
+      document.querySelector('#adviser-input').value = this.value
+   })
 
-    document.querySelector('#unassign-link').onclick = () =>{
-        document.querySelector('#UnassignAdviser').value = true;
-        document.querySelector('form').submit();
-    };
+   document.querySelector('#unassign-link').onclick = () => {
+      document.querySelector('#UnassignAdviser').value = true
+      document.querySelector('form').submit()
+   }
 </script>

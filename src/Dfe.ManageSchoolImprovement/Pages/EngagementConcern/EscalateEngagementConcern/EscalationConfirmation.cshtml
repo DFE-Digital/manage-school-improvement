@@ -9,8 +9,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.DateOfDecision.Page" asp-route-id="@Model.SupportProject.Id"
-       class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.EngagementConcern.DateOfDecision.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)

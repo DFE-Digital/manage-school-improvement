@@ -6,7 +6,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
@@ -22,9 +25,11 @@
         </h1>
         <form method="post" novalidate>
             <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
-                                      name="@nameof(Model.SchoolIsEligible)" radio-buttons="@Model.RadioButtons" asp-for="@Model.SchoolIsEligible" error-message="@Model.ErrorMessage"/>
-          
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                                      name="@nameof(Model.SchoolIsEligible)" radio-buttons="@Model.RadioButtons"
+                                      asp-for="@Model.SchoolIsEligible" error-message="@Model.ErrorMessage"/>
+
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>

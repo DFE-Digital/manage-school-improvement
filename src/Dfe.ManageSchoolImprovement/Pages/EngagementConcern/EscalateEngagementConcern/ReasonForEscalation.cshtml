@@ -7,7 +7,9 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
@@ -51,14 +53,14 @@
                             </p>
                         }
                         <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : "")"
-                                  id="escalation-details" name="escalation-details" rows="5"
-                                  asp-for="@Model.EscalationDetails"></textarea>
+                            id="escalation-details" name="escalation-details" rows="5"
+                            asp-for="@Model.EscalationDetails"></textarea>
                     </div>
                 </fieldset>
             </div>
             <div class="govuk-button-group govuk-body">
                 <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button"
-                        data-cy="escalate-primary-reason-btn">
+                    data-cy="escalate-primary-reason-btn">
                     Continue
                 </button>
             </div>

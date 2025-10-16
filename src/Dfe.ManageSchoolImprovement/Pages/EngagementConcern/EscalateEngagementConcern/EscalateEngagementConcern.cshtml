@@ -9,7 +9,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
@@ -49,7 +52,8 @@
                         <div class="govuk-hint" id="before-using-notice-hint">
                             You must complete the following steps before you can use a notice to mandate engagement.
                         </div>
-                        <div class="govuk-checkboxes" id="before-using-notice" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                        <div class="govuk-checkboxes" id="before-using-notice" data-module="govuk-checkboxes"
+                             data-govuk-checkboxes-init>
                             @if (Model.ShowBeforeUsingNoticeError)
                             {
                                 <p id="before-using-notice-error" class="govuk-error-message">
@@ -59,14 +63,15 @@
                             }
                             <div class="govuk-checkboxes__item">
                                 <input name="use-existing-relationships-hidden" type="hidden" value="false"/>
-                                <input class="govuk-checkboxes__input @(Model.ShowBeforeUsingNoticeError ? "govuk-checkbox--error" : "")"
-                                       id="use-existing-relationships"
-                                       name="use-existing-relationships"
-                                       value="true"
-                                       type="checkbox"
-                                       @(Model.ConfirmStepsTaken == true || Model.UseExistingRelationships == true ? "checked" : "")
-                                       data-aria-controls="conditional-use-existing-relationships"
-                                       data-cy="use-existing-relationships-checkbox"/>
+                                <input
+                                    class="govuk-checkboxes__input @(Model.ShowBeforeUsingNoticeError ? "govuk-checkbox--error" : "")"
+                                    id="use-existing-relationships"
+                                    name="use-existing-relationships"
+                                    value="true"
+                                    type="checkbox"
+                                    @(Model.ConfirmStepsTaken == true || Model.UseExistingRelationships == true ? "checked" : "")
+                                    data-aria-controls="conditional-use-existing-relationships"
+                                    data-cy="use-existing-relationships-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="use-existing-relationships">
                                     Use existing relationships to encourage voluntary engagement
                                 </label>
@@ -111,7 +116,8 @@
                         <div class="govuk-hint" id="notice-approval-hint">
                             You must gather evidence and get approval before using a notice.
                         </div>
-                        <div class="govuk-checkboxes" id="get-approval" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                        <div class="govuk-checkboxes" id="get-approval" data-module="govuk-checkboxes"
+                             data-govuk-checkboxes-init>
                             @if (Model.ShowGetApprovalError)
                             {
                                 <p id="get-approval-error" class="govuk-error-message">
@@ -188,15 +194,17 @@
                                 @if (string.IsNullOrEmpty(Model.SupportProject.TrustName))
                                 {
                                     <label class="govuk-label govuk-checkboxes__label" for="consult-la">
-                                        Consult the local authority lead about the actions in the notice, the notification
+                                        Consult the local authority lead about the actions in the notice, the
+                                        notification
                                         letter and any contextual information that may help
                                     </label>
                                 }
                                 else
                                 {
                                     <label class="govuk-label govuk-checkboxes__label" for="consult-la">
-                                        Consult the trust relationship manager about the actions in the notice, the notification letter and any contextual information that may help
-                                    </label> 
+                                        Consult the trust relationship manager about the actions in the notice, the
+                                        notification letter and any contextual information that may help
+                                    </label>
                                 }
                             </div>
                             <div class="govuk-checkboxes__item">
@@ -242,7 +250,8 @@
                         <div class="govuk-hint" id="issuing-notice-hint">
                             Before issuing a notice you must:
                         </div>
-                        <div class="govuk-checkboxes" id="issuing-notice" data-module="govuk-checkboxes" data-govuk-checkboxes-init>
+                        <div class="govuk-checkboxes" id="issuing-notice" data-module="govuk-checkboxes"
+                             data-govuk-checkboxes-init>
                             @if (Model.ShowIssuingNoticeError)
                             {
                                 <p id="issuing-notice-error" class="govuk-error-message">
@@ -280,7 +289,7 @@
                                     <label class="govuk-label govuk-checkboxes__label" for="send-notice">
                                         Send the NEIA to the school and responsible body from the regional director's
                                         mailbox
-                                    </label>  
+                                    </label>
                                 }
                                 else
                                 {

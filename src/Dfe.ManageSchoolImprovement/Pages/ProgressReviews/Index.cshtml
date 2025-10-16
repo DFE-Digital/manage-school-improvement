@@ -8,8 +8,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
-        data-cy="back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+            data-cy="back-link">Back</a>
+    </nav>
 }
 
 <div class="govuk-grid-row">

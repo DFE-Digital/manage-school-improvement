@@ -9,12 +9,15 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -24,7 +27,9 @@
             Share indicative funding band and the improvement plan template
         </h1>
 
-        <p class="govuk-body">Use <a href="@Configuration["AssessmentToolThreeLink"]" class="govuk-link" target="_blank">Assessment Tool 3: Deciding Levels of Funding (opens in new tab)</a> to get an indicative funding band for this school.</p>
+        <p class="govuk-body">Use <a href="@Configuration["AssessmentToolThreeLink"]" class="govuk-link"
+                                     target="_blank">Assessment Tool 3: Deciding Levels of Funding (opens in new
+                tab)</a> to get an indicative funding band for this school.</p>
 
         <p class="govuk-body">Then share the funding band and improvement plan template with them.</p>
 
@@ -35,9 +40,12 @@
                 </span>
             </summary>
             <div class="govuk-details__text">
-                <p class="govuk-body">You only need to complete stage 1 of the assessment tool to work out the indicative funding.</p>
+                <p class="govuk-body">You only need to complete stage 1 of the assessment tool to work out the
+                    indicative funding.</p>
                 <p class="govuk-body">This is only an indicative funding band. The funding band may change later on.</p>
-                <p class="govuk-body">You can <a href="@Configuration["AssessmentToolThreeGuidanceLink"]" class="govuk-link" target="_blank">read guidance on how to complete the assessment tool on SharePoint (opens in new tab)</a>.</p>
+                <p class="govuk-body">You can <a href="@Configuration["AssessmentToolThreeGuidanceLink"]"
+                                                 class="govuk-link" target="_blank">read guidance on how to complete the
+                        assessment tool on SharePoint (opens in new tab)</a>.</p>
             </div>
         </details>
 
@@ -45,7 +53,7 @@
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
-                        <input name="calculate-funding-band-hidden" type="hidden" value="false" />
+                        <input name="calculate-funding-band-hidden" type="hidden" value="false"/>
                         <input class="govuk-checkboxes__input"
                                id="calculate-funding-band"
                                name="calculate-funding-band"
@@ -54,7 +62,7 @@
                                checked="@Model.CalculateFundingBand">
                         <label class="govuk-label govuk-checkboxes__label" for="calculate-funding-band">
                             Calculate indicative funding band
-                            <br />
+                            <br/>
                             <span id="calculate-funding-band-hint" class="govuk-hint">
                                 Use stage 1 of
                                 <a class="govuk-link"
@@ -73,12 +81,12 @@
                                       error-message="@Model.FundingBandErrorMessage"
                                       name="@nameof(Model.FundingBand)"
                                       radio-buttons="@Model.FundingBandOptions()"
-                                      asp-for="@Model.FundingBand" />
+                                      asp-for="@Model.FundingBand"/>
 
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
-                        <input name="send-template-hidden" type="hidden" value="false" />
+                        <input name="send-template-hidden" type="hidden" value="false"/>
                         <input class="govuk-checkboxes__input"
                                id="send-template"
                                name="send-template"
@@ -86,8 +94,9 @@
                                value="true"
                                checked="@Model.SendTemplate">
                         <label class="govuk-label govuk-checkboxes__label" for="send-template">
-                            Send the improvement and expenditure plan template, with the indicative funding band selected, to the supporting organisation and the school's responsible body
-                            <br />
+                            Send the improvement and expenditure plan template, with the indicative funding band
+                            selected, to the supporting organisation and the school's responsible body
+                            <br/>
                             <span id="send-template-hint" class="govuk-hint">
                                 You can
                                 <a class="govuk-link"
@@ -105,9 +114,10 @@
                               id="date-templates-sent"
                               name="date-templates-sent"
                               asp-for="@Model.DateTemplatesSent"
-                              hint="For example, 1 7 2024." />
+                              hint="For example, 1 7 2024."/>
 
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Save and return
             </button>
         </form>

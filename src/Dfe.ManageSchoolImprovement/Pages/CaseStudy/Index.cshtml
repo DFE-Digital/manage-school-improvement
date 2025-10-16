@@ -6,7 +6,9 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    </nav>
     @if (Model.CaseStudyAdded is true || Model.CaseStudyUpdated is true || Model.CaseStudyRemoved is true)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" cy-data="task-updated-success-notification">

@@ -4,26 +4,28 @@
 @using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
 @using Dfe.ManageSchoolImprovement.Utils;
 @model IndexModel
-@{ 
+@{
     ViewData["Title"] = "Contact";
     TempData["AssignmentReferrer"] = @Links.Contacts.Index.Page;
 }
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    </nav>
 }
 
 <partial name="_ProjectHeader" model="Model.SupportProject" />
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds"> 
-        <h2 class="govuk-heading-l">Contacts</h2> 
-        <div class="govuk-!-margin-top-5"> 
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Contacts</h2>
+        <div class="govuk-!-margin-top-5">
             <a asp-page="@Links.Contacts.AddContact.Page" asp-route-id="@Model.SupportProject.Id" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
                 Add contact
-            </a>  
-        </div> 
+            </a>
+        </div>
         @foreach (var contact in Model.SupportProject.Contacts)
         {
             <div class="govuk-summary-card">
@@ -76,6 +78,6 @@
                     </dl>
                 </div>
             </div>
-        } 
+        }
     </div>
 </div>

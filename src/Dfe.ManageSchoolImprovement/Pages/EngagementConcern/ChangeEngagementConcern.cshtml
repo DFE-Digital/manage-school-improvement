@@ -8,7 +8,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
@@ -23,7 +26,8 @@
             Change engagement concern
         </h1>
         <form method="post">
-            <div class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error govuk-js-character-count--error" : "")"
+            <div
+                class="govuk-form-group govuk-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-form-group--error govuk-js-character-count--error" : "")"
                 data-module="govuk-character-count"
                 data-maxlength="200">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
@@ -39,15 +43,15 @@
                     {
                         <p id="summary-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">Error:</span> Enter a summary
-                        </p>  
+                        </p>
                     }
                     else
                     {
                         <p id="character-count-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> Concern summary must be 200 characters or less
-                        </p> 
+                            <span class="govuk-visually-hidden">Error:</span> Concern summary must be 200 characters or
+                            less
+                        </p>
                     }
-
                 }
                 <textarea
                     class="govuk-textarea govuk-js-character-count @(Model.ShowRecordEngagementConcernSummaryError ? "govuk-textarea--error" : "")"

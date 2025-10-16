@@ -8,8 +8,11 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.Notes.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.Notes.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    </nav>
 }
+
 @if (Model.ShowError)
 {
     <partial name="_ErrorSummary"/>
@@ -31,9 +34,10 @@
                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                     </p>
                 }
-                <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : "")" id="project-note-body" name="project-note-body" rows="5">@Model.ProjectNoteBody</textarea>
+                <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : "")"
+                          id="project-note-body" name="project-note-body" rows="5">@Model.ProjectNoteBody</textarea>
             </div>
-            <input type="hidden" asp-for="ProjectNoteId" />
+            <input type="hidden" asp-for="ProjectNoteId"/>
             <button type="submit" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
                 Save note
             </button>

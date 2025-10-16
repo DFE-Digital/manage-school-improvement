@@ -6,8 +6,10 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
-        data-cy="back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+            data-cy="back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
@@ -50,8 +52,8 @@
                     data-cy="save-and-return-button">
                     Save and return
                 </button>
-                <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-link"
-                    data-cy="cancel-link">Cancel</a>
+                    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-link"
+                        data-cy="cancel-link">Cancel</a>
             </div>
         </form>
     </div>

@@ -18,10 +18,12 @@
     {
         previousInspectionDate = DateTime.ParseExact(Model.PreviousInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
     }
-} 
+}
 @section BeforeMain
 {
-    <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    </nav>
 }
 
 <partial name="_ErrorSummary" />

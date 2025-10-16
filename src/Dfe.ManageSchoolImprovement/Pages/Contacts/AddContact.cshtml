@@ -3,9 +3,13 @@
 @{
     ViewData["Title"] = "Add contact";
 }
+
 @section BeforeMain
 {
-    <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
@@ -18,11 +22,13 @@
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-xl">
             Add contact
-        </h1> 
-        <form method="post" novalidate> 
+        </h1>
+        <form method="post" novalidate>
             <govuk-radiobuttons-input heading="Role" heading-style="govuk-fieldset__legend--m" hint="Select one option"
-                     error-message="@Model.ErrorMessage" name="@nameof(Model.RoleId)" radio-buttons="@Model.RadioButtons" asp-for="@Model.RoleId" />
-            <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button" data-cy="select-common-submitbutton">
+                                      error-message="@Model.ErrorMessage" name="@nameof(Model.RoleId)"
+                                      radio-buttons="@Model.RadioButtons" asp-for="@Model.RoleId"/>
+            <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
                 Continue
             </button>
         </form>

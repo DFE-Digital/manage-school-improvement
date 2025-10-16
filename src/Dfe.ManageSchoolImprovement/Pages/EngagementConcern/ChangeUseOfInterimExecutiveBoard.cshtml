@@ -9,12 +9,15 @@
 
 @section BeforeMain
 {
-    <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -47,14 +50,19 @@
                             </span>
                         </summary>
                         <div class="govuk-details__text">
-                            <p class="govuk-body">An IEB is a small group of experienced people who temporarily take over the
+                            <p class="govuk-body">An IEB is a small group of experienced people who temporarily take
+                                over the
                                 role of a school's governing body.</p>
-                            <p class="govuk-body">Their job is to improve how the school is run and help raise educational
+                            <p class="govuk-body">Their job is to improve how the school is run and help raise
+                                educational
                                 standards.</p>
-                            <p class="govuk-body">DfE can only create an IEB after a period of formal consultation with the
-                                local authority and governing body. The diocese or foundation trust must also be consulted if it
+                            <p class="govuk-body">DfE can only create an IEB after a period of formal consultation with
+                                the
+                                local authority and governing body. The diocese or foundation trust must also be
+                                consulted if it
                                 is a faith school or part of a foundation.</p>
-                            <p class="govuk-body">After the consultation, a regional director must decide if an IEB is needed.</p>
+                            <p class="govuk-body">After the consultation, a regional director must decide if an IEB is
+                                needed.</p>
                             <p class="govuk-body">An IEB can only be created with a regional director's approval.</p>
                         </div>
                     </details>
@@ -98,11 +106,11 @@
                         </h1>
                         <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
-                                <input name="remove-ieb-hidden" type="hidden" value="false" />
+                                <input name="remove-ieb-hidden" type="hidden" value="false"/>
                                 <input class="govuk-checkboxes__input" data-cy="remove-ieb-checkbox"
                                        id="remove-ieb" name="remove-ieb" value="true"
                                        type="checkbox" @(Model.RemoveInterimExecutiveBoard is true ? "checked" : "")
-                                       data-aria-controls="conditional-remove-ieb" />
+                                       data-aria-controls="conditional-remove-ieb"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="remove-ieb">
                                     Interim executive board no longer in place
                                 </label>
@@ -116,7 +124,8 @@
                 <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="save-ieb-created-btn">
                     Save and return
                 </button>
-                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+                <a asp-page="@Links.EngagementConcern.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                   class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>

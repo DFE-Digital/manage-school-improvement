@@ -4,15 +4,19 @@
 @{
     ViewData["Title"] = "Case study candidates";
 }
+
 @section BeforeMain
 {
-    <a asp-page="@Links.CaseStudy.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.CaseStudy.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
 }
 
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -27,20 +31,22 @@
                     </legend>
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
-                            <input name="case-study-candidate-hidden" type="hidden" value="false" />
+                            <input name="case-study-candidate-hidden" type="hidden" value="false"/>
                             <input class="govuk-checkboxes__input"
                                    id="case-study-candidate"
                                    name="case-study-candidate"
                                    value="true"
                                    type="checkbox"
-                            @(Model.CaseStudyCandidate == true ? "checked" : "")
-                                   data-aria-controls="conditional-case-study-candidate" />
+                                   @(Model.CaseStudyCandidate == true ? "checked" : "")
+                                   data-aria-controls="conditional-case-study-candidate"/>
                             <label class="govuk-label govuk-checkboxes__label" for="case-study-candidate">
                                 Case study candidate
                             </label>
                         </div>
-                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-case-study-candidate">
-                            <div class="govuk-form-group @(Model.ShowCaseStudyDetailsError ? "govuk-form-group--error" : "")">
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                             id="conditional-case-study-candidate">
+                            <div
+                                class="govuk-form-group @(Model.ShowCaseStudyDetailsError ? "govuk-form-group--error" : "")">
                                 <label class="govuk-label" for="case-study-details">
                                     Enter details about why this school would be a good candidate for a case study
                                 </label>
@@ -50,7 +56,8 @@
                                         <span class="govuk-visually-hidden">Error:</span> You must enter details
                                     </p>
                                 }
-                                <textarea class="govuk-textarea" id="case-study-details" name="case-study-details" rows="5">@Model.CaseStudyDetails</textarea>
+                                <textarea class="govuk-textarea" id="case-study-details" name="case-study-details"
+                                          rows="5">@Model.CaseStudyDetails</textarea>
                             </div>
                         </div>
                     </div>
@@ -59,7 +66,8 @@
 
 
             <div class="govuk-button-group govuk-body">
-                <button type="submit" role="button" draggable="false" class="govuk-button govuk-button" data-module="govuk-button">
+                <button type="submit" role="button" draggable="false" class="govuk-button govuk-button"
+                        data-module="govuk-button">
                     Save and return
                 </button>
                 <a asp-page="@Links.CaseStudy.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
