@@ -1,6 +1,6 @@
 # 🚀 Release Notes – Manage School Improvement
 
-Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
+Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
 ## 📅 [v1.3.0] - Q3 – Sprint 7 (Part 2)- 2025-10-
