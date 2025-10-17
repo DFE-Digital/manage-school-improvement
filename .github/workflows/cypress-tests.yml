@@ -29,12 +29,6 @@ on:
 concurrency:
   group: ${{ github.workflow }}
 
-# Define reusable values as top-level variables
-env:
-  NODE_VERSION: '18'
-  BROWSER: 'edge'
-  WORKING_DIRECTORY: 'src/Dfe.ManageSchoolImprovement.CypressTests'
-
 jobs:
   cypress-tests:
     name: Run Cypress Tests
