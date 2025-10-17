@@ -1,7 +1,23 @@
 # 🚀 Release Notes – Manage School Improvement
 
-Welcome to the release notes for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
+Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
+
+## 📅 [v1.3.0] - Q3 – Sprint 1 (Part 2)- 2025-10-17
+
+### 📌 User Stories 
+
+- **224078** - Iterate "Check potential adviser conflicts of interest" task to better reflect the process
+- **224092** - Iterate "Record responsible body's response" task
+- **223884** - Reorder the "Begin the project" set of tasks to align with RISE Guidance
+- **209081** - Rebranding: GOV.UK rebrand and DfE header changes
+
+### 🐛 Bug Fixes
+
+- **218639** - Lexical issue: Success message shows 'schools' instead of school when only 1 record returned
+- **233921** - Accessibility issue: Landmarks issue with Back link  on all the pages
+
+--
 
 ## 📅 [v1.2.1] - Q3 – Sprint 1 (Part 1) - 2025-10-10
 
