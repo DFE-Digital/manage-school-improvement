@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             // Intentionally empty to use interface default implementations
         }
 
-        private static IDateValidationMessageProvider CreateProvider()
+        private static DefaultImpl CreateProvider()
         {
             return new DefaultImpl();
         }
@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         [Fact]
         public void Defaults_ShouldReturnExpectedStaticMessages()
         {
-            var provider = CreateProvider();
+            IDateValidationMessageProvider provider = CreateProvider();
 
             Assert.Equal("Enter a date in the correct format", provider.DefaultMessage);
             Assert.Equal("Month must be between 1 and 12", provider.MonthOutOfRange);
@@ -31,7 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         [InlineData(new[] { "day", "month", "year" }, "Date must include a day and month and year")]
         public void SomeMissing_ShouldJoinMissingPartsWithAnd(string[] missingParts, string expected)
         {
-            var provider = CreateProvider();
+            IDateValidationMessageProvider provider = CreateProvider();
 
             var message = provider.SomeMissing("ignored-display-name", missingParts);
 
@@ -45,7 +45,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         [InlineData(31)]
         public void DayOutOfRange_ShouldReturnBoundedMessage(int daysInMonth)
         {
-            var provider = CreateProvider();
+            IDateValidationMessageProvider provider = CreateProvider();
 
             var message = provider.DayOutOfRange(daysInMonth);
 
@@ -55,7 +55,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         [Fact]
         public void ContextSpecificValidation_Default_ShouldReturnTrueAndEmptyMessage()
         {
-            var provider = CreateProvider();
+            IDateValidationMessageProvider provider = CreateProvider();
 
             var (valid, message) = provider.ContextSpecificValidation(1, 1, 2000);
 
