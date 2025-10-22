@@ -91,7 +91,7 @@ public class EditReviewModel(
         // Validate the form
         if (!ReviewDate.HasValue)
         {
-            ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
+            ModelState.AddModelError(nameof(ReviewDate), "Enter a date");
         }
 
         if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
@@ -190,11 +190,8 @@ public class EditReviewModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"Enter the date of review";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     private bool IsCustomReviewerNameValid()
     {

@@ -44,11 +44,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"Enter the date templates sent";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {

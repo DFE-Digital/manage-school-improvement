@@ -25,11 +25,8 @@ public class DateOfDecisionModel(
 
     public bool ShowError => _errorService.HasErrors();
 
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return "You must enter a date";
-    }
-
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
+    
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
@@ -62,7 +59,7 @@ public class DateOfDecisionModel(
 
         if (!DateOfDecision.HasValue)
         {
-            ModelState.AddModelError("escalate-decision-date", "You must enter a date");
+            ModelState.AddModelError("escalate-decision-date", "Enter a date");
         }
 
         if (!ModelState.IsValid)

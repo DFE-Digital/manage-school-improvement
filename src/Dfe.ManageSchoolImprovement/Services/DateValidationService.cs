@@ -16,7 +16,7 @@ public class DateValidationService(IDateValidationMessageProvider messages)
 
       if (missingParts.Count == 3)
       {
-         return (false, _messages.AllMissing(displayName));
+         return (false, _messages.AllMissing);
       }
 
       if (missingParts.Count > 0)
@@ -56,10 +56,7 @@ public class DateValidationService(IDateValidationMessageProvider messages)
 
    private sealed class DefaultDateValidationMessageProvider : IDateValidationMessageProvider
    {
-      public string AllMissing(string displayName)
-      {
-         return $"Enter a date for the {displayName.ToLower()}";
-      }
+      public string AllMissing => "Enter date";
 
       public string SomeMissing(string displayName, IEnumerable<string> missingParts)
       {

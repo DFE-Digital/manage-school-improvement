@@ -23,11 +23,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter the saved school's resonpse date in SharePoint";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {

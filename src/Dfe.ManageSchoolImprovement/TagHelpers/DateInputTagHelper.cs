@@ -56,28 +56,31 @@ public class DateInputTagHelper(IHtmlHelper htmlHelper, ErrorService errorServic
       if (error is not null)
       {
          model.ErrorMessage = error.Message;
-         model.DayInvalid = error.InvalidInputs.Contains($"{Name}-day");
+         model.DayInvalid = error.Message.Contains($"day");
          if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}-day", out StringValues dayValue))
          {
             model.Day = dayValue!;
          }
 
-         model.MonthInvalid = error.InvalidInputs.Contains($"{Name}-month");
+         model.MonthInvalid = error.Message.Contains($"month");
          if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}-month", out StringValues monthValue))
          {
             model.Month = monthValue!;
          }
 
-         model.YearInvalid = error.InvalidInputs.Contains($"{Name}-year");
+         model.YearInvalid = error.Message.Contains($"year") || error.Message.Contains($"Year");
          if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}-year", out StringValues yearValue))
          {
             model.Year = yearValue!;
          }
 
-         if (!model.DayInvalid && !model.MonthInvalid && model.YearInvalid)
+         if (model.ErrorMessage == "Enter a date" || 
+             model.ErrorMessage == "You must enter today's date or a date in the past" || 
+             model.ErrorMessage == "Enter a date in the correct format")
          {
-            model.DayInvalid = model.MonthInvalid = model.YearInvalid = true;
+            model.DateMissingOrIncorrect = true;
          }
+         
       }
 
       return model;
