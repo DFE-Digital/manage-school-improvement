@@ -38,11 +38,11 @@ public class SelectSchoolModel(IGetEstablishment getEstablishment, ErrorService 
 
     public async Task<IActionResult> OnPost()
     {
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, SEARCH_ENDPOINT);
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, SEARCH_ENDPOINT, string.IsNullOrWhiteSpace(SearchQuery));
 
         if (string.IsNullOrWhiteSpace(SearchQuery))
         {
-            ModelState.AddModelError(nameof(SearchQuery), "Enter the school name or URN.");
+            ModelState.AddModelError(nameof(SearchQuery), "Enter the school name or URN");
             errorService.AddErrors(ModelState.Keys, ModelState);
             return Page();
         }
