@@ -11,6 +11,10 @@ $govuk-font-family: "Inter", blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans
 @import "./css/summary-card.scss";
 @import "./css/cookie-banner.scss";
 
+.msi-autocomplete .govuk-input--error {
+	border: 2px solid #d4351c !important;
+}
+
 .margin-bottom-minus-10{
 	margin-bottom: -10px !important;
 }
