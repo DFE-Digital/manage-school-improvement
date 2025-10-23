@@ -4,13 +4,23 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveInitialDiagnosisAssessment
 {
-    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    public class IndexModel : BaseSupportProjectPageModel, IDateValidationMessageProvider
     {
+        private readonly ISharePointResourceService _sharePointResourceService;
+        private readonly IMediator _mediator;
+
+        public IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator, ISharePointResourceService sharePointResourceService)
+            : base(supportProjectQueryService, errorService)
+        {
+            _sharePointResourceService = sharePointResourceService;
+            _mediator = mediator;
+        }
+
         [BindProperty(Name = "saved-assessemnt-template-in-sharepoint-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
         [Display(Name = "Saved assessement template")]
@@ -21,7 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveIni
 
         [BindProperty(Name = "complete-assessment-template")]
         public bool? HasCompleteAssessmentTemplate { get; set; }
-
+        public ISharePointResourceService SharePointResourceService => _sharePointResourceService;
         public bool ShowError { get; set; }
 
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
@@ -45,12 +55,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveIni
 
             var request = new SetCompleteAndSaveInitialDiagnosisTemplateCommand(new SupportProjectId(id), SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate);
 
-            var result = await mediator.Send(request, cancellationToken);
+            var result = await _mediator.Send(request, cancellationToken);
 
             if (!result)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); 
+                return await base.GetSupportProject(id, cancellationToken);
             }
 
             TaskUpdated = true;
@@ -63,6 +73,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveIni
             SavedAssessmentTemplateInSharePointDate = SupportProject.SavedAssessmentTemplateInSharePointDate;
             HasTalkToAdviserAboutFindings = SupportProject.HasTalkToAdviserAboutFindings;
             HasCompleteAssessmentTemplate = SupportProject.HasCompleteAssessmentTemplate;
+
             return Page();
         }
     }

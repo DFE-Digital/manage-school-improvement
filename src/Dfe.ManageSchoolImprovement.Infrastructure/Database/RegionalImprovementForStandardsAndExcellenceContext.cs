@@ -3,6 +3,7 @@ using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database.Interceptors;
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
+using GovUK.Dfe.CoreLibs.ApplicationSettings.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -44,6 +45,9 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<ImprovementPlanReview>(ConfigureImprovementPlanReview);
         modelBuilder.Entity<ImprovementPlanObjectiveProgress>(ConfigureImprovementPlanObjectiveProgress);
         modelBuilder.Entity<EngagementConcern>(ConfigureEngagementConcerns);
+
+        // Configure ApplicationSettings using the extension method
+        modelBuilder.ConfigureApplicationSettings(DefaultSchema);
 
         base.OnModelCreating(modelBuilder);
     }

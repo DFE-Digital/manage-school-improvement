@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Application\Dfe.ManageSchoolImprovement.Application.csproj" />
     <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Domain\Dfe.ManageSchoolImprovement.Domain.csproj" />
+    <ProjectReference Include="..\GovUK.Dfe.CoreLibs.ApplicationSettings\GovUK.Dfe.CoreLibs.ApplicationSettings.csproj" />
   </ItemGroup>
 
 </Project>

@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfe.ManageSchoolImprovement
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfe.ManageSchoolImprovement.Utils.Tests", "src\Tests\Dfe.ManageSchoolImprovement.Utils.Tests\Dfe.ManageSchoolImprovement.Utils.Tests.csproj", "{768C23DD-0D6F-4312-A020-D8116A2EC857}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GovUK.Dfe.CoreLibs.ApplicationSettings", "src\GovUK.Dfe.CoreLibs.ApplicationSettings\GovUK.Dfe.CoreLibs.ApplicationSettings.csproj", "{3438139B-8807-48AE-8870-8488FCF94120}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{768C23DD-0D6F-4312-A020-D8116A2EC857}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{768C23DD-0D6F-4312-A020-D8116A2EC857}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{768C23DD-0D6F-4312-A020-D8116A2EC857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3438139B-8807-48AE-8870-8488FCF94120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3438139B-8807-48AE-8870-8488FCF94120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3438139B-8807-48AE-8870-8488FCF94120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3438139B-8807-48AE-8870-8488FCF94120}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
