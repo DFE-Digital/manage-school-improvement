@@ -97,8 +97,9 @@ public static class ServiceCollectionExtensions
                 if (int.TryParse(section["CacheExpirationMinutes"], out int cacheExpiration))
                     options.CacheExpirationMinutes = cacheExpiration;
 
+                // Update the line to use the null-coalescing operator to handle potential null values
                 if (!string.IsNullOrEmpty(section["DefaultCategory"]))
-                    options.DefaultCategory = section["DefaultCategory"];
+                    options.DefaultCategory = section["DefaultCategory"] ?? string.Empty;
 
                 if (bool.TryParse(section["EnableEncryption"], out bool enableEncryption))
                     options.EnableEncryption = enableEncryption;

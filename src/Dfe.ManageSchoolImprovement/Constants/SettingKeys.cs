@@ -15,5 +15,6 @@ public static class SettingKeys
         public const string EnrolmentLetterTemplate = "EnrolmentLetterTemplate";
         public const string IEBGuidanceLink = "IEBGuidanceLink";
         public const string SOPUCommissioningForm = "SOPUCommissioningForm";
+
     }
 }
