@@ -28,11 +28,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveIni
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter the saved assessment template date in SharePoint";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {

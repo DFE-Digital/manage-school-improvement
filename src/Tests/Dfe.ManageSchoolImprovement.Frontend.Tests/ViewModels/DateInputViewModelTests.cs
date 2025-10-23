@@ -24,6 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.False(model.DayInvalid);
             Assert.False(model.MonthInvalid);
             Assert.False(model.YearInvalid);
+            Assert.False(model.DateMissingOrIncorrect);
             Assert.Null(model.PreviousInformation);
             Assert.Null(model.AdditionalInformation);
             Assert.Null(model.DateString);
@@ -50,6 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 DayInvalid = false,
                 MonthInvalid = false,
                 YearInvalid = false,
+                DateMissingOrIncorrect = false,
                 PreviousInformation = "Previous entry: 01/01/1990",
                 AdditionalInformation = "No additional information",
                 DateString = "25/12/1990",
@@ -71,6 +73,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.False(model.DayInvalid);
             Assert.False(model.MonthInvalid);
             Assert.False(model.YearInvalid);
+            Assert.False(model.DateMissingOrIncorrect);
             Assert.Equal("Previous entry: 01/01/1990", model.PreviousInformation);
             Assert.Equal("No additional information", model.AdditionalInformation);
             Assert.Equal("25/12/1990", model.DateString);

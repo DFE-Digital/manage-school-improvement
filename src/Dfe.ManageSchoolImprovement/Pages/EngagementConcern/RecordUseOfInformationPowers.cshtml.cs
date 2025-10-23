@@ -36,11 +36,8 @@ public class RecordUseOfInformationPowersModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return "Enter a date";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {

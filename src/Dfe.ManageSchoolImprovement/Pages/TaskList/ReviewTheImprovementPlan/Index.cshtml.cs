@@ -52,11 +52,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter date the improvement plan was received.";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
         
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {

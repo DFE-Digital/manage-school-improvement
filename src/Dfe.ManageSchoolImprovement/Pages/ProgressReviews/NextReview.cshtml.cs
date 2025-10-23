@@ -117,9 +117,6 @@ public class NextReviewModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return "Enter a date for the next review";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 }

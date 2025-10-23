@@ -33,11 +33,8 @@ public class RecordUseOfInterimExecutiveBoardModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"You must enter a date";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
     {

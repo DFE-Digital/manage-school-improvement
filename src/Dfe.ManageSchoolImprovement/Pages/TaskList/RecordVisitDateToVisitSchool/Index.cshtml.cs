@@ -22,11 +22,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter the school visit date.";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {

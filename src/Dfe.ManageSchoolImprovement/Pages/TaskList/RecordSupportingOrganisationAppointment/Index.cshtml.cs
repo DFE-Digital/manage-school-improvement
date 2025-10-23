@@ -31,11 +31,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter the record matching decision date";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {

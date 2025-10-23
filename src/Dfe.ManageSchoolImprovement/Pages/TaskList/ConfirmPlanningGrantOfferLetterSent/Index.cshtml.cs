@@ -21,11 +21,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmPlanningGra
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter the planning grant offer letter sent date";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {

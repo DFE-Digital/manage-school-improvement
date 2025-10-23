@@ -170,11 +170,8 @@ public class AddReviewModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"Enter the date of review";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     private bool IsCustomReviewerNameValid()
     {
