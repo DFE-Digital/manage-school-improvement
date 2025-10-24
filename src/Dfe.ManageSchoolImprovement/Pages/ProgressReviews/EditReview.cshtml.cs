@@ -174,8 +174,8 @@ public class EditReviewModel(
             Input = new TextFieldInputViewModel
             {
                 Id = nameof(CustomReviewerName),
-                ValidationMessage = "Enter the name of the person who did this review",
-                Paragraph = "Enter the name of the person who did this review",
+                ValidationMessage = "Enter the person's first and last name",
+                Paragraph = "Enter the person's first and last name",
                 Value = CustomReviewerName ?? string.Empty,
                 IsValid = IsCustomReviewerNameValid(),
                 IsTextArea = false

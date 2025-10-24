@@ -7,7 +7,7 @@
 <div id="query-hint" class="govuk-hint">
    @Model.Label
 </div>
-<div class="msi-autocomplete" id="search"></div>
+<div class="@(Model.Error ? "msi-autocomplete" : "")" id="search"></div>
 <input type="hidden" id="SearchQuery" name="SearchQuery"/>
 
 <script type="application/javascript" asp-add-nonce>

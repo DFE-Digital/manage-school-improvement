@@ -12,7 +12,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AllocateAdviser;
 public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryService, IUserRepository userRepository, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string? AdviserEmailAddress { get; set; }
-    public string? AdviserFullName { get; set; }
 
     [BindProperty(Name = "date-adviser-allocated", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -24,13 +23,8 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
 
     public bool ShowError { get; set; }
 
-    public bool AdviserEmailAddressError
-    {
-        get
-        {
-            return ModelState.Any(x => x.Key == "adviser-email-address");
-        }
-    }
+    public bool AdviserError => ModelState.ContainsKey("adviser") &&
+                                ModelState["adviser"]?.Errors.Count > 0;
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
@@ -56,6 +50,17 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
 
     public async Task<IActionResult> OnPost(int id, string selectedName, string referrer, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrEmpty(selectedName))
+        {
+           ModelState.AddModelError("adviser", "Enter the name or email address of the adviser");
+           _errorService.AddError("adviser", "Enter the name or email address of the adviser");
+        }
+        
+        if (ModelState.ContainsKey("selectedName"))
+        {
+            ModelState.Remove("selectedName");
+        }
+        
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
