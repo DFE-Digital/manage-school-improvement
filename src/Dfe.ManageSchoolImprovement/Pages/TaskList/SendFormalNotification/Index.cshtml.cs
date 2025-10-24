@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -6,14 +5,16 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendFormalNotification;
 
 public class SendFormalNotificationModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
-    IDateValidationMessageProvider
+    IMediator mediator,
+    ISharePointResourceService sharePointResourceService)
+    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "use-enrolment-letter-template-to-draft-email")]
     public bool? UseEnrolmentLetterTemplateToDraftEmail { get; set; }
@@ -24,7 +25,8 @@ public class SendFormalNotificationModel(
     [BindProperty(Name = "add-recipients")]
     public bool? AddRecipients { get; set; }
 
-    [BindProperty(Name = "send-email")] public bool? SendEmail { get; set; }
+    [BindProperty(Name = "send-email")]
+    public bool? SendEmail { get; set; }
 
     [BindProperty(Name = "date-of-formal-contact", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -32,52 +34,86 @@ public class SendFormalNotificationModel(
     public DateTime? DateOfFormalContact { get; set; }
 
     public bool ShowError { get; set; }
+    public string EnrolmentLetterTemplate { get; set; } = string.Empty;
 
-    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-    {
-        return $"Date must include a {string.Join(" and ", missingParts)}";
-    }
+    // Expression-bodied interface implementations
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
+        $"Date must include a {string.Join(" and ", missingParts)}";
 
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"Enter the school contacted date";
-    }
+    string IDateValidationMessageProvider.AllMissing(string displayName) =>
+        "Enter the school contacted date";
 
-    public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        await LoadEnrolmentLetterTemplateAsync(cancellationToken);
 
-        UseEnrolmentLetterTemplateToDraftEmail = SupportProject.UseEnrolmentLetterTemplateToDraftEmail ?? null;
-        AttachTargetedInterventionInformationSheet = SupportProject.AttachTargetedInterventionInformationSheet ?? null;
-        AddRecipients = SupportProject.AddRecipientsForFormalNotification ?? null;
-        SendEmail = SupportProject.FormalNotificationSent ?? null;
-        DateOfFormalContact = SupportProject.DateFormalNotificationSent ?? null;
+        // Populate form fields from support project data
+        PopulateFormFields();
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
-        if (!ModelState.IsValid)
-        {
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            ShowError = true;
-            return await base.GetSupportProject(id, cancellationToken);
-        }
+        // Load template early for both success and error paths
+        await LoadEnrolmentLetterTemplateAsync(cancellationToken);
 
-        var request = new SetSendFormalNotificationCommand(new SupportProjectId(id),
-            UseEnrolmentLetterTemplateToDraftEmail, AttachTargetedInterventionInformationSheet, AddRecipients,
-            SendEmail, DateOfFormalContact);
+        // Early return for validation errors
+        if (!ModelState.IsValid)
+            return await HandleValidationErrorAsync(id, cancellationToken);
+
+        // Target-typed new expression (.NET 8)
+        SetSendFormalNotificationCommand request = new(
+            new SupportProjectId(id),
+            UseEnrolmentLetterTemplateToDraftEmail,
+            AttachTargetedInterventionInformationSheet,
+            AddRecipients,
+            SendEmail,
+            DateOfFormalContact);
 
         var result = await mediator.Send(request, cancellationToken);
 
+        // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
         }
 
         TaskUpdated = true;
-        return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+        return RedirectToPage(Links.TaskList.Index.Page, new { id });
+    }
+
+    // Extracted method for loading enrolment letter template
+    private async Task LoadEnrolmentLetterTemplateAsync(CancellationToken cancellationToken)
+    {
+        EnrolmentLetterTemplate = await sharePointResourceService
+            .GetEnrolmentLetterTemplateLinkAsync(cancellationToken) ?? string.Empty;
+    }
+
+    // Extracted method for populating form fields
+    private void PopulateFormFields()
+    {
+        if (SupportProject is null) return;
+
+        // Tuple deconstruction for property assignments
+        (UseEnrolmentLetterTemplateToDraftEmail, AttachTargetedInterventionInformationSheet, AddRecipients, SendEmail, DateOfFormalContact) = (
+            SupportProject.UseEnrolmentLetterTemplateToDraftEmail,
+            SupportProject.AttachTargetedInterventionInformationSheet,
+            SupportProject.AddRecipientsForFormalNotification,
+            SupportProject.FormalNotificationSent,
+            SupportProject.DateFormalNotificationSent
+        );
+    }
+
+    // Extracted method for cleaner error handling
+    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
+    {
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+        ShowError = true;
+        await base.GetSupportProject(id, cancellationToken);
+        return Page();
     }
 }

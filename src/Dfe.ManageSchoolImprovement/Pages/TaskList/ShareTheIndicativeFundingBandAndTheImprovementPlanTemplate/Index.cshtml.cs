@@ -68,7 +68,7 @@ public class IndexModel(
             SupportProject?.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody
         );
 
-        // Concurrent SharePoint link retrieval for better performance
+        // Sequential SharePoint link retrieval to avoid DbContext threading issues
         await LoadSharePointLinksAsync(cancellationToken);
 
         return Page();
@@ -103,25 +103,14 @@ public class IndexModel(
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
     }
 
-    // Extracted method for concurrent SharePoint link loading
+    // Sequential method for SharePoint link loading to avoid DbContext threading issues
     private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
     {
-        // Use ValueTask for better performance with likely cached results
-        var linkTasks = new Task<string?>[]
-        {
-            sharePointResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken),
-            sharePointResourceService.GetTargetedInterventionGuidanceLinkAsync(cancellationToken),
-            sharePointResourceService.GetImprovementPlanTemplateLinkAsync(cancellationToken)
-        };
-
-        var links = await Task.WhenAll(linkTasks);
-
-        // Tuple assignment for cleaner code
-        (AssessmentToolThreeLink, AssessmentToolThreeGuidanceLink, ImprovementPlanTemplateLink) = (
-            links[0] ?? string.Empty,
-            links[1] ?? string.Empty,
-            links[2] ?? string.Empty
-        );
+        // Sequential calls to avoid DbContext concurrency issues
+        // Each call completes before the next one starts, preventing concurrent access to DbContext
+        AssessmentToolThreeLink = await sharePointResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolThreeGuidanceLink = await sharePointResourceService.GetTargetedInterventionGuidanceLinkAsync(cancellationToken) ?? string.Empty;
+        ImprovementPlanTemplateLink = await sharePointResourceService.GetImprovementPlanTemplateLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     // Extracted method for cleaner error handling

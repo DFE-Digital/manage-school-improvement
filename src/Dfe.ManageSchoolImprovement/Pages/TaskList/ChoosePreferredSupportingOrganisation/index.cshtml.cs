@@ -51,18 +51,7 @@ public class IndexModel(
             SupportProject?.AssessmentToolTwoCompleted
         );
 
-        // Concurrent SharePoint link retrieval for better performance
-        var linkTasks = new[]
-        {
-            sharePointResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken),
-            sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken)
-        };
-
-        var links = await Task.WhenAll(linkTasks);
-        (AssessmentToolTwoLink, AssessmentToolTwoSharePointFolderLink) = (
-            links[0] ?? string.Empty,
-            links[1] ?? string.Empty
-        );
+        await LoadSharePointLinksAsync(cancellationToken);
 
         return Page();
     }
@@ -99,17 +88,8 @@ public class IndexModel(
     // Extracted method for loading SharePoint links concurrently
     private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
     {
-        var linkTasks = new[]
-        {
-            sharePointResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken),
-            sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken)
-        };
-
-        var links = await Task.WhenAll(linkTasks);
-        (AssessmentToolTwoLink, AssessmentToolTwoSharePointFolderLink) = (
-            links[0] ?? string.Empty,
-            links[1] ?? string.Empty
-        );
+        AssessmentToolTwoLink = await sharePointResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolTwoSharePointFolderLink = await sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     // Extracted method for cleaner error handling

@@ -44,6 +44,7 @@ public class ExistingContextApplicationSettingsService<TContext> : IApplicationS
         }
 
         var setting = await _context.Set<ApplicationSetting>()
+            .AsNoTracking() // Added for better performance and thread safety
             .FirstOrDefaultAsync(s => s.Key == key && s.IsActive, cancellationToken);
 
         var value = setting?.Value;
@@ -88,6 +89,7 @@ public class ExistingContextApplicationSettingsService<TContext> : IApplicationS
             throw new ArgumentException("Category cannot be null or empty", nameof(category));
 
         return await _context.Set<ApplicationSetting>()
+            .AsNoTracking()
             .Where(s => s.Category == category && s.IsActive)
             .ToDictionaryAsync(s => s.Key, s => s.Value, cancellationToken);
     }
@@ -95,6 +97,7 @@ public class ExistingContextApplicationSettingsService<TContext> : IApplicationS
     public async Task<Dictionary<string, string>> GetAllSettingsAsync(CancellationToken cancellationToken = default)
     {
         return await _context.Set<ApplicationSetting>()
+            .AsNoTracking()
             .Where(s => s.IsActive)
             .ToDictionaryAsync(s => s.Key, s => s.Value, cancellationToken);
     }
