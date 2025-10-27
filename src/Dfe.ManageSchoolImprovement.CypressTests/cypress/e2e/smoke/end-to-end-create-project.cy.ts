@@ -139,9 +139,6 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskListActions.hasHeader("Make initial contact with the responsible body");
     taskListActions.selectButtonOrCheckbox("initial-contact-responsible-body");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusInProgress("confirm_responsible_body_status");
-    taskList.selectTask("Make initial contact with the responsible body");
     taskListActions.enterDate("responsible-body-initial-contact-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()

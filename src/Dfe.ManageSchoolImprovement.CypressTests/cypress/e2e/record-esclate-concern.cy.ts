@@ -27,7 +27,6 @@ describe("User navigates to the Engagement Concern tab to Escalate an engagement
         engagementConcern.errorMessage('before-using-notice-error-link', 'You must complete all actions in Before you consider using a notice')
         engagementConcern.errorMessage('get-approval-error-link', 'You must complete all actions in Get approval to use a notice')
         engagementConcern.errorMessage('issuing-notice-error-link', 'You must complete all actions in Issuing a notice')
-
     });
 
 
@@ -61,7 +60,7 @@ describe("User navigates to the Engagement Concern tab to Escalate an engagement
         Logger.log("check that Date validation works")
         engagementConcern.hasTitle('Enter date of regional director\'s approval to mandate - Manage school improvement')
         engagementConcern.clickButton('Save')
-        engagementConcern.errorMessage('escalate-decision-date-error', 'You must enter a date')
+        engagementConcern.errorMessage('escalate-decision-date-error', 'Enter a date')
 
         Logger.log("Enter valid date")
         engagementConcern.enterDate("escalate-decision-date", "5", "10", "2024")
