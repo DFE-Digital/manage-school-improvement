@@ -46,6 +46,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
+            FinancialYear = FinancialYear?.Trim();
+            
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
