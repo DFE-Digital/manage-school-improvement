@@ -60,7 +60,7 @@ public class NextReviewModel(
         // Additional validation for date when "Yes" is selected
         if (IsAnotherReviewNeeded == "yes" && !NextReviewDate.HasValue)
         {
-            ModelState.AddModelError(nameof(NextReviewDate), "Enter a date for the next review");
+            ModelState.AddModelError(nameof(NextReviewDate), "Enter a date");
         }
 
         // Get the improvement plan and review from the support project

@@ -66,7 +66,7 @@ public class AddReviewModel(
         // Validate the form
         if (!ReviewDate.HasValue)
         {
-            ModelState.AddModelError(nameof(ReviewDate), "Enter the date of the review");
+            ModelState.AddModelError(nameof(ReviewDate), "Enter a date");
         }
 
         if (ReviewDate.HasValue && previousReview != null && ReviewDate.Value <= previousReview.ReviewDate)
