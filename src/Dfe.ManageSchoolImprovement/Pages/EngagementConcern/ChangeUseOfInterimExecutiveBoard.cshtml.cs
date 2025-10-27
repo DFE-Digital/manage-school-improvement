@@ -40,7 +40,7 @@ public class ChangeUseOfInterimExecutiveBoardModel(
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
         $"Date must include a {string.Join(" and ", missingParts)}";
 
-    string IDateValidationMessageProvider.AllMissing(string displayName) =>
+    string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken = default)

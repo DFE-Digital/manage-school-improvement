@@ -40,7 +40,7 @@ public class IndexModel(
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
         $"Date must include a {string.Join(" and ", missingParts)}";
 
-    string IDateValidationMessageProvider.AllMissing(string displayName) =>
+    string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
