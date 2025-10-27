@@ -56,19 +56,19 @@ public class DateInputTagHelper(IHtmlHelper htmlHelper, ErrorService errorServic
       if (error is not null)
       {
          model.ErrorMessage = error.Message;
-         model.DayInvalid = error.Message.Contains($"day");
+         model.DayInvalid = error.Message.Contains("day", StringComparison.OrdinalIgnoreCase);
          if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}-day", out StringValues dayValue))
          {
             model.Day = dayValue!;
          }
 
-         model.MonthInvalid = error.Message.Contains($"month");
+         model.MonthInvalid = error.Message.Contains("month", StringComparison.OrdinalIgnoreCase);
          if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}-month", out StringValues monthValue))
          {
             model.Month = monthValue!;
          }
 
-         model.YearInvalid = error.Message.Contains($"year") || error.Message.Contains($"Year");
+         model.YearInvalid = error.Message.Contains("year", StringComparison.OrdinalIgnoreCase);
          if (ViewContext.HttpContext.Request.Form.TryGetValue($"{Name}-year", out StringValues yearValue))
          {
             model.Year = yearValue!;
