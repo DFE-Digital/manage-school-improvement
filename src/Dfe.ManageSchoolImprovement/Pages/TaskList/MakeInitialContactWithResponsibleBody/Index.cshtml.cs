@@ -32,7 +32,7 @@ public class MakeInitialContactWithResponsibleBodyModel(
         $"Date must include a {string.Join(" and ", missingParts)}";
 
     string IDateValidationMessageProvider.AllMissing(string displayName) =>
-        "Enter the school contacted date";
+        "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
@@ -54,6 +54,11 @@ public class MakeInitialContactWithResponsibleBodyModel(
         await LoadGuidanceLinkAsync(cancellationToken);
 
         // Early return for validation errors
+        if (!ResponsibleBodyInitialContactDate.HasValue)
+        {
+            ModelState.AddModelError("responsible-body-initial-contact-date", "Enter a date");
+        }
+        
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
 

@@ -41,7 +41,7 @@ public class SendFormalNotificationModel(
         $"Date must include a {string.Join(" and ", missingParts)}";
 
     string IDateValidationMessageProvider.AllMissing(string displayName) =>
-        "Enter the school contacted date";
+        "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {

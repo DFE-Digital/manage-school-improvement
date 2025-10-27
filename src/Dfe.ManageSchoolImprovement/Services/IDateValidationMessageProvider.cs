@@ -6,11 +6,11 @@ public interface IDateValidationMessageProvider
    public string MonthOutOfRange => "Month must be between 1 and 12";
    public string YearOutOfRange => "Year must be between 2000 and 2050";
 
-   public string AllMissing(string displayName);
+   public string AllMissing => "Enter a date";
 
    public string SomeMissing(string displayName, IEnumerable<string> missingParts)
    {
-      return $"{displayName} must include a {string.Join(" and ", missingParts)}";
+      return $"Date must include a {string.Join(" and ", missingParts)}";
    }
 
    public string DayOutOfRange(int daysInMonth)

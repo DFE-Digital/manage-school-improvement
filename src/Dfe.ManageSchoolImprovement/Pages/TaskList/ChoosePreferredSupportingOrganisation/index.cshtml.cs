@@ -37,7 +37,7 @@ public class IndexModel(
         $"Date must include a {string.Join(" and ", missingParts)}";
 
     string IDateValidationMessageProvider.AllMissing(string displayName) =>
-        "Enter the preferred date for supporting organisation chosen";
+        "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {

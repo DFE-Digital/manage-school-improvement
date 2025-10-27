@@ -15,6 +15,7 @@ public class DateInputViewModel
    public bool DayInvalid { get; set; }
    public bool MonthInvalid { get; set; }
    public bool YearInvalid { get; set; }
+   public bool DateMissingOrIncorrect { get; set; }
    public string PreviousInformation { get; set; } = null!;
    public string AdditionalInformation { get; set; } = null!;
    public string DateString { get; set; } = null!;

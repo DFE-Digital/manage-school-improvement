@@ -52,7 +52,6 @@
     
     <ItemGroup>
       <AdditionalFiles Include="Pages\Shared\_AddtionalInformation.cshtml" />
-      <AdditionalFiles Include="Pages\Shared\_AutoComplete.cshtml" />
       <AdditionalFiles Include="Pages\Shared\_ErrorSummary.cshtml" />
     </ItemGroup>
     

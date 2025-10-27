@@ -28,11 +28,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
         {
             return $"Date must include a {string.Join(" and ", missingParts)}";
         }
-
-        string IDateValidationMessageProvider.AllMissing(string displayName)
-        {
-            return $"Enter the introductory email's sent date.";
-        }
+        
+        string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {

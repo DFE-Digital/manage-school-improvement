@@ -53,10 +53,10 @@
                                 @if (Model.ShowCaseStudyDetailsError)
                                 {
                                     <p id="more-detail-error" class="govuk-error-message">
-                                        <span class="govuk-visually-hidden">Error:</span> You must enter details
+                                        <span class="govuk-visually-hidden">Error:</span> Enter details
                                     </p>
                                 }
-                                <textarea class="govuk-textarea" id="case-study-details" name="case-study-details"
+                                <textarea class="govuk-textarea @(Model.ShowCaseStudyDetailsError ? "govuk-textarea--error" : "")" id="case-study-details" name="case-study-details"
                                           rows="5">@Model.CaseStudyDetails</textarea>
                             </div>
                         </div>

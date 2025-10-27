@@ -41,7 +41,7 @@ public class ChangeUseOfInterimExecutiveBoardModel(
         $"Date must include a {string.Join(" and ", missingParts)}";
 
     string IDateValidationMessageProvider.AllMissing(string displayName) =>
-        "You must enter a date";
+        "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken = default)
     {

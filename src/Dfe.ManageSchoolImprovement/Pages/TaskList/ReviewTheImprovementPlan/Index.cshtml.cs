@@ -50,7 +50,7 @@ public class IndexModel(
         => $"Date must include a {string.Join(" and ", missingParts)}";
 
     string IDateValidationMessageProvider.AllMissing(string displayName)
-        => "Enter date the improvement plan was received.";
+        => "Enter a date.";
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {

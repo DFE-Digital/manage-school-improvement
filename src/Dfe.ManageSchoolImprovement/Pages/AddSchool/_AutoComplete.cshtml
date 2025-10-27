@@ -1,6 +1,4 @@
-@using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
 @using NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
-@using Dfe.ManageSchoolImprovement.Frontend.Models
 
 @model AutoCompleteSearchModel
 
@@ -9,7 +7,7 @@
 <div id="query-hint" class="govuk-hint">
    @Model.Label
 </div>
-<div id="search"></div>
+<div class="@(Model.Error ? "msi-autocomplete" : "")" id="search"></div>
 <input type="hidden" id="SearchQuery" name="SearchQuery"/>
 
 <script type="application/javascript" asp-add-nonce>
@@ -20,12 +18,12 @@
             clearTimeout(timer);
             timer = setTimeout(() => func.apply(this, args), timeout);
         };
-    }    
-    
+    }
+
     let loading = true;
 
     function suggest(query, populateResults) {
-        const http = new XMLHttpRequest();        
+        const http = new XMLHttpRequest();
         http.onload = function() {
            if (!loading || '@Html.Raw(Model.SearchQuery)' === '') populateResults(JSON.parse(this.responseText));
            loading = false;
@@ -35,6 +33,8 @@
     }
 
     const suggestDebounce = debounce((query, populateResults) => suggest(query, populateResults));
+
+    const inputClasses = '@Model.Error' ? 'govuk-input--error' : '';
 
     accessibleAutocomplete({
         element: document.querySelector('#search'),
@@ -46,7 +46,8 @@
         templates: {
             inputValue: function(r) { return r && r.value; },
             suggestion: function(r) { return r.suggestion; }
-        }
+        },
+        inputClasses
     });
 
     // setting the default option manually due to bug in autoselect - https://github.com/alphagov/accessible-autocomplete/issues/424

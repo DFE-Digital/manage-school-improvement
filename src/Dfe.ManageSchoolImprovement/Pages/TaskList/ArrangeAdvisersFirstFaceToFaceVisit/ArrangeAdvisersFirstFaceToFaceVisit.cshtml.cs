@@ -24,11 +24,8 @@ public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryServic
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-    string IDateValidationMessageProvider.AllMissing(string displayName)
-    {
-        return $"Enter the adviser visit school date";
-    }
+    
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {

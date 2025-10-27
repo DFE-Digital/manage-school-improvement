@@ -47,8 +47,8 @@ public class SetDetailsModel(ISupportProjectQueryService supportProjectQueryServ
 
         if (CaseStudyCandidate is true && string.IsNullOrEmpty(CaseStudyDetails))
         {
-            _errorService.AddError(CaseStudyDetailsKey, "You must enter details");
-            ModelState.AddModelError(CaseStudyDetailsKey, "You must enter details");
+            _errorService.AddError(CaseStudyDetailsKey, "Enter details");
+            ModelState.AddModelError(CaseStudyDetailsKey, "Enter details");
 
             return Page();
         }
