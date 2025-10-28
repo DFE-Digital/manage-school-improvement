@@ -269,7 +269,7 @@ public abstract class BaseApplicationSettingsService : IApplicationSettingsServi
 
     protected static void ValidateValue(string value)
     {
-        ArgumentNullException.ThrowIfNull(value, (nameof(value)));
+        ArgumentNullException.ThrowIfNull(value);
     }
 
     protected static void ValidateCategory(string category)
