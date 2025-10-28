@@ -1,90 +1,80 @@
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectIebDetails;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectIebDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 
 public class RecordUseOfInterimExecutiveBoardModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    IMediator mediator,
+    ISharePointResourceService sharePointResourceService)
+    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
-    public string ReturnPage { get; set; }
+    // Fixed: Initialize with empty string to avoid CS8618
+    public string ReturnPage { get; set; } = string.Empty;
 
     [BindProperty(Name = "ieb-created-details")]
     public string? InterimExecutiveBoardCreatedDetails { get; set; }
-    
+
     [BindProperty(Name = "ieb-created-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? InterimExecutiveBoardCreatedDate { get; set; }
-    
+
     public bool? InterimExecutiveBoardCreated { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
-
     public bool ShowDetailsError => ModelState.ContainsKey("ieb-created-details") &&
                                   ModelState["ieb-created-details"]?.Errors.Count > 0;
 
-    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-    {
-        return $"Date must include a {string.Join(" and ", missingParts)}";
-    }
-    
-    string IDateValidationMessageProvider.AllMissing => "Enter a date";
+    public string IEBGuidanceLink { get; set; } = string.Empty;
 
-    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
+    // Expression-bodied interface implementations
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
+        $"Date must include a {string.Join(" and ", missingParts)}";
+
+    string IDateValidationMessageProvider.AllMissing =>
+        "Enter a date";
+
+    public async Task<IActionResult> OnGetAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken = default)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
-
-        ReturnPage = @Links.EngagementConcern.Index.Page;
+        ReturnPage = Links.EngagementConcern.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+        await LoadIEBGuidanceLinkAsync(cancellationToken);
 
-        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+        // Populate form fields from engagement concern data
+        PopulateFormFields(readableEngagementConcernId);
 
-        if (engagementConcern != null)
-        {
-            InterimExecutiveBoardCreated = engagementConcern.InterimExecutiveBoardCreated;
-            InterimExecutiveBoardCreatedDetails = engagementConcern.InterimExecutiveBoardCreatedDetails;
-            InterimExecutiveBoardCreatedDate = engagementConcern.InterimExecutiveBoardCreatedDate;
-        }
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int readableEngagementConcernId, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        await LoadIEBGuidanceLinkAsync(cancellationToken);
 
-        if (string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails))
-        {
-            ModelState.AddModelError("ieb-created-details", "Enter details");
-        }
-        
-        if (!InterimExecutiveBoardCreatedDate.HasValue)
-        {
-            ModelState.AddModelError("ieb-created-date", "Enter a date");
-        }
-
-        InterimExecutiveBoardCreated = !string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails) && InterimExecutiveBoardCreatedDate.HasValue;
-
-        if (!ModelState.IsValid)
-        {
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            if (_errorService.HasErrors()) return await base.GetSupportProject(id, cancellationToken);
-        }
-        
-        var engagementConcern = SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+        var engagementConcern = GetEngagementConcern(readableEngagementConcernId);
 
         if (engagementConcern?.Id == null)
         {
             throw new InvalidOperationException($"Engagement concern with readable ID {readableEngagementConcernId} not found");
         }
-        
-        var request = new SetSupportProjectIebDetailsCommand(
+
+        // Validate and set IEB created status
+        ValidateFormData();
+
+        // Early return for validation errors
+        if (!ModelState.IsValid)
+            return await HandleValidationErrorAsync(id, cancellationToken);
+
+        // Target-typed new expression (.NET 8)
+        SetSupportProjectIebDetailsCommand request = new(
             engagementConcern.Id,
             new SupportProjectId(id),
             InterimExecutiveBoardCreated,
@@ -93,6 +83,7 @@ public class RecordUseOfInterimExecutiveBoardModel(
 
         var result = await mediator.Send(request, cancellationToken);
 
+        // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
@@ -100,8 +91,70 @@ public class RecordUseOfInterimExecutiveBoardModel(
             return Page();
         }
 
-        TempData["InterimExecutiveBoardRecorded"] = (engagementConcern.InterimExecutiveBoardCreated == null || engagementConcern.InterimExecutiveBoardCreated == false) && InterimExecutiveBoardCreated == true;
+        // Set TempData for success notification
+        TempData["InterimExecutiveBoardRecorded"] = (engagementConcern.InterimExecutiveBoardCreated == null ||
+                                                    engagementConcern.InterimExecutiveBoardCreated == false) &&
+                                                    InterimExecutiveBoardCreated == true;
 
-        return RedirectToPage(@Links.EngagementConcern.Index.Page, new { id });    }
+        return RedirectToPage(Links.EngagementConcern.Index.Page, new { id });
+    }
 
+    // Extracted method for loading IEB guidance link
+    private async Task LoadIEBGuidanceLinkAsync(CancellationToken cancellationToken)
+    {
+        IEBGuidanceLink = await sharePointResourceService
+            .GetIEBGuidanceLinkAsync(cancellationToken) ?? string.Empty;
+    }
+
+    // Extracted method for getting engagement concern
+    private dynamic? GetEngagementConcern(int readableEngagementConcernId)
+    {
+        return SupportProject?.EngagementConcerns?.FirstOrDefault(ec => ec.ReadableId == readableEngagementConcernId);
+    }
+
+    // Extracted method for populating form fields
+    private void PopulateFormFields(int readableEngagementConcernId)
+    {
+        var engagementConcern = GetEngagementConcern(readableEngagementConcernId);
+
+        if (engagementConcern == null) return;
+
+        // Tuple deconstruction for property assignments
+        (InterimExecutiveBoardCreated, InterimExecutiveBoardCreatedDetails, InterimExecutiveBoardCreatedDate) = (
+            engagementConcern.InterimExecutiveBoardCreated,
+            engagementConcern.InterimExecutiveBoardCreatedDetails,
+            engagementConcern.InterimExecutiveBoardCreatedDate
+        );
+    }
+
+    // Extracted method for form validation logic
+    private void ValidateFormData()
+    {
+        if (string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails))
+        {
+            ModelState.AddModelError("ieb-created-details", "Enter details");
+        }
+
+        if (!InterimExecutiveBoardCreatedDate.HasValue)
+        {
+            ModelState.AddModelError("ieb-created-date", "Enter a date");
+        }
+
+        // Set IEB created status based on form completion
+        InterimExecutiveBoardCreated = !string.IsNullOrEmpty(InterimExecutiveBoardCreatedDetails) &&
+                                      InterimExecutiveBoardCreatedDate.HasValue;
+    }
+
+    // Extracted method for cleaner error handling
+    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
+    {
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+
+        if (_errorService.HasErrors())
+        {
+            await base.GetSupportProject(id, cancellationToken);
+        }
+
+        return Page();
+    }
 }
