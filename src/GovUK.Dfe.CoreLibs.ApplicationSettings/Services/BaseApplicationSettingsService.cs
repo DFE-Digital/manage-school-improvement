@@ -127,7 +127,7 @@ public abstract class BaseApplicationSettingsService : IApplicationSettingsServi
 
     public async Task SetSettingsAsync(Dictionary<string, string> settings, string? category = null, string? updatedBy = null, CancellationToken cancellationToken = default)
     {
-        if (settings == null || !settings.Any()) return;
+        if (settings == null || settings.Count == 0) return;
 
         foreach (var kvp in settings)
         {
@@ -180,16 +180,16 @@ public abstract class BaseApplicationSettingsService : IApplicationSettingsServi
 
     #region Helper Methods
 
-    protected string BuildCacheKey(string key) => $"{CacheKeyPrefix}{key}";
-    protected string BuildCategoryCacheKey(string category) => $"{CacheKeyPrefix}Category_{category}";
+    protected static string BuildCacheKey(string key) => $"{CacheKeyPrefix}{key}";
+    protected static string BuildCategoryCacheKey(string category) => $"{CacheKeyPrefix}Category_{category}";
 
-    protected bool TryGetCachedValue<T>(string cacheKey, out T? cachedValue)
+    protected bool TryGetCachedValue<T>(string cacheKey, out T? cachedValue) where T : class
     {
         cachedValue = default;
         return _options.EnableCaching && _cache.TryGetValue(cacheKey, out cachedValue);
     }
 
-    protected void CacheValueIfEnabled<T>(string cacheKey, T? value)
+    protected void CacheValueIfEnabled<T>(string cacheKey, T? value) where T : class
     {
         if (_options.EnableCaching && value != null)
         {
@@ -229,7 +229,7 @@ public abstract class BaseApplicationSettingsService : IApplicationSettingsServi
         }
     }
 
-    protected ApplicationSetting CreateNewSetting(string key, string value, string? description, string category, string? updatedBy)
+    protected static ApplicationSetting CreateNewSetting(string key, string value, string? description, string category, string? updatedBy)
     {
         return new ApplicationSetting
         {
@@ -242,7 +242,7 @@ public abstract class BaseApplicationSettingsService : IApplicationSettingsServi
         };
     }
 
-    protected void UpdateExistingSetting(ApplicationSetting setting, string value, string? description, string category, string? updatedBy)
+    protected static void UpdateExistingSetting(ApplicationSetting setting, string value, string? description, string category, string? updatedBy)
     {
         setting.Value = value;
         setting.Description = description ?? setting.Description;
@@ -269,8 +269,7 @@ public abstract class BaseApplicationSettingsService : IApplicationSettingsServi
 
     protected static void ValidateValue(string value)
     {
-        if (value == null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value, (nameof(value)));
     }
 
     protected static void ValidateCategory(string category)

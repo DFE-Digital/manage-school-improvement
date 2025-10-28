@@ -10,6 +10,7 @@ namespace GovUK.Dfe.CoreLibs.ApplicationSettings.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    // Group all AddApplicationSettings overloads together
     public static IServiceCollection AddApplicationSettings(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -25,27 +26,6 @@ public static class ServiceCollectionExtensions
 
         // Add shared dependencies and service
         return services.AddApplicationSettingsCore<ApplicationSettingsService>();
-    }
-
-    /// <summary>
-    /// Adds ApplicationSettings service using an existing DbContext
-    /// </summary>
-    /// <typeparam name="TContext">The existing DbContext type</typeparam>
-    /// <param name="services">Service collection</param>
-    /// <param name="configuration">Configuration</param>
-    /// <param name="schema">Optional schema override</param>
-    /// <returns>Service collection</returns>
-    public static IServiceCollection AddApplicationSettingsWithExistingContext<TContext>(
-        this IServiceCollection services,
-        IConfiguration configuration,
-        string? schema = null)
-        where TContext : DbContext
-    {
-        // Configure options using shared method
-        services.ConfigureApplicationSettingsOptions(configuration, schema);
-
-        // Add shared dependencies and service
-        return services.AddApplicationSettingsCore<ExistingContextApplicationSettingsService<TContext>>();
     }
 
     public static IServiceCollection AddApplicationSettings(
@@ -71,6 +51,29 @@ public static class ServiceCollectionExtensions
         return services.AddApplicationSettingsCore<ApplicationSettingsService>();
     }
 
+    // Now place the different method after all AddApplicationSettings overloads
+    /// <summary>
+    /// Adds ApplicationSettings service using an existing DbContext
+    /// </summary>
+    /// <typeparam name="TContext">The existing DbContext type</typeparam>
+    /// <param name="services">Service collection</param>
+    /// <param name="configuration">Configuration</param>
+    /// <param name="schema">Optional schema override</param>
+    /// <returns>Service collection</returns>
+    public static IServiceCollection AddApplicationSettingsWithExistingContext<TContext>(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        string? schema = null)
+        where TContext : DbContext
+    {
+        // Configure options using shared method
+        services.ConfigureApplicationSettingsOptions(configuration, schema);
+
+        // Add shared dependencies and service
+        return services.AddApplicationSettingsCore<ExistingContextApplicationSettingsService<TContext>>();
+    }
+
+    // All private helper methods remain the same...
     /// <summary>
     /// Configures ApplicationSettingsOptions with defaults and reads from configuration
     /// </summary>

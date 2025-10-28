@@ -15,7 +15,7 @@ namespace GovUK.Dfe.CoreLibs.ApplicationSettings.Tests.Services;
 public class ApplicationSettingsServiceTests : IDisposable
 {
     private readonly ApplicationSettingsDbContext _context;
-    private readonly IMemoryCache _cache;
+    private readonly MemoryCache _cache;
     private readonly Mock<ILogger<ApplicationSettingsService>> _mockLogger;
     private readonly ApplicationSettingsOptions _options;
     private readonly ApplicationSettingsService _service;
@@ -103,9 +103,12 @@ public class ApplicationSettingsServiceTests : IDisposable
         // Assert
         result.Should().NotBeNull();
         // You can also cast to JsonElement to access properties
-        var jsonElement = (JsonElement)result;
-        jsonElement.GetProperty("Name").GetString().Should().Be("Test");
-        jsonElement.GetProperty("Value").GetInt32().Should().Be(123);
+        if (result != null) // Consider adding this defensive check
+        {
+            var jsonElement = (JsonElement)result;
+            jsonElement.GetProperty("Name").GetString().Should().Be("Test");
+            jsonElement.GetProperty("Value").GetInt32().Should().Be(123);
+        }
     }
 
     [Fact]
@@ -336,5 +339,6 @@ public class ApplicationSettingsServiceTests : IDisposable
     {
         _context.Dispose();
         _cache.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

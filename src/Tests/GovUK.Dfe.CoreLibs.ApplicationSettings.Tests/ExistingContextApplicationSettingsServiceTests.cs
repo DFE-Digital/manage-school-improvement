@@ -15,7 +15,7 @@ namespace GovUK.Dfe.CoreLibs.ApplicationSettings.Tests.Services;
 public class ExistingContextApplicationSettingsServiceTests : IDisposable
 {
     private readonly TestDbContext _context;
-    private readonly IMemoryCache _cache;
+    private readonly MemoryCache _cache;
     private readonly Mock<ILogger<ExistingContextApplicationSettingsService<TestDbContext>>> _mockLogger;
     private readonly ApplicationSettingsOptions _options;
     private readonly ExistingContextApplicationSettingsService<TestDbContext> _service;
@@ -475,17 +475,53 @@ public class ExistingContextApplicationSettingsServiceTests : IDisposable
     [Fact]
     public async Task DeleteSettingAsync_WithNonExistentSetting_ShouldDoNothing()
     {
-        // Act & Assert (should not throw)
+        // Arrange
+        var initialCount = await _context.ApplicationSettings.CountAsync();
+
+        // Act
         await _service.DeleteSettingAsync("NonExistentKey");
+
+        // Assert
+        var finalCount = await _context.ApplicationSettings.CountAsync();
+        finalCount.Should().Be(initialCount, "database should remain unchanged");
+
+        // Verify no delete logging occurred
+        _mockLogger.Verify(
+            x => x.Log(LogLevel.Information, It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("deleted")),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Never);
     }
 
     [Fact]
     public async Task DeleteSettingAsync_WithNullOrEmptyKey_ShouldDoNothing()
     {
-        // Act & Assert (should not throw)
+        // Arrange
+        var existingSetting = TestData.CreateSetting("TestKey", "TestValue");
+        _context.ApplicationSettings.Add(existingSetting);
+        await _context.SaveChangesAsync();
+
+        var initialCount = await _context.ApplicationSettings.CountAsync();
+
+        // Act - Test all invalid key scenarios
         await _service.DeleteSettingAsync(null!);
         await _service.DeleteSettingAsync("");
         await _service.DeleteSettingAsync("   ");
+
+        // Assert
+        var finalCount = await _context.ApplicationSettings.CountAsync();
+        finalCount.Should().Be(initialCount, "database should remain unchanged for invalid keys");
+
+        // Verify existing setting is unchanged
+        var setting = await _context.ApplicationSettings.FirstAsync(s => s.Key == "TestKey");
+        setting.IsActive.Should().BeTrue("existing setting should remain active");
+
+        // Verify no delete logging occurred
+        _mockLogger.Verify(
+            x => x.Log(LogLevel.Information, It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("deleted")),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Never);
     }
 
     [Fact]
@@ -639,6 +675,7 @@ public class ExistingContextApplicationSettingsServiceTests : IDisposable
     {
         _context.Dispose();
         _cache.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     #endregion
