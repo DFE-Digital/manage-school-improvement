@@ -58,6 +58,7 @@ public class IndexModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
+        OrganisationName = OrganisationName?.Trim();
         // Load SharePoint links early for both success and error paths
         await LoadSharePointLinksAsync(cancellationToken);
 

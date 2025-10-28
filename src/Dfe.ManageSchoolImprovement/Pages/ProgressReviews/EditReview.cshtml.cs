@@ -74,6 +74,8 @@ public class EditReviewModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
+        CustomReviewerName = CustomReviewerName?.Trim();
+        
         await base.GetSupportProject(id, cancellationToken);
         // Get the previous review for validation
         var reviews = SupportProject?.ImprovementPlans?
