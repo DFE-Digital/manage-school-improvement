@@ -17,6 +17,12 @@ public static class DbContextExtensions
         string? schema = null,
         string tableName = "ApplicationSettings")
     {
+        // Apply default schema if specified
+        if (!string.IsNullOrEmpty(schema))
+        {
+            modelBuilder.HasDefaultSchema(schema);
+        }
+
         modelBuilder.Entity<ApplicationSetting>(entity =>
         {
             // Configure table with optional schema
