@@ -57,6 +57,8 @@ public class AddReviewModel(
 
     public async Task<IActionResult> OnPostAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
     {
+        CustomReviewerName = CustomReviewerName?.Trim();
+        
         await base.GetSupportProject(id, cancellationToken);
         // Get the previous review for validation
         var previousReview = SupportProject?.ImprovementPlans?.SingleOrDefault(x => x.ReadableId == readableImprovementPlanId)?.ImprovementPlanReviews
@@ -110,7 +112,7 @@ public class AddReviewModel(
         // get latest version of the support project
         await base.GetSupportProject(id, cancellationToken);
 
-        var review = SupportProject.ImprovementPlans.SelectMany(x => x.ImprovementPlanReviews)
+        var review = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews)
             .SingleOrDefault(x => x.Id == result.Value);
 
         // For now, redirect back to the progress reviews index

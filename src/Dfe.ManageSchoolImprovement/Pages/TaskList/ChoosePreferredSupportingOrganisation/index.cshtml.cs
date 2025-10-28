@@ -47,7 +47,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
-
+        OrganisationName = OrganisationName?.Trim();
 
         if (!ModelState.IsValid)
         {
