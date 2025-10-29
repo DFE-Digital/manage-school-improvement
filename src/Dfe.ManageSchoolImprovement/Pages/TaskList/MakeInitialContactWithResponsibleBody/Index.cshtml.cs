@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -6,14 +5,16 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.MakeInitialContactWithResponsibleBody;
 
 public class MakeInitialContactWithResponsibleBodyModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
-    IDateValidationMessageProvider
+    IMediator mediator,
+    ISharePointResourceService sharePointResourceService)
+    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "responsible-body-initial-contact-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -21,56 +22,79 @@ public class MakeInitialContactWithResponsibleBodyModel(
     public DateTime? ResponsibleBodyInitialContactDate { get; set; }
 
     [BindProperty(Name = "initial-contact-responsible-body")]
-
     public bool? InitialContactResponsibleBody { get; set; }
 
-
     public bool ShowError { get; set; }
+    public string TargetedInterventionGuidanceLink { get; set; } = string.Empty;
 
-    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-    {
-        return $"Date must include a {string.Join(" and ", missingParts)}";
-    }
-    
-    string IDateValidationMessageProvider.AllMissing => "Enter a date";
+    // Expression-bodied interface implementations
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
+        $"Date must include a {string.Join(" and ", missingParts)}";
 
-    public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+    string IDateValidationMessageProvider.AllMissing =>
+        "Enter a date";
+
+    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        await LoadGuidanceLinkAsync(cancellationToken);
 
-        ResponsibleBodyInitialContactDate = SupportProject.InitialContactResponsibleBodyDate ?? null;
-
-        InitialContactResponsibleBody = SupportProject.InitialContactResponsibleBody;
+        // Tuple deconstruction for property assignments
+        (ResponsibleBodyInitialContactDate, InitialContactResponsibleBody) = (
+            SupportProject?.InitialContactResponsibleBodyDate,
+            SupportProject?.InitialContactResponsibleBody
+        );
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
+        // Load guidance link early for both success and error paths
+        await LoadGuidanceLinkAsync(cancellationToken);
+
+        // Early return for validation errors
         if (!ResponsibleBodyInitialContactDate.HasValue)
         {
             ModelState.AddModelError("responsible-body-initial-contact-date", "Enter a date");
         }
-        
-        if (!ModelState.IsValid)
-        {
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            ShowError = true;
-            return await base.GetSupportProject(id, cancellationToken);
-        }
 
-        var request = new SetInitialContactTheResponsibleBodyDetailsCommand(new SupportProjectId(id),
-            InitialContactResponsibleBody, ResponsibleBodyInitialContactDate);
+        if (!ModelState.IsValid)
+            return await HandleValidationErrorAsync(id, cancellationToken);
+
+        // Target-typed new expression (.NET 8)
+        SetInitialContactTheResponsibleBodyDetailsCommand request = new(
+            new SupportProjectId(id),
+            InitialContactResponsibleBody,
+            ResponsibleBodyInitialContactDate);
 
         var result = await mediator.Send(request, cancellationToken);
 
+        // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
         }
 
         TaskUpdated = true;
-        return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+        return RedirectToPage(Links.TaskList.Index.Page, new { id });
+    }
+
+    // Extracted method for loading guidance link
+    private async Task LoadGuidanceLinkAsync(CancellationToken cancellationToken)
+    {
+        TargetedInterventionGuidanceLink = await sharePointResourceService
+            .GetTargetedInterventionGuidanceLinkAsync(cancellationToken) ?? string.Empty;
+    }
+
+    // Extracted method for cleaner error handling
+    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
+    {
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+        ShowError = true;
+        await base.GetSupportProject(id, cancellationToken);
+        return Page();
     }
 }

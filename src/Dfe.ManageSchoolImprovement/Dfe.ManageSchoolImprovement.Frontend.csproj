@@ -18,6 +18,7 @@
       <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Application\Dfe.ManageSchoolImprovement.Application.csproj" />
       <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Infrastructure\Dfe.ManageSchoolImprovement.Infrastructure.csproj" />
       <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Utils\Dfe.ManageSchoolImprovement.Utils.csproj" />
+      <ProjectReference Include="..\GovUK.Dfe.CoreLibs.ApplicationSettings\GovUK.Dfe.CoreLibs.ApplicationSettings.csproj" />
     </ItemGroup>
     
     <ItemGroup>

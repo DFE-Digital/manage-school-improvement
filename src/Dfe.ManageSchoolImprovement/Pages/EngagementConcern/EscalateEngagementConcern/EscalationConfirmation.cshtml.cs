@@ -7,29 +7,26 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 
 public class EscalationConfirmationModel(
     ISupportProjectQueryService supportProjectQueryService,
-    ErrorService errorService, 
-    IConfiguration configuration) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    ErrorService errorService,
+    IConfiguration configuration,
+    ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
-    
-    public string CoastingNotificationLetterLink { get; set; } = string.Empty;
-    
-    public string NoticeToEnterIntoArrangementsLink { get; set; } = string.Empty;
-    
-    public string TerminationWarningNoticeLink { get; set; } = string.Empty;
-    
+
+
+
     public bool ShowError => _errorService.HasErrors();
+
+    public string SOPUCommissioningForm { get; set; } = string.Empty;
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = Links.EngagementConcern.Index.Page;
-        
+
         await base.GetSupportProject(id, cancellationToken);
-        
-        CoastingNotificationLetterLink = configuration.GetValue<string>("CoastingNotificationLetterLink") ?? string.Empty;
-        NoticeToEnterIntoArrangementsLink = configuration.GetValue<string>("NoticeToEnterIntoArrangementsLink") ?? string.Empty;
-        TerminationWarningNoticeLink = configuration.GetValue<string>("TerminationWarningNoticeLink") ?? string.Empty;
-        
+
+        SOPUCommissioningForm = await sharePointResourceService.GetSOPUCommissioningFormLinkAsync(cancellationToken) ?? string.Empty;
+
         return Page();
     }
 }

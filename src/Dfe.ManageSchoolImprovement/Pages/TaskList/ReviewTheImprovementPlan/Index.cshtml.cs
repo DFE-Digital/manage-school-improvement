@@ -9,37 +9,121 @@ using Dfe.ManageSchoolImprovement.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImprovementPlan
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImprovementPlan;
+
+public class IndexModel(
+    ISupportProjectQueryService supportProjectQueryService,
+    ErrorService errorService,
+    IMediator mediator,
+    ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
-    public class IndexModel(
-        ISupportProjectQueryService supportProjectQueryService, 
-        ErrorService errorService, 
-        IMediator mediator, 
-        IConfiguration configuration) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),IDateValidationMessageProvider
+    private static readonly List<RadioButtonsLabelViewModel> _fundingBandOptions = CreateFundingBandOptions();
+
+    [BindProperty(Name = "date-improvement-plan-received", BinderType = typeof(DateInputModelBinder))]
+    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    public DateTime? DateImprovementPlanReceived { get; set; }
+
+    [BindProperty(Name = "review-improvement-plan")]
+    public bool? ReviewImprovementAndExpenditurePlan { get; set; }
+
+    [BindProperty(Name = "confirm-plan-cleared-by-rise")]
+    public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
+
+    [BindProperty(Name = "FundingBand")]
+    public string? FundingBand { get; set; }
+
+    [BindProperty(Name = "confirm-funding-band")]
+    public bool? ConfirmFundingBand { get; set; }
+
+    public required string EmailAddress { get; init; } = "rise.grant@education.gov.uk";
+
+    public string ConfirmFundingBandLink { get; private set; } = string.Empty;
+
+    public string FundingBandGuidanceLink { get; private set; } = string.Empty;
+
+    public List<RadioButtonsLabelViewModel> FundingBandOptions => _fundingBandOptions;
+
+    public bool ShowError { get; set; }
+
+    // IDateValidationMessageProvider implementation with interpolated string handlers
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
+        => $"Date must include a {string.Join(" and ", missingParts)}";
+
+    string IDateValidationMessageProvider.AllMissing
+        => "Enter a date.";
+
+    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
-        [BindProperty(Name = "date-improvement-plan-received", BinderType = typeof(DateInputModelBinder))]
-        [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        public DateTime? DateImprovementPlanReceived { get; set; }
-        
-        [BindProperty(Name = "review-improvement-plan")]
-        public bool? ReviewImprovementAndExpenditurePlan { get; set; } 
+        // Convert to tuple expression`
 
-        [BindProperty(Name = "confirm-plan-cleared-by-rise")]
-        public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; } 
-        
-        [BindProperty(Name = "FundingBand")]
-        public string? FundingBand { get; set; }
-        
-        [BindProperty(Name = "confirm-funding-band")]
-        public bool? ConfirmFundingBand  { get; set; }
-        
-        public string EmailAddress { get; set; } = "rise.grant@education.gov.uk";
+        await base.GetSupportProject(id, cancellationToken);
+        await LoadSharePointLinksAsync(cancellationToken);
 
-        public string ConfirmFundingBandLink { get; set; } = string.Empty;
-        
-        public string FundingBandGuidanceLink { get; set; } = string.Empty;
-        
-        public IList<RadioButtonsLabelViewModel> FundingBandOptions() => Enum.GetValues<FinalFundingBand>()
+        // Populate form fields from support project data
+        PopulateFormFields();
+
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
+    {
+        // Load links concurrently with validation
+        await LoadSharePointLinksAsync(cancellationToken);
+
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            ShowError = true;
+
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
+        }
+
+        // Create command using target-typed new
+        SetReviewTheImprovementPlanCommand request = new(
+            new SupportProjectId(id),
+            DateImprovementPlanReceived,
+            ReviewImprovementAndExpenditurePlan,
+            ConfirmFundingBand,
+            FundingBand,
+            ConfirmPlanClearedByRiseGrantTeam);
+
+        var result = await mediator.Send(request, cancellationToken);
+
+        if (!result)
+        {
+            _errorService.AddApiError();
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
+        }
+
+        TaskUpdated = true;
+        return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+    }
+
+    private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
+    {
+        // Safe - calls happen one after another
+        ConfirmFundingBandLink = await sharePointResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken) ?? string.Empty;
+        FundingBandGuidanceLink = await sharePointResourceService.GetFundingBandGuidanceLinkAsync(cancellationToken) ?? string.Empty;
+    }
+
+    private void PopulateFormFields()
+    {
+        if (SupportProject is null) return;
+
+        // Convert multiple assignments to tuple expression
+        (DateImprovementPlanReceived, ReviewImprovementAndExpenditurePlan, ConfirmPlanClearedByRiseGrantTeam, ConfirmFundingBand, FundingBand) =
+            (SupportProject.ImprovementPlanReceivedDate,
+             SupportProject.ReviewImprovementAndExpenditurePlan,
+             SupportProject.ConfirmPlanClearedByRiseGrantTeam,
+             SupportProject.ConfirmFundingBand,
+             SupportProject.FundingBand);
+    }
+
+    private static List<RadioButtonsLabelViewModel> CreateFundingBandOptions()
+    {
+        return Enum.GetValues<FinalFundingBand>()
             .Select(band => new RadioButtonsLabelViewModel
             {
                 Id = $"funding-band-{band.GetDisplayShortName()}",
@@ -47,56 +131,5 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ReviewTheImproveme
                 Value = band.GetDisplayName()
             })
             .ToList();
-        public bool ShowError { get; set; }
-        string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-        {
-            return $"Date must include a {string.Join(" and ", missingParts)}";
-        }
-        
-        string IDateValidationMessageProvider.AllMissing => "Enter a date";
-        
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
-        {
-            await base.GetSupportProject(id, cancellationToken);
-            
-            ConfirmFundingBandLink = configuration.GetValue<string>("ConfirmFundingBandLink") ?? string.Empty;
-            FundingBandGuidanceLink = configuration.GetValue<string>("FundingBandGuidanceLink") ?? string.Empty;
-            
-            DateImprovementPlanReceived = SupportProject.ImprovementPlanReceivedDate;
-            ReviewImprovementAndExpenditurePlan = SupportProject.ReviewImprovementAndExpenditurePlan;
-            ConfirmPlanClearedByRiseGrantTeam = SupportProject.ConfirmPlanClearedByRiseGrantTeam;
-            ConfirmFundingBand = SupportProject.ConfirmFundingBand;
-            FundingBand = SupportProject.FundingBand;
-            
-            return Page();
-        }
-        
-        public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
-        {
-            if (!ModelState.IsValid)
-            {
-                _errorService.AddErrors(Request.Form.Keys, ModelState);
-                ShowError = true;
-                return await base.GetSupportProject(id, cancellationToken);
-            }
-
-            var request = new SetReviewTheImprovementPlanCommand(new SupportProjectId(id), 
-                DateImprovementPlanReceived,
-                ReviewImprovementAndExpenditurePlan, 
-                ConfirmFundingBand,
-                FundingBand,
-                ConfirmPlanClearedByRiseGrantTeam);
-
-            var result = await mediator.Send(request, cancellationToken);
-
-            if (!result)
-            {
-                _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
-            }
-
-            TaskUpdated = true;
-            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
-        }
     }
 }

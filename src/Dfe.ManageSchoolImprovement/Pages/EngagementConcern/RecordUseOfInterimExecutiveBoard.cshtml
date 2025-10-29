@@ -1,8 +1,6 @@
 @page "/engagement-concern/{id:int}/{readableEngagementConcernId:int}/record-use-of-interim-executive-board"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.RecordUseOfInterimExecutiveBoardModel
 
-@inject IConfiguration Configuration
-
 @{
     ViewData["Title"] = "Record use of interim executive board";
 }
@@ -37,7 +35,7 @@
                     <p class="govuk-body">An IEB should only be used if all other attempts to engage with the governors
                         have failed.</p>
                     <p class="govuk-body">You must read the latest <a class="govuk-link"
-                                                                      href="@Configuration["IEBGuidanceLink"]"
+                                                                      href="@Model.IEBGuidanceLink"
                                                                       rel="noreferrer noopener"
                                                                       target="_blank">guidance on how to create
                             an IEB (opens
@@ -66,7 +64,6 @@
                             <p class="govuk-body">An IEB can only be created with a regional director's approval.</p>
                         </div>
                     </details>
-
 
                     <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                         <h1 class="govuk-label-wrapper">

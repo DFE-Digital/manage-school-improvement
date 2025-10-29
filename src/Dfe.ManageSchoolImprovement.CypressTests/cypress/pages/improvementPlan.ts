@@ -124,7 +124,7 @@ class ImprovementPlan {
         cy.get('[type="submit"]').contains('Save').click();
         cy.getByCyData('error-summary').should('be.visible');
         cy.getByCyData('error-summary').should('contain.text', 'Select who carried out the review');
-        cy.getByCyData('error-summary').should('contain.text', 'Enter the date of the review');
+        cy.getByCyData('error-summary').should('contain.text', 'Enter a date');
 
         //invalid date - date should be today's or a past date
         cy.get('[data-cy="select-radio-adviser"]').check()

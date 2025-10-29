@@ -1,8 +1,6 @@
 @page "/engagement-concern/escalate-engagement-concern/{id:int}"
 @model EscalateEngagementConcernModel
 
-@inject IConfiguration Configuration
-
 @{
     ViewData["Title"] = "Escalate an engagement concern";
 }
@@ -234,7 +232,7 @@
                                 <label class="govuk-label govuk-checkboxes__label" for="submit-notice">
                                     Submit the draft notice to SOPU for Legal Advisers Office clearance using the <a
                                         class="govuk-link"
-                                        href="@Configuration["SOPUCommissioningForm"]"
+                                        href="@Model.SOPUCommissioningForm"
                                         rel="noreferrer noopener"
                                         target="_blank">SOPU commissioning form</a>
                                 </label>
@@ -312,7 +310,7 @@
                                        data-cy="complete-form-checkbox"/>
                                 <label class="govuk-label govuk-checkboxes__label" for="complete-form">
                                     <a class="govuk-link"
-                                       href="@Configuration["SOPUCommissioningForm"]"
+                                       href="@Model.SOPUCommissioningForm"
                                        rel="noreferrer noopener"
                                        target="_blank">Complete the SOPU commissioning form</a> to request they record
                                     the notice in the Warning Notice Tracker
