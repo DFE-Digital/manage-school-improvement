@@ -1,7 +1,7 @@
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
-using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
-using DfE.CoreLibs.Contracts.Academies.V4.Trusts;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 

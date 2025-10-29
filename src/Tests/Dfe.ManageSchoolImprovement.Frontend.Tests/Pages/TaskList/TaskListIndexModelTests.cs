@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
@@ -35,7 +35,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             {
                 TempData = (new Mock<ITempDataDictionary>()).Object
             };
-            _mockGetEstablishment.Setup(x => x.GetEstablishmentByUrn(_urn)).ReturnsAsync(new DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
+            _mockGetEstablishment.Setup(x => x.GetEstablishmentByUrn(_urn)).ReturnsAsync(new GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
                 EstablishmentType = new NameAndCodeDto() { Name = "School" },
                 Diocese = new NameAndCodeDto()
@@ -61,7 +61,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
                     NumberOfPupils = "1234"
                 },
 
-                MISEstablishment = new DfE.CoreLibs.Contracts.Academies.V4.Establishments.MisEstablishmentDto
+                MISEstablishment = new GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.MisEstablishmentDto
                 {
                     QualityOfEducation = "Good",
                     BehaviourAndAttitudes = "Good",

@@ -1,6 +1,6 @@
-using DfE.CoreLibs.AsyncProcessing.Interfaces;
 using Dfe.ManageSchoolImprovement.Application.Services.BackgroundServices.Events;
 using Dfe.ManageSchoolImprovement.Application.Services.BackgroundServices.Tasks;
+using GovUK.Dfe.CoreLibs.AsyncProcessing.Interfaces;
 using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.Schools.Commands.CreateReport
@@ -8,21 +8,24 @@ namespace Dfe.ManageSchoolImprovement.Application.Schools.Commands.CreateReport
     /// <summary>
     /// An example of enqueuing a background task
     /// </summary>
-    public record CreateReportCommand() : IRequest<bool>;
+    public record CreateReportCommand() : IRequest<string>;
 
-    public class CreateReportCommandHandler( IBackgroundServiceFactory backgroundServiceFactory)
-        : IRequestHandler<CreateReportCommand, bool>
+    public class CreateReportCommandHandler(IBackgroundServiceFactory backgroundServiceFactory)
+        : IRequestHandler<CreateReportCommand, string>
     {
-        public Task<bool> Handle(CreateReportCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateReportCommand request, CancellationToken cancellationToken)
         {
             var taskName = "Create_Report_Task1";
 
-            backgroundServiceFactory.EnqueueTask(
-                async () => await (new CreateReportExampleTask()).RunAsync(taskName),
-                result => new CreateReportExampleTaskCompletedEvent(taskName, result)
-                );
+            var report = await backgroundServiceFactory
+                .EnqueueTask(
+                    ct => new CreateReportExampleTask().RunAsync(taskName),
+                    resultValue => new CreateReportExampleTaskCompletedEvent(taskName, resultValue),
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
 
-            return Task.FromResult(true);
+            return report;
         }
     }
 }

@@ -2,7 +2,7 @@
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
-using DfE.CoreLibs.Contracts.Academies.V4.Trusts;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;

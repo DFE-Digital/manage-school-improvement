@@ -2,7 +2,6 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Dfe.ManageSchoolImprovement.Infrastructure.Repositories;
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
-using Dfe.ManageSchoolImprovement.Infrastructure.Security.Authorization;
 using Dfe.ManageSchoolImprovement.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +35,8 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static void AddInfrastructureHealthCheck(this IServiceCollection services) {
+        public static void AddInfrastructureHealthCheck(this IServiceCollection services)
+        {
             services.AddHealthChecks()
                 .AddDbContextCheck<RegionalImprovementForStandardsAndExcellenceContext>("RISE Database");
         }
