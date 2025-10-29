@@ -24,18 +24,19 @@ COPY ./Directory.Build.props .
 ## START: Restore Packages
 ARG PROJECT_NAME="Dfe.ManageSchoolImprovement"
 # Copy csproj files for restore caching
-COPY ./src/${PROJECT_NAME}.Application/${PROJECT_NAME}.Application.csproj                         ./src/${PROJECT_NAME}.Application/
-COPY ./src/${PROJECT_NAME}.Domain/${PROJECT_NAME}.Domain.csproj                                   ./src/${PROJECT_NAME}.Domain/
-COPY ./src/${PROJECT_NAME}.Infrastructure/${PROJECT_NAME}.Infrastructure.csproj                   ./src/${PROJECT_NAME}.Infrastructure/
-COPY ./src/${PROJECT_NAME}.Utils/${PROJECT_NAME}.Utils.csproj                                     ./src/${PROJECT_NAME}.Utils/
-COPY ./src/${PROJECT_NAME}/${PROJECT_NAME}.Frontend.csproj                                        ./src/${PROJECT_NAME}/
-COPY ./src/GovUK.Dfe.CoreLibs.ApplicationSettings/GovUK.Dfe.CoreLibs.ApplicationSettings.csproj   ./src/GovUK.Dfe.CoreLibs.ApplicationSettings/
-COPY ./src/Tests/${PROJECT_NAME}.Application.Tests/${PROJECT_NAME}.Application.Tests.csproj       ./src/Tests/${PROJECT_NAME}.Application.Tests/
-COPY ./src/Tests/${PROJECT_NAME}.Domain.Tests/${PROJECT_NAME}.Domain.Tests.csproj                 ./src/Tests/${PROJECT_NAME}.Domain.Tests/
-COPY ./src/Tests/${PROJECT_NAME}.Frontend.Tests/${PROJECT_NAME}.Frontend.Tests.csproj             ./src/Tests/${PROJECT_NAME}.Frontend.Tests/
-COPY ./src/Tests/${PROJECT_NAME}.Infrastructure.Tests/${PROJECT_NAME}.Infrastructure.Tests.csproj ./src/Tests/${PROJECT_NAME}.Infrastructure.Tests/
-COPY ./src/Tests/${PROJECT_NAME}.Tests.Common/${PROJECT_NAME}.Tests.Common.csproj                 ./src/Tests/${PROJECT_NAME}.Tests.Common/
-COPY ./src/Tests/${PROJECT_NAME}.Utils.Tests/${PROJECT_NAME}.Utils.Tests.csproj                   ./src/Tests/${PROJECT_NAME}.Utils.Tests/
+COPY ./src/${PROJECT_NAME}.Application/${PROJECT_NAME}.Application.csproj                                           ./src/${PROJECT_NAME}.Application/
+COPY ./src/${PROJECT_NAME}.Domain/${PROJECT_NAME}.Domain.csproj                                                     ./src/${PROJECT_NAME}.Domain/
+COPY ./src/${PROJECT_NAME}.Infrastructure/${PROJECT_NAME}.Infrastructure.csproj                                     ./src/${PROJECT_NAME}.Infrastructure/
+COPY ./src/${PROJECT_NAME}.Utils/${PROJECT_NAME}.Utils.csproj                                                       ./src/${PROJECT_NAME}.Utils/
+COPY ./src/${PROJECT_NAME}/${PROJECT_NAME}.Frontend.csproj                                                          ./src/${PROJECT_NAME}/
+COPY ./src/GovUK.Dfe.CoreLibs.ApplicationSettings/GovUK.Dfe.CoreLibs.ApplicationSettings.csproj                     ./src/GovUK.Dfe.CoreLibs.ApplicationSettings/
+COPY ./src/Tests/${PROJECT_NAME}.Application.Tests/${PROJECT_NAME}.Application.Tests.csproj                         ./src/Tests/${PROJECT_NAME}.Application.Tests/
+COPY ./src/Tests/${PROJECT_NAME}.Domain.Tests/${PROJECT_NAME}.Domain.Tests.csproj                                   ./src/Tests/${PROJECT_NAME}.Domain.Tests/
+COPY ./src/Tests/${PROJECT_NAME}.Frontend.Tests/${PROJECT_NAME}.Frontend.Tests.csproj                               ./src/Tests/${PROJECT_NAME}.Frontend.Tests/
+COPY ./src/Tests/${PROJECT_NAME}.Infrastructure.Tests/${PROJECT_NAME}.Infrastructure.Tests.csproj                   ./src/Tests/${PROJECT_NAME}.Infrastructure.Tests/
+COPY ./src/Tests/${PROJECT_NAME}.Tests.Common/${PROJECT_NAME}.Tests.Common.csproj                                   ./src/Tests/${PROJECT_NAME}.Tests.Common/
+COPY ./src/Tests/${PROJECT_NAME}.Utils.Tests/${PROJECT_NAME}.Utils.Tests.csproj                                     ./src/Tests/${PROJECT_NAME}.Utils.Tests/
+COPY ./src/Tests/GovUK.Dfe.CoreLibs.ApplicationSettings.Tests/GovUK.Dfe.CoreLibs.ApplicationSettings.Tests.csproj   ./src/Tests/GovUK.Dfe.CoreLibs.ApplicationSettings.Tests/
 
 # Mount GitHub Token and restore
 RUN --mount=type=secret,id=github_token dotnet nuget add source --username USERNAME --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DFE-Digital/index.json" && \
