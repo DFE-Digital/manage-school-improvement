@@ -41,7 +41,7 @@
             <input type="hidden" asp-for="@Model.ReviewId" />
             <input type="hidden" asp-for="@Model.NextObjectiveId" />
 
-            <govuk-radiobuttons-input heading="How is the school progressing with this objective?"
+            <govuk-radiobuttons-input heading="Select progress rating"
                 heading-style="govuk-fieldset__legend--m" name="ProgressStatus" asp-for="@Model.ProgressStatus"
                 radio-buttons="@Model.ProgressRadioButtons" error-message="@Model.ProgressStatusErrorMessage"
                 data-cy="progress-status-radios" />

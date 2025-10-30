@@ -39,6 +39,9 @@
                 <label class="govuk-label govuk-radios__label" for="@radioButton.Id">
                     @radioButton.Name
                 </label>
+                <div id="@radioButton.Id-hint" class="govuk-hint govuk-radios__hint">
+                    @radioButton.Hint
+                </div>
             </div>
 
             @if (radioButton.Input != null)

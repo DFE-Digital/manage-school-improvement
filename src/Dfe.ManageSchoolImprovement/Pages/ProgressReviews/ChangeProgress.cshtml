@@ -39,7 +39,7 @@
 
         <form method="post" novalidate>
 
-            <govuk-radiobuttons-input heading="How is the school progressing with this objective?"
+            <govuk-radiobuttons-input heading="Select progress rating"
                 heading-style="govuk-fieldset__legend--m" name="ProgressStatus" asp-for="@Model.ProgressStatus"
                 radio-buttons="@Model.ProgressRadioButtons" data-cy="progress-status-radios"
                 error-message="@Model.ProgressStatusErrorMessage" />
