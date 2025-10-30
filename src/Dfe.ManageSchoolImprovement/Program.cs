@@ -5,8 +5,10 @@ using Dfe.ManageSchoolImprovement.Frontend.Security;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
+using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using DfE.CoreLibs.Http.Interfaces;
 using DfE.CoreLibs.Http.Middlewares.CorrelationId;
+using GovUK.Dfe.CoreLibs.ApplicationSettings.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -135,6 +137,7 @@ builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IGraphClientFactory, GraphClientFactory>();
 builder.Services.AddScoped<IGraphUserService, GraphUserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISharePointResourceService, SharePointResourceService>();
 
 builder.Services.AddSingleton<IAuthorizationHandler, HeaderRequirementHandler>();
 builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
@@ -143,6 +146,9 @@ builder.Services.AddApplicationDependencyGroup(builder.Configuration);
 builder.Services.AddInfrastructureDependencyGroup(builder.Configuration);
 
 builder.Services.AddApplicationInsightsTelemetry();
+
+
+builder.Services.AddApplicationSettingsWithExistingContext<RegionalImprovementForStandardsAndExcellenceContext>(builder.Configuration);
 
 var app = builder.Build();
 

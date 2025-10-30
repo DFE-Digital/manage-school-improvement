@@ -8,58 +8,74 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+public class IndexModel(
+    ISupportProjectQueryService supportProjectQueryService,
+    ErrorService errorService,
+    IMediator mediator,
+    ISharePointResourceService sharePointResourceService)
+    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
     [BindProperty(Name = "id-number")]
-
     public string? IdNumber { get; set; }
-
-    public bool ShowError { get; set; }
 
     [BindProperty(Name = "date-support-organisation-chosen", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-
     public DateTime? DateSupportOrganisationChosen { get; set; }
 
     [BindProperty(Name = "complete-assessment-tool")]
     public bool? CompleteAssessmentTool { get; set; }
 
-    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-    {
-        return $"Date must include a {string.Join(" and ", missingParts)}";
-    }
-    
-    string IDateValidationMessageProvider.AllMissing => "Enter a date";
+    public bool ShowError { get; set; }
+    public string AssessmentToolTwoLink { get; set; } = string.Empty;
+    public string AssessmentToolTwoSharePointFolderLink { get; set; } = string.Empty;
 
-    public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+    // Expression-bodied interface implementations
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
+        $"Date must include a {string.Join(" and ", missingParts)}";
+
+    string IDateValidationMessageProvider.AllMissing =>
+        "Enter a date";
+
+    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        OrganisationName = SupportProject.SupportOrganisationName;
-        IdNumber = SupportProject.SupportOrganisationIdNumber;
-        DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
-        CompleteAssessmentTool = SupportProject.AssessmentToolTwoCompleted;
+        // Tuple deconstruction for multiple assignments
+        (OrganisationName, IdNumber, DateSupportOrganisationChosen, CompleteAssessmentTool) = (
+            SupportProject?.SupportOrganisationName,
+            SupportProject?.SupportOrganisationIdNumber,
+            SupportProject?.DateSupportOrganisationChosen,
+            SupportProject?.AssessmentToolTwoCompleted
+        );
+
+        await LoadSharePointLinksAsync(cancellationToken);
+
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
+        OrganisationName = OrganisationName?.Trim();
+        // Load SharePoint links early for both success and error paths
+        await LoadSharePointLinksAsync(cancellationToken);
 
-
+        // Early return for validation errors
         if (!ModelState.IsValid)
-        {
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            ShowError = true;
-            return await base.GetSupportProject(id, cancellationToken);
-        }
+            return await HandleValidationErrorAsync(id, cancellationToken);
 
-        var request = new SetChoosePreferredSupportingOrganisationCommand(new SupportProjectId(id), OrganisationName, IdNumber, DateSupportOrganisationChosen, CompleteAssessmentTool);
+        var command = new SetChoosePreferredSupportingOrganisationCommand(
+            new SupportProjectId(id),
+            OrganisationName,
+            IdNumber,
+            DateSupportOrganisationChosen,
+            CompleteAssessmentTool);
 
-        var result = await mediator.Send(request, cancellationToken);
+        var result = await mediator.Send(command, cancellationToken);
 
+        // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
@@ -67,7 +83,21 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         }
 
         TaskUpdated = true;
-        return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+        return RedirectToPage(Links.TaskList.Index.Page, new { id });
     }
 
+    // Extracted method for loading SharePoint links concurrently
+    private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
+    {
+        AssessmentToolTwoLink = await sharePointResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolTwoSharePointFolderLink = await sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken) ?? string.Empty;
+    }
+
+    // Extracted method for cleaner error handling
+    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
+    {
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+        ShowError = true;
+        return await base.GetSupportProject(id, cancellationToken);
+    }
 }
