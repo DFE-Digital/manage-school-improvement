@@ -9,7 +9,8 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Upd
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.DueDiligenceOnPreferredSupportingOrganisation;
 
-public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator,
+    ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "check-organisation-has-capacity-and-willing-to-provide-support")]
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
@@ -30,11 +31,14 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public bool ShowError { get; set; }
 
+    public string CheckSupportingOrgVendorAccountLink { get; set; } = string.Empty;
+    public string SFSOCommissioningFormLink { get; set; } = string.Empty;
+
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-    
+
     string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
@@ -47,11 +51,17 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         CheckTheOrganisationHasAVendorAccount = SupportProject.CheckTheOrganisationHasAVendorAccount;
         DateDueDiligenceCompleted = SupportProject.DateDueDiligenceCompleted;
 
+        CheckSupportingOrgVendorAccountLink = await sharePointResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
+        SFSOCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
+
         return Page();
     }
 
     public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
+        CheckSupportingOrgVendorAccountLink = await sharePointResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
+        SFSOCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
+
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
