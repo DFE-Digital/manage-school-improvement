@@ -1,0 +1,28 @@
+@model string
+
+@{
+    string output;
+    string colour;
+
+    switch (Model)
+    {
+        case "Red":
+            output = "Red";
+            colour = "red";
+            break;
+        case "Amber":
+            output = "Amber";
+            colour = "yellow";
+            break;
+        case "Green":
+            output = "Green";
+            colour = "green";
+            break;
+        default:
+            output = "Unknown";
+            colour = "grey";
+            break;
+    }
+}
+
+<strong class="govuk-tag govuk-tag--@colour" id="">@output</strong>

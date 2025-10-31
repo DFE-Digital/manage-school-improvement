@@ -7,7 +7,8 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.SetImprovementPlanObjectiveProgressDetails;
+using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
+    SetImprovementPlanObjectiveProgressDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 
@@ -39,13 +40,19 @@ public class ChangeProgressModel(
     public ImprovementPlanId? ImprovementPlanId { get; set; }
 
     public string? ProgressStatusErrorMessage { get; set; } = null;
-    public bool ShowProgressStatusError => ModelState.ContainsKey(nameof(ProgressStatus)) && ModelState[nameof(ProgressStatus)]?.Errors.Count > 0;
+
+    public bool ShowProgressStatusError => ModelState.ContainsKey(nameof(ProgressStatus)) &&
+                                           ModelState[nameof(ProgressStatus)]?.Errors.Count > 0;
+
     public IList<RadioButtonsLabelViewModel> ProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
-    public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) && ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
 
-    public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage, CancellationToken cancellationToken)
+    public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) &&
+                                    ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
+
+    public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage,
+        CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
 
@@ -92,7 +99,8 @@ public class ChangeProgressModel(
         }
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, string? returnPage, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, string? returnPage,
+        CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
 
@@ -127,39 +135,36 @@ public class ChangeProgressModel(
 
         // All objectives completed, redirect to summary
         return RedirectToPage(ReturnPage, new { id, reviewId = ImprovementPlanReview.ReadableId });
-
     }
-
 
 
     private void SetupProgressRadioButtons()
     {
         ProgressRadioButtons = new List<RadioButtonsLabelViewModel>
         {
-            new() {
-                Id = "complete",
-                Name = "Complete",
-                Value = "Complete"
+            new()
+            {
+                Id = "red",
+                Name = "Red",
+                Value = "Red",
+                Hint =
+                    "Improvement activities are off track and short-term or end-of-programme changes are unlikely without major intervention"
             },
-            new() {
-                Id = "ahead-of-schedule",
-                Name = "Ahead of schedule",
-                Value = "Ahead of schedule"
+            new()
+            {
+                Id = "amber",
+                Name = "Amber",
+                Value = "Amber",
+                Hint =
+                    "Improvement activities require attention. Short-term or end-of-programme changes are at risk but achievable with timely action"
             },
-            new() {
-                Id = "on-schedule",
-                Name = "On schedule",
-                Value = "On schedule"
-            },
-            new() {
-                Id = "behind-schedule",
-                Name = "Behind schedule",
-                Value = "Behind schedule"
-            },
-            new() {
-                Id = "not-started",
-                Name = "Not started",
-                Value = "Not started"
+            new()
+            {
+                Id = "green",
+                Name = "Green",
+                Value = "Green",
+                Hint =
+                    "Improvement activities are on track and both short-term and end-of-programme changes are likely to be achieved"
             },
         };
     }
