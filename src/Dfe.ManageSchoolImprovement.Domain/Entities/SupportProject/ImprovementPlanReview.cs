@@ -36,14 +36,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? HowIsTheSchoolProgressingOverall { get; set; }
         public string? OverallProgressDetails { get; set; }
 
-        public IEnumerable<ImprovementPlanObjectiveProgress> ImprovementPlanObjectiveProgresses => _ImprovementPlanObjectiveProgresses.AsReadOnly();
+        public IEnumerable<ImprovementPlanObjectiveProgress> ImprovementPlanObjectiveProgresses =>
+            _ImprovementPlanObjectiveProgresses.AsReadOnly();
+
         private readonly List<ImprovementPlanObjectiveProgress> _ImprovementPlanObjectiveProgresses = new();
 
         public void AddObjectiveProgress(ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId,
-                                         ImprovementPlanObjectiveId improvementPlanObjectiveId,
-                                         ImprovementPlanReviewId improvementPlanReviewId,
-                                         string progressStatus,
-                                         string progressDetails)
+            ImprovementPlanObjectiveId improvementPlanObjectiveId,
+            ImprovementPlanReviewId improvementPlanReviewId,
+            string progressStatus,
+            string progressDetails)
         {
             _ImprovementPlanObjectiveProgresses.Add(new ImprovementPlanObjectiveProgress(
                 improvementPlanObjectiveProgressId,
@@ -53,17 +55,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
                 progressDetails));
         }
 
-        public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus, string progressDetails)
+        public void SetImprovementPlanObjectiveProgressDetails(
+            ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus,
+            string progressDetails)
         {
-            var progress = _ImprovementPlanObjectiveProgresses.SingleOrDefault(x => x.Id == improvementPlanObjectiveProgressId);
+            var progress =
+                _ImprovementPlanObjectiveProgresses.SingleOrDefault(x => x.Id == improvementPlanObjectiveProgressId);
 
             if (progress == null)
             {
-                throw new KeyNotFoundException($"Improvement plan review objective progress with id {improvementPlanObjectiveProgressId} not found");
+                throw new KeyNotFoundException(
+                    $"Improvement plan review objective progress with id {improvementPlanObjectiveProgressId} not found");
             }
 
             progress.SetProgress(progressStatus, progressDetails);
-
         }
 
         public void SetNextReviewDate(DateTime? nextReviewDate)
@@ -78,10 +83,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         }
 
         public void SetOverallProgress(
-            // string howIsTheSchoolProgressingOverall, 
+            string howIsTheSchoolProgressingOverall,
             string overallProgressDetails)
         {
-            // HowIsTheSchoolProgressingOverall = howIsTheSchoolProgressingOverall;
+            HowIsTheSchoolProgressingOverall = howIsTheSchoolProgressingOverall;
             OverallProgressDetails = overallProgressDetails;
         }
     }

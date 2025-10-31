@@ -21,15 +21,19 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? LastModifiedBy { get; set; }
         public bool? ObjectivesSectionComplete { get; set; }
 
-        public IEnumerable<ImprovementPlanObjective> ImprovementPlanObjectives => _improvementPlanObjectives.AsReadOnly();
+        public IEnumerable<ImprovementPlanObjective> ImprovementPlanObjectives =>
+            _improvementPlanObjectives.AsReadOnly();
+
         private readonly List<ImprovementPlanObjective> _improvementPlanObjectives = new();
 
         public IEnumerable<ImprovementPlanReview> ImprovementPlanReviews => _improvementPlanReviews.AsReadOnly();
         private readonly List<ImprovementPlanReview> _improvementPlanReviews = new();
 
-        public void AddObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId, ImprovementPlanId improvementPlanId, string areaOfImprovement, string details, int order)
+        public void AddObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId,
+            ImprovementPlanId improvementPlanId, string areaOfImprovement, string details, int order)
         {
-            _improvementPlanObjectives.Add(new ImprovementPlanObjective(improvementPlanObjectiveId, improvementPlanId, areaOfImprovement, details, order));
+            _improvementPlanObjectives.Add(new ImprovementPlanObjective(improvementPlanObjectiveId, improvementPlanId,
+                areaOfImprovement, details, order));
         }
 
         public void SetObjectivesComplete(bool objectivesSectionComplete)
@@ -43,7 +47,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 
             if (objective == null)
             {
-                throw new KeyNotFoundException($"Improvement plan objective with id {improvementPlanObjectiveId} not found");
+                throw new KeyNotFoundException(
+                    $"Improvement plan objective with id {improvementPlanObjectiveId} not found");
             }
 
             objective.SetDetails(details);
@@ -54,10 +59,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             var order = _improvementPlanReviews.Count + 1;
             var title = $"{order.ToOrdinalWord()} Review";
 
-            _improvementPlanReviews.Add(new ImprovementPlanReview(improvementPlanReviewId, Id, reviewDate, reviewer, title, order));
+            _improvementPlanReviews.Add(new ImprovementPlanReview(improvementPlanReviewId, Id, reviewDate, reviewer,
+                title, order));
         }
 
-        public void AddImprovementPlanObjectiveProgress(ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, ImprovementPlanObjectiveId improvementPlanObjectiveId, string progressStatus, string progressDetails)
+        public void AddImprovementPlanObjectiveProgress(ImprovementPlanReviewId improvementPlanReviewId,
+            ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId,
+            ImprovementPlanObjectiveId improvementPlanObjectiveId, string progressStatus, string progressDetails)
         {
             var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
 
@@ -67,13 +75,15 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             }
 
             review.AddObjectiveProgress(improvementPlanObjectiveProgressId,
-                                        improvementPlanObjectiveId,
-                                        improvementPlanReviewId,
-                                        progressStatus,
-                                        progressDetails);
+                improvementPlanObjectiveId,
+                improvementPlanReviewId,
+                progressStatus,
+                progressDetails);
         }
 
-        public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanReviewId improvementPlanReviewId, ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus, string progressDetails)
+        public void SetImprovementPlanObjectiveProgressDetails(ImprovementPlanReviewId improvementPlanReviewId,
+            ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, string progressStatus,
+            string progressDetails)
         {
             var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
 
@@ -100,7 +110,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             review.SetNextReviewDate(nextReviewDate);
         }
 
-        public void SetImprovementPlanReviewDetails(ImprovementPlanReviewId improvementPlanReviewId, string reviewer, DateTime reviewDate)
+        public void SetImprovementPlanReviewDetails(ImprovementPlanReviewId improvementPlanReviewId, string reviewer,
+            DateTime reviewDate)
         {
             var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
 
@@ -112,8 +123,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             review.SetDetails(reviewer, reviewDate);
         }
 
-        public void SetOverallProgress(ImprovementPlanReviewId improvementPlanReviewId, 
-            // string howIsTheSchoolProgressingOverall, 
+        public void SetOverallProgress(ImprovementPlanReviewId improvementPlanReviewId,
+            string howIsTheSchoolProgressingOverall,
             string overallProgressDetails)
         {
             var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
@@ -124,7 +135,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             }
 
             review.SetOverallProgress(
-                // howIsTheSchoolProgressingOverall, 
+                howIsTheSchoolProgressingOverall,
                 overallProgressDetails);
         }
     }

@@ -25,20 +25,20 @@ public class OverallProgressModel(
     public ImprovementPlanReviewViewModel Review { get; private set; }
     public ImprovementPlanViewModel ImprovementPlan { get; private set; }
 
-    // [BindProperty]
+    [BindProperty]
     // [Required(ErrorMessage = "Select how the school is progressing overall")]
-    // public string OverallProgressStatus { get; set; } = string.Empty;
+    public string OverallProgressStatus { get; set; } = string.Empty;
 
     [BindProperty]
-    [Required(ErrorMessage = "Enter details about how the school is progressing overall")]
+    [Required(ErrorMessage = "Enter the next steps")]
     public string OverallProgressDetails { get; set; } = string.Empty;
 
     public DateTime ReviewDate { get; set; }
     public string ReviewerName { get; set; } = string.Empty;
 
-    public string? OverallProgressStatusErrorMessage { get; set; } = null;
+    // public string? OverallProgressStatusErrorMessage { get; set; } = null;
     // public bool ShowOverallProgressStatusError => ModelState.ContainsKey(nameof(OverallProgressStatus)) && ModelState[nameof(OverallProgressStatus)]?.Errors.Count > 0;
-    public IList<RadioButtonsLabelViewModel> OverallProgressRadioButtons { get; set; } = [];
+    // public IList<RadioButtonsLabelViewModel> OverallProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
     public bool ShowDetailsError => ModelState.ContainsKey(nameof(OverallProgressDetails)) && ModelState[nameof(OverallProgressDetails)]?.Errors.Count > 0;
@@ -52,7 +52,7 @@ public class OverallProgressModel(
         LoadPageData(reviewId);
         // SetupOverallProgressRadioButtons();
 
-        // OverallProgressStatus = Review.HowIsTheSchoolProgressingOverall;
+        OverallProgressStatus = Review.HowIsTheSchoolProgressingOverall;
         OverallProgressDetails = Review.OverallProgressDetails;
 
         return Page();
@@ -92,7 +92,7 @@ public class OverallProgressModel(
             new SupportProjectId(id),
             new ImprovementPlanId(ImprovementPlan.Id),
             new ImprovementPlanReviewId(Review.Id),
-            // OverallProgressStatus, 
+            OverallProgressStatus, 
             OverallProgressDetails), cancellationToken);
 
         if (!result)
