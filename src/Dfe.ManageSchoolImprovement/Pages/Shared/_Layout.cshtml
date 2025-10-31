@@ -101,7 +101,7 @@
     </div>
 </section>
 <div class="dfe-width-container">
-    <div class="govuk-phase-banner">
+    <aside class="govuk-phase-banner" aria-label="Phase banner">
         <p class="govuk-phase-banner__content">
             <strong class="govuk-tag govuk-phase-banner__content__tag">
                 Beta
@@ -111,7 +111,7 @@
                                                     href="@Configuration["FeedbackLink"]" target="_blank">feedback (opens in new tab)</a> will help us to improve it.
                 </span>
         </p>
-    </div>
+    </aside>
     @await RenderSectionAsync("BeforeMain", false)
 
     <main class="govuk-main-wrapper gov-main-wrapper--auto-spacing" id="main-content" role="main">
