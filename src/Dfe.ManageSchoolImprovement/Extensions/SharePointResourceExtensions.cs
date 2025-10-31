@@ -40,4 +40,7 @@ public static class SharePointResourceExtensions
 
     public static async Task<string?> GetSOPUCommissioningFormLinkAsync(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
         => await service.GetSettingAsync(SettingKeys.SharePointResources.SOPUCommissioningForm, cancellationToken);
+
+    public static async Task<string?> GetPreviousFundingChecksSpreadsheetLink(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
+        => await service.GetSettingAsync(SettingKeys.SharePointResources.PreviousFundingChecksSpreadsheetLink, cancellationToken);
 }

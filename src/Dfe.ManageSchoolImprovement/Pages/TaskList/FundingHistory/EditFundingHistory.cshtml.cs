@@ -9,7 +9,8 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Fun
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
-    public class EditFundingHistoryModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class EditFundingHistoryModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator,
+        ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "funding-type")]
         [Required(ErrorMessage = "You must enter a funding type")]
@@ -37,10 +38,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         public Guid FundingHistoryId { get; set; }
 
         public bool ShowError { get; set; }
+        public string PreviousFundingChecksSpreadsheetLink { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnGet(int id, int readableFundingHistoryId, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
+            PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
             if (readableFundingHistoryId != null)
             {
                 var fundingHistory = SupportProject.FundingHistories.SingleOrDefault(x => x.ReadableId == readableFundingHistoryId);
@@ -58,6 +61,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         }
         public async Task<IActionResult> OnPost(int id, int readableFundingHistoryId, CancellationToken cancellationToken)
         {
+            PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
+
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);

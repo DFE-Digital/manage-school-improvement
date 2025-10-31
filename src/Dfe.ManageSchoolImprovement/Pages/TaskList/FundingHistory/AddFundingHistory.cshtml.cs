@@ -9,7 +9,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Fun
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
-    public class AddFundingHistoryModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class AddFundingHistoryModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator, ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "funding-type")]
         [Required(ErrorMessage = "You must enter a funding type")]
@@ -38,16 +38,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 
         public bool ShowError { get; set; }
 
+        public string PreviousFundingChecksSpreadsheetLink { get; set; } = string.Empty;
+
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
+
+            PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
 
             return Page();
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
+            PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
             FinancialYear = FinancialYear?.Trim();
-            
+
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);

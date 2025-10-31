@@ -10,7 +10,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
-    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator,
+        ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "HasSchoolReceivedFundingInLastTwoYears")]
         [Required]
@@ -23,9 +24,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 
         public bool ShowError { get; set; }
 
+        public string PreviousFundingChecksSpreadsheetLink { get; set; } = string.Empty;
+
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
+            PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
+
             HasSchoolReceivedFundingInLastTwoYears = SupportProject.HasReceivedFundingInThelastTwoYears;
             RadioButtons = RadioButtonModel;
             return Page();
