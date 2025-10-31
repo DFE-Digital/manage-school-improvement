@@ -722,8 +722,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetImprovementPlanReviewDetails(improvementPlanReviewId, reviewer, reviewDate);
     }
 
-    public void SetOverallProgress(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId,
-        string howIsTheSchoolProgressingOverall, string overallProgressDetails)
+    public void SetOverallProgress(ImprovementPlanId improvementPlanId, 
+        ImprovementPlanReviewId improvementPlanReviewId,
+        // string howIsTheSchoolProgressingOverall, 
+        string overallProgressDetails)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -732,7 +734,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
         }
 
-        improvementPlan.SetOverallProgress(improvementPlanReviewId, howIsTheSchoolProgressingOverall,
+        improvementPlan.SetOverallProgress(improvementPlanReviewId, 
+            // howIsTheSchoolProgressingOverall,
             overallProgressDetails);
     }
 

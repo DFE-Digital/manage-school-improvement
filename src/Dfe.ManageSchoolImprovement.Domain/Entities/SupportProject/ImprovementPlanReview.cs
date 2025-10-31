@@ -77,9 +77,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             ReviewDate = reviewDate;
         }
 
-        public void SetOverallProgress(string howIsTheSchoolProgressingOverall, string overallProgressDetails)
+        public void SetOverallProgress(
+            // string howIsTheSchoolProgressingOverall, 
+            string overallProgressDetails)
         {
-            HowIsTheSchoolProgressingOverall = howIsTheSchoolProgressingOverall;
+            // HowIsTheSchoolProgressingOverall = howIsTheSchoolProgressingOverall;
             OverallProgressDetails = overallProgressDetails;
         }
     }

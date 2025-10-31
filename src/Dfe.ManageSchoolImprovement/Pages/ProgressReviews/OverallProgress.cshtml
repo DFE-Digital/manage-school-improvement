@@ -40,10 +40,11 @@
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ReviewId" />
 
-            <govuk-radiobuttons-input heading="How is the school progressing overall?"
-                heading-style="govuk-fieldset__legend--m" name="OverallProgressStatus"
-                asp-for="@Model.OverallProgressStatus" radio-buttons="@Model.OverallProgressRadioButtons"
-                data-cy="overall-progress-status-radios" error-message="@Model.OverallProgressStatusErrorMessage" />
+            @* Left radio buttons here because we may need to put in back in future *@
+            @* <govuk-radiobuttons-input heading="How is the school progressing overall?" *@
+            @*     heading-style="govuk-fieldset__legend--m" name="OverallProgressStatus" *@
+            @*     asp-for="@Model.OverallProgressStatus" radio-buttons="@Model.OverallProgressRadioButtons" *@
+            @*     data-cy="overall-progress-status-radios" error-message="@Model.OverallProgressStatusErrorMessage" /> *@
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">

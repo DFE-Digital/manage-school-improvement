@@ -25,9 +25,9 @@ public class OverallProgressModel(
     public ImprovementPlanReviewViewModel Review { get; private set; }
     public ImprovementPlanViewModel ImprovementPlan { get; private set; }
 
-    [BindProperty]
-    [Required(ErrorMessage = "Select how the school is progressing overall")]
-    public string OverallProgressStatus { get; set; } = string.Empty;
+    // [BindProperty]
+    // [Required(ErrorMessage = "Select how the school is progressing overall")]
+    // public string OverallProgressStatus { get; set; } = string.Empty;
 
     [BindProperty]
     [Required(ErrorMessage = "Enter details about how the school is progressing overall")]
@@ -37,7 +37,7 @@ public class OverallProgressModel(
     public string ReviewerName { get; set; } = string.Empty;
 
     public string? OverallProgressStatusErrorMessage { get; set; } = null;
-    public bool ShowOverallProgressStatusError => ModelState.ContainsKey(nameof(OverallProgressStatus)) && ModelState[nameof(OverallProgressStatus)]?.Errors.Count > 0;
+    // public bool ShowOverallProgressStatusError => ModelState.ContainsKey(nameof(OverallProgressStatus)) && ModelState[nameof(OverallProgressStatus)]?.Errors.Count > 0;
     public IList<RadioButtonsLabelViewModel> OverallProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
@@ -50,9 +50,9 @@ public class OverallProgressModel(
         await base.GetSupportProject(id, cancellationToken);
 
         LoadPageData(reviewId);
-        SetupOverallProgressRadioButtons();
+        // SetupOverallProgressRadioButtons();
 
-        OverallProgressStatus = Review.HowIsTheSchoolProgressingOverall;
+        // OverallProgressStatus = Review.HowIsTheSchoolProgressingOverall;
         OverallProgressDetails = Review.OverallProgressDetails;
 
         return Page();
@@ -73,16 +73,16 @@ public class OverallProgressModel(
         ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        SetupOverallProgressRadioButtons();
+        // SetupOverallProgressRadioButtons();
         LoadPageData(reviewId);
 
         if (!ModelState.IsValid)
         {
-            if (ShowOverallProgressStatusError)
-            {
-                OverallProgressStatusErrorMessage = "Select how the school is progressing overall";
-                _errorService.AddError(OverallProgressRadioButtons.First().Id, OverallProgressStatusErrorMessage);
-            }
+            // if (ShowOverallProgressStatusError)
+            // {
+            //     OverallProgressStatusErrorMessage = "Select how the school is progressing overall";
+            //     _errorService.AddError(OverallProgressRadioButtons.First().Id, OverallProgressStatusErrorMessage);
+            // }
 
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
@@ -92,7 +92,8 @@ public class OverallProgressModel(
             new SupportProjectId(id),
             new ImprovementPlanId(ImprovementPlan.Id),
             new ImprovementPlanReviewId(Review.Id),
-            OverallProgressStatus, OverallProgressDetails), cancellationToken);
+            // OverallProgressStatus, 
+            OverallProgressDetails), cancellationToken);
 
         if (!result)
         {
@@ -109,35 +110,35 @@ public class OverallProgressModel(
         return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, enableSkip = true });
     }
 
-    private void SetupOverallProgressRadioButtons()
-    {
-        OverallProgressRadioButtons = new List<RadioButtonsLabelViewModel>
-        {
-            new() {
-                Id = "school-progressing-well",
-                Name = "School progressing well",
-                Value = "School progressing well"
-            },
-            new() {
-                Id = "school-improved-rise-complete",
-                Name = "School has improved/RISE targeted intervention complete",
-                Value = "School has improved/RISE targeted intervention complete"
-            },
-            new() {
-                Id = "school-not-improving",
-                Name = "School not improving as required",
-                Value = "School not improving as required"
-            },
-            new() {
-                Id = "review-not-taken-place",
-                Name = "Review not taken place",
-                Value = "Review not taken place"
-            },
-            new() {
-                Id = "school-not-engaging",
-                Name = "School not engaging",
-                Value = "School not engaging"
-            },
-        };
-    }
+    // private void SetupOverallProgressRadioButtons()
+    // {
+    //     OverallProgressRadioButtons = new List<RadioButtonsLabelViewModel>
+    //     {
+    //         new() {
+    //             Id = "school-progressing-well",
+    //             Name = "School progressing well",
+    //             Value = "School progressing well"
+    //         },
+    //         new() {
+    //             Id = "school-improved-rise-complete",
+    //             Name = "School has improved/RISE targeted intervention complete",
+    //             Value = "School has improved/RISE targeted intervention complete"
+    //         },
+    //         new() {
+    //             Id = "school-not-improving",
+    //             Name = "School not improving as required",
+    //             Value = "School not improving as required"
+    //         },
+    //         new() {
+    //             Id = "review-not-taken-place",
+    //             Name = "Review not taken place",
+    //             Value = "Review not taken place"
+    //         },
+    //         new() {
+    //             Id = "school-not-engaging",
+    //             Name = "School not engaging",
+    //             Value = "School not engaging"
+    //         },
+    //     };
+    // }
 }

@@ -10,7 +10,7 @@ public class SetImprovementPlanReviewOverallProgress
             SupportProjectId SupportProjectId,
             ImprovementPlanId ImprovementPlanId,
             ImprovementPlanReviewId ImprovementPlanReviewId,
-            string howIsTheSchoolProgressingOverall,
+            // string howIsTheSchoolProgressingOverall,
             string overallProgressDetails
     ) : IRequest<bool>;
 
@@ -29,7 +29,7 @@ public class SetImprovementPlanReviewOverallProgress
             supportProject.SetOverallProgress(
                 request.ImprovementPlanId,
                 request.ImprovementPlanReviewId,
-                request.howIsTheSchoolProgressingOverall,
+                // request.howIsTheSchoolProgressingOverall,
                 request.overallProgressDetails);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
