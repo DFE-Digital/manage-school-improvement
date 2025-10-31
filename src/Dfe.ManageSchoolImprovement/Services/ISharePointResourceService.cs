@@ -14,4 +14,6 @@ public interface ISharePointResourceService
     Task<string?> GetIEBGuidanceLinkAsync(CancellationToken cancellationToken = default);
     Task<string?> GetSOPUCommissioningFormLinkAsync(CancellationToken cancellationToken = default);
     Task<string?> GetPreviousFundingChecksSpreadsheetLink(CancellationToken cancellationToken = default);
+    Task<string?> GetCheckSupportingOrganisationVendorAccountLink(CancellationToken cancellationToken = default);
+    Task<string?> GetSFSOCommissioningFormLink(CancellationToken cancellationToken = default);
 }

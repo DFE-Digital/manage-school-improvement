@@ -64,7 +64,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     { "TargetedInterventionGuidanceLink", "#", "Link to targeted intervention guidance", "SharePointResources", false , DateTime.UtcNow, DateTime.UtcNow, true},
                     { "IEBGuidanceLink", "#", "Link to Interim Executive Boards (IEB) guidance", "SharePointResources", false, DateTime.UtcNow, DateTime.UtcNow, true },
                     { "SOPUCommissioningForm", "#", "Link to SOPU Commissioning Form", "SharePointResources", false, DateTime.UtcNow, DateTime.UtcNow, true },
-                    { "PreviousFundingChecksSpreadsheetLink", "#", "Link to Previous Funding Checks Spreadsheet", "SharePointResources", false, DateTime.UtcNow, DateTime.UtcNow, true }
+                    { "PreviousFundingChecksSpreadsheetLink", "#", "Link to Previous Funding Checks Spreadsheet", "SharePointResources", false, DateTime.UtcNow, DateTime.UtcNow, true },
+                    { "CheckSupportingOrganisationVendorAccountLink", "#", "Link to check supporting organisation vendor account", "SharePointResources", false, DateTime.UtcNow, DateTime.UtcNow, true },
+                    { "SFSOCommissioningFormLink", "#", "Link to SFSO commissioning form", "SharePointResources", false, DateTime.UtcNow, DateTime.UtcNow, true }
                 });
         }
 

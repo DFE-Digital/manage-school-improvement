@@ -47,4 +47,9 @@ public class SharePointResourceService : ISharePointResourceService
 
     public async Task<string?> GetPreviousFundingChecksSpreadsheetLink(CancellationToken cancellationToken = default)
         => await _settingsService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken);
+    public async Task<string?> GetCheckSupportingOrganisationVendorAccountLink(CancellationToken cancellationToken = default)
+    => await _settingsService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken);
+
+    public async Task<string?> GetSFSOCommissioningFormLink(CancellationToken cancellationToken = default)
+    => await _settingsService.GetSFSOCommissioningFormLink(cancellationToken);
 }
