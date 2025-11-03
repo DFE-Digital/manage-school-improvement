@@ -156,17 +156,15 @@ class ImprovementPlan {
     public validateOverallProgressPage(): this {
         cy.get('[type="submit"]').contains('Save and return').click();
         cy.getByCyData('error-summary').should('be.visible');
-        cy.getByCyData('error-summary').should('contain.text', 'Select how the school is progressing overall');
-        cy.getByCyData('error-summary').should('contain.text', 'Enter details about how the school is progressing overall');
-
+        cy.getByCyData('error-summary').should('contain.text', 'Enter the next steps');
+       
         return this;
     }
 
     public recordOverallProgress(): this {
         cy.url().should('include', '/overall-progress')
-        cy.getByCyData('select-radio-school-not-improving').check()
         cy.getByCyData('overall-progress-details-textarea').type('Overall progress details')
-        cy.getByCyData('save-button').click();
+        cy.getByCyData('save-and-return-button').click();
 
         return this;
 
@@ -204,8 +202,8 @@ class ImprovementPlan {
     public recordProgressForObjective(): this {
         cy.url().should('include', '/record-progress')
         do {
-            cy.get('.govuk-fieldset__legend').should('contain.text', 'How is the school progressing with this objective?')
-            cy.getByCyData('select-radio-on-schedule').check();
+            cy.get('.govuk-fieldset__legend.govuk-fieldset__legend--m').should('contain.text', 'Select progress rating')
+            cy.getByCyData('select-radio-red').check();
             cy.getByCyData('progress-details-textarea').type('Test progress comments');
             cy.getByCyData('skip-objective-link').should('exist');
             cy.getByCyData('save-button').click();
