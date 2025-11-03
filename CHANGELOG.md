@@ -3,6 +3,18 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.3.2] - Q3 – Sprint 2 (Part 2)- 2025-11-03
+
+### 📌 User Stories 
+
+- **243896** - Store all SharePoint links in database and package it up for reuse
+
+### 🐛 Bug Fixes
+
+- **243632** - Accessibility issue: Landmarks issue with Banner on all the pages
+
+--
+
 ## 📅 [v1.3.1] - Q3 – Sprint 2 (Part 1)- 2025-10-29
 
 ### 📌 User Stories 
@@ -11,6 +23,7 @@ Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here
 - **238328** - Highlight text field when "Enter school name or URN" error triggered on Select school page
 - **238345** - Update content and correct highlighted sections in Allocate an adviser empty name field error summary and message
 - **248348** - Highlight text field on case study candidates page and change content when no details entered error triggered
+
 ### 🐛 Bug Fixes
 
 - **239821** - Text field inputs with trailing whitespace not trimmed, causing incorrect validation messages
