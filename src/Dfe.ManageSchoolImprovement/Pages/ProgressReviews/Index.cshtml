@@ -95,8 +95,9 @@
                             <div class='govuk-grid-column-one-half govuk-!-text-align-right govuk-body'>
                                 @if (review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                                 {
-                                    <a asp-page='@Links.ProgressReviews.OverallProgress.Page'
-                                        asp-route-id='@Model.SupportProject.Id' asp-route-reviewId='@review.ReadableId'
+                                    <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
+                                       asp-route-id='@Model.SupportProject.Id' asp-route-reviewId='@review.ReadableId'
+                                       asp-route-enableSkip='true'
                                         class='govuk-link' data-cy='record-progress-link'>Record progress</a>
                                 }
                                 else

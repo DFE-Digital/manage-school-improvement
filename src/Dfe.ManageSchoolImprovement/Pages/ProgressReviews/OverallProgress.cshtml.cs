@@ -25,7 +25,7 @@ public class OverallProgressModel(
     public ImprovementPlanReviewViewModel Review { get; private set; }
     public ImprovementPlanViewModel ImprovementPlan { get; private set; }
 
-    [BindProperty]
+    // [BindProperty]
     // [Required(ErrorMessage = "Select how the school is progressing overall")]
     public string OverallProgressStatus { get; set; } = string.Empty;
 
@@ -107,7 +107,7 @@ public class OverallProgressModel(
 
         }
 
-        return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, enableSkip = true });
+        return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
     }
 
     private void SetupOverallProgressRadioButtons()

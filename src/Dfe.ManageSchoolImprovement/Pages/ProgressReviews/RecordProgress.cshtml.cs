@@ -164,7 +164,7 @@ public class RecordProgressModel(
         else
         {
             // All objectives completed, redirect to summary
-            return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
+            return RedirectToPage(Links.ProgressReviews.OverallProgress.Page, new { id, reviewId });
         }
     }
 
