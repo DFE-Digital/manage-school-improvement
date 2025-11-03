@@ -203,7 +203,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     private readonly List<EngagementConcern> _engagementConcerns = new();
     public string? Cohort { get; }
 
-
     #endregion
 
     public static SupportProject Create(
@@ -296,9 +295,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateTime? responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
         bool? responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)
     {
-        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint;
-        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate;
-
+        ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint =
+            responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint;
+        ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate =
+            responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate;
     }
 
     public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated, string? adviserFullName)
@@ -579,8 +579,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
 
         engagementConcern.SetInformationPowersDetails(informationPowersInUse, informationPowersDetails,
-        powersUsedDate);
-
+            powersUsedDate);
     }
 
     public void AddImprovementPlan(ImprovementPlanId improvementPlanId, SupportProjectId supportProjectId)
@@ -722,8 +721,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetImprovementPlanReviewDetails(improvementPlanReviewId, reviewer, reviewDate);
     }
 
-    public void SetOverallProgress(ImprovementPlanId improvementPlanId, ImprovementPlanReviewId improvementPlanReviewId,
-        string howIsTheSchoolProgressingOverall, string overallProgressDetails)
+    public void SetOverallProgress(ImprovementPlanId improvementPlanId,
+        ImprovementPlanReviewId improvementPlanReviewId,
+        string howIsTheSchoolProgressingOverall,
+        string overallProgressDetails)
     {
         var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
 
@@ -732,11 +733,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
         }
 
-        improvementPlan.SetOverallProgress(improvementPlanReviewId, howIsTheSchoolProgressingOverall,
+        improvementPlan.SetOverallProgress(improvementPlanReviewId,
+            howIsTheSchoolProgressingOverall,
             overallProgressDetails);
     }
 
-    public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId, bool? interimExecutiveBoardCreated,
+    public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,
+        bool? interimExecutiveBoardCreated,
         string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)
     {
         var engagementConcern = _engagementConcerns.SingleOrDefault(x => x.Id == engagementConcernId);
@@ -747,8 +750,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
 
         engagementConcern.SetInterimExecutiveBoardCreated(interimExecutiveBoardCreated,
-        interimExecutiveBoardCreatedDetails, interimExecutiveBoardCreatedDate);
-
+            interimExecutiveBoardCreatedDetails, interimExecutiveBoardCreatedDate);
     }
 
     public void SetEngagementConcernResolvedDetails(EngagementConcernId engagementConcernId,

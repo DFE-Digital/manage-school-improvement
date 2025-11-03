@@ -25,19 +25,19 @@ public class OverallProgressModel(
     public ImprovementPlanReviewViewModel Review { get; private set; }
     public ImprovementPlanViewModel ImprovementPlan { get; private set; }
 
-    [BindProperty]
-    [Required(ErrorMessage = "Select how the school is progressing overall")]
+    // [BindProperty]
+    // [Required(ErrorMessage = "Select how the school is progressing overall")]
     public string OverallProgressStatus { get; set; } = string.Empty;
 
     [BindProperty]
-    [Required(ErrorMessage = "Enter details about how the school is progressing overall")]
+    [Required(ErrorMessage = "Enter the next steps")]
     public string OverallProgressDetails { get; set; } = string.Empty;
 
     public DateTime ReviewDate { get; set; }
     public string ReviewerName { get; set; } = string.Empty;
 
-    public string? OverallProgressStatusErrorMessage { get; set; } = null;
-    public bool ShowOverallProgressStatusError => ModelState.ContainsKey(nameof(OverallProgressStatus)) && ModelState[nameof(OverallProgressStatus)]?.Errors.Count > 0;
+    // public string? OverallProgressStatusErrorMessage { get; set; } = null;
+    // public bool ShowOverallProgressStatusError => ModelState.ContainsKey(nameof(OverallProgressStatus)) && ModelState[nameof(OverallProgressStatus)]?.Errors.Count > 0;
     public IList<RadioButtonsLabelViewModel> OverallProgressRadioButtons { get; set; } = [];
 
     public bool ShowError => _errorService.HasErrors();
@@ -78,11 +78,11 @@ public class OverallProgressModel(
 
         if (!ModelState.IsValid)
         {
-            if (ShowOverallProgressStatusError)
-            {
-                OverallProgressStatusErrorMessage = "Select how the school is progressing overall";
-                _errorService.AddError(OverallProgressRadioButtons.First().Id, OverallProgressStatusErrorMessage);
-            }
+            // if (ShowOverallProgressStatusError)
+            // {
+            //     OverallProgressStatusErrorMessage = "Select how the school is progressing overall";
+            //     _errorService.AddError(OverallProgressRadioButtons.First().Id, OverallProgressStatusErrorMessage);
+            // }
 
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
@@ -92,7 +92,8 @@ public class OverallProgressModel(
             new SupportProjectId(id),
             new ImprovementPlanId(ImprovementPlan.Id),
             new ImprovementPlanReviewId(Review.Id),
-            OverallProgressStatus, OverallProgressDetails), cancellationToken);
+            OverallProgressStatus, 
+            OverallProgressDetails), cancellationToken);
 
         if (!result)
         {
@@ -106,7 +107,7 @@ public class OverallProgressModel(
 
         }
 
-        return RedirectToPage(Links.ProgressReviews.RecordProgress.Page, new { id, reviewId, enableSkip = true });
+        return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
     }
 
     private void SetupOverallProgressRadioButtons()
