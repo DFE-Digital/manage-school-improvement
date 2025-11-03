@@ -83,8 +83,8 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         improvementPlan
             .clickRecordOrViewProgress()
             .clickRecordProgressLink()
-            .recordOverallProgress()
             .recordProgressForObjective()
+            .recordOverallProgress()
             .hasStatusTag('Progress recorded');
 
         cy.executeAccessibilityTests()
