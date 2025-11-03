@@ -3,6 +3,14 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.3.3] - Q3 – Sprint 2 (Part 3)- 2025-11-03
+
+### 📌 User Stories 
+
+- **245267** - Change progress against individual objectives to RAG rating
+- **245669** - Move overall progress to the end of the add progress review journey and remove radio buttons
+--
+
 ## 📅 [v1.3.2] - Q3 – Sprint 2 (Part 2)- 2025-11-03
 
 ### 📌 User Stories 
