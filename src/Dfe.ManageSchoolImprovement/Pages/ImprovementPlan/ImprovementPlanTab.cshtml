@@ -125,9 +125,18 @@
                                     <dt class="govuk-summary-list__key">
                                         Progress rating
                                     </dt>
-                                    <dd class="govuk-summary-list__value">
-                                        <partial name="_ProgressRating" model=@objective.Progress/>
-                                    </dd>
+                                    @if (!string.IsNullOrWhiteSpace(objective.Progress))
+                                    {
+                                        <dd class="govuk-summary-list__value">
+                                            <partial name="_ProgressRating" model=@objective.Progress/>
+                                        </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd class="govuk-summary-list__value">
+                                            No progress recorded yet
+                                        </dd>  
+                                    }
                                 </div>
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key">
