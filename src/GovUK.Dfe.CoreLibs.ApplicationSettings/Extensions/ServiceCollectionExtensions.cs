@@ -109,7 +109,6 @@ public static class ServiceCollectionExtensions
         options.EnableCaching = true;
         options.CacheExpirationMinutes = 30;
         options.DefaultCategory = "General";
-        options.EnableEncryption = false;
         options.Schema = schema;
     }
 
@@ -132,12 +131,6 @@ public static class ServiceCollectionExtensions
 
         if (!string.IsNullOrEmpty(section["DefaultCategory"]))
             options.DefaultCategory = section["DefaultCategory"] ?? string.Empty;
-
-        if (bool.TryParse(section["EnableEncryption"], out bool enableEncryption))
-            options.EnableEncryption = enableEncryption;
-
-        if (!string.IsNullOrEmpty(section["EncryptionKey"]))
-            options.EncryptionKey = section["EncryptionKey"];
 
         // Schema from configuration (only if not overridden by parameter)
         if (schema == null && !string.IsNullOrEmpty(section["Schema"]))

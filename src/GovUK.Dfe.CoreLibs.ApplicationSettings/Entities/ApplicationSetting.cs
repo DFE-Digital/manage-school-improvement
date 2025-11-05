@@ -7,7 +7,6 @@ public class ApplicationSetting
     public string Value { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string Category { get; set; } = "General";
-    public bool IsEncrypted { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public string? CreatedBy { get; set; }
