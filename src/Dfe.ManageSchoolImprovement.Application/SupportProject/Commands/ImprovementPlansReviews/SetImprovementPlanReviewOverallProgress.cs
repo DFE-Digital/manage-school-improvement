@@ -7,19 +7,22 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Improv
 public class SetImprovementPlanReviewOverallProgress
 {
     public record SetImprovementPlanReviewOverallProgressCommand(
-            SupportProjectId SupportProjectId,
-            ImprovementPlanId ImprovementPlanId,
-            ImprovementPlanReviewId ImprovementPlanReviewId,
-            string howIsTheSchoolProgressingOverall,
-            string overallProgressDetails
+        SupportProjectId SupportProjectId,
+        ImprovementPlanId ImprovementPlanId,
+        ImprovementPlanReviewId ImprovementPlanReviewId,
+        string howIsTheSchoolProgressingOverall,
+        string overallProgressDetails
     ) : IRequest<bool>;
 
-    public class SetImprovementPlanReviewOverallProgressCommandHandler(ISupportProjectRepository supportProjectRepository)
+    public class SetImprovementPlanReviewOverallProgressCommandHandler(
+        ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetImprovementPlanReviewOverallProgressCommand, bool>
     {
-        public async Task<bool> Handle(SetImprovementPlanReviewOverallProgressCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(SetImprovementPlanReviewOverallProgressCommand request,
+            CancellationToken cancellationToken)
         {
-            var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
+            var supportProject =
+                await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 
             if (supportProject == null)
             {

@@ -9,13 +9,13 @@
 {
     <nav aria-label="back navigation">
         <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-reviewid="@Model.ReviewId"
-            class="govuk-back-link" data-cy="back-link">Back</a>
+           class="govuk-back-link" data-cy="back-link">Back</a>
     </nav>
 }
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 <div class="govuk-grid-row">
@@ -30,7 +30,7 @@
             <div class='govuk-grid-row'>
                 <div class='govuk-grid-column-two-thirds'>
                     <p class='govuk-body govuk-!-margin-bottom-0'>
-                        <strong>Reviewed on @Model.ReviewDate.ToDateString()</strong><br />
+                        <strong>Reviewed on @Model.ReviewDate.ToDateString()</strong><br/>
                         <strong>by</strong> @Model.ReviewerName
                     </p>
                 </div>
@@ -38,29 +38,35 @@
         </section>
 
         <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.ReviewId" />
+            <input type="hidden" asp-for="@Model.ReviewId"/>
 
-            <govuk-radiobuttons-input heading="How is the school progressing overall?"
-                heading-style="govuk-fieldset__legend--m" name="OverallProgressStatus"
-                asp-for="@Model.OverallProgressStatus" radio-buttons="@Model.OverallProgressRadioButtons"
-                data-cy="overall-progress-status-radios" error-message="@Model.OverallProgressStatusErrorMessage" />
+            @* Left radio buttons here because we may need to be put back in *@
+            @* <govuk-radiobuttons-input heading="How is the school progressing overall?" *@
+            @*     heading-style="govuk-fieldset__legend--m" name="OverallProgressStatus" *@
+            @*     asp-for="@Model.OverallProgressStatus" radio-buttons="@Model.OverallProgressRadioButtons" *@
+            @*     data-cy="overall-progress-status-radios" error-message="@Model.OverallProgressStatusErrorMessage" /> *@
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
                     <label class="govuk-label govuk-label--m" for="OverallProgressDetails">
-                        Details
+                        Next steps
                     </label>
+                    <div id="OverallProgressDetails-hint" class="govuk-hint">
+                        Enter a summary of any agreed next steps, especially for any amber or red ratings. You should
+                        also enter details about the planned activity for next term and how well prepared the school and
+                        supporting organisation are for that work.
+                    </div>
                 </h2>
                 @if (Model.ShowDetailsError)
                 {
                     <p id="overall-progress-details-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Enter details about how the school is progressing
-                        overall
+                        <span class="govuk-visually-hidden">Error:</span> Enter the next steps
                     </p>
                 }
                 <textarea class="govuk-textarea @(Model.ShowDetailsError ? "govuk-textarea--error" : "")"
-                    id="OverallProgressDetails" name="OverallProgressDetails" rows="5"
-                    data-cy="overall-progress-details-textarea" asp-for="@Model.OverallProgressDetails"></textarea>
+                          id="OverallProgressDetails" name="OverallProgressDetails" rows="5"
+                          data-cy="overall-progress-details-textarea"
+                          asp-for="@Model.OverallProgressDetails"></textarea>
             </div>
 
             <div class="govuk-button-group">
@@ -72,11 +78,12 @@
                 }
                 else
                 {
-                    <button class="govuk-button" type="submit" data-module="govuk-button" data-cy="save-and-return-button">
+                    <button class="govuk-button" type="submit" data-module="govuk-button"
+                            data-cy="save-and-return-button">
                         Save and return
                     </button>
                     <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id"
-                        asp-route-reviewid="@Model.ReviewId" class="govuk-link" data-cy="cancel-link">
+                       asp-route-reviewid="@Model.ReviewId" class="govuk-link" data-cy="cancel-link">
                         Cancel
                     </a>
                 }
