@@ -27,7 +27,7 @@ public class PersonsApiExtensionsTests
         AcademyGovernance? academyGovernance = null;
 
         // Act
-        var result = academyGovernance.IsHistorical(_mockDateTimeProvider.Object);
+        var result = academyGovernance?.IsHistorical(_mockDateTimeProvider.Object);
 
         // Assert
         result.Should().BeFalse();
@@ -169,7 +169,7 @@ public class PersonsApiExtensionsTests
         TrustGovernance? trustGovernance = null;
 
         // Act
-        var result = trustGovernance.IsHistorical(_mockDateTimeProvider.Object);
+        var result = trustGovernance?.IsHistorical(_mockDateTimeProvider.Object);
 
         // Assert
         result.Should().BeFalse();
