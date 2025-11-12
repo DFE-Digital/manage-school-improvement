@@ -25,7 +25,7 @@
         <PackageReference Include="Dfe.Academisation.CorrelationIdMiddleware" Version="2.0.3" />
         <PackageReference Include="Dfe.Academisation.ExtensionMethods" Version="2.0.0" />
         <PackageReference Include="GovUK.Dfe.CoreLibs.http" Version="1.0.8" />
-        <PackageReference Include="GovUK.Dfe.PersonsApi.Client" Version="0.1.0" />
+        <PackageReference Include="GovUK.Dfe.PersonsApi.Client" Version="0.1.2" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
           <PrivateAssets>all</PrivateAssets>
@@ -48,7 +48,7 @@
         <PackageReference Include="Sentry.Serilog" Version="3.28.0" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
         <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
-        <PackageReference Include="Azure.Identity" Version="1.13.2" />
+        <PackageReference Include="Azure.Identity" Version="1.17.0" />
     </ItemGroup>
     
     <ItemGroup>

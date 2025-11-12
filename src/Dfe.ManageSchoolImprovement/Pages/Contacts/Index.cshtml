@@ -3,6 +3,7 @@
 @using Dfe.ManageSchoolImprovement.Frontend.Models
 @using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
 @using Dfe.ManageSchoolImprovement.Utils;
+@inject IHostEnvironment hostEnvironment;
 @model IndexModel
 @{
     ViewData["Title"] = "Contact";
@@ -64,7 +65,14 @@
                                 Email
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                <a href="mailto:@contact.Email">@contact.Email</a>
+                                @if (string.IsNullOrEmpty(contact.Email))
+                                {
+                                    <span class="empty" data-id="phone">Empty</span>
+                                }
+                                else
+                                {
+                                    <a href="mailto:@contact.Email">@contact.Email</a>
+                                }
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -78,6 +86,181 @@
                     </dl>
                 </div>
             </div>
+        }
+        @if (hostEnvironment.IsDevelopment())
+        {
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">
+                        @(Model.SupportProject.HeadteacherPreferredJobTitle ?? "Headteacher")
+                    </h2>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.SupportProject.HeadteacherName
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email
+                            </dt>
+
+                            <dd class="govuk-summary-list__value">
+
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Phone
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            @if (Model.ChairOfGoverningBody != null)
+            {
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">
+                            @Model.ChairOfGoverningBody.RoleName
+                        </h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Name
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.ChairOfGoverningBody.Name
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Email
+                                </dt>
+
+                                <dd class="govuk-summary-list__value">
+                                    @if (string.IsNullOrEmpty(Model.ChairOfGoverningBody.Email))
+                                    {
+                                        <span class="empty" data-id="phone">Empty</span>
+                                    }
+                                    else
+                                    {
+                                        <a href="mailto:@Model.ChairOfGoverningBody.Email">@Model.ChairOfGoverningBody.Email</a>
+                                    }
+                                </dd>
+
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Phone
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    <span class="@(string.IsNullOrEmpty(Model.ChairOfGoverningBody.Phone) ? "empty" : null)" data-id="phone">@(string.IsNullOrEmpty(Model.ChairOfGoverningBody.Phone) ? "Empty" : Model.ChairOfGoverningBody.Phone)</span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            }
+            @if (Model.ChiefFinancialOfficer != null)
+            {
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">
+                            @Model.ChiefFinancialOfficer.RoleName
+                        </h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Name
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.ChiefFinancialOfficer.Name
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Email
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @if (string.IsNullOrEmpty(Model.ChiefFinancialOfficer.Email))
+                                    {
+                                        <span class="empty" data-id="phone">Empty</span>
+                                    }
+                                    else
+                                    {
+                                        <a href="mailto:@Model.ChiefFinancialOfficer.Email">@Model.ChiefFinancialOfficer.Email</a>
+                                    }
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Phone
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    <span class="@(string.IsNullOrEmpty(Model.ChiefFinancialOfficer.Phone) ? "empty" : null)" data-id="phone">@(string.IsNullOrEmpty(Model.ChiefFinancialOfficer.Phone) ? "Empty" : Model.ChiefFinancialOfficer.Phone)</span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            }
+            @if (Model.AccountingOfficer != null)
+            {
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">
+                            @Model.AccountingOfficer.RoleName
+                        </h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Name
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    @Model.AccountingOfficer.Name
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Email
+                                </dt>
+                                @if (string.IsNullOrEmpty(Model.AccountingOfficer.Email))
+                                {
+                                    <span class="empty" data-id="phone">Empty</span>
+                                }
+                                else
+                                {
+                                    <a href="mailto:@Model.AccountingOfficer.Email">@Model.AccountingOfficer.Email</a>
+                                }
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                    Phone
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                    <span class="@(string.IsNullOrEmpty(Model.AccountingOfficer.Phone) ? "empty" : null)" data-id="phone">@(string.IsNullOrEmpty(Model.AccountingOfficer.Phone) ? "Empty" : Model.AccountingOfficer.Phone)</span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            }
         }
     </div>
 </div>

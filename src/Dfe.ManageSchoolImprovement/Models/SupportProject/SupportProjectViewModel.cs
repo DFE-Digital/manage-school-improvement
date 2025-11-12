@@ -174,7 +174,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? AssessmentToolTwoCompleted { get; set; }
 
         public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
-
+        public string HeadteacherName { get; internal set; }
+        public string HeadteacherPreferredJobTitle { get; internal set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {

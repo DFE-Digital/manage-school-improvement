@@ -40,6 +40,8 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
             SupportProject.NumbersOnRoll = establishment.Census.NumberOfPupils;
             SupportProject.PreviousUrn = establishment.PreviousEstablishment?.Urn ?? "Not applicable";
             SupportProject.SchoolType = establishment.EstablishmentType.Name;
+            SupportProject.HeadteacherName = $"{establishment.HeadteacherTitle} {establishment.HeadteacherFirstName} {establishment.HeadteacherLastName}";
+            SupportProject.HeadteacherPreferredJobTitle = establishment.HeadteacherPreferredJobTitle;
         }
 
         if (!result.IsSuccess)
