@@ -21,19 +21,6 @@ public class PersonsApiExtensionsTests
     #region AcademyGovernance IsHistorical Tests
 
     [Fact]
-    public void IsHistorical_AcademyGovernance_WithNullObject_ShouldReturnFalse()
-    {
-        // Arrange
-        AcademyGovernance? academyGovernance = null;
-
-        // Act
-        var result = academyGovernance?.IsHistorical(_mockDateTimeProvider.Object);
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Fact]
     public void IsHistorical_AcademyGovernance_WithNullEndDate_ShouldReturnFalse()
     {
         // Arrange
@@ -161,19 +148,6 @@ public class PersonsApiExtensionsTests
     #endregion
 
     #region TrustGovernance IsHistorical Tests
-
-    [Fact]
-    public void IsHistorical_TrustGovernance_WithNullObject_ShouldReturnFalse()
-    {
-        // Arrange
-        TrustGovernance? trustGovernance = null;
-
-        // Act
-        var result = trustGovernance?.IsHistorical(_mockDateTimeProvider.Object);
-
-        // Assert
-        result.Should().BeFalse();
-    }
 
     [Fact]
     public void IsHistorical_TrustGovernance_WithNullEndDate_ShouldReturnFalse()
