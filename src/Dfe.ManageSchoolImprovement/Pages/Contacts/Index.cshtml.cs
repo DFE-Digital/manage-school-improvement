@@ -14,6 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         ITrustsClient trustClient,
         IEstablishmentsClient establishmentsClient,
         IDateTimeProvider dateTimeProvider,
+        IWebHostEnvironment hostingEnvironment,
         ErrorService errorService) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
     {
         public string ReturnPage { get; set; } = null!;
@@ -40,63 +41,66 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 schoolUrn = 0; // Default value if parsing fails
             }
 
-            var establishmentContacts = await establishmentsClient.GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
-
-            if (establishmentContacts != null && establishmentContacts.Count > 0)
+            if (hostingEnvironment.IsDevelopment())
             {
-                // Get current (non-historical) chair of governors
-                var chairOfGovernors = establishmentContacts
-                    .Where(c => c.Roles.Contains(ChairOfGoverningBodyRole) && c.IsCurrent(dateTimeProvider))
-                    .OrderByDescending(x => x.UpdatedAt)
-                    .FirstOrDefault();
+                var establishmentContacts = await establishmentsClient.GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
 
-                if (chairOfGovernors != null)
+                if (establishmentContacts != null && establishmentContacts.Count > 0)
                 {
-                    ChairOfGoverningBody = new ContactViewModel()
-                    {
-                        Name = chairOfGovernors.DisplayName,
-                        Email = chairOfGovernors.Email,
-                        Phone = chairOfGovernors.Phone,
-                        RoleName = ChairOfGoverningBodyRole
-                    };
-                }
-            }
-
-            if (!string.IsNullOrEmpty(SupportProject?.TrustName))
-            {
-                var trustContacts = await trustClient.GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.TrustReferenceNumber, cancellationToken).ConfigureAwait(false);
-
-                if (trustContacts != null && trustContacts.Count > 0)
-                {
-                    // Get current (non-historical) trust contacts
-                    var chiefFinancialOfficer = trustContacts
-                        .Where(c => c.Roles.Contains(ChiefFinancialOfficerRole) && c.IsCurrent(dateTimeProvider))
+                    // Get current (non-historical) chair of governors
+                    var chairOfGovernors = establishmentContacts
+                        .Where(c => c.Roles.Contains(ChairOfGoverningBodyRole) && c.IsCurrent(dateTimeProvider))
+                        .OrderByDescending(x => x.UpdatedAt)
                         .FirstOrDefault();
 
-                    if (chiefFinancialOfficer != null)
+                    if (chairOfGovernors != null)
                     {
-                        ChiefFinancialOfficer = new ContactViewModel()
+                        ChairOfGoverningBody = new ContactViewModel()
                         {
-                            Name = chiefFinancialOfficer.DisplayName,
-                            Email = chiefFinancialOfficer.Email,
-                            Phone = chiefFinancialOfficer.Phone,
-                            RoleName = ChiefFinancialOfficerRole
+                            Name = chairOfGovernors.DisplayName,
+                            Email = chairOfGovernors.Email,
+                            Phone = chairOfGovernors.Phone,
+                            RoleName = ChairOfGoverningBodyRole
                         };
                     }
+                }
 
-                    var accountingOfficer = trustContacts
-                        .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
-                        .FirstOrDefault();
+                if (!string.IsNullOrEmpty(SupportProject?.TrustName))
+                {
+                    var trustContacts = await trustClient.GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.TrustReferenceNumber, cancellationToken).ConfigureAwait(false);
 
-                    if (accountingOfficer != null)
+                    if (trustContacts != null && trustContacts.Count > 0)
                     {
-                        AccountingOfficer = new ContactViewModel()
+                        // Get current (non-historical) trust contacts
+                        var chiefFinancialOfficer = trustContacts
+                            .Where(c => c.Roles.Contains(ChiefFinancialOfficerRole) && c.IsCurrent(dateTimeProvider))
+                            .FirstOrDefault();
+
+                        if (chiefFinancialOfficer != null)
                         {
-                            Name = accountingOfficer.DisplayName,
-                            Email = accountingOfficer.Email,
-                            Phone = accountingOfficer.Phone,
-                            RoleName = AccountingOfficerRole
-                        };
+                            ChiefFinancialOfficer = new ContactViewModel()
+                            {
+                                Name = chiefFinancialOfficer.DisplayName,
+                                Email = chiefFinancialOfficer.Email,
+                                Phone = chiefFinancialOfficer.Phone,
+                                RoleName = ChiefFinancialOfficerRole
+                            };
+                        }
+
+                        var accountingOfficer = trustContacts
+                            .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
+                            .FirstOrDefault();
+
+                        if (accountingOfficer != null)
+                        {
+                            AccountingOfficer = new ContactViewModel()
+                            {
+                                Name = accountingOfficer.DisplayName,
+                                Email = accountingOfficer.Email,
+                                Phone = accountingOfficer.Phone,
+                                RoleName = AccountingOfficerRole
+                            };
+                        }
                     }
                 }
             }
