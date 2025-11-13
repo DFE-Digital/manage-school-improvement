@@ -1,5 +1,3 @@
-
-using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Xunit.Abstractions;
 using static Dfe.ManageSchoolImprovement.Frontend.Services.DateRangeValidationService;
 
@@ -12,59 +10,59 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             get
             {
                 var data = new TheoryData<DateRangeTestCase>();
-            
+
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
-                    DateRange.Past, 
-                    true, 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    DateRange.Past,
+                    true,
                     ""));
 
                 data.Add(new DateRangeTestCase(
-                    DateTime.Now.AddYears(1), 
-                    DateRange.Past, 
-                    false, 
+                    DateTime.Now.AddYears(1),
+                    DateRange.Past,
+                    false,
                     "You must enter a date in the past"));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
-                    DateRange.PastOrToday, 
-                    true, 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    DateRange.PastOrToday,
+                    true,
                     ""));
 
                 data.Add(new DateRangeTestCase(
-                    DateTime.Now.AddYears(1), 
-                    DateRange.PastOrToday, 
-                    false, 
-                    "You must enter today's date or a date in the past"));
+                    DateTime.Now.AddYears(1),
+                    DateRange.PastOrToday,
+                    false,
+                    "Enter today's date or a date in the past"));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
-                    DateRange.Future, 
-                    false, 
-                    "You must enter a date in the future"));
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    DateRange.Future,
+                    false,
+                    "Enter a date in the future"));
 
                 data.Add(new DateRangeTestCase(
-                    DateTime.Now.AddYears(1), 
-                    DateRange.Future, 
-                    true, 
+                    DateTime.Now.AddYears(1),
+                    DateRange.Future,
+                    true,
                     ""));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
-                    DateRange.FutureOrToday, 
-                    false, 
-                    "You must enter today's date or a date in the future"));
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    DateRange.FutureOrToday,
+                    false,
+                    "Enter today's date or a date in the future"));
 
                 data.Add(new DateRangeTestCase(
-                    DateTime.Now.AddYears(1), 
-                    DateRange.FutureOrToday, 
-                    true, 
+                    DateTime.Now.AddYears(1),
+                    DateRange.FutureOrToday,
+                    true,
                     ""));
 
                 data.Add(new DateRangeTestCase(
-                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc), 
-                    DateRange.PastOrFuture, 
-                    true, 
+                    new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    DateRange.PastOrFuture,
+                    true,
                     ""));
 
                 return data;
@@ -95,7 +93,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Assert
             Assert.False(isValid);
-            Assert.Equal("You must enter a date in the past", message);
+            Assert.Equal("Enter a date in the past", message);
         }
 
         [Fact]
@@ -109,7 +107,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Assert
             Assert.False(isValid);
-            Assert.Equal("You must enter today's date or a date in the past", message);
+            Assert.Equal("Enter today's date or a date in the past", message);
         }
 
         [Fact]
@@ -123,7 +121,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Assert
             Assert.False(isValid);
-            Assert.Equal("You must enter a date in the future", message);
+            Assert.Equal("Enter a date in the future", message);
         }
 
         [Fact]
@@ -137,7 +135,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Assert
             Assert.False(isValid);
-            Assert.Equal("You must enter today's date or a date in the future", message);
+            Assert.Equal("Enter today's date or a date in the future", message);
         }
 
         [Fact]
@@ -154,7 +152,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             Assert.Equal("", message);
         }
     }
-    
+
     public class DateRangeTestCase : IXunitSerializable
     {
         public DateTime Date { get; private set; }
