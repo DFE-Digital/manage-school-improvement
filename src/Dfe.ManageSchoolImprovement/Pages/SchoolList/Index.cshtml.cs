@@ -33,6 +33,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         Page = Pagination.CurrentPage,
         Count = Pagination.PageSize
     };
+    
     public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
     {
         Filters.PersistUsing(TempData).PopulateFrom(Request.Query);
@@ -86,6 +87,13 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         if (trustsResult.IsSuccess && trustsResult.Value != null)
         {
             Filters.AvailableTrusts = trustsResult.Value.ToList();
+        }
+        
+        var datesResult = await supportProjectQueryService.GetAllProjectYears(cancellationToken);
+        
+        if (datesResult.IsSuccess && datesResult.Value != null)
+        {
+            Filters.AvailableYears = datesResult.Value.ToList();
         }
 
         return Page();

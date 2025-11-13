@@ -26,13 +26,13 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         {
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
                 new SupportProjectSearchCriteria(
-                    request.Title, 
-                    request.States, 
+                    request.Title,
                     request.AssignedUsers, 
                     request.AssignedAdvisers, 
                     request.Regions, 
                     request.LocalAuthorities,
-                    request.Trusts
+                    request.Trusts,
+                    request.Dates
                     ),
                 request.Page, 
                 request.Count,
@@ -83,6 +83,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         public async Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectTrusts(cancellationToken);
+            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
+        public async Task<Result<IEnumerable<string>>> GetAllProjectYears(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectYears(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
     }

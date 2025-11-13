@@ -23,6 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByAssignedAdvisers(searchCriteria.AssignedAdvisers, queryable);
             queryable = FilterByLocalAuthority(searchCriteria.LocalAuthorities, queryable);
             queryable = FilterByTrusts(searchCriteria.Trusts, queryable);
+            queryable = FilterByDate(searchCriteria.Dates, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
             var projects = await queryable
@@ -130,6 +131,16 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return queryable;
         }
 
+        private static IQueryable<SupportProject> FilterByDate(IEnumerable<string>? dates,
+            IQueryable<SupportProject> queryable)
+        {
+            // get dates
+            // extract months/years
+            // return matches
+
+            return queryable;
+        }
+
         public async Task<IEnumerable<string>> GetAllProjectRegions(CancellationToken cancellationToken)
         {
             return await DbSet().OrderByDescending(p => p.Region)
@@ -205,6 +216,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Where(p => !string.IsNullOrEmpty(p))
                 .Distinct()
                 .ToListAsync(cancellationToken);
+        }
+        
+        public async Task<IEnumerable<string>> GetAllProjectYears(CancellationToken cancellationToken)
+        {
+            var years = await DbSet()
+                .AsNoTracking()
+                .Select(p => p.CreatedOn.Year)
+                .Distinct()
+                .OrderByDescending(year => year)
+                .Select(year => year.ToString())
+                .ToListAsync(cancellationToken);
+            return years;
         }
     }
 }
