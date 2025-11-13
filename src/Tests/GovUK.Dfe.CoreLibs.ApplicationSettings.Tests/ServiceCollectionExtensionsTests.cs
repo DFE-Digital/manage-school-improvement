@@ -112,8 +112,6 @@ public class ServiceCollectionExtensionsTests
         options!.EnableCaching.Should().BeFalse();
         options.CacheExpirationMinutes.Should().Be(60);
         options.DefaultCategory.Should().Be("Custom");
-        options.EnableEncryption.Should().BeTrue();
-        options.EncryptionKey.Should().Be("TestKey123");
         options.Schema.Should().Be("ConfigSchema");
     }
 
@@ -163,7 +161,6 @@ public class ServiceCollectionExtensionsTests
         options!.EnableCaching.Should().BeTrue(); // Default value
         options.CacheExpirationMinutes.Should().Be(30); // Default value
         options.DefaultCategory.Should().Be("General"); // Default value
-        options.EnableEncryption.Should().BeFalse(); // Default value
     }
 
     [Fact]
@@ -256,8 +253,6 @@ public class ServiceCollectionExtensionsTests
         options!.EnableCaching.Should().BeFalse();
         options.CacheExpirationMinutes.Should().Be(45);
         options.DefaultCategory.Should().Be("ExistingContext");
-        options.EnableEncryption.Should().BeTrue();
-        options.EncryptionKey.Should().Be("ExistingKey123");
     }
 
     [Fact]
@@ -341,7 +336,6 @@ public class ServiceCollectionExtensionsTests
         options!.EnableCaching.Should().BeTrue();
         options.CacheExpirationMinutes.Should().Be(30);
         options.DefaultCategory.Should().Be("General");
-        options.EnableEncryption.Should().BeFalse();
         options.Schema.Should().BeNull();
     }
 
@@ -357,8 +351,6 @@ public class ServiceCollectionExtensionsTests
             options.EnableCaching = false;
             options.CacheExpirationMinutes = 120;
             options.DefaultCategory = "CustomCategory";
-            options.EnableEncryption = true;
-            options.EncryptionKey = "CustomKey123";
             options.Schema = "CustomSchema";
         });
         var serviceProvider = _services.BuildServiceProvider();
@@ -369,8 +361,6 @@ public class ServiceCollectionExtensionsTests
         options!.EnableCaching.Should().BeFalse();
         options.CacheExpirationMinutes.Should().Be(120);
         options.DefaultCategory.Should().Be("CustomCategory");
-        options.EnableEncryption.Should().BeTrue();
-        options.EncryptionKey.Should().Be("CustomKey123");
         options.Schema.Should().Be("CustomSchema");
     }
 
@@ -390,7 +380,6 @@ public class ServiceCollectionExtensionsTests
         options!.EnableCaching.Should().BeTrue();
         options.CacheExpirationMinutes.Should().Be(30);
         options.DefaultCategory.Should().Be("General");
-        options.EnableEncryption.Should().BeFalse();
         options.Schema.Should().BeNull();
     }
 

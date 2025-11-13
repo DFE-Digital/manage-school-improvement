@@ -15,7 +15,6 @@ public class ApplicationSettingTests
         setting.Key.Should().Be(string.Empty);
         setting.Value.Should().Be(string.Empty);
         setting.Category.Should().Be("General");
-        setting.IsEncrypted.Should().BeFalse();
         setting.IsActive.Should().BeTrue();
         setting.CreatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         setting.UpdatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
@@ -39,7 +38,6 @@ public class ApplicationSettingTests
             Description = description,
             Category = category,
             CreatedBy = createdBy,
-            IsEncrypted = true,
             IsActive = false
         };
 
@@ -49,7 +47,6 @@ public class ApplicationSettingTests
         setting.Description.Should().Be(description);
         setting.Category.Should().Be(category);
         setting.CreatedBy.Should().Be(createdBy);
-        setting.IsEncrypted.Should().BeTrue();
         setting.IsActive.Should().BeFalse();
     }
 }

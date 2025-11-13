@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
-using DfE.CoreLibs.Contracts.Academies.V4;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 {

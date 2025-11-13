@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Pages;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using DfE.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
@@ -34,7 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             // Arrange
             var projectId = 1;
             var mockProject = new SupportProjectDto(projectId, DateTime.Now, "schoolName", "URN234", "local Authority", "Region");
-            var mockEstablishment = new DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
+            var mockEstablishment = new GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
                 EstablishmentType = new NameAndCodeDto() { Name = "School" },
                 Diocese = new NameAndCodeDto()

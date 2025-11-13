@@ -27,7 +27,7 @@ public class IndexModel(
     [BindProperty(Name = "complete-assessment-template")]
     public bool? HasCompleteAssessmentTemplate { get; set; }
 
-    public string AssessmenToolOneLink { get; set; } = string.Empty;
+    public string AssessmentToolOneLink { get; set; } = string.Empty;
     public bool ShowError { get; set; }
 
     // Using .NET 8 static interface members for cleaner implementation
@@ -42,7 +42,7 @@ public class IndexModel(
         await base.GetSupportProject(id, cancellationToken);
 
         // Using object initializer with conditional assignment
-        (SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate, AssessmenToolOneLink) =
+        (SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate, AssessmentToolOneLink) =
             (SupportProject?.SavedAssessmentTemplateInSharePointDate,
              SupportProject?.HasTalkToAdviserAboutFindings,
              SupportProject?.HasCompleteAssessmentTemplate,
@@ -54,7 +54,7 @@ public class IndexModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         // Early assignment of SharePoint link
-        AssessmenToolOneLink = await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolOneLink = await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
 
         // Early return pattern for validation
         if (!ModelState.IsValid)

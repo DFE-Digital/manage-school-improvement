@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool;
 
 public class SummaryModel(IGetEstablishment getEstablishment, IMediator mediator) : PageModel
 {
-    public DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto Establishment { get; set; }
+    public GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto Establishment { get; set; }
 
     [BindProperty]
     public string? TrustName { get; set; }
@@ -35,7 +35,7 @@ public class SummaryModel(IGetEstablishment getEstablishment, IMediator mediator
 
     public async Task<IActionResult> OnPostAsync(string urn)
     {
-        DfE.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto establishment = await getEstablishment.GetEstablishmentByUrn(urn);
+        GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto establishment = await getEstablishment.GetEstablishmentByUrn(urn);
 
         var request = new CreateSupportProjectCommand(establishment.Name, establishment.Urn, establishment.LocalAuthorityName, establishment.Gor.Name, TrustName, TrustReferenceNumber);
 

@@ -1,4 +1,4 @@
-using DfE.CoreLibs.Contracts.Academies.V4;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models

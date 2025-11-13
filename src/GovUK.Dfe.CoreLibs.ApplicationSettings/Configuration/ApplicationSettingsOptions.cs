@@ -23,14 +23,4 @@ public class ApplicationSettingsOptions
     /// Default category for settings without specified category
     /// </summary>
     public string DefaultCategory { get; set; } = "General";
-
-    /// <summary>
-    /// Enable encryption for sensitive settings
-    /// </summary>
-    public bool EnableEncryption { get; set; } = false;
-
-    /// <summary>
-    /// Encryption key for sensitive settings (base64 encoded)
-    /// </summary>
-    public string? EncryptionKey { get; set; }
 }

@@ -1,4 +1,4 @@
-using ICorrelationContext = DfE.CoreLibs.Http.Interfaces.ICorrelationContext;
+using ICorrelationContext = GovUK.Dfe.CoreLibs.Http.Interfaces.ICorrelationContext;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 

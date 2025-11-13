@@ -1,4 +1,4 @@
-using DfE.CoreLibs.Contracts.Academies.V4;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models

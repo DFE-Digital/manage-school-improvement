@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Application.Factories;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using DfE.CoreLibs.Contracts.Academies.V4;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries

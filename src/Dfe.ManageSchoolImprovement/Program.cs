@@ -6,9 +6,12 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
-using DfE.CoreLibs.Http.Interfaces;
-using DfE.CoreLibs.Http.Middlewares.CorrelationId;
 using GovUK.Dfe.CoreLibs.ApplicationSettings.Extensions;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
+using GovUK.Dfe.CoreLibs.Http.Middlewares.CorrelationId;
+using GovUK.Dfe.PersonsApi.Client;
+using GovUK.Dfe.PersonsApi.Client.Contracts;
+using GovUK.Dfe.PersonsApi.Client.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -149,6 +152,9 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 
 builder.Services.AddApplicationSettingsWithExistingContext<RegionalImprovementForStandardsAndExcellenceContext>(builder.Configuration);
+
+builder.Services.AddPersonsApiClient<IEstablishmentsClient, EstablishmentsClient>(config);
+builder.Services.AddPersonsApiClient<ITrustsClient, TrustsClient>(config);
 
 var app = builder.Build();
 

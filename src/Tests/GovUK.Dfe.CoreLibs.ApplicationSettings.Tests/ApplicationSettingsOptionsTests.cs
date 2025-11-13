@@ -16,8 +16,6 @@ public class ApplicationSettingsOptionsTests
         options.EnableCaching.Should().BeTrue();
         options.CacheExpirationMinutes.Should().Be(30);
         options.DefaultCategory.Should().Be("General");
-        options.EnableEncryption.Should().BeFalse();
-        options.EncryptionKey.Should().BeNull();
     }
 
     [Fact]
@@ -29,9 +27,7 @@ public class ApplicationSettingsOptionsTests
             Schema = "CustomSchema",
             EnableCaching = false,
             CacheExpirationMinutes = 60,
-            DefaultCategory = "Custom",
-            EnableEncryption = true,
-            EncryptionKey = "TestKey"
+            DefaultCategory = "Custom"
         };
 
         // Assert
@@ -39,8 +35,7 @@ public class ApplicationSettingsOptionsTests
         options.EnableCaching.Should().BeFalse();
         options.CacheExpirationMinutes.Should().Be(60);
         options.DefaultCategory.Should().Be("Custom");
-        options.EnableEncryption.Should().BeTrue();
-        options.EncryptionKey.Should().Be("TestKey");
+
     }
 
     [Fact]
