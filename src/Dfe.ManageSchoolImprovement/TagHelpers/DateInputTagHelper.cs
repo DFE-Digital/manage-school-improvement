@@ -75,7 +75,7 @@ public class DateInputTagHelper(IHtmlHelper htmlHelper, ErrorService errorServic
          }
 
          if (model.ErrorMessage == "Enter a date" || 
-             model.ErrorMessage == "You must enter today's date or a date in the past" || 
+             model.ErrorMessage == "Enter today's date or a date in the past" || 
              model.ErrorMessage == "Enter a date in the correct format")
          {
             model.DateMissingOrIncorrect = true;

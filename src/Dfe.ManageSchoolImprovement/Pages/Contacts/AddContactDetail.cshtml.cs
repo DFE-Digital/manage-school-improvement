@@ -16,13 +16,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public string ReturnPage { get; set; }
         public bool ShowError { get; set; }
         [BindProperty(Name = "name")]
-        [Required(ErrorMessage = "You must enter a name")]
+        [Required(ErrorMessage = "Enter a name")]
         public string Name { get; set; } = null!;
-        [Required(ErrorMessage = "You must enter an organisation")]
+        [Required(ErrorMessage = "Enter an organisation")]
         [BindProperty(Name = "organisation")]
         public string Organisation { get; set; } = null!;
 
-        [Required(ErrorMessage = "You must enter an email address")]
+        [Required(ErrorMessage = "Enter an email address")]
         [EmailValidation(ErrorMessage = "Email address must be in correct format")]
         [BindProperty(Name = "email-address")]
         public string EmailAddress { get; set; }

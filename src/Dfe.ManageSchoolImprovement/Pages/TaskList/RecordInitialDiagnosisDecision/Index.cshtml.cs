@@ -79,13 +79,13 @@ public class IndexModel(
 
         if (!IsNotMatchingNotesValid())
         {
-            _errorService.AddError(nameof(NotMatchingNotes), "You must add a note");
+            _errorService.AddError(nameof(NotMatchingNotes), "Enter notes");
             validationErrors.Add("NotMatchingNotes");
         }
 
         if (!IsUnableToAssessNotesValid())
         {
-            _errorService.AddError(nameof(UnableToAssessNotes), "You must add a note");
+            _errorService.AddError(nameof(UnableToAssessNotes), "Enter notes");
             validationErrors.Add("UnableToAssessNotes");
         }
 
@@ -145,7 +145,7 @@ public class IndexModel(
             Input = new TextFieldInputViewModel
             {
                 Id = nameof(NotMatchingNotes),
-                ValidationMessage = "You must add a note",
+                ValidationMessage = "Enter notes",
                 Paragraph = "Copy and paste your notes from the overall recommendation within the summary tab in Assessment Tool 1.",
                 Value = NotMatchingNotes,
                 IsValid = IsNotMatchingNotesValid(),
@@ -159,7 +159,7 @@ public class IndexModel(
             Input = new TextFieldInputViewModel
             {
                 Id = nameof(UnableToAssessNotes),
-                ValidationMessage = "You must add a note",
+                ValidationMessage = "Enter notes",
                 Paragraph = "Copy and paste your notes from the overall recommendation within the summary tab in Assessment Tool 1.",
                 Value = UnableToAssessNotes,
                 IsValid = IsUnableToAssessNotesValid(),

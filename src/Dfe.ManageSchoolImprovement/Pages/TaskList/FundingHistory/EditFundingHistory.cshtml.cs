@@ -13,20 +13,20 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "funding-type")]
-        [Required(ErrorMessage = "You must enter a funding type")]
+        [Required(ErrorMessage = "Enter a funding type")]
         public string? FundingType { get; set; }
 
         [BindProperty(Name = "funding-amount")]
-        [Required(ErrorMessage = "You must enter the total funding amount")]
+        [Required(ErrorMessage = "Enter the total funding amount")]
         [RegularExpression(@"^\�?\d+(\.\d{1,2})?$", ErrorMessage = "Funding amount must be a number. It can be a decimal, to represent pounds and pence.")]
         public decimal? FundingAmount { get; set; }
 
         [BindProperty(Name = "financial-year-input")]
-        [Required(ErrorMessage = "You must enter the financial year payment was made")]
+        [Required(ErrorMessage = "Enter the financial year payment was made")]
         public string? FinancialYear { get; set; }
 
         [BindProperty(Name = "funding-rounds")]
-        [Required(ErrorMessage = "You must enter the number of payments made in the financial year")]
+        [Required(ErrorMessage = "Enter the number of payments made in the financial year")]
         [Range(1, int.MaxValue, ErrorMessage = "Funding rounds must be a whole number.")]
         [Display(Name = "Funding rounds")]
         public int? FundingRounds { get; set; }

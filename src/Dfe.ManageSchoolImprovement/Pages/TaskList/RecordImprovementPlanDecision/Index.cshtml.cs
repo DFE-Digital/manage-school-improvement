@@ -49,7 +49,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
             {
                 if (!IsDisapprovingImprovementPlanDecisionNotesValid())
                 {
-                    _errorService.AddError("radiobuttontextinput","You must add a note");
+                    _errorService.AddError("radiobuttontextinput","Enter details");
                 }
                 
                 RadioButtoons = RadioButtons;
@@ -91,7 +91,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
                         Input = new TextFieldInputViewModel
                         {
                             Id = nameof(DisapprovingImprovementPlanDecisionNotes),
-                            ValidationMessage = "You must add a note",
+                            ValidationMessage = "Enter details",
                             Paragraph = "Provide some details about why approval was not given.",
                             Value = DisapprovingImprovementPlanDecisionNotes,
                             IsValid = IsDisapprovingImprovementPlanDecisionNotesValid(),
