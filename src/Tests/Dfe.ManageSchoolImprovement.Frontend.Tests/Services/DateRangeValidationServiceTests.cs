@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
                     DateTime.Now.AddYears(1),
                     DateRange.Past,
                     false,
-                    "You must enter a date in the past"));
+                    "Enter a date in the past"));
 
                 data.Add(new DateRangeTestCase(
                     new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
