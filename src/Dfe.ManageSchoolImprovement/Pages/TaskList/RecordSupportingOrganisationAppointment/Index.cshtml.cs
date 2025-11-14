@@ -49,7 +49,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
             {
                 if (!IsDisapprovingSupportingOrganisationAppointmentNotesValid())
                 {
-                    _errorService.AddError("radiobuttontextinput","You must add a note");
+                    _errorService.AddError("radiobuttontextinput","Enter details");
                 }
 
                 RadioButtoons = RadioButtons;
@@ -91,7 +91,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                         Input = new TextFieldInputViewModel
                         {
                             Id = nameof(DisapprovingSupportingOrganisationAppointmentNotes),
-                            ValidationMessage = "You must add a note",
+                            ValidationMessage = "Enter details",
                             Paragraph = "Provide some details about why approval was not given.",
                             Value = DisapprovingSupportingOrganisationAppointmentNotes,
                             IsValid = IsDisapprovingSupportingOrganisationAppointmentNotesValid(),

@@ -63,13 +63,13 @@ public class ReasonForEscalationModel(
         {
             if (PrimaryReason == null)
             {
-                PrimaryReasonErrorMessage = "You must select a primary reason";
+                PrimaryReasonErrorMessage = "Select a primary reason";
                 _errorService.AddError("primary-reason", PrimaryReasonErrorMessage);
             }
 
             if (EscalationDetails == null)
             {
-                DetailsErrorMessage = "You must enter details";
+                DetailsErrorMessage = "Enter details";
                 _errorService.AddError(DetailsErrorKey, DetailsErrorMessage);
                 ModelState.AddModelError(DetailsErrorKey, DetailsErrorMessage);
             }
