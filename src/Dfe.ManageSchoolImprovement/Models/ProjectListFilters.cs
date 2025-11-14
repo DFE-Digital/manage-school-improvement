@@ -14,7 +14,7 @@ public class ProjectListFilters
     public const string FilterLocalAuthorities = nameof(FilterLocalAuthorities);
     public const string FilterTrusts = nameof(FilterTrusts);
     public const string FilterDates = nameof(FilterDates);
-    
+
     private IDictionary<string, object?> _store = null!;
     public List<string> AvailableDeliveryOfficers { get; set; } = new();
     public List<string> AvailableAdvisers { get; set; } = new();
@@ -23,32 +23,23 @@ public class ProjectListFilters
     public List<string> AvailableLocalAuthorities { get; set; } = new();
     public List<string> AvailableYears { get; set; } = new();
 
-    [BindProperty]
-    public string? Title { get; set; }
+    [BindProperty] public string? Title { get; set; }
 
-    [BindProperty]
-    public string[] SelectedStatuses { get; set; } = [];
+    [BindProperty] public string[] SelectedStatuses { get; set; } = [];
 
-    [BindProperty]
-    public string[] SelectedOfficers { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedOfficers { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedAdvisers { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedAdvisers { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedRegions { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedRegions { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedLocalAuthorities { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedLocalAuthorities { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedTrusts { get; set; } = Array.Empty<string>();
-    
-    [BindProperty]
-    public string[] SelectedYears { get; set; } = Array.Empty<string>();
-    
-    [BindProperty]
-    public string[] SelectedDates { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedTrusts { get; set; } = Array.Empty<string>();
+
+    [BindProperty] public string[] SelectedYears { get; set; } = Array.Empty<string>();
+
+    [BindProperty] public string[] SelectedDates { get; set; } = Array.Empty<string>();
 
     public static readonly List<string> Months = new()
     {
@@ -65,16 +56,17 @@ public class ProjectListFilters
         "November",
         "December"
     };
-    
+
     public readonly List<string> MonthsInCurrentYear = Months.Take(DateTime.Now.Month).ToList();
-    
+
     public bool IsVisible => !string.IsNullOrWhiteSpace(Title) ||
                              SelectedStatuses.Length > 0 ||
                              SelectedAdvisers.Length > 0 ||
                              SelectedOfficers.Length > 0 ||
-                             SelectedRegions.Length > 0 || 
+                             SelectedRegions.Length > 0 ||
                              SelectedLocalAuthorities.Length > 0 ||
                              SelectedTrusts.Length > 0 ||
+                             SelectedYears.Length > 0 ||
                              SelectedDates.Length > 0;
 
     public ProjectListFilters PersistUsing(IDictionary<string, object?> store)
@@ -109,6 +101,7 @@ public class ProjectListFilters
             SelectedLocalAuthorities = Array.Empty<string>();
             SelectedTrusts = Array.Empty<string>();
             SelectedDates = Array.Empty<string>();
+            SelectedYears = Array.Empty<string>();
 
             return;
         }
@@ -119,21 +112,23 @@ public class ProjectListFilters
             SelectedOfficers = GetAndRemove(FilterOfficers, GetFromQuery(nameof(SelectedOfficers)), true);
             SelectedAdvisers = GetAndRemove(FilterAdvisers, GetFromQuery(nameof(SelectedAdvisers)), true);
             SelectedRegions = GetAndRemove(FilterRegions, GetFromQuery(nameof(SelectedRegions)), true);
-            SelectedLocalAuthorities = GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
+            SelectedLocalAuthorities =
+                GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
             SelectedTrusts = GetAndRemove(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)), true);
             SelectedDates = GetAndRemove(FilterDates, GetFromQuery(nameof(SelectedDates)), true);
+            SelectedYears = GetAndRemove(FilterDates, GetFromQuery(nameof(SelectedYears)), true);
 
             return;
         }
 
         bool activeFilterChanges = query.ContainsKey(nameof(Title)) ||
                                    query.ContainsKey(nameof(SelectedStatuses)) ||
-                                 query.ContainsKey(nameof(SelectedOfficers)) ||
-                                 query.ContainsKey(nameof(SelectedAdvisers)) ||
-                                 query.ContainsKey(nameof(SelectedRegions)) ||
-                                 query.ContainsKey(nameof(SelectedLocalAuthorities)) ||
-                                 query.ContainsKey(nameof(SelectedDates));
-        query.ContainsKey(nameof(SelectedTrusts));
+                                   query.ContainsKey(nameof(SelectedOfficers)) ||
+                                   query.ContainsKey(nameof(SelectedAdvisers)) ||
+                                   query.ContainsKey(nameof(SelectedRegions)) ||
+                                   query.ContainsKey(nameof(SelectedLocalAuthorities)) ||
+                                   query.ContainsKey(nameof(SelectedDates)) ||
+                                   query.ContainsKey(nameof(SelectedTrusts));
 
         if (activeFilterChanges)
         {
@@ -144,6 +139,7 @@ public class ProjectListFilters
             SelectedRegions = Cache(FilterRegions, GetFromQuery(nameof(SelectedRegions)));
             SelectedLocalAuthorities = Cache(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)));
             SelectedDates = Cache(FilterDates, GetFromQuery(nameof(SelectedDates)));
+            SelectedYears = Cache(FilterDates, GetFromQuery(nameof(SelectedYears)));
             SelectedTrusts = Cache(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)));
         }
         else
@@ -155,6 +151,7 @@ public class ProjectListFilters
             SelectedRegions = Get(FilterRegions, true);
             SelectedLocalAuthorities = Get(FilterLocalAuthorities, true);
             SelectedDates = Get(FilterDates, true);
+            SelectedYears = Get(FilterDates, true);
             SelectedTrusts = Get(FilterTrusts, true);
         }
 

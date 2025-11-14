@@ -134,9 +134,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         private static IQueryable<SupportProject> FilterByDate(IEnumerable<string>? dates,
             IQueryable<SupportProject> queryable)
         {
-            // get dates
-            // extract months/years
-            // return matches
+            if (dates != null || dates.Any())
+            {
+                var datesAsDateTimes = dates.Select(date => DateTime.Parse(date));
+                var years = datesAsDateTimes.Select(date => date.Year);
+                var months = datesAsDateTimes.Select(date => date.Month);
+                queryable = queryable.Where(p => years.Contains(p.CreatedOn.Year) && months.Contains(p.CreatedOn.Month));
+            }
 
             return queryable;
         }
