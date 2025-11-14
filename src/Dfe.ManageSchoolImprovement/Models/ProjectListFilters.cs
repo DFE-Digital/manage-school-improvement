@@ -66,7 +66,7 @@ public class ProjectListFilters
                              SelectedRegions.Length > 0 ||
                              SelectedLocalAuthorities.Length > 0 ||
                              SelectedTrusts.Length > 0 ||
-                             SelectedYears.Length > 0 ||
+                             // SelectedYears.Length > 0 ||
                              SelectedDates.Length > 0;
 
     public ProjectListFilters PersistUsing(IDictionary<string, object?> store)
@@ -101,7 +101,7 @@ public class ProjectListFilters
             SelectedLocalAuthorities = Array.Empty<string>();
             SelectedTrusts = Array.Empty<string>();
             SelectedDates = Array.Empty<string>();
-            SelectedYears = Array.Empty<string>();
+            // SelectedYears = Array.Empty<string>();
 
             return;
         }
@@ -116,7 +116,7 @@ public class ProjectListFilters
                 GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
             SelectedTrusts = GetAndRemove(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)), true);
             SelectedDates = GetAndRemove(FilterDates, GetFromQuery(nameof(SelectedDates)), true);
-            SelectedYears = GetAndRemove(FilterDates, GetFromQuery(nameof(SelectedYears)), true);
+            // SelectedYears = GetAndRemove(FilterDates, GetFromQuery(nameof(SelectedYears)), true);
 
             return;
         }
@@ -139,7 +139,7 @@ public class ProjectListFilters
             SelectedRegions = Cache(FilterRegions, GetFromQuery(nameof(SelectedRegions)));
             SelectedLocalAuthorities = Cache(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)));
             SelectedDates = Cache(FilterDates, GetFromQuery(nameof(SelectedDates)));
-            SelectedYears = Cache(FilterDates, GetFromQuery(nameof(SelectedYears)));
+            // SelectedYears = Cache(FilterDates, GetFromQuery(nameof(SelectedYears)));
             SelectedTrusts = Cache(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)));
         }
         else
@@ -151,7 +151,7 @@ public class ProjectListFilters
             SelectedRegions = Get(FilterRegions, true);
             SelectedLocalAuthorities = Get(FilterLocalAuthorities, true);
             SelectedDates = Get(FilterDates, true);
-            SelectedYears = Get(FilterDates, true);
+            // SelectedYears = Get(FilterDates, true);
             SelectedTrusts = Get(FilterTrusts, true);
         }
 

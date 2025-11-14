@@ -127,22 +127,22 @@
 
                 </ul>
             }
-            @if (Model.SelectedYears.Length > 0)
-            {
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Year</h3>
-
-                <ul class="moj-filter-tags">
-                    @{
-                        foreach (var year in Model.SelectedYears)
-                        {
-                            <li><a class="moj-filter__tag"
-                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedTrusts=@year"><span
-                                        class="govuk-visually-hidden">Remove this filter</span> @year.Stub()</a></li>
-                        }
-                    }
-
-                </ul>
-            }
+            @* @if (Model.SelectedYears.Length > 0) *@
+            @* { *@
+            @*     <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Year</h3> *@
+            @* *@
+            @*     <ul class="moj-filter-tags"> *@
+            @*         @{ *@
+            @*             foreach (var year in Model.SelectedYears) *@
+            @*             { *@
+            @*                 <li><a class="moj-filter__tag" *@
+            @*                        href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedTrusts=@year"><span *@
+            @*                             class="govuk-visually-hidden">Remove this filter</span> @year.Stub()</a></li> *@
+            @*             } *@
+            @*         } *@
+            @* *@
+            @*     </ul> *@
+            @* } *@
         </div>
         <div class="moj-filter__options">
             <form method="get" class="form">

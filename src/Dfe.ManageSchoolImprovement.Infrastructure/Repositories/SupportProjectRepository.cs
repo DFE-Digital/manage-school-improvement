@@ -134,7 +134,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         private static IQueryable<SupportProject> FilterByDate(IEnumerable<string>? dates,
             IQueryable<SupportProject> queryable)
         {
-            if (dates != null || dates.Any())
+            if (dates != null && dates.Any())
             {
                 var datesAsDateTimes = dates.Select(date => DateTime.Parse(date));
                 var years = datesAsDateTimes.Select(date => date.Year);
