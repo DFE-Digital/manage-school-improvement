@@ -4,9 +4,9 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 
 describe("User navigates to the Contacts Tab", () => {
-    const nameErrorMessage = "You must enter a name";
-    const organisationErrorMessage = "You must enter an organisation";
-    const emailErrorMessage = "You must enter an email address";
+    const nameErrorMessage = "Enter a name";
+    const organisationErrorMessage = "Enter an organisation";
+    const emailErrorMessage = "Enter an email address";
     const phoneErrorMessage = "Enter a valid phone number";
 
     beforeEach(() => {
