@@ -371,12 +371,42 @@ class HomePage {
       case 'trust':
         this.selectTrustFilter(filterValue);
         break;
+      case 'year':
+        this.selectYearFilter(filterValue);
+        break;
+      case 'month':
+        this.selectMonthFilter(filterValue);
+        break;
       default:
         throw new Error(`Filter type '${filterType}' is not supported.`);
     }
     return this;
   } 
   
+  public selectYearFilter(year: string): this {
+      cy.get('[data-cy="select-projectlist-filter-year"]')
+        .should("exist")
+        .click(); 
+      cy.get('.govuk-checkboxes')
+        .contains(year)
+        .closest('.govuk-checkboxes__item')
+        .find('input[type="checkbox"]')
+        .check(); 
+      return this;
+    }   
+
+    public selectMonthFilter(month: string): this {
+      cy.get('[data-cy="select-projectlist-filter-month"]')
+        .should("exist")
+        .click(); 
+      cy.get('.govuk-checkboxes')
+        .contains(month)
+        .closest('.govuk-checkboxes__item')
+        .find('input[type="checkbox"]')
+        .check(); 
+      return this;
+    }   
+
   public verifyFilterApplied(filterType: string, filterValue?: string): this {
     switch (filterType.toLowerCase()) {
       case 'assigned to':

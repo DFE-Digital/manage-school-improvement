@@ -178,4 +178,41 @@ describe("User search results by applying filters", () => {
 
         //  cy.executeAccessibilityTests()
     });
+
+    
+    it("should filter projects by Year", () => {
+        Logger.log("Year Filters");
+        const year = "2025";
+
+        Logger.log(`Testing - filter projects by Year: ${year}`);
+        homePage
+            .selectFilter("Year", year)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Year: ${year}`);
+
+          cy.executeAccessibilityTests()
+    });
+
+
+    
+    it("should filter projects by Year and Month", () => {
+        Logger.log("year and month Filters");
+        const year = "2025";
+        const month = "March";
+
+        Logger.log(`Testing - filter projects by Year and Month: ${year} ${month}`);
+        homePage
+            .selectFilter("Year", year)
+            .selectFilter("Month", month)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Year and Month: ${year} ${month}`);
+
+          cy.executeAccessibilityTests()
+    });
 });
