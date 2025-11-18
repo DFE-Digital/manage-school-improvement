@@ -165,21 +165,21 @@ public class EscalateEngagementConcernModel(
 
         if (beforeNoticeChecks.Any(check => check is false))
         {
-            var errorMessage = "You must complete all actions in Before you consider using a notice";
+            var errorMessage = "Complete all actions in Before you consider using a notice";
             _errorService.AddError(BeforeUsingNoticeError, errorMessage);
             ModelState.AddModelError(BeforeUsingNoticeError, errorMessage);
         }
 
         if (approvalChecks.Any(check => check is false))
         {
-            var errorMessage = "You must complete all actions in Get approval to use a notice";
+            var errorMessage = "Complete all actions in Get approval to use a notice";
             _errorService.AddError(GetApprovalError, errorMessage);
             ModelState.AddModelError(GetApprovalError, errorMessage);
         }
 
         if (issuingNoticeChecks.Any(check => check is false))
         {
-            var errorMessage = "You must complete all actions in Issuing a notice";
+            var errorMessage = "Complete all actions in Issuing a notice";
             _errorService.AddError(IssuingNoticeError, errorMessage);
             ModelState.AddModelError(IssuingNoticeError, errorMessage);
         }

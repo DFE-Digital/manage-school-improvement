@@ -52,13 +52,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
             {
                 if (SchoolIsEligible == null)
                 {
-                    ErrorMessage = "You must select an answer"; 
+                    ErrorMessage = "Select an answer"; 
                     _errorService.AddError("eligibilityquestion", ErrorMessage);
                 }
                 
                 if (!SchoolIsNotEligible())
                 {
-                    _errorService.AddError("radiobuttontextinput","You must add a note");
+                    _errorService.AddError("radiobuttontextinput","Enter details");
                 }
 
                 
@@ -106,7 +106,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
                         Input = new TextFieldInputViewModel
                         {
                             Id = nameof(SchoolIsNotEligibleNotes),
-                            ValidationMessage = "You must add a note",
+                            ValidationMessage = "Enter details",
                             Paragraph = "If it is no longer eligible, give details.",
                             Value = SchoolIsNotEligibleNotes,
                             IsValid = SchoolIsNotEligible(),

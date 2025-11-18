@@ -25,8 +25,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                                 Input = new TextFieldInputViewModel
                                 {
                                     Id = "OtherRole",
-                                    ValidationMessage = "You must enter a role",
-                                    Paragraph = "Please enter a role",
+                                    ValidationMessage = "Enter a role",
+                                    Paragraph = "Enter a role",
                                     Value = otherRole,
                                     IsValid = isValid,
                                     IsTextArea = false

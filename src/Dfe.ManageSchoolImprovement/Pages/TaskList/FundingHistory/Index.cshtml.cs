@@ -42,7 +42,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
                 if (HasSchoolReceivedFundingInLastTwoYears == null)
                 {
                     HasSchoolReceivedFundingInLastTwoYearsErrorMessage = "Select an answer";
-                    _errorService.AddError("HasSchoolReceivedFundingInLastTwoYears", "You must select an answer");
+                    _errorService.AddError("HasSchoolReceivedFundingInLastTwoYears", "Select an answer");
                 }
 
                 RadioButtons = RadioButtonModel;

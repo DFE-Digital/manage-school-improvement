@@ -130,7 +130,7 @@ class ImprovementPlan {
         cy.get('[data-cy="select-radio-adviser"]').check()
         this.enterDate('ReviewDate', '12', '11', '2040')
         cy.get('[type="submit"]').contains('Save').click();
-        cy.getByCyData('error-summary').should('contain.text', "You must enter today's date or a date in the past");
+        cy.getByCyData('error-summary').should('contain.text', "Enter today's date or a date in the past");
 
         return this;
     }
