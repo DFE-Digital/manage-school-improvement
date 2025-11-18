@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Pages;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;

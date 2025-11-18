@@ -176,6 +176,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
         public string? HeadteacherName { get; set; }
         public string? HeadteacherPreferredJobTitle { get; set; }
+        public string? SchoolMainPhone { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {

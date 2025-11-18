@@ -42,6 +42,7 @@ public class BaseSupportProjectEstablishmentPageModel(ISupportProjectQueryServic
             SupportProject.SchoolType = establishment.EstablishmentType.Name;
             SupportProject.HeadteacherName = $"{establishment.HeadteacherTitle} {establishment.HeadteacherFirstName} {establishment.HeadteacherLastName}";
             SupportProject.HeadteacherPreferredJobTitle = establishment.HeadteacherPreferredJobTitle;
+            SupportProject.SchoolMainPhone = establishment.MainPhone;
         }
 
         if (!result.IsSuccess)
