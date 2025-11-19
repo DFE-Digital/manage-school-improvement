@@ -70,7 +70,7 @@ public class SelectSchoolModel(IGetEstablishment getEstablishment, ErrorService 
 
         if (existingSupportProjects.Value != null && existingSupportProjects.Value.Any(a => a.SchoolUrn == expectedEstablishment.Urn))
         {
-            ModelState.AddModelError(nameof(SearchQuery), "This school is already getting support, choose a different school");
+            ModelState.AddModelError(nameof(SearchQuery), "This school is already receiving targeted intervention. Select a different school");
             errorService.AddErrors(ModelState.Keys, ModelState);
             return Page();
         }
