@@ -24,18 +24,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             var projectListFilters = new ProjectListFilters();
 
             // Assert
-            Assert.Empty(projectListFilters.AvailableStatuses);
             Assert.Empty(projectListFilters.AvailableDeliveryOfficers);
             Assert.Empty(projectListFilters.AvailableAdvisers);
             Assert.Empty(projectListFilters.AvailableRegions);
             Assert.Empty(projectListFilters.AvailableLocalAuthorities);
-            Assert.Empty(projectListFilters.AvailableAdvisoryBoardDates);
+            Assert.Empty(projectListFilters.AvailableYears);
             Assert.Null(projectListFilters.Title);
             Assert.Empty(projectListFilters.SelectedStatuses);
             Assert.Empty(projectListFilters.SelectedOfficers);
             Assert.Empty(projectListFilters.SelectedRegions);
             Assert.Empty(projectListFilters.SelectedLocalAuthorities);
-            Assert.Empty(projectListFilters.SelectedAdvisoryBoardDates);
+            Assert.Empty(projectListFilters.SelectedMonths);
+            Assert.Empty(projectListFilters.SelectedYears);
         }
 
         [Fact]
@@ -112,7 +112,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Empty(projectListFilters.SelectedAdvisers);
             Assert.Empty(projectListFilters.SelectedRegions);
             Assert.Empty(projectListFilters.SelectedLocalAuthorities);
-            Assert.Empty(projectListFilters.SelectedAdvisoryBoardDates);
+            Assert.Empty(projectListFilters.SelectedMonths);
+            Assert.Empty(projectListFilters.SelectedYears);
+
         }
 
         [Fact]

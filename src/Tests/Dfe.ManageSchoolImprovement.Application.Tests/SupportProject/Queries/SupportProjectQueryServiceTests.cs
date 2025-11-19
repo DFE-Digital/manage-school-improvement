@@ -32,12 +32,16 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var projects = GetSchoolProjects(2);
             var supportProjectDtos = GetSupportProjectDtos(projects);
 
-            _mockRepository.Setup(r => r.FetchAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>()))
-                           .ReturnsAsync(projects);
+            _mockRepository.Setup(r =>
+                    r.FetchAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(projects);
 
             foreach (var supportProjectDto in supportProjectDtos)
             {
-                _mockMapper.Setup(m => m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>())).Returns(supportProjectDto);
+                _mockMapper.Setup(m =>
+                        m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>()))
+                    .Returns(supportProjectDto);
             }
 
             // Act
@@ -47,7 +51,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.True(result.IsSuccess);
             Assert.Equal(supportProjectDtos.Count, result.Value!.Count());
             VerifySupportProjectProperties(result.Value!, projects);
-            _mockRepository.Verify(r => r.FetchAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(
+                r => r.FetchAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -63,10 +69,16 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                 .ReturnsAsync((projects, totalCount));
             foreach (var supportProjectDto in supportProjectDtos)
             {
-                _mockMapper.Setup(m => m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>())).Returns(supportProjectDto);
+                _mockMapper.Setup(m =>
+                        m.Map<SupportProjectDto>(It.IsAny<Domain.Entities.SupportProject.SupportProject>()))
+                    .Returns(supportProjectDto);
             }
 
-            var supportProjectSearchRequest = new SupportProjectSearchRequest();
+            var supportProjectSearchRequest = new SupportProjectSearchRequest
+            {
+                Years = new[] { "2024" },  // Add some sample years
+                Months = new[] { "2023 1", "2023 2" }  // Add some sample months
+            };
 
             // Act
             var result = await _service.SearchForSupportProjects(supportProjectSearchRequest, CancellationToken.None);
@@ -85,7 +97,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var project = GetSchoolProjects()[0];
             var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects())[0];
 
-            _mockRepository.Setup(r => r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(project);
+            _mockRepository.Setup(r =>
+                    r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync(project);
 
             _mockMapper.Setup(m => m.Map<SupportProjectDto?>(project)).Returns(supportProjectDto);
 
@@ -95,14 +109,17 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            _mockRepository.Verify(r => r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(
+                r => r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task GetSupportProject_ShouldReturnFailure_WhenProjectNotFound()
         {
             // Arrange
-            _mockRepository.Setup(r => r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+            _mockRepository.Setup(r =>
+                    r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
 
             // Act
             var result = await _service.GetSupportProject(1, CancellationToken.None);
@@ -119,7 +136,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var localAuthorities = new List<string> { "Authority1", "Authority2" };
 
             _mockRepository.Setup(r => r.GetAllProjectLocalAuthorities(It.IsAny<CancellationToken>()))
-                           .ReturnsAsync(localAuthorities);
+                .ReturnsAsync(localAuthorities);
 
             // Act
             var result = await _service.GetAllProjectLocalAuthorities(CancellationToken.None);
@@ -133,7 +150,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetAllProjectLocalAuthorities_ShouldReturnFailure_WhenDataIsNull()
         {
             // Arrange
-            _mockRepository.Setup(r => r.GetAllProjectLocalAuthorities(It.IsAny<CancellationToken>()))!.ReturnsAsync((IEnumerable<string>?)null);
+            _mockRepository.Setup(r => r.GetAllProjectLocalAuthorities(It.IsAny<CancellationToken>()))!.ReturnsAsync(
+                (IEnumerable<string>?)null);
 
             // Act
             var result = await _service.GetAllProjectLocalAuthorities(CancellationToken.None);
@@ -150,7 +168,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var regions = new List<string> { "Region1", "Region2" };
 
             _mockRepository.Setup(r => r.GetAllProjectRegions(It.IsAny<CancellationToken>()))
-                           .ReturnsAsync(regions);
+                .ReturnsAsync(regions);
 
             // Act
             var result = await _service.GetAllProjectRegions(CancellationToken.None);
@@ -164,7 +182,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetAllProjectRegions_ShouldReturnFailure_WhenDataIsNull()
         {
             // Arrange
-            _mockRepository.Setup(r => r.GetAllProjectRegions(It.IsAny<CancellationToken>()))!.ReturnsAsync((IEnumerable<string>?)null);
+            _mockRepository.Setup(r => r.GetAllProjectRegions(It.IsAny<CancellationToken>()))!.ReturnsAsync(
+                (IEnumerable<string>?)null);
 
             // Act
             var result = await _service.GetAllProjectRegions(CancellationToken.None);
@@ -182,7 +201,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var users = new List<string> { "User 1", "User 2" };
 
             _mockRepository.Setup(r => r.GetAllProjectAssignedUsers(It.IsAny<CancellationToken>()))
-                           .ReturnsAsync(users);
+                .ReturnsAsync(users);
 
             // Act
             var result = await _service.GetAllProjectAssignedUsers(CancellationToken.None);
@@ -196,7 +215,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetAllProjectAssignedUsers_ShouldReturnFailure_WhenDataIsNull()
         {
             // Arrange
-            _mockRepository.Setup(r => r.GetAllProjectAssignedUsers(It.IsAny<CancellationToken>()))!.ReturnsAsync((IEnumerable<string>?)null);
+            _mockRepository.Setup(r => r.GetAllProjectAssignedUsers(It.IsAny<CancellationToken>()))!.ReturnsAsync(
+                (IEnumerable<string>?)null);
 
             // Act
             var result = await _service.GetAllProjectAssignedUsers(CancellationToken.None);
@@ -227,7 +247,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetAllProjectAssignedAdvisers_ShouldReturnFailure_WhenDataIsNull()
         {
             // Arrange
-            _mockRepository.Setup(r => r.GetAllProjectAssignedAdvisers(It.IsAny<CancellationToken>()))!.ReturnsAsync((IEnumerable<string>?)null);
+            _mockRepository.Setup(r => r.GetAllProjectAssignedAdvisers(It.IsAny<CancellationToken>()))!.ReturnsAsync(
+                (IEnumerable<string>?)null);
 
             // Act
             var result = await _service.GetAllProjectAssignedAdvisers(CancellationToken.None);
@@ -244,7 +265,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var trusts = new List<string> { "Trust A", "Trust B", "Trust C" };
 
             _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))
-                           .ReturnsAsync(trusts);
+                .ReturnsAsync(trusts);
 
             // Act
             var result = await _service.GetAllProjectTrusts(CancellationToken.None);
@@ -260,7 +281,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         {
             // Arrange
             _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))!
-                           .ReturnsAsync((IEnumerable<string>?)null);
+                .ReturnsAsync((IEnumerable<string>?)null);
 
             // Act
             var result = await _service.GetAllProjectTrusts(CancellationToken.None);
@@ -278,7 +299,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var emptyTrusts = new List<string>();
 
             _mockRepository.Setup(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()))
-                           .ReturnsAsync(emptyTrusts);
+                .ReturnsAsync(emptyTrusts);
 
             // Act
             var result = await _service.GetAllProjectTrusts(CancellationToken.None);
@@ -290,27 +311,114 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [Fact]
+        public void AddAllSelectedMonths_WhenNoMonthsExistForYear_ShouldAddAllMonths()
+        {
+            // Arrange
+            var years = new[] { "2024" };
+            var months = new[] { "2023 1", "2023 2" };
+
+            // Act
+            var result = _service.AddAllSelectedMonths(years, months);
+
+            // Assert
+            Assert.Equal(14, result.Length); // 2 existing months + 12 new months
+            Assert.Contains("2024 1", result);
+            Assert.Contains("2024 12", result);
+            Assert.Contains("2023 1", result);
+            Assert.Contains("2023 2", result);
+        }
+
+        [Fact]
+        public void AddAllSelectedMonths_WhenMonthsExistForYear_ShouldNotAddMonths()
+        {
+            // Arrange
+            var years = new[] { "2024" };
+            var months = new[] { "2024 1", "2024 2" };
+
+            // Act
+            var result = _service.AddAllSelectedMonths(years, months);
+
+            // Assert
+            Assert.Equal(2, result.Length);
+            Assert.Contains("2024 1", result);
+            Assert.Contains("2024 2", result);
+        }
+
+        [Fact]
+        public void AddAllSelectedMonths_WithMultipleYears_ShouldAddMonthsForMissingYearsOnly()
+        {
+            // Arrange
+            var years = new[] { "2023", "2024" };
+            var months = new[] { "2023 1", "2023 2" };
+
+            // Act
+            var result = _service.AddAllSelectedMonths(years, months);
+
+            // Assert
+            Assert.Equal(14, result.Length); // 2 existing months + 12 new months for 2024
+            Assert.Contains("2023 1", result);
+            Assert.Contains("2023 2", result);
+            Assert.Contains("2024 1", result);
+            Assert.Contains("2024 12", result);
+        }
+
+        [Fact]
+        public void AddAllSelectedMonths_WithNullInputs_ShouldHandleGracefully()
+        {
+            // Arrange
+            IEnumerable<string>? years = new List<string>();
+            IEnumerable<string>? months = new List<string>();
+
+            // Act
+            var result = _service.AddAllSelectedMonths(years, months);
+
+            // Assert
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void AddAllSelectedMonths_WithEmptyInputs_ShouldReturnEmptyArray()
+        {
+            // Arrange
+            var years = Array.Empty<string>();
+            var months = Array.Empty<string>();
+
+            // Act
+            var result = _service.AddAllSelectedMonths(years, months);
+
+            // Assert
+            Assert.Empty(result);
+        }
+
         private List<Domain.Entities.SupportProject.SupportProject> GetSchoolProjects(int count = 1)
         {
             var projects = new List<Domain.Entities.SupportProject.SupportProject>();
             for (int i = 0; i < count; i++)
             {
-                projects.Add(new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(i + 1), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>()));
+                projects.Add(new Domain.Entities.SupportProject.SupportProject(new SupportProjectId(i + 1),
+                    fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(),
+                    fixture.Create<string>()));
             }
+
             return projects;
         }
 
-        private static List<SupportProjectDto> GetSupportProjectDtos(List<Domain.Entities.SupportProject.SupportProject> supportProjects)
+        private static List<SupportProjectDto> GetSupportProjectDtos(
+            List<Domain.Entities.SupportProject.SupportProject> supportProjects)
         {
             var supportProjectDto = new List<SupportProjectDto>();
             foreach (var project in supportProjects)
             {
-                supportProjectDto.Add(new SupportProjectDto(project.Id!.Value, project.CreatedOn, project.SchoolName, project.SchoolUrn, project.LocalAuthority, project.Region));
+                supportProjectDto.Add(new SupportProjectDto(project.Id!.Value, project.CreatedOn, project.SchoolName,
+                    project.SchoolUrn, project.LocalAuthority, project.Region));
             }
+
             return supportProjectDto;
         }
 
-        private static void VerifySupportProjectProperties(IEnumerable<SupportProjectDto> schools, IList<Domain.Entities.SupportProject.SupportProject> projects)
+        private static void VerifySupportProjectProperties(IEnumerable<SupportProjectDto> schools,
+            IList<Domain.Entities.SupportProject.SupportProject> projects)
         {
             foreach (var item in schools)
             {
@@ -323,6 +431,5 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                 Assert.Equal(item.Region, project.Region);
             }
         }
-
     }
 }
