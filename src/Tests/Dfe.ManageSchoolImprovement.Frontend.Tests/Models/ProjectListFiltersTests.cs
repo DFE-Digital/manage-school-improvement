@@ -208,8 +208,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             // Arrange
             var filters = new ProjectListFilters
             {
-                SelectedYears = Array.Empty<string>(),
-                SelectedMonths = new[] { "2024 January" }
+                SelectedYears = [],
+                SelectedMonths = ["2024 January"]
             };
             var query = new Dictionary<string, StringValues>();
 
@@ -228,13 +228,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             var filters = new ProjectListFilters
             {
                 SelectedYears = new[] { "2023", "2024" },
-                YearsChecked = new List<string>(new[] { "2023", "2024" }),
-                SelectedMonths = Array.Empty<string>()
+                YearsChecked = ["2023", "2024"],
+                SelectedMonths = []
             };
             var query = new Dictionary<string, StringValues>
             {
                 { "remove", new StringValues("true") },
-                { "SelectedMonths", new StringValues(new[] { "2024 January" }) }
+                { "SelectedMonths", new StringValues(["2024 January"]) }
             };
 
             // Act

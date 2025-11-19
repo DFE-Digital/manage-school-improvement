@@ -1,3 +1,4 @@
+using System.Globalization;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -136,7 +137,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             if (dates != null && dates.Any())
             {
-                var datesAsDateTimes = dates.Select(date => DateTime.Parse(date));
+                var datesAsDateTimes = dates.Select(date => DateTime.Parse(date, new CultureInfo("en-GB")));
                 var years = datesAsDateTimes.Select(date => date.Year);
                 var months = datesAsDateTimes.Select(date => date.Month);
                 queryable = queryable.Where(p => years.Contains(p.CreatedOn.Year) && months.Contains(p.CreatedOn.Month));

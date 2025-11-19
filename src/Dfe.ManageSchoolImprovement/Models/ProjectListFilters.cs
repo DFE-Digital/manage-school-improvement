@@ -44,7 +44,7 @@ public class ProjectListFilters
     
     public List<string> YearsChecked { get; set; } = new ();
 
-    public static readonly List<string> Months = new()
+    public static List<string> Months = new()
     {
         "January",
         "February",
@@ -60,12 +60,10 @@ public class ProjectListFilters
         "December"
     };
 
-    public readonly List<string> MonthsInCurrentYear = Months.Take(DateTime.Now.Month).ToList();
+    public List<string> MonthsInCurrentYear = Months.Take(DateTime.Now.Month).ToList();
     
     public void RemoveYearsInSelectedMonths(IEnumerable<KeyValuePair<string, StringValues>> requestQuery)
     {
-        // var yearsList = SelectedYears.ToList();
-    
         foreach (var year in SelectedYears)
         {
             var hasMonthsForYear = SelectedMonths.Any(month => month.StartsWith($"{year} "));
@@ -80,9 +78,9 @@ public class ProjectListFilters
             
             if (query.ContainsKey("remove") && query.ContainsKey(nameof(SelectedMonths)))
             {
-                var monthQuery = query.ContainsKey(nameof(SelectedMonths)) ? query[nameof(SelectedMonths)].ToArray() : Array.Empty<string>();
+                var monthQuery = query.TryGetValue(nameof(SelectedMonths), out StringValues value) ? value.ToArray() : Array.Empty<string>();
                 
-                var hasMonths = monthQuery.Any(month => month.StartsWith($"{year} "));
+                var hasMonths = monthQuery.Any(month => month != null && month.StartsWith($"{year} "));
         
                 if (hasMonths)
                 {

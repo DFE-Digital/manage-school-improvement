@@ -22,22 +22,28 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         
         public string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months)
         {
-            var monthsList = Months.ToList();
-        
-            foreach (var year in Years)
+            if (Months != null)
             {
-                var hasMonthsForYear = Months.Any(month => month.StartsWith($"{year} "));
-        
-                if (!hasMonthsForYear)
-                {
-                    for (var month = 1; month <= 12; month++)
+                var monthsList = Months.ToList();
+
+                if (Years != null)
+                    foreach (var year in Years)
                     {
-                        monthsList.Add($"{year} {month}");
+                        var hasMonthsForYear = Months.Any(month => month.StartsWith($"{year} "));
+
+                        if (!hasMonthsForYear)
+                        {
+                            for (var month = 1; month <= 12; month++)
+                            {
+                                monthsList.Add($"{year} {month}");
+                            }
+                        }
                     }
-                }
+
+                return monthsList.ToArray();
             }
-        
-            return monthsList.ToArray();
+
+            return new string[] { };
         }
 
         public async Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
