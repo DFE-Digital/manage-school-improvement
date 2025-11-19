@@ -111,38 +111,38 @@
 
                 </ul>
             }
-            @if (Model.SelectedDates.Length > 0)
+            @if (Model.SelectedMonths.Length > 0)
             {
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Date</h3>
 
                 <ul class="moj-filter-tags">
                     @{
-                        foreach (var date in Model.SelectedDates)
+                        foreach (var month in Model.SelectedMonths)
                         {
                             <li><a class="moj-filter__tag"
-                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedTrusts=@date"><span
-                                        class="govuk-visually-hidden">Remove this filter</span> @date.Stub()</a></li>
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedMonths=@month"><span
+                                        class="govuk-visually-hidden">Remove this filter</span> @month.Stub()</a></li>
                         }
                     }
 
                 </ul>
             }
-            @* @if (Model.SelectedYears.Length > 0) *@
-            @* { *@
-            @*     <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Year</h3> *@
-            @* *@
-            @*     <ul class="moj-filter-tags"> *@
-            @*         @{ *@
-            @*             foreach (var year in Model.SelectedYears) *@
-            @*             { *@
-            @*                 <li><a class="moj-filter__tag" *@
-            @*                        href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedTrusts=@year"><span *@
-            @*                             class="govuk-visually-hidden">Remove this filter</span> @year.Stub()</a></li> *@
-            @*             } *@
-            @*         } *@
-            @* *@
-            @*     </ul> *@
-            @* } *@
+            @if (Model.SelectedYears.Length > 0)
+            {
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Year</h3>
+            
+                <ul class="moj-filter-tags">
+                    @{
+                        foreach (var year in Model.SelectedYears)
+                        {
+                            <li><a class="moj-filter__tag"
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedYears=@year"><span
+                                        class="govuk-visually-hidden">Remove this filter</span> @year.Stub()</a></li>
+                        }
+                    }
+            
+                </ul>
+            }
         </div>
         <div class="moj-filter__options">
             <form method="get" class="form">
@@ -202,7 +202,6 @@
                                 <div class="govuk-accordion__section-summary govuk-hint">
                                     You can filter by month after selecting a year
                                 </div>
-                                @* <span class="govuk-hint">You can filter by month after selecting a year</span> *@
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <div class="govuk-checkboxes">
@@ -210,13 +209,15 @@
                                     {
                                         <div class="govuk-checkboxes__item">
                                             <input class="govuk-checkboxes__input"
-                                                   id="filter-project-region-@year" name="selectedYears"
-                                                   type="checkbox" value="@year"
+                                                   id="filter-project-year-@year" 
+                                                   name="selectedYears"
+                                                   type="checkbox" 
+                                                   value="@year"
                                                    data-aria-controls="conditional-@year"
-                                                   data-cy="select-projectlist-filter-region-@year"
-                                                   @(Model.SelectedYears.Contains(year) ? "checked" : null)/>
+                                                   data-cy="select-projectlist-filter-year-@year"
+                                                   @(Model.YearsChecked.Contains(year) ? "checked" : null)/>
                                             <label class="govuk-label govuk-checkboxes__label"
-                                                   for="filter-project-region-@year">
+                                                   for="filter-project-year-@year">
                                                 @year
                                             </label>
                                         </div>
@@ -231,13 +232,14 @@
                                                         {
                                                             <div class="govuk-checkboxes__item">
                                                                 <input class="govuk-checkboxes__input"
-                                                                       id="@year-@month"
-                                                                       name="selectedDates"
+                                                                       id="filter-project-month-@year-@month"
+                                                                       name="selectedMonths"
                                                                        type="checkbox"
                                                                        value="@year @month"
-                                                                       @(Model.SelectedDates.Contains($"{year} {month}") ? "checked" : null)>
+                                                                       data-cy="select-projectlist-filter-month-@year-@month"
+                                                                       @(Model.SelectedMonths.Contains($"{year} {month}") ? "checked" : null)>
                                                                 <label class="govuk-label govuk-checkboxes__label"
-                                                                       for="@year-@month">
+                                                                       for="filter-project-month-@year-@month">
                                                                     @month
                                                                        </label>
                                                             </div>
@@ -249,13 +251,14 @@
                                                         {
                                                             <div class="govuk-checkboxes__item">
                                                                 <input class="govuk-checkboxes__input"
-                                                                       id="@month-@year"
+                                                                       id="filter-project-month-@year-@month"
                                                                        name="@month"
                                                                        type="checkbox"
                                                                        value="@year @month"
-                                                                       @(Model.SelectedDates.Contains($"{year} {month}") ? "checked" : null)>
+                                                                       data-cy="select-projectlist-filter-month-@year-@month"
+                                                                       @(Model.SelectedMonths.Contains($"{year} {month}") ? "checked" : null)>
                                                                 <label class="govuk-label govuk-checkboxes__label"
-                                                                       for="@month-@year">
+                                                                       for="filter-project-month-@year-@month">
                                                                     @month
                                                                 </label>
                                                             </div>

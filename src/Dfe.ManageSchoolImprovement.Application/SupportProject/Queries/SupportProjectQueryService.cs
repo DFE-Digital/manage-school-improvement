@@ -19,11 +19,34 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
             return Result<IEnumerable<SupportProjectDto>>.Success(result);
         }
+        
+        public string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months)
+        {
+            var monthsList = Months.ToList();
+        
+            foreach (var year in Years)
+            {
+                var hasMonthsForYear = Months.Any(month => month.StartsWith($"{year} "));
+        
+                if (!hasMonthsForYear)
+                {
+                    for (var month = 1; month <= 12; month++)
+                    {
+                        monthsList.Add($"{year} {month}");
+                    }
+                }
+            }
+        
+            return monthsList.ToArray();
+        }
 
         public async Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
             SupportProjectSearchRequest request,
             CancellationToken cancellationToken)
         {
+
+            var dates = AddAllSelectedMonths(request.Years, request.Months);
+            
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
                 new SupportProjectSearchCriteria(
                     request.Title,
@@ -32,7 +55,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
                     request.Regions, 
                     request.LocalAuthorities,
                     request.Trusts,
-                    request.Dates
+                    dates
                     ),
                 request.Page, 
                 request.Count,

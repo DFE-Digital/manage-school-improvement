@@ -19,8 +19,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
 
     [BindProperty(SupportsGet = true)]
     public int TotalProjects { get; set; }
-    
-    private string [] Dates { get; set; } = Array.Empty<string>();
 
     public SupportProjectSearchRequest SearchRequest => new()
     {
@@ -31,7 +29,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         Regions = Filters.SelectedRegions,
         LocalAuthorities = Filters.SelectedLocalAuthorities,
         Trusts = Filters.SelectedTrusts,
-        Dates = Dates,
+        Months = Filters.SelectedMonths,
+        Years = Filters.SelectedYears,
         PagePath = Pagination.PagePath,
         Page = Pagination.CurrentPage,
         Count = Pagination.PageSize
@@ -42,22 +41,10 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         Filters.PersistUsing(TempData).PopulateFrom(Request.Query);
 
         Pagination.PagePath = "/SchoolList/Index";
-
-        if (Filters.SelectedDates.Length == 0 && Filters.SelectedYears.Length >= 1)
-        {
-            foreach (var year in Filters.SelectedYears)
-            {
-                foreach (var month in Enumerable.Range(1, 12))
-                {
-                    Dates = Filters.SelectedDates.Append($"{year} {month}").ToArray();
-                }
-                
-            }
-        }
-        else
-        {
-            Dates = Filters.SelectedDates;
-        }
+        
+        Filters.YearsChecked = new List<string>(Filters.SelectedYears);
+        
+        Filters.RemoveYearsInSelectedMonths(Request.Query);
 
         var result =
            await supportProjectQueryService.SearchForSupportProjects(
