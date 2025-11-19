@@ -44,7 +44,7 @@ public class ProjectListFilters
     
     public List<string> YearsChecked { get; set; } = new ();
 
-    public static List<string> Months = new()
+    private static List<string> _months = new()
     {
         "January",
         "February",
@@ -59,8 +59,11 @@ public class ProjectListFilters
         "November",
         "December"
     };
+    public static List<string> Months => _months;
+    
 
-    public List<string> MonthsInCurrentYear = Months.Take(DateTime.Now.Month).ToList();
+    private static List<string> _monthsInCurrentYear = _months.Take(DateTime.Now.Month).ToList();
+    public static List<string> MonthsInCurrentYear => _monthsInCurrentYear;
     
     public void RemoveYearsInSelectedMonths(IEnumerable<KeyValuePair<string, StringValues>> requestQuery)
     {

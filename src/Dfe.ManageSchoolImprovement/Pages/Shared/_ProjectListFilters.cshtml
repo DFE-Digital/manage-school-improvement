@@ -228,7 +228,7 @@
                                                 <div class="govuk-form-group">
                                                     @if (year == DateTime.Now.Year.ToString())
                                                     {
-                                                        @foreach (var month in Model.MonthsInCurrentYear)
+                                                        @foreach (var month in ProjectListFilters.MonthsInCurrentYear)
                                                         {
                                                             <div class="govuk-checkboxes__item">
                                                                 <input class="govuk-checkboxes__input"

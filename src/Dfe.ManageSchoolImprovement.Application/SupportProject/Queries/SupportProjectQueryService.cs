@@ -43,7 +43,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
                 return monthsList.ToArray();
             }
 
-            return new string[] { };
+            return Array.Empty<string>();
         }
 
         public async Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
