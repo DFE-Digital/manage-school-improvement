@@ -64,7 +64,7 @@ public class ProjectListFilters
     
     public void RemoveYearsInSelectedMonths(IEnumerable<KeyValuePair<string, StringValues>> requestQuery)
     {
-        var yearsList = SelectedYears.ToList();
+        // var yearsList = SelectedYears.ToList();
     
         foreach (var year in SelectedYears)
         {
@@ -72,7 +72,7 @@ public class ProjectListFilters
         
             if (hasMonthsForYear)
             {
-                SelectedYears = yearsList.Where(x => x != year).ToArray();
+                SelectedYears = SelectedYears.Where(x => x != year).ToArray();
                 YearsChecked.Add(year);
             }
 
@@ -86,8 +86,8 @@ public class ProjectListFilters
         
                 if (hasMonths)
                 {
-                    SelectedYears = yearsList.Where(x => x != year).ToArray();
-                    YearsChecked = yearsList.Where(x => x != year).ToList();
+                    SelectedYears = SelectedYears.Where(x => x != year).ToArray();
+                    YearsChecked = YearsChecked.Where(x => x != year).ToList();
                 }
             }
         }

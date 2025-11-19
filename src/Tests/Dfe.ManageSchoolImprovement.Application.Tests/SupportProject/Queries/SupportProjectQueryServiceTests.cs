@@ -390,6 +390,59 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             // Assert
             Assert.Empty(result);
         }
+        
+        [Fact]
+        public async Task GetAllProjectYears_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var years = new List<string> { "2023", "2024" };
+
+            _mockRepository.Setup(r => r.GetAllProjectYears(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(years);
+
+            // Act
+            var result = await _service.GetAllProjectYears(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(years, result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectYears(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectYears_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectYears(It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectYears(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectYears(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectYears_ShouldReturnEmptyList_WhenNoYearsExist()
+        {
+            // Arrange
+            var emptyYears = new List<string>();
+
+            _mockRepository.Setup(r => r.GetAllProjectYears(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(emptyYears);
+
+            // Act
+            var result = await _service.GetAllProjectYears(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            Assert.Empty(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectYears(It.IsAny<CancellationToken>()), Times.Once);
+        }
 
         private List<Domain.Entities.SupportProject.SupportProject> GetSchoolProjects(int count = 1)
         {

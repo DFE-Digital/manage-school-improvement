@@ -1,5 +1,4 @@
-﻿
-using Dfe.ManageSchoolImprovement.Frontend.Models;
+﻿using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Microsoft.Extensions.Primitives;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
@@ -114,7 +113,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Empty(projectListFilters.SelectedLocalAuthorities);
             Assert.Empty(projectListFilters.SelectedMonths);
             Assert.Empty(projectListFilters.SelectedYears);
-
         }
 
         [Fact]
@@ -140,6 +138,113 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 
             // Assert
             Assert.Equal(expectedStatus, projectListFilters.SelectedStatuses);
+        }
+
+        [Fact]
+        public void RemoveYearsInSelectedMonths_WhenMonthsContainYear_RemovesYearFromSelectedYears()
+        {
+            // Arrange
+            var filters = new ProjectListFilters
+            {
+                SelectedYears = new[] { "2023", "2024" },
+                SelectedMonths = new[] { "2024 January", "2023 December" }
+            };
+            var query = new Dictionary<string, StringValues>();
+
+            // Act
+            filters.RemoveYearsInSelectedMonths(query);
+
+            // Assert
+            Assert.Empty(filters.SelectedYears);
+            Assert.Contains("2023", filters.YearsChecked);
+            Assert.Contains("2024", filters.YearsChecked);
+        }
+
+        [Fact]
+        public void RemoveYearsInSelectedMonths_WhenNoMatchingMonths_KeepsYearsInSelected()
+        {
+            // Arrange
+            var filters = new ProjectListFilters
+            {
+                SelectedYears = new[] { "2023", "2024" },
+                SelectedMonths = new[] { "January", "December" }
+            };
+            var query = new Dictionary<string, StringValues>();
+
+            // Act
+            filters.RemoveYearsInSelectedMonths(query);
+
+            // Assert
+            Assert.Equal(2, filters.SelectedYears.Length);
+            Assert.Contains("2023", filters.SelectedYears);
+            Assert.Contains("2024", filters.SelectedYears);
+            Assert.Empty(filters.YearsChecked);
+        }
+
+        [Fact]
+        public void RemoveYearsInSelectedMonths_WithEmptyQuery_MakesNoChanges()
+        {
+            // Arrange
+            var filters = new ProjectListFilters
+            {
+                SelectedYears = new[] { "2023", "2024" },
+                SelectedMonths = Array.Empty<string>()
+            };
+            var query = new Dictionary<string, StringValues>();
+
+            // Act
+            filters.RemoveYearsInSelectedMonths(query);
+
+            // Assert
+            Assert.Equal(2, filters.SelectedYears.Length);
+            Assert.Contains("2023", filters.SelectedYears);
+            Assert.Contains("2024", filters.SelectedYears);
+            Assert.Empty(filters.YearsChecked);
+        }
+
+        [Fact]
+        public void RemoveYearsInSelectedMonths_WithEmptySelectedYears_MakesNoChanges()
+        {
+            // Arrange
+            var filters = new ProjectListFilters
+            {
+                SelectedYears = Array.Empty<string>(),
+                SelectedMonths = new[] { "2024 January" }
+            };
+            var query = new Dictionary<string, StringValues>();
+
+            // Act
+            filters.RemoveYearsInSelectedMonths(query);
+
+            // Assert
+            Assert.Empty(filters.SelectedYears);
+            Assert.Empty(filters.YearsChecked);
+        }
+
+        [Fact]
+        public void RemoveYearsInSelectedMonths_WithRemoveQueryParam_RemovesYearsForMatchingMonths()
+        {
+            // Arrange
+            var filters = new ProjectListFilters
+            {
+                SelectedYears = new[] { "2023", "2024" },
+                YearsChecked = new List<string>(new[] { "2023", "2024" }),
+                SelectedMonths = Array.Empty<string>()
+            };
+            var query = new Dictionary<string, StringValues>
+            {
+                { "remove", new StringValues("true") },
+                { "SelectedMonths", new StringValues(new[] { "2024 January" }) }
+            };
+
+            // Act
+            filters.RemoveYearsInSelectedMonths(query);
+
+            // Assert
+            Assert.Single(filters.SelectedYears);
+            Assert.Contains("2023", filters.SelectedYears);
+            Assert.DoesNotContain("2024", filters.SelectedYears);
+            Assert.Contains("2023", filters.YearsChecked);
         }
     }
 }

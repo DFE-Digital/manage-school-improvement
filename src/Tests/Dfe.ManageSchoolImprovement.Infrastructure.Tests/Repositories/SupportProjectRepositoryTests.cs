@@ -544,6 +544,29 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             totalCount.Should().Be(1);
             projects.Should().HaveCount(1);
         }
+        
+        [Fact]
+        public async Task GetAllProjectYears_ShouldReturnDistinctYearsInDescendingOrder()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act
+            var years = await service.GetAllProjectYears(CancellationToken.None);
+
+            // Assert
+            years.Should().NotBeEmpty();
+            years.Should().BeInDescendingOrder(); // Verifies the ordering
+    
+            // Convert years back to integers for comparison
+            var yearsAsInts = years.Select(int.Parse).ToList();
+    
+            // Verify that each year is unique
+            yearsAsInts.Should().OnlyHaveUniqueItems();
+    
+            // Check that soft deleted projects' years are not included
+            yearsAsInts.Should().NotContain(2024); // Assuming School D (soft deleted) was created in 2024
+        }
     }
 }
 
