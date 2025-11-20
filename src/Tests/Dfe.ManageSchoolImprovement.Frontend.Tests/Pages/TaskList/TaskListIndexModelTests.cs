@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
@@ -61,7 +61,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
                     NumberOfPupils = "1234"
                 },
 
-                MISEstablishment = new GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.MisEstablishmentDto
+                MISEstablishment = new MisEstablishmentDto
                 {
                     QualityOfEducation = "Good",
                     BehaviourAndAttitudes = "Good",

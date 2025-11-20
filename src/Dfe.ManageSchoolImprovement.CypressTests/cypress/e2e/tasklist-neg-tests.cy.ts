@@ -48,7 +48,7 @@ describe("Tasklist negative tests", () => {
         taskListActions.clearDateInput("responsible-body-initial-contact-date");
         taskListActions.enterDate("responsible-body-initial-contact-date", "5", "10", "2049");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-        taskListActions.hasValidation("You must enter today's date or a date in the past", "responsible-body-initial-contact-date-error-link");
+        taskListActions.hasValidation("Enter today's date or a date in the past", "responsible-body-initial-contact-date-error-link");
     });
 
     it("should validate day range", () => {

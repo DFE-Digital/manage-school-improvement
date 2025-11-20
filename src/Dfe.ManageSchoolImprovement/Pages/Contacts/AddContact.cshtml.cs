@@ -39,7 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (!RoleId.HasValue)
             {
                 RadioButtons = ContactsUtil.GetRadioButtons(OtherRole);
-                ErrorMessage = "You must select a role";
+                ErrorMessage = "Select a role";
                 ShowError = true;
                 _errorService.AddError("-hint", ErrorMessage);
                 await base.GetSupportProject(id, cancellationToken);
@@ -48,7 +48,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             var hasOtherRoleName = ContactsUtil.IsOtherRoleFieldValidation(RoleId, OtherRole);
             if (!hasOtherRoleName && RoleId == RolesIds.Other.GetHashCode())
             { 
-                ErrorMessage = "You must enter a role";
+                ErrorMessage = "Enter a role";
                 ShowError = true;
                 _errorService.AddError("-hint", ErrorMessage);
                 RadioButtons = ContactsUtil.GetRadioButtons(OtherRole, hasOtherRoleName);

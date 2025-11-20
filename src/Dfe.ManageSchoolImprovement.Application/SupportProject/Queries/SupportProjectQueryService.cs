@@ -19,20 +19,49 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
             return Result<IEnumerable<SupportProjectDto>>.Success(result);
         }
+        
+        public string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months)
+        {
+            if (Months != null)
+            {
+                var monthsList = Months.ToList();
+
+                if (Years != null)
+                    foreach (var year in Years)
+                    {
+                        var hasMonthsForYear = Months.Any(month => month.StartsWith($"{year} "));
+
+                        if (!hasMonthsForYear)
+                        {
+                            for (var month = 1; month <= 12; month++)
+                            {
+                                monthsList.Add($"{year} {month}");
+                            }
+                        }
+                    }
+
+                return monthsList.ToArray();
+            }
+
+            return Array.Empty<string>();
+        }
 
         public async Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(
             SupportProjectSearchRequest request,
             CancellationToken cancellationToken)
         {
+
+            var dates = AddAllSelectedMonths(request.Years, request.Months);
+            
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
                 new SupportProjectSearchCriteria(
-                    request.Title, 
-                    request.States, 
+                    request.Title,
                     request.AssignedUsers, 
                     request.AssignedAdvisers, 
                     request.Regions, 
                     request.LocalAuthorities,
-                    request.Trusts
+                    request.Trusts,
+                    dates
                     ),
                 request.Page, 
                 request.Count,
@@ -83,6 +112,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         public async Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectTrusts(cancellationToken);
+            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
+        public async Task<Result<IEnumerable<string>>> GetAllProjectYears(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectYears(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
     }

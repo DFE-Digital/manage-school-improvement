@@ -73,6 +73,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var school = Context.SupportProjects.Single(x => x.SchoolName == "School A");
             school.SetDeliveryOfficer("User1", "User1");
             school.SetAdviserDetails("Adviser@adviser.com", DateTime.Now, "Test Adviser");
+            
+            school.CreatedOn = new DateTime(2025, 10, 1);
 
             Context.Update(school);
             Context.SaveChanges();

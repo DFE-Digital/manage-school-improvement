@@ -24,9 +24,9 @@ describe("User navigates to the Engagement Concern tab to Escalate an engagement
         engagementConcern.checkEscalationCheckbox('use-information-powers')
         engagementConcern.checkEscalationCheckbox('send-notice')
         engagementConcern.clickButton('Confirm and continue');
-        engagementConcern.errorMessage('before-using-notice-error-link', 'You must complete all actions in Before you consider using a notice')
-        engagementConcern.errorMessage('get-approval-error-link', 'You must complete all actions in Get approval to use a notice')
-        engagementConcern.errorMessage('issuing-notice-error-link', 'You must complete all actions in Issuing a notice')
+        engagementConcern.errorMessage('before-using-notice-error-link', 'Complete all actions in Before you consider using a notice')
+        engagementConcern.errorMessage('get-approval-error-link', 'Complete all actions in Get approval to use a notice')
+        engagementConcern.errorMessage('issuing-notice-error-link', 'Complete all actions in Issuing a notice')
     });
 
 
