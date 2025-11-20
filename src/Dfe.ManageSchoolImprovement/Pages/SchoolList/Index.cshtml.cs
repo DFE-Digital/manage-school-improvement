@@ -44,6 +44,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         
         Filters.YearsChecked = new List<string>(Filters.SelectedYears);
         
+        Filters.RemoveMonthsIfYearUnchecked();
         Filters.RemoveYearsInSelectedMonths(Request.Query);
 
         var result =

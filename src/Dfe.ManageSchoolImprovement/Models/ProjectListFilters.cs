@@ -94,6 +94,17 @@ public class ProjectListFilters
         }
     }
 
+    public void RemoveMonthsIfYearUnchecked()
+    {
+        SelectedMonths = SelectedMonths
+            .Where(month => 
+            {
+                var yearFromMonth = month.Split(' ')[0];
+                return SelectedYears.Contains(yearFromMonth);
+            })
+            .ToArray();
+    }
+
     public bool IsVisible => !string.IsNullOrWhiteSpace(Title) ||
                              SelectedStatuses.Length > 0 ||
                              SelectedAdvisers.Length > 0 ||
