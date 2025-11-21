@@ -1,6 +1,4 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
@@ -66,21 +64,21 @@ public class IndexModel(
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
 
-        var command = new SetChoosePreferredSupportingOrganisationCommand(
-            new SupportProjectId(id),
-            OrganisationName,
-            IdNumber,
-            DateSupportOrganisationChosen,
-            CompleteAssessmentTool);
+        //var command = new SetChoosePreferredSupportingOrganisationCommand(
+        //    new SupportProjectId(id),
+        //    OrganisationName,
+        //    IdNumber,
+        //    DateSupportOrganisationChosen,
+        //    CompleteAssessmentTool);
 
-        var result = await mediator.Send(command, cancellationToken);
+        //var result = await mediator.Send(command, cancellationToken);
 
-        // Early return for API error
-        if (!result)
-        {
-            _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
-        }
+        //// Early return for API error
+        //if (!result)
+        //{
+        //    _errorService.AddApiError();
+        //    return await base.GetSupportProject(id, cancellationToken);
+        //}
 
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.Index.Page, new { id });

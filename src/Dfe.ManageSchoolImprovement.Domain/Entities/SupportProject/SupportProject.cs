@@ -109,6 +109,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportOrganisationName { get; private set; }
 
     public string? SupportOrganisationIdNumber { get; private set; }
+    public string? SupportingOrganisationType { get; private set; }
     public bool? AssessmentToolTwoCompleted { get; private set; }
     public DateTime? RegionalDirectorDecisionDate { get; private set; }
 
@@ -338,11 +339,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetChoosePreferredSupportOrganisation(DateTime? dateSupportOrganisationChosen,
         string? supportOrganisationName,
         string? supportOrganisationIdNumber,
+        string? supportOrganisationType,
         bool? assessmentToolTwoCompleted)
     {
         DateSupportOrganisationChosen = dateSupportOrganisationChosen;
         SupportOrganisationName = supportOrganisationName;
         SupportOrganisationIdNumber = supportOrganisationIdNumber;
+        SupportingOrganisationType = supportOrganisationType;
         AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
     }
 

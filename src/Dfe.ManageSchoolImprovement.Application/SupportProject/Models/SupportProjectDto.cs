@@ -93,7 +93,9 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = null,
         DateTime? DateTemplatesAndIndicativeFundingBandSent = null,
         IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
-        IEnumerable<EngagementConcernDto> EngagementConcerns = null!
+        IEnumerable<EngagementConcernDto> EngagementConcerns = null!,
+        string? SupportingOrganisationType = null
     )
-    { }
+    {
+    }
 }

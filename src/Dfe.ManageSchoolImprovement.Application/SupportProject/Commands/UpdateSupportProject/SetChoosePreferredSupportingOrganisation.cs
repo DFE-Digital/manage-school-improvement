@@ -9,6 +9,7 @@ public record SetChoosePreferredSupportingOrganisationCommand(
     SupportProjectId SupportProjectId,
     string? OrganisationName,
     string? IDNumber,
+    string? OrganisationType,
     DateTime? DateSupportOrganisationChosen,
     bool? AssessmentToolTwoCompleted
 ) : IRequest<bool>;
@@ -31,6 +32,7 @@ public class SetChoosePreferredSupportingOrganisation
             supportProject.SetChoosePreferredSupportOrganisation(request.DateSupportOrganisationChosen,
                 request.OrganisationName,
                 request.IDNumber,
+                request.OrganisationType,
                 request.AssessmentToolTwoCompleted);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
