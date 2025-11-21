@@ -38,8 +38,8 @@ class HomePage {
 
   public acceptCookies(): this {
     cy.get('[data-test="cookie-banner-accept"]').contains('Accept analytics cookies').click()
-    cy.get('.govuk-cookie-banner__heading').should('not.be.visible') 
-    
+    cy.get('.govuk-cookie-banner__heading').should('not.be.visible')
+
     return this;
   }
 
@@ -79,12 +79,12 @@ class HomePage {
       .contains(assignedTo.trim())
       .click();
     return this;
-  }  
-  
+  }
+
   public verifyFilterChecked(filterType: string, filterValue: string): this {
     cy.get('.moj-filter__selected')
       .should('contain', filterType);
-    
+
     cy.get('.moj-filter__selected')
       .contains(new RegExp(filterValue, 'i'))
       .should('exist');
@@ -100,12 +100,12 @@ class HomePage {
   }
 
   public selectTrustFilter(trustName: string): this {
-      cy.get('[data-cy="select-projectlist-filter-trust"]')
+    cy.get('[data-cy="select-projectlist-filter-trust"]')
       .should("exist")
       .click()
-     
-    cy.get('#filter-searches').should('be.visible').type(trustName, {force: true});
-    
+
+    cy.get('#filter-searches').should('be.visible').type(trustName, { force: true });
+
     cy.get('.govuk-checkboxes')
       .contains(trustName)
       .closest('.govuk-checkboxes__item')
@@ -134,6 +134,13 @@ class HomePage {
   }
 
   public selectEastMidlandsRegionFilter(): this {
+    cy.getByCyData('select-projectlist-filter-local-authority').click();
+    cy.getByCyData('select-projectlist-filter-local-authority-Nottingham').click();
+
+    return this;
+  }
+
+  public selectNottinghamLAFilter(): this {
     cy.get('[data-cy="select-projectlist-filter-region"]').click();
     cy.get('[data-cy="select-projectlist-filter-region-East Midlands"]').click();
 
@@ -267,7 +274,9 @@ class HomePage {
   public resultCountNotZero(): this {
     cy.get('.govuk-table__cell').should('exist')
     cy.get('[data-cy="select-projectlist-filter-count"]').should('not.have.text', '0 schools found')
-
+    cy.get('[data-cy="select-projectlist-filter-count"]').invoke('text').then((text) => {
+      cy.log(`Project list filter count text: ${text}`);
+    });
     return this;
   }
 
@@ -286,9 +295,9 @@ class HomePage {
     cy.get('[data-cy="select-projectlist-filter-adviser"]')
       .should("exist")
       .click()
-   cy.get('#filter-searches').should('be.visible')
-   cy.get(`[data-cy="select-projectlist-filter-adviser-${searchText}"]`)
-     .check();
+    cy.get('#filter-searches').should('be.visible')
+    cy.get(`[data-cy="select-projectlist-filter-adviser-${searchText}"]`)
+      .check();
 
     return this;
   }
@@ -371,41 +380,85 @@ class HomePage {
       case 'trust':
         this.selectTrustFilter(filterValue);
         break;
-      case 'year':
-        this.selectYearFilter(filterValue);
-        break;
-      case 'month':
-        this.selectMonthFilter(filterValue);
+      case 'date school added to msi':
+        if (filterValue) {
+          // filterValue should be in format "YYYY-MM" or "YYYY"
+          const [year, month] = filterValue.split(' ');
+          cy.log(`Year: ${year}, Month: ${month}`);
+          this.selectYearMonthFilter(year, month);
+
+        }
         break;
       default:
         throw new Error(`Filter type '${filterType}' is not supported.`);
     }
     return this;
-  } 
-  
-  public selectYearFilter(year: string): this {
-      cy.get('[data-cy="select-projectlist-filter-year"]')
-        .should("exist")
-        .click(); 
-      cy.get('.govuk-checkboxes')
-        .contains(year)
-        .closest('.govuk-checkboxes__item')
-        .find('input[type="checkbox"]')
-        .check(); 
-      return this;
-    }   
+  }
 
-    public selectMonthFilter(month: string): this {
-      cy.get('[data-cy="select-projectlist-filter-month"]')
+  public selectYearMonthFilter(year: string, month?: string): this {
+    cy.getByCyData('select-projectlist-filter-date')
+      .should("exist")
+      .click();
+
+    cy.getByCyData(`select-projectlist-filter-year-${year}`)
+      .should("exist")
+      .click();
+
+    cy.getByCyData(`select-projectlist-filter-year-${year}`).should('be.checked');
+
+    if (month) {
+      cy.getByCyData(`select-projectlist-filter-month-${year}-${month}`)
         .should("exist")
-        .click(); 
-      cy.get('.govuk-checkboxes')
-        .contains(month)
-        .closest('.govuk-checkboxes__item')
-        .find('input[type="checkbox"]')
-        .check(); 
-      return this;
-    }   
+        .click();
+
+      cy.getByCyData(`select-projectlist-filter-month-${year}-${month}`).should('be.checked');
+
+    } else {
+      cy.log('Month is not provided');
+    }
+
+    return this;
+  }
+
+  public selectYearFilter(year: string): this {
+    cy.getByCyData(`select-projectlist-filter-year-${year}`)
+      .should("exist")
+      .click();
+    cy.get('.govuk-checkboxes')
+      .contains(year)
+      .closest('.govuk-checkboxes__item')
+      .find('input[type="checkbox"]')
+      .check();
+    return this;
+  }
+
+  public selectMonthFilter(month: string): this {
+    cy.getByCyData(`select-projectlist-filter-month-2025-${month}`)
+      .should("exist")
+      .click();
+    cy.get('.govuk-checkboxes')
+      .contains(month)
+      .closest('.govuk-checkboxes__item')
+      .find('input[type="checkbox"]')
+      .check();
+    return this;
+  }
+
+  public checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi: string): this {
+    const [year, month] = dateSchoolAddedToMsi.split(' ');
+
+    cy.get('.govuk-table__cell').first().each(($row) => {
+      const rowText = $row.text();
+      expect(rowText).to.include(year);
+      if (month) {
+        expect(rowText).to.include(month);
+      } else {
+        cy.log('Month not provided, only checking year');
+      }
+    });
+
+    return this;
+  }
 
   public verifyFilterApplied(filterType: string, filterValue?: string): this {
     switch (filterType.toLowerCase()) {

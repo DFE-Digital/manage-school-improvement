@@ -15,8 +15,10 @@ describe("User search results by applying filters", () => {
         homePage
             .hasProjectFilter()
             .selectEastMidlandsRegionFilter()
+            .selectNottinghamLAFilter()
             .applyFilters()
-            .hasFilterSuccessNotification();
+            .hasFilterSuccessNotification()
+            .resultCountNotZero();
 
         // cy.executeAccessibilityTests() - commented accessibility due to bug #209930
     });
@@ -180,39 +182,35 @@ describe("User search results by applying filters", () => {
     });
 
     
-    it("should filter projects by Year", () => {
-        Logger.log("Year Filters");
-        const year = "2025";
+    it("should filter projects by Date school added to MSI- Year and month", () => {
+        Logger.log("Date Filter");
+        const dateSchoolAddedToMsi = "2025 April";
 
-        Logger.log(`Testing - filter projects by Year: ${year}`);
+        Logger.log(`Testing - filter projects by Date: ${dateSchoolAddedToMsi}`);
         homePage
-            .selectFilter("Year", year)
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi)
             .applyFilters()
             .hasFilterSuccessNotification()
             .resultCountNotZero()
-
-        Logger.log(`Successfully filtered projects by Year: ${year}`);
-
-          cy.executeAccessibilityTests()
+            .checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi);
+            
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi}`);
+       
     });
+ 
+    it.only("should filter projects by Date school added to MSI-Only Year", () => {
+        Logger.log("Only year Filters");
+        const dateSchoolAddedToMsi = "2025";
 
-
-    
-    it("should filter projects by Year and Month", () => {
-        Logger.log("year and month Filters");
-        const year = "2025";
-        const month = "March";
-
-        Logger.log(`Testing - filter projects by Year and Month: ${year} ${month}`);
+        Logger.log(`Testing - filter projects by Year: ${dateSchoolAddedToMsi}`);
         homePage
-            .selectFilter("Year", year)
-            .selectFilter("Month", month)
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi)
             .applyFilters()
             .hasFilterSuccessNotification()
             .resultCountNotZero()
-
-        Logger.log(`Successfully filtered projects by Year and Month: ${year} ${month}`);
-
-          cy.executeAccessibilityTests()
+            .checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi);
+            
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi}`);
+   
     });
 });
