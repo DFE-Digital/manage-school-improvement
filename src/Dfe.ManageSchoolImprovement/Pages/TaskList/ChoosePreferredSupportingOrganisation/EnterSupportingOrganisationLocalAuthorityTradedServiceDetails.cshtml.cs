@@ -11,8 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSup
 public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IMediator mediator)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "organisation-name")]
