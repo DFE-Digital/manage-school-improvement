@@ -100,7 +100,7 @@ public class ChooseSupportOrganisationTypeModel(
         }
         else // Local authority traded service
         {
-            return Links.TaskList.EnterSupportingOrganisationLaTradedServiceDetails.Page;
+            return Links.TaskList.EnterSupportingOrganisationLocalAuthorityTradedServiceDetails.Page;
         }
     }
 

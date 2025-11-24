@@ -18,8 +18,8 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "trust-ukprn")]
-    public string? TrustUKPRN { get; set; }
+    [BindProperty(Name = "la-code")]
+    public string? LaCode { get; set; }
 
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -34,12 +34,18 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
+    public string? OrganisationNameErrorMessage { get; set; }
+    public string? LaCodeErrorMessage { get; set; }
+    public string? DateConfirmedErrorMessage { get; set; }
+
+    public bool LaCodeError => !string.IsNullOrEmpty(LaCodeErrorMessage);
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
         OrganisationName = SupportProject?.SupportOrganisationName;
-        TrustUKPRN = SupportProject?.SupportOrganisationIdNumber;
+        LaCode = SupportProject?.SupportOrganisationIdNumber;
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
 
         return Page();
@@ -48,9 +54,31 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         OrganisationName = OrganisationName?.Trim();
-        TrustUKPRN = TrustUKPRN?.Trim();
+        LaCode = LaCode?.Trim();
 
         await base.GetSupportProject(id, cancellationToken);
+
+        // Validate entries
+        if (OrganisationName == null || LaCode == null || DateSupportOrganisationConfirmed == null)
+        {
+            if (OrganisationName == null)
+            {
+                OrganisationNameErrorMessage = "Enter the supporting organisation's name";
+                ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
+            }
+
+            if (LaCode == null)
+            {
+                LaCodeErrorMessage = "Enter the supporting organisation's GIAS LA Code";
+                ModelState.AddModelError("la-code", LaCodeErrorMessage);
+            }
+
+            if (DateSupportOrganisationConfirmed == null)
+            {
+                DateConfirmedErrorMessage = "Enter a date";
+                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
+            }
+        }
 
         // Early return for validation errors
         if (!ModelState.IsValid)
@@ -59,7 +87,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             OrganisationName,
-            TrustUKPRN,
+            LaCode,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted);

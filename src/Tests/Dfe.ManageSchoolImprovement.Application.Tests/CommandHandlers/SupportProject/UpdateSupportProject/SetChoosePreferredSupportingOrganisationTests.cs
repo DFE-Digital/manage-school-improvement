@@ -29,6 +29,7 @@ public class SetChoosePreferredSupportingOrganisationTests
             _mockSupportProject.Id,
             "Org",
             "1223a",
+            "Trust",
             DateTime.Now,
             true
         );
@@ -52,6 +53,7 @@ public class SetChoosePreferredSupportingOrganisationTests
             null,
            null,
            null,
+           null,
            null
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -73,11 +75,12 @@ public class SetChoosePreferredSupportingOrganisationTests
             _mockSupportProject.Id,
             "Org",
             "1223a",
+            "Trust",
             DateTime.Now,
             true
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
-            It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
+            It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
             It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);
         var setChosePreferredSupportingOrganisationHandler = new SetChoosePreferredSupportingOrganisation.SetChoosePreferredSupportingOrganisationHandler(_mockSupportProjectRepository.Object);
 

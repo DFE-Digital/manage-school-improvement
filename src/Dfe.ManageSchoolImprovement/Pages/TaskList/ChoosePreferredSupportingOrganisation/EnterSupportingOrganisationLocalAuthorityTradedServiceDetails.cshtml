@@ -1,5 +1,5 @@
-@page "/task-list/enter-supporting-organisation-trust-details/{id:int}"
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.EnterSupportingOrganisationTrustDetailsModel
+@page "/task-list/enter-supporting-organisation-local-authority-traded-service-details/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel
 @inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Enter supporting organisation details";
@@ -31,17 +31,17 @@
                               id="organisation-name"
                               name="organisation-name" 
                               asp-for="@Model.OrganisationName" 
+                              hint="Enter the name of the local authority traded service that will be the supporting organisation"
                               error-message="@Model.OrganisationNameErrorMessage"
-                              hint="Enter the name of the trust that will be the supporting organisation"
                               width="30"/>
 
             <govuk-text-input heading-label="true" 
-                              label="Trust's UKPRN" 
-                              id="trust-ukprn"
-                              name="trust-ukprn" 
-                              asp-for="@Model.TrustUKPRN" 
-                              error-message="@Model.TrustUKPRNErrorMessage"
-                              hint="Enter the UKPRN of the trust that will be the supporting organisation"
+                              label="Companies House number" 
+                              id="companies-house-number"
+                              name="companies-house-number"
+                              asp-for="@Model.CompaniesHouseNumber" 
+                              hint="Enter the Companies House number of the local authority traded service that will be the supporting organisation"
+                              error-message="@Model.CompaniesHouseNumberErrorMessage"
                               width="30"/>
 
             <govuk-date-input heading-label="false" 
@@ -51,7 +51,7 @@
                               asp-for="@Model.DateSupportOrganisationConfirmed" 
                               error-message="@Model.DateConfirmedErrorMessage"
                               hint="For example, 1 7 2024."/>
-
+                              
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton" type="submit">
                 Save and return

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class EnterSupportingOrganisationSchoolDetailsModel(
+public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
@@ -18,14 +18,18 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "urn")]
-    public string? URN { get; set; }
+    [BindProperty(Name = "companies-house-number")]
+    public string? CompaniesHouseNumber { get; set; }
 
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportOrganisationConfirmed { get; set; }
 
     public bool ShowError { get; set; }
+
+    public string? OrganisationNameErrorMessage { get; set; }
+    public string? CompaniesHouseNumberErrorMessage { get; set; }
+    public string? DateConfirmedErrorMessage { get; set; }
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -34,16 +38,12 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
-    public string? OrganisationNameErrorMessage { get; private set; }
-    public string? UrnErrorMessage { get; private set; }
-    public string? DateConfirmedErrorMessage { get; private set; }
-
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
         OrganisationName = SupportProject?.SupportOrganisationName;
-        URN = SupportProject?.SupportOrganisationIdNumber;
+        CompaniesHouseNumber = SupportProject?.SupportOrganisationIdNumber;
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
 
         return Page();
@@ -52,12 +52,12 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         OrganisationName = OrganisationName?.Trim();
-        URN = URN?.Trim();
+        CompaniesHouseNumber = CompaniesHouseNumber?.Trim();
 
         await base.GetSupportProject(id, cancellationToken);
 
         // Validate entries
-        if (OrganisationName == null || URN == null || DateSupportOrganisationConfirmed == null)
+        if (OrganisationName == null || CompaniesHouseNumber == null || DateSupportOrganisationConfirmed == null)
         {
             if (OrganisationName == null)
             {
@@ -65,10 +65,10 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
                 ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
             }
 
-            if (URN == null)
+            if (CompaniesHouseNumber == null)
             {
-                UrnErrorMessage = "Enter the supporting organisation's URN";
-                ModelState.AddModelError("urn", UrnErrorMessage);
+                CompaniesHouseNumberErrorMessage = "Enter the supporting organisation's companies house number";
+                ModelState.AddModelError("companies-house-number", CompaniesHouseNumberErrorMessage);
             }
 
             if (DateSupportOrganisationConfirmed == null)
@@ -84,8 +84,8 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             OrganisationName,
-            URN,
-            "School", // OrganisationType is "School" for this page
+            CompaniesHouseNumber,
+            SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted);
 

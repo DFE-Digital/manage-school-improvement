@@ -8,7 +8,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -32,6 +32,7 @@
                               name="organisation-name" 
                               asp-for="@Model.OrganisationName" 
                               hint="Enter the name of the school that will be the supporting organisation"
+                              error-message="@Model.OrganisationNameErrorMessage"
                               width="30"/>
 
             <govuk-text-input heading-label="true" 
@@ -40,6 +41,7 @@
                               name="urn" 
                               asp-for="@Model.URN" 
                               hint="Enter the URN of the school that will be the supporting organisation"
+                              error-message="@Model.UrnErrorMessage"
                               width="30"/>
 
             <govuk-date-input heading-label="false" 
@@ -47,6 +49,7 @@
                               id="date-support-organisation-confirmed" 
                               name="date-support-organisation-confirmed"
                               asp-for="@Model.DateSupportOrganisationConfirmed" 
+                              error-message="@Model.DateConfirmedErrorMessage"
                               hint="For example, 1 7 2024."/>
 
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"

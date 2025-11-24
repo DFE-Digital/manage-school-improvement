@@ -72,7 +72,7 @@ public static class Links
         public static readonly LinkItem EnterSupportingOrganisationTrustDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationTrustDetails");
         public static readonly LinkItem EnterSupportingOrganisationSchoolDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationSchoolDetails");
         public static readonly LinkItem EnterSupportingOrganisationLocalAuthorityDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationLocalAuthorityDetails");
-        public static readonly LinkItem EnterSupportingOrganisationLaTradedServiceDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationLaTradedServiceDetails");
+        public static readonly LinkItem EnterSupportingOrganisationLocalAuthorityTradedServiceDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationLocalAuthorityTradedServiceDetails");
 
         public static readonly LinkItem RecordInitialDiagnosisDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordInitialDiagnosisDecision/Index");
         public static readonly LinkItem AddSupportingOrganisationContactDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/Index");
