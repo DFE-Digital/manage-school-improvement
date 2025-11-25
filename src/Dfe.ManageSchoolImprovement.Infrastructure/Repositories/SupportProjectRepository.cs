@@ -137,10 +137,14 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             if (dates != null && dates.Any())
             {
-                var datesAsDateTimes = dates.Select(date => DateTime.Parse(date, new CultureInfo("en-GB")));
-                var years = datesAsDateTimes.Select(date => date.Year);
-                var months = datesAsDateTimes.Select(date => date.Month);
-                queryable = queryable.Where(p => years.Contains(p.CreatedOn.Year) && months.Contains(p.CreatedOn.Month));
+                var enGb = new CultureInfo("en-GB");
+                var yearMonthKeys = dates
+                    .Select(date => DateTime.ParseExact(date, "yyyy MMMM", enGb))
+                    .Select(d => d.Year * 100 + d.Month)
+                    .ToList();
+
+                queryable = queryable.Where(p =>
+                    yearMonthKeys.Contains(p.CreatedOn.Year * 100 + p.CreatedOn.Month));
             }
 
             return queryable;

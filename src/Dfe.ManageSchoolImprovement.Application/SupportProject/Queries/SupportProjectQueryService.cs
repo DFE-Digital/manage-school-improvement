@@ -11,6 +11,23 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 {
     public class SupportProjectQueryService(ISupportProjectRepository supportProjectRepository, IMapper mapper) : ISupportProjectQueryService
     {
+        private static List<string> MonthsList = new()
+        {
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        };
+        public static List<string> _months => MonthsList;
+        
         public async Task<Result<IEnumerable<SupportProjectDto>>> GetAllSupportProjects(CancellationToken cancellationToken)
         {
             var supportProjects = await supportProjectRepository.FetchAsync(sp => true, cancellationToken);
@@ -33,9 +50,9 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
                         if (!hasMonthsForYear)
                         {
-                            for (var month = 1; month <= 12; month++)
+                            for (var month = 0; month <= 11; month++)
                             {
-                                monthsList.Add($"{year} {month}");
+                                monthsList.Add($"{year} {_months[month]}");
                             }
                         }
                     }
