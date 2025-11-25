@@ -137,11 +137,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             if (dates != null && dates.Any())
             {
-                // var datesAsDateTimes = dates.Select(date => DateTime.Parse(date, new CultureInfo("en-GB"))).ToList();
-                //
-                // queryable = queryable.Where(p => datesAsDateTimes.Any(d => 
-                //     p.CreatedOn.Year == d.Year && p.CreatedOn.Month == d.Month));
-                // Parse expected "yyyy MMMM" (e.g. "2025 October") and build a translatable key (yyyyMM)
                 var enGb = new CultureInfo("en-GB");
                 var yearMonthKeys = dates
                     .Select(date => DateTime.ParseExact(date, "yyyy MMMM", enGb))
