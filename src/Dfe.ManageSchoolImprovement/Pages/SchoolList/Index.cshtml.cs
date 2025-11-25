@@ -29,15 +29,23 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         Regions = Filters.SelectedRegions,
         LocalAuthorities = Filters.SelectedLocalAuthorities,
         Trusts = Filters.SelectedTrusts,
+        Months = Filters.SelectedMonths,
+        Years = Filters.SelectedYears,
         PagePath = Pagination.PagePath,
         Page = Pagination.CurrentPage,
         Count = Pagination.PageSize
     };
+    
     public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
     {
         Filters.PersistUsing(TempData).PopulateFrom(Request.Query);
 
         Pagination.PagePath = "/SchoolList/Index";
+        
+        Filters.YearsChecked = new List<string>(Filters.SelectedYears);
+        
+        Filters.RemoveMonthsIfYearUnchecked();
+        Filters.RemoveYearsInSelectedMonths(Request.Query);
 
         var result =
            await supportProjectQueryService.SearchForSupportProjects(
@@ -86,6 +94,13 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         if (trustsResult.IsSuccess && trustsResult.Value != null)
         {
             Filters.AvailableTrusts = trustsResult.Value.ToList();
+        }
+        
+        var datesResult = await supportProjectQueryService.GetAllProjectYears(cancellationToken);
+        
+        if (datesResult.IsSuccess && datesResult.Value != null)
+        {
+            Filters.AvailableYears = datesResult.Value.ToList();
         }
 
         return Page();

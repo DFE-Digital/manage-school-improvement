@@ -12,40 +12,98 @@ public class ProjectListFilters
     public const string FilterAdvisers = nameof(FilterAdvisers);
     public const string FilterRegions = nameof(FilterRegions);
     public const string FilterLocalAuthorities = nameof(FilterLocalAuthorities);
-    public const string FilterAdvisoryBoardDates = nameof(FilterAdvisoryBoardDates);
     public const string FilterTrusts = nameof(FilterTrusts);
+    public const string FilterMonths = nameof(FilterMonths);
+    public const string FilterYears = nameof(FilterYears);
+
     private IDictionary<string, object?> _store = null!;
-    public List<string> AvailableStatuses { get; set; } = new();
     public List<string> AvailableDeliveryOfficers { get; set; } = new();
     public List<string> AvailableAdvisers { get; set; } = new();
     public List<string> AvailableRegions { get; set; } = new();
     public List<string> AvailableTrusts { get; set; } = new();
     public List<string> AvailableLocalAuthorities { get; set; } = new();
-    public List<string> AvailableAdvisoryBoardDates { get; set; } = new();
+    public List<string> AvailableYears { get; set; } = new();
 
-    [BindProperty]
-    public string? Title { get; set; }
+    [BindProperty] public string? Title { get; set; }
 
-    [BindProperty]
-    public string[] SelectedStatuses { get; set; } = [];
+    [BindProperty] public string[] SelectedStatuses { get; set; } = [];
 
-    [BindProperty]
-    public string[] SelectedOfficers { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedOfficers { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedAdvisers { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedAdvisers { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedRegions { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedRegions { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedLocalAuthorities { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedLocalAuthorities { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedAdvisoryBoardDates { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedTrusts { get; set; } = Array.Empty<string>();
 
-    [BindProperty]
-    public string[] SelectedTrusts { get; set; } = Array.Empty<string>();
+    [BindProperty] public string[] SelectedYears { get; set; } = Array.Empty<string>();
+
+    [BindProperty] public string[] SelectedMonths { get; set; } = Array.Empty<string>();
+    
+    public List<string> YearsChecked { get; set; } = new ();
+
+    private static List<string> Months = new()
+    {
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    };
+    public static List<string> _months => Months;
+    
+
+    private static List<string> MonthsInCurrentYear = _months.Take(DateTime.Now.Month).ToList();
+    public static List<string> _monthsInCurrentYear => MonthsInCurrentYear;
+    
+    public void RemoveYearsInSelectedMonths(IEnumerable<KeyValuePair<string, StringValues>> requestQuery)
+    {
+        foreach (var year in SelectedYears)
+        {
+            var hasMonthsForYear = SelectedMonths.Any(month => month.StartsWith($"{year} "));
+        
+            if (hasMonthsForYear)
+            {
+                SelectedYears = SelectedYears.Where(x => x != year).ToArray();
+                YearsChecked.Add(year);
+            }
+
+            Dictionary<string, StringValues>? query = new(requestQuery, StringComparer.OrdinalIgnoreCase);
+            
+            if (query.ContainsKey("remove") && query.ContainsKey(nameof(SelectedMonths)))
+            {
+                var monthQuery = query.TryGetValue(nameof(SelectedMonths), out StringValues value) ? value.ToArray() : Array.Empty<string>();
+                
+                var hasMonths = monthQuery.Any(month => month != null && month.StartsWith($"{year} "));
+        
+                if (hasMonths)
+                {
+                    SelectedYears = SelectedYears.Where(x => x != year).ToArray();
+                    YearsChecked = YearsChecked.Where(x => x != year).ToList();
+                }
+            }
+        }
+    }
+
+    public void RemoveMonthsIfYearUnchecked()
+    {
+        SelectedMonths = SelectedMonths
+            .Where(month => 
+            {
+                var yearFromMonth = month.Split(' ')[0];
+                return SelectedYears.Contains(yearFromMonth);
+            })
+            .ToArray();
+    }
 
     public bool IsVisible => !string.IsNullOrWhiteSpace(Title) ||
                              SelectedStatuses.Length > 0 ||
@@ -53,7 +111,9 @@ public class ProjectListFilters
                              SelectedOfficers.Length > 0 ||
                              SelectedRegions.Length > 0 ||
                              SelectedLocalAuthorities.Length > 0 ||
-                             SelectedTrusts.Length > 0;
+                             SelectedTrusts.Length > 0 ||
+                             SelectedMonths.Length > 0 ||
+                             SelectedYears.Length > 0;
 
     public ProjectListFilters PersistUsing(IDictionary<string, object?> store)
     {
@@ -65,8 +125,9 @@ public class ProjectListFilters
         SelectedAdvisers = Get(FilterAdvisers);
         SelectedRegions = Get(FilterRegions);
         SelectedLocalAuthorities = Get(FilterLocalAuthorities);
-        SelectedAdvisoryBoardDates = Get(FilterAdvisoryBoardDates);
         SelectedTrusts = Get(FilterTrusts);
+        SelectedMonths = Get(FilterMonths);
+        SelectedYears = Get(FilterYears);
 
         return this;
     }
@@ -85,8 +146,9 @@ public class ProjectListFilters
             SelectedAdvisers = Array.Empty<string>();
             SelectedRegions = Array.Empty<string>();
             SelectedLocalAuthorities = Array.Empty<string>();
-            SelectedAdvisoryBoardDates = Array.Empty<string>();
             SelectedTrusts = Array.Empty<string>();
+            SelectedMonths = Array.Empty<string>();
+            SelectedYears = Array.Empty<string>();
 
             return;
         }
@@ -97,21 +159,24 @@ public class ProjectListFilters
             SelectedOfficers = GetAndRemove(FilterOfficers, GetFromQuery(nameof(SelectedOfficers)), true);
             SelectedAdvisers = GetAndRemove(FilterAdvisers, GetFromQuery(nameof(SelectedAdvisers)), true);
             SelectedRegions = GetAndRemove(FilterRegions, GetFromQuery(nameof(SelectedRegions)), true);
-            SelectedLocalAuthorities = GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
-            SelectedAdvisoryBoardDates = GetAndRemove(FilterAdvisoryBoardDates, GetFromQuery(nameof(SelectedAdvisoryBoardDates)), true);
+            SelectedLocalAuthorities =
+                GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
             SelectedTrusts = GetAndRemove(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)), true);
+            SelectedMonths = GetAndRemove(FilterMonths, GetFromQuery(nameof(SelectedMonths)), true);
+            SelectedYears = GetAndRemove(FilterYears, GetFromQuery(nameof(SelectedYears)), true);
 
             return;
         }
 
         bool activeFilterChanges = query.ContainsKey(nameof(Title)) ||
                                    query.ContainsKey(nameof(SelectedStatuses)) ||
-                                 query.ContainsKey(nameof(SelectedOfficers)) ||
-                                 query.ContainsKey(nameof(SelectedAdvisers)) ||
-                                 query.ContainsKey(nameof(SelectedRegions)) ||
-                                 query.ContainsKey(nameof(SelectedLocalAuthorities)) ||
-                                 query.ContainsKey(nameof(SelectedAdvisoryBoardDates));
-        query.ContainsKey(nameof(SelectedTrusts));
+                                   query.ContainsKey(nameof(SelectedOfficers)) ||
+                                   query.ContainsKey(nameof(SelectedAdvisers)) ||
+                                   query.ContainsKey(nameof(SelectedRegions)) ||
+                                   query.ContainsKey(nameof(SelectedLocalAuthorities)) ||
+                                   query.ContainsKey(nameof(SelectedMonths)) ||
+                                   query.ContainsKey(nameof(SelectedYears)) ||
+                                   query.ContainsKey(nameof(SelectedTrusts));
 
         if (activeFilterChanges)
         {
@@ -121,7 +186,8 @@ public class ProjectListFilters
             SelectedAdvisers = Cache(FilterAdvisers, GetFromQuery(nameof(SelectedAdvisers)));
             SelectedRegions = Cache(FilterRegions, GetFromQuery(nameof(SelectedRegions)));
             SelectedLocalAuthorities = Cache(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)));
-            SelectedAdvisoryBoardDates = Cache(FilterAdvisoryBoardDates, GetFromQuery(nameof(SelectedAdvisoryBoardDates)));
+            SelectedMonths = Cache(FilterMonths, GetFromQuery(nameof(SelectedMonths)));
+            SelectedYears = Cache(FilterYears, GetFromQuery(nameof(SelectedYears)));
             SelectedTrusts = Cache(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)));
         }
         else
@@ -132,7 +198,8 @@ public class ProjectListFilters
             SelectedAdvisers = Get(FilterAdvisers, true);
             SelectedRegions = Get(FilterRegions, true);
             SelectedLocalAuthorities = Get(FilterLocalAuthorities, true);
-            SelectedAdvisoryBoardDates = Get(FilterAdvisoryBoardDates, true);
+            SelectedMonths = Get(FilterMonths, true);
+            SelectedYears = Get(FilterYears, true);
             SelectedTrusts = Get(FilterTrusts, true);
         }
 
@@ -186,8 +253,9 @@ public class ProjectListFilters
         Cache(FilterAdvisers, default);
         Cache(FilterRegions, default);
         Cache(FilterLocalAuthorities, default);
-        Cache(FilterAdvisoryBoardDates, default);
+        Cache(FilterMonths, default);
         Cache(FilterTrusts, default);
+        Cache(FilterYears, default);
     }
 
     /// <summary>

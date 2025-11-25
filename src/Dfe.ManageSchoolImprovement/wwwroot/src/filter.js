@@ -37,4 +37,24 @@ document.addEventListener('DOMContentLoaded', function () {
          }
       });
    }
+
+   const yearCheckboxes = document.querySelectorAll('.govuk-checkboxes__input[data-aria-controls]');
+
+   yearCheckboxes.forEach(checkbox => {
+      const conditional = document.getElementById(checkbox.getAttribute('data-aria-controls'));
+
+      // Set initial state
+      if (checkbox.checked) {
+         conditional.classList.remove('govuk-checkboxes__conditional--hidden');
+      }
+
+      // Handle changes
+      checkbox.addEventListener('change', (e) => {
+         if (e.target.checked) {
+            conditional.classList.remove('govuk-checkboxes__conditional--hidden');
+         } else {
+            conditional.classList.add('govuk-checkboxes__conditional--hidden');
+         }
+      });
+   });
 });
