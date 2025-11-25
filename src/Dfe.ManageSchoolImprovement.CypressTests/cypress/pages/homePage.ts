@@ -386,7 +386,6 @@ class HomePage {
           const [year, month] = filterValue.split(' ');
           cy.log(`Year: ${year}, Month: ${month}`);
           this.selectYearMonthFilter(year, month);
-
         }
         break;
       default:
@@ -395,10 +394,16 @@ class HomePage {
     return this;
   }
 
-  public selectYearMonthFilter(year: string, month?: string): this {
+  public showDateFilterOptions(): this {
     cy.getByCyData('select-projectlist-filter-date')
       .should("exist")
       .click();
+
+    return this;
+  }
+
+  public selectYearMonthFilter(year: string, month?: string): this {
+    this.showDateFilterOptions();
 
     cy.getByCyData(`select-projectlist-filter-year-${year}`)
       .should("exist")

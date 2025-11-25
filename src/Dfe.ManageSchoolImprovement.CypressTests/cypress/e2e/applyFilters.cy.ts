@@ -181,7 +181,7 @@ describe("User search results by applying filters", () => {
         //  cy.executeAccessibilityTests()
     });
 
-    
+
     it("should filter projects by Date school added to MSI- Year and month", () => {
         Logger.log("Date Filter");
         const dateSchoolAddedToMsi = "2025 April";
@@ -193,12 +193,12 @@ describe("User search results by applying filters", () => {
             .hasFilterSuccessNotification()
             .resultCountNotZero()
             .checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi);
-            
+
         Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi}`);
-       
+
     });
- 
-    it.only("should filter projects by Date school added to MSI-Only Year", () => {
+
+    it("should filter projects by Date school added to MSI-Only Year", () => {
         Logger.log("Only year Filters");
         const dateSchoolAddedToMsi = "2025";
 
@@ -209,8 +209,26 @@ describe("User search results by applying filters", () => {
             .hasFilterSuccessNotification()
             .resultCountNotZero()
             .checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi);
-            
+
         Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi}`);
-   
+
+    });
+
+    it("should filter projects by multiple Dates school added to MSI", () => {
+        Logger.log("Only year Filters");
+        const dateSchoolAddedToMsi1 = "2025 March";
+        const dateSchoolAddedToMsi2 = "2020 September";
+
+        homePage
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi1)
+            .showDateFilterOptions()
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi2)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi1}`);
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi2}`);
+
     });
 });
