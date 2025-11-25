@@ -39,13 +39,16 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
     public bool LaCodeError => !string.IsNullOrEmpty(LaCodeErrorMessage);
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        OrganisationName = SupportProject?.SupportOrganisationName;
-        LaCode = SupportProject?.SupportOrganisationIdNumber;
-        DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
+        {
+            OrganisationName = SupportProject?.SupportOrganisationName;
+            LaCode = SupportProject?.SupportOrganisationIdNumber;
+            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        }
 
         return Page();
     }
@@ -101,7 +104,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
         }
 
         TaskUpdated = true;
-        return RedirectToPage(Links.TaskList.Index.Page, new { id });
+        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page });
     }
 
     // Extracted method for cleaner error handling

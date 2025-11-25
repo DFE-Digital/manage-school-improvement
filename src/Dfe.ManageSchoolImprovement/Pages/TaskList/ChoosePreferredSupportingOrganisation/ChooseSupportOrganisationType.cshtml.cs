@@ -60,6 +60,8 @@ public class ChooseSupportOrganisationTypeModel(
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
 
+        var previousSupportOrganisationType = SupportProject?.SupportOrganisationType;
+
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,
@@ -81,7 +83,7 @@ public class ChooseSupportOrganisationTypeModel(
 
         var nextPage = GetNextPage();
 
-        return RedirectToPage(nextPage, new { id });
+        return RedirectToPage(nextPage, new { id, previousSupportOrganisationType });
     }
 
     private string GetNextPage()

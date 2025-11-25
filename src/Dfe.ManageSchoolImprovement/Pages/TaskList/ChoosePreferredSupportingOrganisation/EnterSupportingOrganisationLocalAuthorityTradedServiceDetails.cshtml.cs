@@ -37,13 +37,16 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        OrganisationName = SupportProject?.SupportOrganisationName;
-        CompaniesHouseNumber = SupportProject?.SupportOrganisationIdNumber;
-        DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
+        {
+            OrganisationName = SupportProject?.SupportOrganisationName;
+            CompaniesHouseNumber = SupportProject?.SupportOrganisationIdNumber;
+            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        }
 
         return Page();
     }
@@ -98,7 +101,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         }
 
         TaskUpdated = true;
-        return RedirectToPage(Links.TaskList.Index.Page, new { id });
+        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityTradedServiceDetails.Page });
     }
 
     // Extracted method for cleaner error handling

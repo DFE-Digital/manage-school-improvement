@@ -37,13 +37,16 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
     public string? UrnErrorMessage { get; private set; }
     public string? DateConfirmedErrorMessage { get; private set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        OrganisationName = SupportProject?.SupportOrganisationName;
-        URN = SupportProject?.SupportOrganisationIdNumber;
-        DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
+        {
+            OrganisationName = SupportProject?.SupportOrganisationName;
+            URN = SupportProject?.SupportOrganisationIdNumber;
+            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        }
 
         return Page();
     }
@@ -98,7 +101,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
         }
 
         TaskUpdated = true;
-        return RedirectToPage(Links.TaskList.Index.Page, new { id });
+        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page });
     }
 
     // Extracted method for cleaner error handling
