@@ -316,17 +316,17 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         {
             // Arrange
             var years = new[] { "2024" };
-            var months = new[] { "2023 1", "2023 2" };
+            var months = new[] { "2023 January", "2023 February" };
 
             // Act
             var result = _service.AddAllSelectedMonths(years, months);
 
             // Assert
             Assert.Equal(14, result.Length); // 2 existing months + 12 new months
-            Assert.Contains("2024 1", result);
-            Assert.Contains("2024 12", result);
-            Assert.Contains("2023 1", result);
-            Assert.Contains("2023 2", result);
+            Assert.Contains("2024 January", result);
+            Assert.Contains("2024 December", result);
+            Assert.Contains("2023 January", result);
+            Assert.Contains("2023 February", result);
         }
 
         [Fact]
@@ -350,17 +350,17 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         {
             // Arrange
             var years = new[] { "2023", "2024" };
-            var months = new[] { "2023 1", "2023 2" };
+            var months = new[] { "2023 January", "2023 February" };
 
             // Act
             var result = _service.AddAllSelectedMonths(years, months);
 
             // Assert
             Assert.Equal(14, result.Length); // 2 existing months + 12 new months for 2024
-            Assert.Contains("2023 1", result);
-            Assert.Contains("2023 2", result);
-            Assert.Contains("2024 1", result);
-            Assert.Contains("2024 12", result);
+            Assert.Contains("2023 January", result);
+            Assert.Contains("2023 February", result);
+            Assert.Contains("2024 January", result);
+            Assert.Contains("2024 December", result);
         }
 
         [Fact]
