@@ -105,7 +105,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-            
+
             bool? reviewAdvisersConflictOfInterestForm = true;
             DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
 
@@ -271,6 +271,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             DateTime? dateSupportOrganisationChosen = DateTime.UtcNow;
             string? supportOrgansiationName = "name";
             string? supportOrganisationId = "1234a";
+            string? supportOrganisationType = "Trust";
             bool? assessmentToolTwoCompleted = true;
 
             // Act
@@ -278,6 +279,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 dateSupportOrganisationChosen,
                 supportOrgansiationName,
                 supportOrganisationId,
+                supportOrganisationType,
                 assessmentToolTwoCompleted
                 );
 
@@ -2075,7 +2077,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.Cohort.Should().BeNull();
             mockRepository.VerifyAll();
         }
-        
+
         // added so that sonar cloud will pass - remove after new record responsible body's response page added
         [Fact]
         public void CreateSupportProject_WithSaveCompletedConflictOfinterestFormInSharePoint_ShouldBeNull()
@@ -2087,7 +2089,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SaveCompletedConflictOfinterestFormInSharePoint.Should().BeNull();
             mockRepository.VerifyAll();
         }
-        
+
         // added so that sonar cloud will pass - remove after new record responsible body's response page added
         [Fact]
         public void CreateSupportProject_WithDateConflictsOfInterestWereChecked_ShouldBeNull()

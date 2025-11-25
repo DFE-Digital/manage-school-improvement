@@ -8,29 +8,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class IndexModel(
+public class EnterSupportingOrganisationSchoolDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IMediator mediator)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "id-number")]
-    public string? IdNumber { get; set; }
+    [BindProperty(Name = "urn")]
+    public string? URN { get; set; }
 
-    [BindProperty(Name = "date-support-organisation-chosen", BinderType = typeof(DateInputModelBinder))]
+    [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    public DateTime? DateSupportOrganisationChosen { get; set; }
-
-    [BindProperty(Name = "complete-assessment-tool")]
-    public bool? CompleteAssessmentTool { get; set; }
+    public DateTime? DateSupportOrganisationConfirmed { get; set; }
 
     public bool ShowError { get; set; }
-    public string AssessmentToolTwoLink { get; set; } = string.Empty;
-    public string AssessmentToolTwoSharePointFolderLink { get; set; } = string.Empty;
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -39,19 +33,20 @@ public class IndexModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
+    public string? OrganisationNameErrorMessage { get; private set; }
+    public string? UrnErrorMessage { get; private set; }
+    public string? DateConfirmedErrorMessage { get; private set; }
+
+    public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // Tuple deconstruction for multiple assignments
-        (OrganisationName, IdNumber, DateSupportOrganisationChosen, CompleteAssessmentTool) = (
-            SupportProject?.SupportOrganisationName,
-            SupportProject?.SupportOrganisationIdNumber,
-            SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted
-        );
-
-        await LoadSharePointLinksAsync(cancellationToken);
+        if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
+        {
+            OrganisationName = SupportProject?.SupportOrganisationName;
+            URN = SupportProject?.SupportOrganisationIdNumber;
+            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        }
 
         return Page();
     }
@@ -59,9 +54,31 @@ public class IndexModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         OrganisationName = OrganisationName?.Trim();
-        // Load SharePoint links early for both success and error paths
-        await LoadSharePointLinksAsync(cancellationToken);
+        URN = URN?.Trim();
 
+        await base.GetSupportProject(id, cancellationToken);
+
+        // Validate entries
+        if (OrganisationName == null || URN == null || DateSupportOrganisationConfirmed == null)
+        {
+            if (OrganisationName == null)
+            {
+                OrganisationNameErrorMessage = "Enter the supporting organisation's name";
+                ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
+            }
+
+            if (URN == null)
+            {
+                UrnErrorMessage = "Enter the supporting organisation's URN";
+                ModelState.AddModelError("urn", UrnErrorMessage);
+            }
+
+            if (DateSupportOrganisationConfirmed == null)
+            {
+                DateConfirmedErrorMessage = "Enter a date";
+                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
+            }
+        }
         // Early return for validation errors
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
@@ -69,9 +86,10 @@ public class IndexModel(
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             OrganisationName,
-            IdNumber,
-            DateSupportOrganisationChosen,
-            CompleteAssessmentTool);
+            URN,
+            "School", // OrganisationType is "School" for this page
+            DateSupportOrganisationConfirmed,
+            SupportProject?.AssessmentToolTwoCompleted);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -83,14 +101,7 @@ public class IndexModel(
         }
 
         TaskUpdated = true;
-        return RedirectToPage(Links.TaskList.Index.Page, new { id });
-    }
-
-    // Extracted method for loading SharePoint links concurrently
-    private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
-    {
-        AssessmentToolTwoLink = await sharePointResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ?? string.Empty;
-        AssessmentToolTwoSharePointFolderLink = await sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken) ?? string.Empty;
+        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page });
     }
 
     // Extracted method for cleaner error handling

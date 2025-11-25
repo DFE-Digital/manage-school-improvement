@@ -177,6 +177,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? HeadteacherName { get; set; }
         public string? HeadteacherPreferredJobTitle { get; set; }
         public string? SchoolMainPhone { get; set; }
+        public string? SupportOrganisationType { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -273,7 +274,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent,
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
 
-                EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>()
+                EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>(),
+                SupportOrganisationType = supportProjectDto.SupportingOrganisationType,
             };
         }
     }

@@ -1,0 +1,93 @@
+@page "/task-list/confirm-supporting-organisation-details/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.ConfirmSupportingOrganisationDetailsModel
+@using Dfe.Academisation.ExtensionMethods
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Confirm supporting organisation details";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.PreviousPage" asp-route-id="@Model.SupportProject.Id" asp-route-previousSupportOrganisationType="@Model.SupportProject.SupportOrganisationType"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+@{
+    var organisationType = Model.SupportProject?.SupportOrganisationType;
+    var organisationName = Model.SupportProject?.SupportOrganisationName ?? "";
+    var organisationIdNumber = Model.SupportProject?.SupportOrganisationIdNumber ?? "";
+    var dateConfirmed = Model.SupportProject?.DateSupportOrganisationChosen;
+    
+    string secondLabel = organisationType switch
+    {
+        "School" => "URN",
+        "Trust" => "UKPRN",
+        "Local authority" => "LA name code",
+        "Local authority traded service" => "Companies House number",
+        _ => "ID"
+    };
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Confirm supporting organisation details
+        </h1>
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">Supporting organisation</h2>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        <a class="govuk-link" asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page" asp-route-id="@Model.SupportProject.Id">
+                            Change<span class="govuk-visually-hidden"> supporting organisation details</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            @organisationType
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @organisationName
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            @secondLabel
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @organisationIdNumber
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Date confirmed
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @(dateConfirmed?.ToDateString() ?? "")
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <form method="post" novalidate>
+            <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton" type="submit">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>
