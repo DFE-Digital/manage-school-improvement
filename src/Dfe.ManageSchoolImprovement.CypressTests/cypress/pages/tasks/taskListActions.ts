@@ -77,6 +77,17 @@ class TaskListActions {
       return this;
 
     }
+
+    public confirmSupportingOrganisationDetails(): this {
+      cy.title().should('eq', 'Confirm supporting organisation details - Manage school improvement');
+                    cy.get('.govuk-summary-card').should('exist');
+                    cy.get('.govuk-summary-card__actions a').contains('Change').should('exist');
+                    cy.get('.govuk-summary-card__content .govuk-summary-list__row').each(($row) => {
+                        cy.wrap($row).find('.govuk-summary-list__value').should('not.be.empty');
+                    });                
+      return this;
+    }
+
 }
 
 const taskListActions = new TaskListActions();

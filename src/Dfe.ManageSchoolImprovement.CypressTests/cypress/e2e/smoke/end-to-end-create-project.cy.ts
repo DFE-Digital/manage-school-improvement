@@ -342,15 +342,24 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();
 
     taskListActions.hasHeader("Choose preferred supporting organisation");
-    taskListActions.selectButtonOrCheckbox("complete-assessment-tool");
-    taskListActions.enterText("organisation-name", "Pudsey Grammar School");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskListActions.selectButtonOrCheckbox("support-organisation-type-trust");
+    taskListActions.selectButtonOrCheckbox("continue-button");
+
+    taskListActions.enterText("organisation-name", "North West Schools Partnership");
+    taskListActions.enterText("trust-ukprn", "10058689");
+    taskListActions.enterDate("date-support-organisation-confirmed", "01", "01", "2024");
+    taskListActions.selectButtonOrCheckbox("save-and-return-button");
+    taskListActions.confirmSupportingOrganisationDetails();
+    taskListActions.selectButtonOrCheckbox("save-and-return-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("choose-preferred-supporting-organisation-status");
+   
     taskList.selectTask("Choose preferred supporting organisation");
-    taskListActions.enterText("id-number", "108079");
-    taskListActions.enterDate("date-support-organisation-chosen", "01", "01", "2024");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskListActions.hasHeader("Choose preferred supporting organisation");
+    taskListActions.selectButtonOrCheckbox("complete-assessment-tool");
+    taskListActions.selectButtonOrCheckbox("continue-button");
+    taskListActions.selectButtonOrCheckbox("save-and-return-button");
+    taskListActions.selectButtonOrCheckbox("save-and-return-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("choose-preferred-supporting-organisation-status");
   });
