@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
          }
       });
    }
-
-   const yearCheckboxes = document.querySelectorAll('.govuk-checkboxes__input[data-aria-controls]');
+   
+   const yearCheckboxes = document.querySelectorAll('input[name="selectedYears"]');
 
    yearCheckboxes.forEach(checkbox => {
       const conditional = document.getElementById(checkbox.getAttribute('data-aria-controls'));
@@ -54,6 +54,20 @@ document.addEventListener('DOMContentLoaded', function () {
             conditional.classList.remove('govuk-checkboxes__conditional--hidden');
          } else {
             conditional.classList.add('govuk-checkboxes__conditional--hidden');
+         }
+      });
+   });
+
+   yearCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
+         if (!e.target.checked) {
+            const year = e.target.value;
+
+            // Find and uncheck all month checkboxes for the unchecked year
+            const monthCheckboxes = document.querySelectorAll(`input[name="selectedMonths"][value^="${year} "]`);
+            monthCheckboxes.forEach(monthCheckbox => {
+               monthCheckbox.checked = false;
+            });
          }
       });
    });

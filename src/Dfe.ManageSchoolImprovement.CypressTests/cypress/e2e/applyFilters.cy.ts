@@ -15,8 +15,10 @@ describe("User search results by applying filters", () => {
         homePage
             .hasProjectFilter()
             .selectEastMidlandsRegionFilter()
+            .selectNottinghamLAFilter()
             .applyFilters()
-            .hasFilterSuccessNotification();
+            .hasFilterSuccessNotification()
+            .resultCountNotZero();
 
         // cy.executeAccessibilityTests() - commented accessibility due to bug #209930
     });
@@ -177,5 +179,56 @@ describe("User search results by applying filters", () => {
         Logger.log(`Successfully filtered projects by Trust: ${trust}`);
 
         //  cy.executeAccessibilityTests()
+    });
+
+
+    it("should filter projects by Date school added to MSI- Year and month", () => {
+        Logger.log("Date Filter");
+        const dateSchoolAddedToMsi = "2025 April";
+
+        Logger.log(`Testing - filter projects by Date: ${dateSchoolAddedToMsi}`);
+        homePage
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+            .checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi);
+
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi}`);
+
+    });
+
+    it("should filter projects by Date school added to MSI-Only Year", () => {
+        Logger.log("Only year Filters");
+        const dateSchoolAddedToMsi = "2025";
+
+        Logger.log(`Testing - filter projects by Year: ${dateSchoolAddedToMsi}`);
+        homePage
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+            .checkResultsContainDateSchoolAddedToMsi(dateSchoolAddedToMsi);
+
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi}`);
+
+    });
+
+    it("should filter projects by multiple Dates school added to MSI", () => {
+        Logger.log("Only year Filters");
+        const dateSchoolAddedToMsi1 = "2025 March";
+        const dateSchoolAddedToMsi2 = "2020 September";
+
+        homePage
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi1)
+            .showDateFilterOptions()
+            .selectFilter("Date school added to MSI", dateSchoolAddedToMsi2)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi1}`);
+        Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi2}`);
+
     });
 });
