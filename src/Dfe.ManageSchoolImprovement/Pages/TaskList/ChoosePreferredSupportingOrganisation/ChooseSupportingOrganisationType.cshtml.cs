@@ -40,9 +40,7 @@ public class ChooseSupportOrganisationTypeModel(
         await base.GetSupportProject(id, cancellationToken);
 
         CompleteAssessmentTool = SupportProject?.AssessmentToolTwoCompleted;
-
-        // Set default to "School" if no value is set
-        SupportOrganisationType = SupportProject?.SupportOrganisationType ?? "School";
+        SupportOrganisationType = SupportProject?.SupportOrganisationType;
 
         await LoadSharePointLinksAsync(cancellationToken);
 
