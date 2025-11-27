@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
+using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 
@@ -17,10 +18,10 @@ public class TrustService(IDfeHttpClientFactory httpClientFactory,
            ? $"/v4/trusts?ukPrn={ukprn}"
            : $"/v4/trusts?groupName={Uri.EscapeDataString(term)}";
 
-        ApiResponse<IEnumerable<TrustSearchResponse>> result = await httpClientService.Get<IEnumerable<TrustSearchResponse>>(_httpClient, path);
+        ApiResponse<TrustListResponse<TrustSearchResponse>> result = await httpClientService.Get<TrustListResponse<TrustSearchResponse>>(_httpClient, path);
 
         if (!result.Success) throw new ApiResponseException($"Request to Api failed | StatusCode - {result.StatusCode}");
 
-        return result.Body;
+        return result.Body?.Data ?? Enumerable.Empty<TrustSearchResponse>();
     }
 }

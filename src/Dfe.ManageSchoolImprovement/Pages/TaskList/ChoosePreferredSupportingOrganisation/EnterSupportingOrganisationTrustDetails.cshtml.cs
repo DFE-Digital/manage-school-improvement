@@ -89,8 +89,8 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
             return new JsonResult(trusts.Select(s => new
             {
-                suggestion = HighlightSearchMatch($"{s.GroupName} ({s.Ukprn})", term, s),
-                value = $"{s.GroupName} ({s.Ukprn})"
+                suggestion = HighlightSearchMatch($"{s.Name} ({s.Ukprn})", term, s),
+                value = $"{s.Name} ({s.Ukprn})"
             }));
         }
         catch
@@ -173,7 +173,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
     private static string HighlightSearchMatch(string input, string toReplace, TrustSearchResponse trust)
     {
-        if (trust == null || string.IsNullOrWhiteSpace(trust.Ukprn) || string.IsNullOrWhiteSpace(trust.GroupName))
+        if (trust == null || string.IsNullOrWhiteSpace(trust.Ukprn) || string.IsNullOrWhiteSpace(trust.Name))
             return string.Empty;
 
         if (string.IsNullOrWhiteSpace(toReplace))
