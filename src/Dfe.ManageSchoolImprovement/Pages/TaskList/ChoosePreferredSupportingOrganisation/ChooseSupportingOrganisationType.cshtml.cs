@@ -25,6 +25,7 @@ public class ChooseSupportOrganisationTypeModel(
     public bool ShowError { get; set; }
     public string AssessmentToolTwoLink { get; set; } = string.Empty;
     public string AssessmentToolTwoSharePointFolderLink { get; set; } = string.Empty;
+    public string? SupportOrganisationTypeErrorMessage { get; set; }
 
     public IList<RadioButtonsLabelViewModel> SupportOrganisationTypeOptions { get; set; } = CreateSupportOrganisationTypeOptions();
 
@@ -53,6 +54,13 @@ public class ChooseSupportOrganisationTypeModel(
 
         // Load SharePoint links early for both success and error paths
         await LoadSharePointLinksAsync(cancellationToken);
+
+        if (SupportOrganisationType == null)
+        {
+            SupportOrganisationTypeErrorMessage = "Select the type of supporting organisation";
+            ModelState.AddModelError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
+            _errorService.AddError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
+        }
 
         // Early return for validation errors
         if (!ModelState.IsValid)
