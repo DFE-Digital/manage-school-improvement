@@ -24,8 +24,9 @@
     var organisationName = Model.SupportProject?.SupportOrganisationName ?? "";
     var organisationIdNumber = Model.SupportProject?.SupportOrganisationIdNumber ?? "";
     var dateConfirmed = Model.SupportProject?.DateSupportOrganisationChosen;
+    // var organisationAddress = Model.SupportProject?.SupportingOrganisationAddress;
     
-    string secondLabel = organisationType switch
+    string organisationTypeLabel = organisationType switch
     {
         "School" => "URN",
         "Trust" => "UKPRN",
@@ -36,7 +37,7 @@
 }
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l">
             Confirm supporting organisation details
@@ -65,12 +66,22 @@
                     </div>
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
-                            @secondLabel
+                            @organisationTypeLabel
                         </dt>
                         <dd class="govuk-summary-list__value">
                             @organisationIdNumber
                         </dd>
                     </div>
+                    @* if address available *@
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Address
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.OrganisationAddress
+                        </dd>
+                    </div>
+                    @* if date confirmed available *@
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Date confirmed
@@ -79,9 +90,79 @@
                             @(dateConfirmed?.ToDateString() ?? "")
                         </dd>
                     </div>
+                    @* if via autocomplete *@
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Source
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Get information about schools
+                        </dd>
+                    </div>
                 </dl>
             </div>
         </div>
+
+        @* if contact details available *@
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">Accounting officer for supporting organisation</h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Name
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            name of contact
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Email
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            email address
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Phone
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            phone number
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Postal address
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            address goes here
+                        </dd>
+                    </div>
+                    @* if via autocomplete *@
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Source
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Get information about schools
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        @* if no date *@
+        <govuk-date-input heading-label="false"
+                          label="Enter date supporting organisation confirmed"
+                          id="date-support-organisation-confirmed"
+                          name="date-support-organisation-confirmed"
+                          asp-for="@Model.DateSupportOrganisationConfirmed"
+                          error-message="@Model.DateConfirmedErrorMessage"
+                          hint="For example, 1 7 2024."/>
 
         <form method="post" novalidate>
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"

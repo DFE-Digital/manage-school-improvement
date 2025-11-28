@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
 {
@@ -39,6 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateSupportOrganisationChosen = null,
         string? SupportOrganisationName = null,
         string SupportOrganisationIdNumber = "",
+        string? SupportingOrganisationAddress = null,
         DateTime? RegionalDirectorDecisionDate = null,
         bool? HasSchoolMatchedWithSupportingOrganisation = null,
         string? NotMatchingSchoolWithSupportingOrgNotes = null,

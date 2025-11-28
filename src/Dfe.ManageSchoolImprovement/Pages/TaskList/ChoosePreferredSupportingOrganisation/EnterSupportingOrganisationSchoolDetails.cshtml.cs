@@ -89,7 +89,8 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
             URN,
             "School", // OrganisationType is "School" for this page
             DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted);
+            SupportProject?.AssessmentToolTwoCompleted,
+            SupportProject?.SupportingOrganisationAddress);
 
         var result = await mediator.Send(command, cancellationToken);
 

@@ -28,7 +28,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
     public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; }
 
     private const string SEARCH_LABEL = "Search by trust name or UKPRN (UK Provider Reference Number).";
-    // private const string SEARCH_ENDPOINT = "/task-list/enter-supporting-organisation-trust-details/{}?handler=Search&searchQuery=";
+    private string SearchEndpoint = String.Empty;
 
     [BindProperty]
     [Required(ErrorMessage = "Enter the trust name or URN")]
@@ -43,10 +43,6 @@ public class EnterSupportingOrganisationTrustDetailsModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
-    public string? OrganisationNameErrorMessage { get; private set; }
-    public string? TrustUKPRNErrorMessage { get; private set; }
-    public string? DateConfirmedErrorMessage { get; private set; }
-
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType,
         CancellationToken cancellationToken = default)
     {
@@ -59,10 +55,10 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
         
-        var searchEndpoint =
+        SearchEndpoint =
             $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
 
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, searchEndpoint);
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, SearchEndpoint);
 
         return Page();
     }
@@ -102,55 +98,70 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
-        OrganisationName = OrganisationName?.Trim();
-        TrustUKPRN = TrustUKPRN?.Trim();
-
         await base.GetSupportProject(id, cancellationToken);
 
-        // Validate entries
-        if (OrganisationName == null || TrustUKPRN == null || DateSupportOrganisationConfirmed == null)
+        SearchEndpoint =
+            $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
+        
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, SearchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
+
+        if (string.IsNullOrWhiteSpace(SearchQuery))
         {
-            if (OrganisationName == null)
-            {
-                OrganisationNameErrorMessage = "Enter the supporting organisation's name";
-                ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
-            }
-
-            if (TrustUKPRN == null)
-            {
-                TrustUKPRNErrorMessage = "Enter the supporting organisation's UKPRN";
-                ModelState.AddModelError("trust-ukprn", TrustUKPRNErrorMessage);
-            }
-
-            if (DateSupportOrganisationConfirmed == null)
-            {
-                DateConfirmedErrorMessage = "Enter a date";
-                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
-            }
+            ModelState.AddModelError(nameof(SearchQuery), "Enter the trust name or UKPRN");
+            errorService.AddErrors(ModelState.Keys, ModelState);
+            return Page();
+        }
+        string[] splitSearch = SplitOnBrackets(SearchQuery);
+        if (splitSearch.Length < 2)
+        {
+            ModelState.AddModelError(nameof(SearchQuery), "We could not find any trusts matching your search criteria");
+            errorService.AddErrors(ModelState.Keys, ModelState);
+            return Page();
         }
 
-        // Early return for validation errors
+        string expectedUkprn = splitSearch[splitSearch.Length - 1];
+
+        var expectedTrust = await getTrust.GetTrustByUkprn(expectedUkprn);
+        
+        var address = string.Join(", ", new[]
+        {
+            expectedTrust.Address.Street,
+            expectedTrust.Address.Locality,
+            expectedTrust.Address.Town,
+            expectedTrust.Address.County,
+            expectedTrust.Address.Postcode
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+        if (expectedTrust.Name == null)
+        {
+            ModelState.AddModelError(nameof(SearchQuery), "We could not find a trust matching your search criteria");
+            errorService.AddErrors(ModelState.Keys, ModelState);
+            return Page();
+        }
+        
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
-
+        
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
-            OrganisationName,
-            TrustUKPRN,
+            expectedTrust.Name,
+            expectedTrust.Ukprn,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted);
-
+            SupportProject?.DateSupportOrganisationChosen,
+            SupportProject?.AssessmentToolTwoCompleted,
+            address);
+        
         var result = await mediator.Send(command, cancellationToken);
-
+        
         // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
-
+        
         TaskUpdated = true;
+
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
             new { id, previousPage = Links.TaskList.EnterSupportingOrganisationTrustDetails.Page });
     }

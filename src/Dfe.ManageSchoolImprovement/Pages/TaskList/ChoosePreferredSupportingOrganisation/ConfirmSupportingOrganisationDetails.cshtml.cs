@@ -10,7 +10,14 @@ public class ConfirmSupportingOrganisationDetailsModel(
     ErrorService errorService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
+    [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
+    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    public DateTime? DateSupportOrganisationConfirmed { get; set; }
+    
+    public string? OrganisationAddress { get; set; }
     public bool ShowError { get; set; }
+    
+    public string? DateConfirmedErrorMessage { get; private set; }
 
     public string PreviousPage { get; set; } = string.Empty;
 
@@ -19,15 +26,21 @@ public class ConfirmSupportingOrganisationDetailsModel(
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+
+        OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
         return Page();
     }
 
     public IActionResult OnPost(int id, string? previousPage)
     {
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
-
-        // This is a confirmation page - data is already saved from the entry page
-        // Just redirect back to the task list
+        
+        if (DateSupportOrganisationConfirmed == null)
+        {
+            DateConfirmedErrorMessage = "Enter a date";
+            ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
+        }
+        
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
     }
