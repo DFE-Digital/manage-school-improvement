@@ -114,8 +114,10 @@ describe("Tasklist negative tests", () => {
         Logger.log("Validating preferred supporting organisation");
         taskList.selectTask("Choose preferred supporting organisation");
         taskListActions.hasHeader("Choose preferred supporting organisation");
-        taskListActions.selectButtonOrCheckbox("support-organisation-type-school");
         taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.hasValidation("Select the type of supporting organisation", "organisation-type-error-link");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-school");
+         taskListActions.selectButtonOrCheckbox("continue-button");
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
         taskListActions.hasValidation("Enter the supporting organisation's URN", "urn-error-link");
