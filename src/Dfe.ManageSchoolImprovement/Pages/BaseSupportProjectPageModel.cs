@@ -32,4 +32,11 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         SupportProject = SupportProjectViewModel.Create(result.Value!);
         return Page();
     }
+    
+    protected async Task<IActionResult> HandleValidationErrorAsync(bool showError, int id, CancellationToken cancellationToken)
+    {
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+        showError = true;
+        return await GetSupportProject(id, cancellationToken);
+    }
 }

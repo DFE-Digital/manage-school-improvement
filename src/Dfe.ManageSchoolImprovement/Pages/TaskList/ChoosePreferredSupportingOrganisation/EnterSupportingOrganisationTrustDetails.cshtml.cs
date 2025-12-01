@@ -19,12 +19,6 @@ public class EnterSupportingOrganisationTrustDetailsModel(
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "trust-ukprn")] public string? TrustUKPRN { get; set; }
-
-    [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    public DateTime? DateSupportOrganisationConfirmed { get; set; }
-
     public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; }
 
     private const string SEARCH_LABEL = "Search by trust name or UKPRN (UK Provider Reference Number).";
@@ -51,8 +45,6 @@ public class EnterSupportingOrganisationTrustDetailsModel(
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
-            TrustUKPRN = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
         
         SearchEndpoint =
@@ -140,7 +132,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
         }
         
         if (!ModelState.IsValid)
-            return await HandleValidationErrorAsync(id, cancellationToken);
+            return await HandleValidationErrorAsync(ShowError, id, cancellationToken);
         
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
@@ -164,14 +156,6 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
             new { id, previousPage = Links.TaskList.EnterSupportingOrganisationTrustDetails.Page });
-    }
-
-    // Extracted method for cleaner error handling
-    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
-    {
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
     }
 
     private static string[] SplitOnBrackets(string input)
