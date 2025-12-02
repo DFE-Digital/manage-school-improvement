@@ -120,5 +120,7 @@ describe("Tasklist negative tests", () => {
         taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
         taskListActions.hasValidation("Enter the supporting organisation's URN", "urn-error-link");
         taskListActions.hasValidation("Enter a date", "date-support-organisation-confirmed-error-link");
+
+        cy.executeAccessibilityTests();
     });
 });

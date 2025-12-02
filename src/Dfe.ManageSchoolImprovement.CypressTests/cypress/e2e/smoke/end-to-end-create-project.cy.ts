@@ -342,9 +342,13 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();
 
     taskListActions.hasHeader("Choose preferred supporting organisation");
+
+    //check validaton
+    taskListActions.selectButtonOrCheckbox("continue-button");
+    taskListActions.hasValidation("Select the type of supporting organisation", "support-organisation-type-school-error-link");
+
     taskListActions.selectButtonOrCheckbox("support-organisation-type-trust");
     taskListActions.selectButtonOrCheckbox("continue-button");
-
     taskListActions.enterText("organisation-name", "North West Schools Partnership");
     taskListActions.enterText("trust-ukprn", "10058689");
     taskListActions.enterDate("date-support-organisation-confirmed", "01", "01", "2024");
