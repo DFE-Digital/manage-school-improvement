@@ -101,21 +101,6 @@ public class EnterSupportingOrganisationTrustDetailsModel(
         string expectedUkprn = splitSearch[splitSearch.Length - 1];
 
         var expectedTrust = await getTrust.GetTrustByUkprn(expectedUkprn);
-
-        // if (string.IsNullOrWhiteSpace(SearchQuery))
-        // {
-        //     ModelState.AddModelError(nameof(SearchQuery), "Enter the trust name or UKPRN");
-        // }
-        //
-        // if (!string.IsNullOrWhiteSpace(SearchQuery) && splitSearch.Length < 2)
-        // {
-        //     ModelState.AddModelError(nameof(SearchQuery), "We could not find any trusts matching your search criteria");
-        // }
-        //
-        // if (!string.IsNullOrWhiteSpace(SearchQuery) && splitSearch.Length > 2  && string.IsNullOrEmpty(expectedTrust.Name))
-        // {
-        //     ModelState.AddModelError(nameof(SearchQuery), "We could not find a trust matching your search criteria");
-        // }
         
         if (string.IsNullOrWhiteSpace(SearchQuery))
         {
