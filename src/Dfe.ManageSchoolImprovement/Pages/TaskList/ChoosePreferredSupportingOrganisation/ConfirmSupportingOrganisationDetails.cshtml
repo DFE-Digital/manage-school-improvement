@@ -25,8 +25,6 @@
     var organisationName = Model.SupportProject?.SupportOrganisationName ?? "";
     var organisationIdNumber = Model.SupportProject?.SupportOrganisationIdNumber ?? "";
     var dateConfirmed = Model.SupportProject?.DateSupportOrganisationChosen;
-
-    var contact = Model.ChiefFinancialOfficer ?? Model.AccountingOfficer;
     
     string organisationTypeLabel = organisationType switch
     {
@@ -40,6 +38,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        <form method="post" novalidate>
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l">
             Confirm supporting organisation details
@@ -124,29 +123,32 @@
                             Name
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            @contact?.Name
+                            @Model.AccountingOfficer?.Name
                         </dd>
+                        <input type="hidden" asp-for="@Model.AccountingOfficer.Name" />
                     </div>
-                    @if (!string.IsNullOrEmpty(contact?.Email))
+                    @if (!string.IsNullOrEmpty(Model.AccountingOfficer?.Email))
                     {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Email
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @contact?.Email
+                                @Model.AccountingOfficer?.Email
                             </dd>
+                            <input type="hidden" asp-for="@Model.AccountingOfficer.Email" />
                         </div>
                     }
-                    @if (!string.IsNullOrEmpty(contact?.Phone))
+                    @if (!string.IsNullOrEmpty(Model.AccountingOfficer?.Phone))
                     {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Phone
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @contact?.Phone
+                                @Model.AccountingOfficer?.Phone
                             </dd>
+                            <input type="hidden" asp-for="@Model.AccountingOfficer.Phone" />
                         </div>
                     }
                     @if (!String.IsNullOrEmpty(Model.OrganisationAddress))
@@ -173,7 +175,7 @@
             </div>
         </div>
         
-        <form method="post" novalidate>
+        
             <govuk-date-input heading-label="false"
                               label="Enter date supporting organisation confirmed"
                               id="date-support-organisation-confirmed"

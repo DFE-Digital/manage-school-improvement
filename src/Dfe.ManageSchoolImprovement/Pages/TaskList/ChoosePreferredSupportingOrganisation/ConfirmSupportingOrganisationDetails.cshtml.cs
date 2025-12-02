@@ -26,10 +26,9 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
     public string? OrganisationAddress { get; set; }
 
-    public ContactViewModel? ChiefFinancialOfficer { get; set; } = null;
-    public ContactViewModel? AccountingOfficer { get; set; } = null;
-
-    public const string ChiefFinancialOfficerRole = "Chief Financial Officer";
+    [BindProperty]
+    public ContactViewModel? AccountingOfficer { get; set; }
+    
     public const string AccountingOfficerRole = "Accounting Officer";
     public bool ShowError { get; set; }
 
@@ -47,7 +46,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
         OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
 
-        if (SupportProject?.SupportOrganisationType == "Trust" && !string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
+        if (SupportProject?.SupportOrganisationType == "Trust" && !string.IsNullOrEmpty(SupportProject.SupportOrganisationName))
         {
             var trustContacts = await trustClient
                 .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.SupportOrganisationIdNumber,
@@ -55,25 +54,8 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
             if (trustContacts != null && trustContacts.Count > 0)
             {
-                // Get current (non-historical) trust contacts
-                var chiefFinancialOfficer = trustContacts
-                    .Where(c => c.Roles.Contains(ChiefFinancialOfficerRole) && c.IsCurrent(dateTimeProvider))
-                    .FirstOrDefault();
-
-                if (chiefFinancialOfficer != null)
-                {
-                    ChiefFinancialOfficer = new ContactViewModel()
-                    {
-                        Name = chiefFinancialOfficer.DisplayName,
-                        Email = chiefFinancialOfficer.Email,
-                        Phone = chiefFinancialOfficer.Phone,
-                        RoleName = ChiefFinancialOfficerRole
-                    };
-                }
-
                 var accountingOfficer = trustContacts
-                    .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
-                    .FirstOrDefault();
+                    .FirstOrDefault(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider));
 
                 if (accountingOfficer != null)
                 {
@@ -106,6 +88,8 @@ public class ConfirmSupportingOrganisationDetailsModel(
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(ShowError, id, cancellationToken);
 
+        var dateContactDetailsAdded = DateTime.Now;
+
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,
@@ -113,7 +97,11 @@ public class ConfirmSupportingOrganisationDetailsModel(
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            SupportProject?.SupportingOrganisationAddress);
+            SupportProject?.SupportingOrganisationAddress,
+            AccountingOfficer?.Name,
+            AccountingOfficer?.Email,
+            AccountingOfficer?.Phone,
+            dateContactDetailsAdded);
 
         var result = await mediator.Send(command, cancellationToken);
 

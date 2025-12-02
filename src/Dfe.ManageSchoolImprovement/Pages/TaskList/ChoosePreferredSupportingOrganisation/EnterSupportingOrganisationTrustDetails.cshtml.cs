@@ -141,7 +141,11 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             SupportProject?.DateSupportOrganisationChosen,
             SupportProject?.AssessmentToolTwoCompleted,
-            address);
+            address,
+            SupportProject?.SupportingOrganisationContactName,
+            SupportProject?.SupportingOrganisationContactEmailAddress,
+            SupportProject?.SupportingOrganisationContactPhone,
+            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
         
         var result = await mediator.Send(command, cancellationToken);
         

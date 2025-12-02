@@ -124,10 +124,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 
         public DateTime? DateSupportingOrganisationContactDetailsAdded { get; set; }
-
         public string? SupportingOrganisationContactName { get; set; }
-
         public string? SupportingOrganisationContactEmailAddress { get; set; }
+        public string? SupportingOrganisationContactPhone { get; set; }
+        
 
         public bool? IndicativeFundingBandCalculated { get; set; }
         public string? IndicativeFundingBand { get; set; }
@@ -238,6 +238,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
+                SupportingOrganisationContactPhone = supportProjectDto.SupportingOrganisationContactPhone,
                 RegionalDirectorImprovementPlanDecisionDate = supportProjectDto.RegionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision = supportProjectDto.HasApprovedImprovementPlanDecision,
                 HasSavedImprovementPlanInSharePoint = supportProjectDto.HasSavedImprovementPlanInSharePoint,
