@@ -1,3 +1,4 @@
+using System.Web;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
@@ -28,13 +29,13 @@ public class TrustService(IDfeHttpClientFactory httpClientFactory,
     
     public async Task<TrustDto> GetTrustByUkprn(string ukprn)
     {
-        HttpResponseMessage response = await _httpClient.GetAsync($"/v4/trust/{ukprn}");
+        HttpResponseMessage response = await _httpClient.GetAsync($"/v4/trust/{HttpUtility.UrlEncode(ukprn)}");
         if (!response.IsSuccessStatusCode)
         {
             logger.LogWarning("Unable to get trust data for trust with UKPRN: {Ukprn}", ukprn);
             return new TrustDto();
         }
 
-        return await response.Content.ReadFromJsonAsync<TrustDto>();
+        return await response.Content.ReadFromJsonAsync<TrustDto>() ?? throw new InvalidOperationException();
     }
 }
