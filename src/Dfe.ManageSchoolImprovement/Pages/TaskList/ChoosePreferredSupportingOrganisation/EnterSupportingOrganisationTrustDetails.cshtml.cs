@@ -21,11 +21,10 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
     public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; }
 
-    private const string SEARCH_LABEL = "Search by trust name or UKPRN (UK Provider Reference Number).";
-    private string SearchEndpoint = String.Empty;
+    private const string SearchLabel = "Search by trust name or UKPRN (UK Provider Reference Number).";
 
     [BindProperty]
-    [Required(ErrorMessage = "Enter the trust name or URN")]
+    [Required(ErrorMessage = "Enter the trust name or UKPRN")]
     public string SearchQuery { get; set; } = "";
 
     public bool ShowError { get; set; }
@@ -47,10 +46,10 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             OrganisationName = SupportProject?.SupportOrganisationName;
         }
         
-        SearchEndpoint =
+        var searchEndpoint =
             $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
 
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, SearchEndpoint);
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(SearchLabel, SearchQuery, searchEndpoint);
 
         return Page();
     }
@@ -92,28 +91,54 @@ public class EnterSupportingOrganisationTrustDetailsModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        SearchEndpoint =
+         var searchEndpoint =
             $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
         
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(SEARCH_LABEL, SearchQuery, SearchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
-
-        if (string.IsNullOrWhiteSpace(SearchQuery))
-        {
-            ModelState.AddModelError(nameof(SearchQuery), "Enter the trust name or UKPRN");
-            errorService.AddErrors(ModelState.Keys, ModelState);
-            return Page();
-        }
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(SearchLabel, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
+        
         string[] splitSearch = SplitOnBrackets(SearchQuery);
-        if (splitSearch.Length < 2)
-        {
-            ModelState.AddModelError(nameof(SearchQuery), "We could not find any trusts matching your search criteria");
-            errorService.AddErrors(ModelState.Keys, ModelState);
-            return Page();
-        }
-
+        
         string expectedUkprn = splitSearch[splitSearch.Length - 1];
 
         var expectedTrust = await getTrust.GetTrustByUkprn(expectedUkprn);
+
+        // if (string.IsNullOrWhiteSpace(SearchQuery))
+        // {
+        //     ModelState.AddModelError(nameof(SearchQuery), "Enter the trust name or UKPRN");
+        // }
+        //
+        // if (!string.IsNullOrWhiteSpace(SearchQuery) && splitSearch.Length < 2)
+        // {
+        //     ModelState.AddModelError(nameof(SearchQuery), "We could not find any trusts matching your search criteria");
+        // }
+        //
+        // if (!string.IsNullOrWhiteSpace(SearchQuery) && splitSearch.Length > 2  && string.IsNullOrEmpty(expectedTrust.Name))
+        // {
+        //     ModelState.AddModelError(nameof(SearchQuery), "We could not find a trust matching your search criteria");
+        // }
+        
+        if (string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            ModelState.AddModelError(nameof(SearchQuery), "Enter the trust name or UKPRN");
+        }
+        else
+        {
+            if (splitSearch.Length < 2)
+            {
+                ModelState.AddModelError(nameof(SearchQuery), "We could not find any trusts matching your search criteria");
+            }
+            else if (splitSearch.Length > 2 && string.IsNullOrEmpty(expectedTrust.Name))
+            {
+                ModelState.AddModelError(nameof(SearchQuery), "We could not find a trust matching your search criteria");
+            }
+        }
+
+        if (!ModelState.IsValid)
+        {
+            ShowError = true;
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            return Page();
+        }
         
         var address = string.Join(", ", new[]
         {
@@ -123,16 +148,6 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             expectedTrust.Address.County,
             expectedTrust.Address.Postcode
         }.Where(x => !string.IsNullOrWhiteSpace(x)));
-
-        if (expectedTrust.Name == null)
-        {
-            ModelState.AddModelError(nameof(SearchQuery), "We could not find a trust matching your search criteria");
-            errorService.AddErrors(ModelState.Keys, ModelState);
-            return Page();
-        }
-        
-        if (!ModelState.IsValid)
-            return await HandleValidationErrorAsync(ShowError, id, cancellationToken);
         
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),

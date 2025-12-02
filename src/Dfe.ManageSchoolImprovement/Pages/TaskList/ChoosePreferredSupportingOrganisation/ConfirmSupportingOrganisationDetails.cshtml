@@ -10,7 +10,8 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.PreviousPage" asp-route-id="@Model.SupportProject.Id" asp-route-previousSupportOrganisationType="@Model.SupportProject.SupportOrganisationType"
+        <a asp-page="@Model.PreviousPage" asp-route-id="@Model.SupportProject.Id"
+           asp-route-previousSupportOrganisationType="@Model.SupportProject.SupportOrganisationType"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -25,7 +26,7 @@
     var organisationName = Model.SupportProject?.SupportOrganisationName ?? "";
     var organisationIdNumber = Model.SupportProject?.SupportOrganisationIdNumber ?? "";
     var dateConfirmed = Model.SupportProject?.DateSupportOrganisationChosen;
-    
+
     string organisationTypeLabel = organisationType switch
     {
         "School" => "URN",
@@ -39,143 +40,126 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <form method="post" novalidate>
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <h1 class="govuk-heading-l">
-            Confirm supporting organisation details
-        </h1>
+            <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+            <h1 class="govuk-heading-l">
+                Confirm supporting organisation details
+            </h1>
 
-        <div class="govuk-summary-card">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Supporting organisation</h2>
-                <ul class="govuk-summary-card__actions">
-                    <li class="govuk-summary-card__action">
-                        <a class="govuk-link" asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page" asp-route-id="@Model.SupportProject.Id">
-                            Change<span class="govuk-visually-hidden"> supporting organisation details</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="govuk-summary-card__content">
-                <dl class="govuk-summary-list">
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            @organisationType
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @organisationName
-                        </dd>
-                    </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            @organisationTypeLabel
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @organisationIdNumber
-                        </dd>
-                    </div>
-                    @if (!String.IsNullOrEmpty(Model.OrganisationAddress))
-                    {
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Supporting organisation</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link"
+                               asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page"
+                               asp-route-id="@Model.SupportProject.Id">
+                                Change<span class="govuk-visually-hidden"> supporting organisation details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                @organisationType
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @organisationName
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                @organisationTypeLabel
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @organisationIdNumber
+                            </dd>
+                        </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Address
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @Html.Raw(Model.OrganisationAddress?.Replace(",", "<br>"))
+                                @Html.Raw(Model.OrganisationAddress?.Replace(",", "<br>") ?? "Not available")
                             </dd>
                         </div>
-                    }
-                    @if (dateConfirmed != null)
-                    {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Date confirmed
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @(dateConfirmed?.ToDateString() ?? "")
+                                @(dateConfirmed?.ToDateString() ?? "Not available")
                             </dd>
                         </div>
-                    }
-                    @* if via autocomplete *@
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Source
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            Get information about schools
-                        </dd>
-                    </div>
-                </dl>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Source
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                Get information about schools
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
             </div>
-        </div>
-        
-        <h2 class="govuk-heading-m">Contact details</h2>
-        <p class="margin-top-minus-10">You can add an alternative contact later on if these contact details are incorrect.</p>
 
-        @* if contact details available *@
-        <div class="govuk-summary-card">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Accounting officer for supporting organisation</h2>
-            </div>
-            <div class="govuk-summary-card__content">
-                <dl class="govuk-summary-list">
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Name
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @Model.AccountingOfficer?.Name
-                        </dd>
-                        <input type="hidden" asp-for="@Model.AccountingOfficer.Name" />
-                    </div>
-                    @if (!string.IsNullOrEmpty(Model.AccountingOfficer?.Email))
-                    {
+            <h2 class="govuk-heading-m">Contact details</h2>
+            <p class="margin-top-minus-10">You can add an alternative contact later on if these contact details are
+                incorrect.</p>
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Accounting officer for supporting organisation</h2>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(Model.AccountingOfficer?.Name ?? "Not available")
+                            </dd>
+                            <input type="hidden" asp-for="@Model.AccountingOfficer.Name"/>
+                        </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Email
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @Model.AccountingOfficer?.Email
+                                @(Model.AccountingOfficer?.Email ?? "Not available")
                             </dd>
-                            <input type="hidden" asp-for="@Model.AccountingOfficer.Email" />
+                            <input type="hidden" asp-for="@Model.AccountingOfficer.Email"/>
                         </div>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.AccountingOfficer?.Phone))
-                    {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Phone
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @Model.AccountingOfficer?.Phone
+                                @(Model.AccountingOfficer?.Phone ?? "Not available")
                             </dd>
-                            <input type="hidden" asp-for="@Model.AccountingOfficer.Phone" />
+                            <input type="hidden" asp-for="@Model.AccountingOfficer.Phone"/>
                         </div>
-                    }
-                    @if (!String.IsNullOrEmpty(Model.OrganisationAddress))
-                    {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Postal address
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @Html.Raw(Model.OrganisationAddress?.Replace(",", "<br>"))
+                                @Html.Raw(Model.OrganisationAddress?.Replace(",", "<br>") ?? "Not available")
                             </dd>
                         </div>
-                    }
-                    @* if via autocomplete *@
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Source
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            Get information about schools
-                        </dd>
-                    </div>
-                </dl>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Source
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                Get information about schools
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
             </div>
-        </div>
-        
-        
+
             <govuk-date-input heading-label="false"
                               label="Enter date supporting organisation confirmed"
                               id="date-support-organisation-confirmed"

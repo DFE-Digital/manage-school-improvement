@@ -59,7 +59,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
                 if (accountingOfficer != null)
                 {
-                    AccountingOfficer = new ContactViewModel()
+                    AccountingOfficer = new ContactViewModel
                     {
                         Name = accountingOfficer.DisplayName,
                         Email = accountingOfficer.Email,
@@ -86,7 +86,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
         }
 
         if (!ModelState.IsValid)
-            return await HandleValidationErrorAsync(ShowError, id, cancellationToken);
+            return await HandleValidationErrorAsync(id, cancellationToken);
 
         var dateContactDetailsAdded = DateTime.Now;
 
@@ -114,5 +114,12 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
+    }
+    
+    protected async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
+    {
+        _errorService.AddErrors(Request.Form.Keys, ModelState);
+        ShowError = true;
+        return await GetSupportProject(id, cancellationToken);
     }
 }
