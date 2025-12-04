@@ -8,15 +8,19 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
 public record SetChoosePreferredSupportingOrganisationCommand(
     SupportProjectId SupportProjectId,
     string? OrganisationName,
-    string? IDNumber,
+    string? IdNumber,
     string? OrganisationType,
     DateTime? DateSupportOrganisationChosen,
-    bool? AssessmentToolTwoCompleted
+    bool? AssessmentToolTwoCompleted,
+    string? Address,
+    string? ContactName,
+    string? ContactEmail,
+    string? ContactPhone,
+    DateTime? DateContactDetailsAdded
 ) : IRequest<bool>;
+
 public class SetChoosePreferredSupportingOrganisation
 {
-
-
     public class SetChoosePreferredSupportingOrganisationHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetChoosePreferredSupportingOrganisationCommand, bool>
     {
@@ -29,11 +33,19 @@ public class SetChoosePreferredSupportingOrganisation
                 return false;
             }
 
-            supportProject.SetChoosePreferredSupportOrganisation(request.DateSupportOrganisationChosen,
-                request.OrganisationName,
-                request.IDNumber,
-                request.OrganisationType,
-                request.AssessmentToolTwoCompleted);
+            supportProject.SetChoosePreferredSupportOrganisation(new SupportingOrganisationDetails()
+                {
+                    DateSupportOrganisationChosen = request.DateSupportOrganisationChosen,
+                    SupportOrganisationName = request.OrganisationName,
+                    SupportOrganisationIdNumber = request.IdNumber,
+                    SupportOrganisationType = request.OrganisationType,
+                    AssessmentToolTwoCompleted = request.AssessmentToolTwoCompleted,
+                    SupportOrganisationAddress = request.Address,
+                    SupportOrganisationContactName = request.ContactName,
+                    SupportOrganisationContactEmailAddress = request.ContactEmail,
+                    SupportOrganisationContactPhone = request.ContactPhone,
+                    DateSupportingOrganisationContactDetailsAdded = request.DateContactDetailsAdded
+                });
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

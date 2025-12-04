@@ -166,7 +166,7 @@ public static class TaskStatusViewModel
         SupportProjectViewModel supportProject)
     {
         if (supportProject.DateSupportOrganisationChosen.HasValue
-            && supportProject.SupportOrganisationName != null
+            && !string.IsNullOrWhiteSpace(supportProject.SupportOrganisationName)
             && !string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber)
             && supportProject.AssessmentToolTwoCompleted == true)
         {
@@ -174,7 +174,7 @@ public static class TaskStatusViewModel
         }
 
         if (!supportProject.DateSupportOrganisationChosen.HasValue
-            && supportProject.SupportOrganisationName == null
+            && string.IsNullOrWhiteSpace(supportProject.SupportOrganisationName)
             && string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber)
             && supportProject.AssessmentToolTwoCompleted == null)
         {

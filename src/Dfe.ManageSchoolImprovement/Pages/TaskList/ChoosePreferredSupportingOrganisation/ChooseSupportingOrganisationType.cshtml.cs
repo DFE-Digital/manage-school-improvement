@@ -21,6 +21,9 @@ public class ChooseSupportOrganisationTypeModel(
 
     [BindProperty(Name = "complete-assessment-tool")]
     public bool? CompleteAssessmentTool { get; set; }
+    
+    [BindProperty(Name = "js-enabled")]
+    public bool JavaScriptEnabled { get; set; } = true;
 
     public bool ShowError { get; set; }
     public string AssessmentToolTwoLink { get; set; } = string.Empty;
@@ -74,7 +77,12 @@ public class ChooseSupportOrganisationTypeModel(
             SupportProject?.SupportOrganisationIdNumber,
             SupportOrganisationType,
             SupportProject?.DateSupportOrganisationChosen,
-            CompleteAssessmentTool);
+            CompleteAssessmentTool,
+            SupportProject?.SupportingOrganisationAddress,
+            SupportProject?.SupportingOrganisationContactName,
+            SupportProject?.SupportingOrganisationContactEmailAddress,
+            SupportProject?.SupportingOrganisationContactPhone,
+            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -100,7 +108,8 @@ public class ChooseSupportOrganisationTypeModel(
         }
         else if (SupportOrganisationType == "Trust")
         {
-            return Links.TaskList.EnterSupportingOrganisationTrustDetails.Page;
+            return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationTrustDetails.Page :
+                Links.TaskList.EnterSupportingOrganisationTrustDetailsFallback.Page;
         }
         else if (SupportOrganisationType == "Local authority")
         {
