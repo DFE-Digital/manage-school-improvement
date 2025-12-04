@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
@@ -104,6 +105,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SupportOrganisationName { get; set; }
 
         public string? SupportOrganisationIdNumber { get; set; }
+        
+        public string? SupportingOrganisationAddress { get; set; }
 
         public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
@@ -121,10 +124,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 
         public DateTime? DateSupportingOrganisationContactDetailsAdded { get; set; }
-
         public string? SupportingOrganisationContactName { get; set; }
-
         public string? SupportingOrganisationContactEmailAddress { get; set; }
+        public string? SupportingOrganisationContactPhone { get; set; }
+        
 
         public bool? IndicativeFundingBandCalculated { get; set; }
         public string? IndicativeFundingBand { get; set; }
@@ -218,6 +221,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateSupportOrganisationChosen = supportProjectDto.DateSupportOrganisationChosen,
                 SupportOrganisationName = supportProjectDto.SupportOrganisationName,
                 SupportOrganisationIdNumber = supportProjectDto.SupportOrganisationIdNumber,
+                SupportingOrganisationAddress = supportProjectDto.SupportingOrganisationAddress,
                 RegionalDirectorDecisionDate = supportProjectDto.RegionalDirectorDecisionDate,
                 HasSchoolMatchedWithSupportingOrganisation = supportProjectDto.HasSchoolMatchedWithSupportingOrganisation,
                 NotMatchingSchoolWithSupportingOrgNotes = supportProjectDto.NotMatchingSchoolWithSupportingOrgNotes,
@@ -234,6 +238,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
+                SupportingOrganisationContactPhone = supportProjectDto.SupportingOrganisationContactPhone,
                 RegionalDirectorImprovementPlanDecisionDate = supportProjectDto.RegionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision = supportProjectDto.HasApprovedImprovementPlanDecision,
                 HasSavedImprovementPlanInSharePoint = supportProjectDto.HasSavedImprovementPlanInSharePoint,

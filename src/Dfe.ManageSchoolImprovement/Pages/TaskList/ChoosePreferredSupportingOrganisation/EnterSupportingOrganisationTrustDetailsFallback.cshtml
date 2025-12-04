@@ -1,0 +1,61 @@
+@page "/task-list/enter-supporting-organisation-trust-details-fallback/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.EnterSupportingOrganisationTrustDetailsFallbackModel
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Enter supporting organisation details";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Enter supporting organisation details
+        </h1>
+        
+        <form method="post" novalidate>
+            <govuk-text-input heading-label="true"
+                              label="Organisation name"
+                              id="organisation-name"
+                              name="organisation-name"
+                              asp-for="@Model.OrganisationName"
+                              error-message="@Model.OrganisationNameErrorMessage"
+                              hint="Enter the name of the trust that will be the supporting organisation"
+                              width="30"/>
+        
+            <govuk-text-input heading-label="true"
+                              label="Trust's UKPRN"
+                              id="trust-ukprn"
+                              name="trust-ukprn"
+                              asp-for="@Model.TrustUKPRN"
+                              error-message="@Model.TrustUKPRNErrorMessage"
+                              hint="Enter the UKPRN of the trust that will be the supporting organisation"
+                              width="30"/>
+        
+            <govuk-date-input heading-label="false"
+                              label="Enter date supporting organisation confirmed"
+                              id="date-support-organisation-confirmed"
+                              name="date-support-organisation-confirmed"
+                              asp-for="@Model.DateSupportOrganisationConfirmed"
+                              error-message="@Model.DateConfirmedErrorMessage"
+                              hint="For example, 1 7 2024."/>
+        
+        <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
+                data-cy="select-common-submitbutton" type="submit">
+            Continue
+        </button>
+        </form>
+    </div>
+</div>
