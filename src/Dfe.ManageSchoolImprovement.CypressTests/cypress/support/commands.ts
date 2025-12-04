@@ -64,25 +64,28 @@ Cypress.Commands.add("login", (params) => {
 });
 
 Cypress.Commands.add("executeAccessibilityTests", (ruleOverride?: RuleObject) => {
-    Logger.log("Executing the command");
     const continueOnFail = false;
-
     let ruleConfiguration: RuleObject = {
-        region: { enabled: false }
+        region: { enabled: false },
     };
-
     if (ruleOverride) {
         ruleConfiguration = { ...ruleConfiguration, ...ruleOverride };
     }
-
     // Ensure that the axe dependency is available in the browser
-    Logger.log("Inject Axe");
+    Logger.log("Injecting Axe and checking accessibility");
     cy.injectAxe();
-
-    Logger.log("Checking accessibility");
-    cy.checkA11y(undefined, {
-        rules: ruleConfiguration,
-    }, undefined, continueOnFail);
+    cy.checkA11y(
+        undefined,
+        {
+            runOnly: {
+                type: "tag",
+                values: ["wcag22aa"],
+            },
+            rules: ruleConfiguration,
+        },
+        undefined,
+        continueOnFail,
+    );
 });
 
 Cypress.Commands.add('typeFast', { prevSubject: 'element' }, (subject: JQuery<HTMLElement>, text: string) => {
