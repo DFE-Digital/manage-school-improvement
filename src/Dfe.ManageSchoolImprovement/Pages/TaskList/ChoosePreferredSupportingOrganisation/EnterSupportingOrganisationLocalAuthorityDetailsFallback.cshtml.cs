@@ -3,15 +3,12 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
-    IGetLocalAuthority getLocalAuthority,
+public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
@@ -42,12 +39,6 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
     public bool LaCodeError => !string.IsNullOrEmpty(LaCodeErrorMessage);
 
-    public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; }
-
-    [BindProperty]
-    [Required(ErrorMessage = "Enter the local authority name or code")]
-    public string SearchQuery { get; set; } = "";
-
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
@@ -59,69 +50,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
-        var searchEndpoint =
-        $"/task-list/enter-supporting-organisation-local-authority-details/{id}?handler=Search&searchQuery=";
-
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint);
-
         return Page();
-    }
-
-    public async Task<IActionResult> OnGetSearch(string searchQuery)
-    {
-        // Short-circuit on empty or very short queries
-        if (string.IsNullOrWhiteSpace(searchQuery) || searchQuery.Trim().Length < 3)
-        {
-            return new JsonResult(Array.Empty<object>());
-        }
-
-        string[] searchSplit = SplitOnBrackets(searchQuery);
-        string term = (searchSplit.Length > 0 ? searchSplit[0] : string.Empty).Trim();
-
-        if (string.IsNullOrWhiteSpace(term))
-        {
-            return new JsonResult(Array.Empty<object>());
-        }
-
-        try
-        {
-            IEnumerable<NameAndCodeDto> trusts = await getLocalAuthority.SearchLocalAuthorities(term);
-
-            return new JsonResult(trusts.Select(s => new
-            {
-                suggestion = HighlightSearchMatch($"{s.Name} ({s.Code})", term, s),
-                value = $"{s.Name} ({s.Code})"
-            }));
-        }
-        catch
-        {
-            // Fail safe for autocomplete - never surface a 500 from a suggestion call
-            return new JsonResult(Array.Empty<object>());
-        }
-    }
-    private static string[] SplitOnBrackets(string input)
-    {
-        // return array containing one empty string if input string is null or empty
-        if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
-
-        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-    }
-    private static string HighlightSearchMatch(string input, string toReplace, NameAndCodeDto localAuthority)
-    {
-        if (localAuthority == null || string.IsNullOrWhiteSpace(localAuthority.Code) || string.IsNullOrWhiteSpace(localAuthority.Name))
-            return string.Empty;
-
-        if (string.IsNullOrWhiteSpace(toReplace))
-            return input;
-
-        int index = input.IndexOf(toReplace, StringComparison.InvariantCultureIgnoreCase);
-        if (index < 0)
-            return input;
-
-        string correctCaseSearchString = input.Substring(index, toReplace.Length);
-
-        return input.Replace(toReplace, $"<strong>{correctCaseSearchString}</strong>",
-            StringComparison.InvariantCultureIgnoreCase);
     }
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
