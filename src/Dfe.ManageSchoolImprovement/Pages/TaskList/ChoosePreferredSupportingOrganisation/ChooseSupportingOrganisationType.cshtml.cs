@@ -104,7 +104,8 @@ public class ChooseSupportOrganisationTypeModel(
     {
         if (SupportOrganisationType == "School")
         {
-            return Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page;
+            return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page :
+                Links.TaskList.EnterSupportingOrganisationSchoolDetailsFallback.Page;
         }
         else if (SupportOrganisationType == "Trust")
         {

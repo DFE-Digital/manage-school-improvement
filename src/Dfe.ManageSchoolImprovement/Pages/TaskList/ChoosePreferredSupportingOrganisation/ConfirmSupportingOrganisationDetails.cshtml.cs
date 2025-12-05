@@ -6,19 +6,24 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Utils;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
 public class ConfirmSupportingOrganisationDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ITrustsClient trustClient,
+    IGetEstablishment getEstablishment,
+    IEstablishmentsClient establishmentsClient,
     IDateTimeProvider dateTimeProvider,
     ErrorService errorService,
     IMediator mediator)
-    : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -26,13 +31,20 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
     public string? OrganisationAddress { get; set; }
 
-    [BindProperty]
     public ContactViewModel? AccountingOfficer { get; set; }
-    
+
     public const string AccountingOfficerRole = "Accounting Officer";
+    public const string HeadteacherRole = "Head Teacher";
     public bool ShowError { get; set; }
 
     public string? DateConfirmedErrorMessage { get; private set; }
+    
+    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
+    {
+        return $"Date must include a {string.Join(" and ", missingParts)}";
+    }
+        
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public string PreviousPage { get; set; } = string.Empty;
 
@@ -46,28 +58,15 @@ public class ConfirmSupportingOrganisationDetailsModel(
         OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
 
-        if (SupportProject?.SupportOrganisationType == "Trust" && !string.IsNullOrEmpty(SupportProject.SupportOrganisationName))
+        if (SupportProject?.SupportOrganisationType == "Trust" &&
+            !string.IsNullOrEmpty(SupportProject.SupportOrganisationName))
         {
-            var trustContacts = await trustClient
-                .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.SupportOrganisationIdNumber,
-                    cancellationToken).ConfigureAwait(false);
+            await GetTrustAccountingOfficer(SupportProject?.SupportOrganisationIdNumber, cancellationToken);
+        }
 
-            if (trustContacts != null && trustContacts.Count > 0)
-            {
-                var accountingOfficer = trustContacts
-                    .FirstOrDefault(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider));
-
-                if (accountingOfficer != null)
-                {
-                    AccountingOfficer = new ContactViewModel
-                    {
-                        Name = accountingOfficer.DisplayName,
-                        Email = accountingOfficer.Email,
-                        Phone = accountingOfficer.Phone,
-                        RoleName = AccountingOfficerRole
-                    };
-                }
-            }
+        if (SupportProject?.SupportOrganisationType == "School")
+        {
+            await GetSchoolAccountingOfficer(SupportProject?.SupportOrganisationIdNumber, cancellationToken);
         }
 
         return Page();
@@ -76,6 +75,17 @@ public class ConfirmSupportingOrganisationDetailsModel(
     public async Task<IActionResult> OnPost(int id, string? previousPage, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        if (SupportProject?.SupportOrganisationType == "Trust" &&
+            !string.IsNullOrEmpty(SupportProject.SupportOrganisationName))
+        {
+            await GetTrustAccountingOfficer(SupportProject?.SupportOrganisationIdNumber, cancellationToken);
+        }
+
+        if (SupportProject?.SupportOrganisationType == "School")
+        {
+            await GetSchoolAccountingOfficer(SupportProject?.SupportOrganisationIdNumber, cancellationToken);
+        }
 
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
 
@@ -86,9 +96,13 @@ public class ConfirmSupportingOrganisationDetailsModel(
         }
 
         if (!ModelState.IsValid)
-            return await HandleValidationErrorAsync(id, cancellationToken);
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            ShowError = true;
+            return await GetSupportProject(id, cancellationToken);
+        }
 
-        var dateContactDetailsAdded = DateTime.Now;
+        var dateContactDetailsAdded = DateTime.UtcNow;
 
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
@@ -115,11 +129,70 @@ public class ConfirmSupportingOrganisationDetailsModel(
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
     }
-    
-    protected async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
+
+    private async Task GetTrustAccountingOfficer(string ukprn, CancellationToken cancellationToken)
     {
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        ShowError = true;
-        return await GetSupportProject(id, cancellationToken);
+        var trustContacts = await trustClient
+            .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(ukprn,
+                cancellationToken).ConfigureAwait(false);
+
+        if (trustContacts != null && trustContacts.Count > 0)
+        {
+            var accountingOfficer = trustContacts
+                .FirstOrDefault(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider));
+
+            if (accountingOfficer != null)
+            {
+                AccountingOfficer = new ContactViewModel
+                {
+                    Name = accountingOfficer.DisplayName,
+                    Email = accountingOfficer.Email,
+                    Phone = accountingOfficer.Phone,
+                    RoleName = AccountingOfficerRole
+                };
+            }
+        }
+    }
+
+    private async Task GetSchoolAccountingOfficer(string supportingOrganisationId, CancellationToken cancellationToken)
+    {
+        var trust = await getEstablishment.GetEstablishmentTrust(supportingOrganisationId);
+
+        if (trust != null && !string.IsNullOrEmpty(trust.Name))
+        {
+            await GetTrustAccountingOfficer(trust.Ukprn, cancellationToken);
+        }
+        else
+        {
+            var supportingSchool =
+                await getEstablishment.GetEstablishmentByUrn(supportingOrganisationId);
+            var establishmentContacts = await establishmentsClient
+                .GetAllPersonsAssociatedWithAcademyByUrnAsync(int.TryParse(supportingOrganisationId, out var urn) ? urn : 0,
+                    cancellationToken).ConfigureAwait(false);
+                
+            var headteacherEmail = string.Empty;
+                
+            if (establishmentContacts != null && establishmentContacts.Count > 0)
+            {
+                // "Head Teacher" does not exist as a governance role type, but the accounting officer should always be the head teacher
+                var headteacher = establishmentContacts
+                    .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
+                    .OrderByDescending(x => x.UpdatedAt)
+                    .FirstOrDefault();
+                
+                if (headteacher != null)
+                {
+                    headteacherEmail = headteacher.Email;
+                }
+            }
+                
+            AccountingOfficer = new ContactViewModel()
+            {
+                Name = supportingSchool.HeadteacherFirstName + " " + supportingSchool.HeadteacherLastName,
+                Email = headteacherEmail,
+                Phone = supportingSchool.MainPhone,
+                RoleName = HeadteacherRole
+            };
+        }
     }
 }
