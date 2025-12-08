@@ -6,6 +6,21 @@ public class GetLocalAuthoritiesCacheDecorator(IGetLocalAuthority getLocalAuthor
 {
     private readonly HttpContext _httpContext = httpContextAccessor.HttpContext!;
 
+    public async Task<NameAndCodeDto> GetLocalAuthorityByCode(string code)
+    {
+        string key = $"local-authorities-{code}";
+        if (_httpContext.Items.ContainsKey(key) && _httpContext.Items[key] is NameAndCodeDto cached)
+        {
+            return cached;
+        }
+
+        NameAndCodeDto localAuthority = await getLocalAuthority.GetLocalAuthorityByCode(code);
+
+        _httpContext.Items[key] = localAuthority;
+
+        return localAuthority;
+    }
+
     public Task<IEnumerable<NameAndCodeDto>> SearchLocalAuthorities(string searchQuery)
     {
         string key = $"local-authorities-{searchQuery}";

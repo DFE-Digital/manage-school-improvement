@@ -93,11 +93,10 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.SupportingOrganisationContactName,
-            SupportProject?.SupportingOrganisationContactEmailAddress,
-            SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            null,
+            null,
+            null,
+            null, null, null);
 
         var result = await mediator.Send(command, cancellationToken);
 

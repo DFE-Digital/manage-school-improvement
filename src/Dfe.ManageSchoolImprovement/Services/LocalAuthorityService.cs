@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
+using System.Web;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 
@@ -8,6 +9,18 @@ public class LocalAuthorityService(IDfeHttpClientFactory httpClientFactory,
                             IHttpClientService httpClientService) : IGetLocalAuthority
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateAcademiesClient();
+
+    public async Task<NameAndCodeDto> GetLocalAuthorityByCode(string code)
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync($"/v4/local-authorities/{HttpUtility.UrlEncode(code)}");
+        if (!response.IsSuccessStatusCode)
+        {
+            logger.LogWarning("Unable to get local auto data for local authority with code: {code}", code);
+            return new NameAndCodeDto();
+        }
+
+        return await response.Content.ReadFromJsonAsync<NameAndCodeDto>() ?? throw new InvalidOperationException();
+    }
 
     public async Task<IEnumerable<NameAndCodeDto>> SearchLocalAuthorities(string searchQuery)
     {

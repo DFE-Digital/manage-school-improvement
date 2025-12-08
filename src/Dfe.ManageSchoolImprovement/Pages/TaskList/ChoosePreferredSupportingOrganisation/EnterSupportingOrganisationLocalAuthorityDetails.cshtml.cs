@@ -42,7 +42,9 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
     public bool LaCodeError => !string.IsNullOrEmpty(LaCodeErrorMessage);
 
-    public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; }
+    public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; } = null!;
+
+    private const string SearchEndpoint = "/task-list/enter-supporting-organisation-local-authority-details/{0}?handler=Search&searchQuery=";
 
     [BindProperty]
     [Required(ErrorMessage = "Enter the local authority name or code")]
@@ -59,10 +61,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
-        var searchEndpoint =
-        $"/task-list/enter-supporting-organisation-local-authority-details/{id}?handler=Search&searchQuery=";
-
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint);
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, SearchEndpoint);
 
         return Page();
     }
@@ -126,50 +125,55 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
-        OrganisationName = OrganisationName?.Trim();
-        LaCode = LaCode?.Trim();
-
         await base.GetSupportProject(id, cancellationToken);
 
-        // Validate entries
-        if (OrganisationName == null || LaCode == null || DateSupportOrganisationConfirmed == null)
+        var searchEndpoint =
+           $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
+
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, SearchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
+
+        string[] splitSearch = SplitOnBrackets(SearchQuery);
+
+        string expectedCode = splitSearch[splitSearch.Length - 1];
+
+        var expectedLocalAuthority = await getLocalAuthority.GetLocalAuthorityByCode(expectedCode).ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(SearchQuery))
         {
-            if (OrganisationName == null)
+            ModelState.AddModelError(nameof(SearchQuery), "Enter the local authority name or code");
+        }
+        else
+        {
+            if (splitSearch.Length < 2)
             {
-                OrganisationNameErrorMessage = "Enter the supporting organisation's name";
-                ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
+                ModelState.AddModelError(nameof(SearchQuery), "We could not find any local authorities matching your search criteria");
             }
-
-            if (LaCode == null)
+            else if (splitSearch.Length > 2 && string.IsNullOrEmpty(expectedLocalAuthority.Name))
             {
-                LaCodeErrorMessage = "Enter the supporting organisation's GIAS LA Code";
-                ModelState.AddModelError("la-code", LaCodeErrorMessage);
-            }
-
-            if (DateSupportOrganisationConfirmed == null)
-            {
-                DateConfirmedErrorMessage = "Enter a date";
-                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
+                ModelState.AddModelError(nameof(SearchQuery), "We could not find a local authority matching your search criteria");
             }
         }
 
-        // Early return for validation errors
         if (!ModelState.IsValid)
-            return await HandleValidationErrorAsync(id, cancellationToken);
+        {
+            ShowError = true;
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            return Page();
+        }
 
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
-            OrganisationName,
-            LaCode,
+            expectedLocalAuthority.Name,
+            expectedLocalAuthority.Code,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            DateSupportOrganisationConfirmed,
+            SupportProject?.DateSupportOrganisationChosen,
             SupportProject?.AssessmentToolTwoCompleted,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.SupportingOrganisationContactName,
-            SupportProject?.SupportingOrganisationContactEmailAddress,
-            SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -182,13 +186,5 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page });
-    }
-
-    // Extracted method for cleaner error handling
-    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
-    {
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
     }
 }
