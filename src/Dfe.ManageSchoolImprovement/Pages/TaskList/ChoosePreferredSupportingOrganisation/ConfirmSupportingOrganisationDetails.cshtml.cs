@@ -32,7 +32,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
     public string? SchoolAddress { get; set; }
     public string? ContactAddress { get; set; }
-
+    
     public ContactViewModel? AccountingOfficer { get; set; }
 
     public const string AccountingOfficerRole = "Accounting Officer";
@@ -56,23 +56,35 @@ public class ConfirmSupportingOrganisationDetailsModel(
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject?.SupportOrganisationIdNumber);
-
-        var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
-
+        
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         SchoolAddress = SupportProject?.SupportingOrganisationAddress;
 
-        if (expectedTrust != null &&
-            !string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
+        if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
         {
-            await GetTrustAccountingOfficer(expectedTrust, cancellationToken);
+            if (SupportProject.SupportOrganisationType == "Trust")
+            {
+                await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
+            }
+
+            if (SupportProject?.SupportOrganisationType == "School")
+            {
+                var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber);
+
+                var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
+            
+                if (expectedTrust != null)
+                {
+                    await GetTrustContactAddress(expectedTrust, cancellationToken);
+                    await GetTrustAccountingOfficer(expectedTrust.Ukprn, cancellationToken);
+                }
+                else
+                {
+                    await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
+                }
+            }  
         }
-        else if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
-        {
-            await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
-        }
+
 
         return Page();
     }
@@ -80,23 +92,31 @@ public class ConfirmSupportingOrganisationDetailsModel(
     public async Task<IActionResult> OnPost(int id, string? previousPage, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
-
-        var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject?.SupportOrganisationIdNumber);
-
-        var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
-
-        if (expectedTrust != null &&
-            !string.IsNullOrEmpty(SupportProject.SupportOrganisationName))
+        
+        if (SupportProject?.SupportOrganisationType == "Trust")
         {
-            await GetTrustAccountingOfficer(expectedTrust, cancellationToken);
-        }
-        else if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
-        {
-            ContactAddress = SupportProject.SupportingOrganisationAddress;
-            await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
+            await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
         }
 
+        if (SupportProject?.SupportOrganisationType == "School")
+        {
+            var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject?.SupportOrganisationIdNumber);
 
+            var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
+
+            if (expectedTrust != null &&
+                !string.IsNullOrEmpty(SupportProject.SupportOrganisationName))
+            {
+                await GetTrustContactAddress(expectedTrust, cancellationToken);
+                await GetTrustAccountingOfficer(expectedTrust.Ukprn, cancellationToken);
+            }
+            else if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
+            {
+                ContactAddress = SupportProject.SupportingOrganisationAddress;
+                await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
+            }
+        }
+        
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
 
         if (DateSupportOrganisationConfirmed == null)
@@ -118,7 +138,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,
             SupportProject?.SupportOrganisationIdNumber,
-            SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
+            SupportProject?.SupportOrganisationType,
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
             SchoolAddress,
@@ -141,12 +161,11 @@ public class ConfirmSupportingOrganisationDetailsModel(
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
     }
 
-    private async Task GetTrustAccountingOfficer(TrustDto trust, CancellationToken cancellationToken)
+    private async Task GetTrustAccountingOfficer(string ukprn, CancellationToken cancellationToken)
     {
-        await GetTrustContactAddress(trust, cancellationToken);
 
         var trustContacts = await trustClient
-            .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(trust.Ukprn,
+            .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(ukprn,
                 cancellationToken).ConfigureAwait(false);
 
         if (trustContacts != null && trustContacts.Count > 0)
