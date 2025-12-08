@@ -89,8 +89,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AdviserFullName { get; private set; }
     public DateTime? IntroductoryEmailSentDate { get; private set; }
 
-    public bool? HasShareEmailTemplateWithAdviser { get; private set; }
-
     public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; private set; }
 
     public DateTime? AdviserVisitDate { get; private set; }
@@ -315,11 +313,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AdviserFullName = adviserFullName;
     }
 
-    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser,
+    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate,
         bool? remindAdviserToCopyRiseTeamWhenSentEmail)
     {
         IntroductoryEmailSentDate = introductoryEmailSentDate;
-        HasShareEmailTemplateWithAdviser = hasShareEmailTemplateWithAdviser;
         RemindAdviserToCopyRiseTeamWhenSentEmail = remindAdviserToCopyRiseTeamWhenSentEmail;
     }
 

@@ -99,15 +99,13 @@ public static class TaskStatusViewModel
 
     public static TaskListStatus SendIntroductoryEmailTaskListStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.HasShareEmailTemplateWithAdviser.HasValue
-            && supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
+        if (supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
             && supportProject.IntroductoryEmailSentDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.HasShareEmailTemplateWithAdviser.HasValue
-            && !supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
+        if (!supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
             && !supportProject.IntroductoryEmailSentDate.HasValue)
         {
             return TaskListStatus.NotStarted;

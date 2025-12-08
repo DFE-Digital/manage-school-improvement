@@ -80,7 +80,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? AdviserFullName { get; private set; }
 
         public DateTime? IntroductoryEmailSentDate { get; set; }
-        public bool? HasShareEmailTemplateWithAdviser { get; set; }
 
         public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; set; }
 
@@ -205,7 +204,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
                 DateConflictOfInterestDeclarationChecked = supportProjectDto.DateConflictOfInterestDeclarationChecked,
                 ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
-                HasShareEmailTemplateWithAdviser = supportProjectDto.HasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
                 IntroductoryEmailSentDate = supportProjectDto.IntroductoryEmailSentDate,
                 AdviserEmailAddress = supportProjectDto.AdviserEmailAddress,
