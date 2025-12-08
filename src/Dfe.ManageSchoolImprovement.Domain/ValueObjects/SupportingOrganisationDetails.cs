@@ -11,5 +11,6 @@ public class SupportingOrganisationDetails
     public string? SupportOrganisationContactName { get; set; }
     public string? SupportOrganisationContactEmailAddress { get; set; }
     public string? SupportOrganisationContactPhone { get; set; }
+    public string? SupportOrganisationContactAddress { get; set; }
     public DateTime? DateSupportingOrganisationContactDetailsAdded { get; set; }
 }

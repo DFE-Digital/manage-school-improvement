@@ -80,7 +80,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? AdviserFullName { get; private set; }
 
         public DateTime? IntroductoryEmailSentDate { get; set; }
-        public bool? HasShareEmailTemplateWithAdviser { get; set; }
 
         public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; set; }
 
@@ -127,8 +126,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SupportingOrganisationContactName { get; set; }
         public string? SupportingOrganisationContactEmailAddress { get; set; }
         public string? SupportingOrganisationContactPhone { get; set; }
-        
-
+        public string? SupportingOrganisationContactAddress { get; set; }
         public bool? IndicativeFundingBandCalculated { get; set; }
         public string? IndicativeFundingBand { get; set; }
         public bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody { get; set; }
@@ -206,7 +204,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
                 DateConflictOfInterestDeclarationChecked = supportProjectDto.DateConflictOfInterestDeclarationChecked,
                 ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
-                HasShareEmailTemplateWithAdviser = supportProjectDto.HasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
                 IntroductoryEmailSentDate = supportProjectDto.IntroductoryEmailSentDate,
                 AdviserEmailAddress = supportProjectDto.AdviserEmailAddress,
@@ -239,6 +236,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
                 SupportingOrganisationContactPhone = supportProjectDto.SupportingOrganisationContactPhone,
+                SupportingOrganisationContactAddress = supportProjectDto.SupportingOrganisationAddress,
                 RegionalDirectorImprovementPlanDecisionDate = supportProjectDto.RegionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision = supportProjectDto.HasApprovedImprovementPlanDecision,
                 HasSavedImprovementPlanInSharePoint = supportProjectDto.HasSavedImprovementPlanInSharePoint,

@@ -26,13 +26,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var hasShareEmailTemplateWithAdvisor = true;
             var remindAdvisorToCopyRiseTeamWhenSentEmail = true;
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
                 introductoryEmailSentDate,
-                hasShareEmailTemplateWithAdvisor,
                 remindAdvisorToCopyRiseTeamWhenSentEmail
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -53,7 +51,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
                 null,
-                null,
                 null
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -72,13 +69,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var hasShareEmailTemplateWithAdvisor = true;
             var remindAdvisorToCopyRiseTeamWhenSentEmail = true;
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
                 introductoryEmailSentDate,
-                hasShareEmailTemplateWithAdvisor,
                 remindAdvisorToCopyRiseTeamWhenSentEmail
             );
 

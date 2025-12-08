@@ -89,8 +89,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AdviserFullName { get; private set; }
     public DateTime? IntroductoryEmailSentDate { get; private set; }
 
-    public bool? HasShareEmailTemplateWithAdviser { get; private set; }
-
     public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; private set; }
 
     public DateTime? AdviserVisitDate { get; private set; }
@@ -125,6 +123,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
     
     public string? SupportingOrganisationContactPhone { get; private set; }
+    
+    public string? SuppportOrganisationContactAddress { get; private set; }
 
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
@@ -313,11 +313,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AdviserFullName = adviserFullName;
     }
 
-    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser,
+    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate,
         bool? remindAdviserToCopyRiseTeamWhenSentEmail)
     {
         IntroductoryEmailSentDate = introductoryEmailSentDate;
-        HasShareEmailTemplateWithAdviser = hasShareEmailTemplateWithAdviser;
         RemindAdviserToCopyRiseTeamWhenSentEmail = remindAdviserToCopyRiseTeamWhenSentEmail;
     }
 
@@ -351,6 +350,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportingOrganisationContactName = details.SupportOrganisationContactName;
         SupportingOrganisationContactEmailAddress = details.SupportOrganisationContactEmailAddress;
         SupportingOrganisationContactPhone = details.SupportOrganisationContactPhone;
+        SuppportOrganisationContactAddress = details.SupportOrganisationAddress;
         DateSupportingOrganisationContactDetailsAdded = details.DateSupportingOrganisationContactDetailsAdded;
     }
 
