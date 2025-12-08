@@ -82,6 +82,7 @@ public class ChooseSupportOrganisationTypeModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
+            SupportProject?.SupportingOrganisationAddress,
             SupportProject?.DateSupportingOrganisationContactDetailsAdded);
 
         var result = await mediator.Send(command, cancellationToken);
@@ -104,7 +105,8 @@ public class ChooseSupportOrganisationTypeModel(
     {
         if (SupportOrganisationType == "School")
         {
-            return Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page;
+            return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page :
+                Links.TaskList.EnterSupportingOrganisationSchoolDetailsFallback.Page;
         }
         else if (SupportOrganisationType == "Trust")
         {

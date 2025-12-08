@@ -16,6 +16,7 @@ public record SetChoosePreferredSupportingOrganisationCommand(
     string? ContactName,
     string? ContactEmail,
     string? ContactPhone,
+    string? ContactAddress,
     DateTime? DateContactDetailsAdded
 ) : IRequest<bool>;
 
@@ -44,6 +45,7 @@ public class SetChoosePreferredSupportingOrganisation
                     SupportOrganisationContactName = request.ContactName,
                     SupportOrganisationContactEmailAddress = request.ContactEmail,
                     SupportOrganisationContactPhone = request.ContactPhone,
+                    SupportOrganisationContactAddress = request.ContactAddress,
                     DateSupportingOrganisationContactDetailsAdded = request.DateContactDetailsAdded
                 });
 
