@@ -242,12 +242,11 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();
 
     taskListActions.hasHeader("Send introductory email");
-    taskListActions.selectButtonOrCheckbox("share-email-template-with-adviser");
+    taskListActions.selectButtonOrCheckbox("remind-adviser-to-copy-in-rise-team-on-email-sent");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("send-introductory-email-request-improvement-plan_status");
     taskList.selectTask("Send introductory email");
-    taskListActions.selectButtonOrCheckbox("remind-adviser-to-copy-in-rise-team-on-email-sent");
     taskListActions.enterDate("introductory-email-sent-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -349,6 +348,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
 
     taskListActions.selectButtonOrCheckbox("support-organisation-type-trust");
     taskListActions.selectButtonOrCheckbox("continue-button");
+
     taskListActions.enterText("organisation-name", "North West Schools Partnership");
     taskListActions.enterText("trust-ukprn", "10058689");
     taskListActions.enterDate("date-support-organisation-confirmed", "01", "01", "2024");
