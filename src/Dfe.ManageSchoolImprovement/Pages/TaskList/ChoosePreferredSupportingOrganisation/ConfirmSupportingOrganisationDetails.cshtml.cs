@@ -69,7 +69,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
         {
             await GetTrustAccountingOfficer(expectedTrust, cancellationToken);
         }
-        else
+        else if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
         {
             await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
         }
@@ -90,12 +90,12 @@ public class ConfirmSupportingOrganisationDetailsModel(
         {
             await GetTrustAccountingOfficer(expectedTrust, cancellationToken);
         }
-
-        if (SupportProject?.SupportOrganisationType == "School")
+        else if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
         {
-            ContactAddress = SupportProject?.SupportingOrganisationAddress;
-            await GetSchoolAccountingOfficer(SupportProject?.SupportOrganisationIdNumber, cancellationToken);
+            ContactAddress = SupportProject.SupportingOrganisationAddress;
+            await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
         }
+
 
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
 
