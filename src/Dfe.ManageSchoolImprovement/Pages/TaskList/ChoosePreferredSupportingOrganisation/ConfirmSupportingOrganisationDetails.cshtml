@@ -78,7 +78,7 @@
                                 Address
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @Html.Raw(Model.OrganisationAddress?.Replace(",", "<br>") ?? "Not available")
+                                @Html.Raw(Model.SupportProject?.SupportingOrganisationAddress?.Replace(",", "<br>") ?? "Not available")
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -132,7 +132,7 @@
                                 Postal address
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                @Html.Raw(Model.OrganisationAddress?.Replace(",", "<br>") ?? "Not available")
+                                @Html.Raw(Model.AccountingOfficer?.Address.Replace(",", "<br>") ?? "Not available")
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">

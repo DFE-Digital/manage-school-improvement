@@ -82,6 +82,7 @@ public class ChooseSupportOrganisationTypeModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
+            SupportProject?.SupportingOrganisationAddress,
             SupportProject?.DateSupportingOrganisationContactDetailsAdded);
 
         var result = await mediator.Send(command, cancellationToken);
