@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Frontend.Authorization;
 using Dfe.ManageSchoolImprovement.Frontend.Configuration;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Routing;
 using Dfe.ManageSchoolImprovement.Frontend.Security;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
@@ -82,6 +83,7 @@ builder.Services.AddRazorPages(options =>
         }).AddMvcOptions(options =>
         {
             options.MaxModelValidationErrors = 50;
+            options.Filters.Add(new MaintenancePageFilter(builder.Configuration));
         });
 
 builder.Services.AddMicrosoftIdentityWebAppAuthentication(config);

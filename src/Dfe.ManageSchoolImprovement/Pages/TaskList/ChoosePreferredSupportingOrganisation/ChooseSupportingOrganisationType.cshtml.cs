@@ -20,15 +20,20 @@ public class ChooseSupportOrganisationTypeModel(
     public string? SupportOrganisationType { get; set; }
 
     [BindProperty(Name = "complete-assessment-tool")]
+    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? CompleteAssessmentTool { get; set; }
 
     [BindProperty(Name = "js-enabled")]
-    public bool JavaScriptEnabled { get; set; } = true;
+    public bool JavaScriptEnabled { get; set; }
 
     public bool ShowError { get; set; }
+    public static string CompleteAssessmentToolError => "complete-assessment-tool";
+    public bool ShowCompleteAssessmentToolError => ModelState.ContainsKey(CompleteAssessmentToolError) &&
+                                              ModelState[CompleteAssessmentToolError].Errors.Count > 0;
     public string AssessmentToolTwoLink { get; set; } = string.Empty;
     public string AssessmentToolTwoSharePointFolderLink { get; set; } = string.Empty;
     public string? SupportOrganisationTypeErrorMessage { get; set; }
+    public string? AssessmentToolTwoErrorMessage { get; set; }
 
     public IList<RadioButtonsLabelViewModel> SupportOrganisationTypeOptions { get; set; } = CreateSupportOrganisationTypeOptions();
 
@@ -54,9 +59,19 @@ public class ChooseSupportOrganisationTypeModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        var jsEnabled = Request.Form["js-enabled"].ToString();
+        JavaScriptEnabled = jsEnabled.Equals("true", StringComparison.OrdinalIgnoreCase);
 
         // Load SharePoint links early for both success and error paths
         await LoadSharePointLinksAsync(cancellationToken);
+        
+        if (CompleteAssessmentTool == null || CompleteAssessmentTool == false)
+        {
+            AssessmentToolTwoErrorMessage = "Confirm you have completed the assessment tool";
+            ModelState.AddModelError(CompleteAssessmentToolError, AssessmentToolTwoErrorMessage);
+            _errorService.AddError(CompleteAssessmentToolError, AssessmentToolTwoErrorMessage);
+        }
 
         if (SupportOrganisationType == null)
         {
@@ -64,7 +79,7 @@ public class ChooseSupportOrganisationTypeModel(
             ModelState.AddModelError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
             _errorService.AddError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
         }
-
+        
         // Early return for validation errors
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);

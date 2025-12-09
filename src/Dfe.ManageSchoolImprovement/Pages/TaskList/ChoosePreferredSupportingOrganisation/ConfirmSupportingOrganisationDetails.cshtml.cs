@@ -29,11 +29,20 @@ public class ConfirmSupportingOrganisationDetailsModel(
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportOrganisationConfirmed { get; set; }
+    
+    [BindProperty(Name = "js-enabled")]
+    public bool JavaScriptEnabled { get; set; }
 
-    public string? SchoolAddress { get; set; }
+    public string? OrganisationAddress { get; set; }
     public string? ContactAddress { get; set; }
     
-    public ContactViewModel? AccountingOfficer { get; set; }
+    public ContactViewModel? AccountingOfficer { get; set; } = new()
+    {
+        Name = "",
+        Email = "",
+        Phone = "",
+        Address = "",
+    };
 
     public const string AccountingOfficerRole = "Accounting Officer";
     public const string HeadteacherRole = "Head Teacher";
@@ -54,17 +63,18 @@ public class ConfirmSupportingOrganisationDetailsModel(
         CancellationToken cancellationToken = default)
     {
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
-
+        
         await base.GetSupportProject(id, cancellationToken);
         
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
-        SchoolAddress = SupportProject?.SupportingOrganisationAddress;
+        OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
 
-        if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName))
+        if (!string.IsNullOrEmpty(SupportProject?.SupportOrganisationName) && !string.IsNullOrEmpty(SupportProject.SupportOrganisationIdNumber))
         {
             if (SupportProject.SupportOrganisationType == "Trust")
             {
                 await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
+                AccountingOfficer.Address = OrganisationAddress ?? "";
             }
 
             if (SupportProject?.SupportOrganisationType == "School")
@@ -85,17 +95,18 @@ public class ConfirmSupportingOrganisationDetailsModel(
             }  
         }
 
-
         return Page();
     }
 
     public async Task<IActionResult> OnPost(int id, string? previousPage, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+
         
         if (SupportProject?.SupportOrganisationType == "Trust")
         {
             await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
+            AccountingOfficer.Address = OrganisationAddress ?? "";
         }
 
         if (SupportProject?.SupportOrganisationType == "School")
@@ -141,7 +152,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
             SupportProject?.SupportOrganisationType,
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            SchoolAddress,
+            OrganisationAddress,
             AccountingOfficer?.Name,
             AccountingOfficer?.Email,
             AccountingOfficer?.Phone,
