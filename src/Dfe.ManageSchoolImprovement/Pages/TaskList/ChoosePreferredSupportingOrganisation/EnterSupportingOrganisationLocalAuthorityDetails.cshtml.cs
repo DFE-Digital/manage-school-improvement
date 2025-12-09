@@ -44,8 +44,6 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
     public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; } = null!;
 
-    private const string SearchEndpoint = "/task-list/enter-supporting-organisation-local-authority-details/{0}?handler=Search&searchQuery=";
-
     [BindProperty]
     [Required(ErrorMessage = "Enter the local authority name or code")]
     public string SearchQuery { get; set; } = "";
@@ -61,7 +59,10 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, SearchEndpoint);
+        var searchEndpoint =
+    $"/task-list/enter-supporting-organisation-local-authority-details/{id}?handler=Search&searchQuery=";
+
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint);
 
         return Page();
     }
@@ -130,7 +131,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
         var searchEndpoint =
            $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
 
-        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, SearchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
 
         string[] splitSearch = SplitOnBrackets(SearchQuery);
 
@@ -166,7 +167,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             expectedLocalAuthority.Name,
             expectedLocalAuthority.Code,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            SupportProject?.DateSupportOrganisationChosen,
+            null,
             SupportProject?.AssessmentToolTwoCompleted,
             null,
             null,
