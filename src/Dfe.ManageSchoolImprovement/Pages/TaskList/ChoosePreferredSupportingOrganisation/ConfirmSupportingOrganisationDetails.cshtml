@@ -108,7 +108,7 @@
                             Name
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            @(Model.AccountingOfficer?.Name ?? "Not available")
+                            @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Name) ? Model.AccountingOfficer.Name : "Not available")
                         </dd>
                     </div>
                     <div class="govuk-summary-list__row">
@@ -124,7 +124,7 @@
                             Phone
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            @(Model.AccountingOfficer?.Phone ?? "Not available")
+                            @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Phone) ? Model.AccountingOfficer.Phone : "Not available")
                         </dd>
                     </div>
                     <div class="govuk-summary-list__row">

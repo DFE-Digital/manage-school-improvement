@@ -65,14 +65,7 @@ public class ChooseSupportOrganisationTypeModel(
 
         // Load SharePoint links early for both success and error paths
         await LoadSharePointLinksAsync(cancellationToken);
-
-        if (SupportOrganisationType == null)
-        {
-            SupportOrganisationTypeErrorMessage = "Select the type of supporting organisation";
-            ModelState.AddModelError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
-            _errorService.AddError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
-        }
-
+        
         if (CompleteAssessmentTool == null || CompleteAssessmentTool == false)
         {
             AssessmentToolTwoErrorMessage = "Confirm you have completed the assessment tool";
@@ -80,6 +73,13 @@ public class ChooseSupportOrganisationTypeModel(
             _errorService.AddError(CompleteAssessmentToolError, AssessmentToolTwoErrorMessage);
         }
 
+        if (SupportOrganisationType == null)
+        {
+            SupportOrganisationTypeErrorMessage = "Select the type of supporting organisation";
+            ModelState.AddModelError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
+            _errorService.AddError("support-organisation-type-school", SupportOrganisationTypeErrorMessage);
+        }
+        
         // Early return for validation errors
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
