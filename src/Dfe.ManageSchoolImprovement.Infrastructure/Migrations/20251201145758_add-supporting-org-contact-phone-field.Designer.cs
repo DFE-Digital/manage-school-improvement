@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20251201145758_add-supporting-org-contact-phone-field")]
+    partial class addsupportingorgcontactphonefield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -622,6 +625,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<bool?>("HasSavedImprovementPlanInSharePoint")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("HasShareEmailTemplateWithAdviser")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("HasTalkToAdviserAboutFindings")
                         .HasColumnType("bit");
 
@@ -751,9 +757,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupportingOrganisationType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SuppportOrganisationContactAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TrustName")

@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
@@ -88,8 +89,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AdviserFullName { get; private set; }
     public DateTime? IntroductoryEmailSentDate { get; private set; }
 
-    public bool? HasShareEmailTemplateWithAdviser { get; private set; }
-
     public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; private set; }
 
     public DateTime? AdviserVisitDate { get; private set; }
@@ -111,6 +110,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportOrganisationIdNumber { get; private set; }
     public string? SupportingOrganisationType { get; private set; }
     public bool? AssessmentToolTwoCompleted { get; private set; }
+    public string? SupportingOrganisationAddress { get; private set; }
     public DateTime? RegionalDirectorDecisionDate { get; private set; }
 
     public string? InitialDiagnosisMatchingDecision { get; private set; }
@@ -121,6 +121,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
+    
+    public string? SupportingOrganisationContactPhone { get; private set; }
+    
+    public string? SuppportOrganisationContactAddress { get; private set; }
 
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
@@ -309,11 +313,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AdviserFullName = adviserFullName;
     }
 
-    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate, bool? hasShareEmailTemplateWithAdviser,
+    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate,
         bool? remindAdviserToCopyRiseTeamWhenSentEmail)
     {
         IntroductoryEmailSentDate = introductoryEmailSentDate;
-        HasShareEmailTemplateWithAdviser = hasShareEmailTemplateWithAdviser;
         RemindAdviserToCopyRiseTeamWhenSentEmail = remindAdviserToCopyRiseTeamWhenSentEmail;
     }
 
@@ -336,17 +339,19 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SchoolVisitDate = schoolVisitDate;
     }
 
-    public void SetChoosePreferredSupportOrganisation(DateTime? dateSupportOrganisationChosen,
-        string? supportOrganisationName,
-        string? supportOrganisationIdNumber,
-        string? supportOrganisationType,
-        bool? assessmentToolTwoCompleted)
+    public void SetChoosePreferredSupportOrganisation(SupportingOrganisationDetails details)
     {
-        DateSupportOrganisationChosen = dateSupportOrganisationChosen;
-        SupportOrganisationName = supportOrganisationName;
-        SupportOrganisationIdNumber = supportOrganisationIdNumber;
-        SupportingOrganisationType = supportOrganisationType;
-        AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
+        DateSupportOrganisationChosen = details.DateSupportOrganisationChosen;
+        SupportOrganisationName = details.SupportOrganisationName;
+        SupportOrganisationIdNumber = details.SupportOrganisationIdNumber;
+        SupportingOrganisationType = details.SupportOrganisationType;
+        AssessmentToolTwoCompleted = details.AssessmentToolTwoCompleted;
+        SupportingOrganisationAddress = details.SupportOrganisationAddress;
+        SupportingOrganisationContactName = details.SupportOrganisationContactName;
+        SupportingOrganisationContactEmailAddress = details.SupportOrganisationContactEmailAddress;
+        SupportingOrganisationContactPhone = details.SupportOrganisationContactPhone;
+        SuppportOrganisationContactAddress = details.SupportOrganisationAddress;
+        DateSupportingOrganisationContactDetailsAdded = details.DateSupportingOrganisationContactDetailsAdded;
     }
 
     public void SetRecordInitialDiagnosisMatchingDecision(DateTime? regionalDirectorDecisionDate,

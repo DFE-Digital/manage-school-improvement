@@ -7,7 +7,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     public record SetSendIntroductoryEmailCommand(
         SupportProjectId SupportProjectId,
         DateTime? IntroductoryEmailSentDate,
-        bool? HasShareEmailTemplateWithAdviser,
         bool? RemindAdviserToCopyRiseTeamWhenSentEmail
     ) : IRequest<bool>;
 
@@ -24,7 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetSendIntroductoryEmail(request.IntroductoryEmailSentDate, request.HasShareEmailTemplateWithAdviser, request.RemindAdviserToCopyRiseTeamWhenSentEmail);
+            supportProject.SetSendIntroductoryEmail(request.IntroductoryEmailSentDate, request.RemindAdviserToCopyRiseTeamWhenSentEmail);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

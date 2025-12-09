@@ -3,6 +3,16 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.3.4] - Q3 – Sprint 5 (Part 1)- 2025-12-04
+
+### 📌 User Stories 
+
+- **240414** - Add Month and Year filters to MSI
+- **246492** - Change "Choose preferred Supporting Organisation" task to input Supporting Organisation type
+- **246876** - Fix persons API (Contacts)
+
+--
+
 ## 📅 [v1.3.3] - Q3 – Sprint 2 (Part 3)- 2025-11-03
 
 ### 📌 User Stories 

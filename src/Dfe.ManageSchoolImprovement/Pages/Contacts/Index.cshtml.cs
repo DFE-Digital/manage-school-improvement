@@ -41,69 +41,67 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 schoolUrn = 0; // Default value if parsing fails
             }
 
-            if (hostingEnvironment.IsDevelopment())
-            {
-                var establishmentContacts = await establishmentsClient.GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
+            var establishmentContacts = await establishmentsClient.GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
 
-                if (establishmentContacts != null && establishmentContacts.Count > 0)
+            if (establishmentContacts != null && establishmentContacts.Count > 0)
+            {
+                // Get current (non-historical) chair of governors
+                var chairOfGovernors = establishmentContacts
+                    .Where(c => c.Roles.Contains(ChairOfGoverningBodyRole) && c.IsCurrent(dateTimeProvider))
+                    .OrderByDescending(x => x.UpdatedAt)
+                    .FirstOrDefault();
+
+                if (chairOfGovernors != null)
                 {
-                    // Get current (non-historical) chair of governors
-                    var chairOfGovernors = establishmentContacts
-                        .Where(c => c.Roles.Contains(ChairOfGoverningBodyRole) && c.IsCurrent(dateTimeProvider))
-                        .OrderByDescending(x => x.UpdatedAt)
+                    ChairOfGoverningBody = new ContactViewModel()
+                    {
+                        Name = chairOfGovernors.DisplayName,
+                        Email = chairOfGovernors.Email,
+                        Phone = chairOfGovernors.Phone,
+                        RoleName = ChairOfGoverningBodyRole
+                    };
+                }
+            }
+
+            if (!string.IsNullOrEmpty(SupportProject?.TrustName))
+            {
+                var trustContacts = await trustClient.GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.TrustReferenceNumber, cancellationToken).ConfigureAwait(false);
+
+                if (trustContacts != null && trustContacts.Count > 0)
+                {
+                    // Get current (non-historical) trust contacts
+                    var chiefFinancialOfficer = trustContacts
+                        .Where(c => c.Roles.Contains(ChiefFinancialOfficerRole) && c.IsCurrent(dateTimeProvider))
                         .FirstOrDefault();
 
-                    if (chairOfGovernors != null)
+                    if (chiefFinancialOfficer != null)
                     {
-                        ChairOfGoverningBody = new ContactViewModel()
+                        ChiefFinancialOfficer = new ContactViewModel()
                         {
-                            Name = chairOfGovernors.DisplayName,
-                            Email = chairOfGovernors.Email,
-                            Phone = chairOfGovernors.Phone,
-                            RoleName = ChairOfGoverningBodyRole
+                            Name = chiefFinancialOfficer.DisplayName,
+                            Email = chiefFinancialOfficer.Email,
+                            Phone = chiefFinancialOfficer.Phone,
+                            RoleName = ChiefFinancialOfficerRole
+                        };
+                    }
+
+                    var accountingOfficer = trustContacts
+                        .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
+                        .FirstOrDefault();
+
+                    if (accountingOfficer != null)
+                    {
+                        AccountingOfficer = new ContactViewModel()
+                        {
+                            Name = accountingOfficer.DisplayName,
+                            Email = accountingOfficer.Email,
+                            Phone = accountingOfficer.Phone,
+                            RoleName = AccountingOfficerRole
                         };
                     }
                 }
-
-                if (!string.IsNullOrEmpty(SupportProject?.TrustName))
-                {
-                    var trustContacts = await trustClient.GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.TrustReferenceNumber, cancellationToken).ConfigureAwait(false);
-
-                    if (trustContacts != null && trustContacts.Count > 0)
-                    {
-                        // Get current (non-historical) trust contacts
-                        var chiefFinancialOfficer = trustContacts
-                            .Where(c => c.Roles.Contains(ChiefFinancialOfficerRole) && c.IsCurrent(dateTimeProvider))
-                            .FirstOrDefault();
-
-                        if (chiefFinancialOfficer != null)
-                        {
-                            ChiefFinancialOfficer = new ContactViewModel()
-                            {
-                                Name = chiefFinancialOfficer.DisplayName,
-                                Email = chiefFinancialOfficer.Email,
-                                Phone = chiefFinancialOfficer.Phone,
-                                RoleName = ChiefFinancialOfficerRole
-                            };
-                        }
-
-                        var accountingOfficer = trustContacts
-                            .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
-                            .FirstOrDefault();
-
-                        if (accountingOfficer != null)
-                        {
-                            AccountingOfficer = new ContactViewModel()
-                            {
-                                Name = accountingOfficer.DisplayName,
-                                Email = accountingOfficer.Email,
-                                Phone = accountingOfficer.Phone,
-                                RoleName = AccountingOfficerRole
-                            };
-                        }
-                    }
-                }
             }
+
 
             return Page();
         }

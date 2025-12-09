@@ -136,6 +136,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ErrorService>();
 builder.Services.AddScoped<IDfeHttpClientFactory, DfeHttpClientFactory>();
 builder.Services.AddScoped<IGetEstablishment, EstablishmentService>();
+builder.Services.AddScoped<IGetTrust, TrustService>();
 builder.Services.Decorate<IGetEstablishment, GetEstablishmentItemCacheDecorator>();
 builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();

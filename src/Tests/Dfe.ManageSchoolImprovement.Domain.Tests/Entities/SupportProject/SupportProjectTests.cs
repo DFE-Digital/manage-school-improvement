@@ -47,18 +47,15 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var hasShareEmailTemplateWithAdviser = true;
             var remindAdviserToCopyRiseTeamWhenSentEmail = true;
 
             // Act
             supportProject.SetSendIntroductoryEmail(
                 introductoryEmailSentDate,
-                hasShareEmailTemplateWithAdviser,
                 remindAdviserToCopyRiseTeamWhenSentEmail);
 
             // Assert
             supportProject.IntroductoryEmailSentDate.Should().Be(introductoryEmailSentDate);
-            supportProject.HasShareEmailTemplateWithAdviser.Should().Be(hasShareEmailTemplateWithAdviser);
             supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.Should().Be(remindAdviserToCopyRiseTeamWhenSentEmail);
             mockRepository.VerifyAll();
         }
@@ -268,26 +265,36 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
 
-            DateTime? dateSupportOrganisationChosen = DateTime.UtcNow;
-            string? supportOrgansiationName = "name";
-            string? supportOrganisationId = "1234a";
-            string? supportOrganisationType = "Trust";
-            bool? assessmentToolTwoCompleted = true;
+            var supportOrganisationDetails = new SupportingOrganisationDetails()
+            {
+                DateSupportOrganisationChosen = DateTime.UtcNow,
+                SupportOrganisationName = "name",
+                SupportOrganisationIdNumber = "1234a",
+                SupportOrganisationType = "Trust",
+                AssessmentToolTwoCompleted = true,
+                SupportOrganisationAddress = "2 Town Lane, Bristol BS1 2AB",
+                SupportOrganisationContactName = "Blobby McBlobface",
+                SupportOrganisationContactEmailAddress = "blobby@email.com",
+                SupportOrganisationContactPhone = "01234 567890",
+                DateSupportingOrganisationContactDetailsAdded = DateTime.UtcNow
+            };
 
             // Act
             supportProject.SetChoosePreferredSupportOrganisation(
-                dateSupportOrganisationChosen,
-                supportOrgansiationName,
-                supportOrganisationId,
-                supportOrganisationType,
-                assessmentToolTwoCompleted
+                supportOrganisationDetails
                 );
 
             // Assert
-            supportProject.DateSupportOrganisationChosen.Should().Be(dateSupportOrganisationChosen);
-            supportProject.SupportOrganisationName.Should().Be(supportOrgansiationName);
-            supportProject.SupportOrganisationIdNumber.Should().Be(supportOrganisationId);
-            supportProject.AssessmentToolTwoCompleted.Should().Be(assessmentToolTwoCompleted);
+            supportProject.DateSupportOrganisationChosen.Should().Be(supportOrganisationDetails.DateSupportOrganisationChosen);
+            supportProject.SupportOrganisationName.Should().Be(supportOrganisationDetails.SupportOrganisationName);
+            supportProject.SupportOrganisationIdNumber.Should().Be(supportOrganisationDetails.SupportOrganisationIdNumber);
+            supportProject.AssessmentToolTwoCompleted.Should().Be(supportOrganisationDetails.AssessmentToolTwoCompleted);
+            supportProject.SupportingOrganisationAddress.Should().Be(supportOrganisationDetails.SupportOrganisationAddress);
+            supportProject.SupportingOrganisationContactName.Should().Be(supportOrganisationDetails.SupportOrganisationContactName);
+            supportProject.SupportingOrganisationContactEmailAddress.Should()
+                .Be(supportOrganisationDetails.SupportOrganisationContactEmailAddress);
+            supportProject.SupportingOrganisationContactPhone.Should().Be(supportOrganisationDetails.SupportOrganisationContactPhone);
+            supportProject.DateSupportingOrganisationContactDetailsAdded.Should().Be(supportOrganisationDetails.DateSupportingOrganisationContactDetailsAdded);
             this.mockRepository.VerifyAll();
         }
 

@@ -99,15 +99,13 @@ public static class TaskStatusViewModel
 
     public static TaskListStatus SendIntroductoryEmailTaskListStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.HasShareEmailTemplateWithAdviser.HasValue
-            && supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
+        if (supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
             && supportProject.IntroductoryEmailSentDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.HasShareEmailTemplateWithAdviser.HasValue
-            && !supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
+        if (!supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
             && !supportProject.IntroductoryEmailSentDate.HasValue)
         {
             return TaskListStatus.NotStarted;
@@ -166,7 +164,7 @@ public static class TaskStatusViewModel
         SupportProjectViewModel supportProject)
     {
         if (supportProject.DateSupportOrganisationChosen.HasValue
-            && supportProject.SupportOrganisationName != null
+            && !string.IsNullOrWhiteSpace(supportProject.SupportOrganisationName)
             && !string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber)
             && supportProject.AssessmentToolTwoCompleted == true)
         {
@@ -174,7 +172,7 @@ public static class TaskStatusViewModel
         }
 
         if (!supportProject.DateSupportOrganisationChosen.HasValue
-            && supportProject.SupportOrganisationName == null
+            && string.IsNullOrWhiteSpace(supportProject.SupportOrganisationName)
             && string.IsNullOrWhiteSpace(supportProject.SupportOrganisationIdNumber)
             && supportProject.AssessmentToolTwoCompleted == null)
         {
@@ -229,14 +227,14 @@ public static class TaskStatusViewModel
         SupportProjectViewModel supportProject)
     {
         if (supportProject.DateSupportingOrganisationContactDetailsAdded.HasValue
-            && supportProject.SupportingOrganisationContactName != null
-            && supportProject.SupportingOrganisationContactEmailAddress != null)
+            && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
+            && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactEmailAddress))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.DateSupportingOrganisationContactDetailsAdded.HasValue
-            && supportProject.SupportingOrganisationContactName == null
+            && string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
             && string.IsNullOrEmpty(supportProject.SupportingOrganisationContactEmailAddress))
         {
             return TaskListStatus.NotStarted;
