@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Routing
 {
+    [ExcludeFromCodeCoverage]
     public class MaintenancePageFilter : IAsyncPageFilter
     {
         private readonly IConfiguration _config;
