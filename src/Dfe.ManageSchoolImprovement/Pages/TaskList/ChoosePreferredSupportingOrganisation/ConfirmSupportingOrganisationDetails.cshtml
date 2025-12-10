@@ -16,7 +16,7 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary"/>
+    <partial name="_ErrorSummary" />
 }
 
 @{
@@ -92,60 +92,63 @@
                 </dl>
             </div>
         </div>
-
-        <h2 class="govuk-heading-m">Contact details</h2>
-        <p class="margin-top-minus-10">You can add an alternative contact later on if these contact details are
-            incorrect.</p>
-
-        <div class="govuk-summary-card">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Accounting officer for supporting organisation</h2>
+        @if (organisationType != "Local authority" && organisationType != "Local authority traded service")
+        {
+            <h2 class="govuk-heading-m">Contact details</h2>
+            <p class="margin-top-minus-10">
+                You can add an alternative contact later on if these contact details are
+                incorrect.
+            </p>
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Accounting officer for supporting organisation</h2>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Name) ? Model.AccountingOfficer.Name : "Not available")
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Email) ? Model.AccountingOfficer.Email : "Not available")
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Phone
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Phone) ? Model.AccountingOfficer.Phone : "Not available")
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Postal address
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Address) ? Html.Raw(Model.AccountingOfficer?.Address.Replace(",", "<br>")) : "Not available")
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Source
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                Get information about schools
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
             </div>
-            <div class="govuk-summary-card__content">
-                <dl class="govuk-summary-list">
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Name
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Name) ? Model.AccountingOfficer.Name : "Not available")
-                        </dd>
-                    </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Email
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Email) ? Model.AccountingOfficer.Email : "Not available")
-                        </dd>
-                    </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Phone
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Phone) ? Model.AccountingOfficer.Phone : "Not available")
-                        </dd>
-                    </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Postal address
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @(!string.IsNullOrEmpty(Model.AccountingOfficer?.Address) ? Html.Raw(Model.AccountingOfficer?.Address.Replace(",", "<br>")) : "Not available")
-                        </dd>
-                    </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Source
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            Get information about schools
-                        </dd>
-                    </div>
-                </dl>
-            </div>
-        </div>
+        }
         <form method="post" novalidate>
             <govuk-date-input heading-label="false"
                               label="Enter date supporting organisation confirmed"
@@ -153,7 +156,7 @@
                               name="date-support-organisation-confirmed"
                               asp-for="@Model.DateSupportOrganisationConfirmed"
                               error-message="@Model.DateConfirmedErrorMessage"
-                              hint="For example, 1 7 2024."/>
+                              hint="For example, 1 7 2024." />
 
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton" type="submit">

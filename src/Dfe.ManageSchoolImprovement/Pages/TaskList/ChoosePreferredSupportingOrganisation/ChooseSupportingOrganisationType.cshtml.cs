@@ -22,7 +22,7 @@ public class ChooseSupportOrganisationTypeModel(
     [BindProperty(Name = "complete-assessment-tool")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? CompleteAssessmentTool { get; set; }
-    
+
     [BindProperty(Name = "js-enabled")]
     public bool JavaScriptEnabled { get; set; }
 
@@ -130,7 +130,8 @@ public class ChooseSupportOrganisationTypeModel(
         }
         else if (SupportOrganisationType == "Local authority")
         {
-            return Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page;
+            return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page :
+                Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetailsFallback.Page;
         }
         else // Local authority traded service
         {
