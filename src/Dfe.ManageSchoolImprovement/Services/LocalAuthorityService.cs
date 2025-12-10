@@ -14,7 +14,7 @@ public class LocalAuthorityService(IDfeHttpClientFactory httpClientFactory,
         HttpResponseMessage response = await _httpClient.GetAsync($"/v4/local-authorities/{Uri.EscapeDataString(code)}");
         if (!response.IsSuccessStatusCode)
         {
-            logger.LogWarning("Unable to get local auto data for local authority with code: {code}", code);
+            logger.LogWarning("Unable to get local auto data for local authority with code: {Code}", code);
             return new NameAndCodeDto();
         }
 

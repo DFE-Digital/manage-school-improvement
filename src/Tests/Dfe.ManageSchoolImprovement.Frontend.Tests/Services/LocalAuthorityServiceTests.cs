@@ -270,7 +270,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             var service = CreateService();
 
             // Act
-            var result = await service.SearchLocalAuthorities(null);
+            var result = await service.SearchLocalAuthorities(string.Empty);
 
             // Assert
             Assert.NotNull(result);
