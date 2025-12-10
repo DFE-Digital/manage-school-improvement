@@ -11,6 +11,9 @@ public class LocalAuthorityService(IDfeHttpClientFactory httpClientFactory,
 
     public async Task<NameAndCodeDto> GetLocalAuthorityByCode(string code)
     {
+        if (string.IsNullOrEmpty(code))
+            return new NameAndCodeDto();
+
         HttpResponseMessage response = await _httpClient.GetAsync($"/v4/local-authorities/{Uri.EscapeDataString(code)}");
         if (!response.IsSuccessStatusCode)
         {

@@ -129,7 +129,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
         await base.GetSupportProject(id, cancellationToken);
 
         var searchEndpoint =
-           $"/task-list/enter-supporting-organisation-trust-details/{id}?handler=Search&searchQuery=";
+           $"/task-list/enter-supporting-organisation-local-authority-details/{id}?handler=Search&searchQuery=";
 
         AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
 
