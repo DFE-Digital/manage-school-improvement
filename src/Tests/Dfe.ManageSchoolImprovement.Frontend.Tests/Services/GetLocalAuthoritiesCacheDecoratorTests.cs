@@ -235,7 +235,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 
             // Verify that the Task was cached (as per implementation)
             Assert.True(_httpContextItems.ContainsKey(cacheKey));
-            Assert.IsType<Task<IEnumerable<NameAndCodeDto>>>(_httpContextItems[cacheKey]);
+            await Assert.IsType<Task<IEnumerable<NameAndCodeDto>>>(_httpContextItems[cacheKey]);
         }
 
         [Fact]
