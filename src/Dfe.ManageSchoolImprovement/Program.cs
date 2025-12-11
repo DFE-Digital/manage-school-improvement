@@ -1,6 +1,7 @@
 using Dfe.ManageSchoolImprovement.Frontend.Authorization;
 using Dfe.ManageSchoolImprovement.Frontend.Configuration;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Routing;
 using Dfe.ManageSchoolImprovement.Frontend.Security;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
@@ -82,6 +83,7 @@ builder.Services.AddRazorPages(options =>
         }).AddMvcOptions(options =>
         {
             options.MaxModelValidationErrors = 50;
+            options.Filters.Add(new MaintenancePageFilter(builder.Configuration));
         });
 
 builder.Services.AddMicrosoftIdentityWebAppAuthentication(config);
@@ -135,7 +137,9 @@ builder.Services.AddScoped<ErrorService>();
 builder.Services.AddScoped<IDfeHttpClientFactory, DfeHttpClientFactory>();
 builder.Services.AddScoped<IGetEstablishment, EstablishmentService>();
 builder.Services.AddScoped<IGetTrust, TrustService>();
+builder.Services.AddScoped<IGetLocalAuthority, LocalAuthorityService>();
 builder.Services.Decorate<IGetEstablishment, GetEstablishmentItemCacheDecorator>();
+builder.Services.Decorate<IGetLocalAuthority, GetLocalAuthoritiesCacheDecorator>();
 builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IGraphClientFactory, GraphClientFactory>();

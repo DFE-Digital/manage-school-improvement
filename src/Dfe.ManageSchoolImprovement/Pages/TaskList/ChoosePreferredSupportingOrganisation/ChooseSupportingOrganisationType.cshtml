@@ -1,6 +1,6 @@
 @page "/task-list/choose-preferred-supporting-organisation-type/{id:int}"
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.ChooseSupportOrganisationTypeModel
-@inject IConfiguration Configuration
+
 @{
     ViewData["Title"] = "Choose preferred supporting organisation";
 }
@@ -24,15 +24,26 @@
         <h1 class="govuk-heading-l">
             Choose preferred supporting organisation
         </h1>
-        <p class="govuk-body">The support organisation is not confirmed until the school and regional director both
+        <p class="govuk-body">The supporting organisation is not confirmed until the school and regional director both
             agree to the choice.</p>
 
         <form method="post" novalidate>
-            <div class="govuk-form-group">
+            <input type="hidden" name="js-enabled" value="true"/>
+            <noscript>
+                <input type="hidden" name="js-enabled" value="false"/>
+            </noscript>
+            <div class="govuk-form-group @(Model.ShowCompleteAssessmentToolError ? "govuk-form-group--error" : "")">
                 <div class="govuk-checkboxes">
+                    @if (Model.ShowCompleteAssessmentToolError)
+                    {
+                        <p id="complete-assessment-tool-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Confirm you have completed the assessment
+                            tool
+                        </p>
+                    }
                     <div class="govuk-checkboxes__item">
                         <input name="complete-assessment-tool-hidden" type="hidden" value="false"/>
-                        <input class="govuk-checkboxes__input"
+                        <input class="govuk-checkboxes__input @(Model.ShowCompleteAssessmentToolError ? "govuk-checkbox--error" : "")"
                                id="complete-assessment-tool"
                                name="complete-assessment-tool"
                                type="checkbox"
@@ -73,12 +84,9 @@
 
             <button class="govuk-button" id="continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton" type="submit">
-                Continue
+                Save and continue
             </button>
         </form>
     </div>
 </div>
 
-<script>
-    document.querySelector('input[name="js-enabled"]').value = true;
-</script>

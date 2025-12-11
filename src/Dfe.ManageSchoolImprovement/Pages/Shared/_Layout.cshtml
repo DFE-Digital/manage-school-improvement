@@ -115,7 +115,19 @@
     @await RenderSectionAsync("BeforeMain", false)
 
     <main class="govuk-main-wrapper gov-main-wrapper--auto-spacing" id="main-content" role="main">
-
+            <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Important
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <p class="govuk-notification-banner__heading">
+                        Scheduled maintenance
+                    </p>
+                    <p>Manage School Improvement will be unavailable for a few hours due to maintenance work this week. This will occur between 4pm and 7pm either today, on Wednesday or on Thursday</p>
+                </div>
+            </div>
         <partial name="_NotificationSummary"/>
 
         @RenderBody()

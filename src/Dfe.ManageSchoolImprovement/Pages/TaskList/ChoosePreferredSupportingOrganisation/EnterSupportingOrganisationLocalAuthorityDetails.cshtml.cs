@@ -3,12 +3,15 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
 public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
+    IGetLocalAuthority getLocalAuthority,
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
@@ -39,6 +42,12 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
     public bool LaCodeError => !string.IsNullOrEmpty(LaCodeErrorMessage);
 
+    public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; } = null!;
+
+    [BindProperty]
+    [Required(ErrorMessage = "Enter the local authority name or code")]
+    public string SearchQuery { get; set; } = "";
+
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
@@ -50,54 +59,122 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
+        var searchEndpoint =
+    $"/task-list/enter-supporting-organisation-local-authority-details/{id}?handler=Search&searchQuery=";
+
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint);
+
         return Page();
+    }
+
+    public async Task<IActionResult> OnGetSearch(string searchQuery)
+    {
+        // Short-circuit on empty or very short queries
+        if (string.IsNullOrWhiteSpace(searchQuery) || searchQuery.Trim().Length < 3)
+        {
+            return new JsonResult(Array.Empty<object>());
+        }
+
+        string[] searchSplit = SplitOnBrackets(searchQuery);
+        string term = (searchSplit.Length > 0 ? searchSplit[0] : string.Empty).Trim();
+
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new JsonResult(Array.Empty<object>());
+        }
+
+        try
+        {
+            IEnumerable<NameAndCodeDto> trusts = await getLocalAuthority.SearchLocalAuthorities(term);
+
+            return new JsonResult(trusts.Select(s => new
+            {
+                suggestion = HighlightSearchMatch($"{s.Name} ({s.Code})", term, s),
+                value = $"{s.Name} ({s.Code})"
+            }));
+        }
+        catch
+        {
+            // Fail safe for autocomplete - never surface a 500 from a suggestion call
+            return new JsonResult(Array.Empty<object>());
+        }
+    }
+    private static string[] SplitOnBrackets(string input)
+    {
+        // return array containing one empty string if input string is null or empty
+        if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
+
+        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+    }
+    private static string HighlightSearchMatch(string input, string toReplace, NameAndCodeDto localAuthority)
+    {
+        if (localAuthority == null || string.IsNullOrWhiteSpace(localAuthority.Code) || string.IsNullOrWhiteSpace(localAuthority.Name))
+            return string.Empty;
+
+        if (string.IsNullOrWhiteSpace(toReplace))
+            return input;
+
+        int index = input.IndexOf(toReplace, StringComparison.InvariantCultureIgnoreCase);
+        if (index < 0)
+            return input;
+
+        string correctCaseSearchString = input.Substring(index, toReplace.Length);
+
+        return input.Replace(toReplace, $"<strong>{correctCaseSearchString}</strong>",
+            StringComparison.InvariantCultureIgnoreCase);
     }
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
-        OrganisationName = OrganisationName?.Trim();
-        LaCode = LaCode?.Trim();
-
         await base.GetSupportProject(id, cancellationToken);
 
-        // Validate entries
-        if (OrganisationName == null || LaCode == null || DateSupportOrganisationConfirmed == null)
+        var searchEndpoint =
+           $"/task-list/enter-supporting-organisation-local-authority-details/{id}?handler=Search&searchQuery=";
+
+        AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
+
+        string[] splitSearch = SplitOnBrackets(SearchQuery);
+
+        string expectedCode = splitSearch[splitSearch.Length - 1];
+
+        var expectedLocalAuthority = await getLocalAuthority.GetLocalAuthorityByCode(expectedCode).ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(SearchQuery))
         {
-            if (OrganisationName == null)
+            ModelState.AddModelError(nameof(SearchQuery), "Enter the local authority name or code");
+        }
+        else
+        {
+            if (splitSearch.Length < 2)
             {
-                OrganisationNameErrorMessage = "Enter the supporting organisation's name";
-                ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
+                ModelState.AddModelError(nameof(SearchQuery), "We could not find any local authorities matching your search criteria");
             }
-
-            if (LaCode == null)
+            else if (splitSearch.Length > 2 && string.IsNullOrEmpty(expectedLocalAuthority.Name))
             {
-                LaCodeErrorMessage = "Enter the supporting organisation's GIAS LA Code";
-                ModelState.AddModelError("la-code", LaCodeErrorMessage);
-            }
-
-            if (DateSupportOrganisationConfirmed == null)
-            {
-                DateConfirmedErrorMessage = "Enter a date";
-                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
+                ModelState.AddModelError(nameof(SearchQuery), "We could not find a local authority matching your search criteria");
             }
         }
 
-        // Early return for validation errors
         if (!ModelState.IsValid)
-            return await HandleValidationErrorAsync(id, cancellationToken);
+        {
+            ShowError = true;
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            return Page();
+        }
 
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
-            OrganisationName,
-            LaCode,
+            expectedLocalAuthority.Name,
+            expectedLocalAuthority.Code,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            DateSupportOrganisationConfirmed,
+            null,
             SupportProject?.AssessmentToolTwoCompleted,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.SupportingOrganisationContactName,
-            SupportProject?.SupportingOrganisationContactEmailAddress,
-            SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -110,13 +187,5 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page });
-    }
-
-    // Extracted method for cleaner error handling
-    private async Task<IActionResult> HandleValidationErrorAsync(int id, CancellationToken cancellationToken)
-    {
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
     }
 }

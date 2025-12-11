@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class EnterSupportingOrganisationTrustDetailsFallbackModel(
+public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
@@ -18,7 +17,8 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "trust-ukprn")] public string? TrustUKPRN { get; set; }
+    [BindProperty(Name = "la-code")]
+    public string? LaCode { get; set; }
 
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
@@ -33,19 +33,20 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
-    public string? OrganisationNameErrorMessage { get; private set; }
-    public string? TrustUKPRNErrorMessage { get; private set; }
-    public string? DateConfirmedErrorMessage { get; private set; }
+    public string? OrganisationNameErrorMessage { get; set; }
+    public string? LaCodeErrorMessage { get; set; }
+    public string? DateConfirmedErrorMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType,
-        CancellationToken cancellationToken = default)
+    public bool LaCodeError => !string.IsNullOrEmpty(LaCodeErrorMessage);
+
+    public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
 
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
-            TrustUKPRN = SupportProject?.SupportOrganisationIdNumber;
+            LaCode = SupportProject?.SupportOrganisationIdNumber;
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
@@ -55,25 +56,25 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         OrganisationName = OrganisationName?.Trim();
-        TrustUKPRN = TrustUKPRN?.Trim();
-        
+        LaCode = LaCode?.Trim();
+
         await base.GetSupportProject(id, cancellationToken);
-        
+
         // Validate entries
-        if (OrganisationName == null || TrustUKPRN == null || DateSupportOrganisationConfirmed == null)
+        if (OrganisationName == null || LaCode == null || DateSupportOrganisationConfirmed == null)
         {
             if (OrganisationName == null)
             {
                 OrganisationNameErrorMessage = "Enter the supporting organisation's name";
                 ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
             }
-        
-            if (TrustUKPRN == null)
+
+            if (LaCode == null)
             {
-                TrustUKPRNErrorMessage = "Enter the supporting organisation's UKPRN";
-                ModelState.AddModelError("trust-ukprn", TrustUKPRNErrorMessage);
+                LaCodeErrorMessage = "Enter the supporting organisation's GIAS LA Code";
+                ModelState.AddModelError("la-code", LaCodeErrorMessage);
             }
-        
+
             if (DateSupportOrganisationConfirmed == null)
             {
                 DateConfirmedErrorMessage = "Enter a date";
@@ -84,33 +85,30 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
         // Early return for validation errors
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
-        
+
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             OrganisationName,
-            TrustUKPRN,
+            LaCode,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.SupportingOrganisationContactName,
-            SupportProject?.SupportingOrganisationContactEmailAddress,
-            SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
-        
+            null,
+            null,
+            null,
+            null, null, null);
+
         var result = await mediator.Send(command, cancellationToken);
-        
+
         // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
-        TaskUpdated = true;
 
-        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
-            new { id, previousPage = Links.TaskList.EnterSupportingOrganisationTrustDetails.Page });
+        TaskUpdated = true;
+        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page });
     }
 
     // Extracted method for cleaner error handling

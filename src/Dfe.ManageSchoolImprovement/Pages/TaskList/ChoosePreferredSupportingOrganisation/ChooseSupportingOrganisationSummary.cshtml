@@ -1,0 +1,77 @@
+@page "/task-list/choose-preferred-supporting-organisation-summary/{id:int}"
+@using Dfe.Academisation.ExtensionMethods
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.ChooseSupportOrganisationSummaryModel
+
+@{
+    ViewData["Title"] = "Choose preferred supporting organisation";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+@{
+    var organisationType = Model.SupportProject?.SupportOrganisationType;
+
+    string organisationTypeLabel = organisationType switch
+    {
+        "School" => "URN",
+        "Trust" => "UKPRN",
+        "Local authority" => "LA name code",
+        "Local authority traded service" => "Companies House number",
+        _ => "ID"
+    };
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Choose preferred supporting organisation
+        </h1>
+        <p class="govuk-body">The supporting organisation is not confirmed until the school and regional director both
+            agree to the choice.</p>
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">Supporting organisation</h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">@organisationType</dt>
+                        <dd class="govuk-summary-list__value">@Model.SupportOrganisationName (@Model.SupportOrganisationIdNumber)</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">@organisationTypeLabel</dt>
+                        <dd class="govuk-summary-list__value">@Model.SupportOrganisationIdNumber</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Date contact details were confirmed</dt>
+                        <dd class="govuk-summary-list__value">@Model.DateSupportingOrganisationContactDetailsAdded.ToDateString()</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <div class="govuk-button-group">
+            <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+               class="govuk-button" data-cy="return-btn">Return to task list</a>
+            <a asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page"
+               asp-route-id="@Model.SupportProject.Id"
+               class="govuk-button govuk-button--secondary" data-cy="change-supporting-org-btn">Change supporting
+                organisation</a>
+            <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id"
+               class="govuk-link" data-cy="view-contacts-link">View contacts</a>
+        </div>
+    </div>
+</div>
+

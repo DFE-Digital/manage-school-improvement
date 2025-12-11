@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
+public class EnterSupportingOrganisationSchoolDetailsFallbackModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
@@ -17,18 +17,14 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "companies-house-number")]
-    public string? CompaniesHouseNumber { get; set; }
+    [BindProperty(Name = "urn")]
+    public string? URN { get; set; }
 
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportOrganisationConfirmed { get; set; }
 
     public bool ShowError { get; set; }
-
-    public string? OrganisationNameErrorMessage { get; set; }
-    public string? CompaniesHouseNumberErrorMessage { get; set; }
-    public string? DateConfirmedErrorMessage { get; set; }
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -37,6 +33,10 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
 
+    public string? OrganisationNameErrorMessage { get; private set; }
+    public string? UrnErrorMessage { get; private set; }
+    public string? DateConfirmedErrorMessage { get; private set; }
+
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
@@ -44,7 +44,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
-            CompaniesHouseNumber = SupportProject?.SupportOrganisationIdNumber;
+            URN = SupportProject?.SupportOrganisationIdNumber;
             DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
@@ -54,12 +54,12 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         OrganisationName = OrganisationName?.Trim();
-        CompaniesHouseNumber = CompaniesHouseNumber?.Trim();
+        URN = URN?.Trim();
 
         await base.GetSupportProject(id, cancellationToken);
 
         // Validate entries
-        if (OrganisationName == null || CompaniesHouseNumber == null || DateSupportOrganisationConfirmed == null)
+        if (OrganisationName == null || URN == null || DateSupportOrganisationConfirmed == null)
         {
             if (OrganisationName == null)
             {
@@ -67,10 +67,10 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
                 ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
             }
 
-            if (CompaniesHouseNumber == null)
+            if (URN == null)
             {
-                CompaniesHouseNumberErrorMessage = "Enter the supporting organisation's companies house number";
-                ModelState.AddModelError("companies-house-number", CompaniesHouseNumberErrorMessage);
+                UrnErrorMessage = "Enter the supporting organisation's URN";
+                ModelState.AddModelError("urn", UrnErrorMessage);
             }
 
             if (DateSupportOrganisationConfirmed == null)
@@ -86,8 +86,8 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             OrganisationName,
-            CompaniesHouseNumber,
-            SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
+            URN,
+            "School", // OrganisationType is "School" for this page
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
@@ -107,7 +107,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         }
 
         TaskUpdated = true;
-        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityTradedServiceDetails.Page });
+        return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page, new { id, previousPage = Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page });
     }
 
     // Extracted method for cleaner error handling
