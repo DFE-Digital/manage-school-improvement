@@ -6,6 +6,7 @@ import taskList from "cypress/pages/taskList";
 import fundingHistory from "cypress/pages/tasks/fundingHistory";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import * as schoolData from "cypress/fixtures/school-data.json";
+import supportingOrgType from "cypress/pages/tasks/supportingOrgType";
 
 describe("Add a school which requires an improvement and complete it's tasks", () => {
   const {
@@ -344,26 +345,20 @@ describe("Add a school which requires an improvement and complete it's tasks", (
 
     //check validaton
     taskListActions.selectButtonOrCheckbox("continue-button");
+    
+    taskListActions.hasValidation("Confirm you have completed the assessment tool", "complete-assessment-tool-error-link");
     taskListActions.hasValidation("Select the type of supporting organisation", "support-organisation-type-school-error-link");
 
-    taskListActions.selectButtonOrCheckbox("support-organisation-type-trust");
+    taskListActions.selectButtonOrCheckbox("complete-assessment-tool");
+    taskListActions.selectButtonOrCheckbox("support-organisation-type-school");
     taskListActions.selectButtonOrCheckbox("continue-button");
-
-    taskListActions.enterText("organisation-name", "North West Schools Partnership");
-    taskListActions.enterText("trust-ukprn", "10058689");
-    taskListActions.enterDate("date-support-organisation-confirmed", "01", "01", "2024");
+    supportingOrgType.withShortSOName('Ply');
+    supportingOrgType.withLongSOName('Plymouth College');
     taskListActions.selectButtonOrCheckbox("save-and-return-button");
     taskListActions.confirmSupportingOrganisationDetails();
+    taskListActions.enterDate("date-support-organisation-confirmed", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-return-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusInProgress("choose-preferred-supporting-organisation-status");
-   
-    taskList.selectTask("Choose preferred supporting organisation");
-    taskListActions.hasHeader("Choose preferred supporting organisation");
-    taskListActions.selectButtonOrCheckbox("complete-assessment-tool");
-    taskListActions.selectButtonOrCheckbox("continue-button");
-    taskListActions.selectButtonOrCheckbox("save-and-return-button");
-    taskListActions.selectButtonOrCheckbox("save-and-return-button");
+  
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("choose-preferred-supporting-organisation-status");
   });
@@ -430,6 +425,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
       .hasTaskStatusInProgress("add-supporting-organisation-contact-details-status");
     taskList.selectTask("Add supporting organisation contact details");
     taskListActions.enterText("email-address", "joe.bloggs@email.com");
+    taskListActions.clearDateInput('date-supporting-organisation-details-added');
     taskListActions.enterDate("date-supporting-organisation-details-added", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
