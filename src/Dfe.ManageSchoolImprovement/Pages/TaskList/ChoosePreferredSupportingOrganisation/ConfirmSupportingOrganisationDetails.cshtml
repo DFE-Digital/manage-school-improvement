@@ -23,6 +23,7 @@
     var organisationType = Model.SupportProject?.SupportOrganisationType;
     var organisationName = Model.SupportProject?.SupportOrganisationName ?? "";
     var organisationIdNumber = Model.SupportProject?.SupportOrganisationIdNumber ?? "";
+    var isSchoolOrTrust = organisationType == "School" || organisationType == "Trust";
 
     string organisationTypeLabel = organisationType switch
     {
@@ -73,14 +74,17 @@
                             @organisationIdNumber
                         </dd>
                     </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Address
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @(!string.IsNullOrEmpty(Model.SupportProject?.SupportingOrganisationAddress) ? Html.Raw(Model.SupportProject?.SupportingOrganisationAddress.Replace(",", "<br>")) : "Not available")
-                        </dd>
-                    </div>
+                    @if (isSchoolOrTrust)
+                    {
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Address
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @(!string.IsNullOrEmpty(Model.SupportProject?.SupportingOrganisationAddress) ? Html.Raw(Model.SupportProject?.SupportingOrganisationAddress.Replace(",", "<br>")) : "Not available")
+                            </dd>
+                        </div>
+                    }
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Source
@@ -92,7 +96,7 @@
                 </dl>
             </div>
         </div>
-        @if (organisationType != "Local authority" && organisationType != "Local authority traded service")
+        @if (isSchoolOrTrust)
         {
             <h2 class="govuk-heading-m">Contact details</h2>
             <p class="margin-top-minus-10">
