@@ -46,6 +46,7 @@ class TaskListActions {
     }
 
     public enterText(id: string, text: string): this {
+        cy.getById(id).clear();
         cy.getById(id).type(text, {parseSpecialCharSequences: false });
 
         return this;

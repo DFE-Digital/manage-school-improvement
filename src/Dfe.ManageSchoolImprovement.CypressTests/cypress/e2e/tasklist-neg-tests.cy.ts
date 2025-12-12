@@ -3,6 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import improvementPlan from "cypress/pages/improvementPlan";
+import supportingOrgType from "cypress/pages/tasks/supportingOrgType";
 
 describe("Tasklist negative tests", () => {
     
@@ -110,17 +111,33 @@ describe("Tasklist negative tests", () => {
         taskListActions.hasValidation("Enter details of the objective", "ObjectiveDetails-error-link");
     });
 
-    it("should validate preferred supporting organisation", () => {
+    it("should validate preferred supporting organisation type - trust", () => {
         Logger.log("Validating preferred supporting organisation");
         taskList.selectTask("Choose preferred supporting organisation");
         taskListActions.hasHeader("Choose preferred supporting organisation");
-        taskListActions.selectButtonOrCheckbox("support-organisation-type-school");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-trust");
         taskListActions.selectButtonOrCheckbox("continue-button");
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
-        taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
-        taskListActions.hasValidation("Enter the supporting organisation's URN", "urn-error-link");
-        taskListActions.hasValidation("Enter a date", "date-support-organisation-confirmed-error-link");
+        taskListActions.hasValidation("Enter the trust name or UKPRN", "SearchQuery-error-link");
+        supportingOrgType.withShortSOName('123abc');
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("We could not find any trusts matching your search criteria", "SearchQuery-error-link");
 
+        cy.executeAccessibilityTests();
+    });
+
+    it("should validate preferred supporting organisation type - LA", () => {
+        Logger.log("Validating preferred supporting organisation");
+        taskList.selectTask("Choose preferred supporting organisation");
+        taskListActions.hasHeader("Choose preferred supporting organisation");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-local-authority");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("Enter the local authority name or code", "SearchQuery-error-link");
+        supportingOrgType.withShortSOName('xxx');
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("We could not find any local authorities matching your search criteria", "SearchQuery-error-link");
+        
         cy.executeAccessibilityTests();
     });
 });
