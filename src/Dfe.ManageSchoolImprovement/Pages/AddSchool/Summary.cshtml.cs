@@ -37,7 +37,7 @@ public class SummaryModel(IGetEstablishment getEstablishment, IMediator mediator
     {
         GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto establishment = await getEstablishment.GetEstablishmentByUrn(urn);
 
-        var request = new CreateSupportProjectCommand(establishment.Name, establishment.Urn, establishment.LocalAuthorityName, establishment.Gor.Name, TrustName, TrustReferenceNumber);
+        var request = new CreateSupportProjectCommand(establishment.Name, establishment.Urn, establishment.LocalAuthorityName, establishment.Gor.Name, TrustName, TrustReferenceNumber, establishment.Address);
 
         var id = await mediator.Send(request);
 

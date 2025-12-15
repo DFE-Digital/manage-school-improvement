@@ -17,7 +17,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string localAuthority,
         string region,
         string? trustName = null,
-        string? trustReferenceNumber = null)
+        string? trustReferenceNumber = null,
+        string? address = null)
     {
         Id = id;
         SchoolName = schoolName;
@@ -26,6 +27,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         Region = region;
         TrustName = trustName;
         TrustReferenceNumber = trustReferenceNumber;
+        Address = address;
     }
 
     #region Properties
@@ -43,6 +45,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? TrustName { get; private set; }
 
     public string? TrustReferenceNumber { get; private set; }
+    
+    public string? Address { get; private set; }
 
     public DateTime CreatedOn { get; set; }
 
@@ -121,9 +125,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
-    
+
     public string? SupportingOrganisationContactPhone { get; private set; }
-    
+
     public string? SuppportOrganisationContactAddress { get; private set; }
 
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
@@ -217,6 +221,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string region,
         string? trustName = null,
         string? trustReferenceNumber = null,
+        string? address = null,
         DateTime? deletedAt = null)
     {
         return new SupportProject()
@@ -227,6 +232,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             Region = region,
             TrustName = trustName,
             TrustReferenceNumber = trustReferenceNumber,
+            Address = address,
             DeletedAt = deletedAt
         };
     }

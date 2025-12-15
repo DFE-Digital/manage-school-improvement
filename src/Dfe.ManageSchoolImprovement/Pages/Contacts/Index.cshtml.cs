@@ -14,15 +14,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         ITrustsClient trustClient,
         IEstablishmentsClient establishmentsClient,
         IDateTimeProvider dateTimeProvider,
-        IWebHostEnvironment hostingEnvironment,
         ErrorService errorService) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
     {
         public string ReturnPage { get; set; } = null!;
 
-        public ContactViewModel? ChairOfGoverningBody { get; set; } = null;
-        public ContactViewModel? Headteacher { get; set; } = null;
-        public ContactViewModel? ChiefFinancialOfficer { get; set; } = null;
-        public ContactViewModel? AccountingOfficer { get; set; } = null;
+        public ContactViewModel? ChairOfGoverningBody { get; set; }
+        public ContactViewModel? Headteacher { get; set; }
+        public ContactViewModel? ChiefFinancialOfficer { get; set; }
+        public ContactViewModel? AccountingOfficer { get; set; }
+        
+        public string? SchoolAddress { get; set; }
 
         public const string ChairOfGoverningBodyRole = "Chair of Local Governing Body";
         public const string ChiefFinancialOfficerRole = "Chief Financial Officer";
@@ -39,6 +40,23 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (!int.TryParse(SupportProject?.SchoolUrn, out var schoolUrn))
             {
                 schoolUrn = 0; // Default value if parsing fails
+            }
+
+            SchoolAddress = SupportProject?.Address;
+
+            if (string.IsNullOrEmpty(SchoolAddress))
+            {
+                var establishment = await _getEstablishment.GetEstablishmentByUrn(SupportProject?.SchoolUrn);
+                SchoolAddress = string.Join(", ", new[]
+                {
+                    establishment.Address.Street,
+                    establishment.Address.Locality,
+                    establishment.Address.Town,
+                    establishment.Address.County,
+                    establishment.Address.Postcode
+                }.Where(x => !string.IsNullOrWhiteSpace(x)));
+                
+                // then save this to the support project
             }
 
             var establishmentContacts = await establishmentsClient.GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
@@ -58,7 +76,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         Name = chairOfGovernors.DisplayName,
                         Email = chairOfGovernors.Email,
                         Phone = chairOfGovernors.Phone,
-                        RoleName = ChairOfGoverningBodyRole
+                        RoleName = ChairOfGoverningBodyRole,
+                        LastModifiedOn = chairOfGovernors.UpdatedAt
                     };
                 }
             }
@@ -96,11 +115,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                             Name = accountingOfficer.DisplayName,
                             Email = accountingOfficer.Email,
                             Phone = accountingOfficer.Phone,
-                            RoleName = AccountingOfficerRole
+                            RoleName = AccountingOfficerRole,
+                            LastModifiedOn = accountingOfficer.UpdatedAt
                         };
                     }
                 }
             }
+
+            Headteacher = new ContactViewModel()
+            {
+                Name = SupportProject?.HeadteacherName,
+                RoleName = SupportProject?.HeadteacherPreferredJobTitle,
+                Email = "",
+                Phone = SupportProject?.SchoolMainPhone,
+                LastModifiedOn = SupportProject?.LastModifiedOn
+            };
 
 
             return Page();

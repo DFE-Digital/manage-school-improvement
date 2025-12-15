@@ -1,0 +1,58 @@
+
+@using Dfe.Academisation.ExtensionMethods
+@model Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ContactViewModel
+
+<div class="govuk-summary-card">
+    <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+            @Model.RoleName
+        </h2>
+    </div>
+    <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Name
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span class="empty">@(string.IsNullOrEmpty(Model.Name) ? "Not available" : Model.Name)</span>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Email
+                </dt>
+
+                <dd class="govuk-summary-list__value">
+                    <span class="empty">@(string.IsNullOrEmpty(Model.Email) ? "Not available" : Model.Email)</span>
+                </dd>
+
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Phone
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span class="@(string.IsNullOrEmpty(Model.Phone) ? "empty" : null)"
+                          data-id="phone">@(string.IsNullOrEmpty(Model.Phone) ? "Not available" : Model.Phone)</span>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Source
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    Get information about schools
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Last imported
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.LastModifiedOn.ToDateString()
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
