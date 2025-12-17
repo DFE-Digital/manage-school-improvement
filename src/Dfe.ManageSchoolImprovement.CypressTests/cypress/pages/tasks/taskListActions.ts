@@ -89,6 +89,18 @@ class TaskListActions {
       return this;
     }
 
+    public peferredSupportingOrganisationDetails(): this {
+        cy.title().should('eq', 'Choose preferred supporting organisation - Manage school improvement');
+        cy.get('.govuk-summary-card').should('exist');
+                 cy.get('.govuk-summary-card__content .govuk-summary-list__row').each(($row) => {
+                   cy.wrap($row).find('.govuk-summary-list__value').should('not.be.empty');
+                    });     
+        cy.getByCyData('return-btn').should('contains', 'Return to task list');
+        cy.getByCyData('change-supporting-org-btn').should('contains', 'Change supporting rganisation');
+        cy.getByCyData('view-contacts-link').should('contains', 'Return to task list');
+
+        return this;
+    }
 }
 
 const taskListActions = new TaskListActions();

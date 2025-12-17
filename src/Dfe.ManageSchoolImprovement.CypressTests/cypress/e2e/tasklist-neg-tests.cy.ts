@@ -111,6 +111,21 @@ describe("Tasklist negative tests", () => {
         taskListActions.hasValidation("Enter details of the objective", "ObjectiveDetails-error-link");
     });
 
+    it("should validate preferred supporting organisation type - school", () => {
+        Logger.log("Validating preferred supporting organisation");
+        taskList.selectTask("Choose preferred supporting organisation");
+        taskListActions.hasHeader("Choose preferred supporting organisation");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-school");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("Enter the school name or URN", "SearchQuery-error-link");
+        supportingOrgType.withShortSOName('111111');
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("We could not find any schools matching your search criteria", "SearchQuery-error-link");
+
+        cy.executeAccessibilityTests();
+    });
+
     it("should validate preferred supporting organisation type - trust", () => {
         Logger.log("Validating preferred supporting organisation");
         taskList.selectTask("Choose preferred supporting organisation");
@@ -138,6 +153,21 @@ describe("Tasklist negative tests", () => {
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("We could not find any local authorities matching your search criteria", "SearchQuery-error-link");
         
+        cy.executeAccessibilityTests();
+    });
+
+    it("should validate preferred supporting organisation type - LA traded service", () => {
+        Logger.log("Validating preferred supporting organisation");
+        taskList.selectTask("Choose preferred supporting organisation");
+        taskListActions.hasHeader("Choose preferred supporting organisation");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-local-authority-traded-service");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.hasHeader("Enter supporting organisation details");
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
+        taskListActions.hasValidation("Enter the supporting organisation's companies house number", "companies-house-number-error-link");
+        taskListActions.hasValidation("Enter a date", "date-support-organisation-confirmed-error-link");
+      
         cy.executeAccessibilityTests();
     });
 });
