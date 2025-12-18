@@ -7,6 +7,18 @@
         <h2 class="govuk-summary-card__title">
             @Model.RoleName
         </h2>
+        @if (Model.ManuallyAdded)
+        {
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a asp-page="@Links.Contacts.EditContact.Page" asp-route-id="@Model.SupportProjectId"
+                       asp-route-contactId="@Model.ContactId" role="button" draggable="false" class="govuk-link"
+                       data-module="govuk-button">
+                        Change<span class="govuk-visually-hidden"> contact</span>
+                    </a>
+                </li>
+            </ul>
+        }
     </div>
     <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
@@ -39,10 +51,11 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
-                    Source
+                    Taken from
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    Get information about schools
+                    <span
+                        data-id="source">@(Model.ManuallyAdded ? "Added manually" : "Get information about schools")</span>
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -50,7 +63,8 @@
                     Last imported
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    @Model.LastModifiedOn.ToDateString()
+                    <span
+                        class="empty">@(string.IsNullOrEmpty(Model.LastModifiedOn.ToDateString()) ? "Not available" : Model.LastModifiedOn.ToDateString())</span>
                 </dd>
             </div>
         </dl>

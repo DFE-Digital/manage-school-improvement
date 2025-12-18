@@ -779,5 +779,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
     }
 
+    public void SetSchoolAddress(string? address)
+    {
+        Address = address;
+    }
+
     #endregion
 }

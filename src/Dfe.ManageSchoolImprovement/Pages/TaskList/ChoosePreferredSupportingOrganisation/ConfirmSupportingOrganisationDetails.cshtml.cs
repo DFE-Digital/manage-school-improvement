@@ -6,19 +6,16 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Utils;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
 public class ConfirmSupportingOrganisationDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ITrustsClient trustClient,
-    IGetTrust getTrust,
     IGetEstablishment getEstablishment,
     IEstablishmentsClient establishmentsClient,
     IDateTimeProvider dateTimeProvider,
@@ -152,7 +149,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
             SupportProject?.SupportOrganisationType,
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            OrganisationAddress,
+            SupportProject?.SupportingOrganisationAddress,
             AccountingOfficer?.Name,
             AccountingOfficer?.Email,
             AccountingOfficer?.Phone,

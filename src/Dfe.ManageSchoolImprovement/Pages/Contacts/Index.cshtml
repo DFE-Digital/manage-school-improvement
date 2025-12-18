@@ -1,15 +1,11 @@
 ﻿@page "/contacts/{id:int}"
-@using Dfe.Academisation.ExtensionMethods
-@using Dfe.ManageSchoolImprovement.Application.Common.Models
-@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
-@using Dfe.ManageSchoolImprovement.Utils;
 
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using Dfe.ManageSchoolImprovement.Utils
 @model IndexModel
 @{
     ViewData["Title"] = "Contact";
     TempData["AssignmentReferrer"] = @Links.Contacts.Index.Page;
-
-    var headteacherRole = Model.SupportProject.HeadteacherPreferredJobTitle ?? "Headteacher";
 }
 
 @section BeforeMain
@@ -44,125 +40,53 @@
                 <partial name="_ContactCard"
                          model='@Model.Headteacher'/>
             }
-            @if (Model.ChairOfGoverningBody != null)
+            @if (Model.ChairOfGovernors != null)
             {
                 <partial name="_ContactCard"
-                         model='@Model.ChairOfGoverningBody'/>
+                         model='@Model.ChairOfGovernors'/>
             }
             @if (Model.AccountingOfficer != null)
             {
-                <div class="govuk-summary-card">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">
-                            Accounting officer for school
-                        </h2>
-                    </div>
-                    <div class="govuk-summary-card__content">
-                        <dl class="govuk-summary-list">
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Name
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    @Model.AccountingOfficer.Name
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Email
-                                </dt>
-                                @if (string.IsNullOrEmpty(Model.AccountingOfficer.Email))
-                                {
-                                    <span class="empty" data-id="phone">Empty</span>
-                                }
-                                else
-                                {
-                                    <a href="mailto:@Model.AccountingOfficer.Email">@Model.AccountingOfficer.Email</a>
-                                }
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Phone
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    <span
-                                        class="@(string.IsNullOrEmpty(Model.AccountingOfficer.Phone) ? "empty" : null)"
-                                        data-id="phone">@(string.IsNullOrEmpty(Model.AccountingOfficer.Phone) ? "Empty" : Model.AccountingOfficer.Phone)</span>
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">
-                                    Taken from
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                    Get information about schools
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
-                </div>
+                <partial name="_ContactCard"
+                         model='@Model.AccountingOfficer'/>
+            }
+            
+            @if (Model.OtherSchoolContacts.Any())
+            {
+                foreach (var contact in Model.OtherSchoolContacts)
+                {
+                    <partial name="_ContactCard"
+                             model='@contact'/>
+                }
             }
         </div>
+
+        @if (!string.IsNullOrEmpty(Model.SupportingOrganisationContact?.Name))
+        {
+            <div class="govuk-grid-column-three-quarters">
+                <h3 class="govuk-heading-m">Supporting organisation contacts</h3>
+                <div class="govuk-inset-text govuk-!-margin-top-0">
+                    <p class="govuk-body">
+                        @(!string.IsNullOrEmpty(Model.SupportingOrganisationAddress) ? Html.Raw(Model.SupportingOrganisationAddress.Replace(",", "<br>")) : "Not available")
+                    </p>
+                </div>
+                <partial name="_ContactCard"
+                         model="@Model.SupportingOrganisationContact"/>
+            </div>
+        }
+
+
+
+        @if (Model.OtherContacts.Any())
+        {
+            <div class="govuk-grid-column-three-quarters">
+                <h3 class="govuk-heading-m">Other contacts</h3>
+                @foreach (var contact in Model.OtherContacts)
+                {
+                    <partial name="_ContactCard" model="@contact"/>
+                }
+            </div>
+        }
     </div>
 </div>
 
-@* @foreach (var contact in Model.SupportProject.Contacts) *@
-@* { *@
-@*     <div class="govuk-summary-card"> *@
-@*         <div class="govuk-summary-card__title-wrapper"> *@
-@*             <h2 class="govuk-summary-card__title"> *@
-@*                 @(contact.RoleId == RolesIds.Other ? contact.OtherRoleName : contact.RoleId.GetDisplayName()) *@
-@*             </h2> *@
-@*             <ul class="govuk-summary-card__actions"> *@
-@*                 <li class="govuk-summary-card__action"> *@
-@*                     <a asp-page="@Links.Contacts.EditContact.Page" asp-route-id="@Model.SupportProject.Id" asp-route-contactId="@contact.Id.Value" role="button" draggable="false" class="govuk-link" data-module="govuk-button"> *@
-@*                         Change<span class="govuk-visually-hidden"> main contact</span> *@
-@*                     </a> *@
-@*                 </li> *@
-@*             </ul> *@
-@*         </div> *@
-@*         <div class="govuk-summary-card__content"> *@
-@*             <dl class="govuk-summary-list"> *@
-@*                 <div class="govuk-summary-list__row"> *@
-@*                     <dt class="govuk-summary-list__key"> *@
-@*                         Name *@
-@*                     </dt> *@
-@*                     <dd class="govuk-summary-list__value"> *@
-@*                         @contact.Name *@
-@*                     </dd> *@
-@*                 </div> *@
-@*                 <div class="govuk-summary-list__row"> *@
-@*                     <dt class="govuk-summary-list__key"> *@
-@*                         Organisation *@
-@*                     </dt> *@
-@*                     <dd class="govuk-summary-list__value"> *@
-@*                         @contact.Organisation *@
-@*                     </dd> *@
-@*                 </div> *@
-@*                 <div class="govuk-summary-list__row"> *@
-@*                     <dt class="govuk-summary-list__key"> *@
-@*                         Email *@
-@*                     </dt> *@
-@*                     <dd class="govuk-summary-list__value"> *@
-@*                         @if (string.IsNullOrEmpty(contact.Email)) *@
-@*                         { *@
-@*                             <span class="empty" data-id="phone">Empty</span> *@
-@*                         } *@
-@*                         else *@
-@*                         { *@
-@*                             <a href="mailto:@contact.Email">@contact.Email</a> *@
-@*                         } *@
-@*                     </dd> *@
-@*                 </div> *@
-@*                 <div class="govuk-summary-list__row"> *@
-@*                     <dt class="govuk-summary-list__key"> *@
-@*                         Phone *@
-@*                     </dt> *@
-@*                     <dd class="govuk-summary-list__value"> *@
-@*                         <span class="@(string.IsNullOrEmpty(contact.Phone) ? "empty" : null)" data-id="phone">@(string.IsNullOrEmpty(contact.Phone) ? "Empty" : contact.Phone)</span> *@
-@*                     </dd> *@
-@*                 </div> *@
-@*             </dl> *@
-@*         </div> *@
-@*     </div> *@
-@* } *@
