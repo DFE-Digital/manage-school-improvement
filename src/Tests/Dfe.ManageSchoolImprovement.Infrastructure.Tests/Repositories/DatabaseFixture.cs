@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
 using MediatR;
@@ -23,7 +24,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             Mock.Get(mockUserService).Setup(x => x.GetCurrentUsername()).Returns("test@user.com");
 
             // Initialize the context
-            Context = new RegionalImprovementForStandardsAndExcellenceContext(options, Mock.Of<IConfiguration>(), Mock.Of<IMediator>(), mockUserService);
+            Context = new RegionalImprovementForStandardsAndExcellenceContext(options, Mock.Of<IConfiguration>(),
+                Mock.Of<IMediator>(), mockUserService);
 
             // Seed data
             SeedData();
@@ -37,32 +39,40 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     schoolUrn: "100001",
                     localAuthority: "Authority1",
                     region: "Region1",
-                    trustName: "Trust A",
-                    trustReferenceNumber: "TR001"
+                    trustDetails: new TrustDetails()
+                    {
+                        TrustName = "Trust A",
+                        TrustReferenceNumber = "TR001"
+                    }
                 ),
                 SupportProject.Create(
                     schoolName: "School B",
                     schoolUrn: "100002",
                     localAuthority: "Authority2",
                     region: "Region2",
-                    trustName: "Trust B",
-                    trustReferenceNumber: "TR002"
+                    trustDetails: new TrustDetails()
+                    {
+                        TrustName = "Trust B",
+                        TrustReferenceNumber = "TR002"
+                    }
                 ),
                 SupportProject.Create(
                     schoolName: "School C",
                     schoolUrn: "100003",
                     localAuthority: "Authority3",
                     region: "Region2",
-                    trustName: null,
-                    trustReferenceNumber: null
+                    trustDetails: null
                 ),
                 SupportProject.Create(
                     schoolName: "School D",
                     schoolUrn: "100004",
                     localAuthority: "Authority5",
                     region: "Region3",
-                    trustName: "Trust D",
-                    trustReferenceNumber: "TR004",
+                    trustDetails: new TrustDetails()
+                    {
+                        TrustName = "Trust D",
+                        TrustReferenceNumber = "TR004"
+                    },
                     deletedAt: DateTime.Now // This makes it a soft-deleted record
                 )
             );
@@ -73,7 +83,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var school = Context.SupportProjects.Single(x => x.SchoolName == "School A");
             school.SetDeliveryOfficer("User1", "User1");
             school.SetAdviserDetails("Adviser@adviser.com", DateTime.Now, "Test Adviser");
-            
+
             school.CreatedOn = new DateTime(2025, 10, 1);
 
             Context.Update(school);
