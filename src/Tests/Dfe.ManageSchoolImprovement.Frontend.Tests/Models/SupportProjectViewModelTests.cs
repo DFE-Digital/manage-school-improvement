@@ -13,6 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             var supportProjectDto = new SupportProjectDto(
                 Id: 1,
                 CreatedOn: DateTime.Now,
+                LastModifiedOn: DateTime.Now,
                 SchoolName: "School Name",
                 SchoolUrn: "123456",
                 LocalAuthority: "Local Authority",
@@ -77,6 +78,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             // Assert
             Assert.Equal(supportProjectDto.Id, viewModel.Id);
             Assert.Equal(supportProjectDto.CreatedOn, viewModel.CreatedOn);
+            Assert.Equal(supportProjectDto.LastModifiedOn, viewModel.LastModifiedOn);
             Assert.Equal(supportProjectDto.LocalAuthority, viewModel.LocalAuthority);
             Assert.Equal(supportProjectDto.Region, viewModel.Region);
             Assert.Equal(supportProjectDto.SchoolName, viewModel.SchoolName);

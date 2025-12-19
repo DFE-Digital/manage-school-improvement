@@ -463,7 +463,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             var supportProjectDto = new List<SupportProjectDto>();
             foreach (var project in supportProjects)
             {
-                supportProjectDto.Add(new SupportProjectDto(project.Id!.Value, project.CreatedOn, project.SchoolName,
+                supportProjectDto.Add(new SupportProjectDto(project.Id!.Value, project.CreatedOn, project.LastModifiedOn, project.SchoolName,
                     project.SchoolUrn, project.LocalAuthority, project.Region));
             }
 

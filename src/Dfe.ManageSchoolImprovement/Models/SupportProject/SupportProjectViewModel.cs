@@ -10,6 +10,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public int Id { get; set; }
 
         public DateTime CreatedOn { get; set; }
+        
+        public DateTime? LastModifiedOn { get; set; }
 
         public string SchoolName { get; set; } = string.Empty;
 
@@ -22,6 +24,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? TrustName { get; set; }
 
         public string? TrustReferenceNumber { get; set; }
+        
+        public string? Address { get; set; }
 
         public string Diocese { get; set; } = string.Empty;
 
@@ -186,12 +190,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
             {
                 Id = supportProjectDto.Id,
                 CreatedOn = supportProjectDto.CreatedOn,
+                LastModifiedOn = supportProjectDto.LastModifiedOn,
                 LocalAuthority = supportProjectDto.LocalAuthority,
                 Region = supportProjectDto.Region,
                 SchoolName = supportProjectDto.SchoolName,
                 SchoolUrn = supportProjectDto.SchoolUrn,
                 TrustName = supportProjectDto.TrustName,
                 TrustReferenceNumber = supportProjectDto.TrustReferenceNumber,
+                Address = supportProjectDto.Address,
                 Notes = supportProjectDto.Notes,
                 FormalNotificationSent = supportProjectDto.FormalNotificationSent,
                 DateFormalNotificationSent = supportProjectDto.DateFormalNotificationSent,

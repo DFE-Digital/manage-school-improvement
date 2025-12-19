@@ -42,7 +42,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
 
             _mockSupportProjectQueryService
                 .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now)));
+                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now, LastModifiedOn: DateTime.Now)));
 
             _mockMediator
                 .Setup(x => x.Send(It.IsAny<SetSupportProjectEngagementConcernEscalationCommand>(), It.IsAny<CancellationToken>()))
@@ -75,7 +75,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
             var engagementConcernId = Guid.NewGuid();
             _mockSupportProjectQueryService
                 .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now)));
+                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now, LastModifiedOn: DateTime.Now)));
 
             _mockMediator
                 .Setup(x => x.Send(It.IsAny<SetSupportProjectEngagementConcernEscalationCommand>(), It.IsAny<CancellationToken>()))
@@ -129,7 +129,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
 
             _mockSupportProjectQueryService
                 .Setup(x => x.GetSupportProject(id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now, EngagementConcerns: new[] { engagementConcernDto })));
+                .ReturnsAsync(Result<SupportProjectDto?>.Success(new SupportProjectDto(Id: id, CreatedOn: DateTime.Now, LastModifiedOn: DateTime.Now, EngagementConcerns: new[] { engagementConcernDto })));
 
             _mockMediator
                  .Setup(x => x.Send(It.IsAny<SetSupportProjectEngagementConcernEscalationCommand>(), It.IsAny<CancellationToken>()))

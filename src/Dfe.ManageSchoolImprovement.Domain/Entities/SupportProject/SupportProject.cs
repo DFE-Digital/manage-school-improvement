@@ -16,16 +16,17 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string schoolUrn,
         string localAuthority,
         string region,
-        string? trustName = null,
-        string? trustReferenceNumber = null)
+        TrustDetails? trustDetails = null,
+        string? address = null)
     {
         Id = id;
         SchoolName = schoolName;
         SchoolUrn = schoolUrn;
         LocalAuthority = localAuthority;
         Region = region;
-        TrustName = trustName;
-        TrustReferenceNumber = trustReferenceNumber;
+        TrustName = trustDetails?.TrustName;
+        TrustReferenceNumber = trustDetails?.TrustReferenceNumber;
+        Address = address;
     }
 
     #region Properties
@@ -43,6 +44,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? TrustName { get; private set; }
 
     public string? TrustReferenceNumber { get; private set; }
+    
+    public string? Address { get; private set; }
 
     public DateTime CreatedOn { get; set; }
 
@@ -121,9 +124,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
-    
+
     public string? SupportingOrganisationContactPhone { get; private set; }
-    
+
     public string? SuppportOrganisationContactAddress { get; private set; }
 
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
@@ -215,8 +218,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string schoolUrn,
         string localAuthority,
         string region,
-        string? trustName = null,
-        string? trustReferenceNumber = null,
+        TrustDetails? trustDetails = null,
+        string? address = null,
         DateTime? deletedAt = null)
     {
         return new SupportProject()
@@ -225,8 +228,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             SchoolUrn = schoolUrn,
             LocalAuthority = localAuthority,
             Region = region,
-            TrustName = trustName,
-            TrustReferenceNumber = trustReferenceNumber,
+            TrustName = trustDetails?.TrustName,
+            TrustReferenceNumber = trustDetails?.TrustReferenceNumber,
+            Address = address,
             DeletedAt = deletedAt
         };
     }
@@ -350,7 +354,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportingOrganisationContactName = details.SupportOrganisationContactName;
         SupportingOrganisationContactEmailAddress = details.SupportOrganisationContactEmailAddress;
         SupportingOrganisationContactPhone = details.SupportOrganisationContactPhone;
-        SuppportOrganisationContactAddress = details.SupportOrganisationAddress;
+        SuppportOrganisationContactAddress = details.SupportOrganisationContactAddress;
         DateSupportingOrganisationContactDetailsAdded = details.DateSupportingOrganisationContactDetailsAdded;
     }
 
@@ -771,6 +775,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             engagementConcern.SetEngagementConcernResolvedDetails(engagementConcernResolved,
                 engagementConcernResolvedDetails, engagementConcernResolvedDate);
         }
+    }
+
+    public void SetSchoolAddress(string? address)
+    {
+        Address = address;
     }
 
     #endregion

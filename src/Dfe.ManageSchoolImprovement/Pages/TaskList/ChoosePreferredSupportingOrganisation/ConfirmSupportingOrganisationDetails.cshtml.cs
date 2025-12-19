@@ -16,7 +16,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSup
 public class ConfirmSupportingOrganisationDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ITrustsClient trustClient,
-    IGetTrust getTrust,
     IGetEstablishment getEstablishment,
     IEstablishmentsClient establishmentsClient,
     IDateTimeProvider dateTimeProvider,

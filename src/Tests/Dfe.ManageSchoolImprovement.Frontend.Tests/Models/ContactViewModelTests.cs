@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 {
@@ -15,6 +16,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(string.Empty, model.RoleName);
             Assert.Equal(string.Empty, model.Email);
             Assert.Equal(string.Empty, model.Phone);
+            Assert.Equal(string.Empty, model.Address);
+            Assert.False(model.ManuallyAdded);
+            Assert.Null(model.SupportProjectId);
+            Assert.Null(model.ContactId);
             Assert.Equal(default(DateTime), model.CreatedOn);
             Assert.Equal(string.Empty, model.CreatedBy);
             Assert.Null(model.LastModifiedOn);
@@ -29,6 +34,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             var expectedRoleName = "Chief Financial Officer";
             var expectedEmail = "john.smith@example.com";
             var expectedPhone = "+44 20 7946 0958";
+            var expectedAddress = "1 Test Street, Test Town, TT1 1TT";
+            var expectedManuallyAdded = true;
+            int? expectedSupportProjectId = 123;
+            var expectedContactId = new SupportProjectContactId(Guid.NewGuid());
             var expectedCreatedOn = new DateTime(2024, 1, 15, 10, 30, 0, DateTimeKind.Utc);
             var expectedCreatedBy = "test.user@education.gov.uk";
             var expectedLastModifiedOn = new DateTime(2024, 1, 20, 14, 45, 0, DateTimeKind.Utc);
@@ -41,6 +50,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 RoleName = expectedRoleName,
                 Email = expectedEmail,
                 Phone = expectedPhone,
+                Address = expectedAddress,
+                ManuallyAdded = expectedManuallyAdded,
+                SupportProjectId = expectedSupportProjectId,
+                ContactId = expectedContactId,
                 CreatedOn = expectedCreatedOn,
                 CreatedBy = expectedCreatedBy,
                 LastModifiedOn = expectedLastModifiedOn,
@@ -52,6 +65,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(expectedRoleName, model.RoleName);
             Assert.Equal(expectedEmail, model.Email);
             Assert.Equal(expectedPhone, model.Phone);
+            Assert.Equal(expectedAddress, model.Address);
+            Assert.Equal(expectedManuallyAdded, model.ManuallyAdded);
+            Assert.Equal(expectedSupportProjectId, model.SupportProjectId);
+            Assert.Equal(expectedContactId, model.ContactId);
             Assert.Equal(expectedCreatedOn, model.CreatedOn);
             Assert.Equal(expectedCreatedBy, model.CreatedBy);
             Assert.Equal(expectedLastModifiedOn, model.LastModifiedOn);
@@ -68,6 +85,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 RoleName = "Accounting Officer",
                 Email = "jane.doe@example.com",
                 Phone = "01234 567890",
+                Address = "2 Example Road, Example City, EC2 2EC",
+                ManuallyAdded = false,
+                SupportProjectId = null,
+                ContactId = null,
                 CreatedOn = DateTime.UtcNow,
                 CreatedBy = "system.admin",
                 LastModifiedOn = null,
@@ -79,6 +100,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("Accounting Officer", model.RoleName);
             Assert.Equal("jane.doe@example.com", model.Email);
             Assert.Equal("01234 567890", model.Phone);
+            Assert.Equal("2 Example Road, Example City, EC2 2EC", model.Address);
+            Assert.False(model.ManuallyAdded);
+            Assert.Null(model.SupportProjectId);
+            Assert.Null(model.ContactId);
             Assert.NotEqual(default(DateTime), model.CreatedOn);
             Assert.Equal("system.admin", model.CreatedBy);
             Assert.Null(model.LastModifiedOn);
@@ -95,6 +120,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 RoleName = "",
                 Email = "",
                 Phone = "",
+                Address = "",
                 CreatedBy = ""
             };
 
@@ -103,6 +129,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(string.Empty, model.RoleName);
             Assert.Equal(string.Empty, model.Email);
             Assert.Equal(string.Empty, model.Phone);
+            Assert.Equal(string.Empty, model.Address);
             Assert.Equal(string.Empty, model.CreatedBy);
         }
 
@@ -211,6 +238,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 RoleName = "Test Role",
                 Email = "test@example.com",
                 Phone = "01234 567890",
+                Address = "99 Demo Ave, Demo City, DC9 9DC",
+                ManuallyAdded = true,
+                SupportProjectId = 999,
+                ContactId = new SupportProjectContactId(Guid.NewGuid()),
                 CreatedOn = new DateTime(2024, 1, 1),
                 CreatedBy = "test.user",
                 LastModifiedOn = new DateTime(2024, 1, 2),
@@ -222,6 +253,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("Test Role", model.RoleName);
             Assert.Equal("test@example.com", model.Email);
             Assert.Equal("01234 567890", model.Phone);
+            Assert.Equal("99 Demo Ave, Demo City, DC9 9DC", model.Address);
+            Assert.True(model.ManuallyAdded);
+            Assert.Equal(999, model.SupportProjectId);
+            Assert.IsType<SupportProjectContactId>(model.ContactId);
             Assert.Equal(new DateTime(2024, 1, 1), model.CreatedOn);
             Assert.Equal("test.user", model.CreatedBy);
             Assert.Equal(new DateTime(2024, 1, 2), model.LastModifiedOn);
