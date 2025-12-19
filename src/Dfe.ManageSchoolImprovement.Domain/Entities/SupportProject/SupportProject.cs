@@ -356,7 +356,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportingOrganisationContactName = details.SupportOrganisationContactName;
         SupportingOrganisationContactEmailAddress = details.SupportOrganisationContactEmailAddress;
         SupportingOrganisationContactPhone = details.SupportOrganisationContactPhone;
-        SuppportOrganisationContactAddress = details.SupportOrganisationAddress;
+        SuppportOrganisationContactAddress = details.SupportOrganisationContactAddress;
         DateSupportingOrganisationContactDetailsAdded = details.DateSupportingOrganisationContactDetailsAdded;
     }
 

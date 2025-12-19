@@ -51,7 +51,7 @@
                          model='@Model.AccountingOfficer'/>
             }
             
-            @if (Model.OtherSchoolContacts.Any())
+            @if (Model.OtherSchoolContacts?.Any() == true)
             {
                 foreach (var contact in Model.OtherSchoolContacts)
                 {
@@ -83,7 +83,7 @@
             </div>
         }
         
-        @if (Model.OtherContacts.Any())
+        @if (Model.OtherContacts?.Any() == true)
         {
             <div class="govuk-grid-column-three-quarters">
                 <h3 class="govuk-heading-m">Other contacts</h3>
