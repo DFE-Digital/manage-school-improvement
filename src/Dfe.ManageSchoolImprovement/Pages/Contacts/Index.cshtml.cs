@@ -81,11 +81,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         private async Task SetSchoolContacts(int id, CancellationToken cancellationToken)
         {
-            if (!int.TryParse(SupportProject?.SchoolUrn, out var schoolUrn))
-            {
-                schoolUrn = 0; // Default value if parsing fails
-            }
-
             SchoolAddress = SupportProject?.Address;
             
             if (string.IsNullOrEmpty(SchoolAddress))
@@ -121,6 +116,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 Phone = SupportProject?.SchoolMainPhone ?? "",
                 LastModifiedOn = SupportProject?.LastModifiedOn
             };
+            
+            if (!int.TryParse(SupportProject?.SchoolUrn, out var schoolUrn))
+            {
+                schoolUrn = 0; // Default value if parsing fails
+            }
             
             var establishmentContacts = await establishmentsClient
                 .GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
@@ -196,7 +196,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         {
             SupportingOrganisationAddress = SupportProject?.SupportingOrganisationContactAddress;
             
-            var schoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) ?? null;
+            var schoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SchoolUrn) ?? null;
 
             if (schoolIsAcademy != null)
             {

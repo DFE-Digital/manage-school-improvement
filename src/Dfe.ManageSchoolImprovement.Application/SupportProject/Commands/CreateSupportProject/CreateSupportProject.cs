@@ -34,8 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
                 request.schoolUrn,
                 request.localAuthority,
                 request.region,
-                request.trustName,
-                request.trustReferenceNumber,
+                new TrustDetails {TrustName = request.trustName, TrustReferenceNumber = request.trustReferenceNumber},
                 schoolAddress);
 
             await supportProjectRepository.AddAsync(supportProject, cancellationToken);

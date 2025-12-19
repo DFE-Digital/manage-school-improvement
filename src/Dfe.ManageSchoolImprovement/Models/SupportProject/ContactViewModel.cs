@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string Address { get; set; } = string.Empty;
         public bool ManuallyAdded { get; set; } = false;
         public int? SupportProjectId { get; set; }
-        public SupportProjectContactId ContactId { get; set; }
+        public SupportProjectContactId? ContactId { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? LastModifiedOn { get; set; }
