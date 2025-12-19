@@ -22,7 +22,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 InitialContactResponsibleBody: initialContactResponsibleBody,
                 InitialContactResponsibleBodyDate: initialContactResponsibleBodyDate));
 
@@ -55,6 +55,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1,
                 DateTime.Now,
+                DateTime.Now,
                 UseEnrolmentLetterTemplateToDraftEmail: useEnrolmentLetterTemplateToDraftEmail,
                 AttachTargetedInterventionInformationSheet: attachTargetedInterventionInformationSheet,
                 AddRecipientsForFormalNotification: addRecipientsForFormalNotification,
@@ -82,7 +83,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             DateTime? schoolResponseDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate: schoolResponseDate,
                 ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint: hasSavedSchoolResponseinSharePoint));
 
@@ -108,7 +109,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             DateTime? introductoryEmailSentDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 IntroductoryEmailSentDate: introductoryEmailSentDate,
                 HasShareEmailTemplateWithAdviser: hasShareEmailTemplateWithAdviser,
                 RemindAdviserToCopyRiseTeamWhenSentEmail: remindAdviserToCopyRiseTeamWhenSentEmail));
@@ -135,7 +136,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             DateTime? savedAssessmentTemplateInSharePointDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 SavedAssessmentTemplateInSharePointDate: savedAssessmentTemplateInSharePointDate,
                 HasTalkToAdviserAboutFindings: hasTalkToAdviserAboutFindings,
                 HasCompleteAssessmentTemplate: hasCompleteAssessmentTemplate));
@@ -164,7 +165,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 ReviewAdvisersConflictOfInterestForm: reviewAdvisersConflictOfInterestForm,
                 DateConflictOfInterestDeclarationChecked: dateConflictOfInterestDeclarationChecked));
 
@@ -189,7 +190,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             DateTime? dateAdviserAllocated, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 DateAdviserAllocated: dateAdviserAllocated, AdviserEmailAddress: adviserEmailAddress));
 
             //Action 
@@ -216,6 +217,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(
                 1,
                 DateTime.Now,
+                DateTime.Now,
                 AdviserVisitDate: adviserVisitDate,
                 GiveTheAdviserTheNoteOfVisitTemplate: giveTheAdviserTheNoteOfVisitTemplate));
 
@@ -239,7 +241,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         {
             // Arrange
             var supportProjectModel =
-                SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                     SchoolVisitDate: schoolVisitDate));
 
             //Action 
@@ -265,7 +267,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             string? initialDiagnosisMatchingDecisionNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 RegionalDirectorDecisionDate: regionalDirectorDecisionDate,
                 InitialDiagnosisMatchingDecision: initialDiagnosisMatchingDecision,
                 InitialDiagnosisMatchingDecisionNotes: initialDiagnosisMatchingDecisionNotes));
@@ -291,7 +293,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             string supportOrganisationId, bool? assessmentToolTwoCompleted, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 DateSupportOrganisationChosen: datePreferredSupportOrganisationChosen,
                 SupportOrganisationName: supportOrganisationName,
                 SupportOrganisationIdNumber: supportOrganisationId,
@@ -323,7 +325,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 CheckOrganisationHasCapacityAndWillingToProvideSupport:
                 checkOrganisationHasCapacityAndWillingToProvideSupport,
                 CheckChoiceWithTrustRelationshipManagerOrLaLead: checkChoiceWithTrustRelationshipManagerOrLaLead,
@@ -353,7 +355,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             string? disapprovingSupportingOrganisationAppointmentNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 RegionalDirectorAppointmentDate: regionalDirectorAppointmentDate,
                 HasConfirmedSupportingOrganisationAppointment: hasConfirmedSupportingOrganisationAppointment,
                 DisapprovingSupportingOrganisationAppointmentNotes:
@@ -382,7 +384,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             string? supportingOrganisationContactEmail, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 DateSupportingOrganisationContactDetailsAdded: dateSupportingOrganisationDetailsAdded,
                 SupportingOrganisationContactName: supportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress: supportingOrganisationContactEmail!));
@@ -423,7 +425,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 IndicativeFundingBandCalculated: indicativeFundingBandCalculated,
                 IndicativeFundingBand: indicativeFundingBand,
                 ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody
@@ -445,7 +447,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             string? disapprovingImprovementPlanDecisionNotes, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 RegionalDirectorImprovementPlanDecisionDate: regionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision: hasApprovedImprovementPlanDecision,
                 DisapprovingImprovementPlanDecisionNotes: disapprovingImprovementPlanDecisionNotes));
@@ -474,7 +476,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 HasSavedImprovementPlanInSharePoint: hasSavedImprovementPlanInSharePoint,
                 HasEmailedAgreedPlanToRegionalDirectorForApproval: hasEmailedAgreedPlanToRegionalDirectorForApproval));
 
@@ -506,6 +508,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(
                 1,
+                DateTime.Now,
                 DateTime.Now,
                 DateTeamContactedForRequestingPlanningGrantOfferLetter: dateGrantsTeamContacted,
                 IncludeContactDetailsRequestingPlanningGrantOfferEmail: includeContactDetails,
@@ -540,7 +543,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 ImprovementPlanReceivedDate: improvementPlanReceivedDate,
                 ReviewImprovementAndExpenditurePlan: reviewImprovementAndExpenditurePlan,
                 ConfirmFundingBand: confirmFundingBand,
@@ -575,7 +578,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             bool? sendEmailToGrantTeam, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 DateTeamContactedForRequestingImprovementGrantOfferLetter: dateGrantsTeamContacted,
                 IncludeContactDetails: includeContactDetails,
                 AttachSchoolImprovementPlan: attachSchoolImprovementPlan,
@@ -602,7 +605,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             DateTime? dateGrantsLetterConfirmed, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 DateTeamContactedForConfirmingPlanningGrantOfferLetter: dateGrantsLetterConfirmed));
 
             //Action 
@@ -624,7 +627,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             DateTime? dateGrantsLetterConfirmed, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 DateImprovementGrantOfferLetterSent: dateGrantsLetterConfirmed));
 
             //Action 
@@ -649,7 +652,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         {
             // Arrange
             var supportProjectModel =
-                SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+                SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                     SupportProjectStatus: isEligible));
 
             //Action 
@@ -673,7 +676,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             bool? fundingHistoryComplete, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 HasReceivedFundingInThelastTwoYears: hasReceivedFunding,
                 FundingHistoryDetailsComplete: fundingHistoryComplete));
 
@@ -727,7 +730,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 improvementPlans = new List<ImprovementPlanDto>();
             }
 
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 ImprovementPlans: improvementPlans!));
 
             //Action 
@@ -755,7 +758,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 })
             };
 
-            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now,
+            var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 ImprovementPlans: improvementPlans));
 
             //Action 

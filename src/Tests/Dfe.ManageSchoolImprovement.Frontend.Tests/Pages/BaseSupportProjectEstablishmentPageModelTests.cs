@@ -33,7 +33,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
         {
             // Arrange
             var projectId = 1;
-            var mockProject = new SupportProjectDto(projectId, DateTime.Now, "schoolName", "URN234", "local Authority", "Region");
+            var mockProject = new SupportProjectDto(projectId, DateTime.Now, DateTime.Now, "schoolName", "URN234", "local Authority", "Region");
             var mockEstablishment = new GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto
             {
                 EstablishmentType = new NameAndCodeDto() { Name = "School" },
