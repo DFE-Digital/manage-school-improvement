@@ -154,7 +154,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
             SupportProject?.SupportOrganisationType,
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            trustOrSchool ? SupportProject?.SupportingOrganisationAddress : null,
+            trustOrSchool ? OrganisationAddress : null,
             trustOrSchool ? AccountingOfficer?.Name : SupportProject?.SupportingOrganisationContactName,
             trustOrSchool ? AccountingOfficer?.Email : SupportProject?.SupportingOrganisationContactEmailAddress,
             trustOrSchool ? AccountingOfficer?.Phone : null,
