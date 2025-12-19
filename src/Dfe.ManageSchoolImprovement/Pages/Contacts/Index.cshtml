@@ -61,7 +61,7 @@
             }
         </div>
 
-        @if (!string.IsNullOrEmpty(Model.SupportingOrganisationContact?.Name))
+        @if (!string.IsNullOrEmpty(Model.SupportingOrganisationAccountingOfficer?.Name) || !string.IsNullOrEmpty(Model.SupportingOrganisationHeadteacher?.Name))
         {
             <div class="govuk-grid-column-three-quarters">
                 <h3 class="govuk-heading-m">Supporting organisation contacts</h3>
@@ -70,13 +70,19 @@
                         @(!string.IsNullOrEmpty(Model.SupportingOrganisationAddress) ? Html.Raw(Model.SupportingOrganisationAddress.Replace(",", "<br>")) : "Not available")
                     </p>
                 </div>
-                <partial name="_ContactCard"
-                         model="@Model.SupportingOrganisationContact"/>
+                @if (Model.SupportingOrganisationHeadteacher != null)
+                {
+                    <partial name="_ContactCard"
+                             model="@Model.SupportingOrganisationHeadteacher"/>  
+                }
+                @if (Model.SupportingOrganisationAccountingOfficer != null)
+                {
+                    <partial name="_ContactCard"
+                             model="@Model.SupportingOrganisationAccountingOfficer"/>
+                }
             </div>
         }
-
-
-
+        
         @if (Model.OtherContacts.Any())
         {
             <div class="govuk-grid-column-three-quarters">

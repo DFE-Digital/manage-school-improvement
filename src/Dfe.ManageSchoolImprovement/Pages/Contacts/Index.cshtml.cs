@@ -1,3 +1,4 @@
+using System.Globalization;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -28,7 +29,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? ChairOfGovernors { get; set; }
         public ContactViewModel? Headteacher { get; set; }
         public ContactViewModel? AccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationContact { get; set; }
+        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; }
+        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; }
         
         public IEnumerable<ContactViewModel> OtherContacts { get; set; }
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; }
@@ -38,6 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         public const string ChairOfGovernorsRole = "Chair of Governors";
         public const string AccountingOfficerRole = "Accounting Officer";
+        public const string HeadteacherRole = "Headteacher";
 
         public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
         {
@@ -49,7 +52,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
 
             await SetSchoolContacts(id, cancellationToken);
-            await SetSupportingOrganisationContacts(id, cancellationToken);
+            await SetSupportingOrganisationContacts();
             
             var otherContacts = SupportProject?.Contacts
                 .Where(c => c.RoleId != RolesIds.Headteacher
@@ -76,43 +79,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             return Page();
         }
 
-        public async Task SetSchoolContacts(int id, CancellationToken cancellationToken)
+        private async Task SetSchoolContacts(int id, CancellationToken cancellationToken)
         {
             if (!int.TryParse(SupportProject?.SchoolUrn, out var schoolUrn))
             {
                 schoolUrn = 0; // Default value if parsing fails
             }
 
-
-            var establishmentContacts = await establishmentsClient
-                .GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
-
-            if (establishmentContacts != null && establishmentContacts.Count > 0)
-            {
-                // Get current (non-historical) chair of governors
-                var chairOfGovernors = establishmentContacts
-                    .Where(c => c.Roles.Contains(ChairOfGovernorsRole) && c.IsCurrent(dateTimeProvider))
-                    .OrderByDescending(x => x.UpdatedAt)
-                    .FirstOrDefault();
-
-                if (chairOfGovernors != null)
-                {
-                    ChairOfGovernors = new ContactViewModel()
-                    {
-                        Name = chairOfGovernors.DisplayName,
-                        Email = chairOfGovernors.Email,
-                        Phone = chairOfGovernors.Phone,
-                        RoleName = ChairOfGovernorsRole,
-                        LastModifiedOn = chairOfGovernors.UpdatedAt
-                    };
-                }
-            }
-
             SchoolAddress = SupportProject?.Address;
-
+            
             if (string.IsNullOrEmpty(SchoolAddress))
             {
                 var establishment = await _getEstablishment.GetEstablishmentByUrn(SupportProject?.SchoolUrn);
+                
                 SchoolAddress = string.Join(", ", new[]
                 {
                     establishment.Address.Street,
@@ -134,14 +113,62 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     _errorService.AddApiError();
                 }
             }
-
-            Headteacher = new ContactViewModel()
+                        
+            Headteacher = new ContactViewModel
             {
                 Name = SupportProject?.HeadteacherName ?? "",
                 RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? "",
                 Phone = SupportProject?.SchoolMainPhone ?? "",
                 LastModifiedOn = SupportProject?.LastModifiedOn
             };
+            
+            var establishmentContacts = await establishmentsClient
+                .GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
+
+            if (establishmentContacts != null && establishmentContacts.Count > 0)
+            {
+                var chairOfGovernors = establishmentContacts
+                    .Where(c => c.Roles.Contains(ChairOfGovernorsRole) && c.IsCurrent(dateTimeProvider))
+                    .OrderByDescending(x => x.UpdatedAt)
+                    .FirstOrDefault();
+
+                if (chairOfGovernors != null)
+                {
+                    ChairOfGovernors = new ContactViewModel
+                    {
+                        Name = chairOfGovernors.DisplayName,
+                        Email = chairOfGovernors.Email,
+                        Phone = chairOfGovernors.Phone,
+                        RoleName = ChairOfGovernorsRole,
+                        LastModifiedOn = chairOfGovernors.UpdatedAt
+                    };
+                }
+            }
+            
+            if (!string.IsNullOrEmpty(SupportProject?.TrustName))
+            {
+                var trustContacts = await trustClient
+                    .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.TrustReferenceNumber,
+                        cancellationToken).ConfigureAwait(false);
+
+                if (trustContacts != null && trustContacts.Count > 0)
+                {
+                    var accountingOfficer = trustContacts
+                        .FirstOrDefault(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider));
+
+                    if (accountingOfficer != null)
+                    {
+                        AccountingOfficer = new ContactViewModel
+                        {
+                            Name = accountingOfficer.DisplayName,
+                            Email = accountingOfficer.Email,
+                            Phone = accountingOfficer.Phone,
+                            RoleName = AccountingOfficerRole,
+                            LastModifiedOn = accountingOfficer.UpdatedAt
+                        };
+                    }
+                }
+            }
             
             var otherschoolContacts = SupportProject?.Contacts
                 .Where(c => c.RoleId == RolesIds.Headteacher
@@ -163,53 +190,49 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     LastModifiedOn = contact.LastModifiedOn
                 }).ToList();
             }
-
-            if (!string.IsNullOrEmpty(SupportProject?.TrustName))
-            {
-                var trustContacts = await trustClient
-                    .GetAllPersonsAssociatedWithTrustByTrnOrUkPrnAsync(SupportProject.TrustReferenceNumber,
-                        cancellationToken).ConfigureAwait(false);
-
-                if (trustContacts != null && trustContacts.Count > 0)
-                {
-                    var accountingOfficer = trustContacts
-                        .Where(c => c.Roles.Contains(AccountingOfficerRole) && c.IsCurrent(dateTimeProvider))
-                        .FirstOrDefault();
-
-                    if (accountingOfficer != null)
-                    {
-                        AccountingOfficer = new ContactViewModel()
-                        {
-                            Name = accountingOfficer.DisplayName,
-                            Email = accountingOfficer.Email,
-                            Phone = accountingOfficer.Phone,
-                            RoleName = AccountingOfficerRole,
-                            LastModifiedOn = accountingOfficer.UpdatedAt
-                        };
-                    }
-                }
-            }
         }
 
-        public async Task SetSupportingOrganisationContacts(int id,
-            CancellationToken cancellationToken)
+        private async Task SetSupportingOrganisationContacts()
         {
+            SupportingOrganisationAddress = SupportProject?.SupportingOrganisationContactAddress;
+            
             var schoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) ?? null;
 
-            var contactRoleName = SupportProject?.SupportOrganisationType == "Trust" || schoolIsAcademy != null
-                ? AccountingOfficerRole
-                : SupportProject?.HeadteacherPreferredJobTitle;
-
-            SupportingOrganisationAddress = SupportProject?.SupportingOrganisationContactAddress;
-            SupportingOrganisationContact = new()
+            if (schoolIsAcademy != null)
             {
-                Name = SupportProject?.SupportingOrganisationContactName ?? "",
-                RoleName = contactRoleName ?? "",
-                Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
-                Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
-                Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
-                LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
-            };
+                var supportingSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber);
+                var headteacherName = supportingSchool.HeadteacherFirstName + " " + supportingSchool.HeadteacherLastName;
+
+                SupportingOrganisationHeadteacher = new ContactViewModel
+                {
+                    Name = headteacherName,
+                    Phone = supportingSchool.MainPhone,
+                    RoleName = !string.IsNullOrEmpty(supportingSchool.HeadteacherPreferredJobTitle) ? supportingSchool.HeadteacherPreferredJobTitle : HeadteacherRole,
+                    LastModifiedOn = Convert.ToDateTime(supportingSchool.GiasLastChangedDate, new CultureInfo("en-GB"))
+                };
+                
+                SupportingOrganisationAccountingOfficer = new ContactViewModel
+                {
+                    Name = SupportProject?.SupportingOrganisationContactName ?? "",
+                    RoleName = AccountingOfficerRole,
+                    Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
+                    Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
+                    Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
+                    LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
+                };
+            }
+            else
+            {
+                SupportingOrganisationHeadteacher = new ContactViewModel
+                {
+                    Name = SupportProject?.SupportingOrganisationContactName ?? "",
+                    RoleName = HeadteacherRole,
+                    Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
+                    Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
+                    Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
+                    LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
+                };
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ using AutoFixture;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using Moq;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.CreateSupportProject
@@ -29,8 +30,22 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 localAuthority: "Test LA",
                 region: "Test Region",
                 trustName: "Test Trust",
-                trustReferenceNumber: "TR12345"
+                trustReferenceNumber: "TR12345",
+                new AddressDto()
+                {
+                    Street = "Test Street",
+                    Town = "Test Town",
+                    Postcode = "Test Postcode"
+                }
             );
+
+            var addressString = string.Join(", ", new[]
+            {
+                command.address?.Street,
+                command.address?.Town,
+                command.address?.Postcode
+            }.Where(x => !string.IsNullOrWhiteSpace(x)));
+            
 
             var expectedId = new SupportProjectId(1);
             _mockSupportProjectRepository
@@ -56,7 +71,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                     sp.LocalAuthority == command.localAuthority &&
                     sp.Region == command.region &&
                     sp.TrustName == command.trustName &&
-                    sp.TrustReferenceNumber == command.trustReferenceNumber), 
+                    sp.TrustReferenceNumber == command.trustReferenceNumber &&
+                    sp.Address == addressString), 
                 It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -70,7 +86,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 localAuthority: "Test LA",
                 region: "Test Region",
                 trustName: null,
-                trustReferenceNumber: null
+                trustReferenceNumber: null,
+                new AddressDto()
+                {
+                    Street = "Test Street",
+                    Town = "Test Town",
+                    Postcode = "Test Postcode"
+                }
             );
 
             var expectedId = new SupportProjectId(1);
@@ -115,7 +137,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 localAuthority: localAuthority,
                 region: region,
                 trustName: "Test Trust",
-                trustReferenceNumber: "TR12345"
+                trustReferenceNumber: "TR12345",
+                new AddressDto()
+                {
+                    Street = "Test Street",
+                    Town = "Test Town",
+                    Postcode = "Test Postcode"
+                }
             );
 
             var expectedId = new SupportProjectId(1);
@@ -149,7 +177,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 localAuthority: "Test LA",
                 region: "Test Region",
                 trustName: "Test Trust",
-                trustReferenceNumber: "TR12345"
+                trustReferenceNumber: "TR12345",
+                new AddressDto()
+                {
+                    Street = "Test Street",
+                    Town = "Test Town",
+                    Postcode = "Test Postcode"
+                }
             );
 
             _mockSupportProjectRepository
@@ -173,7 +207,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 localAuthority: "Test LA",
                 region: "Test Region",
                 trustName: "Test Trust",
-                trustReferenceNumber: "TR12345"
+                trustReferenceNumber: "TR12345",
+                new AddressDto()
+                {
+                    Street = "Test Street",
+                    Town = "Test Town",
+                    Postcode = "Test Postcode"
+                }
             );
 
             var handler = new CreateSupportProjectCommandHandler(_mockSupportProjectRepository.Object);
@@ -198,8 +238,21 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 localAuthority: "Westminster Council",
                 region: "London",
                 trustName: "Excellence Academy Trust",
-                trustReferenceNumber: "TR98765"
+                trustReferenceNumber: "TR98765",
+                new AddressDto()
+                {
+                    Street = "Test Street",
+                    Town = "Test Town",
+                    Postcode = "Test Postcode"
+                }
             );
+            
+            var addressString = string.Join(", ", new[]
+            {
+                command.address?.Street,
+                command.address?.Town,
+                command.address?.Postcode
+            }.Where(x => !string.IsNullOrWhiteSpace(x)));
 
             Domain.Entities.SupportProject.SupportProject? capturedProject = null;
             _mockSupportProjectRepository
@@ -222,6 +275,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             Assert.Equal("London", capturedProject.Region);
             Assert.Equal("Excellence Academy Trust", capturedProject.TrustName);
             Assert.Equal("TR98765", capturedProject.TrustReferenceNumber);
+            Assert.Equal(addressString, capturedProject.Address);
         }
     }
 } 
