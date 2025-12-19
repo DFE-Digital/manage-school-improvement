@@ -19,7 +19,7 @@
 }
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-three-quarters">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
         <h1 class="govuk-heading-l">
             Enter supporting organisation details
@@ -31,9 +31,9 @@
             <div class="govuk-form-group @(Model.LaCodeError ? "govuk-form-group--error" : "")">
 
                 <div id="local-authority-hint" class="govuk-hint">
-                    Search by local authority name, or by the 3 digit GIAS LA name code.
+                    Search by Local Authority name, or by the 3 digit GIAS LA name code.
                     <br/>
-                    You can <a class="govuk-link" href="https://www.get-information-schools.service.gov.uk/" target="_blank" rel="noreferrer noopener">find an LA's name code in Get information about schools (opens in new tab)</a>.
+                    <a class="govuk-link" href="https://www.get-information-schools.service.gov.uk/" target="_blank" rel="noreferrer noopener">Find an LA's name code in Get information about schools (opens in new tab)</a>.
                 </div>
 
                 <partial name="_AutoComplete" model="@Model.AutoCompleteSearchModel" />

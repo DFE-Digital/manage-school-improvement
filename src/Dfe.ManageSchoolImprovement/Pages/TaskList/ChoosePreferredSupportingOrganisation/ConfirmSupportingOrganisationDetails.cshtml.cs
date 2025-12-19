@@ -26,13 +26,13 @@ public class ConfirmSupportingOrganisationDetailsModel(
     [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportOrganisationConfirmed { get; set; }
-    
+
     [BindProperty(Name = "js-enabled")]
     public bool JavaScriptEnabled { get; set; }
 
     public string? OrganisationAddress { get; set; }
     public string? ContactAddress { get; set; }
-    
+
     public ContactViewModel? AccountingOfficer { get; set; } = new()
     {
         Name = "",
@@ -60,9 +60,9 @@ public class ConfirmSupportingOrganisationDetailsModel(
         CancellationToken cancellationToken = default)
     {
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
-        
+
         await base.GetSupportProject(id, cancellationToken);
-        
+
         DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
 
@@ -79,7 +79,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
                 var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber);
 
                 var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
-            
+
                 if (expectedTrust != null)
                 {
                     await GetTrustContactAddress(expectedTrust, cancellationToken);
@@ -89,7 +89,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
                 {
                     await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
                 }
-            }  
+            }
         }
 
         return Page();
@@ -99,11 +99,15 @@ public class ConfirmSupportingOrganisationDetailsModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        
+        var trustOrSchool = false;
+
+        OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
+
         if (SupportProject?.SupportOrganisationType == "Trust")
         {
             await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
             AccountingOfficer.Address = OrganisationAddress ?? "";
+            trustOrSchool = true;
         }
 
         if (SupportProject?.SupportOrganisationType == "School")
@@ -123,8 +127,9 @@ public class ConfirmSupportingOrganisationDetailsModel(
                 ContactAddress = SupportProject.SupportingOrganisationAddress;
                 await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber, cancellationToken);
             }
+            trustOrSchool = true;
         }
-        
+
         PreviousPage = previousPage ?? Links.TaskList.ChoosePreferredSupportingOrganisationType.Page;
 
         if (DateSupportOrganisationConfirmed == null)
@@ -140,7 +145,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
             return await GetSupportProject(id, cancellationToken);
         }
 
-        var dateContactDetailsAdded = DateTime.UtcNow;
+        var dateContactDetailsAdded = dateTimeProvider.Now;
 
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
@@ -149,12 +154,12 @@ public class ConfirmSupportingOrganisationDetailsModel(
             SupportProject?.SupportOrganisationType,
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
-            SupportProject?.SupportingOrganisationAddress,
-            AccountingOfficer?.Name,
-            AccountingOfficer?.Email,
-            AccountingOfficer?.Phone,
-            AccountingOfficer?.Address,
-            dateContactDetailsAdded);
+            trustOrSchool ? SupportProject?.SupportingOrganisationAddress : null,
+            trustOrSchool ? AccountingOfficer?.Name : SupportProject?.SupportingOrganisationContactName,
+            trustOrSchool ? AccountingOfficer?.Email : SupportProject?.SupportingOrganisationContactEmailAddress,
+            trustOrSchool ? AccountingOfficer?.Phone : null,
+            trustOrSchool ? AccountingOfficer?.Address : null,
+            trustOrSchool ? dateContactDetailsAdded : SupportProject?.DateSupportingOrganisationContactDetailsAdded);
 
         var result = await mediator.Send(command, cancellationToken);
 

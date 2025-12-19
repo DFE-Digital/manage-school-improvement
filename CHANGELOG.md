@@ -3,6 +3,18 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.3.5] - Q3 – Sprint 5 (Part 2)- 2025-12-15
+
+### 📌 User Stories 
+
+- **252516** - Choose Preferred Supporting Organisation task - summary page
+- **247168** - Choose preferred Supporting Organisation task - Trust name validation
+- **247169** - Choose preferred Supporting Organisation task - School name validation
+- **249680** - Choose preferred Supporting Organisation task - Local Authority Validation
+- **249958** - Remove "Share email template with adviser" action from "Send introductory email" task
+
+--
+
 ## 📅 [v1.3.4] - Q3 – Sprint 5 (Part 1)- 2025-12-04
 
 ### 📌 User Stories 
