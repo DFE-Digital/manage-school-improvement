@@ -29,8 +29,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? ChairOfGovernors { get; set; }
         public ContactViewModel? Headteacher { get; set; }
         public ContactViewModel? AccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; }
+        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new ();
+        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new ();
         
         public IEnumerable<ContactViewModel> OtherContacts { get; set; }
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; }
@@ -52,7 +52,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
 
             await SetSchoolContacts(id, cancellationToken);
-            await SetSupportingOrganisationContacts();
+
+            if (SupportProject.SupportOrganisationType == "School" && SupportProject.SupportOrganisationIdNumber != null)
+            {
+                await SetSupportingOrganisationContacts();
+            }
             
             var otherContacts = SupportProject?.Contacts
                 .Where(c => c.RoleId != RolesIds.Headteacher
@@ -112,7 +116,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             Headteacher = new ContactViewModel
             {
                 Name = SupportProject?.HeadteacherName ?? "",
-                RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? "",
+                RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? "Headteacher",
                 Phone = SupportProject?.SchoolMainPhone ?? "",
                 LastModifiedOn = SupportProject?.LastModifiedOn
             };
