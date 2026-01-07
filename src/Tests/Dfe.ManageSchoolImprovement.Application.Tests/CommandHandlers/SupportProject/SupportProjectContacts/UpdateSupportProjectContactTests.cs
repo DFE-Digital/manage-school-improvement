@@ -1,11 +1,9 @@
 ﻿using AutoFixture;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts;
-using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Utils;
 using Moq;
-using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.SupportProjectContacts
 {
@@ -37,9 +35,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var details = new SupportProjectContactDetails
             {
                 Name = "John",
-                RoleId = RolesIds.ChairOfGovernors,
-                OtherRoleName = null,
-                Organisation = "Organisation",
+                OrganisationTypeSubCategory = SchoolOrginisationTypes.ChairOfGovernors.GetDisplayName(),
+                OrganisationTypeSubCategoryOther = null,
+                OrganisationType = "Organisation",
                 Email = "john@school.gov.uk",
                 Phone = "0123456789"
             };
@@ -52,14 +50,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 createdOn,
                 _mockSupportProject.Id!);
 
-            var roleId = RolesIds.Other;
+            var orgtype = SchoolOrginisationTypes.Other.GetDisplayName();
             var otherRoleName = "Other Role";
             var command = new UpdateSupportProjectContactCommand(
                 _mockSupportProject.Id!,
                 supportProjectContactId,
                 "John Doe",
-                roleId,
-                otherRoleName, details.Organisation, details.Email, details.Phone, author);
+                orgtype,
+                otherRoleName, details.OrganisationType, details.Email, details.Phone, author);
 
             _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(_mockSupportProject.Id!, _cancellationToken)).ReturnsAsync(_mockSupportProject);
 

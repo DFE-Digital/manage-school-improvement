@@ -1,9 +1,9 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts; 
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
-using Dfe.ManageSchoolImprovement.Frontend.Services; 
+using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
@@ -30,19 +30,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         [PhoneValidation]
         [BindProperty(Name = "phone")]
         public string? Phone { get; set; }
-        public int RoleId { get; set; }
-        public string? OtherRole { get; set; }
-        public async Task<IActionResult> OnGetAsync(int id, int roleId, string? otherRole, CancellationToken cancellationToken)
+        public string OrganisationTypeSubCategory { get; set; }
+        public string? OrganisationTypeSubCategoryOther { get; set; }
+        public string OrganisationType { get; set; }
+        public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             ReturnPage = Links.Contacts.AddContact.Page;
-            RoleId = roleId;
-            OtherRole = otherRole;
-            TempData["RoleId"] = roleId;
-            TempData["OtherRole"] = otherRole;
+            OrganisationTypeSubCategory = organisationTypeSubCategory;
+            OrganisationTypeSubCategoryOther = organisationTypeSubCategoryOther;
+            OrganisationType = organisationType;
+            TempData["OrganisationTypeSubCategory"] = organisationTypeSubCategory;
+            TempData["OrganisationTypeSubCategoryOther"] = organisationTypeSubCategoryOther;
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync(int id, int roleId, string? otherRole, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
@@ -53,8 +55,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
-            } 
-            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, (RolesIds)roleId, otherRole!, Organisation, EmailAddress!, Phone, User.GetDisplayName()!);
+            }
+            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, organisationTypeSubCategory, organisationTypeSubCategoryOther!, organisationType, EmailAddress!, Phone!, User.GetDisplayName()!);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -64,9 +66,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            TempData["RoleId"] = null;
+            TempData["OrganisationTypeSubCategory"] = null;
             TempData["OtherRole"] = null;
-            TempData["contactAddedOrUpdated"] = "added";
+            TempData["OrganisationTypeSubCategoryOther"] = "added";
             return RedirectToPage(@Links.Contacts.Index.Page, new { id });
         }
     }

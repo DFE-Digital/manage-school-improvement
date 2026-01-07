@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Utils;
 using FluentAssertions;
 using Moq;
 
@@ -725,9 +726,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var details = new SupportProjectContactDetails
             {
                 Name = "John",
-                RoleId = RolesIds.DirectorOfEducation,
-                OtherRoleName = "Other Role",
-                Organisation = "Organisation",
+                OrganisationTypeSubCategory = SchoolOrginisationTypes.InterimHeadteacher.GetDisplayName(),
+                OrganisationTypeSubCategoryOther = "Other Role",
+                OrganisationType = "Organisation",
                 Email = "john@school.gov.uk",
                 Phone = "0123456789"
             };
@@ -740,9 +741,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             foreach (var contact in supportProject.Contacts)
             {
                 contact.Name.Should().Be(details.Name);
-                contact.RoleId.Should().Be(details.RoleId);
-                contact.OtherRoleName.Should().Be(details.OtherRoleName);
-                contact.Organisation.Should().Be(details.Organisation);
+                contact.OrganisationTypeSubCategory.Should().Be(details.OrganisationTypeSubCategory);
+                contact.OrganisationTypeSubCategoryOther.Should().Be(details.OrganisationTypeSubCategoryOther);
+                contact.OrganisationType.Should().Be(details.OrganisationType);
                 contact.Email.Should().Be(details.Email);
                 contact.Phone.Should().Be(details.Phone);
                 contact.CreatedOn.Should().Be(createdOn);
@@ -765,9 +766,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var details = new SupportProjectContactDetails
             {
                 Name = "John",
-                RoleId = RolesIds.DirectorOfEducation,
-                OtherRoleName = null,
-                Organisation = "Organisation",
+                OrganisationTypeSubCategory = SchoolOrginisationTypes.PermanentHeadteacher.GetDisplayName(),
+                OrganisationTypeSubCategoryOther = null,
+                OrganisationType = "Organisation",
                 Email = "john@school.gov.uk",
                 Phone = "0123456789"
             };
@@ -780,8 +781,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 createdOn,
                 supportProject.Id!);
 
-            details.RoleId = RolesIds.Other;
-            details.OtherRoleName = "Other Role";
+            details.OrganisationTypeSubCategory = SchoolOrginisationTypes.Other.GetDisplayName();
+            details.OrganisationTypeSubCategoryOther = "Other Role";
             var lastModifiedOn = DateTime.UtcNow;
 
             // Act
@@ -792,9 +793,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             foreach (var contact in supportProject.Contacts)
             {
                 contact.Name.Should().Be(details.Name);
-                contact.RoleId.Should().Be(details.RoleId);
-                contact.OtherRoleName.Should().Be(details.OtherRoleName);
-                contact.Organisation.Should().Be(details.Organisation);
+                contact.OrganisationTypeSubCategory.Should().Be(details.OrganisationTypeSubCategory);
+                contact.OrganisationTypeSubCategoryOther.Should().Be(details.OrganisationTypeSubCategoryOther);
+                contact.OrganisationType.Should().Be(details.OrganisationType);
                 contact.Email.Should().Be(details.Email);
                 contact.Phone.Should().Be(details.Phone);
                 contact.CreatedOn.Should().Be(createdOn);

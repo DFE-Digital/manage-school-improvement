@@ -6,7 +6,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-organisationtype="@Model.OrganisationType" class="govuk-back-link">Back</a>
     </nav>
 }
 @if (Model.ShowError)
@@ -20,8 +20,8 @@
             Add contact details
         </h1>
         <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.RoleId" />
-            <input type="hidden" asp-for="@Model.OtherRole" />
+            <input type="hidden" asp-for="@Model.OrganisationTypeSubCategory" />
+            <input type="hidden" asp-for="@Model.OrganisationTypeSubCategoryOther" />
             <govuk-text-input heading-label="true" label="Name" id="name" name="name" asp-for="@Model.Name" width="30" />
             <govuk-text-input heading-label="true" label="Organisation" id="organisation" name="organisation" asp-for="@Model.Organisation" width="30" />
             <govuk-text-input heading-label="true" label="Email" id="email-address" name="email-address" asp-for="@Model.EmailAddress" width="30" />

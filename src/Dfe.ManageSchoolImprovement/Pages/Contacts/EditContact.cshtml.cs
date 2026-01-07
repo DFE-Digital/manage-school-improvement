@@ -1,8 +1,7 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
-using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels; 
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
@@ -15,11 +14,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         [BindProperty(Name = "otherRole")]
         public string OtherRole { get; set; }
 
-        public string? ErrorMessage { get; set; }   
+        public string? ErrorMessage { get; set; }
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
         public Guid ContactId { get; set; }
-        
+
         public bool ShowError { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id, Guid contactId, CancellationToken cancellationToken)
@@ -50,21 +49,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         public async Task<IActionResult> OnPostAsync(int id, Guid contactId, CancellationToken cancellationToken)
         {
-            var hasOtherRoleName = ContactsUtil.IsOtherRoleFieldValidation(RoleId, OtherRole);
-            if (!hasOtherRoleName && RoleId == RolesIds.Other.GetHashCode())
-            {
-                ErrorMessage = "Enter a role"; 
-                ShowError = true;
-                _errorService.AddError("-hint", ErrorMessage);
-                RadioButtons = ContactsUtil.GetRadioButtons(OtherRole, hasOtherRoleName);
-                await base.GetSupportProject(id, cancellationToken);
-                return Page();
-            }
-            if (RoleId != RolesIds.Other.GetHashCode())
-            {
-                OtherRole = null!;
-            }
+            //var hasOtherRoleName = ContactsUtil.IsOtherRoleFieldValidation(RoleId, OtherRole);
+            //if (!hasOtherRoleName && RoleId == RolesIds.Other.GetHashCode())
+            //{
+            //    ErrorMessage = "Enter a role"; 
+            //    ShowError = true;
+            //    _errorService.AddError("-hint", ErrorMessage);
+            //    RadioButtons = ContactsUtil.GetRadioButtons(OtherRole, hasOtherRoleName);
+            //    await base.GetSupportProject(id, cancellationToken);
+            //    return Page();
+            //}
+            //if (RoleId != RolesIds.Other.GetHashCode())
+            //{
+            //    OtherRole = null!;
+            //}
             return RedirectToPage(@Links.Contacts.EditContactDetail.Page, new { id, contactId, RoleId, OtherRole });
-        } 
+        }
     }
 }

@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
-using Dfe.ManageSchoolImprovement.Frontend.Services; 
+using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         [Required(ErrorMessage = "Enter an email address")]
         [EmailValidation(ErrorMessage = "Email address must be in correct format")]
-        [BindProperty(Name = "email-address")] 
+        [BindProperty(Name = "email-address")]
         public string EmailAddress { get; set; }
 
         [PhoneValidation]
@@ -44,7 +44,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 Name = contact.Name;
                 Organisation = contact.Organisation;
                 EmailAddress = contact.Email;
-                Phone = contact.Phone; 
+                Phone = contact.Phone;
             }
             RoleId = roleId;
             OtherRole = otherRole;
@@ -58,16 +58,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
-            } 
+            }
             //exclude phone validation only if no value
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
-            } 
-            
-            var request = new UpdateSupportProjectContactCommand(new SupportProjectId(id), new SupportProjectContactId(contactId), Name, (RolesIds)roleId, otherRole!, Organisation, EmailAddress!, Phone, User.GetDisplayName()!);
+            }
+
+            var request = new UpdateSupportProjectContactCommand(new SupportProjectId(id), new SupportProjectContactId(contactId), Name, "(RolesIds)roleId", otherRole!, Organisation, EmailAddress!, Phone, User.GetDisplayName()!);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -76,7 +76,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 _errorService.AddApiError();
                 return await base.GetSupportProject(id, cancellationToken);
             }
-           
+
             TempData["RoleId"] = null;
             TempData["OtherRole"] = null;
             TempData["contactAddedOrUpdated"] = "updated";

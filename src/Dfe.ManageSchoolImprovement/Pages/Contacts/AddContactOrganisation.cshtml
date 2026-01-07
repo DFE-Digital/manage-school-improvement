@@ -1,0 +1,39 @@
+﻿@page "/add-contact-organisation/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts.AddContactOrganisationModel
+@{
+    ViewData["Title"] = "Add contact";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-xl">
+            Add contact
+        </h1>
+        <form method="post" novalidate>
+            <govuk-radiobuttons-input heading="Organisation" heading-style="govuk-fieldset__legend--m" hint="Select one option"
+                                      error-message="@Model.ErrorMessage" name="@nameof(Model.OrganisationType)"
+                                      radio-buttons="@Model.RadioButtons" asp-for="@Model.OrganisationType"/>
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Continue
+                </button>
+                <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

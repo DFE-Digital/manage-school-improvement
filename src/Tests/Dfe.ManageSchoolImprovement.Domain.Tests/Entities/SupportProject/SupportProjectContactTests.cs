@@ -1,5 +1,6 @@
 ﻿using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 {
@@ -17,9 +18,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var details = new SupportProjectContactDetails
             {
                 Name = "John",
-                RoleId = RolesIds.Other,
-                OtherRoleName = "Other Role",
-                Organisation = "Organisation",
+                OrganisationTypeSubCategory = SchoolOrginisationTypes.PermanentHeadteacher.GetDisplayName(),
+                OrganisationTypeSubCategoryOther = "Other Role",
+                OrganisationType = "Organisation",
                 Email = "john@school.gov.uk",
                 Phone = "0123456789"
             };
@@ -33,14 +34,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Assert
             Assert.Equal(details.Name, supportProjectContact.Name);
-            Assert.Equal(details.RoleId, supportProjectContact.RoleId);
-            Assert.Equal(details.OtherRoleName, supportProjectContact.OtherRoleName);
-            Assert.Equal(details.Organisation, supportProjectContact.Organisation);
+            Assert.Equal(details.OrganisationTypeSubCategory, supportProjectContact.OrganisationTypeSubCategory);
+            Assert.Equal(details.OrganisationTypeSubCategoryOther, supportProjectContact.OrganisationTypeSubCategoryOther);
+            Assert.Equal(details.OrganisationType, supportProjectContact.OrganisationType);
             Assert.Equal(details.Phone, supportProjectContact.Phone);
             Assert.Equal(details.Email, supportProjectContact.Email);
             Assert.Equal(createdOn, supportProjectContact.CreatedOn);
             Assert.Equal(lastModifiedOn, supportProjectContact.LastModifiedOn);
-            Assert.Equal(author, supportProjectContact.LastModifiedBy); 
+            Assert.Equal(author, supportProjectContact.LastModifiedBy);
         }
     }
 }

@@ -17,9 +17,10 @@ public class RadioButtonsLabelViewModel
     public required string Name { get; set; }
     public required string Id { get; set; }
     public string? Value { get; set; }
-    
+
     public string? Hint { get; set; }
     public TextFieldInputViewModel? Input { get; set; }
+    public bool? DisplayAsOr { get; set; } = false;
 }
 public class TextFieldInputViewModel
 {
