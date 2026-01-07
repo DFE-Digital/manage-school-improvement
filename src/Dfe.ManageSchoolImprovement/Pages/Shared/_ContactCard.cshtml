@@ -7,18 +7,19 @@
         <h2 class="govuk-summary-card__title">
             @Model.RoleName
         </h2>
-        @if (Model.ManuallyAdded)
-        {
-            <ul class="govuk-summary-card__actions">
-                <li class="govuk-summary-card__action">
-                    <a asp-page="@Links.Contacts.EditContact.Page" asp-route-id="@Model.SupportProjectId"
-                       asp-route-contactId="@Model.ContactId" role="button" draggable="false" class="govuk-link"
-                       data-module="govuk-button">
-                        Change<span class="govuk-visually-hidden"> contact</span>
-                    </a>
-                </li>
-            </ul>
-        }
+        @* uncomment this when new edit flow is done *@
+        @* @if (Model.ManuallyAdded) *@
+        @* { *@
+        @*     <ul class="govuk-summary-card__actions"> *@
+        @*         <li class="govuk-summary-card__action"> *@
+        @*             <a asp-page="@Links.Contacts.EditContact.Page" asp-route-id="@Model.SupportProjectId" *@
+        @*                asp-route-contactId="@Model.ContactId" role="button" draggable="false" class="govuk-link" *@
+        @*                data-module="govuk-button"> *@
+        @*                 Change<span class="govuk-visually-hidden"> contact</span> *@
+        @*             </a> *@
+        @*         </li> *@
+        @*     </ul> *@
+        @* } *@
     </div>
     <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
