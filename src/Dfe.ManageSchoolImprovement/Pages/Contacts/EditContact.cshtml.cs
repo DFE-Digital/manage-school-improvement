@@ -43,7 +43,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 }
             }
 
-            RadioButtons = ContactsUtil.GetRadioButtons(OtherRole);
+            //RadioButtons = ContactsUtil.GetRadioButtons(OtherRole);
             return Page();
         }
 
