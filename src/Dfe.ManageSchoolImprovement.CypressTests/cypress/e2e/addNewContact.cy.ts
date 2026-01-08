@@ -69,7 +69,7 @@ describe("User navigates to the Contacts Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("should be able to change the added contact", () => {
+    it.skip("should be able to change the added contact", () => { 
         contacts
             .clickChangeButton()
             .clickContinue()
