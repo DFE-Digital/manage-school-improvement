@@ -7,7 +7,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
     public static class ContactsUtil
     {
         // Configuration records for different radio button types
-        private record RadioButtonConfig(
+        private sealed record RadioButtonConfig(
             string InputId,
             string ValidationMessage,
             string Paragraph,
@@ -35,7 +35,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         /// <summary>
         /// Generic method to create radio buttons for any enum type with consistent behavior
         /// </summary>
-        private static IList<RadioButtonsLabelViewModel> CreateRadioButtons<TEnum>(string? otherRole, bool isValid = true)
+        private static List<RadioButtonsLabelViewModel> CreateRadioButtons<TEnum>(string? otherRole, bool isValid = true)
             where TEnum : struct, Enum
         {
             var enumType = typeof(TEnum);
