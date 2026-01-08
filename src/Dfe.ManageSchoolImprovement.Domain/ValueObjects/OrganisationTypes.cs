@@ -19,15 +19,5 @@ namespace Dfe.ManageSchoolImprovement.Domain.ValueObjects
         /// Governance bodies organisation type
         /// </summary>
         public const string GovernanceBodies = "Governance bodies";
-
-        /// <summary>
-        /// Gets all available organisation types
-        /// </summary>
-        public static readonly string[] AllTypes =
-        {
-            School,
-            SupportingOrganisation,
-            GovernanceBodies
-        };
     }
 }
