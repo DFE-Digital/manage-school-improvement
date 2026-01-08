@@ -92,8 +92,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.ValueObjects
             var userInput = "School";
 
             // Act & Assert
-            Assert.True(string.Equals(userInput, OrganisationTypes.School, StringComparison.Ordinal));
-            Assert.True(string.Equals(userInput, OrganisationTypes.School, StringComparison.OrdinalIgnoreCase));
+            Assert.Equal(OrganisationTypes.School, userInput);
+            Assert.Equal(OrganisationTypes.School, userInput, ignoreCase: true);
         }
 
         #endregion
