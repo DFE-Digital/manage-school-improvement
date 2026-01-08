@@ -19,6 +19,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             CreatedBy = author;
             CreatedOn = createOn;
             SupportProjectId = supportProjectId;
+            JobTitle = details.JobTitle;
         }
 
         public SupportProjectContactId? Id { get; private set; }
@@ -33,6 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string OrganisationType { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string Phone { get; private set; } = string.Empty;
+        public string? JobTitle { get; private set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
 

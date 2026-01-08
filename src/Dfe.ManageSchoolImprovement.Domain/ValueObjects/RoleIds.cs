@@ -22,9 +22,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.ValueObjects
 
     public enum SchoolOrginisationTypes
     {
-        [Display(Name = "Headteacher (Permanent)")]
+        [Display(Name = "Headteacher (permanent)")]
         PermanentHeadteacher = 1,
-        [Display(Name = "Headteacher (Interim)")]
+        [Display(Name = "Headteacher (interim)")]
         InterimHeadteacher = 2,
         [Display(Name = "Chair of governors")]
         ChairOfGovernors = 3,

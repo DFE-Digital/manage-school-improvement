@@ -1,4 +1,5 @@
 ﻿@page "/add-contact-details/{id:int}"
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts.AddContactDetailModel
 @{
     ViewData["Title"] = "Add contact details";
@@ -16,19 +17,28 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <h1 class="govuk-heading-xl">
-            Add contact details
+        <h1 class="govuk-heading-l">
+            Add contact
         </h1>
         <form method="post" novalidate>
+            <h2 class="govuk-heading-m">
+                Details of the @(Model.OrganisationTypeSubCategory.ToLower())
+            </h2>
+            <input type="hidden" asp-for="@Model.OrganisationType" />
             <input type="hidden" asp-for="@Model.OrganisationTypeSubCategory" />
             <input type="hidden" asp-for="@Model.OrganisationTypeSubCategoryOther" />
-            <govuk-text-input heading-label="true" label="Name" id="name" name="name" asp-for="@Model.Name" width="30" />
-            <govuk-text-input heading-label="true" label="Organisation" id="organisation" name="organisation" asp-for="@Model.Organisation" width="30" />
-            <govuk-text-input heading-label="true" label="Email" id="email-address" name="email-address" asp-for="@Model.EmailAddress" width="30" />
-            <govuk-text-input heading-label="true" label="Phone" id="phone" name="phone" asp-for="@Model.Phone" width="30" />
-            <button class="govuk-button" id="add-contact-button" data-module="govuk-button" data-cy="add-contact-submitbutton">
-                Add contact
-            </button>
+            <govuk-text-input heading-label="true" label="Full name" id="name" name="name" asp-for="@Model.Name" width="30" />
+            @if (Model.OrganisationType == OrganisationTypes.GovernanceBodies)
+            {
+                <govuk-text-input heading-label="true" label="Job title" id="JobTitle" name="JobTitle" asp-for="@Model.JobTitle" width="30" />
+            }
+            
+            <govuk-text-input heading-label="true" label="Email address" id="email-address" name="email-address" asp-for="@Model.EmailAddress" width="30" />
+            <govuk-text-input heading-label="true" label="Uk phone number (Optional)" id="phone" name="phone" asp-for="@Model.Phone" width="20" />
+            <div class="govuk-button-group">
+                <button class="govuk-button" id="add-contact-button" data-module="govuk-button" data-cy="add-contact-submitbutton">
+                Save and return
+            </button> <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a></div>
         </form>
     </div>
 </div>

@@ -13,26 +13,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
     public class AddContactDetailModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
-        public string ReturnPage { get; set; }
+        public string ReturnPage { get; set; } = null!;
         public bool ShowError { get; set; }
         [BindProperty(Name = "name")]
         [Required(ErrorMessage = "Enter a name")]
         public string Name { get; set; } = null!;
-        [Required(ErrorMessage = "Enter an organisation")]
-        [BindProperty(Name = "organisation")]
-        public string Organisation { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter an email address")]
         [EmailValidation(ErrorMessage = "Email address must be in correct format")]
         [BindProperty(Name = "email-address")]
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
         [PhoneValidation]
         [BindProperty(Name = "phone")]
         public string? Phone { get; set; }
-        public string OrganisationTypeSubCategory { get; set; }
+
+        [BindProperty(Name = "JobTitle")]
+        public string? JobTitle { get; set; }
+
+        [BindProperty]
+        public string OrganisationTypeSubCategory { get; set; } = null!;
+        [BindProperty]
         public string? OrganisationTypeSubCategoryOther { get; set; }
-        public string OrganisationType { get; set; }
+        [BindProperty]
+        public string OrganisationType { get; set; } = null!;
         public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             ReturnPage = Links.Contacts.AddContact.Page;
@@ -50,13 +54,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
             }
+
+            if (OrganisationType == OrganisationTypes.GovernanceBodies && string.IsNullOrEmpty(JobTitle))
+            {
+                ModelState.AddModelError("JobTitle", "Enter job title");
+            }
+
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
-            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, organisationTypeSubCategory, organisationTypeSubCategoryOther!, organisationType, EmailAddress!, Phone!, User.GetDisplayName()!);
+            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, organisationTypeSubCategory, organisationTypeSubCategoryOther!, organisationType, EmailAddress!, Phone!, User.GetDisplayName()!, JobTitle);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -66,9 +76,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
+            TempData["OrganisationType"] = null;
             TempData["OrganisationTypeSubCategory"] = null;
-            TempData["OtherRole"] = null;
-            TempData["OrganisationTypeSubCategoryOther"] = "added";
+            TempData["OrganisationTypeSubCategoryOther"] = null;
+            TempData["contactAddedOrUpdated"] = "added";
             return RedirectToPage(@Links.Contacts.Index.Page, new { id });
         }
     }

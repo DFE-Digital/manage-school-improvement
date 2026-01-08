@@ -67,9 +67,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                                 DisplayAsOr = true,
                                 Input = new TextFieldInputViewModel
                                 {
-                                    Id = "OtherRole",
-                                    ValidationMessage = "Enter a role",
-                                    Paragraph = "Enter a role",
+                                    Id = "organisationTypeSubCategoryOther",
+                                    ValidationMessage = "Enter name of job title",
+                                    Paragraph = "Name of job title",
                                     Value = otherRole,
                                     IsValid = isValid,
                                     IsTextArea = false
@@ -110,9 +110,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                                 DisplayAsOr = true,
                                 Input = new TextFieldInputViewModel
                                 {
-                                    Id = "OtherRole",
-                                    ValidationMessage = "Enter a role",
-                                    Paragraph = "Enter a role",
+                                    Id = "organisationTypeSubCategoryOther",
+                                    ValidationMessage = "Enter name of job title",
+                                    Paragraph = "Name of job title",
                                     Value = otherRole,
                                     IsValid = isValid,
                                     IsTextArea = false
@@ -153,9 +153,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                                 DisplayAsOr = true,
                                 Input = new TextFieldInputViewModel
                                 {
-                                    Id = "OtherRole",
-                                    ValidationMessage = "Enter a role",
-                                    Paragraph = "Enter a role",
+                                    Id = "organisationTypeSubCategoryOther",
+                                    ValidationMessage = "Enter name of governance body",
+                                    Paragraph = "Name of governance body",
                                     Value = otherRole,
                                     IsValid = isValid,
                                     IsTextArea = false

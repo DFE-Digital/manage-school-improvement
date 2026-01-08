@@ -1,6 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
@@ -44,7 +43,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? TrustName { get; private set; }
 
     public string? TrustReferenceNumber { get; private set; }
-    
+
     public string? Address { get; private set; }
 
     public DateTime CreatedOn { get; set; }
