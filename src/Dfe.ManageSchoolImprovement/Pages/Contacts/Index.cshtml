@@ -70,12 +70,12 @@
                         @(!string.IsNullOrEmpty(Model.SupportingOrganisationAddress) ? Html.Raw(Model.SupportingOrganisationAddress.Replace(",", "<br>")) : "Not available")
                     </p>
                 </div>
-                @if (Model.SupportingOrganisationHeadteacher != null)
+                @if (!string.IsNullOrEmpty(Model.SupportingOrganisationHeadteacher?.Name))
                 {
                     <partial name="_ContactCard"
                              model="@Model.SupportingOrganisationHeadteacher"/>  
                 }
-                @if (Model.SupportingOrganisationAccountingOfficer != null)
+                @if (!string.IsNullOrEmpty(Model.SupportingOrganisationAccountingOfficer?.Name))
                 {
                     <partial name="_ContactCard"
                              model="@Model.SupportingOrganisationAccountingOfficer"/>
