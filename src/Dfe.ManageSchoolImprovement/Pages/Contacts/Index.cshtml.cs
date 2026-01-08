@@ -29,8 +29,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? ChairOfGovernors { get; set; }
         public ContactViewModel? Headteacher { get; set; }
         public ContactViewModel? AccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; }
+        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new ();
+        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new ();
         
         public IEnumerable<ContactViewModel> OtherContacts { get; set; }
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; }
@@ -52,13 +52,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
 
             await SetSchoolContacts(id, cancellationToken);
-            await SetSupportingOrganisationContacts();
-            
-            var otherContacts = SupportProject?.Contacts
-                .Where(c => c.RoleId != RolesIds.Headteacher
-                && c.RoleId != RolesIds.ChairOfGovernors
-                && c.RoleId != RolesIds.TrustAccountingOfficer)
-                .OrderBy(c => c.RoleId);
+
+            if (SupportProject.SupportOrganisationType == "School" && SupportProject.SupportOrganisationIdNumber != null)
+            {
+                await SetSupportingOrganisationContacts();
+            }
+
+            var otherContacts = SupportProject?.Contacts;
 
             if (otherContacts.Any())
             {
@@ -112,7 +112,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             Headteacher = new ContactViewModel
             {
                 Name = SupportProject?.HeadteacherName ?? "",
-                RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? "",
+                RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? "Headteacher",
                 Phone = SupportProject?.SchoolMainPhone ?? "",
                 LastModifiedOn = SupportProject?.LastModifiedOn
             };
@@ -140,7 +140,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         Email = chairOfGovernors.Email,
                         Phone = chairOfGovernors.Phone,
                         RoleName = ChairOfGovernorsRole,
-                        LastModifiedOn = chairOfGovernors.UpdatedAt
+                        LastModifiedOn = DateTime.Today
                     };
                 }
             }
@@ -164,31 +164,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                             Email = accountingOfficer.Email,
                             Phone = accountingOfficer.Phone,
                             RoleName = AccountingOfficerRole,
-                            LastModifiedOn = accountingOfficer.UpdatedAt
+                            LastModifiedOn = DateTime.Today
                         };
                     }
                 }
-            }
-            
-            var otherschoolContacts = SupportProject?.Contacts
-                .Where(c => c.RoleId == RolesIds.Headteacher
-                            || c.RoleId == RolesIds.ChairOfGovernors
-                            || c.RoleId == RolesIds.TrustAccountingOfficer)
-                .OrderBy(c => c.RoleId);
-
-            if (otherschoolContacts.Any())
-            {
-                OtherSchoolContacts = otherschoolContacts.Select(contact => new ContactViewModel
-                {
-                    Name = contact.Name,
-                    Email = contact.Email,
-                    Phone = contact.Phone,
-                    RoleName = contact.RoleId == RolesIds.Other ? contact.OtherRoleName : contact.RoleId.GetDisplayName(),
-                    ManuallyAdded = true,
-                    SupportProjectId = SupportProject?.Id,
-                    ContactId = contact.Id,
-                    LastModifiedOn = contact.LastModifiedOn
-                }).ToList();
             }
         }
 
@@ -196,9 +175,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         {
             SupportingOrganisationAddress = SupportProject?.SupportingOrganisationContactAddress;
             
-            var schoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SchoolUrn) ?? null;
+            var supportingSchoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) ?? null;
 
-            if (schoolIsAcademy != null)
+            if (supportingSchoolIsAcademy != null)
             {
                 var supportingSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber);
                 var headteacherName = supportingSchool.HeadteacherFirstName + " " + supportingSchool.HeadteacherLastName;
@@ -210,16 +189,20 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     RoleName = !string.IsNullOrEmpty(supportingSchool.HeadteacherPreferredJobTitle) ? supportingSchool.HeadteacherPreferredJobTitle : HeadteacherRole,
                     LastModifiedOn = Convert.ToDateTime(supportingSchool.GiasLastChangedDate, new CultureInfo("en-GB"))
                 };
-                
-                SupportingOrganisationAccountingOfficer = new ContactViewModel
+
+                if (SupportProject?.SupportingOrganisationContactName != null)
                 {
-                    Name = SupportProject?.SupportingOrganisationContactName ?? "",
-                    RoleName = AccountingOfficerRole,
-                    Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
-                    Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
-                    Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
-                    LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
-                };
+                    SupportingOrganisationAccountingOfficer = new ContactViewModel
+                    {
+                        Name = SupportProject?.SupportingOrganisationContactName ?? "",
+                        RoleName = AccountingOfficerRole,
+                        Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
+                        Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
+                        Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
+                        LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
+                    };
+                }
+
             }
             else
             {
