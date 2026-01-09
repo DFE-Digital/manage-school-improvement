@@ -11,25 +11,30 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         {
             Id = id;
             Name = details.Name;
-            RoleId = details.RoleId;
-            OtherRoleName = details.OtherRoleName ?? string.Empty;
-            Organisation = details.Organisation;
+            OrganisationTypeSubCategory = details.OrganisationTypeSubCategory;
+            OrganisationTypeSubCategoryOther = details.OrganisationTypeSubCategoryOther ?? string.Empty;
+            OrganisationType = details.OrganisationType;
             Email = details.Email;
             Phone = details.Phone ?? string.Empty;
             CreatedBy = author;
             CreatedOn = createOn;
             SupportProjectId = supportProjectId;
+            JobTitle = details.JobTitle;
         }
 
         public SupportProjectContactId? Id { get; private set; }
         public SupportProjectId? SupportProjectId { get; private set; }
 
         public string Name { get; private set; } = string.Empty;
-        public RolesIds RoleId { get; private set; }
+        public RolesIds RoleId { get; }
         public string OtherRoleName { get; private set; } = string.Empty;
         public string Organisation { get; private set; } = string.Empty;
+        public string OrganisationTypeSubCategory { get; private set; } = string.Empty;
+        public string? OrganisationTypeSubCategoryOther { get; private set; } = string.Empty;
+        public string OrganisationType { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
-        public string Phone { get; private set; }  = string.Empty;
+        public string Phone { get; private set; } = string.Empty;
+        public string? JobTitle { get; private set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
 
@@ -40,9 +45,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public void SetContact(SupportProjectContactDetails details, string author, DateTime lastModifiedOn)
         {
             Name = details.Name;
-            RoleId = details.RoleId;
-            OtherRoleName = details.OtherRoleName ?? string.Empty;
-            Organisation = details.Organisation;
+            OrganisationTypeSubCategory = details.OrganisationTypeSubCategory;
+            OrganisationTypeSubCategoryOther = details.OrganisationTypeSubCategoryOther ?? string.Empty;
+            OrganisationType = details.OrganisationType;
             Email = details.Email;
             Phone = details.Phone ?? string.Empty;
             LastModifiedBy = author;

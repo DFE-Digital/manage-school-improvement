@@ -2,64 +2,111 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels; 
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using Dfe.ManageSchoolImprovement.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
     public class AddContactModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
-        [BindProperty(Name = "roleId")]
-        public int? RoleId { get; set; }
+        [BindProperty(Name = "organisationTypeSubCategory")]
+        public string? OrganisationTypeSubCategory { get; set; }
 
-        [BindProperty(Name = "otherRole")]
-        public string? OtherRole { get; set; } 
-        public string? ErrorMessage { get; set; }  
-        
+        [BindProperty(Name = "organisationTypeSubCategoryOther")]
+        public string? OrganisationTypeSubCategoryOther { get; set; }
+        public string? ErrorMessage { get; set; }
+
         public bool ShowError { get; set; }
-        public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
-          
-        public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+
+        public required IList<RadioButtonsLabelViewModel> SchoolRadioButtons { get; set; }
+
+        public required IList<RadioButtonsLabelViewModel> SupportingOrganisationRadioButtons { get; set; }
+
+        public required IList<RadioButtonsLabelViewModel> GoverningBodyRadioButtons { get; set; }
+
+
+        [BindProperty]
+        public string? OrganisationType { get; set; }
+        public async Task<IActionResult> OnGetAsync(int id, string organisationType, CancellationToken cancellationToken)
         {
             ProjectListFilters.ClearFiltersFrom(TempData);
             await base.GetSupportProject(id, cancellationToken);
-            if (TempData["RoleId"] != null)
+            OrganisationType = organisationType;
+            TempData["OrganisationType"] = organisationType;
+
+            if (TempData["OrganisationTypeSubCategory"] != null)
             {
-                RoleId = (int?)TempData["RoleId"];
-                OtherRole = (string?)TempData["OtherRole"];
-                TempData["RoleId"] = null;
-                TempData["OtherRole"] = null;
+                OrganisationTypeSubCategory = (string?)TempData["OrganisationTypeSubCategory"];
+                OrganisationTypeSubCategoryOther = (string?)TempData["OrganisationTypeSubCategoryOther"];
+                TempData["OrganisationTypeSubCategory"] = null;
+                TempData["OrganisationTypeSubCategoryOther"] = null;
             }
-            RadioButtons = ContactsUtil.GetRadioButtons(OtherRole);
+
+            SchoolRadioButtons = ContactsUtil.GetSchoolRadioButtons(OrganisationTypeSubCategoryOther);
+            SupportingOrganisationRadioButtons = ContactsUtil.GetSupportingOrganisationRadioButtons(OrganisationTypeSubCategoryOther);
+            GoverningBodyRadioButtons = ContactsUtil.GetGoverningBodyRadioButtons(OrganisationTypeSubCategoryOther);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
         {
-            if (!RoleId.HasValue)
+            if (string.IsNullOrEmpty(OrganisationTypeSubCategory))
             {
-                RadioButtons = ContactsUtil.GetRadioButtons(OtherRole);
+                SchoolRadioButtons = ContactsUtil.GetSchoolRadioButtons(OrganisationTypeSubCategoryOther);
+                SupportingOrganisationRadioButtons = ContactsUtil.GetSupportingOrganisationRadioButtons(OrganisationTypeSubCategoryOther);
+                GoverningBodyRadioButtons = ContactsUtil.GetGoverningBodyRadioButtons(OrganisationTypeSubCategoryOther);
+
                 ErrorMessage = "Select a role";
                 ShowError = true;
                 _errorService.AddError("-hint", ErrorMessage);
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();
             }
-            var hasOtherRoleName = ContactsUtil.IsOtherRoleFieldValidation(RoleId, OtherRole);
-            if (!hasOtherRoleName && RoleId == RolesIds.Other.GetHashCode())
-            { 
+
+            var IsOtherCategoryValid = RadioButtonOtherOptionInputIsValid();
+
+            if (!IsOtherCategoryValid)
+            {
                 ErrorMessage = "Enter a role";
                 ShowError = true;
                 _errorService.AddError("-hint", ErrorMessage);
-                RadioButtons = ContactsUtil.GetRadioButtons(OtherRole, hasOtherRoleName);
+                SchoolRadioButtons = ContactsUtil.GetSchoolRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
+                SupportingOrganisationRadioButtons = ContactsUtil.GetSupportingOrganisationRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
+                GoverningBodyRadioButtons = ContactsUtil.GetGoverningBodyRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
                 await base.GetSupportProject(id, cancellationToken);
                 return Page();
             }
-            if(RoleId != RolesIds.Other.GetHashCode())
+
+            return RedirectToPage(@Links.Contacts.AddContactDetail.Page, new { id, OrganisationType, OrganisationTypeSubCategory, OrganisationTypeSubCategoryOther });
+        }
+
+        private bool RadioButtonOtherOptionInputIsValid()
+        {
+            if (OrganisationType == OrganisationTypes.School)
             {
-                OtherRole = null!;
-            } 
-            return RedirectToPage(@Links.Contacts.AddContactDetail.Page, new { id, RoleId, OtherRole });
-        } 
+                if (OrganisationTypeSubCategory == SchoolOrginisationTypes.Other.GetDisplayName() && string.IsNullOrEmpty(OrganisationTypeSubCategoryOther))
+                {
+                    return false;
+                }
+            }
+
+            if (OrganisationType == OrganisationTypes.SupportingOrganisation)
+            {
+                if (OrganisationTypeSubCategory == SupportOrganisationTypes.Other.GetDisplayName() && string.IsNullOrEmpty(OrganisationTypeSubCategoryOther))
+                {
+                    return false;
+                }
+            }
+
+            if (OrganisationType == OrganisationTypes.GovernanceBodies)
+            {
+                if (OrganisationTypeSubCategory == GovernanceBodyTypes.Other.GetDisplayName() && string.IsNullOrEmpty(OrganisationTypeSubCategoryOther))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

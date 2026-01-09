@@ -38,6 +38,7 @@ public static class Links
     public static class Contacts
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/Contacts/Index");
+        public static readonly LinkItem AddContactOrganisation = AddLinkItem(backText: "Back", page: "/Contacts/AddContactOrganisation");
         public static readonly LinkItem AddContact = AddLinkItem(backText: "Back", page: "/Contacts/AddContact");
         public static readonly LinkItem AddContactDetail = AddLinkItem(backText: "Back", page: "/Contacts/AddContactDetail");
         public static readonly LinkItem EditContact = AddLinkItem(backText: "Back", page: "/Contacts/EditContact");

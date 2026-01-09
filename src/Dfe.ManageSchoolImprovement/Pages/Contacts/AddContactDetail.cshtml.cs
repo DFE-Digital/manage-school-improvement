@@ -1,9 +1,9 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts; 
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
-using Dfe.ManageSchoolImprovement.Frontend.Services; 
+using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
@@ -13,48 +13,60 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
     public class AddContactDetailModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
-        public string ReturnPage { get; set; }
+        public string ReturnPage { get; set; } = null!;
         public bool ShowError { get; set; }
         [BindProperty(Name = "name")]
         [Required(ErrorMessage = "Enter a name")]
         public string Name { get; set; } = null!;
-        [Required(ErrorMessage = "Enter an organisation")]
-        [BindProperty(Name = "organisation")]
-        public string Organisation { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter an email address")]
         [EmailValidation(ErrorMessage = "Email address must be in correct format")]
         [BindProperty(Name = "email-address")]
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
         [PhoneValidation]
         [BindProperty(Name = "phone")]
         public string? Phone { get; set; }
-        public int RoleId { get; set; }
-        public string? OtherRole { get; set; }
-        public async Task<IActionResult> OnGetAsync(int id, int roleId, string? otherRole, CancellationToken cancellationToken)
+
+        [BindProperty(Name = "JobTitle")]
+        public string? JobTitle { get; set; }
+
+        [BindProperty]
+        public string OrganisationTypeSubCategory { get; set; } = null!;
+        [BindProperty]
+        public string? OrganisationTypeSubCategoryOther { get; set; }
+        [BindProperty]
+        public string OrganisationType { get; set; } = null!;
+        public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             ReturnPage = Links.Contacts.AddContact.Page;
-            RoleId = roleId;
-            OtherRole = otherRole;
-            TempData["RoleId"] = roleId;
-            TempData["OtherRole"] = otherRole;
+            OrganisationTypeSubCategory = organisationTypeSubCategory;
+            OrganisationTypeSubCategoryOther = organisationTypeSubCategoryOther;
+            OrganisationType = organisationType;
+            TempData["OrganisationTypeSubCategory"] = organisationTypeSubCategory;
+            TempData["OrganisationTypeSubCategoryOther"] = organisationTypeSubCategoryOther;
             await base.GetSupportProject(id, cancellationToken);
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync(int id, int roleId, string? otherRole, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
             }
+
+            if (OrganisationType == OrganisationTypes.GovernanceBodies && string.IsNullOrEmpty(JobTitle))
+            {
+                ModelState.AddModelError("JobTitle", "Enter job title");
+            }
+
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
-            } 
-            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, (RolesIds)roleId, otherRole!, Organisation, EmailAddress!, Phone, User.GetDisplayName()!);
+            }
+            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, organisationTypeSubCategory, organisationTypeSubCategoryOther!, organisationType, EmailAddress!, Phone!, User.GetDisplayName()!, JobTitle);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -64,8 +76,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            TempData["RoleId"] = null;
-            TempData["OtherRole"] = null;
+            TempData["OrganisationType"] = null;
+            TempData["OrganisationTypeSubCategory"] = null;
+            TempData["OrganisationTypeSubCategoryOther"] = null;
             TempData["contactAddedOrUpdated"] = "added";
             return RedirectToPage(@Links.Contacts.Index.Page, new { id });
         }

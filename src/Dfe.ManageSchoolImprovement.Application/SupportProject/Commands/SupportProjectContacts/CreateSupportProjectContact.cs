@@ -1,19 +1,20 @@
 ﻿using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR; 
+using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts
-{ 
+{
     public record CreateSupportProjectContactCommand(
        SupportProjectId SupportProjectId,
-       string Name, 
-       RolesIds RoleId,
-       string OtherRoleName, 
-       string Organisation, 
+       string Name,
+       string OrganisationTypeSubCategory,
+       string? OrganisationTypeSubCategoryOther,
+       string Organisation,
        string Email,
        string Phone,
-       string Author
+       string Author,
+       string? JobTitle
    ) : IRequest<SupportProjectContactId>;
 
     public class CreateSupportProjectContactHandler(ISupportProjectRepository supportProjectRepository, IDateTimeProvider _dateTimeProvider)
@@ -28,11 +29,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
             var details = new SupportProjectContactDetails
             {
                 Name = request.Name,
-                RoleId = request.RoleId,
-                OtherRoleName = request.OtherRoleName,
-                Organisation = request.Organisation,
+                OrganisationTypeSubCategory = request.OrganisationTypeSubCategory,
+                OrganisationTypeSubCategoryOther = request.OrganisationTypeSubCategoryOther,
+                OrganisationType = request.Organisation,
                 Email = request.Email,
-                Phone = request.Phone
+                Phone = request.Phone,
+                JobTitle = request.JobTitle
             };
 
 

@@ -1,7 +1,7 @@
 @using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.ViewModels.RadioButtonViewModel
 
-<div class="govuk-form-group @(string.IsNullOrEmpty(Model.ErrorMessage)? "": "govuk-form-group--error")">
+<div class="govuk-form-group @(string.IsNullOrEmpty(Model.ErrorMessage) ? "" : "govuk-form-group--error")">
     <div class="govuk-radios" data-module="govuk-radios">
         @if (!string.IsNullOrEmpty(Model.Heading))
         {
@@ -19,13 +19,18 @@
 
         @if (!string.IsNullOrEmpty(Model.Hint))
         {
-            <div id="-hint" class="govuk-hint" data-cy="hint-@Model.Name?.Replace(" ","-")">
+            <div id="-hint" class="govuk-hint" data-cy="hint-@Model.Name?.Replace(" ", "-")">
                 @Model.Hint
             </div>
-        } 
-        
+        }
+
         @foreach (var radioButton in Model.RadioButtons)
         {
+            @if (radioButton.DisplayAsOr is true)
+            {
+                <div class="govuk-radios__divider">or</div>
+            }
+
             <div class="govuk-radios__item">
                 <input class="govuk-radios__input"
                        id="@radioButton.Id"
@@ -33,8 +38,8 @@
                        type="radio"
                        data-cy="select-radio-@radioButton.Id"
                        value="@radioButton.Value"
-                @(radioButton.Input != null ? $"data-aria-controls=conditional-{radioButton.Id} aria-expanded={(radioButton.Value == Model.Value ? "true" : "false")}" : "")
-                @(radioButton.Value == Model.Value ? "checked=\"checked\"" : "") />
+                       @(radioButton.Input != null ? $"data-aria-controls=conditional-{radioButton.Id} aria-expanded={(radioButton.Value == Model.Value ? "true" : "false")}" : "")
+                       @(radioButton.Value == Model.Value ? "checked=\"checked\"" : "") />
 
                 <label class="govuk-label govuk-radios__label" for="@radioButton.Id">
                     @radioButton.Name
@@ -49,6 +54,7 @@
 
             @if (radioButton.Input != null)
             {
+
                 <div id="conditional-@radioButton.Id"
                      class="govuk-radios__conditional @(radioButton.Value == Model.Value ? "" : "govuk-radios__conditional--hidden")">
 
@@ -60,22 +66,23 @@
                                 @radioButton.Input.ValidationMessage
                             </p>
                         }
-                        @if (!string.IsNullOrWhiteSpace(radioButton.Input.Paragraph)){
+                        @if (!string.IsNullOrWhiteSpace(radioButton.Input.Paragraph))
+                        {
                             <label class="govuk-label" for="@radioButton.Input.Id">
                                 @radioButton.Input.Paragraph
                             </label>
-                        } 
-                        @if(radioButton.Input.IsTextArea)
+                        }
+                        @if (radioButton.Input.IsTextArea)
                         {
-                           
+
                             <div id="radiobuttontextinput">
                                 <textarea id="@radioButton.Input.Id"
-                                      name="@radioButton.Input.Id"
-                                      class="govuk-textarea @(radioButton.Input.IsValid ? "" : "govuk-input--error")"
-                                      cols="40"
-                                      rows="5"
-                                      maxlength="2000">@radioButton.Input.Value</textarea>
-                                </div>
+                              name="@radioButton.Input.Id"
+                              class="govuk-textarea @(radioButton.Input.IsValid ? "" : "govuk-input--error")"
+                              cols="40"
+                              rows="5"
+                              maxlength="2000">@radioButton.Input.Value</textarea>
+                            </div>
                         }
                         else
                         {
@@ -85,12 +92,12 @@
                                        type="text"
                                        class="govuk-input @(radioButton.Input.IsValid ? "" : "govuk-input--error")"
                                        value="@radioButton.Input.Value" />
-                                </div>
+                            </div>
                         }
-                        
+
                     </div>
                 </div>
             }
-        } 
+        }
     </div>
 </div>
