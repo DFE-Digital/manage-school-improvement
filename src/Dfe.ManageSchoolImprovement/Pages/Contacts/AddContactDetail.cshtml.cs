@@ -39,13 +39,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public string OrganisationType { get; set; } = null!;
         public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
+            await GetSupportProject(id, cancellationToken).ConfigureAwait(false);
+
             ReturnPage = Links.Contacts.AddContact.Page;
             OrganisationTypeSubCategory = organisationTypeSubCategory;
             OrganisationTypeSubCategoryOther = organisationTypeSubCategoryOther;
             OrganisationType = organisationType;
             TempData["OrganisationTypeSubCategory"] = organisationTypeSubCategory;
             TempData["OrganisationTypeSubCategoryOther"] = organisationTypeSubCategoryOther;
-            await base.GetSupportProject(id, cancellationToken);
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)

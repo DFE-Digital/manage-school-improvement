@@ -18,9 +18,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         [BindProperty(Name = "name")]
         [Required(ErrorMessage = "Enter a name")]
         public string Name { get; set; } = null!;
-        [Required(ErrorMessage = "Enter an organsiation")]
-        [BindProperty(Name = "organisation")]
-        public string Organisation { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter an email address")]
         [EmailValidation(ErrorMessage = "Email address must be in correct format")]
@@ -31,25 +28,38 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         [BindProperty(Name = "phone")]
         public string? Phone { get; set; }
         public Guid ContactId { get; set; }
-        public int RoleId { get; set; }
-        public string? OtherRole { get; set; }
-        public async Task<IActionResult> OnGetAsync(int id, Guid contactId, int roleId, string? otherRole, CancellationToken cancellationToken)
+
+        [BindProperty(Name = "JobTitle")]
+        public string? JobTitle { get; set; }
+
+        [BindProperty]
+        public string OrganisationTypeSubCategory { get; set; } = null!;
+        [BindProperty]
+        public string? OrganisationTypeSubCategoryOther { get; set; }
+        [BindProperty]
+        public string OrganisationType { get; set; } = null!;
+
+        public async Task<IActionResult> OnGetAsync(int id, Guid contactId, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             ReturnPage = Links.Contacts.EditContact.Page;
             ContactId = contactId;
             await base.GetSupportProject(id, cancellationToken);
-            var contact = SupportProject.Contacts.FirstOrDefault(a => a.Id.Value == contactId);
+
+            var contact = SupportProject!.Contacts!.FirstOrDefault(a => a.Id!.Value == contactId);
             if (contact != null)
             {
                 Name = contact.Name;
-                Organisation = contact.Organisation;
                 EmailAddress = contact.Email;
                 Phone = contact.Phone;
+                JobTitle = contact.JobTitle;
             }
-            RoleId = roleId;
-            OtherRole = otherRole;
-            TempData["RoleId"] = roleId;
-            TempData["OtherRole"] = otherRole;
+
+            OrganisationTypeSubCategory = organisationTypeSubCategory;
+            OrganisationTypeSubCategoryOther = organisationTypeSubCategoryOther;
+            OrganisationType = organisationType;
+            TempData["OrganisationTypeSubCategory"] = organisationTypeSubCategory;
+            TempData["OrganisationTypeSubCategoryOther"] = organisationTypeSubCategoryOther;
+
             return Page();
         }
 
@@ -59,6 +69,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
             }
+
+            if (OrganisationType == OrganisationTypes.GovernanceBodies && string.IsNullOrEmpty(JobTitle))
+            {
+                ModelState.AddModelError("JobTitle", "Enter job title");
+            }
+
             //exclude phone validation only if no value
             if (!ModelState.IsValid)
             {
@@ -67,7 +83,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new UpdateSupportProjectContactCommand(new SupportProjectId(id), new SupportProjectContactId(contactId), Name, "(RolesIds)roleId", otherRole!, Organisation, EmailAddress!, Phone, User.GetDisplayName()!);
+            var request = new UpdateSupportProjectContactCommand(new SupportProjectId(id), new SupportProjectContactId(contactId), Name, OrganisationTypeSubCategory, OrganisationTypeSubCategoryOther!, OrganisationType, EmailAddress!, Phone!, User.GetDisplayName()!);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -77,8 +93,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            TempData["RoleId"] = null;
-            TempData["OtherRole"] = null;
+            TempData["OrganisationType"] = null;
+            TempData["OrganisationTypeSubCategory"] = null;
+            TempData["OrganisationTypeSubCategoryOther"] = null;
             TempData["contactAddedOrUpdated"] = "updated";
             return RedirectToPage(@Links.Contacts.Index.Page, new { id });
         }
