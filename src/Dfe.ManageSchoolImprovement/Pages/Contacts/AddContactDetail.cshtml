@@ -7,7 +7,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" asp-route-organisationtype="@Model.OrganisationType" class="govuk-back-link">Back</a>
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject!.Id" asp-route-organisationtype="@Model.OrganisationType" class="govuk-back-link">Back</a>
     </nav>
 }
 @if (Model.ShowError)
@@ -16,7 +16,7 @@
 }
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l">@Model.SupportProject!.SchoolName</span>
         <h1 class="govuk-heading-l">
             Add contact
         </h1>

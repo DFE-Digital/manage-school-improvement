@@ -1,5 +1,3 @@
-using System.Globalization;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Extensions; // Add this using statement
@@ -10,6 +8,7 @@ using Dfe.ManageSchoolImprovement.Utils;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetSchoolAddress;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
@@ -29,9 +28,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? ChairOfGovernors { get; set; }
         public ContactViewModel? Headteacher { get; set; }
         public ContactViewModel? AccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new ();
-        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new ();
-        
+        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new();
+        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new();
+
         public IEnumerable<ContactViewModel> OtherContacts { get; set; }
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; }
 
@@ -67,7 +66,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Name = contact.Name,
                     Email = contact.Email,
                     Phone = contact.Phone,
-                    RoleName = contact.RoleId == RolesIds.Other ? contact.OtherRoleName : contact.RoleId.GetDisplayName(),
+                    RoleName = contact.OrganisationTypeSubCategory,
                     ManuallyAdded = true,
                     SupportProjectId = SupportProject?.Id,
                     ContactId = contact.Id,
@@ -82,11 +81,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         private async Task SetSchoolContacts(int id, CancellationToken cancellationToken)
         {
             SchoolAddress = SupportProject?.Address;
-            
+
             if (string.IsNullOrEmpty(SchoolAddress))
             {
                 var establishment = await _getEstablishment.GetEstablishmentByUrn(SupportProject?.SchoolUrn);
-                
+
                 SchoolAddress = string.Join(", ", new[]
                 {
                     establishment.Address.Street,
@@ -108,7 +107,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     _errorService.AddApiError();
                 }
             }
-                        
+
             Headteacher = new ContactViewModel
             {
                 Name = SupportProject?.HeadteacherName ?? "",
@@ -116,12 +115,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 Phone = SupportProject?.SchoolMainPhone ?? "",
                 LastModifiedOn = SupportProject?.LastModifiedOn
             };
-            
+
             if (!int.TryParse(SupportProject?.SchoolUrn, out var schoolUrn))
             {
                 schoolUrn = 0; // Default value if parsing fails
             }
-            
+
             var establishmentContacts = await establishmentsClient
                 .GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
 
@@ -144,7 +143,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     };
                 }
             }
-            
+
             if (!string.IsNullOrEmpty(SupportProject?.TrustName))
             {
                 var trustContacts = await trustClient
@@ -174,7 +173,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         private async Task SetSupportingOrganisationContacts()
         {
             SupportingOrganisationAddress = SupportProject?.SupportingOrganisationContactAddress;
-            
+
             var supportingSchoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) ?? null;
 
             if (supportingSchoolIsAcademy != null)

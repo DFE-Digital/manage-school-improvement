@@ -41,7 +41,7 @@ public class ContactsUtilTests
         otherRoleOption!.Input.Should().NotBeNull();
         otherRoleOption.Input!.Value.Should().Be(otherRoleValue);
         otherRoleOption.Input.Id.Should().Be("organisationTypeSubCategoryOther");
-        otherRoleOption.Input.ValidationMessage.Should().Be("Enter name of job title");
+        otherRoleOption.Input.ValidationMessage.Should().Be("Enter a job title");
         otherRoleOption.Input.Paragraph.Should().Be("Name of job title");
         otherRoleOption.Input.IsValid.Should().BeTrue();
         otherRoleOption.Input.IsTextArea.Should().BeFalse();
@@ -142,7 +142,7 @@ public class ContactsUtilTests
         otherRoleOption!.Input.Should().NotBeNull();
         otherRoleOption.Input!.Value.Should().Be(otherRoleValue);
         otherRoleOption.Input.Id.Should().Be("organisationTypeSubCategoryOther");
-        otherRoleOption.Input.ValidationMessage.Should().Be("Enter name of job title");
+        otherRoleOption.Input.ValidationMessage.Should().Be("Enter a job title");
         otherRoleOption.Input.Paragraph.Should().Be("Name of job title");
         otherRoleOption.DisplayAsOr.Should().BeTrue();
     }
@@ -217,7 +217,7 @@ public class ContactsUtilTests
         otherRoleOption!.Input.Should().NotBeNull();
         otherRoleOption.Input!.Value.Should().Be(otherRoleValue);
         otherRoleOption.Input.Id.Should().Be("organisationTypeSubCategoryOther");
-        otherRoleOption.Input.ValidationMessage.Should().Be("Enter name of governance body");
+        otherRoleOption.Input.ValidationMessage.Should().Be("Enter a governance body");
         otherRoleOption.Input.Paragraph.Should().Be("Name of governance body");
         otherRoleOption.DisplayAsOr.Should().BeTrue();
     }
@@ -338,7 +338,7 @@ public class ContactsUtilTests
 
         // Assert
         var otherOption = result.FirstOrDefault(r => r.Name == "Other job title");
-        otherOption!.Input!.ValidationMessage.Should().Be("Enter name of job title");
+        otherOption!.Input!.ValidationMessage.Should().Be("Enter a job title");
         otherOption.Input.Paragraph.Should().Be("Name of job title");
     }
 
@@ -350,7 +350,7 @@ public class ContactsUtilTests
 
         // Assert
         var otherOption = result.FirstOrDefault(r => r.Name == "Other job title");
-        otherOption!.Input!.ValidationMessage.Should().Be("Enter name of job title");
+        otherOption!.Input!.ValidationMessage.Should().Be("Enter a job title");
         otherOption.Input.Paragraph.Should().Be("Name of job title");
     }
 
@@ -362,7 +362,7 @@ public class ContactsUtilTests
 
         // Assert
         var otherOption = result.FirstOrDefault(r => r.Name == "Other body");
-        otherOption!.Input!.ValidationMessage.Should().Be("Enter name of governance body");
+        otherOption!.Input!.ValidationMessage.Should().Be("Enter a governance body");
         otherOption.Input.Paragraph.Should().Be("Name of governance body");
     }
 

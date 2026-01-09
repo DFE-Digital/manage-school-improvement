@@ -10,7 +10,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
        string Name,
        string OrganisationTypeSubCategory,
        string? OrganisationTypeSubCategoryOther,
-       string Organisation,
+       string OrganisationType,
        string Email,
        string Phone,
        string Author,
@@ -31,7 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
                 Name = request.Name,
                 OrganisationTypeSubCategory = request.OrganisationTypeSubCategory,
                 OrganisationTypeSubCategoryOther = request.OrganisationTypeSubCategoryOther,
-                OrganisationType = request.Organisation,
+                OrganisationType = request.OrganisationType,
                 Email = request.Email,
                 Phone = request.Phone,
                 JobTitle = request.JobTitle

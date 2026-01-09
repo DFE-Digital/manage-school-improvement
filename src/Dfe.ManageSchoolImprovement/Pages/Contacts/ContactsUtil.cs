@@ -19,15 +19,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         private static readonly Dictionary<Type, (RadioButtonConfig Config, Func<Enum, bool> IsOther)> _configurations = new()
         {
             [typeof(SchoolOrginisationTypes)] = (
-                new RadioButtonConfig("organisationTypeSubCategoryOther", "Enter name of job title", "Name of job title", DisplayAsOr: true),
+                new RadioButtonConfig("organisationTypeSubCategoryOther", "Enter a job title", "Name of job title", DisplayAsOr: true),
                 e => e.Equals(SchoolOrginisationTypes.Other)
             ),
             [typeof(SupportOrganisationTypes)] = (
-                new RadioButtonConfig("organisationTypeSubCategoryOther", "Enter name of job title", "Name of job title", DisplayAsOr: true),
+                new RadioButtonConfig("organisationTypeSubCategoryOther", "Enter a job title", "Name of job title", DisplayAsOr: true),
                 e => e.Equals(SupportOrganisationTypes.Other)
             ),
             [typeof(GovernanceBodyTypes)] = (
-                new RadioButtonConfig("organisationTypeSubCategoryOther", "Enter name of governance body", "Name of governance body", DisplayAsOr: true),
+                new RadioButtonConfig("organisationTypeSubCategoryOther", "Enter a governance body", "Name of governance body", DisplayAsOr: true),
                 e => e.Equals(GovernanceBodyTypes.Other)
             )
         };
