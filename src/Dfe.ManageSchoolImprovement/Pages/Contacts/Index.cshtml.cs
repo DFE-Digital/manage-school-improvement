@@ -1,5 +1,4 @@
 using System.Globalization;
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Extensions; // Add this using statement
@@ -29,11 +28,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? ChairOfGovernors { get; set; }
         public ContactViewModel? Headteacher { get; set; }
         public ContactViewModel? AccountingOfficer { get; set; }
-        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new ();
-        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new ();
-        
-        public IEnumerable<ContactViewModel> OtherContacts { get; set; }
-        public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; }
+        public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new();
+        public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new();
+
+        public IEnumerable<ContactViewModel> GovernanceContacts { get; set; } = new List<ContactViewModel>();
+        public IEnumerable<ContactViewModel> OtherContacts { get; set; } = new List<ContactViewModel>();
+        // public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; } = new List<ContactViewModel>();
 
         public string? SchoolAddress { get; set; }
         public string? SupportingOrganisationAddress { get; set; }
@@ -49,79 +49,59 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             TempData["RoleId"] = null;
             TempData["OtherRole"] = null;
             await base.GetSupportProject(id, cancellationToken);
-
-
+            
             await SetSchoolContacts(id, cancellationToken);
 
-            if (SupportProject.SupportOrganisationType == "School" && SupportProject.SupportOrganisationIdNumber != null)
+            if (SupportProject?.SupportOrganisationType is "School" or "Trust"
+                && SupportProject.SupportOrganisationIdNumber != null)
             {
                 await SetSupportingOrganisationContacts();
             }
 
-            var otherContacts = SupportProject?.Contacts;
+            var otherContacts = SupportProject?.Contacts?.ToList();
 
-            if (otherContacts.Any())
+            if (otherContacts != null && otherContacts.Any())
             {
                 OtherContacts = otherContacts.Select(contact => new ContactViewModel
                 {
                     Name = contact.Name,
                     Email = contact.Email,
                     Phone = contact.Phone,
-                    RoleName = contact.RoleId == RolesIds.Other ? contact.OtherRoleName : contact.RoleId.GetDisplayName(),
+                    RoleName = contact.RoleId == RolesIds.Other
+                        ? contact.OtherRoleName
+                        : contact.RoleId.GetDisplayName(),
                     ManuallyAdded = true,
                     SupportProjectId = SupportProject?.Id,
                     ContactId = contact.Id,
                     LastModifiedOn = contact.LastModifiedOn
                 }).ToList();
             }
-
-
+            
             return Page();
         }
 
         private async Task SetSchoolContacts(int id, CancellationToken cancellationToken)
         {
             SchoolAddress = SupportProject?.Address;
-            
+
             if (string.IsNullOrEmpty(SchoolAddress))
             {
-                var establishment = await _getEstablishment.GetEstablishmentByUrn(SupportProject?.SchoolUrn);
-                
-                SchoolAddress = string.Join(", ", new[]
-                {
-                    establishment.Address.Street,
-                    establishment.Address.Locality,
-                    establishment.Address.Town,
-                    establishment.Address.County,
-                    establishment.Address.Postcode
-                }.Where(x => !string.IsNullOrWhiteSpace(x)));
-
-                var command = new SetSchoolAddressCommand(
-                    new SupportProjectId(id),
-                    SchoolAddress);
-
-                var result = await mediator.Send(command, cancellationToken);
-
-                // Early return for API error
-                if (!result)
-                {
-                    _errorService.AddApiError();
-                }
+                await GetAndSaveSchoolAddress(id, cancellationToken);
             }
-                        
+
             Headteacher = new ContactViewModel
             {
                 Name = SupportProject?.HeadteacherName ?? "",
-                RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? "Headteacher",
+                RoleName = SupportProject?.HeadteacherPreferredJobTitle ?? HeadteacherRole,
                 Phone = SupportProject?.SchoolMainPhone ?? "",
                 LastModifiedOn = SupportProject?.LastModifiedOn
             };
-            
+
             if (!int.TryParse(SupportProject?.SchoolUrn, out var schoolUrn))
             {
                 schoolUrn = 0; // Default value if parsing fails
             }
-            
+
             var establishmentContacts = await establishmentsClient
                 .GetAllPersonsAssociatedWithAcademyByUrnAsync(schoolUrn, cancellationToken).ConfigureAwait(false);
 
@@ -144,7 +124,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     };
                 }
             }
-            
+
             if (!string.IsNullOrEmpty(SupportProject?.TrustName))
             {
                 var trustContacts = await trustClient
@@ -174,47 +154,100 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         private async Task SetSupportingOrganisationContacts()
         {
             SupportingOrganisationAddress = SupportProject?.SupportingOrganisationContactAddress;
-            
-            var supportingSchoolIsAcademy = await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) ?? null;
 
-            if (supportingSchoolIsAcademy != null)
+            if (SupportProject is { SupportOrganisationType: "School", SupportOrganisationIdNumber: not null })
             {
-                var supportingSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber);
-                var headteacherName = supportingSchool.HeadteacherFirstName + " " + supportingSchool.HeadteacherLastName;
+                var supportingSchoolIsAcademy =
+                    await getEstablishment.GetEstablishmentTrust(SupportProject.SupportOrganisationIdNumber) ?? null;
 
-                SupportingOrganisationHeadteacher = new ContactViewModel
+                if (supportingSchoolIsAcademy != null)
                 {
-                    Name = headteacherName,
-                    Phone = supportingSchool.MainPhone,
-                    RoleName = !string.IsNullOrEmpty(supportingSchool.HeadteacherPreferredJobTitle) ? supportingSchool.HeadteacherPreferredJobTitle : HeadteacherRole,
-                    LastModifiedOn = Convert.ToDateTime(supportingSchool.GiasLastChangedDate, new CultureInfo("en-GB"))
-                };
+                    var supportingSchool =
+                        await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber);
+                    var headteacherName = supportingSchool.HeadteacherFirstName + " " +
+                                          supportingSchool.HeadteacherLastName;
 
-                if (SupportProject?.SupportingOrganisationContactName != null)
+                    SupportingOrganisationHeadteacher = new ContactViewModel
+                    {
+                        Name = headteacherName,
+                        Phone = supportingSchool.MainPhone,
+                        RoleName = !string.IsNullOrEmpty(supportingSchool.HeadteacherPreferredJobTitle)
+                            ? supportingSchool.HeadteacherPreferredJobTitle
+                            : HeadteacherRole,
+                        LastModifiedOn = Convert.ToDateTime(supportingSchool.GiasLastChangedDate,
+                            new CultureInfo("en-GB"))
+                    };
+
+                    if (SupportProject?.SupportingOrganisationContactName != null)
+                    {
+                        SupportingOrganisationAccountingOfficer = new ContactViewModel
+                        {
+                            Name = SupportProject.SupportingOrganisationContactName ?? "",
+                            RoleName = AccountingOfficerRole,
+                            Email = SupportProject.SupportingOrganisationContactEmailAddress ?? "",
+                            Phone = SupportProject.SupportingOrganisationContactPhone ?? "",
+                            Address = SupportProject.SupportingOrganisationContactAddress ?? "",
+                            LastModifiedOn = SupportProject.DateSupportingOrganisationContactDetailsAdded
+                        };
+                    }
+                }
+                else
                 {
-                    SupportingOrganisationAccountingOfficer = new ContactViewModel
+                    SupportingOrganisationHeadteacher = new ContactViewModel
                     {
                         Name = SupportProject?.SupportingOrganisationContactName ?? "",
-                        RoleName = AccountingOfficerRole,
+                        RoleName = HeadteacherRole,
                         Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
                         Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
                         Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
                         LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
                     };
                 }
-
             }
-            else
+
+            if (SupportProject?.SupportOrganisationType == "Trust" &&
+                SupportProject.SupportingOrganisationContactName != null)
             {
-                SupportingOrganisationHeadteacher = new ContactViewModel
+                SupportingOrganisationAccountingOfficer = new ContactViewModel
                 {
-                    Name = SupportProject?.SupportingOrganisationContactName ?? "",
-                    RoleName = HeadteacherRole,
-                    Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
-                    Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
-                    Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
-                    LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
+                    Name = SupportProject.SupportingOrganisationContactName ?? "",
+                    RoleName = AccountingOfficerRole,
+                    Email = SupportProject.SupportingOrganisationContactEmailAddress ?? "",
+                    Phone = SupportProject.SupportingOrganisationContactPhone ?? "",
+                    Address = SupportProject.SupportingOrganisationContactAddress ?? "",
+                    LastModifiedOn = SupportProject.DateSupportingOrganisationContactDetailsAdded
                 };
+            }
+        }
+
+        // Method is here because we were not saving school addresses prior to 12/25 - could be deleted in future once no
+        // longer needed (from 12/25 address saved at the point school was added)
+        private async Task GetAndSaveSchoolAddress(int id, CancellationToken cancellationToken)
+        {
+            if (SupportProject?.SchoolUrn != null)
+            {
+                var establishment = await _getEstablishment.GetEstablishmentByUrn(SupportProject.SchoolUrn);
+
+                SchoolAddress = string.Join(", ", new[]
+                {
+                    establishment.Address.Street,
+                    establishment.Address.Locality,
+                    establishment.Address.Town,
+                    establishment.Address.County,
+                    establishment.Address.Postcode
+                }.Where(x => !string.IsNullOrWhiteSpace(x)));
+            }
+
+            var command = new SetSchoolAddressCommand(
+                new SupportProjectId(id),
+                SchoolAddress);
+
+            var result = await mediator.Send(command, cancellationToken);
+
+            // Early return for API error
+            if (!result)
+            {
+                _errorService.AddApiError();
             }
         }
     }
