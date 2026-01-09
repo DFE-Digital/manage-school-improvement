@@ -85,6 +85,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 }
 
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
+                ShowError = true;
+
                 SchoolRadioButtons = ContactsUtil.GetSchoolRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
                 SupportingOrganisationRadioButtons = ContactsUtil.GetSupportingOrganisationRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
                 GoverningBodyRadioButtons = ContactsUtil.GetGoverningBodyRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
