@@ -62,8 +62,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             }
             
             var otherContacts = SupportProject?.Contacts?
-                .Where(c => string.IsNullOrEmpty(c.OrganisationType))
-                .OrderBy(c => c.RoleId)
+                .Where(c => string.IsNullOrEmpty(c.OrganisationType) || c.OrganisationType == "Governance bodies")
+                .OrderBy(c => c.CreatedOn)
                 .ToList();
             
             if (otherContacts != null && otherContacts.Any())
@@ -79,6 +79,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     {
                         fallbackRolename = contact.OtherRoleName;
                     }
+
+                    var roleName = contact.OrganisationTypeSubCategory;
+                    if (contact.OrganisationType == "Governance bodies")
+                    {
+                        roleName = contact.JobTitle;
+                    }
                     
                     return new ContactViewModel
                     {
@@ -86,7 +92,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         Email = contact.Email,
                         Phone = contact.Phone,
                         RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory)
-                            ? contact.OrganisationTypeSubCategory
+                            ? roleName
                             : fallbackRolename,
                         ManuallyAdded = true,
                         SupportProjectId = SupportProject?.Id,
@@ -168,11 +174,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     }
                 }
             }
-
-            var otherSchoolContacts = SupportProject?.Contacts
+            
+            var otherSchoolContacts = SupportProject?.Contacts?
                 .Where(c => c.OrganisationType == "School")
-                .OrderBy(c => c.RoleId);
-
+                .OrderBy(c => c.CreatedOn);
+            
             if (otherSchoolContacts != null && otherSchoolContacts.Any())
             {
                 OtherSchoolContacts = otherSchoolContacts.Select(contact => new ContactViewModel
@@ -180,8 +186,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Name = contact.Name,
                     Email = contact.Email,
                     Phone = contact.Phone,
-                    RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory) ?
-                        contact.OrganisationTypeSubCategory : contact.RoleId.GetDisplayName(),
+                    RoleName = contact.OrganisationTypeSubCategory,
                     ManuallyAdded = true,
                     SupportProjectId = SupportProject?.Id,
                     ContactId = contact.Id,
@@ -258,10 +263,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 };
             }
             
-            var otherSupportingOrganisationContacts = SupportProject?.Contacts
+            var otherSupportingOrganisationContacts = SupportProject?.Contacts?
                 .Where(c => c.OrganisationType == "Supporting organisation")
-                .OrderBy(c => c.RoleId);
-
+                .OrderBy(c => c.CreatedOn);
+            
             if (otherSupportingOrganisationContacts != null && otherSupportingOrganisationContacts.Any())
             {
                 OtherSupportingOrganisationContacts = otherSupportingOrganisationContacts.Select(contact => new ContactViewModel
@@ -269,8 +274,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Name = contact.Name,
                     Email = contact.Email,
                     Phone = contact.Phone,
-                    RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory) ?
-                        contact.OrganisationTypeSubCategory : contact.RoleId.GetDisplayName(),
+                    RoleName = contact.OrganisationTypeSubCategory,
                     ManuallyAdded = true,
                     SupportProjectId = SupportProject?.Id,
                     ContactId = contact.Id,
