@@ -61,24 +61,38 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 await SetSupportingOrganisationContacts();
             }
             
-            var otherContacts = SupportProject?.Contacts
+            var otherContacts = SupportProject?.Contacts?
                 .Where(c => string.IsNullOrEmpty(c.OrganisationType))
                 .OrderBy(c => c.RoleId)
                 .ToList();
             
             if (otherContacts != null && otherContacts.Any())
             {
-                OtherContacts = otherContacts.Select(contact => new ContactViewModel
+                OtherContacts = otherContacts.Select(contact =>
                 {
-                    Name = contact.Name,
-                    Email = contact.Email,
-                    Phone = contact.Phone,
-                    RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory) ?
-                        contact.OrganisationTypeSubCategory : contact.RoleId.GetDisplayName(),
-                    ManuallyAdded = true,
-                    SupportProjectId = SupportProject?.Id,
-                    ContactId = contact.Id,
-                    LastModifiedOn = contact.LastModifiedOn
+                    var fallbackRolename = "Not available";
+                    if (contact.RoleId != null && contact.RoleId != RolesIds.Other)
+                    {
+                        fallbackRolename = contact.RoleId.GetDisplayName();
+                    }
+                    else if (contact.RoleId == RolesIds.Other)
+                    {
+                        fallbackRolename = contact.OtherRoleName;
+                    }
+                    
+                    return new ContactViewModel
+                    {
+                        Name = contact.Name,
+                        Email = contact.Email,
+                        Phone = contact.Phone,
+                        RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory)
+                            ? contact.OrganisationTypeSubCategory
+                            : fallbackRolename,
+                        ManuallyAdded = true,
+                        SupportProjectId = SupportProject?.Id,
+                        ContactId = contact.Id,
+                        LastModifiedOn = contact.LastModifiedOn
+                    };
                 }).ToList();
             }
             
@@ -161,7 +175,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
             if (otherSchoolContacts != null && otherSchoolContacts.Any())
             {
-                OtherContacts = otherSchoolContacts.Select(contact => new ContactViewModel
+                OtherSchoolContacts = otherSchoolContacts.Select(contact => new ContactViewModel
                 {
                     Name = contact.Name,
                     Email = contact.Email,
@@ -242,6 +256,26 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Address = SupportProject.SupportingOrganisationContactAddress ?? "",
                     LastModifiedOn = SupportProject.DateSupportingOrganisationContactDetailsAdded
                 };
+            }
+            
+            var otherSupportingOrganisationContacts = SupportProject?.Contacts
+                .Where(c => c.OrganisationType == "Supporting organisation")
+                .OrderBy(c => c.RoleId);
+
+            if (otherSupportingOrganisationContacts != null && otherSupportingOrganisationContacts.Any())
+            {
+                OtherSupportingOrganisationContacts = otherSupportingOrganisationContacts.Select(contact => new ContactViewModel
+                {
+                    Name = contact.Name,
+                    Email = contact.Email,
+                    Phone = contact.Phone,
+                    RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory) ?
+                        contact.OrganisationTypeSubCategory : contact.RoleId.GetDisplayName(),
+                    ManuallyAdded = true,
+                    SupportProjectId = SupportProject?.Id,
+                    ContactId = contact.Id,
+                    LastModifiedOn = contact.LastModifiedOn
+                }).ToList();
             }
         }
 

@@ -49,14 +49,14 @@
                          model='@Model.AccountingOfficer'/>
             }
             
-            @* @if (Model.OtherSchoolContacts?.Any() == true) *@
-            @* { *@
-            @*     foreach (var contact in Model.OtherSchoolContacts) *@
-            @*     { *@
-            @*         <partial name="_ContactCard" *@
-            @*                  model='@contact'/> *@
-            @*     } *@
-            @* } *@
+            @if (Model.OtherSchoolContacts?.Any() == true)
+            {
+                foreach (var contact in Model.OtherSchoolContacts)
+                {
+                    <partial name="_ContactCard"
+                             model='@contact'/>
+                }
+            }
         </div>
 
         @if (!string.IsNullOrEmpty(Model.SupportingOrganisationAccountingOfficer?.Name) || !string.IsNullOrEmpty(Model.SupportingOrganisationHeadteacher?.Name))
@@ -78,6 +78,14 @@
                     <partial name="_ContactCard"
                              model="@Model.SupportingOrganisationAccountingOfficer"/>
                 }
+                @if (Model.OtherSupportingOrganisationContacts?.Any() == true)
+                {
+                    foreach (var contact in Model.OtherSupportingOrganisationContacts)
+                    {
+                        <partial name="_ContactCard"
+                                 model='@contact'/>
+                    }
+                }
             </div>
         }
         
@@ -96,7 +104,7 @@
         @if (Model.OtherContacts.Any())
         {
             <div class="govuk-grid-column-three-quarters">
-                <h3 class="govuk-heading-m">Contacts without and organisation</h3>
+                <h3 class="govuk-heading-m">Contacts without an organisation</h3>
                 <p>Change these contacts' details to add the organisation they work for.</p>
                 <p>They will then be grouped on this page according to their organisation type.</p>
                 @foreach (var contact in Model.OtherContacts)

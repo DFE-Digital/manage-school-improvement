@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             OrganisationTypeSubCategoryOther = details.OrganisationTypeSubCategoryOther ?? string.Empty;
             OrganisationType = details.OrganisationType;
             Email = details.Email;
-            Phone = details.Phone ?? string.Empty;
+            Phone = details.Phone;
             CreatedBy = author;
             CreatedOn = createOn;
             SupportProjectId = supportProjectId;
@@ -24,7 +24,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 
         public SupportProjectContactId? Id { get; private set; }
         public SupportProjectId? SupportProjectId { get; private set; }
-
         public string Name { get; private set; } = string.Empty;
         public RolesIds? RoleId { get; init; }
         public string? OtherRoleName { get; init; }
