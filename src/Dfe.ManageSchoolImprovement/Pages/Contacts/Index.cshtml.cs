@@ -79,12 +79,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     {
                         fallbackRolename = contact.OtherRoleName;
                     }
-
-                    var roleName = contact.OrganisationTypeSubCategory;
-                    if (contact.OrganisationType == "Governance bodies")
-                    {
-                        roleName = contact.JobTitle;
-                    }
+                    
+                    var roleName = contact.OrganisationType == "Governance bodies" ? contact.JobTitle : contact.OrganisationTypeSubCategory;
                     
                     return new ContactViewModel
                     {
