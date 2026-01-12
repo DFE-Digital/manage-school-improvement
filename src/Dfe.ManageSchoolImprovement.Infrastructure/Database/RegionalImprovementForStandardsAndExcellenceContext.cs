@@ -130,9 +130,9 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
                 v => v!.Value,
                 v => new SupportProjectContactId(v));
 
-        supportProjectContactsConfiguration.Ignore(e => e.Organisation);
-        supportProjectContactsConfiguration.Ignore(e => e.RoleId);
-        supportProjectContactsConfiguration.Ignore(e => e.OtherRoleName);
+        //supportProjectContactsConfiguration.Ignore(e => e.Organisation);
+        //supportProjectContactsConfiguration.Ignore(e => e.RoleId);
+        //supportProjectContactsConfiguration.Ignore(e => e.OtherRoleName);
     }
 
     private static void ConfigureImprovementPlanObjective(EntityTypeBuilder<ImprovementPlanObjective> builder)
