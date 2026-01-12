@@ -94,8 +94,8 @@ describe("User navigates to the Contacts Tab", () => {
             .clickSaveAndReturnButton()
 
         contacts
-          .hasContactAddedSuccessMessage('Contact added')
-          .detailsVisibleInContactCard();
+            .hasContactAddedSuccessMessage('Contact added')
+            .detailsVisibleInContactCard();
 
         cy.executeAccessibilityTests()
     });
@@ -142,7 +142,7 @@ describe("User navigates to the Contacts Tab", () => {
     });
 
 
-    it.only("should be able to change the added contact", () => {
+    it("should be able to change the added contact", () => {
         contacts
             .clickChangeButton()
             .editContactPageVisible()
