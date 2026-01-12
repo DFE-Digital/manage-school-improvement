@@ -1,4 +1,5 @@
 ﻿@page "/edit-contact/{id:int}"
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts.EditContactModel
 @{
     ViewData["Title"] = "Edit contact";
@@ -21,18 +22,38 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
-        <h1 class="govuk-heading-xl">
+        <h1 class="govuk-heading-l">
             Edit contact
         </h1>
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ContactId"/>
-            <govuk-radiobuttons-input heading="Role" heading-style="govuk-fieldset__legend--m" hint="Select one option"
-                                      error-message="@Model.ErrorMessage" name="@nameof(Model.RoleId)"
-                                      radio-buttons="@Model.RadioButtons" asp-for="@Model.RoleId"/>
-            <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Continue
-            </button>
+            <input type="hidden" asp-for="@Model.OrganisationType" />
+
+            @if (Model.OrganisationType == OrganisationTypes.School)
+            {
+                <govuk-radiobuttons-input heading="School role" heading-style="govuk-fieldset__legend--m" hint="Select one option"
+                                          error-message="@Model.ErrorMessage" name="@nameof(Model.OrganisationTypeSubCategory)"
+                                          radio-buttons="@Model.SchoolRadioButtons" asp-for="@Model.OrganisationTypeSubCategory" />
+            }
+            else if (Model.OrganisationType == OrganisationTypes.SupportingOrganisation)
+            {
+                <govuk-radiobuttons-input heading="Supporting organisation" heading-style="govuk-fieldset__legend--m" hint="Select one option"
+                                          error-message="@Model.ErrorMessage" name="@nameof(Model.OrganisationTypeSubCategory)"
+                                          radio-buttons="@Model.SupportingOrganisationRadioButtons" asp-for="@Model.OrganisationTypeSubCategory" />
+            }
+            else
+            {
+                <govuk-radiobuttons-input heading="Goverance bodies" heading-style="govuk-fieldset__legend--m" hint="Select one option"
+                                          error-message="@Model.ErrorMessage" name="@nameof(Model.OrganisationTypeSubCategory)"
+                                          radio-buttons="@Model.GoverningBodyRadioButtons" asp-for="@Model.OrganisationTypeSubCategory" />
+            }
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Continue
+                </button> <a asp-page="@Links.Contacts.Index.Page" asp-route-id="@Model.SupportProject.Id" class="govuk-link">Cancel</a>
+            </div>
+
         </form>
     </div>
 </div>

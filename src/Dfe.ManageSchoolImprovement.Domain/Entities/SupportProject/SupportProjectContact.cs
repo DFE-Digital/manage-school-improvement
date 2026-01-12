@@ -26,9 +26,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public SupportProjectId? SupportProjectId { get; private set; }
 
         public string Name { get; private set; } = string.Empty;
-        public RolesIds RoleId { get; }
-        public string OtherRoleName { get; private set; } = string.Empty;
-        public string Organisation { get; private set; } = string.Empty;
+        public RolesIds? RoleId { get; init; }
+        public string? OtherRoleName { get; init; }
+        public string? Organisation { get; init; }
         public string OrganisationTypeSubCategory { get; private set; } = string.Empty;
         public string? OrganisationTypeSubCategoryOther { get; private set; } = string.Empty;
         public string OrganisationType { get; private set; } = string.Empty;
