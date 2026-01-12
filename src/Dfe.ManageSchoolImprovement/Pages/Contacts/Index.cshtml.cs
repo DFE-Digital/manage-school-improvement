@@ -1,5 +1,6 @@
 using System.Globalization;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Extensions; // Add this using statement
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -32,8 +33,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new();
 
         public IEnumerable<ContactViewModel> GovernanceContacts { get; set; } = new List<ContactViewModel>();
+        public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; } = new List<ContactViewModel>();
+        public IEnumerable<ContactViewModel> OtherSupportingOrganisationContacts { get; set; } = new List<ContactViewModel>();
         public IEnumerable<ContactViewModel> OtherContacts { get; set; } = new List<ContactViewModel>();
-        // public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; } = new List<ContactViewModel>();
 
         public string? SchoolAddress { get; set; }
         public string? SupportingOrganisationAddress { get; set; }
@@ -57,9 +59,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 await SetSupportingOrganisationContacts();
             }
-
-            var otherContacts = SupportProject?.Contacts?.ToList();
-
+            
+            var otherContacts = SupportProject?.Contacts
+                .Where(c => string.IsNullOrEmpty(c.OrganisationType))
+                .OrderBy(c => c.RoleId)
+                .ToList();
+            
             if (otherContacts != null && otherContacts.Any())
             {
                 OtherContacts = otherContacts.Select(contact => new ContactViewModel
@@ -67,9 +72,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Name = contact.Name,
                     Email = contact.Email,
                     Phone = contact.Phone,
-                    RoleName = contact.RoleId == RolesIds.Other
-                        ? contact.OtherRoleName
-                        : contact.RoleId.GetDisplayName(),
+                    RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory) ?
+                        contact.OrganisationTypeSubCategory : contact.RoleId.GetDisplayName(),
                     ManuallyAdded = true,
                     SupportProjectId = SupportProject?.Id,
                     ContactId = contact.Id,
@@ -148,6 +152,26 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         };
                     }
                 }
+            }
+
+            var otherSchoolContacts = SupportProject?.Contacts
+                .Where(c => c.OrganisationType == "School")
+                .OrderBy(c => c.RoleId);
+
+            if (otherSchoolContacts != null && otherSchoolContacts.Any())
+            {
+                OtherContacts = otherSchoolContacts.Select(contact => new ContactViewModel
+                {
+                    Name = contact.Name,
+                    Email = contact.Email,
+                    Phone = contact.Phone,
+                    RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory) ?
+                        contact.OrganisationTypeSubCategory : contact.RoleId.GetDisplayName(),
+                    ManuallyAdded = true,
+                    SupportProjectId = SupportProject?.Id,
+                    ContactId = contact.Id,
+                    LastModifiedOn = contact.LastModifiedOn
+                }).ToList();
             }
         }
 
