@@ -65,6 +65,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         public async Task<IActionResult> OnPostAsync(int id, Guid contactId, int roleId, string? otherRole, CancellationToken cancellationToken)
         {
+            ReturnPage = Links.Contacts.EditContact.Page;
+
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");

@@ -52,6 +52,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         }
         public async Task<IActionResult> OnPostAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
+            ReturnPage = Links.Contacts.AddContact.Page;
+
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
