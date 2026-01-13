@@ -20,7 +20,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public string Name { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter an email address")]
-        [EmailValidation(ErrorMessage = "Email address must be in correct format")]
+        [EmailValidation(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
         [BindProperty(Name = "email-address")]
         public string EmailAddress { get; set; }
 
@@ -65,6 +65,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         public async Task<IActionResult> OnPostAsync(int id, Guid contactId, int roleId, string? otherRole, CancellationToken cancellationToken)
         {
+            ReturnPage = Links.Contacts.EditContact.Page;
+
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
