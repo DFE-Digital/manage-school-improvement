@@ -125,22 +125,34 @@ describe("User navigates to the Contacts Tab", () => {
             .hasAddContactButton()
             .clickAddContact()
             .hasOrganisationVisible()
+
+            cy.executeAccessibilityTests()
+
+        contacts    
             .selectOrganisation('organisation-type-governance-bodies')
             .clickContinue()
             .hasGovBodiesRolesVisible()
+
+            cy.executeAccessibilityTests()
+
+        contacts    
             .selectRoleandEnterDetails('other-body')
             .clickContinue()
 
         contactDetails
             .enterRandomContactDetails()
             .enterJobTitleForGovBody('JobTitle')
+
+        cy.executeAccessibilityTests()
+        
+        contactDetails
             .clickSaveAndReturnButton()
 
-        contacts.hasContactAddedSuccessMessage('Contact added')
+        contacts
+            .hasContactAddedSuccessMessage('Contact added')
 
         cy.executeAccessibilityTests()
     });
-
 
     it("should be able to change the added contact", () => {
         contacts
