@@ -17,7 +17,7 @@ public class EmailValidationAttribute : ValidationAttribute
     public override bool IsValid(object? value)
     {
         // Return true for null or non-string values (let other attributes handle required validation)
-        if (value == null || value is not string email)
+        if (value is not string email)
         {
             return true;
         }

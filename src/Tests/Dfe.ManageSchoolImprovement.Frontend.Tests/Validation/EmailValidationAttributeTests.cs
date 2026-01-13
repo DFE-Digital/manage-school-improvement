@@ -25,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Validation
         }
 
         // Helper method to call the protected IsValid method using reflection
-        private ValidationResult? CallProtectedIsValid(EmailValidationAttribute attribute, object? value, ValidationContext context)
+        private static ValidationResult? CallProtectedIsValid(EmailValidationAttribute attribute, object? value, ValidationContext context)
         {
             var method = typeof(EmailValidationAttribute).GetMethod("IsValid",
                 BindingFlags.NonPublic | BindingFlags.Instance,
