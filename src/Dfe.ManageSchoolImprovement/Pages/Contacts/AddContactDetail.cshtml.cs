@@ -20,7 +20,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public string Name { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter an email address")]
-        [EmailValidation(ErrorMessage = "Email address must be in correct format")]
+        [EmailValidation(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
         [BindProperty(Name = "email-address")]
         public string EmailAddress { get; set; } = null!;
 
