@@ -1,5 +1,7 @@
 ﻿@page "/contacts/{id:int}"
 
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using Dfe.ManageSchoolImprovement.Utils
 @model IndexModel
 @{
     ViewData["Title"] = "Contact";
@@ -89,14 +91,63 @@
             </div>
         }
         
-        @if (Model.GovernanceContacts.Any())
+        @if (Model.GovernanceContactsTrust.Any()
+             || Model.GovernanceContactsDiocese.Any()
+             || Model.GovernanceContactsFoundation.Any()
+             || Model.GovernanceContactsFederation.Any()
+             || Model.GovernanceContactsLocalAuthority.Any()
+             || Model.GovernanceContactsOther.Any()
+        )
         {
             <div class="govuk-grid-column-three-quarters">
                 <h3 class="govuk-heading-m">Governance bodies contacts</h3>
-                @* split these according to subtype *@
-                @foreach (var contact in Model.GovernanceContacts)
+                @if (Model.GovernanceContactsTrust.Any())
                 {
-                    <partial name="_ContactCard" model="@contact"/>
+                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Trust.GetDisplayName()</h3>
+                    @foreach (var contact in Model.GovernanceContactsTrust)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
+                }
+                @if (Model.GovernanceContactsLocalAuthority.Any())
+                {
+                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.LocalAuthority.GetDisplayName()</h3>
+                    @foreach (var contact in Model.GovernanceContactsLocalAuthority)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
+                }
+                @if (Model.GovernanceContactsDiocese.Any())
+                {
+                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Diocese.GetDisplayName()</h3>
+                    @foreach (var contact in Model.GovernanceContactsDiocese)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
+                }
+                @if (Model.GovernanceContactsFoundation.Any())
+                {
+                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Foundation.GetDisplayName()</h3>
+                    @foreach (var contact in Model.GovernanceContactsFoundation)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
+                }
+                @if (Model.GovernanceContactsFederation.Any())
+                {
+                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Federation.GetDisplayName()</h3>
+                    @foreach (var contact in Model.GovernanceContactsFederation)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
+                }
+                @if (Model.GovernanceContactsOther.Any())
+                {
+                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Other.GetDisplayName()</h3>
+                    @foreach (var contact in Model.GovernanceContactsOther)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
                 }
             </div>
         }
