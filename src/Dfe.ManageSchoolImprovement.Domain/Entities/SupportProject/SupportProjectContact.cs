@@ -32,7 +32,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? OrganisationTypeSubCategoryOther { get; private set; } = string.Empty;
         public string OrganisationType { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
-        public string Phone { get; private set; } = string.Empty;
+        public string? Phone { get; private set; }
         public string? JobTitle { get; private set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
