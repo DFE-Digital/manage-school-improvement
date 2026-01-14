@@ -1,5 +1,7 @@
 ﻿@page "/contacts/{id:int}"
 
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using Dfe.ManageSchoolImprovement.Utils
 @model IndexModel
 @{
     ViewData["Title"] = "Contact";
@@ -93,10 +95,13 @@
         {
             <div class="govuk-grid-column-three-quarters">
                 <h3 class="govuk-heading-m">Governance bodies contacts</h3>
-                @* split these according to subtype *@
-                @foreach (var contact in Model.GovernanceContacts)
+                @foreach (var group in Model.GovernanceContacts)
                 {
-                    <partial name="_ContactCard" model="@contact"/>
+                    <h3 class="govuk-heading-m">@group.Type.GetDisplayName()</h3>
+                    @foreach (var contact in group.Contacts)
+                    {
+                        <partial name="_ContactCard" model="@contact"/>
+                    }
                 }
             </div>
         }

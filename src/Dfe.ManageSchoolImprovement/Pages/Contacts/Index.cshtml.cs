@@ -33,9 +33,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new();
         public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new();
 
-        public IEnumerable<ContactViewModel> GovernanceContacts { get; set; } = new List<ContactViewModel>();
+        public IEnumerable<GovernanceContactsGroup> GovernanceContacts { get; private set; } =
+            Enumerable.Empty<GovernanceContactsGroup>();
+        
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; } = new List<ContactViewModel>();
-        public IEnumerable<ContactViewModel> OtherSupportingOrganisationContacts { get; set; } = new List<ContactViewModel>();
+
+        public IEnumerable<ContactViewModel> OtherSupportingOrganisationContacts { get; set; } =
+            new List<ContactViewModel>();
+
         public IEnumerable<ContactViewModel> OtherContacts { get; set; } = new List<ContactViewModel>();
 
         public string? SchoolAddress { get; set; }
@@ -52,7 +57,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             TempData["RoleId"] = null;
             TempData["OtherRole"] = null;
             await base.GetSupportProject(id, cancellationToken);
-            
+
             await SetSchoolContacts(id, cancellationToken);
 
             if (SupportProject?.SupportOrganisationType is "School" or "Trust"
@@ -60,12 +65,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 await SetSupportingOrganisationContacts();
             }
-            
+
+            var governanceBodiesContacts = SupportProject?.Contacts?
+                .Where(c => c.OrganisationType == "Governance bodies")
+                .OrderBy(c => c.CreatedOn);
+
+            GovernanceContacts = BuildGovernanceContacts(governanceBodiesContacts);
+
             var otherContacts = SupportProject?.Contacts?
-                .Where(c => string.IsNullOrEmpty(c.OrganisationType) || c.OrganisationType == "Governance bodies")
+                .Where(c => string.IsNullOrEmpty(c.OrganisationType))
                 .OrderBy(c => c.CreatedOn)
                 .ToList();
-            
+
             if (otherContacts != null && otherContacts.Any())
             {
                 OtherContacts = otherContacts.Select(contact =>
@@ -79,17 +90,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     {
                         fallbackRolename = contact.OtherRoleName;
                     }
-                    
-                    var roleName = contact.OrganisationType == "Governance bodies" ? contact.JobTitle : contact.OrganisationTypeSubCategory;
-                    
+
                     return new ContactViewModel
                     {
                         Name = contact.Name,
                         Email = contact.Email,
                         Phone = contact.Phone,
-                        RoleName = !string.IsNullOrEmpty(contact.OrganisationTypeSubCategory)
-                            ? roleName
-                            : fallbackRolename,
+                        RoleName = (!string.IsNullOrEmpty(contact.OrganisationTypeSubCategory)
+                            ? contact.OrganisationTypeSubCategory
+                            : fallbackRolename)!,
                         ManuallyAdded = true,
                         SupportProjectId = SupportProject?.Id,
                         ContactId = contact.Id,
@@ -97,7 +106,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     };
                 }).ToList();
             }
-            
+
             return Page();
         }
 
@@ -170,11 +179,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     }
                 }
             }
-            
+
             var otherSchoolContacts = SupportProject?.Contacts?
                 .Where(c => c.OrganisationType == "School")
                 .OrderBy(c => c.CreatedOn);
-            
+
             if (otherSchoolContacts != null && otherSchoolContacts.Any())
             {
                 OtherSchoolContacts = otherSchoolContacts.Select(contact => new ContactViewModel
@@ -258,24 +267,25 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     LastModifiedOn = SupportProject.DateSupportingOrganisationContactDetailsAdded
                 };
             }
-            
+
             var otherSupportingOrganisationContacts = SupportProject?.Contacts?
                 .Where(c => c.OrganisationType == "Supporting organisation")
                 .OrderBy(c => c.CreatedOn);
-            
+
             if (otherSupportingOrganisationContacts != null && otherSupportingOrganisationContacts.Any())
             {
-                OtherSupportingOrganisationContacts = otherSupportingOrganisationContacts.Select(contact => new ContactViewModel
-                {
-                    Name = contact.Name,
-                    Email = contact.Email,
-                    Phone = contact.Phone,
-                    RoleName = contact.OrganisationTypeSubCategory,
-                    ManuallyAdded = true,
-                    SupportProjectId = SupportProject?.Id,
-                    ContactId = contact.Id,
-                    LastModifiedOn = contact.LastModifiedOn
-                }).ToList();
+                OtherSupportingOrganisationContacts = otherSupportingOrganisationContacts.Select(contact =>
+                    new ContactViewModel
+                    {
+                        Name = contact.Name,
+                        Email = contact.Email,
+                        Phone = contact.Phone,
+                        RoleName = contact.OrganisationTypeSubCategory,
+                        ManuallyAdded = true,
+                        SupportProjectId = SupportProject?.Id,
+                        ContactId = contact.Id,
+                        LastModifiedOn = contact.LastModifiedOn
+                    }).ToList();
             }
         }
 
@@ -309,5 +319,55 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 _errorService.AddApiError();
             }
         }
+
+        private IEnumerable<ContactViewModel> GetGovernanceBodiesContacts(
+            IEnumerable<SupportProjectContact> governanceBodiesContacts, GovernanceBodyTypes governanceBodiesType)
+        {
+            return governanceBodiesContacts
+                .Where(c => c.OrganisationTypeSubCategory == governanceBodiesType.GetDisplayName())
+                .Select(contact =>
+                {
+                    if (contact.JobTitle != null)
+                        return new ContactViewModel
+                        {
+                            Name = contact.Name,
+                            Email = contact.Email,
+                            Phone = contact.Phone,
+                            RoleName = contact.JobTitle,
+                            ManuallyAdded = true,
+                            SupportProjectId = SupportProject?.Id,
+                            ContactId = contact.Id,
+                            LastModifiedOn = contact.LastModifiedOn
+                        };
+                    return new ContactViewModel();
+                }).ToList();
+        }
+
+        private IEnumerable<GovernanceContactsGroup> BuildGovernanceContacts(
+            IEnumerable<SupportProjectContact>? governanceBodiesContacts)
+        {
+            if (governanceBodiesContacts == null)
+            {
+                return Enumerable.Empty<GovernanceContactsGroup>();
+            }
+
+            var orderedTypes = new[]
+            {
+                GovernanceBodyTypes.Trust,
+                GovernanceBodyTypes.LocalAuthority,
+                GovernanceBodyTypes.Diocese,
+                GovernanceBodyTypes.Foundation,
+                GovernanceBodyTypes.Federation,
+                GovernanceBodyTypes.Other
+            };
+
+            return orderedTypes
+                .Select(type => new GovernanceContactsGroup(type,
+                    GetGovernanceBodiesContacts(governanceBodiesContacts, type)))
+                .Where(group => group.Contacts.Any())
+                .ToList();
+        }
     }
+
+    public record GovernanceContactsGroup(GovernanceBodyTypes Type, IEnumerable<ContactViewModel> Contacts);
 }
