@@ -33,15 +33,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public ContactViewModel? SupportingOrganisationAccountingOfficer { get; set; } = new();
         public ContactViewModel? SupportingOrganisationHeadteacher { get; set; } = new();
 
-        public IEnumerable<ContactViewModel> GovernanceContactsTrust { get; set; } = new List<ContactViewModel>();
-
-        public IEnumerable<ContactViewModel> GovernanceContactsLocalAuthority { get; set; } =
-            new List<ContactViewModel>();
-
-        public IEnumerable<ContactViewModel> GovernanceContactsDiocese { get; set; } = new List<ContactViewModel>();
-        public IEnumerable<ContactViewModel> GovernanceContactsFoundation { get; set; } = new List<ContactViewModel>();
-        public IEnumerable<ContactViewModel> GovernanceContactsFederation { get; set; } = new List<ContactViewModel>();
-        public IEnumerable<ContactViewModel> GovernanceContactsOther { get; set; } = new List<ContactViewModel>();
+        public IEnumerable<GovernanceContactsGroup> GovernanceContacts { get; private set; } =
+            Enumerable.Empty<GovernanceContactsGroup>();
+        
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; } = new List<ContactViewModel>();
 
         public IEnumerable<ContactViewModel> OtherSupportingOrganisationContacts { get; set; } =
@@ -76,15 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 .Where(c => c.OrganisationType == "Governance bodies")
                 .OrderBy(c => c.CreatedOn);
 
-            if (governanceBodiesContacts != null && governanceBodiesContacts.Any())
-            {
-                GovernanceContactsTrust = GetGovernanceBodiesContacts(governanceBodiesContacts, GovernanceBodyTypes.Trust);
-                GovernanceContactsLocalAuthority = GetGovernanceBodiesContacts(governanceBodiesContacts, GovernanceBodyTypes.LocalAuthority);
-                GovernanceContactsDiocese = GetGovernanceBodiesContacts(governanceBodiesContacts, GovernanceBodyTypes.Diocese);
-                GovernanceContactsFoundation = GetGovernanceBodiesContacts(governanceBodiesContacts, GovernanceBodyTypes.Foundation);
-                GovernanceContactsFederation = GetGovernanceBodiesContacts(governanceBodiesContacts, GovernanceBodyTypes.Federation);
-                GovernanceContactsOther = GetGovernanceBodiesContacts(governanceBodiesContacts, GovernanceBodyTypes.Other);
-            }
+            GovernanceContacts = BuildGovernanceContacts(governanceBodiesContacts);
 
             var otherContacts = SupportProject?.Contacts?
                 .Where(c => string.IsNullOrEmpty(c.OrganisationType))
@@ -356,5 +342,32 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     return new ContactViewModel();
                 }).ToList();
         }
+
+        private IEnumerable<GovernanceContactsGroup> BuildGovernanceContacts(
+            IEnumerable<SupportProjectContact>? governanceBodiesContacts)
+        {
+            if (governanceBodiesContacts == null)
+            {
+                return Enumerable.Empty<GovernanceContactsGroup>();
+            }
+
+            var orderedTypes = new[]
+            {
+                GovernanceBodyTypes.Trust,
+                GovernanceBodyTypes.LocalAuthority,
+                GovernanceBodyTypes.Diocese,
+                GovernanceBodyTypes.Foundation,
+                GovernanceBodyTypes.Federation,
+                GovernanceBodyTypes.Other
+            };
+
+            return orderedTypes
+                .Select(type => new GovernanceContactsGroup(type,
+                    GetGovernanceBodiesContacts(governanceBodiesContacts, type)))
+                .Where(group => group.Contacts.Any())
+                .ToList();
+        }
     }
+
+    public record GovernanceContactsGroup(GovernanceBodyTypes Type, IEnumerable<ContactViewModel> Contacts);
 }

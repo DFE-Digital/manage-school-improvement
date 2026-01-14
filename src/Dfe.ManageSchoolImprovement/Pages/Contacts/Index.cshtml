@@ -91,60 +91,14 @@
             </div>
         }
         
-        @if (Model.GovernanceContactsTrust.Any()
-             || Model.GovernanceContactsDiocese.Any()
-             || Model.GovernanceContactsFoundation.Any()
-             || Model.GovernanceContactsFederation.Any()
-             || Model.GovernanceContactsLocalAuthority.Any()
-             || Model.GovernanceContactsOther.Any()
-        )
+        @if (Model.GovernanceContacts.Any())
         {
             <div class="govuk-grid-column-three-quarters">
                 <h3 class="govuk-heading-m">Governance bodies contacts</h3>
-                @if (Model.GovernanceContactsTrust.Any())
+                @foreach (var group in Model.GovernanceContacts)
                 {
-                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Trust.GetDisplayName()</h3>
-                    @foreach (var contact in Model.GovernanceContactsTrust)
-                    {
-                        <partial name="_ContactCard" model="@contact"/>
-                    }
-                }
-                @if (Model.GovernanceContactsLocalAuthority.Any())
-                {
-                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.LocalAuthority.GetDisplayName()</h3>
-                    @foreach (var contact in Model.GovernanceContactsLocalAuthority)
-                    {
-                        <partial name="_ContactCard" model="@contact"/>
-                    }
-                }
-                @if (Model.GovernanceContactsDiocese.Any())
-                {
-                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Diocese.GetDisplayName()</h3>
-                    @foreach (var contact in Model.GovernanceContactsDiocese)
-                    {
-                        <partial name="_ContactCard" model="@contact"/>
-                    }
-                }
-                @if (Model.GovernanceContactsFoundation.Any())
-                {
-                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Foundation.GetDisplayName()</h3>
-                    @foreach (var contact in Model.GovernanceContactsFoundation)
-                    {
-                        <partial name="_ContactCard" model="@contact"/>
-                    }
-                }
-                @if (Model.GovernanceContactsFederation.Any())
-                {
-                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Federation.GetDisplayName()</h3>
-                    @foreach (var contact in Model.GovernanceContactsFederation)
-                    {
-                        <partial name="_ContactCard" model="@contact"/>
-                    }
-                }
-                @if (Model.GovernanceContactsOther.Any())
-                {
-                    <h3 class="govuk-heading-m">@GovernanceBodyTypes.Other.GetDisplayName()</h3>
-                    @foreach (var contact in Model.GovernanceContactsOther)
+                    <h3 class="govuk-heading-m">@group.Type.GetDisplayName()</h3>
+                    @foreach (var contact in group.Contacts)
                     {
                         <partial name="_ContactCard" model="@contact"/>
                     }
