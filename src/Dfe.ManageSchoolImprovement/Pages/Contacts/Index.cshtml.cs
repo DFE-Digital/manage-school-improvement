@@ -1,4 +1,3 @@
-using System.Globalization;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -35,7 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         public IEnumerable<GovernanceContactsGroup> GovernanceContacts { get; private set; } =
             Enumerable.Empty<GovernanceContactsGroup>();
-        
+
         public IEnumerable<ContactViewModel> OtherSchoolContacts { get; set; } = new List<ContactViewModel>();
 
         public IEnumerable<ContactViewModel> OtherSupportingOrganisationContacts { get; set; } =
@@ -65,6 +64,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 await SetSupportingOrganisationContacts();
             }
+
+            SetOtherSupportingOrganisationContacts();
 
             var governanceBodiesContacts = SupportProject?.Contacts?
                 .Where(c => c.OrganisationType == "Governance bodies")
@@ -108,6 +109,29 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             }
 
             return Page();
+        }
+
+        private void SetOtherSupportingOrganisationContacts()
+        {
+            var otherSupportingOrganisationContacts = SupportProject?.Contacts?
+    .Where(c => c.OrganisationType == "Supporting organisation")
+    .OrderBy(c => c.CreatedOn);
+
+            if (otherSupportingOrganisationContacts != null && otherSupportingOrganisationContacts.Any())
+            {
+                OtherSupportingOrganisationContacts = otherSupportingOrganisationContacts.Select(contact =>
+                    new ContactViewModel
+                    {
+                        Name = contact.Name,
+                        Email = contact.Email,
+                        Phone = contact.Phone,
+                        RoleName = contact.OrganisationTypeSubCategory,
+                        ManuallyAdded = true,
+                        SupportProjectId = SupportProject?.Id,
+                        ContactId = contact.Id,
+                        LastModifiedOn = contact.LastModifiedOn
+                    }).ToList();
+            }
         }
 
         private async Task SetSchoolContacts(int id, CancellationToken cancellationToken)
@@ -266,26 +290,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Address = SupportProject.SupportingOrganisationContactAddress ?? "",
                     LastModifiedOn = SupportProject.DateSupportingOrganisationContactDetailsAdded
                 };
-            }
-
-            var otherSupportingOrganisationContacts = SupportProject?.Contacts?
-                .Where(c => c.OrganisationType == "Supporting organisation")
-                .OrderBy(c => c.CreatedOn);
-
-            if (otherSupportingOrganisationContacts != null && otherSupportingOrganisationContacts.Any())
-            {
-                OtherSupportingOrganisationContacts = otherSupportingOrganisationContacts.Select(contact =>
-                    new ContactViewModel
-                    {
-                        Name = contact.Name,
-                        Email = contact.Email,
-                        Phone = contact.Phone,
-                        RoleName = contact.OrganisationTypeSubCategory,
-                        ManuallyAdded = true,
-                        SupportProjectId = SupportProject?.Id,
-                        ContactId = contact.Id,
-                        LastModifiedOn = contact.LastModifiedOn
-                    }).ToList();
             }
         }
 
