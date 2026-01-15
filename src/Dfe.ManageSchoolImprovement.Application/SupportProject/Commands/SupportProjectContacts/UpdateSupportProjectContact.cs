@@ -14,7 +14,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
        string OrganisationType,
        string Email,
        string Phone,
-       string Author
+       string Author,
+       string? JobTitle
    ) : IRequest<SupportProjectContactId>;
 
     public class UpdateSupportProjectContactHandler(ISupportProjectRepository supportProjectRepository, IDateTimeProvider _dateTimeProvider)
@@ -31,7 +32,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
                 OrganisationTypeSubCategoryOther = request.OrganisationTypeSubCategoryOther,
                 OrganisationType = request.OrganisationType,
                 Email = request.Email,
-                Phone = request.Phone
+                Phone = request.Phone,
+                JobTitle = request.JobTitle
             };
 
             supportProject.EditContact(request.Id, details, request.Author, _dateTimeProvider.Now);
