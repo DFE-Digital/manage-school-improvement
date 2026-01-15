@@ -27,10 +27,6 @@
         <form method="post" novalidate>
             <input hidden="true" asp-for="@Model.OrganisationType" />
 
-@*             <govuk-radiobuttons-input heading="Role" heading-style="govuk-fieldset__legend--m" hint="Select one option"
-                                      error-message="@Model.ErrorMessage" name="@nameof(Model.RoleId)"
-                                      radio-buttons="@Model.RadioButtons" asp-for="@Model.RoleId" /> *@
-
             @if (Model.OrganisationType == OrganisationTypes.School)
             {
                 <govuk-radiobuttons-input heading="School role" heading-style="govuk-fieldset__legend--m" hint="Select one option"

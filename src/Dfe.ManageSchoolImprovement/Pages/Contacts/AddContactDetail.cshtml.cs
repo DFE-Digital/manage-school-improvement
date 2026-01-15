@@ -20,7 +20,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public string Name { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter an email address")]
-        [EmailValidation(ErrorMessage = "Email address must be in correct format")]
+        [EmailValidation(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
         [BindProperty(Name = "email-address")]
         public string EmailAddress { get; set; } = null!;
 
@@ -39,17 +39,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public string OrganisationType { get; set; } = null!;
         public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
+            await GetSupportProject(id, cancellationToken).ConfigureAwait(false);
+
             ReturnPage = Links.Contacts.AddContact.Page;
             OrganisationTypeSubCategory = organisationTypeSubCategory;
             OrganisationTypeSubCategoryOther = organisationTypeSubCategoryOther;
             OrganisationType = organisationType;
             TempData["OrganisationTypeSubCategory"] = organisationTypeSubCategory;
             TempData["OrganisationTypeSubCategoryOther"] = organisationTypeSubCategoryOther;
-            await base.GetSupportProject(id, cancellationToken);
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
+            ReturnPage = Links.Contacts.AddContact.Page;
+
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
                 ModelState.AddModelError("email-address", "Email address must not contain spaces");
