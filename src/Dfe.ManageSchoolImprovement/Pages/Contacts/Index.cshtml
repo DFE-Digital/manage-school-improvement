@@ -2,6 +2,7 @@
 
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @using Dfe.ManageSchoolImprovement.Utils
+@using System.Globalization
 @model IndexModel
 @{
     ViewData["Title"] = "Contact";
@@ -61,12 +62,13 @@
             }
         </div>
 
-        @if (!string.IsNullOrEmpty(Model.SupportingOrganisationAccountingOfficer?.Name) || !string.IsNullOrEmpty(Model.SupportingOrganisationHeadteacher?.Name))
+        @if (!string.IsNullOrEmpty(Model.SupportingOrganisationAccountingOfficer?.Name) || !string.IsNullOrEmpty(Model.SupportingOrganisationHeadteacher?.Name) || Model.OtherSupportingOrganisationContacts.Any())
         {
             <div class="govuk-grid-column-three-quarters">
                 <h3 class="govuk-heading-m">Supporting organisation contacts</h3>
                 <div class="govuk-inset-text govuk-!-margin-top-0">
                     <p class="govuk-body">
+                        @(!string.IsNullOrEmpty(Model.SupportProject.SupportOrganisationName) ? Html.Raw(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.SupportProject.SupportOrganisationName.ToLower()) + "<br>") : null)
                         @(!string.IsNullOrEmpty(Model.SupportingOrganisationAddress) ? Html.Raw(Model.SupportingOrganisationAddress.Replace(",", "<br>")) : "Not available")
                     </p>
                 </div>
@@ -80,7 +82,7 @@
                     <partial name="_ContactCard"
                              model="@Model.SupportingOrganisationAccountingOfficer"/>
                 }
-                @if (Model.OtherSupportingOrganisationContacts?.Any() == true)
+                @if (Model.OtherSupportingOrganisationContacts.Any() == true)
                 {
                     foreach (var contact in Model.OtherSupportingOrganisationContacts)
                     {
