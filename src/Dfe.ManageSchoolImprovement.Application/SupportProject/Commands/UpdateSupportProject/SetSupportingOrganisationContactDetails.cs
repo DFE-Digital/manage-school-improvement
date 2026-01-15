@@ -9,8 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
 public record SetSupportingOrganisationContactDetailsCommand(
     SupportProjectId SupportProjectId,
     string? supportingOrganisationContactName,
-    string? supportingOrganisationContactEmail,
-    DateTime? dateSupportOrganisationContactDetailsAdded
+    string? supportingOrganisationContactEmail
 ) : IRequest<bool>;
 
 public class SetSupportingOrganisationContactDetails
@@ -27,8 +26,7 @@ public class SetSupportingOrganisationContactDetails
                 return false;
             }
 
-            supportProject.SetSupportingOrganisationContactDetails(request.dateSupportOrganisationContactDetailsAdded,
-                request.supportingOrganisationContactName,
+            supportProject.SetSupportingOrganisationContactDetails(request.supportingOrganisationContactName,
                 request.supportingOrganisationContactEmail);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);

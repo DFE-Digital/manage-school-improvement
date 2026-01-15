@@ -56,7 +56,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? RegionalDirectorAppointmentDate = null,
         bool? HasConfirmedSupportingOrganisationAppointment = null,
         string? DisapprovingSupportingOrganisationAppointmentNotes = null,
-        DateTime? DateSupportingOrganisationContactDetailsAdded = null,
         string? SupportingOrganisationContactName = null,
         string? SupportingOrganisationContactEmailAddress = null,
         string? SupportingOrganisationContactPhone = null,

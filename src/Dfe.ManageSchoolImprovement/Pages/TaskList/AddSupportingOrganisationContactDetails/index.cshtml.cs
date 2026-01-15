@@ -22,26 +22,12 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public bool ShowError { get; set; }
 
-    [BindProperty(Name = "date-supporting-organisation-details-added", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-
-    public DateTime? DateSupportingOrganisationDetailsAdded { get; set; }
-
-    string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-    {
-        return $"Date must include a {string.Join(" and ", missingParts)}";
-    }
-    
-    string IDateValidationMessageProvider.AllMissing => "Enter a date";
-    
-
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
         Name = SupportProject.SupportingOrganisationContactName;
         EmailAddress = SupportProject.SupportingOrganisationContactEmailAddress;
-        DateSupportingOrganisationDetailsAdded = SupportProject.DateSupportingOrganisationContactDetailsAdded;
 
         return Page();
     }
@@ -64,7 +50,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress, DateSupportingOrganisationDetailsAdded);
+        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress);
 
         var result = await mediator.Send(request, cancellationToken);
 

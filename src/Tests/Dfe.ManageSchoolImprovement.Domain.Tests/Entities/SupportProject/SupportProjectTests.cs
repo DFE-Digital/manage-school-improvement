@@ -295,7 +295,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SupportingOrganisationContactEmailAddress.Should()
                 .Be(supportOrganisationDetails.SupportOrganisationContactEmailAddress);
             supportProject.SupportingOrganisationContactPhone.Should().Be(supportOrganisationDetails.SupportOrganisationContactPhone);
-            supportProject.DateSupportingOrganisationContactDetailsAdded.Should().Be(supportOrganisationDetails.DateSupportingOrganisationContactDetailsAdded);
             this.mockRepository.VerifyAll();
         }
 
@@ -385,12 +384,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Act
             supportProject.SetSupportingOrganisationContactDetails(
-                dateSupportingOrganisationContactDetailAdded,
                 supportOrgansiationContactName,
                 supportOrganisationContactEmailAddress);
 
             // Assert
-            supportProject.DateSupportingOrganisationContactDetailsAdded.Should().Be(dateSupportingOrganisationContactDetailAdded);
             supportProject.SupportingOrganisationContactName.Should().Be(supportOrgansiationContactName);
             supportProject.SupportingOrganisationContactEmailAddress.Should().Be(supportOrganisationContactEmailAddress);
             mockRepository.VerifyAll();

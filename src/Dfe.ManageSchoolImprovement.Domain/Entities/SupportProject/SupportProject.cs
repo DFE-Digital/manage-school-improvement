@@ -118,8 +118,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? InitialDiagnosisMatchingDecision { get; private set; }
     public string? InitialDiagnosisMatchingDecisionNotes { get; private set; }
 
-    public DateTime? DateSupportingOrganisationContactDetailsAdded { get; private set; }
-
     public string? SupportingOrganisationContactName { get; private set; }
 
     public string? SupportingOrganisationContactEmailAddress { get; private set; }
@@ -354,7 +352,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportingOrganisationContactEmailAddress = details.SupportOrganisationContactEmailAddress;
         SupportingOrganisationContactPhone = details.SupportOrganisationContactPhone;
         SuppportOrganisationContactAddress = details.SupportOrganisationContactAddress;
-        DateSupportingOrganisationContactDetailsAdded = details.DateSupportingOrganisationContactDetailsAdded;
     }
 
     public void SetRecordInitialDiagnosisMatchingDecision(DateTime? regionalDirectorDecisionDate,
@@ -365,10 +362,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InitialDiagnosisMatchingDecisionNotes = initialDiagnosisMatchingDecisionNotes;
     }
 
-    public void SetSupportingOrganisationContactDetails(DateTime? dateSupportingOrganisationContactDetailsAdded,
-        string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
+    public void SetSupportingOrganisationContactDetails(string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
     {
-        DateSupportingOrganisationContactDetailsAdded = dateSupportingOrganisationContactDetailsAdded;
         SupportingOrganisationContactName = supportingOrganisationContactName;
         SupportingOrganisationContactEmailAddress = supportingOrganisationContactEmailAddress;
     }

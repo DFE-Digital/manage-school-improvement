@@ -158,8 +158,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
             trustOrSchool ? AccountingOfficer?.Name : SupportProject?.SupportingOrganisationContactName,
             trustOrSchool ? AccountingOfficer?.Email : SupportProject?.SupportingOrganisationContactEmailAddress,
             trustOrSchool ? AccountingOfficer?.Phone : null,
-            trustOrSchool ? AccountingOfficer?.Address : null,
-            trustOrSchool ? dateContactDetailsAdded : SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            trustOrSchool ? AccountingOfficer?.Address : null);
 
         var result = await mediator.Send(command, cancellationToken);
 
