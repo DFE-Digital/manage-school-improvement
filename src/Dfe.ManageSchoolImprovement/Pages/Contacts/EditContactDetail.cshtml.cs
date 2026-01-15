@@ -85,7 +85,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new UpdateSupportProjectContactCommand(new SupportProjectId(id), new SupportProjectContactId(contactId), Name, OrganisationTypeSubCategory, OrganisationTypeSubCategoryOther!, OrganisationType, EmailAddress!, Phone!, User.GetDisplayName()!);
+            var request = new UpdateSupportProjectContactCommand(
+                new SupportProjectId(id), new SupportProjectContactId(contactId), Name, OrganisationTypeSubCategory, OrganisationTypeSubCategoryOther!, OrganisationType, EmailAddress!, Phone!, User.GetDisplayName()!, JobTitle);
 
             var result = await mediator.Send(request, cancellationToken);
 

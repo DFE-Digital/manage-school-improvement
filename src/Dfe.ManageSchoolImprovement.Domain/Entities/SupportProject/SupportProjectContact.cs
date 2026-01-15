@@ -51,6 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             Phone = details.Phone ?? string.Empty;
             LastModifiedBy = author;
             LastModifiedOn = lastModifiedOn;
+            JobTitle = details.JobTitle;
         }
 
     }

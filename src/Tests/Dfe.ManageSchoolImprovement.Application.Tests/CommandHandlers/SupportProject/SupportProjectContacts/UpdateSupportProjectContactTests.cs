@@ -39,7 +39,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 OrganisationTypeSubCategoryOther = null,
                 OrganisationType = "Organisation",
                 Email = "john@school.gov.uk",
-                Phone = "0123456789"
+                Phone = "0123456789",
+                JobTitle = "Manager"
             };
 
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
@@ -57,7 +58,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 supportProjectContactId,
                 "John Doe",
                 orgtype,
-                otherRoleName, details.OrganisationType, details.Email, details.Phone, author);
+                otherRoleName, details.OrganisationType, details.Email, details.Phone, author, details.JobTitle);
 
             _mockSupportProjectRepository.Setup(repo => repo.GetSupportProjectById(_mockSupportProject.Id!, _cancellationToken)).ReturnsAsync(_mockSupportProject);
 
