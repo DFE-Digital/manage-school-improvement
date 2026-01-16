@@ -11,10 +11,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
-    public class AddContactDetailModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class AddContactDetailModel(
+        ISupportProjectQueryService supportProjectQueryService,
+        ErrorService errorService,
+        IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         public string ReturnPage { get; set; } = null!;
         public bool ShowError { get; set; }
+
         [BindProperty(Name = "name")]
         [Required(ErrorMessage = "Enter a name")]
         public string Name { get; set; } = null!;
@@ -28,16 +32,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         [BindProperty(Name = "phone")]
         public string? Phone { get; set; }
 
-        [BindProperty(Name = "JobTitle")]
-        public string? JobTitle { get; set; }
+        [BindProperty(Name = "JobTitle")] public string? JobTitle { get; set; }
 
-        [BindProperty]
-        public string OrganisationTypeSubCategory { get; set; } = null!;
-        [BindProperty]
-        public string? OrganisationTypeSubCategoryOther { get; set; }
-        [BindProperty]
-        public string OrganisationType { get; set; } = null!;
-        public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
+        [BindProperty] public string OrganisationTypeSubCategory { get; set; } = null!;
+        [BindProperty] public string? OrganisationTypeSubCategoryOther { get; set; }
+        [BindProperty] public string OrganisationType { get; set; } = null!;
+
+        public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory,
+            string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
             await GetSupportProject(id, cancellationToken).ConfigureAwait(false);
 
@@ -50,7 +52,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync(int id, string organisationType, string organisationTypeSubCategory, string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
+
+        public async Task<IActionResult> OnPostAsync(int id, string organisationType,
+            string organisationTypeSubCategory, string? organisationTypeSubCategoryOther,
+            CancellationToken cancellationToken)
         {
             ReturnPage = Links.Contacts.AddContact.Page;
 
@@ -70,7 +75,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
-            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name, organisationTypeSubCategory, organisationTypeSubCategoryOther!, organisationType, EmailAddress!, Phone!, User.GetDisplayName()!, JobTitle);
+
+            var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name,
+                organisationTypeSubCategory, organisationTypeSubCategoryOther!, organisationType, EmailAddress!, Phone!,
+                User.GetDisplayName()!, JobTitle);
 
             var result = await mediator.Send(request, cancellationToken);
 

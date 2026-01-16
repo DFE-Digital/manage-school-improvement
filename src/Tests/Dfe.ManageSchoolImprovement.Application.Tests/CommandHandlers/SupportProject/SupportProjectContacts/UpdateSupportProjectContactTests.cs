@@ -40,7 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
                 OrganisationType = "Organisation",
                 Email = "john@school.gov.uk",
                 Phone = "0123456789",
-                JobTitle = "Manager"
+                JobTitle = "Very Important Job"
             };
 
             var supportProjectContactId = new SupportProjectContactId(Guid.NewGuid());
