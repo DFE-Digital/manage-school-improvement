@@ -276,10 +276,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
                     };
                 }
-            }
-
-            if (SupportProject?.SupportOrganisationType == "Trust" &&
-                SupportProject.SupportingOrganisationContactName != null)
+            } 
+            else if (SupportProject?.SupportingOrganisationContactName != null)
             {
                 SupportingOrganisationAccountingOfficer = new ContactViewModel
                 {
