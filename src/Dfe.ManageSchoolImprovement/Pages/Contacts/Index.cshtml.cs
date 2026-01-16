@@ -59,8 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
             await SetSchoolContacts(id, cancellationToken);
 
-            if (SupportProject?.SupportOrganisationType is "School" or "Trust"
-                && SupportProject.SupportOrganisationIdNumber != null)
+            if (SupportProject?.SupportOrganisationIdNumber != null)
             {
                 await SetSupportingOrganisationContacts();
             }
@@ -276,10 +275,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         LastModifiedOn = SupportProject?.DateSupportingOrganisationContactDetailsAdded
                     };
                 }
-            }
-
-            if (SupportProject?.SupportOrganisationType == "Trust" &&
-                SupportProject.SupportingOrganisationContactName != null)
+            } 
+            else if (SupportProject?.SupportingOrganisationContactName != null)
             {
                 SupportingOrganisationAccountingOfficer = new ContactViewModel
                 {
