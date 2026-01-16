@@ -69,7 +69,7 @@ public class CookiePreferences(ILogger<CookiePreferences> logger) : PageModel
     {
         foreach (var CONSENT_COOKIE_NAME in CONSENT_COOKIE_NAMES)
         {
-            CookieOptions cookieOptions = new() { Expires = DateTime.Today.AddMonths(6), Secure = true, HttpOnly = true };
+            CookieOptions cookieOptions = new() { Expires = DateTime.Today.AddMonths(6), Secure = true, HttpOnly = true, SameSite = SameSiteMode.Lax };
             Response.Cookies.Append(CONSENT_COOKIE_NAME, consent.Value.ToString(), cookieOptions);
         }
     }
