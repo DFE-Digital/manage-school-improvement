@@ -32,6 +32,8 @@
                               name="name" asp-for="@Model.Name" width="30"/>
             <govuk-text-input heading-label="true" label="Email address" id="email-address" name="email-address"
                               asp-for="@Model.EmailAddress" width="30"/>
+            <govuk-text-input heading-label="true" label="UK phone number (Optional)" id="phone-number" name="phone-number"
+                              asp-for="@Model.PhoneNumber" width="30"/>
             <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">
                 Save and return

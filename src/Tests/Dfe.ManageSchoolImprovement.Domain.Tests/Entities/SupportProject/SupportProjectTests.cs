@@ -377,19 +377,21 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
-            DateTime? dateSupportingOrganisationContactDetailAdded = DateTime.UtcNow;
-            string? supportOrgansiationContactName = "name";
-            string? supportOrganisationContactEmailAddress = "1234a";
+            
+            string supportOrgansiationContactName = "name";
+            string supportOrganisationContactEmailAddress = "1234a";
+            string supportOrganisationContactPhoneNumber = "01234 567890";
 
             // Act
             supportProject.SetSupportingOrganisationContactDetails(
                 supportOrgansiationContactName,
-                supportOrganisationContactEmailAddress);
+                supportOrganisationContactEmailAddress,
+                supportOrganisationContactPhoneNumber);
 
             // Assert
             supportProject.SupportingOrganisationContactName.Should().Be(supportOrgansiationContactName);
             supportProject.SupportingOrganisationContactEmailAddress.Should().Be(supportOrganisationContactEmailAddress);
+            supportProject.SupportingOrganisationContactPhone.Should().Be(supportOrganisationContactPhoneNumber);
             mockRepository.VerifyAll();
         }
 

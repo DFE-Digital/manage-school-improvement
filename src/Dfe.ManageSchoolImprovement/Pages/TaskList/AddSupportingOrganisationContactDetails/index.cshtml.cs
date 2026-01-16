@@ -2,6 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupp
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Validation;
 using MediatR;
@@ -17,8 +18,11 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     [EmailValidation(ErrorMessage = "Email address must be in correct format")]
     [BindProperty(Name = "email-address")]
-
     public string? EmailAddress { get; set; }
+    
+    [PhoneValidation]
+    [BindProperty(Name= "phone-number")]
+    public string? PhoneNumber { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -26,8 +30,9 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        Name = SupportProject.SupportingOrganisationContactName;
-        EmailAddress = SupportProject.SupportingOrganisationContactEmailAddress;
+        Name = SupportProject?.SupportingOrganisationContactName;
+        EmailAddress = SupportProject?.SupportingOrganisationContactEmailAddress;
+        PhoneNumber = SupportProject?.SupportingOrganisationContactPhone;
 
         return Page();
     }
@@ -37,6 +42,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         // trim any trailing whitespace from the name and email address
         Name = Name?.Trim();
         EmailAddress = EmailAddress?.Trim();
+        PhoneNumber = PhoneNumber?.Trim();
 
         if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
         {
@@ -50,7 +56,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress);
+        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress, PhoneNumber);
 
         var result = await mediator.Send(request, cancellationToken);
 

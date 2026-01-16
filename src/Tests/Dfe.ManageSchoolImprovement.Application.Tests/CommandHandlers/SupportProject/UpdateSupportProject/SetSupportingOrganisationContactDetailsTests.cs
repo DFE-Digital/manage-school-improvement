@@ -28,7 +28,8 @@ public class SetSupportingOrganisationContactDetailsTests
         var command = new SetSupportingOrganisationContactDetailsCommand(
             _mockSupportProject.Id,
             "Alan Alans",
-            "alan@alan.com"
+            "alan@alan.com",
+            "01234567890"
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var setSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
@@ -47,6 +48,7 @@ public class SetSupportingOrganisationContactDetailsTests
         // Arrange
         var command = new SetSupportingOrganisationContactDetailsCommand(
             _mockSupportProject.Id,
+            null,
             null,
             null
         );
@@ -68,7 +70,8 @@ public class SetSupportingOrganisationContactDetailsTests
         var command = new SetSupportingOrganisationContactDetailsCommand(
             _mockSupportProject.Id,
             "Alan Alans",
-            "alan@alan.com"
+            "alan@alan.com",
+            "01234567890"
         );
         _mockSupportProjectRepository.Setup(repo 
             => repo.FindAsync(

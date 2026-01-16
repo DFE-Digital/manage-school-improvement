@@ -362,10 +362,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InitialDiagnosisMatchingDecisionNotes = initialDiagnosisMatchingDecisionNotes;
     }
 
-    public void SetSupportingOrganisationContactDetails(string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress)
+    public void SetSupportingOrganisationContactDetails(string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress, string? supportingOrganisationContactPhone)
     {
         SupportingOrganisationContactName = supportingOrganisationContactName;
         SupportingOrganisationContactEmailAddress = supportingOrganisationContactEmailAddress;
+        SupportingOrganisationContactPhone = supportingOrganisationContactPhone;
     }
 
     public void SetDueDiligenceOnPreferredSupportingOrganisationDetails(
