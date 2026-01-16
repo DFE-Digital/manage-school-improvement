@@ -59,8 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
             await SetSchoolContacts(id, cancellationToken);
 
-            if (SupportProject?.SupportOrganisationType is "School" or "Trust"
-                && SupportProject.SupportOrganisationIdNumber != null)
+            if (SupportProject?.SupportOrganisationIdNumber != null)
             {
                 await SetSupportingOrganisationContacts();
             }
