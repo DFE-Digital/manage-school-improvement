@@ -66,9 +66,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id, Guid contactId, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostAsync(int id, Guid contactId, string organisationType, CancellationToken cancellationToken)
         {
             var IsOtherCategoryValid = RadioButtonOtherOptionInputIsValid();
+            OrganisationType = organisationType;
 
             if (!IsOtherCategoryValid)
             {

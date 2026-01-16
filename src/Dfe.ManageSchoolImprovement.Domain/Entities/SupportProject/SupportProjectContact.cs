@@ -52,6 +52,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             JobTitle = details.JobTitle;
             LastModifiedBy = author;
             LastModifiedOn = lastModifiedOn;
+            JobTitle = details.JobTitle;
         }
 
     }

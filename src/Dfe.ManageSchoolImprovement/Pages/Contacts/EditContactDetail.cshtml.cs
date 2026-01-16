@@ -70,6 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             CancellationToken cancellationToken)
         {
             ReturnPage = Links.Contacts.EditContact.Page;
+            ContactId = contactId;
 
             if (EmailAddress != null && EmailAddress.Any(char.IsWhiteSpace))
             {
