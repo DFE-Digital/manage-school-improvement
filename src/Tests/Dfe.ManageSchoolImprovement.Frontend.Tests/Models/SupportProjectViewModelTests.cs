@@ -53,7 +53,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 RegionalDirectorAppointmentDate: DateTime.Now,
                 HasConfirmedSupportingOrganisationAppointment: true,
                 DisapprovingSupportingOrganisationAppointmentNotes: "Notes",
-                DateSupportingOrganisationContactDetailsAdded: DateTime.Now,
                 SupportingOrganisationContactName: "Contact Name",
                 SupportingOrganisationContactEmailAddress: "contact@example.com",
                 RegionalDirectorImprovementPlanDecisionDate: DateTime.Now,
@@ -118,7 +117,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.RegionalDirectorAppointmentDate, viewModel.RegionalDirectorAppointmentDate);
             Assert.Equal(supportProjectDto.HasConfirmedSupportingOrganisationAppointment, viewModel.HasConfirmedSupportingOrganisationAppointment);
             Assert.Equal(supportProjectDto.DisapprovingSupportingOrganisationAppointmentNotes, viewModel.DisapprovingSupportingOrganisationAppointmentNotes);
-            Assert.Equal(supportProjectDto.DateSupportingOrganisationContactDetailsAdded, viewModel.DateSupportingOrganisationContactDetailsAdded);
             Assert.Equal(supportProjectDto.SupportingOrganisationContactName, viewModel.SupportingOrganisationContactName);
             Assert.Equal(supportProjectDto.SupportingOrganisationContactEmailAddress, viewModel.SupportingOrganisationContactEmailAddress);
             Assert.Equal(supportProjectDto.RegionalDirectorImprovementPlanDecisionDate, viewModel.RegionalDirectorImprovementPlanDecisionDate);

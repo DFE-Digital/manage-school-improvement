@@ -295,7 +295,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SupportingOrganisationContactEmailAddress.Should()
                 .Be(supportOrganisationDetails.SupportOrganisationContactEmailAddress);
             supportProject.SupportingOrganisationContactPhone.Should().Be(supportOrganisationDetails.SupportOrganisationContactPhone);
-            supportProject.DateSupportingOrganisationContactDetailsAdded.Should().Be(supportOrganisationDetails.DateSupportingOrganisationContactDetailsAdded);
             this.mockRepository.VerifyAll();
         }
 
@@ -378,21 +377,21 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         {
             // Arrange
             var supportProject = CreateSupportProject();
-
-            DateTime? dateSupportingOrganisationContactDetailAdded = DateTime.UtcNow;
-            string? supportOrgansiationContactName = "name";
-            string? supportOrganisationContactEmailAddress = "1234a";
+            
+            string supportOrgansiationContactName = "name";
+            string supportOrganisationContactEmailAddress = "1234a";
+            string supportOrganisationContactPhoneNumber = "01234 567890";
 
             // Act
             supportProject.SetSupportingOrganisationContactDetails(
-                dateSupportingOrganisationContactDetailAdded,
                 supportOrgansiationContactName,
-                supportOrganisationContactEmailAddress);
+                supportOrganisationContactEmailAddress,
+                supportOrganisationContactPhoneNumber);
 
             // Assert
-            supportProject.DateSupportingOrganisationContactDetailsAdded.Should().Be(dateSupportingOrganisationContactDetailAdded);
             supportProject.SupportingOrganisationContactName.Should().Be(supportOrgansiationContactName);
             supportProject.SupportingOrganisationContactEmailAddress.Should().Be(supportOrganisationContactEmailAddress);
+            supportProject.SupportingOrganisationContactPhone.Should().Be(supportOrganisationContactPhoneNumber);
             mockRepository.VerifyAll();
         }
 
