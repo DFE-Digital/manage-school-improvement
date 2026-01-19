@@ -49,8 +49,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             OrganisationType = details.OrganisationType;
             Email = details.Email;
             Phone = details.Phone ?? string.Empty;
+            JobTitle = details.JobTitle;
             LastModifiedBy = author;
             LastModifiedOn = lastModifiedOn;
+            JobTitle = details.JobTitle;
         }
 
     }

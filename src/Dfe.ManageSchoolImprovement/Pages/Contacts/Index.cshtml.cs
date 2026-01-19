@@ -275,7 +275,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         LastModifiedOn = SupportProject?.DateSupportOrganisationChosen
                     };
                 }
-            }
+            } 
             else if (SupportProject?.SupportingOrganisationContactName != null)
             {
                 SupportingOrganisationAccountingOfficer = new ContactViewModel
@@ -324,7 +324,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         private IEnumerable<ContactViewModel> GetGovernanceBodiesContacts(
             IEnumerable<SupportProjectContact> governanceBodiesContacts, GovernanceBodyTypes governanceBodiesType)
         {
-            return governanceBodiesContacts
+            var result = governanceBodiesContacts
                 .Where(c => c.OrganisationTypeSubCategory == governanceBodiesType.GetDisplayName())
                 .Select(contact =>
                 {
@@ -333,7 +333,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         {
                             Name = contact.Name,
                             Email = contact.Email,
-                            Phone = contact.Phone,
+                            Phone = contact.Phone!,
                             RoleName = contact.JobTitle,
                             ManuallyAdded = true,
                             SupportProjectId = SupportProject?.Id,
@@ -342,6 +342,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         };
                     return new ContactViewModel();
                 }).ToList();
+
+            return result;
         }
 
         private IEnumerable<GovernanceContactsGroup> BuildGovernanceContacts(
