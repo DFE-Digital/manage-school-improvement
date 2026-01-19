@@ -10,7 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
 
-public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+public class IndexModel(
+    ISupportProjectQueryService supportProjectQueryService,
+    IGetEstablishment getEstablishment,
+    ErrorService errorService,
+    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
+    IDateValidationMessageProvider
 {
     [BindProperty(Name = "name")]
     [NameValidation]
@@ -19,10 +24,14 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     [EmailValidation(ErrorMessage = "Email address must be in correct format")]
     [BindProperty(Name = "email-address")]
     public string? EmailAddress { get; set; }
-    
+
     [PhoneValidation]
-    [BindProperty(Name= "phone-number")]
+    [BindProperty(Name = "phone-number")]
     public string? PhoneNumber { get; set; }
+
+    public string? SupportingOrganisationName { get; set; }
+    public string? SupportingOrganisationId { get; set; }
+    public string? SupportingOrganisationSchoolType { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -33,6 +42,15 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         Name = SupportProject?.SupportingOrganisationContactName;
         EmailAddress = SupportProject?.SupportingOrganisationContactEmailAddress;
         PhoneNumber = SupportProject?.SupportingOrganisationContactPhone;
+        SupportingOrganisationName = SupportProject?.SupportOrganisationName;
+        SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
+
+        if (SupportProject is { SupportOrganisationType: "School", SupportOrganisationIdNumber: not null })
+        {
+            var supportingSchoolIsAcademy =
+                await getEstablishment.GetEstablishmentTrust(SupportProject.SupportOrganisationIdNumber) ?? null;
+            SupportingOrganisationSchoolType = supportingSchoolIsAcademy == null ? "Local authority" : "Academy";
+        }
 
         return Page();
     }
@@ -49,6 +67,16 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             ModelState.AddModelError("email-address", "Email address must not contain spaces");
         }
 
+        if (EmailAddress == null)
+        {
+            ModelState.AddModelError("email-address", "Enter an email address");
+        }
+
+        if (Name == null)
+        {
+            ModelState.AddModelError("name", "Enter a name");
+        }
+
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -56,7 +84,9 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var request = new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress, PhoneNumber);
+        var request =
+            new SetSupportingOrganisationContactDetailsCommand(new SupportProjectId(id), Name, EmailAddress,
+                PhoneNumber);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -69,5 +99,4 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         TaskUpdated = true;
         return RedirectToPage(@Links.TaskList.Index.Page, new { id });
     }
-
 }

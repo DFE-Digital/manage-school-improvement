@@ -3,6 +3,7 @@
     var showHint = !string.IsNullOrWhiteSpace(Model.Hint);
     var showError = !string.IsNullOrWhiteSpace(Model.ErrorMessage);
     var width = Model.Width > 0 ? $"govuk-input--width-{Model.Width}" : "";
+    var headingLabelClass = !string.IsNullOrEmpty(Model.HeadingLabelClass) ? Model.HeadingLabelClass : "govuk-label--m";
 }
 <div class="govuk-form-group @(showError ? "govuk-form-group--error" : "")">
     @if (!string.IsNullOrWhiteSpace(Model.Label))
@@ -10,7 +11,7 @@
         if (Model.HeadingLabel)
         {
             <h1 class="govuk-label-wrapper">
-                <label class="govuk-label govuk-label--m" for="@Model.Id">
+                <label class="govuk-label @headingLabelClass" for="@Model.Id">
                     @Model.Label
                 </label>
             </h1>

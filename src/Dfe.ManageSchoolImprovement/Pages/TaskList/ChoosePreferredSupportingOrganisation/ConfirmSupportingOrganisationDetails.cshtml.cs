@@ -145,8 +145,6 @@ public class ConfirmSupportingOrganisationDetailsModel(
             return await GetSupportProject(id, cancellationToken);
         }
 
-        var dateContactDetailsAdded = dateTimeProvider.Now;
-
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,

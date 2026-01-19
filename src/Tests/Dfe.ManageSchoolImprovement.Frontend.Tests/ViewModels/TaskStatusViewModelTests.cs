@@ -375,7 +375,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             {
                 { null, null, TaskListStatus.NotStarted },
                 { "name", "email@email.com", TaskListStatus.Complete },
-                { null, "", TaskListStatus.InProgress }
+                { null, "email@email.com", TaskListStatus.InProgress },
+                { "name", null, TaskListStatus.InProgress }
             };
 
         [Theory, MemberData(nameof(SupportingOrganisationContactDetailsTaskListStatusCases))]

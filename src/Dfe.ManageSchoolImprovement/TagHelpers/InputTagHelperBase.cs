@@ -54,6 +54,9 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     
     [HtmlAttributeName("email")]
     public string Email { get; set; } = string.Empty;
+    
+    // [HtmlAttributeName("heading-label-class")]
+    // public string HeadingLabelClass { get; set; } = string.Empty;
 
     [ViewContext]
     public ViewContext ViewContext { get; set; } = null!;

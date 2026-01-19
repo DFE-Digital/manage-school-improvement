@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Confirm supporting organisation contact details";
+    
+    var contactJobTitle = Model.SupportingOrganisationSchoolType == "Local authority" ? "Headteacher" : "Accounting officer";
 }
 
 @section BeforeMain
@@ -24,16 +26,27 @@
         <h1 class="govuk-heading-l">
             Confirm supporting organisation contact details
         </h1>
-        <p class="govuk-body">Enter contact details for the accounting officer at the trust, or their equivalent if the
-            supporting organisation is not a trust.</p>
+        <p class="govuk-body">Enter the contact details for the supporting organisation's @contactJobTitle.ToLower(). They will get the grant funding letters.</p>
+        <p class="govuk-body">You can add contact information for other people at the supporting organisation on the Contacts page.</p>
+        @if (Model.SupportProject?.SupportOrganisationType == "School" || Model.SupportProject?.SupportOrganisationType == "Trust")
+        {
+            <div class="govuk-inset-text">
+                <p class="govuk-body">
+                    <strong>Name of supporting organisation: </strong>@Model.SupportingOrganisationName (@Model.SupportingOrganisationId)
+                </p>
+            </div>  
+        }
+        <h2 class="govuk-heading-m">Check these contact details are correct</h2>
+        <p class="govuk-body">This information came from Get information about schools.</p>
+        <p class="govuk-body">Check it is correct. Make changes if it is wrong.</p>
 
         <form method="post" novalidate>
-            <govuk-text-input heading-label="true" label="Name" id="name" hint="Enter the person's first and last name."
-                              name="name" asp-for="@Model.Name" width="30"/>
+            <govuk-text-input heading-label="true" label="@contactJobTitle name" id="name" hint="Enter their first and last name"
+                              name="name" asp-for="@Model.Name" width="30" heading-label-class="govuk-label--s"/>
             <govuk-text-input heading-label="true" label="Email address" id="email-address" name="email-address"
-                              asp-for="@Model.EmailAddress" width="30"/>
+                              asp-for="@Model.EmailAddress" width="30" heading-label-class="govuk-label--s"/>
             <govuk-text-input heading-label="true" label="UK phone number (Optional)" id="phone-number" name="phone-number"
-                              asp-for="@Model.PhoneNumber" width="30"/>
+                              asp-for="@Model.PhoneNumber" width="30" heading-label-class="govuk-label--s"/>
             <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">
                 Save and return
