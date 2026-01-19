@@ -15,7 +15,7 @@ public class TextInputTagHelper : InputTagHelperBase
     public bool HeadingLabel { get; set; }
 
     [HtmlAttributeName("heading-label-class")]
-    public string? HeadingLabelClass { get; set; } = string.Empty;
+    public string HeadingLabelClass { get; set; } = string.Empty;
 
     protected override async Task<IHtmlContent> RenderContentAsync()
     {
