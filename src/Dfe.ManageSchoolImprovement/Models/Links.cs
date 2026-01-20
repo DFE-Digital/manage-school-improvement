@@ -76,7 +76,9 @@ public static class Links
         public static readonly LinkItem EnterSupportingOrganisationSchoolDetailsFallback = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/NoJsFallbackPages/EnterSupportingOrganisationSchoolDetailsFallback");
         public static readonly LinkItem EnterSupportingOrganisationLocalAuthorityDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationLocalAuthorityDetails");
         public static readonly LinkItem EnterSupportingOrganisationLocalAuthorityDetailsFallback = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/NoJsFallbackPages/EnterSupportingOrganisationLocalAuthorityDetailsFallback");
+        public static readonly LinkItem EnterSupportingOrganisationFederationEducationPartnershipDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationFederationEducationPartnershipDetails");
         public static readonly LinkItem EnterSupportingOrganisationLocalAuthorityTradedServiceDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/EnterSupportingOrganisationLocalAuthorityTradedServiceDetails");
+
         public static readonly LinkItem ConfirmSupportingOrganisationDetails = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/ConfirmSupportingOrganisationDetails");
         public static readonly LinkItem ChooseSupportingOrganisationSummary = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/ChooseSupportingOrganisationSummary");
 
