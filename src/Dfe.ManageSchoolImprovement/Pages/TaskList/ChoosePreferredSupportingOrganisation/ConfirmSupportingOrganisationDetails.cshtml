@@ -8,8 +8,8 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.PreviousPage" asp-route-id="@Model.SupportProject.Id"
-           asp-route-previousSupportOrganisationType="@Model.SupportProject.SupportOrganisationType"
+        <a asp-page="@Model.PreviousPage" asp-route-id="@Model.SupportProject?.Id"
+           asp-route-previousSupportOrganisationType="@Model.SupportProject?.SupportOrganisationType"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -38,7 +38,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l">
             Confirm supporting organisation details
         </h1>
@@ -50,7 +50,7 @@
                     <li class="govuk-summary-card__action">
                         <a class="govuk-link"
                            asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page"
-                           asp-route-id="@Model.SupportProject.Id">
+                           asp-route-id="@Model.SupportProject?.Id">
                             Change<span class="govuk-visually-hidden"> supporting organisation details</span>
                         </a>
                     </li>
