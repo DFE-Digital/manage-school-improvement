@@ -147,6 +147,13 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
         var dateContactDetailsAdded = dateTimeProvider.Now;
 
+        // we need to know if the supporting organisation contact details task is already in progress
+        // so we don't overwrite any existing data
+        var supportingOrganisationContactTaskInProgress =
+            !string.IsNullOrEmpty(SupportProject?.SupportingOrganisationContactName) ||
+            !string.IsNullOrEmpty(SupportProject?.SupportingOrganisationContactEmailAddress) ||
+            SupportProject?.DateSupportingOrganisationContactDetailsAdded.HasValue == true;
+
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,
@@ -155,11 +162,11 @@ public class ConfirmSupportingOrganisationDetailsModel(
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
             trustOrSchool ? OrganisationAddress : null,
-            trustOrSchool ? AccountingOfficer?.Name : SupportProject?.SupportingOrganisationContactName,
-            trustOrSchool ? AccountingOfficer?.Email : SupportProject?.SupportingOrganisationContactEmailAddress,
-            trustOrSchool ? AccountingOfficer?.Phone : null,
-            trustOrSchool ? AccountingOfficer?.Address : null,
-            trustOrSchool ? dateContactDetailsAdded : SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            !supportingOrganisationContactTaskInProgress && trustOrSchool ? AccountingOfficer?.Name : SupportProject?.SupportingOrganisationContactName,
+            !supportingOrganisationContactTaskInProgress && trustOrSchool ? AccountingOfficer?.Email : SupportProject?.SupportingOrganisationContactEmailAddress,
+            !supportingOrganisationContactTaskInProgress && trustOrSchool ? AccountingOfficer?.Phone : SupportProject?.SupportingOrganisationContactPhone,
+            !supportingOrganisationContactTaskInProgress && trustOrSchool ? AccountingOfficer?.Address : SupportProject?.SupportingOrganisationContactAddress,
+            !supportingOrganisationContactTaskInProgress && trustOrSchool ? dateContactDetailsAdded : SupportProject?.DateSupportingOrganisationContactDetailsAdded);
 
         var result = await mediator.Send(command, cancellationToken);
 
