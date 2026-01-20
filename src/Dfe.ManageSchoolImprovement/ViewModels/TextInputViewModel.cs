@@ -10,4 +10,5 @@ public class TextInputViewModel
     public int Width { get; set; }
     public string Hint { get; set; } = null!;
     public bool HeadingLabel { get; set; }
+    public string HeadingLabelClass { get; set; } = null!;
 }

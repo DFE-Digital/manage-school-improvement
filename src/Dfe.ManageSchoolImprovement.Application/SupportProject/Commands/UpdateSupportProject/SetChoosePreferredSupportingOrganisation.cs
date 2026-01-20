@@ -16,8 +16,7 @@ public record SetChoosePreferredSupportingOrganisationCommand(
     string? ContactName,
     string? ContactEmail,
     string? ContactPhone,
-    string? ContactAddress,
-    DateTime? DateContactDetailsAdded
+    string? ContactAddress
 ) : IRequest<bool>;
 
 public class SetChoosePreferredSupportingOrganisation
@@ -45,8 +44,7 @@ public class SetChoosePreferredSupportingOrganisation
                     SupportOrganisationContactName = request.ContactName,
                     SupportOrganisationContactEmailAddress = request.ContactEmail,
                     SupportOrganisationContactPhone = request.ContactPhone,
-                    SupportOrganisationContactAddress = request.ContactAddress,
-                    DateSupportingOrganisationContactDetailsAdded = request.DateContactDetailsAdded
+                    SupportOrganisationContactAddress = request.ContactAddress
                 });
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);

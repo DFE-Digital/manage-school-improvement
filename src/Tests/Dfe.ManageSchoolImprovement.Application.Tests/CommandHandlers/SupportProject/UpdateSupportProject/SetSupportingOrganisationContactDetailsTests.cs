@@ -29,7 +29,7 @@ public class SetSupportingOrganisationContactDetailsTests
             _mockSupportProject.Id,
             "Alan Alans",
             "alan@alan.com",
-            DateTime.Now
+            "01234567890"
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var setSupportingOrganisationContactDetailsHandler = new SetSupportingOrganisationContactDetails.SetSupportingOrganisationContactDetailsHandler(_mockSupportProjectRepository.Object);
@@ -71,7 +71,7 @@ public class SetSupportingOrganisationContactDetailsTests
             _mockSupportProject.Id,
             "Alan Alans",
             "alan@alan.com",
-            DateTime.Now
+            "01234567890"
         );
         _mockSupportProjectRepository.Setup(repo 
             => repo.FindAsync(

@@ -226,15 +226,13 @@ public static class TaskStatusViewModel
     public static TaskListStatus SupportingOrganisationContactDetailsTaskListStatus(
         SupportProjectViewModel supportProject)
     {
-        if (supportProject.DateSupportingOrganisationContactDetailsAdded.HasValue
-            && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
+        if (!string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
             && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactEmailAddress))
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.DateSupportingOrganisationContactDetailsAdded.HasValue
-            && string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
+        if (string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
             && string.IsNullOrEmpty(supportProject.SupportingOrganisationContactEmailAddress))
         {
             return TaskListStatus.NotStarted;

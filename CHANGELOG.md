@@ -3,6 +3,18 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.4] - Q4 – Sprint 2 (Part 1)- 2026-01-20
+
+### 📌 User Stories 
+
+- **253097** - Contacts page new design to display existing contacts (+addresses) - School and Supporting Organisation only
+- **254373** - Contacts page new design to display existing contacts (+addresses) - Governance bodies
+- **254420** - Contacts page new design to display existing contacts (+addresses) - "Contacts without an organisation" section
+- **253131** - Add Contact
+- **253132** - Edit Contact
+
+--
+
 ## 📅 [v1.3.5] - Q3 – Sprint 5 (Part 2)- 2025-12-15
 
 ### 📌 User Stories 
