@@ -37,9 +37,12 @@ public class IndexModel(
     [BindProperty(Name = "phone-number")]
     public string? PhoneNumber { get; set; }
 
-    public string? SupportingOrganisationName { get; set; }
-    public string? SupportingOrganisationId { get; set; }
-    public string? SupportingOrganisationSchoolType { get; set; }
+    [BindProperty] public string? SupportingOrganisationName { get; set; }
+    
+    [BindProperty] public string? SupportingOrganisationId { get; set; }
+    
+    [BindProperty] public string? SupportingOrganisationSchoolType { get; set; }
+
     public bool preFillFields { get; set; } = false;
 
     public bool ShowError { get; set; }
@@ -140,7 +143,8 @@ public class IndexModel(
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             ShowError = true;
-            return await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProject(id, cancellationToken);
+            return Page();
         }
 
         // Get the organisation address to pass to the command

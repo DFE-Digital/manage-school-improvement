@@ -41,6 +41,9 @@
         <p class="govuk-body">Check it is correct. Make changes if it is wrong.</p>
 
         <form method="post" novalidate>
+            <input type="hidden" asp-for="@Model.SupportingOrganisationName" />
+            <input type="hidden" asp-for="@Model.SupportingOrganisationId" />
+            <input type="hidden" asp-for="@Model.SupportingOrganisationSchoolType" />
             <govuk-text-input heading-label="true" label="@contactJobTitle name" id="name" hint="Enter their first and last name"
                               name="name" asp-for="@Model.Name" width="30" heading-label-class="govuk-label--s"/>
             <govuk-text-input heading-label="true" label="Email address" id="email-address" name="email-address"
