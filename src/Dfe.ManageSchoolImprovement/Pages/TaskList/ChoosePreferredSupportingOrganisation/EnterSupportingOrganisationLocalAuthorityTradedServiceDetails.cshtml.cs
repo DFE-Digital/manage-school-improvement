@@ -94,8 +94,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            SupportProject?.SupportingOrganisationAddress);
 
         var result = await mediator.Send(command, cancellationToken);
 

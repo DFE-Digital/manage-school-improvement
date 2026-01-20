@@ -173,8 +173,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             null,
-            null,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            null);
 
         var result = await mediator.Send(command, cancellationToken);
 

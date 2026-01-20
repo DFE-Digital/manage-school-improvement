@@ -370,22 +370,22 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         }
 
 
-        public static readonly TheoryData<DateTime?, string?, string?, TaskListStatus>
+        public static readonly TheoryData<string?, string?, TaskListStatus>
             SupportingOrganisationContactDetailsTaskListStatusCases = new()
             {
-                { null, null, null, TaskListStatus.NotStarted },
-                { DateTime.Now, "name", "email@email.com", TaskListStatus.Complete },
-                { DateTime.Now, null, "", TaskListStatus.InProgress }
+                { null, null, TaskListStatus.NotStarted },
+                { "name", "email@email.com", TaskListStatus.Complete },
+                { null, "email@email.com", TaskListStatus.InProgress },
+                { "name", null, TaskListStatus.InProgress }
             };
 
         [Theory, MemberData(nameof(SupportingOrganisationContactDetailsTaskListStatusCases))]
         public void SupportingOrganisationContactDetailsTaskListStatusShouldReturnCorrectStatus(
-            DateTime? dateSupportingOrganisationDetailsAdded, string? supportingOrganisationContactName,
+            string? supportingOrganisationContactName,
             string? supportingOrganisationContactEmail, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
-                DateSupportingOrganisationContactDetailsAdded: dateSupportingOrganisationDetailsAdded,
                 SupportingOrganisationContactName: supportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress: supportingOrganisationContactEmail!));
 

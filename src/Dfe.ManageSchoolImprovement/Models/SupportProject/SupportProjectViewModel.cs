@@ -124,9 +124,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
         public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
-
-
-        public DateTime? DateSupportingOrganisationContactDetailsAdded { get; set; }
         public string? SupportingOrganisationContactName { get; set; }
         public string? SupportingOrganisationContactEmailAddress { get; set; }
         public string? SupportingOrganisationContactPhone { get; set; }
@@ -238,7 +235,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 RegionalDirectorAppointmentDate = supportProjectDto.RegionalDirectorAppointmentDate,
                 HasConfirmedSupportingOrganisationAppointment = supportProjectDto.HasConfirmedSupportingOrganisationAppointment,
                 DisapprovingSupportingOrganisationAppointmentNotes = supportProjectDto.DisapprovingSupportingOrganisationAppointmentNotes,
-                DateSupportingOrganisationContactDetailsAdded = supportProjectDto.DateSupportingOrganisationContactDetailsAdded,
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
                 SupportingOrganisationContactPhone = supportProjectDto.SupportingOrganisationContactPhone,
