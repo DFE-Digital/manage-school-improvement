@@ -16,11 +16,11 @@
 
 @if (Model.ShowError)
 {
-    <partial name="_ErrorSummary" />
+    <partial name="_ErrorSummary"/>
 }
 
 @{
-    var organisationType = Model.SupportProject?.SupportOrganisationType;
+    var organisationType = Model.SupportProject?.SupportOrganisationType == "Federation or education partnership" ? "Organisation name" : Model.SupportProject?.SupportOrganisationType;
     var organisationName = Model.SupportProject?.SupportOrganisationName ?? "";
     var organisationIdNumber = Model.SupportProject?.SupportOrganisationIdNumber ?? "";
     var isSchoolOrTrust = organisationType == "School" || organisationType == "Trust";
@@ -85,14 +85,17 @@
                             </dd>
                         </div>
                     }
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Source
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            Get information about schools
-                        </dd>
-                    </div>
+                    @if (isSchoolOrTrust || Model.SupportProject?.SupportOrganisationType == "Local authority")
+                    {
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Source
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                Get information about schools
+                            </dd>
+                        </div>
+                    }
                 </dl>
             </div>
         </div>
@@ -104,7 +107,7 @@
                               name="date-support-organisation-confirmed"
                               asp-for="@Model.DateSupportOrganisationConfirmed"
                               error-message="@Model.DateConfirmedErrorMessage"
-                              hint="For example, 1 7 2024." />
+                              hint="For example, 1 7 2024."/>
 
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton" type="submit">

@@ -18,9 +18,6 @@ public class ConfirmSupportingOrganisationDetailsModel(
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportOrganisationConfirmed { get; set; }
 
-    [BindProperty(Name = "js-enabled")]
-    public bool JavaScriptEnabled { get; set; }
-
     public string? OrganisationAddress { get; set; }
 
 

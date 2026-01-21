@@ -43,14 +43,6 @@
                               hint="Enter a unique identifying number for this organisation. This could be a Companies House number, a URN or a UKPRN."
                               error-message="@Model.IdentifyingNumberErrorMessage"
                               width="30"/>
-
-            <govuk-date-input heading-label="false" 
-                              label="Enter date supporting organisation confirmed"
-                              id="date-support-organisation-confirmed" 
-                              name="date-support-organisation-confirmed"
-                              asp-for="@Model.DateSupportOrganisationConfirmed" 
-                              error-message="@Model.DateConfirmedErrorMessage"
-                              hint="For example, 1 7 2024."/>
                               
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton" type="submit">

@@ -20,15 +20,10 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     [BindProperty(Name = "companies-house-number")]
     public string? CompaniesHouseNumber { get; set; }
 
-    [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    public DateTime? DateSupportOrganisationConfirmed { get; set; }
-
     public bool ShowError { get; set; }
 
     public string? OrganisationNameErrorMessage { get; set; }
     public string? CompaniesHouseNumberErrorMessage { get; set; }
-    public string? DateConfirmedErrorMessage { get; set; }
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -45,7 +40,6 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             CompaniesHouseNumber = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
         return Page();
@@ -59,7 +53,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         await base.GetSupportProject(id, cancellationToken);
 
         // Validate entries
-        if (OrganisationName == null || CompaniesHouseNumber == null || DateSupportOrganisationConfirmed == null)
+        if (OrganisationName == null || CompaniesHouseNumber == null)
         {
             if (OrganisationName == null)
             {
@@ -72,12 +66,6 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
                 CompaniesHouseNumberErrorMessage = "Enter the supporting organisation's companies house number";
                 ModelState.AddModelError("companies-house-number", CompaniesHouseNumberErrorMessage);
             }
-
-            if (DateSupportOrganisationConfirmed == null)
-            {
-                DateConfirmedErrorMessage = "Enter a date";
-                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
-            }
         }
         // Early return for validation errors
         if (!ModelState.IsValid)
@@ -88,7 +76,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
             OrganisationName,
             CompaniesHouseNumber,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            DateSupportOrganisationConfirmed,
+            SupportProject?.DateSupportOrganisationChosen,
             SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,

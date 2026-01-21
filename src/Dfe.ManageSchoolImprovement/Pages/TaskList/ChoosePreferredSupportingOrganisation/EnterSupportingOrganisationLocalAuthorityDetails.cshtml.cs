@@ -167,7 +167,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             expectedLocalAuthority.Name,
             expectedLocalAuthority.Code,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            null,
+            SupportProject?.DateSupportOrganisationChosen,
             SupportProject?.AssessmentToolTwoCompleted,
             null,
             SupportProject?.SupportingOrganisationContactName,

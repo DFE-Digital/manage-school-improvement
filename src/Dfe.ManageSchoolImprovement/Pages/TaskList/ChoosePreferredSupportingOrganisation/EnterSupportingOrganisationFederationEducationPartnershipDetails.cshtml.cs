@@ -20,15 +20,10 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
     [BindProperty(Name = "identifying-number")]
     public string? IdentifyingNumber { get; set; }
 
-    [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    public DateTime? DateSupportOrganisationConfirmed { get; set; }
-
     public bool ShowError { get; set; }
 
     public string? OrganisationNameErrorMessage { get; set; }
     public string? IdentifyingNumberErrorMessage { get; set; }
-    public string? DateConfirmedErrorMessage { get; set; }
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -46,7 +41,6 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             IdentifyingNumber = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
         }
 
         return Page();
@@ -60,7 +54,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
         await base.GetSupportProject(id, cancellationToken);
 
         // Validate entries
-        if (OrganisationName == null || IdentifyingNumber == null || DateSupportOrganisationConfirmed == null)
+        if (OrganisationName == null || IdentifyingNumber == null)
         {
             if (OrganisationName == null)
             {
@@ -73,12 +67,6 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
                 IdentifyingNumberErrorMessage = "Enter the supporting organisation's identifying number";
                 ModelState.AddModelError("identifying-number", IdentifyingNumberErrorMessage);
             }
-
-            if (DateSupportOrganisationConfirmed == null)
-            {
-                DateConfirmedErrorMessage = "Enter a date";
-                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
-            }
         }
 
         // Early return for validation errors
@@ -90,7 +78,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
             OrganisationName,
             IdentifyingNumber,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            DateSupportOrganisationConfirmed,
+            SupportProject?.DateSupportOrganisationChosen,
             SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
