@@ -97,8 +97,7 @@ public class ChooseSupportOrganisationTypeModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.DateSupportingOrganisationContactDetailsAdded);
+            SupportProject?.SupportingOrganisationAddress);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -123,20 +122,22 @@ public class ChooseSupportOrganisationTypeModel(
             return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page :
                 Links.TaskList.EnterSupportingOrganisationSchoolDetailsFallback.Page;
         }
-        else if (SupportOrganisationType == "Trust")
+        if (SupportOrganisationType == "Trust")
         {
             return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationTrustDetails.Page :
                 Links.TaskList.EnterSupportingOrganisationTrustDetailsFallback.Page;
         }
-        else if (SupportOrganisationType == "Local authority")
+        if (SupportOrganisationType == "Local authority")
         {
             return JavaScriptEnabled ? Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetails.Page :
                 Links.TaskList.EnterSupportingOrganisationLocalAuthorityDetailsFallback.Page;
         }
-        else // Local authority traded service
+        if (SupportOrganisationType == "Local authority traded service") // Local authority traded service
         {
             return Links.TaskList.EnterSupportingOrganisationLocalAuthorityTradedServiceDetails.Page;
         }
+        
+        return Links.TaskList.EnterSupportingOrganisationFederationEducationPartnershipDetails.Page;
     }
 
     // Extracted method for loading SharePoint links concurrently
@@ -181,6 +182,12 @@ public class ChooseSupportOrganisationTypeModel(
                 Id = "support-organisation-type-local-authority-traded-service",
                 Name = "Local authority traded service",
                 Value = "Local authority traded service"
+            },
+            new()
+            {
+                Id = "support-organisation-type-federation-education-partnership",
+                Name = "Federation or education partnership",
+                Value = "Federation or education partnership"
             }
         };
     }

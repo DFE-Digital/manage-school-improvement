@@ -1,6 +1,6 @@
-@page "/task-list/enter-supporting-organisation-local-authority-traded-service-details/{id:int}"
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel
-@inject IConfiguration Configuration
+@page "/task-list/enter-supporting-organisation-federation-or-education-partnership-details/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.EnterSupportingOrganisationFederationEducationPartnershipDetailsModel
+
 @{
     ViewData["Title"] = "Enter supporting organisation details";
 }
@@ -31,17 +31,17 @@
                               id="organisation-name"
                               name="organisation-name" 
                               asp-for="@Model.OrganisationName" 
-                              hint="Enter the name of the local authority traded service that will be the supporting organisation"
+                              hint="Enter the name of the federation or education partnership that will be the supporting organisation"
                               error-message="@Model.OrganisationNameErrorMessage"
                               width="30"/>
 
             <govuk-text-input heading-label="true" 
-                              label="Companies House number" 
-                              id="companies-house-number"
-                              name="companies-house-number"
-                              asp-for="@Model.CompaniesHouseNumber" 
-                              hint="Enter the Companies House number of the local authority traded service that will be the supporting organisation"
-                              error-message="@Model.CompaniesHouseNumberErrorMessage"
+                              label="Identifying number" 
+                              id="identifying-number"
+                              name="identifying-number"
+                              asp-for="@Model.IdentifyingNumber" 
+                              hint="Enter a unique identifying number for this organisation. This could be a Companies House number, a URN or a UKPRN."
+                              error-message="@Model.IdentifyingNumberErrorMessage"
                               width="30"/>
                               
             <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"

@@ -12,8 +12,10 @@ public class TextInputTagHelper : InputTagHelperBase
 
     [HtmlAttributeName("width")]
     public int Width { get; set; }
-
     public bool HeadingLabel { get; set; }
+
+    [HtmlAttributeName("heading-label-class")]
+    public string HeadingLabelClass { get; set; } = string.Empty;
 
     protected override async Task<IHtmlContent> RenderContentAsync()
     {
@@ -25,7 +27,8 @@ public class TextInputTagHelper : InputTagHelperBase
             Value = For.Model?.ToString()!,
             Width = Width,
             Hint = Hint,
-            HeadingLabel = HeadingLabel
+            HeadingLabel = HeadingLabel,
+            HeadingLabelClass = HeadingLabelClass
         };
 
         if (ViewContext.ModelState.TryGetValue(Name, out var entry) && entry.Errors.Count > 0)

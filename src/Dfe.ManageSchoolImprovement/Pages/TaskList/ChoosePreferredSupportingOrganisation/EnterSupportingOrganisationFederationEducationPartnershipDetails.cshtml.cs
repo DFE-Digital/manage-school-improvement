@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation;
 
-public class EnterSupportingOrganisationTrustDetailsFallbackModel(
+public class EnterSupportingOrganisationFederationEducationPartnershipDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
@@ -18,13 +17,13 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
     [BindProperty(Name = "organisation-name")]
     public string? OrganisationName { get; set; }
 
-    [BindProperty(Name = "trust-ukprn")] public string? TrustUKPRN { get; set; }
-
-    [BindProperty(Name = "date-support-organisation-confirmed", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    public DateTime? DateSupportOrganisationConfirmed { get; set; }
+    [BindProperty(Name = "identifying-number")]
+    public string? IdentifyingNumber { get; set; }
 
     public bool ShowError { get; set; }
+
+    public string? OrganisationNameErrorMessage { get; set; }
+    public string? IdentifyingNumberErrorMessage { get; set; }
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -32,10 +31,6 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
 
     string IDateValidationMessageProvider.AllMissing =>
         "Enter a date";
-
-    public string? OrganisationNameErrorMessage { get; private set; }
-    public string? TrustUKPRNErrorMessage { get; private set; }
-    public string? DateConfirmedErrorMessage { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType,
         CancellationToken cancellationToken = default)
@@ -45,8 +40,7 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
-            TrustUKPRN = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            IdentifyingNumber = SupportProject?.SupportOrganisationIdNumber;
         }
 
         return Page();
@@ -55,62 +49,58 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         OrganisationName = OrganisationName?.Trim();
-        TrustUKPRN = TrustUKPRN?.Trim();
-        
+        IdentifyingNumber = IdentifyingNumber?.Trim();
+
         await base.GetSupportProject(id, cancellationToken);
-        
+
         // Validate entries
-        if (OrganisationName == null || TrustUKPRN == null || DateSupportOrganisationConfirmed == null)
+        if (OrganisationName == null || IdentifyingNumber == null)
         {
             if (OrganisationName == null)
             {
                 OrganisationNameErrorMessage = "Enter the supporting organisation's name";
                 ModelState.AddModelError("organisation-name", OrganisationNameErrorMessage);
             }
-        
-            if (TrustUKPRN == null)
+
+            if (IdentifyingNumber == null)
             {
-                TrustUKPRNErrorMessage = "Enter the supporting organisation's UKPRN";
-                ModelState.AddModelError("trust-ukprn", TrustUKPRNErrorMessage);
-            }
-        
-            if (DateSupportOrganisationConfirmed == null)
-            {
-                DateConfirmedErrorMessage = "Enter a date";
-                ModelState.AddModelError("date-support-organisation-confirmed", DateConfirmedErrorMessage);
+                IdentifyingNumberErrorMessage = "Enter the supporting organisation's identifying number";
+                ModelState.AddModelError("identifying-number", IdentifyingNumberErrorMessage);
             }
         }
 
         // Early return for validation errors
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
-        
+
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             OrganisationName,
-            TrustUKPRN,
+            IdentifyingNumber,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            DateSupportOrganisationConfirmed,
+            SupportProject?.DateSupportOrganisationChosen,
             SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
             SupportProject?.SupportingOrganisationAddress);
-        
+
         var result = await mediator.Send(command, cancellationToken);
-        
+
         // Early return for API error
         if (!result)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
-        TaskUpdated = true;
 
+        TaskUpdated = true;
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
-            new { id, previousPage = Links.TaskList.EnterSupportingOrganisationTrustDetails.Page });
+            new
+            {
+                id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityTradedServiceDetails.Page
+            });
     }
 
     // Extracted method for cleaner error handling

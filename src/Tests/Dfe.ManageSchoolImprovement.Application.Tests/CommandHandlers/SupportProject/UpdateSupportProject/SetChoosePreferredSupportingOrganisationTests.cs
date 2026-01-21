@@ -36,8 +36,7 @@ public class SetChoosePreferredSupportingOrganisationTests
             "Joe Bloggs",
             "joebloggs@example.com",
             "01234567890",
-            "1 School Lane",
-            DateTime.Now
+            "1 School Lane"
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var setChosePreferredSupportingOrganisationHandler = new SetChoosePreferredSupportingOrganisation.SetChoosePreferredSupportingOrganisationHandler(_mockSupportProjectRepository.Object);
@@ -61,7 +60,6 @@ public class SetChoosePreferredSupportingOrganisationTests
            null,
            null,
            null,
-            null,
             null,
             null,
             null,
@@ -94,8 +92,7 @@ public class SetChoosePreferredSupportingOrganisationTests
             "Joe Bloggs",
             "joebloggs@example.com",
             "01234567890",
-            "1 School Lane",
-            DateTime.Now
+            "1 School Lane"
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
             It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(),
