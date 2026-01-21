@@ -85,7 +85,7 @@ class TaskList {
     cy.contains('Choose preferred supporting organisation');
     cy.contains('Carry out due diligence on preferred supporting organisation');
     cy.contains('Record supporting organisation appointment');
-    cy.contains('Add supporting organisation contact details');
+    cy.contains('Confirm supporting organisation contact details');
     cy.contains('Request planning grant offer letter');
     cy.contains('Confirm planning grant offer letter sent');
     cy.contains('Share indicative funding band and the improvement plan template');
