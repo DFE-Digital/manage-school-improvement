@@ -342,6 +342,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();
 
     taskListActions.hasHeader("Choose preferred supporting organisation");
+    supportingOrgType.hasOrganisationTypeOptions();
 
     //check validaton
     taskListActions.selectButtonOrCheckbox("continue-button");
@@ -409,24 +410,19 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();  
   });
 
-  // Task 16: Add supporting organisation contact details
-  it("Should complete the 'Add supporting organisation contact details' task", () => {
+  // Task 16: Confirm supporting organisation contact details
+  it("Should complete the 'Confirm supporting organisation contact details' task", () => {
     homePage.selectSchoolName(schoolLong);
     
-    Logger.log("Selecting 'Add supporting organisation contact details' task");
-    taskList.selectTask("Add supporting organisation contact details");
+    Logger.log("Selecting 'Confirm supporting organisation contact details' task");
+    taskList.selectTask("Confirm supporting organisation contact details");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Add supporting organisation contact details");
-    taskListActions.enterText("name", "Joe Bloggs");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusInProgress("add-supporting-organisation-contact-details-status");
-    taskList.selectTask("Add supporting organisation contact details");
-    taskListActions.enterText("email-address", "joe.bloggs@email.com");
-    taskListActions.clearDateInput('date-supporting-organisation-details-added');
-    taskListActions.enterDate("date-supporting-organisation-details-added", "01", "01", "2024");
+    taskListActions.hasHeader("Confirm supporting organisation contact details");
+    taskListActions.enterText("name", "Joe Bloggsx");
+    taskListActions.enterText("email-address", "joe.bloggsx@email.com");
+    taskListActions.enterText("phone-number", "07898760077");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("add-supporting-organisation-contact-details-status");
