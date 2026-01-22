@@ -99,7 +99,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
             new
             {
-                id, previousPage = Links.TaskList.EnterSupportingOrganisationLocalAuthorityTradedServiceDetails.Page
+                id, previousPage = Links.TaskList.EnterSupportingOrganisationFederationEducationPartnershipDetails.Page
             });
     }
 

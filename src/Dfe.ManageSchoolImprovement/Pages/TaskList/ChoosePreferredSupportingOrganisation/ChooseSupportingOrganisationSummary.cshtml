@@ -19,7 +19,7 @@
     <partial name="_ErrorSummary"/>
 }
 @{
-    var organisationType = Model.SupportProject?.SupportOrganisationType;
+    var organisationType = Model.SupportProject?.SupportOrganisationType == "Federation or education partnership" ? "Organisation name" : Model.SupportProject?.SupportOrganisationType;
 
     string organisationTypeLabel = organisationType switch
     {
@@ -27,7 +27,7 @@
         "Trust" => "UKPRN",
         "Local authority" => "LA name code",
         "Local authority traded service" => "Companies House number",
-        _ => "ID"
+        _ => "Identifying number"
     };
 }
 
