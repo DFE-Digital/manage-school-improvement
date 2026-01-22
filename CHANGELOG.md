@@ -3,7 +3,21 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
-## 📅 [v1.4] - Q4 – Sprint 2 (Part 1)- 2026-01-20
+## 📅 [v1.4.1] - Q4 – Sprint 2 (Part 2)- 2026-01-23
+
+### 📌 User Stories 
+
+- **251956** - Add supporting organisation contact details task changes
+- **251952** - Add "Federation or education partnership" to Supporting Organisation Types
+- **257253** - Remove Supporting Organisation Contact Card from "Choose preferred Supporting Organisation" task
+
+### 🐛 Bug Fixes
+
+- **257417** - Fix cookie issue
+
+--
+
+## 📅 [v1.4.0] - Q4 – Sprint 2 (Part 1)- 2026-01-20
 
 ### 📌 User Stories 
 
