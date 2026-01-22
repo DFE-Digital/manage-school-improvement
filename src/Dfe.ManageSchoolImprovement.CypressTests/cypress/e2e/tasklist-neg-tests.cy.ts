@@ -166,8 +166,40 @@ describe("Tasklist negative tests", () => {
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
         taskListActions.hasValidation("Enter the supporting organisation's companies house number", "companies-house-number-error-link");
-        taskListActions.hasValidation("Enter a date", "date-support-organisation-confirmed-error-link");
       
+        cy.executeAccessibilityTests();
+    });
+
+    it("should validate preferred supporting organisation type - Federation or Education partneship", () => {
+        Logger.log("Validating preferred supporting organisation");
+        taskList.selectTask("Choose preferred supporting organisation");
+        taskListActions.hasHeader("Choose preferred supporting organisation");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-federation-education-partnership");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.hasHeader("Enter supporting organisation details");
+        taskListActions.clearTextField("organisation-name");
+        taskListActions.clearTextField("identifying-number");
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
+        taskListActions.hasValidation("Enter the supporting organisation's identifying number", "identifying-number-error-link");
+
+        cy.executeAccessibilityTests();
+    });
+
+    it("should validate date for preferred supporting organisation type - Federation or Education partneship", () => {
+        Logger.log("Validating preferred supporting organisation");
+        taskList.selectTask("Choose preferred supporting organisation");
+        taskListActions.hasHeader("Choose preferred supporting organisation");
+        taskListActions.selectButtonOrCheckbox("support-organisation-type-federation-education-partnership");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.hasHeader("Enter supporting organisation details");
+        taskListActions.enterText("organisation-name", 'Federation Name');
+        taskListActions.enterText("identifying-number", "123456789");
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasHeader("Confirm supporting organisation details");
+        taskListActions.selectButtonOrCheckbox("save-and-return-button");
+        taskListActions.hasValidation("Enter a date", "date-support-organisation-confirmed-error-link");
+
         cy.executeAccessibilityTests();
     });
 });

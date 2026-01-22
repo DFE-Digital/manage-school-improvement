@@ -52,6 +52,12 @@ class TaskListActions {
         return this;
     }
 
+    public clearTextField(id: string): this {
+        cy.getById(id).clear();
+       
+        return this;
+    }
+
     public hasValidation(valText: string, id: string): this {
         cy.getById(id).contains(valText);
     
