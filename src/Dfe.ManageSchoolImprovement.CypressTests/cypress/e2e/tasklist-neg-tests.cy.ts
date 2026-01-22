@@ -177,8 +177,8 @@ describe("Tasklist negative tests", () => {
         taskListActions.selectButtonOrCheckbox("support-organisation-type-federation-education-partnership");
         taskListActions.selectButtonOrCheckbox("continue-button");
         taskListActions.hasHeader("Enter supporting organisation details");
-        taskListActions.clearTextField("organisation-name");
-        taskListActions.clearTextField("identifying-number");
+        taskListActions.clearInput("organisation-name");
+        taskListActions.clearInput("identifying-number");
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
         taskListActions.hasValidation("Enter the supporting organisation's identifying number", "identifying-number-error-link");
