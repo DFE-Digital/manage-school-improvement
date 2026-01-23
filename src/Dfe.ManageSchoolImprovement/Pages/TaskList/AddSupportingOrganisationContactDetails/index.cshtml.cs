@@ -42,8 +42,8 @@ public class IndexModel(
     [BindProperty] public string? SupportingOrganisationId { get; set; }
     
     [BindProperty] public string? SupportingOrganisationSchoolType { get; set; }
-
-    public bool preFillFields { get; set; } = false;
+    
+    public bool TaskIsComplete { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -70,6 +70,7 @@ public class IndexModel(
         PhoneNumber = SupportProject?.SupportingOrganisationContactPhone;
         SupportingOrganisationName = SupportProject?.SupportOrganisationName;
         SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
+        TaskIsComplete = !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(EmailAddress);
 
         if (SupportProject is { SupportOrganisationType: "School", SupportOrganisationIdNumber: not null })
         {
@@ -86,13 +87,13 @@ public class IndexModel(
 
             if (SupportProject?.SupportOrganisationType == "Trust")
             {
-                await GetTrustAccountingOfficer(SupportProject?.SupportOrganisationIdNumber!, cancellationToken);
+                await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber!, cancellationToken);
                 AccountingOfficer.Address = OrganisationAddress ?? "";
             }
 
             if (SupportProject?.SupportOrganisationType == "School")
             {
-                var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject?.SupportOrganisationIdNumber!);
+                var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber!);
 
                 var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
 

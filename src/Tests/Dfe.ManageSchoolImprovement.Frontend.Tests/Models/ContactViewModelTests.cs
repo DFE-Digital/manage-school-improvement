@@ -24,6 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(string.Empty, model.CreatedBy);
             Assert.Null(model.LastModifiedOn);
             Assert.Null(model.LastModifiedBy);
+            Assert.False(model.IsSupportingOrgMainContact);
         }
 
         [Fact]
@@ -42,6 +43,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             var expectedCreatedBy = "test.user@education.gov.uk";
             var expectedLastModifiedOn = new DateTime(2024, 1, 20, 14, 45, 0, DateTimeKind.Utc);
             var expectedLastModifiedBy = "admin.user@education.gov.uk";
+            var expectedIsSupportingOrgMainContact = true;
 
             // Act
             var model = new ContactViewModel
@@ -57,7 +59,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 CreatedOn = expectedCreatedOn,
                 CreatedBy = expectedCreatedBy,
                 LastModifiedOn = expectedLastModifiedOn,
-                LastModifiedBy = expectedLastModifiedBy
+                LastModifiedBy = expectedLastModifiedBy,
+                IsSupportingOrgMainContact = expectedIsSupportingOrgMainContact
             };
 
             // Assert
@@ -73,6 +76,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(expectedCreatedBy, model.CreatedBy);
             Assert.Equal(expectedLastModifiedOn, model.LastModifiedOn);
             Assert.Equal(expectedLastModifiedBy, model.LastModifiedBy);
+            Assert.Equal(expectedIsSupportingOrgMainContact, model.IsSupportingOrgMainContact);
         }
 
         [Fact]
@@ -92,7 +96,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 CreatedOn = DateTime.UtcNow,
                 CreatedBy = "system.admin",
                 LastModifiedOn = null,
-                LastModifiedBy = null
+                LastModifiedBy = null,
+                IsSupportingOrgMainContact = false
             };
 
             // Act & Assert
@@ -108,6 +113,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("system.admin", model.CreatedBy);
             Assert.Null(model.LastModifiedOn);
             Assert.Null(model.LastModifiedBy);
+            Assert.False(model.IsSupportingOrgMainContact);
         }
 
         [Fact]
@@ -245,7 +251,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 CreatedOn = new DateTime(2024, 1, 1),
                 CreatedBy = "test.user",
                 LastModifiedOn = new DateTime(2024, 1, 2),
-                LastModifiedBy = "modifier.user"
+                LastModifiedBy = "modifier.user",
+                IsSupportingOrgMainContact = false
             };
 
             // Assert
@@ -261,6 +268,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("test.user", model.CreatedBy);
             Assert.Equal(new DateTime(2024, 1, 2), model.LastModifiedOn);
             Assert.Equal("modifier.user", model.LastModifiedBy);
+            Assert.False(model.IsSupportingOrgMainContact);
         }
 
         [Fact]

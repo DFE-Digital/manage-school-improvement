@@ -16,5 +16,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
+        public bool IsSupportingOrgMainContact { get; set; }
     }
 }

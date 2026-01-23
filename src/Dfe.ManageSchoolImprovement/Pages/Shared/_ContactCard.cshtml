@@ -2,23 +2,36 @@
 @using Dfe.Academisation.ExtensionMethods
 @model Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ContactViewModel
 
+@{
+    var takenFromText = "Get information about schools";
+    if (Model.ManuallyAdded)
+    {
+        takenFromText = "Added manually";
+    }
+
+    if (Model.IsSupportingOrgMainContact)
+    {
+        takenFromText = "Confirm supporting organisation contact details task";
+    }
+}
+
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
             @Model.RoleName
         </h2>
-         @if (Model.ManuallyAdded) 
-         { 
-             <ul class="govuk-summary-card__actions"> 
-                 <li class="govuk-summary-card__action"> 
-                     <a asp-page="@Links.Contacts.EditContactOrganisation.Page" asp-route-id="@Model.SupportProjectId" 
-                        asp-route-contactId="@Model.ContactId!.Value" role="button" draggable="false" class="govuk-link" 
-                        data-module="govuk-button"> 
-                         Change<span class="govuk-visually-hidden"> contact</span> 
-                     </a> 
-                 </li> 
-             </ul> 
-         }
+        @if (Model is { ManuallyAdded: true, IsSupportingOrgMainContact: false })
+        {
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a asp-page="@Links.Contacts.EditContactOrganisation.Page" asp-route-id="@Model.SupportProjectId"
+                       asp-route-contactId="@Model.ContactId!.Value" role="button" draggable="false" class="govuk-link"
+                       data-module="govuk-button">
+                        Change<span class="govuk-visually-hidden"> contact</span>
+                    </a>
+                </li>
+            </ul>
+        }
     </div>
     <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
@@ -55,13 +68,13 @@
                 </dt>
                 <dd class="govuk-summary-list__value">
                     <span
-                        data-id="source">@(Model.ManuallyAdded ? "Added manually" : "Get information about schools")</span>
+                        data-id="source">@takenFromText</span>
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                     <span
-                            data-id="date">@(Model.ManuallyAdded ? "Date added" : "Date taken")</span>
+                        data-id="date">@(Model.ManuallyAdded ? "Date added" : "Date taken")</span>
                 </dt>
                 <dd class="govuk-summary-list__value">
                     <span
