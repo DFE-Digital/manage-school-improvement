@@ -3,14 +3,14 @@
 
 @{
     ViewData["Title"] = "Confirm supporting organisation contact details";
-    
+
     var contactJobTitle = Model.SupportingOrganisationSchoolType == "Local authority" ? "Headteacher" : "Accounting officer";
 }
 
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -22,38 +22,89 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        @if (Model.TaskIsComplete)
+        {
+            <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title"
+                 data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Important</h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading">
+                        Accounting officer confirmed
+                    </h3>
+                    <p class="govuk-body">You cannot make changes to this task.</p>
+                </div>
+            </div>
+        }
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l">
             Confirm supporting organisation contact details
         </h1>
-        <p class="govuk-body">Enter the contact details for the supporting organisation's @contactJobTitle.ToLower(). They will get the grant funding letters.</p>
-        <p class="govuk-body">You can add contact information for other people at the supporting organisation on the Contacts page.</p>
+        <p class="govuk-body">Enter the contact details for the supporting organisation's @contactJobTitle.ToLower().
+            They will get the grant funding letters.</p>
+        <p class="govuk-body">You can add contact information for other people at the supporting organisation on the
+            Contacts page.</p>
         @if (Model.SupportProject?.SupportOrganisationType == "School" || Model.SupportProject?.SupportOrganisationType == "Trust")
         {
             <div class="govuk-inset-text">
                 <p class="govuk-body">
-                    <strong>Name of supporting organisation: </strong>@Model.SupportingOrganisationName (@Model.SupportingOrganisationId)
+                    <strong>Name of supporting
+                        organisation: </strong>@Model.SupportingOrganisationName (@Model.SupportingOrganisationId)
                 </p>
-            </div>  
+            </div>
         }
-        <h2 class="govuk-heading-m">Check these contact details are correct</h2>
-        <p class="govuk-body">This information came from Get information about schools.</p>
-        <p class="govuk-body">Check it is correct. Make changes if it is wrong.</p>
 
-        <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.SupportingOrganisationName" />
-            <input type="hidden" asp-for="@Model.SupportingOrganisationId" />
-            <input type="hidden" asp-for="@Model.SupportingOrganisationSchoolType" />
-            <govuk-text-input heading-label="true" label="@contactJobTitle name" id="name" hint="Enter their first and last name"
-                              name="name" asp-for="@Model.Name" width="30" heading-label-class="govuk-label--s"/>
-            <govuk-text-input heading-label="true" label="Email address" id="email-address" name="email-address"
-                              asp-for="@Model.EmailAddress" width="30" heading-label-class="govuk-label--s"/>
-            <govuk-text-input heading-label="true" label="UK phone number (Optional)" id="phone-number" name="phone-number"
-                              asp-for="@Model.PhoneNumber" width="30" heading-label-class="govuk-label--s"/>
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+        @if (Model.TaskIsComplete)
+        {
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key govuk-!-width-one-half">@contactJobTitle name</dt>
+                    <dd class="govuk-summary-list__value">@Model.Name</dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key govuk-!-width-one-half">Email address</dt>
+                    <dd class="govuk-summary-list__value">@Model.EmailAddress</dd>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                {
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key govuk-!-width-one-half">UK phone number</dt>
+                        <dd class="govuk-summary-list__value">@Model.PhoneNumber</dd>
+                    </div>
+                }
+            </dl>
+        }
+        else
+        {
+            <h2 class="govuk-heading-m">Check these contact details are correct</h2>
+            <p class="govuk-body">This information came from Get information about schools.</p>
+            <p class="govuk-body">Check it is correct. Make changes if it is wrong.</p>
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-visually-hidden">Warning</span>
+                    You will not be able to make changes to this information once you confirm it.
+                </strong>
+            </div>
+
+            <form method="post" novalidate>
+                <input type="hidden" asp-for="@Model.SupportingOrganisationName"/>
+                <input type="hidden" asp-for="@Model.SupportingOrganisationId"/>
+                <input type="hidden" asp-for="@Model.SupportingOrganisationSchoolType"/>
+                <govuk-text-input heading-label="true" label="@contactJobTitle name" id="name"
+                                  hint="Enter their first and last name"
+                                  name="name" asp-for="@Model.Name" width="30" heading-label-class="govuk-label--s"/>
+                <govuk-text-input heading-label="true" label="Email address" id="email-address" name="email-address"
+                                  asp-for="@Model.EmailAddress" width="30" heading-label-class="govuk-label--s"/>
+                <govuk-text-input heading-label="true" label="UK phone number (Optional)" id="phone-number"
+                                  name="phone-number"
+                                  asp-for="@Model.PhoneNumber" width="30" heading-label-class="govuk-label--s"/>
+                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>
