@@ -9,7 +9,7 @@
         takenFromText = "Added manually";
     }
 
-    if (Model.isSupportingOrgMainContact)
+    if (Model.IsSupportingOrgMainContact)
     {
         takenFromText = "Confirm supporting organisation contact details task";
     }
@@ -20,7 +20,7 @@
         <h2 class="govuk-summary-card__title">
             @Model.RoleName
         </h2>
-        @if (Model is { ManuallyAdded: true, isSupportingOrgMainContact: false })
+        @if (Model is { ManuallyAdded: true, IsSupportingOrgMainContact: false })
         {
             <ul class="govuk-summary-card__actions">
                 <li class="govuk-summary-card__action">

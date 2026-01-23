@@ -260,7 +260,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                             Phone = SupportProject.SupportingOrganisationContactPhone ?? "",
                             Address = SupportProject.SupportingOrganisationContactAddress ?? "",
                             LastModifiedOn = SupportProject.DateSupportOrganisationChosen,
-                            isSupportingOrgMainContact = true
+                            IsSupportingOrgMainContact = true
                         };
                     }
                 }
@@ -274,7 +274,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
                         Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
                         LastModifiedOn = SupportProject?.DateSupportOrganisationChosen,
-                        isSupportingOrgMainContact = true
+                        IsSupportingOrgMainContact = true
                     };
                 }
             } 
@@ -288,7 +288,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Phone = SupportProject.SupportingOrganisationContactPhone ?? "",
                     Address = SupportProject.SupportingOrganisationContactAddress ?? "",
                     LastModifiedOn = SupportProject.DateSupportOrganisationChosen,
-                    isSupportingOrgMainContact = true
+                    IsSupportingOrgMainContact = true
                 };
             }
         }
