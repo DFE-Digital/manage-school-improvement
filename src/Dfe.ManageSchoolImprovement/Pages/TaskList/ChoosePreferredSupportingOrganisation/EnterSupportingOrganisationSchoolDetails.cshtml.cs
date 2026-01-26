@@ -121,7 +121,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.SupportingOrganisationContactAddress);
+            address);
         
         var result = await mediator.Send(command, cancellationToken);
         

@@ -1,4 +1,4 @@
-﻿using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
+﻿using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationAddressDetails;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 

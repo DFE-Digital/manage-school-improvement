@@ -238,7 +238,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 SupportingOrganisationContactName = supportProjectDto.SupportingOrganisationContactName,
                 SupportingOrganisationContactEmailAddress = supportProjectDto.SupportingOrganisationContactEmailAddress,
                 SupportingOrganisationContactPhone = supportProjectDto.SupportingOrganisationContactPhone,
-                SupportingOrganisationContactAddress = supportProjectDto.SupportingOrganisationAddress,
+                SupportingOrganisationContactAddress = supportProjectDto.SuppportOrganisationContactAddress,
                 RegionalDirectorImprovementPlanDecisionDate = supportProjectDto.RegionalDirectorImprovementPlanDecisionDate,
                 HasApprovedImprovementPlanDecision = supportProjectDto.HasApprovedImprovementPlanDecision,
                 HasSavedImprovementPlanInSharePoint = supportProjectDto.HasSavedImprovementPlanInSharePoint,
