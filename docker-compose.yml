@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: msi
+    depends_on:
+      - sql
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sql;Database=MyDb;User Id=sa;Password=sqlSecret;TrustServerCertificate=True
+    ports:
+      - "8080:8080"
+
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "sqlSecret"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
