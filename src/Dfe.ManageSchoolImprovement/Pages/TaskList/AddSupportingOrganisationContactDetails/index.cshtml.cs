@@ -174,6 +174,10 @@ public class IndexModel(
         }
         #endregion
 
+        var contactAddress = Name == AccountingOfficer?.Name && EmailAddress == AccountingOfficer?.Email
+            ? AccountingOfficer?.Address
+            : SupportProject?.SupportingOrganisationContactAddress;
+
         var request = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,
@@ -185,7 +189,7 @@ public class IndexModel(
             Name,
             EmailAddress,
             PhoneNumber,
-            Name == AccountingOfficer?.Name && EmailAddress == AccountingOfficer?.Email ? AccountingOfficer?.Address : SupportProject?.SupportingOrganisationContactAddress);
+            contactAddress ?? null);
 
         var result = await mediator.Send(request, cancellationToken);
 
