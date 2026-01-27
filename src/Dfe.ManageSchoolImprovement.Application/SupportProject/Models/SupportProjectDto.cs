@@ -59,6 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? SupportingOrganisationContactName = null,
         string? SupportingOrganisationContactEmailAddress = null,
         string? SupportingOrganisationContactPhone = null,
+        string? SuppportOrganisationContactAddress = null,
         DateTime? RegionalDirectorImprovementPlanDecisionDate = null,
         bool? HasApprovedImprovementPlanDecision = null,
         string? DisapprovingImprovementPlanDecisionNotes = null,

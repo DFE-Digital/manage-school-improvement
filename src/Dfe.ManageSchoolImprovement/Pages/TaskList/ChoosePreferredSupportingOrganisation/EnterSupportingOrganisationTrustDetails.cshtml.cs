@@ -145,7 +145,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
             SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.SupportingOrganisationAddress);
+            address);
         
         var result = await mediator.Send(command, cancellationToken);
         

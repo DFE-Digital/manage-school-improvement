@@ -1,0 +1,71 @@
+@page "/task-list/confirm-supporting-organisation-address-details/{id:int}"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails.AddSupportingOrganisationAddressDetailsModel
+
+@{
+    ViewData["Title"] = "Confirm supporting organisation address details";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Confirm supporting organisation address details
+        </h1>
+        <p class="govuk-body">Enter the contact details for the supporting organisation's accounting officer. They will get the grant funding letters.</p>
+        <p class="govuk-body">You can add contact information for other people at the supporting organisation on the
+            Contacts page.</p>
+
+            <div class="govuk-inset-text">
+                <p class="govuk-body">
+                    <strong>Name of supporting
+                        organisation: </strong>@Model.SupportingOrganisationName (@Model.SupportingOrganisationId)
+                </p>
+            </div>
+            <h2 class="govuk-heading-m">Check this postal address is correct</h2>
+            <p class="govuk-body">This information came from Get information about schools.</p>
+            <p class="govuk-body">Check it is correct. Make changes if it is wrong.</p>
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-visually-hidden">Warning</span>
+                    You will not be able to make changes to this information once you confirm it.
+                </strong>
+            </div>
+
+            <form method="post" novalidate>
+                <input type="hidden" asp-for="@Model.SupportingOrganisationName"/>
+                <input type="hidden" asp-for="@Model.SupportingOrganisationId"/>
+                <govuk-text-input heading-label="true" label="Address line 1" id="address-1"
+                                  name="address-1" asp-for="@Model.AddressLine1" width="30" heading-label-class="govuk-label--s"/>
+                <govuk-text-input heading-label="true" label="Address line 2 (optional)" id="address-2" name="address-2"
+                                  asp-for="@Model.AddressLine2" width="30" heading-label-class="govuk-label--s"/>
+                <govuk-text-input heading-label="true" label="Town or city" id="town"
+                                  name="town"
+                                  asp-for="@Model.Town" width="30" heading-label-class="govuk-label--s"/>
+                <govuk-text-input heading-label="true" label="County (optional)" id="county"
+                                  name="county"
+                                  asp-for="@Model.County" width="30" heading-label-class="govuk-label--s"/>
+                <govuk-text-input heading-label="true" label="Postcode" id="postcode"
+                                  name="postcode"
+                                  asp-for="@Model.Postcode" width="30" heading-label-class="govuk-label--s"/>
+                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        
+    </div>
+</div>
