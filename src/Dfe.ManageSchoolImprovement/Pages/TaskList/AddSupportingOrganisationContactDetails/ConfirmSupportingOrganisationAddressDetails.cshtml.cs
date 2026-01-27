@@ -48,18 +48,22 @@ public class IndexModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject?.SupportOrganisationIdNumber!);
-
-        var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
-
-        if (expectedTrust != null)
+        if (SupportProject?.SupportOrganisationType == "School")
         {
-            AddressLine1 = expectedTrust.Address.Street;
-            AddressLine2 = expectedTrust.Address.Locality;
-            Town = expectedTrust.Address.Town;
-            County = expectedTrust.Address.County;
-            Postcode = expectedTrust.Address.Postcode;
+            var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber!);
+
+            var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
+
+            if (expectedTrust != null)
+            {
+                AddressLine1 = expectedTrust.Address.Street;
+                AddressLine2 = expectedTrust.Address.Locality;
+                Town = expectedTrust.Address.Town;
+                County = expectedTrust.Address.County;
+                Postcode = expectedTrust.Address.Postcode;
+            } 
         }
+        
         SupportingOrganisationName = SupportProject?.SupportOrganisationName;
         SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
 

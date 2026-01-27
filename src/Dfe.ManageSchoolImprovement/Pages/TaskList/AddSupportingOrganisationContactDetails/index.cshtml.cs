@@ -62,7 +62,6 @@ public class IndexModel(
 
     // do we need both addresses? We are only using contact address from now on
     public string? ContactAddress { get; set; }
-    public string? OrganisationAddress { get; set; }
     
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {
@@ -75,8 +74,9 @@ public class IndexModel(
         SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
         TaskIsComplete = !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(EmailAddress);
         
-        var supportingSchoolTrust =
-            await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) ?? null;
+        // move this and rearrange so that call not made if not school
+        var supportingSchoolTrust = SupportProject?.SupportOrganisationType == "School" ?
+            await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) : null;
         SupportingSchoolIsAcademy = supportingSchoolTrust != null;
 
         if (SupportProject is { SupportOrganisationType: "School", SupportOrganisationIdNumber: not null })
@@ -88,12 +88,11 @@ public class IndexModel(
 
         if (preFillFields)
         {
-            OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
+            ContactAddress = SupportProject?.SupportingOrganisationContactAddress ?? SupportProject?.SupportingOrganisationAddress;
 
             if (SupportProject?.SupportOrganisationType == "Trust")
             {
                 await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber!, cancellationToken);
-                AccountingOfficer.Address = OrganisationAddress ?? "";
             }
 
             if (SupportProject?.SupportOrganisationType == "School")
@@ -152,12 +151,11 @@ public class IndexModel(
 
         // Get the organisation address to pass to the command
         #region Get Organisation Contact Address
-        OrganisationAddress = SupportProject?.SupportingOrganisationContactAddress ?? SupportProject?.SupportingOrganisationAddress;
+        ContactAddress = SupportProject?.SupportingOrganisationContactAddress ?? SupportProject?.SupportingOrganisationAddress;
 
         if (SupportProject?.SupportOrganisationType == "Trust")
         {
             await GetTrustAccountingOfficer(SupportProject?.SupportOrganisationIdNumber!, cancellationToken);
-            AccountingOfficer.Address = SupportProject?.SupportingOrganisationAddress ?? "";
         }
 
         if (SupportProject?.SupportOrganisationType == "School")
@@ -166,7 +164,7 @@ public class IndexModel(
 
             var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
 
-            if (SupportingSchoolIsAcademy)
+            if (SupportingSchoolIsAcademy && expectedTrust != null)
             {
                 GetTrustContactAddress(expectedTrust);
                 await GetTrustAccountingOfficer(expectedTrust.Ukprn, cancellationToken);
