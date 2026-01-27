@@ -1,22 +1,14 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using Dfe.ManageSchoolImprovement.Extensions;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
-using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
-using Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts;
-using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.Validation;
-using Dfe.ManageSchoolImprovement.Utils;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
-using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationAddressDetails;
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
 
-public class IndexModel(
+public class AddSupportingOrganisationAddressDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
     ErrorService errorService,
@@ -35,6 +27,7 @@ public class IndexModel(
     [BindProperty(Name = "county")]
     public string? County { get; set; }
     
+    [PostcodeValidation(ErrorMessage = "Postcode must be in correct format")]
     [BindProperty(Name = "postcode")]
     public string? Postcode { get; set; }
 
@@ -79,7 +72,7 @@ public class IndexModel(
         AddressLine2 = AddressLine2?.Trim();
         Town = Town?.Trim();
         County = County?.Trim();
-        Postcode = Postcode?.Trim();
+        Postcode = Postcode?.Trim().ToUpper();
         
         var address = string.Join(", ", new[]
         {
