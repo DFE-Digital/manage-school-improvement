@@ -73,7 +73,6 @@ public class IndexModel(
         SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
         TaskIsComplete = !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(EmailAddress);
         
-        // move this and rearrange so that call not made if not school
         var supportingSchoolTrust = SupportProject?.SupportOrganisationType == "School" ?
             await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) : null;
         SupportingSchoolIsAcademy = supportingSchoolTrust != null;
