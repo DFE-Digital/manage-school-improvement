@@ -59,8 +59,7 @@ public class IndexModel(
 
     public const string AccountingOfficerRole = "Accounting Officer";
     public const string HeadteacherRole = "Head Teacher";
-
-    // do we need both addresses? We are only using contact address from now on
+    
     public string? ContactAddress { get; set; }
     
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
