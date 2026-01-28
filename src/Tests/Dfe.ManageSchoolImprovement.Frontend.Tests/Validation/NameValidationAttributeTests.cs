@@ -37,7 +37,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Validation
         public void FormatErrorMessage_ReturnsCorrectMessage()
         {
             // Arrange
-            var expectedMessage = "First and last name must start with capital letters and be followed by lowercase letters (e.g., John Smith)";
+            var expectedMessage = "First name must start with a capital letter. Last name must start with a capital letter followed by one or more letters (e.g., Jane Smith)";
 
             // Act
             var errorMessage = _attribute.FormatErrorMessage("Name");
