@@ -228,7 +228,4 @@ describe("Tasklist negative tests", () => {
 
         cy.executeAccessibilityTests();
     });
-
-
-
 });

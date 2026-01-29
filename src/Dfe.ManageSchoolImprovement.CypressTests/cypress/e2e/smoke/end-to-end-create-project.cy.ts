@@ -98,7 +98,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 1: Confirm eligibility
   it("Should complete the 'Confirm eligibility' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Confirm eligibility' task");
     taskList.selectTask("Confirm eligibility");
     //cy.executeAccessibilityTests(); COMMENTED OUT AS AXE FALSE POSITIVE ARIA-EXPANDED RADIO BUTTON THING
@@ -108,13 +108,13 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("confirm-eligibility-status");
 
-    cy.executeAccessibilityTests();  
+    cy.executeAccessibilityTests();
   });
 
   // Task 2: Funding history
   it("Should complete the 'Enter the funding history' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Funding history' task");
     taskList.selectTask("Enter the funding history");
 
@@ -131,13 +131,13 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("funding_history_status");
 
-    cy.executeAccessibilityTests();  
+    cy.executeAccessibilityTests();
   });
 
   // Task 3: Contact the responsible body
   it("Should complete the 'Make initial contact with the responsible body' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Contact the responsible body' task");
     taskList.selectTask("Make initial contact with the responsible body");
 
@@ -155,7 +155,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 4: Check potential adviser conflicts of interest
   it("Should complete the 'Check potential adviser conflicts of interest' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Check potential adviser conflicts of interest' task");
     taskList.selectTask("Check potential adviser conflicts of interest");
 
@@ -198,7 +198,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 6: Record the responsible body's response to the conflict of interest request
   it("Should complete the 'Record the responsible body's response to the conflict of interest request", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Record the responsible body's response to the conflict of interest request' task");
     taskList.selectTask("Record the responsible body's response to the conflict of interest request");
 
@@ -219,7 +219,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 7: Allocate an adviser
   it("Should complete the 'Allocate an adviser' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Allocate an adviser' task");
     taskList.selectTask("Allocate an adviser");
 
@@ -236,7 +236,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 8: Send introductory email
   it("Should complete the 'Send introductory email' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Send introductory email' task");
     taskList.selectTask("Send introductory email");
 
@@ -257,7 +257,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 9: Arrange adviser's initial visit
   it("Should complete the 'Arrange adviser's initial visit' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Arrange adviser's initial visit' task");
     taskList.selectTask("Arrange adviser's initial visit");
 
@@ -278,7 +278,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 10: Record date of initial visit
   it("Should complete the 'Record date of initial visit' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Record date of initial visit' task");
     taskList.selectTask("Record date of initial visit");
 
@@ -294,7 +294,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 11: Complete and save the initial diagnosis assessment
   it("Should complete the 'Complete and save the initial diagnosis assessment' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Complete and save the initial diagnosis assessment' task");
     taskList.selectTask("Complete and save the initial diagnosis assessment");
 
@@ -316,7 +316,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 12: Record initial diagnosis decision
   it("Should complete the 'Record initial diagnosis decision' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Record initial diagnosis decision' task");
     taskList.selectTask("Record initial diagnosis decision");
     taskListActions.hasHeader("Record initial diagnosis decision");
@@ -335,7 +335,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 13: Choose preferred supporting organisation
   it("Should complete the 'Choose preferred supporting organisation' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Choose preferred supporting organisation' task");
     taskList.selectTask("Choose preferred supporting organisation");
 
@@ -346,7 +346,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
 
     //check validaton
     taskListActions.selectButtonOrCheckbox("continue-button");
-    
+
     taskListActions.hasValidation("Confirm you have completed the assessment tool", "complete-assessment-tool-error-link");
     taskListActions.hasValidation("Select the type of supporting organisation", "support-organisation-type-school-error-link");
 
@@ -359,7 +359,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskListActions.confirmSupportingOrganisationDetails();
     taskListActions.enterDate("date-support-organisation-confirmed", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-return-button");
-  
+
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("choose-preferred-supporting-organisation-status");
   });
@@ -367,7 +367,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 14: Carry out due diligence on preferred supporting organisation
   it("Should complete the 'Carry out due diligence on preferred supporting organisation' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Carry out due diligence on preferred supporting organisation' task");
     taskList.selectTask("Carry out due diligence on preferred supporting organisation");
 
@@ -391,7 +391,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 15: Record supporting organisation appointment
   it("Should complete the 'Record supporting organisation appointment' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Record supporting organisation appointment' task");
     taskList.selectTask("Record supporting organisation appointment");
     taskListActions.hasHeader("Record supporting organisation appointment");
@@ -407,13 +407,13 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-supporting-organisation-appointment-status");
 
-    cy.executeAccessibilityTests();  
+    cy.executeAccessibilityTests();
   });
 
   // Task 16: Confirm supporting organisation contact details
   it("Should complete the 'Confirm supporting organisation contact details' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Confirm supporting organisation contact details' task");
     taskList.selectTask("Confirm supporting organisation contact details");
 
@@ -442,11 +442,11 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskListActions.enterText("postcode", "SK8 1AA");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
-           .hasTaskStatusCompleted("add-supporting-organisation-contact-details-status");
-        taskList.selectTask("Confirm supporting organisation contact details");
+      .hasTaskStatusCompleted("add-supporting-organisation-contact-details-status");
+    taskList.selectTask("Confirm supporting organisation contact details");
 
     //task is locked after completion
-     Logger.log("Selecting 'Confirm supporting organisation contact details' COMPLETED task");
+    Logger.log("Selecting 'Confirm supporting organisation contact details' COMPLETED task");
     taskListActions.hasDisplayedImportantInfo('Accounting officer confirmed You cannot make changes to this task.')
     taskListActions.hasSOSummeryList()
   });
@@ -454,7 +454,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 17: Request planning grant offer letter
   it("Should complete the 'Request planning grant offer letter' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Request planning grant offer letter' task");
     taskList.selectTask("Request planning grant offer letter");
 
@@ -478,7 +478,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 18: Confirm planning grant offer letter sent
   it("Should complete the 'Confirm planning grant offer letter sent' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Confirm planning grant offer letter sent' task");
     taskList.selectTask("Confirm planning grant offer letter sent");
 
@@ -494,7 +494,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 19: Share indicative funding band and the improvement plan template
   it("Should complete the 'Share indicative funding band and the improvement plan template' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Share indicative funding band and the improvement plan template' task");
     taskList.selectTask("Share indicative funding band and the improvement plan template");
 
@@ -507,7 +507,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
       .hasTaskStatusInProgress("share-the-improvement-plan-template_status");
     taskList.selectTask("Share indicative funding band and the improvement plan template");
     taskListActions.selectButtonOrCheckbox("funding-band-40000");
-     taskListActions.selectButtonOrCheckbox("send-template");
+    taskListActions.selectButtonOrCheckbox("send-template");
     taskListActions.enterDate("date-templates-sent", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -517,7 +517,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 20: Review the improvement plan and confirm the funding band
   it("Should complete the 'Review the improvement plan and confirm the funding band' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Review the improvement plan and confirm the funding band' task");
     taskList.selectTask("Review the improvement plan and confirm the funding band");
 
@@ -541,7 +541,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 21: Send the agreed improvement plan for approval
   it("Should complete the 'Send the agreed improvement plan for approval' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Send the agreed improvement plan for approval' task");
     taskList.selectTask("Send the agreed improvement plan for approval");
 
@@ -562,7 +562,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 22: Record improvement plan decision
   it("Should complete the 'Record improvement plan decision' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Record improvement plan decision' task");
     taskList.selectTask("Record improvement plan decision");
     taskListActions.hasHeader("Record improvement plan decision");
@@ -578,13 +578,13 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-improvement-plan-decision_status");
 
-    cy.executeAccessibilityTests();  
+    cy.executeAccessibilityTests();
   });
 
   // Task 23: Enter improvement plan objectives //Not visible in Test environment
   it("Should complete the 'Enter improvement plan objectives' task", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Enter improvement plan objectives' task");
     taskList.selectTask("Enter improvement plan objectives");
 
@@ -592,21 +592,21 @@ describe("Add a school which requires an improvement and complete it's tasks", (
 
     taskListActions.hasHeader("Select an area of improvement");
     taskListActions.selectButtonOrCheckbox("quality-of-education");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskListActions.enterText("ObjectiveDetails", "Quality of education details");
     taskListActions.clickButton("finish");
     taskListActions.clickButton("save");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("enter-improvement-plan-objectives_status");
     taskList.selectTask("Enter improvement plan objectives");
-    taskListActions.clickButton("add-another"); 
+    taskListActions.clickButton("add-another");
     taskListActions.selectButtonOrCheckbox("leadership-and-management");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");     
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskListActions.enterText("ObjectiveDetails", "Leadership-and-management details");
     taskListActions.clickButton("finish");
     taskListActions.linkExists("Change")
     taskListActions.selectButtonOrCheckbox("MarkAsComplete")
-    taskListActions.clickButton("save");    
+    taskListActions.clickButton("save");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("enter-improvement-plan-objectives_status");
   });
@@ -614,7 +614,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
   // Task 24: Request improvement grant offer letter
   it("Should complete the final grant tasks", () => {
     homePage.selectSchoolName(schoolLong);
-    
+
     Logger.log("Selecting 'Request improvement grant offer letter' task");
     taskList.selectTask("Request improvement grant offer letter");
 
@@ -653,5 +653,5 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     cy.executeAccessibilityTests();
 
   });
-  
+
 });
