@@ -423,9 +423,32 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     taskListActions.enterText("name", "Joe Bloggsx");
     taskListActions.enterText("email-address", "joe.bloggsx@email.com");
     taskListActions.enterText("phone-number", "07898760077");
+    taskListActions.selectButtonOrCheckbox("continue-button");
+
+    Logger.log("'Confirm supporting organisation address details' page");
+    taskListActions.hasHeader("Confirm supporting organisation address details");
+
+    cy.executeAccessibilityTests();
+
+    taskListActions.clearInput("address-1");
+    taskListActions.enterText("address-1", "Test Address line 1");
+    taskListActions.clearInput("address-2");
+    taskListActions.enterText("address-2", "Test Address line 2");
+    taskListActions.clearInput("town");
+    taskListActions.enterText("town", "Test Town");
+    taskListActions.clearInput("county");
+    taskListActions.enterText("county", "TestCounty");
+    taskListActions.clearInput("postcode");
+    taskListActions.enterText("postcode", "SK8 1AA");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
-      .hasTaskStatusCompleted("add-supporting-organisation-contact-details-status");
+           .hasTaskStatusCompleted("add-supporting-organisation-contact-details-status");
+        taskList.selectTask("Confirm supporting organisation contact details");
+
+    //task is locked after completion
+     Logger.log("Selecting 'Confirm supporting organisation contact details' COMPLETED task");
+    taskListActions.hasDisplayedImportantInfo('Accounting officer confirmed You cannot make changes to this task.')
+    taskListActions.hasSOSummeryList()
   });
 
   // Task 17: Request planning grant offer letter

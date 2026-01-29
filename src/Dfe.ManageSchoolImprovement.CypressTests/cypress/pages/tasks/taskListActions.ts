@@ -101,6 +101,25 @@ class TaskListActions {
 
         return this;
     }
+
+    public hasSOSummeryList(): this {
+        cy.get('.govuk-summary-list').should('exist');  
+        cy.get('.govuk-summary-list__row').each(($row) => {
+            cy.wrap($row).find('.govuk-summary-list__value').should('not.be.empty');
+        });              
+
+        return this;
+    }   
+
+    public hasDisplayedImportantInfo(infoText: string): this {
+         cy.get('.govuk-notification-banner__content').invoke('text').then((text) => {
+            const normalizedText = text.replace(/\s+/g, ' ').trim();
+            expect(normalizedText).to.contain(infoText);
+        });
+
+        return this;
+    }
+
 }
 
 const taskListActions = new TaskListActions();
