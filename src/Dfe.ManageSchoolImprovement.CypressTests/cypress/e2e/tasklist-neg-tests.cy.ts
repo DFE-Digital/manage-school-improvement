@@ -203,7 +203,7 @@ describe("Tasklist negative tests", () => {
         cy.executeAccessibilityTests();
     });
 
-    it.only("should validate Confirm supporting organisation contact details", () => {
+    it("should validate Confirm supporting organisation contact details", () => {
         Logger.log("Validating text input fields for 'Confirm supporting organisation contact details' task");
         taskList.selectTask("Confirm supporting organisation contact details");
         taskListActions.hasHeader("Confirm supporting organisation contact details");
