@@ -73,6 +73,10 @@
                         <dd class="govuk-summary-list__value">@Model.PhoneNumber</dd>
                     </div>
                 }
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key govuk-!-width-one-half">Address</dt>
+                    <dd class="govuk-summary-list__value">@Html.Raw(Model.SupportProject?.SupportingOrganisationContactAddress?.Replace(",", "<br>"))</dd>
+                </div>
             </dl>
         }
         else
@@ -92,6 +96,7 @@
                 <input type="hidden" asp-for="@Model.SupportingOrganisationName"/>
                 <input type="hidden" asp-for="@Model.SupportingOrganisationId"/>
                 <input type="hidden" asp-for="@Model.SupportingOrganisationSchoolType"/>
+                <input type="hidden" asp-for="@Model.SupportingSchoolIsAcademy" />
                 <govuk-text-input heading-label="true" label="@contactJobTitle name" id="name"
                                   hint="Enter their first and last name"
                                   name="name" asp-for="@Model.Name" width="30" heading-label-class="govuk-label--s"/>
@@ -100,9 +105,10 @@
                 <govuk-text-input heading-label="true" label="UK phone number (Optional)" id="phone-number"
                                   name="phone-number"
                                   asp-for="@Model.PhoneNumber" width="30" heading-label-class="govuk-label--s"/>
-                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+
+                <button class="govuk-button" id="continue-button" data-module="govuk-button"
                         data-cy="select-common-submitbutton">
-                    Save and return
+                    Continue
                 </button>
             </form>
         }
