@@ -74,10 +74,10 @@ public class ConfirmSupportingOrganisationDetailsModel(
             DateSupportOrganisationConfirmed,
             SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
-            SupportProject?.SupportingOrganisationContactName,
-            SupportProject?.SupportingOrganisationContactEmailAddress,
-            SupportProject?.SupportingOrganisationContactPhone,
-            SupportProject?.SupportingOrganisationContactAddress);
+            null, // reset all contact details to null, so that if SO has changed they can be reconfirmed in the subsequent task
+            null,
+            null,
+            null);
 
         var result = await mediator.Send(command, cancellationToken);
 
