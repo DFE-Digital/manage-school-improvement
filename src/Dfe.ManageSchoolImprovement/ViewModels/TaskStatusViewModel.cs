@@ -227,7 +227,8 @@ public static class TaskStatusViewModel
         SupportProjectViewModel supportProject)
     {
         if (!string.IsNullOrEmpty(supportProject.SupportingOrganisationContactName)
-            && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactEmailAddress))
+            && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactEmailAddress)
+            && !string.IsNullOrEmpty(supportProject.SupportingOrganisationContactAddress))
         {
             return TaskListStatus.Complete;
         }

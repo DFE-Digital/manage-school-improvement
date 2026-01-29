@@ -8,7 +8,6 @@ using Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Validation;
 using Dfe.ManageSchoolImprovement.Utils;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -60,9 +59,10 @@ public class IndexModel(
     public const string AccountingOfficerRole = "Accounting Officer";
     public const string HeadteacherRole = "Head Teacher";
     
-    public string? ContactAddress { get; set; }
+    private const string OrganisationTypeSchool = "School";
+    private const string OrganisationTypeTrust = "Trust";
     
-    public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGet(int id, bool address, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
@@ -71,45 +71,49 @@ public class IndexModel(
         PhoneNumber = SupportProject?.SupportingOrganisationContactPhone;
         SupportingOrganisationName = SupportProject?.SupportOrganisationName;
         SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
-        TaskIsComplete = !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(EmailAddress);
         
-        var supportingSchoolTrust = SupportProject?.SupportOrganisationType == "School" ?
-            await getEstablishment.GetEstablishmentTrust(SupportProject?.SupportOrganisationIdNumber) : null;
-        SupportingSchoolIsAcademy = supportingSchoolTrust != null;
-
-        if (SupportProject is { SupportOrganisationType: "School", SupportOrganisationIdNumber: not null })
+        if (SupportProject?.SupportOrganisationIdNumber != null)
         {
-            SupportingOrganisationSchoolType = SupportingSchoolIsAcademy ? "Local authority" : "Academy";
-        }
+            var supportingSchoolTrust = SupportProject.SupportOrganisationType == OrganisationTypeSchool ?
+                await getEstablishment.GetEstablishmentTrust(SupportProject.SupportOrganisationIdNumber) : null;
+            SupportingSchoolIsAcademy = supportingSchoolTrust != null;
+        
+            TaskIsComplete = !string.IsNullOrWhiteSpace(Name) 
+                             && !string.IsNullOrWhiteSpace(EmailAddress)
+                             && !string.IsNullOrWhiteSpace(SupportProject?.SupportingOrganisationContactAddress)
+                             && !address;
 
-        var preFillFields = Name == null && EmailAddress == null && SupportingOrganisationId != null;
-
-        if (preFillFields)
-        {
-            ContactAddress = SupportProject?.SupportingOrganisationContactAddress ?? SupportProject?.SupportingOrganisationAddress;
-
-            if (SupportProject?.SupportOrganisationType == "Trust")
+            if (SupportProject is { SupportOrganisationType: OrganisationTypeSchool, SupportOrganisationIdNumber: not null })
             {
-                await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber!, cancellationToken);
+                SupportingOrganisationSchoolType = SupportingSchoolIsAcademy ? "Local authority" : "Academy";
             }
 
-            if (SupportProject?.SupportOrganisationType == "School")
+            var preFillFields = Name == null && EmailAddress == null && SupportingOrganisationId != null;
+
+            if (preFillFields)
             {
+                if (SupportProject?.SupportOrganisationType == OrganisationTypeTrust)
+                {
+                    await GetTrustAccountingOfficer(SupportProject.SupportOrganisationIdNumber!, cancellationToken);
+                }
+
+                if (SupportProject?.SupportOrganisationType == OrganisationTypeSchool)
+                {
                 
-                if (SupportingSchoolIsAcademy && supportingSchoolTrust != null)
-                {
-                    GetTrustContactAddress(supportingSchoolTrust);
-                    await GetTrustAccountingOfficer(supportingSchoolTrust.Ukprn, cancellationToken);
+                    if (SupportingSchoolIsAcademy && supportingSchoolTrust != null)
+                    {
+                        await GetTrustAccountingOfficer(supportingSchoolTrust.Ukprn, cancellationToken);
+                    }
+                    else
+                    {
+                        await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber!, cancellationToken);
+                    }
                 }
-                else
-                {
-                    await GetSchoolAccountingOfficer(SupportProject.SupportOrganisationIdNumber!, cancellationToken);
-                }
-            }
 
-            Name = AccountingOfficer?.Name;
-            EmailAddress = AccountingOfficer?.Email;
-            PhoneNumber = AccountingOfficer?.Phone;
+                Name = AccountingOfficer?.Name;
+                EmailAddress = AccountingOfficer?.Email;
+                PhoneNumber = AccountingOfficer?.Phone;
+            }
         }
 
         return Page();
@@ -118,8 +122,7 @@ public class IndexModel(
     public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-
-        // trim any trailing whitespace from the name and email address
+        
         Name = Name?.Trim();
         EmailAddress = EmailAddress?.Trim();
         PhoneNumber = PhoneNumber?.Trim();
@@ -147,37 +150,6 @@ public class IndexModel(
             return Page();
         }
 
-        // Get the organisation address to pass to the command
-        #region Get Organisation Contact Address
-        ContactAddress = SupportProject?.SupportingOrganisationContactAddress ?? SupportProject?.SupportingOrganisationAddress;
-
-        if (SupportProject?.SupportOrganisationType == "Trust")
-        {
-            await GetTrustAccountingOfficer(SupportProject?.SupportOrganisationIdNumber!, cancellationToken);
-        }
-
-        if (SupportProject?.SupportOrganisationType == "School")
-        {
-            var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject?.SupportOrganisationIdNumber!);
-
-            var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
-
-            if (SupportingSchoolIsAcademy && expectedTrust != null)
-            {
-                GetTrustContactAddress(expectedTrust);
-                await GetTrustAccountingOfficer(expectedTrust.Ukprn, cancellationToken);
-            }
-            else
-            {
-                await GetSchoolAccountingOfficer(SupportProject?.SupportOrganisationIdNumber!, cancellationToken);
-            }
-        }
-        #endregion
-
-        var contactAddress = Name == AccountingOfficer?.Name && EmailAddress == AccountingOfficer?.Email
-            ? AccountingOfficer?.Address
-            : SupportProject?.SupportingOrganisationContactAddress;
-
         var request = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,
@@ -189,7 +161,7 @@ public class IndexModel(
             Name,
             EmailAddress,
             PhoneNumber,
-            contactAddress ?? null);
+            SupportProject?.SupportingOrganisationContactAddress);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -200,12 +172,7 @@ public class IndexModel(
         }
 
         TaskUpdated = true;
-
-        if (SupportProject?.SupportOrganisationType == "Trust" ||
-            (SupportProject?.SupportOrganisationType == "School" && !SupportingSchoolIsAcademy))
-        {
-            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
-        }
+        
         return RedirectToPage(@Links.TaskList.ConfirmSupportingOrganisationAddressDetails.Page, new { id });
     }
 
@@ -228,7 +195,7 @@ public class IndexModel(
                     Name = accountingOfficer.DisplayName,
                     Email = accountingOfficer.Email,
                     Phone = accountingOfficer.Phone,
-                    Address = ContactAddress ?? "",
+                    Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
                     RoleName = AccountingOfficerRole
                 };
             }
@@ -237,8 +204,6 @@ public class IndexModel(
 
     private async Task GetSchoolAccountingOfficer(string supportingOrganisationId, CancellationToken cancellationToken)
     {
-        ContactAddress = SupportProject?.SupportingOrganisationContactAddress;
-
         var supportingSchool =
             await getEstablishment.GetEstablishmentByUrn(supportingOrganisationId);
         var establishmentContacts = await establishmentsClient
@@ -266,20 +231,8 @@ public class IndexModel(
             Name = supportingSchool.HeadteacherFirstName + " " + supportingSchool.HeadteacherLastName,
             Email = headteacherEmail,
             Phone = supportingSchool.MainPhone,
-            Address = ContactAddress ?? "",
+            Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
             RoleName = HeadteacherRole
         };
-    }
-
-    private void GetTrustContactAddress(TrustDto trust)
-    {
-        ContactAddress = string.Join(", ", new[]
-        {
-            trust.Address.Street,
-            trust.Address.Locality,
-            trust.Address.Town,
-            trust.Address.County,
-            trust.Address.Postcode
-        }.Where(x => !string.IsNullOrWhiteSpace(x)));
     }
 }
