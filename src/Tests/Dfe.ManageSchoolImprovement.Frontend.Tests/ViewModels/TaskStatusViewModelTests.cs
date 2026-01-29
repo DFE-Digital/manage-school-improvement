@@ -370,24 +370,27 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
         }
 
 
-        public static readonly TheoryData<string?, string?, TaskListStatus>
+        public static readonly TheoryData<string?, string?, string?, TaskListStatus>
             SupportingOrganisationContactDetailsTaskListStatusCases = new()
             {
-                { null, null, TaskListStatus.NotStarted },
-                { "name", "email@email.com", TaskListStatus.Complete },
-                { null, "email@email.com", TaskListStatus.InProgress },
-                { "name", null, TaskListStatus.InProgress }
+                { null, null, null, TaskListStatus.NotStarted },
+                { "name", "email@email.com", "1 address road", TaskListStatus.Complete },
+                { null, "email@email.com", null, TaskListStatus.InProgress },
+                { "name", null, "1 address road", TaskListStatus.InProgress }
             };
 
         [Theory, MemberData(nameof(SupportingOrganisationContactDetailsTaskListStatusCases))]
         public void SupportingOrganisationContactDetailsTaskListStatusShouldReturnCorrectStatus(
             string? supportingOrganisationContactName,
-            string? supportingOrganisationContactEmail, TaskListStatus expectedTaskListStatus)
+            string? supportingOrganisationContactEmail,
+            string? supportingOrganisationContactAddress, 
+            TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 SupportingOrganisationContactName: supportingOrganisationContactName,
-                SupportingOrganisationContactEmailAddress: supportingOrganisationContactEmail!));
+                SupportingOrganisationContactEmailAddress: supportingOrganisationContactEmail!,
+                SuppportOrganisationContactAddress: supportingOrganisationContactAddress));
 
             //Action 
             var taskListStatus =

@@ -1,8 +1,12 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Extensions;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using Dfe.ManageSchoolImprovement.Utils;
+using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,22 +15,20 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrgan
 public class AddSupportingOrganisationAddressDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
+    IGetTrust getTrust,
     ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
+    IMediator mediator,
+    IDateTimeProvider dateTimeProvider) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
     IDateValidationMessageProvider
 {
-    [BindProperty(Name = "address-1")]
-    public string? AddressLine1 { get; set; }
-    
-    [BindProperty(Name = "address-2")]
-    public string? AddressLine2 { get; set; }
-    
-    [BindProperty(Name = "town")]
-    public string? Town { get; set; }
-    
-    [BindProperty(Name = "county")]
-    public string? County { get; set; }
-    
+    [BindProperty(Name = "address-1")] public string? AddressLine1 { get; set; }
+
+    [BindProperty(Name = "address-2")] public string? AddressLine2 { get; set; }
+
+    [BindProperty(Name = "town")] public string? Town { get; set; }
+
+    [BindProperty(Name = "county")] public string? County { get; set; }
+
     [PostcodeValidation(ErrorMessage = "Postcode must be in correct format")]
     [BindProperty(Name = "postcode")]
     public string? Postcode { get; set; }
@@ -36,14 +38,15 @@ public class AddSupportingOrganisationAddressDetailsModel(
     [BindProperty] public string? SupportingOrganisationId { get; set; }
 
     public bool ShowError { get; set; }
-    
+
     public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
 
         if (SupportProject?.SupportOrganisationType == "School")
         {
-            var expectedSchool = await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber!);
+            var expectedSchool =
+                await getEstablishment.GetEstablishmentByUrn(SupportProject.SupportOrganisationIdNumber!);
 
             var expectedTrust = await getEstablishment.GetEstablishmentTrust(expectedSchool.Urn) ?? null;
 
@@ -54,9 +57,28 @@ public class AddSupportingOrganisationAddressDetailsModel(
                 Town = expectedTrust.Address.Town;
                 County = expectedTrust.Address.County;
                 Postcode = expectedTrust.Address.Postcode;
-            } 
+            }
+            else
+            {
+                AddressLine1 = expectedSchool.Address.Street;
+                AddressLine2 = expectedSchool.Address.Locality;
+                Town = expectedSchool.Address.Town;
+                County = expectedSchool.Address.County;
+                Postcode = expectedSchool.Address.Postcode;
+            }
         }
-        
+
+        if (SupportProject is { SupportOrganisationType: "Trust", SupportOrganisationIdNumber: not null })
+        {
+            var expectedTrust = await getTrust.GetTrustByUkprn(SupportProject.SupportOrganisationIdNumber);
+
+            AddressLine1 = expectedTrust.Address.Street;
+            AddressLine2 = expectedTrust.Address.Locality;
+            Town = expectedTrust.Address.Town;
+            County = expectedTrust.Address.County;
+            Postcode = expectedTrust.Address.Postcode;
+        }
+
         SupportingOrganisationName = SupportProject?.SupportOrganisationName;
         SupportingOrganisationId = SupportProject?.SupportOrganisationIdNumber;
 
@@ -67,31 +89,30 @@ public class AddSupportingOrganisationAddressDetailsModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // trim any trailing whitespace
         AddressLine1 = AddressLine1?.Trim();
         AddressLine2 = AddressLine2?.Trim();
         Town = Town?.Trim();
         County = County?.Trim();
         Postcode = Postcode?.Trim().ToUpper();
-        
+
         var address = string.Join(", ", new[]
         {
             AddressLine1, AddressLine2, Town, County, Postcode
         }.Where(x => !string.IsNullOrWhiteSpace(x)));
 
-        if (AddressLine1 == null)
+        if (string.IsNullOrWhiteSpace(AddressLine1))
         {
             ModelState.AddModelError("address-1", "Enter a street address");
         }
 
-        if (Town == null)
+        if (string.IsNullOrWhiteSpace(Town))
         {
-            ModelState.AddModelError("name", "Enter a town or city");
+            ModelState.AddModelError("town", "Enter a town or city");
         }
-        
-        if (Postcode == null)
+
+        if (string.IsNullOrWhiteSpace(Postcode))
         {
-            ModelState.AddModelError("name", "Enter a postcode");
+            ModelState.AddModelError("postcode", "Enter a postcode");
         }
 
         if (!ModelState.IsValid)
@@ -102,7 +123,6 @@ public class AddSupportingOrganisationAddressDetailsModel(
             return Page();
         }
         
-
         var request = new SetChoosePreferredSupportingOrganisationCommand(
             new SupportProjectId(id),
             SupportProject?.SupportOrganisationName,

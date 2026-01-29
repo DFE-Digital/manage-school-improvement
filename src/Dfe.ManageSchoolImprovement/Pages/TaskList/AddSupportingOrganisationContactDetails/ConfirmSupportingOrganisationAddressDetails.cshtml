@@ -8,7 +8,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
+        <a asp-page="@Links.TaskList.ConfirmSupportingOrganisationContactDetails.Page" asp-route-id="@Model.SupportProject?.Id" asp-route-address="true"
            class="govuk-back-link">Back</a>
     </nav>
 }
