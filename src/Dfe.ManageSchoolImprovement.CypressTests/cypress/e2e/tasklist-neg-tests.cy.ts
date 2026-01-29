@@ -6,7 +6,7 @@ import improvementPlan from "cypress/pages/improvementPlan";
 import supportingOrgType from "cypress/pages/tasks/supportingOrgType";
 
 describe("Tasklist negative tests", () => {
-    
+
     beforeEach(() => {
         cy.login();
         cy.url().should("contains", "schools-identified-for-targeted-intervention");
@@ -15,7 +15,7 @@ describe("Tasklist negative tests", () => {
             .applyFilters()
             .selectSchoolName("Plymtree Church of England Primary School");
     });
-    
+
     it("should validate date format", () => {
         Logger.log("Validating date format input");
         taskList.selectTask("Make initial contact with the responsible body");
@@ -152,7 +152,7 @@ describe("Tasklist negative tests", () => {
         supportingOrgType.withShortSOName('xxx');
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("We could not find any local authorities matching your search criteria", "SearchQuery-error-link");
-        
+
         cy.executeAccessibilityTests();
     });
 
@@ -166,7 +166,7 @@ describe("Tasklist negative tests", () => {
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("Enter the supporting organisation's name", "organisation-name-error-link");
         taskListActions.hasValidation("Enter the supporting organisation's companies house number", "companies-house-number-error-link");
-      
+
         cy.executeAccessibilityTests();
     });
 
@@ -202,4 +202,33 @@ describe("Tasklist negative tests", () => {
 
         cy.executeAccessibilityTests();
     });
+
+    it.only("should validate Confirm supporting organisation contact details", () => {
+        Logger.log("Validating text input fields for 'Confirm supporting organisation contact details' task");
+        taskList.selectTask("Confirm supporting organisation contact details");
+        taskListActions.hasHeader("Confirm supporting organisation contact details");
+        taskListActions.clearInput("name");
+        taskListActions.clearInput("email-address");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+        taskListActions.hasValidation("Enter a name", "name-error-link");
+        taskListActions.hasValidation("Enter an email address", "email-address-error-link");
+
+        cy.executeAccessibilityTests();
+
+        taskListActions.enterText("name", "Test Test");
+        taskListActions.enterText("email-address", "test.bloggsx@email.com");
+        taskListActions.selectButtonOrCheckbox("continue-button");
+
+        Logger.log("Validating text input fields for 'Confirm supporting organisation address details' page");
+        taskListActions.hasHeader("Confirm supporting organisation address details");
+        taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+        taskListActions.hasValidation("Enter a street address", "address-1-error-link");
+        taskListActions.hasValidation("Enter a town or city", "town-error-link");
+        taskListActions.hasValidation("Enter a postcode", "postcode-error-link");
+
+        cy.executeAccessibilityTests();
+    });
+
+
+
 });
