@@ -3,6 +3,18 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.4.2] - Q4 – Sprint 3 (Part 1)- 2026-01-30
+
+### 📌 User Stories 
+
+- **258322** - Add postal address to SO contact details check
+
+### 🐛 Bug Fixes
+
+- **259023** - Issue with name validation on confirm supporting org contact page
+
+--
+
 ## 📅 [v1.4.1] - Q4 – Sprint 2 (Part 2)- 2026-01-22
 
 ### 📌 User Stories 
