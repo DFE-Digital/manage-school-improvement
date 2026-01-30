@@ -24,7 +24,7 @@ public partial class NameValidationAttribute : ValidationAttribute
     public override string FormatErrorMessage(string name)
     {
         return
-            "First name must start with a capital letter. Last name must start with a capital letter followed by one or more letters (e.g., Jane Smith)";
+            "First and Last name must start with a capital letter followed by one or more letters (e.g., Jane Smith)";
     }
 
     [GeneratedRegex(@"^[A-Z](?:[a-z]+)?(?:-[A-Z](?:[a-z]+)?)* [A-Z][a-zA-Z]+(?:-[A-Z][a-zA-Z]+)*$",
