@@ -159,7 +159,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public IEnumerable<FundingHistoryViewModel>? FundingHistories { get; set; }
 
         public string? SchoolIsNotEligibleNotes { get; set; }
-        public SupportProjectStatus? SupportProjectStatus { get; set; }
+        public SupportProjectEligibilityStatus? SupportProjectEligibilityStatus { get; set; }
         public string? PreviousUrn { get; set; }
         public bool? CaseStudyCandidate { get; set; }
         public string? CaseStudyDetails { get; set; }
@@ -259,7 +259,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
-                SupportProjectStatus = supportProjectDto.SupportProjectStatus,
+                SupportProjectEligibilityStatus = supportProjectDto.SupportProjectEligibilityStatus,
                 SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
                 Contacts = supportProjectDto.Contacts,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,

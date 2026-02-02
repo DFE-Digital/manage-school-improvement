@@ -164,7 +164,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedBy { get; private set; }
 
-    public SupportProjectStatus? SupportProjectStatus { get; private set; }
+    public SupportProjectEligibilityStatus? SupportProjectEligibilityStatus { get; private set; }
 
     public string? SchoolIsNotEligibleNotes { get; private set; }
 
@@ -474,12 +474,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         if (schoolIsEligible == true)
         {
-            SupportProjectStatus = ValueObjects.SupportProjectStatus.EligibleForSupport;
+            SupportProjectEligibilityStatus = ValueObjects.SupportProjectEligibilityStatus.EligibleForSupport;
         }
 
         if (schoolIsEligible == false)
         {
-            SupportProjectStatus = ValueObjects.SupportProjectStatus.NotEligibleForSupport;
+            SupportProjectEligibilityStatus = ValueObjects.SupportProjectEligibilityStatus.NotEligibleForSupport;
         }
 
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;

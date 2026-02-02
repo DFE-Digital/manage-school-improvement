@@ -586,7 +586,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SetEligibility(isEligible, note);
 
             // Assert
-            supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.EligibleForSupport);
+            supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.EligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
@@ -603,7 +603,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SetEligibility(isEligible, note);
 
             // Assert
-            supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.NotEligibleForSupport);
+            supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
