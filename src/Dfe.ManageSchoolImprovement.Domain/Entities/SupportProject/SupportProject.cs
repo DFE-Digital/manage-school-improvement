@@ -212,25 +212,21 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     #endregion
 
     public static SupportProject Create(
-        string schoolName,
-        string schoolUrn,
-        string localAuthority,
-        string region,
         ProjectStatus projectStatus,
+        SchoolDetails schoolDetails,
         TrustDetails? trustDetails = null,
-        string? address = null,
         DateTime? deletedAt = null)
     {
         return new SupportProject()
         {
-            SchoolName = schoolName,
-            SchoolUrn = schoolUrn,
-            LocalAuthority = localAuthority,
-            Region = region,
+            SchoolName = schoolDetails.SchoolName,
+            SchoolUrn = schoolDetails.SchoolUrn,
+            LocalAuthority = schoolDetails.LocalAuthority,
+            Region = schoolDetails.Region,
             ProjectStatus = projectStatus,
             TrustName = trustDetails?.TrustName,
             TrustReferenceNumber = trustDetails?.TrustReferenceNumber,
-            Address = address,
+            Address = schoolDetails.Address,
             DeletedAt = deletedAt
         };
     }
