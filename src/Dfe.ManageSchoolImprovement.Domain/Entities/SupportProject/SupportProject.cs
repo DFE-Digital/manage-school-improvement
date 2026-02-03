@@ -207,6 +207,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<EngagementConcern> _engagementConcerns = new();
     public string? Cohort { get; }
+    public ProjectStatus ProjectStatus { get; private set; }
 
     #endregion
 
@@ -215,6 +216,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         string schoolUrn,
         string localAuthority,
         string region,
+        ProjectStatus projectStatus,
         TrustDetails? trustDetails = null,
         string? address = null,
         DateTime? deletedAt = null)
@@ -225,6 +227,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             SchoolUrn = schoolUrn,
             LocalAuthority = localAuthority,
             Region = region,
+            ProjectStatus = projectStatus,
             TrustName = trustDetails?.TrustName,
             TrustReferenceNumber = trustDetails?.TrustReferenceNumber,
             Address = address,

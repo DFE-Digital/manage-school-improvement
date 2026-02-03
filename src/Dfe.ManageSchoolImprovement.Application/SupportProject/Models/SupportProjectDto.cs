@@ -99,7 +99,9 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateTemplatesAndIndicativeFundingBandSent = null,
         IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
         IEnumerable<EngagementConcernDto> EngagementConcerns = null!,
-        string? SupportingOrganisationType = null
+        string? SupportingOrganisationType = null,
+        
+        ProjectStatus ProjectStatus = ProjectStatus.InProgress
     )
     {
     }

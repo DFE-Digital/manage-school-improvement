@@ -164,13 +164,15 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             string schoolName = "Default School",
             string schoolUrn = "DefaultURN",
             string localAuthority = "Default Authority",
-            string region = "Default Region")
+            string region = "Default Region",
+            ProjectStatus status = ProjectStatus.InProgress)
         {
             return Domain.Entities.SupportProject.SupportProject.Create(
                  schoolName,
                  schoolUrn,
                  localAuthority,
-                 region);
+                 region,
+                 status);
         }
 
         [Fact]

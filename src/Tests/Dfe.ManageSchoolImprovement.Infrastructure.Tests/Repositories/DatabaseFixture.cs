@@ -39,6 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     schoolUrn: "100001",
                     localAuthority: "Authority1",
                     region: "Region1",
+                    projectStatus: ProjectStatus.InProgress,
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust A",
@@ -50,6 +51,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     schoolUrn: "100002",
                     localAuthority: "Authority2",
                     region: "Region2",
+                    projectStatus: ProjectStatus.InProgress,
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust B",
@@ -61,6 +63,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     schoolUrn: "100003",
                     localAuthority: "Authority3",
                     region: "Region2",
+                    projectStatus: ProjectStatus.InProgress,
                     trustDetails: null
                 ),
                 SupportProject.Create(
@@ -68,6 +71,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     schoolUrn: "100004",
                     localAuthority: "Authority5",
                     region: "Region3",
+                    projectStatus: ProjectStatus.InProgress,
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust D",

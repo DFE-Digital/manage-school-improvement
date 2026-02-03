@@ -180,6 +180,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? HeadteacherPreferredJobTitle { get; set; }
         public string? SchoolMainPhone { get; set; }
         public string? SupportOrganisationType { get; set; }
+        public ProjectStatus ProjectStatus { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -281,6 +282,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>(),
                 SupportOrganisationType = supportProjectDto.SupportingOrganisationType,
+                
+                ProjectStatus = supportProjectDto.ProjectStatus,
             };
         }
     }

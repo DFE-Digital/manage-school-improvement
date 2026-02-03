@@ -34,6 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
                 request.schoolUrn,
                 request.localAuthority,
                 request.region,
+                ProjectStatus.InProgress,
                 new TrustDetails {TrustName = request.trustName, TrustReferenceNumber = request.trustReferenceNumber},
                 schoolAddress);
 
