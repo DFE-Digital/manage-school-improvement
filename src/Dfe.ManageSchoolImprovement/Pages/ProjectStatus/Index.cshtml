@@ -1,0 +1,67 @@
+@page "/project-status/{id:int}"
+
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.IndexModel
+@{
+    ViewData["Title"] = "Project status";
+    TempData["AssignmentReferrer"] = @Links.ProjectStatus.Index.Page;
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    </nav>
+}
+
+
+<partial name="_ErrorSummary" />
+
+
+<partial name="_ProjectHeader" model="Model.SupportProject" />
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Project status</h2>
+        <p>Change the status of a project if targeted intervention work pauses or stops.</p>
+        <a asp-page="" asp-route-id="@Model.SupportProject.Id" role="button"
+           draggable="false" class="govuk-button" data-module="govuk-button">
+            Change project status
+        </a>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Status</dt>
+                <dd class="govuk-summary-list__value">
+                    <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
+                </dd>
+            </div>
+            @if (Model.SupportProjectStatus == ProjectStatus.Paused || Model.SupportProjectStatus == ProjectStatus.Stopped)
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Reason</dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.Reason
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Details</dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.Details
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Date of decision</dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.DateOfDecision
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Additional details</dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.AdditionalDetails
+                    </dd>
+                </div>
+            }
+        </dl>
+    </div>
+</div>

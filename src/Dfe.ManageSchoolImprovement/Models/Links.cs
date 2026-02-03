@@ -166,6 +166,11 @@ public static class Links
         public static readonly LinkItem OverallProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/OverallProgress");
     }
 
+    public static class ProjectStatus
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProjectStatus/Index");
+    }
+
     public static class Public
     {
         public static readonly LinkItem Accessibility = AddLinkItem(page: "/Public/AccessibilityStatement");
