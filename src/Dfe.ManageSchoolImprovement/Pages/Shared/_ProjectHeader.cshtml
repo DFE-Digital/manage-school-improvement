@@ -1,7 +1,7 @@
 @using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
-@using System.Security.Claims
 @using System.Globalization
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 @{
@@ -69,60 +69,74 @@
          @Model.SchoolName
       </h1> 
       <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Date added
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @createdDate.ToDateString()
-                </dd> 
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Date of last Ofsted inspection
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @((Model.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.LastInspectionDate)) ? "Unknown" : lastInspectionDate.ToDateString())
-                </dd> 
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Quality of education
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <partial name="_OfstedJudgement" model="Model.QualityOfEducation" />
-                </dd> 
-            </div> 
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Leadership and management
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <partial name="_OfstedJudgement" model="Model.LeadershipAndManagement" />
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Assigned to
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <span class="@(displayAssignedTo? "empty": "")" data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
-                </dd>
-                <dd class="govuk-summary-list__actions">
-                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Advised by
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <span class="@(displayAdvisedBy? "empty": "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
-                </dd>
-                <dd class="govuk-summary-list__actions">
-                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
-                </dd>
-            </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Current status
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  <partial name="_ProjectStatus" model="Model.ProjectStatus"/>
+              </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Date added
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  @createdDate.ToDateString()
+              </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Date of last Ofsted inspection
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  @((Model.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.LastInspectionDate)) ? "Unknown" : lastInspectionDate.ToDateString())
+              </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Quality of education
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  <partial name="_OfstedJudgement" model="Model.QualityOfEducation"/>
+              </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Leadership and management
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  <partial name="_OfstedJudgement" model="Model.LeadershipAndManagement"/>
+              </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Assigned to
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  <span class="@(displayAssignedTo ? "empty" : "")" data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
+              </dd>
+              @if (Model.ProjectStatus != ProjectStatus.Stopped)
+              {
+                  <dd class="govuk-summary-list__actions">
+                      <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
+                  </dd>
+              }
+          </div>
+          <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                  Advised by
+              </dt>
+              <dd class="govuk-summary-list__value">
+                  <span class="@(displayAdvisedBy ? "empty" : "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
+              </dd>
+              @if (Model.ProjectStatus != ProjectStatus.Stopped)
+              {
+                  <dd class="govuk-summary-list__actions">
+                      <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
+                  </dd> 
+              }
+          </div>
           <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                   Engagement concern
@@ -130,11 +144,14 @@
               <dd class="govuk-summary-list__value">
                   @(engagementConcern ? "Yes" : "No")
               </dd>
-              <dd class="govuk-summary-list__actions">
-                  <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a>
-              </dd>
+              @if (Model.ProjectStatus != ProjectStatus.Stopped)
+              {
+                  <dd class="govuk-summary-list__actions">
+                      <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a>
+                  </dd>
+              }
           </div>
-        </dl> 
+      </dl> 
         @if (User.IsInRole(Role.Support))
         {
             <p class="govuk-body govuk-!-margin-top-3">

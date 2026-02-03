@@ -424,7 +424,7 @@ public static class TaskStatusViewModel
 
     public static TaskListStatus ConfirmEligibilityTaskListStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.SupportProjectStatus.HasValue)
+        if (supportProject.SupportProjectEligibilityStatus.HasValue)
         {
             return TaskListStatus.Complete;
         }

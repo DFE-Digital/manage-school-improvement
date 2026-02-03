@@ -164,7 +164,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DeletedAt { get; private set; }
     public string? DeletedBy { get; private set; }
 
-    public SupportProjectStatus? SupportProjectStatus { get; private set; }
+    public SupportProjectEligibilityStatus? SupportProjectEligibilityStatus { get; private set; }
 
     public string? SchoolIsNotEligibleNotes { get; private set; }
 
@@ -207,27 +207,26 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<EngagementConcern> _engagementConcerns = new();
     public string? Cohort { get; }
+    public ProjectStatus ProjectStatus { get; private set; }
 
     #endregion
 
     public static SupportProject Create(
-        string schoolName,
-        string schoolUrn,
-        string localAuthority,
-        string region,
+        ProjectStatus projectStatus,
+        SchoolDetails schoolDetails,
         TrustDetails? trustDetails = null,
-        string? address = null,
         DateTime? deletedAt = null)
     {
         return new SupportProject()
         {
-            SchoolName = schoolName,
-            SchoolUrn = schoolUrn,
-            LocalAuthority = localAuthority,
-            Region = region,
+            SchoolName = schoolDetails.SchoolName,
+            SchoolUrn = schoolDetails.SchoolUrn,
+            LocalAuthority = schoolDetails.LocalAuthority,
+            Region = schoolDetails.Region,
+            ProjectStatus = projectStatus,
             TrustName = trustDetails?.TrustName,
             TrustReferenceNumber = trustDetails?.TrustReferenceNumber,
-            Address = address,
+            Address = schoolDetails.Address,
             DeletedAt = deletedAt
         };
     }
@@ -474,12 +473,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         if (schoolIsEligible == true)
         {
-            SupportProjectStatus = ValueObjects.SupportProjectStatus.EligibleForSupport;
+            SupportProjectEligibilityStatus = ValueObjects.SupportProjectEligibilityStatus.EligibleForSupport;
         }
 
         if (schoolIsEligible == false)
         {
-            SupportProjectStatus = ValueObjects.SupportProjectStatus.NotEligibleForSupport;
+            SupportProjectEligibilityStatus = ValueObjects.SupportProjectEligibilityStatus.NotEligibleForSupport;
         }
 
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;

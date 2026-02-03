@@ -18,7 +18,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
     public class CreateSupportProjectCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<CreateSupportProjectCommand, SupportProjectId>
     {
-        public async Task<SupportProjectId> Handle(CreateSupportProjectCommand request, CancellationToken cancellationToken)
+        public async Task<SupportProjectId> Handle(CreateSupportProjectCommand request,
+            CancellationToken cancellationToken)
         {
             var schoolAddress = string.Join(", ", new[]
             {
@@ -28,14 +29,16 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
                 request.address?.County,
                 request.address?.Postcode
             }.Where(x => !string.IsNullOrWhiteSpace(x)));
-            
+
             var supportProject = Domain.Entities.SupportProject.SupportProject.Create(
-                request.schoolName,
-                request.schoolUrn,
-                request.localAuthority,
-                request.region,
-                new TrustDetails {TrustName = request.trustName, TrustReferenceNumber = request.trustReferenceNumber},
-                schoolAddress);
+                ProjectStatus.InProgress,
+                new SchoolDetails
+                {
+                    SchoolName = request.schoolName, SchoolUrn = request.schoolUrn,
+                    LocalAuthority = request.localAuthority, Region = request.region, Address = schoolAddress
+                },
+                new TrustDetails { TrustName = request.trustName, TrustReferenceNumber = request.trustReferenceNumber }
+            );
 
             await supportProjectRepository.AddAsync(supportProject, cancellationToken);
 

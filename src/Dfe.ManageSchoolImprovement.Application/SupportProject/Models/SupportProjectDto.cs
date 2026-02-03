@@ -78,7 +78,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateTeamContactedForRequestingImprovementGrantOfferLetter = null,
         DateTime? DateTeamContactedForConfirmingPlanningGrantOfferLetter = null,
         DateTime? DateImprovementGrantOfferLetterSent = null,
-        SupportProjectStatus? SupportProjectStatus = null,
+        SupportProjectEligibilityStatus? SupportProjectEligibilityStatus = null,
         string? SchoolIsNotEligibleNotes = null,
         IEnumerable<SupportProjectContact> Contacts = null!,
         IEnumerable<SupportProjectNote> Notes = null!,
@@ -99,7 +99,9 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateTemplatesAndIndicativeFundingBandSent = null,
         IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
         IEnumerable<EngagementConcernDto> EngagementConcerns = null!,
-        string? SupportingOrganisationType = null
+        string? SupportingOrganisationType = null,
+        
+        ProjectStatus ProjectStatus = ProjectStatus.InProgress
     )
     {
     }

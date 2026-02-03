@@ -1,0 +1,25 @@
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@model ProjectStatus
+
+@{
+    string output;
+    string colour;
+
+    switch (Model)
+    {
+        case ProjectStatus.Stopped:
+            output = "Stopped";
+            colour = "red";
+            break;
+        case ProjectStatus.Paused:
+            output = "Paused";
+            colour = "yellow";
+            break;
+        default:
+            output = "In progress";
+            colour = "green";
+            break;
+    }
+}
+
+<strong class="govuk-tag govuk-tag--@colour" id="">@output</strong>
