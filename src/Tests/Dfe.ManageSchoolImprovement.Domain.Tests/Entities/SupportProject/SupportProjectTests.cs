@@ -168,11 +168,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             ProjectStatus status = ProjectStatus.InProgress)
         {
             return Domain.Entities.SupportProject.SupportProject.Create(
-                 schoolName,
-                 schoolUrn,
-                 localAuthority,
-                 region,
-                 status);
+                status,
+                new SchoolDetails
+                {
+                    SchoolName = schoolName,
+                    SchoolUrn = schoolUrn,
+                    LocalAuthority = localAuthority,
+                    Region = region
+                });
         }
 
         [Fact]
