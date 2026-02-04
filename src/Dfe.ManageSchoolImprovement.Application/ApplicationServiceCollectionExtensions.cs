@@ -36,6 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBackgroundService();
 
             services.AddScoped<ISupportProjectQueryService, SupportProjectQueryService>();
+            services.AddScoped<ISupportProjectAuditQueryService, SupportProjectAuditQueryService>();
 
             return services;
         }

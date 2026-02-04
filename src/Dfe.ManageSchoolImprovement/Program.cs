@@ -161,6 +161,7 @@ builder.Services.AddApplicationSettingsWithExistingContext<RegionalImprovementFo
 builder.Services.AddPersonsApiClient<IEstablishmentsClient, EstablishmentsClient>(config);
 builder.Services.AddPersonsApiClient<ITrustsClient, TrustsClient>(config);
 
+
 var app = builder.Build();
 
 var forwardOptions = new ForwardedHeadersOptions
