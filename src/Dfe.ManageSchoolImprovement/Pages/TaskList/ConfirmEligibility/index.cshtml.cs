@@ -30,12 +30,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            if (SupportProject.SupportProjectStatus == SupportProjectStatus.EligibleForSupport)
+            if (SupportProject.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
             {
                 SchoolIsEligible = true;
             }
             
-            if (SupportProject.SupportProjectStatus == SupportProjectStatus.NotEligibleForSupport)
+            if (SupportProject.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
             {
                 SchoolIsEligible = false;
             }

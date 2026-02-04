@@ -159,7 +159,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public IEnumerable<FundingHistoryViewModel>? FundingHistories { get; set; }
 
         public string? SchoolIsNotEligibleNotes { get; set; }
-        public SupportProjectStatus? SupportProjectStatus { get; set; }
+        public SupportProjectEligibilityStatus? SupportProjectEligibilityStatus { get; set; }
         public string? PreviousUrn { get; set; }
         public bool? CaseStudyCandidate { get; set; }
         public string? CaseStudyDetails { get; set; }
@@ -180,6 +180,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? HeadteacherPreferredJobTitle { get; set; }
         public string? SchoolMainPhone { get; set; }
         public string? SupportOrganisationType { get; set; }
+        public ProjectStatus ProjectStatus { get; set; }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -259,7 +260,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
-                SupportProjectStatus = supportProjectDto.SupportProjectStatus,
+                SupportProjectEligibilityStatus = supportProjectDto.SupportProjectEligibilityStatus,
                 SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
                 Contacts = supportProjectDto.Contacts,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
@@ -281,6 +282,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>(),
                 SupportOrganisationType = supportProjectDto.SupportingOrganisationType,
+                
+                ProjectStatus = supportProjectDto.ProjectStatus,
             };
         }
     }

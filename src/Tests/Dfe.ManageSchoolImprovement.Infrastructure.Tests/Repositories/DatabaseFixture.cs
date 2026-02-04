@@ -35,10 +35,14 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
         {
             Context.SupportProjects.AddRange(
                 SupportProject.Create(
-                    schoolName: "School A",
-                    schoolUrn: "100001",
-                    localAuthority: "Authority1",
-                    region: "Region1",
+                    projectStatus: ProjectStatus.InProgress,
+                    new SchoolDetails
+                    {
+                        SchoolName = "School A",
+                        SchoolUrn = "100001",
+                        LocalAuthority = "Authority1",
+                        Region = "Region1"
+                    },
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust A",
@@ -46,10 +50,14 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     }
                 ),
                 SupportProject.Create(
-                    schoolName: "School B",
-                    schoolUrn: "100002",
-                    localAuthority: "Authority2",
-                    region: "Region2",
+                    projectStatus: ProjectStatus.InProgress,
+                    new SchoolDetails
+                    {
+                        SchoolName = "School B",
+                        SchoolUrn = "100002",
+                        LocalAuthority = "Authority2",
+                        Region = "Region2"
+                    },
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust B",
@@ -57,17 +65,25 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     }
                 ),
                 SupportProject.Create(
-                    schoolName: "School C",
-                    schoolUrn: "100003",
-                    localAuthority: "Authority3",
-                    region: "Region2",
+                    projectStatus: ProjectStatus.InProgress,
+                    new SchoolDetails
+                    {
+                        SchoolName = "School C",
+                        SchoolUrn = "100003",
+                        LocalAuthority = "Authority3",
+                        Region = "Region2"
+                    },
                     trustDetails: null
                 ),
                 SupportProject.Create(
-                    schoolName: "School D",
-                    schoolUrn: "100004",
-                    localAuthority: "Authority5",
-                    region: "Region3",
+                    projectStatus: ProjectStatus.InProgress,
+                    new SchoolDetails
+                    {
+                        SchoolName = "School D",
+                        SchoolUrn = "100004",
+                        LocalAuthority = "Authority5",
+                        Region = "Region3"
+                    },
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust D",

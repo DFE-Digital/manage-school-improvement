@@ -164,13 +164,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             string schoolName = "Default School",
             string schoolUrn = "DefaultURN",
             string localAuthority = "Default Authority",
-            string region = "Default Region")
+            string region = "Default Region",
+            ProjectStatus status = ProjectStatus.InProgress)
         {
             return Domain.Entities.SupportProject.SupportProject.Create(
-                 schoolName,
-                 schoolUrn,
-                 localAuthority,
-                 region);
+                status,
+                new SchoolDetails
+                {
+                    SchoolName = schoolName,
+                    SchoolUrn = schoolUrn,
+                    LocalAuthority = localAuthority,
+                    Region = region
+                });
         }
 
         [Fact]
@@ -586,7 +591,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SetEligibility(isEligible, note);
 
             // Assert
-            supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.EligibleForSupport);
+            supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.EligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
@@ -603,7 +608,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SetEligibility(isEligible, note);
 
             // Assert
-            supportProject.SupportProjectStatus.Should().Be(SupportProjectStatus.NotEligibleForSupport);
+            supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
