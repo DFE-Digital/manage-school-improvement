@@ -36,7 +36,6 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
             ConfigureImprovementPlans();
             ConfgureProgressReviews();
             ConfigureEngagementConcerns();
-            // SupportProjectAuditMappingProfile();
         }
 
         private void ConfigureEngagementConcerns()
@@ -84,11 +83,5 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (int?)null)) // Map Id only if not null
                 .ReverseMap();
         }
-
-        // private void SupportProjectAuditMappingProfile()
-        // {
-        //     CreateMap(typeof(SupportProjectFieldAudit<>), typeof(SupportProjectFieldAuditDto<>))
-        //         .ForMember("SupportProjectId", opt => opt.MapFrom(src => ((SupportProjectFieldAudit<object>)src).SupportProjectId.Value));
-        // }
     }
 }

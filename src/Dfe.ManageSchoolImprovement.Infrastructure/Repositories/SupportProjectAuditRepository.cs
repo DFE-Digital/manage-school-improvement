@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.Audit;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,9 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
     public class SupportProjectAuditRepository(RegionalImprovementForStandardsAndExcellenceContext dbContext)
         : Repository<SupportProject, RegionalImprovementForStandardsAndExcellenceContext>(dbContext), ISupportProjectAuditRepository
     {
+        private const string PeriodStart = "PeriodStart";
+        private const string PeriodEnd = "PeriodEnd";
+
         /// <summary>
         /// Gets all historical versions of a SupportProject by its ID
         /// </summary>
@@ -25,7 +29,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return await DbContext.SupportProjects
                 .TemporalAll()
                 .Where(sp => sp.Id == supportProjectId)
-                .OrderBy(sp => EF.Property<DateTime>(sp, "PeriodStart"))
+                .OrderBy(sp => EF.Property<DateTime>(sp, PeriodStart))
                 .ToListAsync(cancellationToken);
         }
 
@@ -63,7 +67,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return await DbContext.SupportProjects
                 .TemporalBetween(fromDate, toDate)
                 .Where(sp => sp.Id == supportProjectId)
-                .OrderBy(sp => EF.Property<DateTime>(sp, "PeriodStart"))
+                .OrderBy(sp => EF.Property<DateTime>(sp, PeriodStart))
                 .ToListAsync(cancellationToken);
         }
 
@@ -82,7 +86,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return await DbContext.SupportProjects
                 .TemporalFromTo(fromDate, DateTime.UtcNow)
                 .Where(sp => sp.Id == supportProjectId)
-                .OrderBy(sp => EF.Property<DateTime>(sp, "PeriodStart"))
+                .OrderBy(sp => EF.Property<DateTime>(sp, PeriodStart))
                 .ToListAsync(cancellationToken);
         }
 
@@ -123,8 +127,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Select(sp => new
                 {
                     SupportProject = sp,
-                    ValidFrom = EF.Property<DateTime>(sp, "PeriodStart"),
-                    ValidTo = EF.Property<DateTime>(sp, "PeriodEnd")
+                    ValidFrom = EF.Property<DateTime>(sp, PeriodStart),
+                    ValidTo = EF.Property<DateTime>(sp, PeriodEnd)
                 })
                 .OrderBy(x => x.ValidFrom)
                 .ToListAsync(cancellationToken);
@@ -148,7 +152,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                         };
 
                         // Include if it's the first record or if the value changed
-                        if (acc.Count == 0 || !EqualityComparer<T>.Default.Equals(currentValue, acc.Last().FieldValue))
+                        if (acc.Count == 0 || !EqualityComparer<T>.Default.Equals(currentValue, acc[acc.Count - 1].FieldValue))
                         {
                             acc.Add(audit);
                         }

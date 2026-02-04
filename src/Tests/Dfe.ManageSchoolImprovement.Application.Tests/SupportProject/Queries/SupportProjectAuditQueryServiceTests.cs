@@ -3,6 +3,7 @@ using AutoMapper;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.Entities.Audit;
+using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
 using System.Linq.Expressions;
@@ -393,7 +394,7 @@ public class SupportProjectAuditQueryServiceTests
         return projects;
     }
 
-    private List<SupportProjectDto> CreateSupportProjectDtos(List<Domain.Entities.SupportProject.SupportProject> projects)
+    private static List<SupportProjectDto> CreateSupportProjectDtos(List<Domain.Entities.SupportProject.SupportProject> projects)
     {
         return projects.Select(project => new SupportProjectDto(
             project.Id!.Value,
