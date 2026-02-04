@@ -3,10 +3,12 @@ using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class SupportProjectAuditRepository(RegionalImprovementForStandardsAndExcellenceContext dbContext)
         : Repository<SupportProject, RegionalImprovementForStandardsAndExcellenceContext>(dbContext), ISupportProjectAuditRepository
     {
