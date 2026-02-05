@@ -404,7 +404,7 @@ class HomePage {
 
   public firstRecordInListShowsDetails(): this {
      cy.get('.govuk-table__cell').first().each(($row) => {
-      const rowText = $row.text().replace(/\s+/g, ' ').trim();
+      const rowText = $row.text().replaceAll(/\s+/g, ' ').trim();
       expect(rowText).to.not.be.empty;
       expect(rowText).to.include('In progress');
       expect(rowText).to.include('URN');
