@@ -402,6 +402,20 @@ class HomePage {
     return this;
   }
 
+  public firstRecordInListShowsDetails(): this {
+     cy.get('.govuk-table__cell').first().each(($row) => {
+      const rowText = $row.text().replace(/\s+/g, ' ').trim();
+      expect(rowText).to.not.be.empty;
+      expect(rowText).to.include('In progress');
+      expect(rowText).to.include('URN');
+      expect(rowText).to.include('Region');
+      expect(rowText).to.include('Date added to MSI');
+      expect(rowText).to.include('Local authority');
+     
+    });
+    return this;   
+  }
+
   public selectYearMonthFilter(year: string, month?: string): this {
     this.showDateFilterOptions();
 
