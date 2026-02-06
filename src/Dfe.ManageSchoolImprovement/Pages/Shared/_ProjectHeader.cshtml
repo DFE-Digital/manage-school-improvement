@@ -87,30 +87,6 @@
           </div>
           <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                  Date of last Ofsted inspection
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  @((Model.LastInspectionDate == null || string.IsNullOrWhiteSpace(@Model.LastInspectionDate)) ? "Unknown" : lastInspectionDate.ToDateString())
-              </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Quality of education
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  <partial name="_OfstedJudgement" model="Model.QualityOfEducation"/>
-              </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Leadership and management
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  <partial name="_OfstedJudgement" model="Model.LeadershipAndManagement"/>
-              </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
                   Assigned to
               </dt>
               <dd class="govuk-summary-list__value">
