@@ -1,0 +1,33 @@
+@page "/change-project-status/{id:int}"
+
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.ChangeProjectStatusModel
+
+@{
+    ViewData["Title"] = "Change project status";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link" asp-route-id="@Model.SupportProject?.Id">@Links.ProjectStatusTab.Index.BackText</a>
+    </nav>
+}
+
+<partial name="_ErrorSummary" />
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Change project status</h2>
+        <p>Change the status of a project if targeted intervention work pauses or stops.</p>
+
+        <form method="post" novalidate="">
+            <govuk-radiobuttons-input error-message="@Model.ErrorMessage" name="@nameof(Model.SupportProjectStatus)"
+                                      radio-buttons="@Model.RadioButtons" asp-for="@Model.SupportProjectStatus"/>
+            <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

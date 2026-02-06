@@ -101,7 +101,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         IEnumerable<EngagementConcernDto> EngagementConcerns = null!,
         string? SupportingOrganisationType = null,
         
-        ProjectStatus ProjectStatus = ProjectStatus.InProgress
+        ProjectStatusValue ProjectStatus = ProjectStatusValue.InProgress,
+        DateTime? ProjectStatusChangedDate = null,
+        string? ProjectStatusChangedBy  = null,
+        string? ProjectStatusChangedDetails = null
     )
     {
     }

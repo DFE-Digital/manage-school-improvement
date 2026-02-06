@@ -1,16 +1,17 @@
 @page "/project-status/{id:int}"
 
+@using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.IndexModel
 @{
     ViewData["Title"] = "Project status";
-    TempData["AssignmentReferrer"] = @Links.ProjectStatus.Index.Page;
+    TempData["AssignmentReferrer"] = @Links.ProjectStatusTab.Index.Page;
 }
 
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link" asp-route-id="@Model.SupportProject?.Id">@Links.SchoolList.Index.BackText</a>
     </nav>
 }
 
@@ -24,7 +25,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Project status</h2>
         <p>Change the status of a project if targeted intervention work pauses or stops.</p>
-        <a asp-page="" asp-route-id="@Model.SupportProject.Id" role="button"
+        <a asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.SupportProject.Id" role="button"
            draggable="false" class="govuk-button" data-module="govuk-button">
             Change project status
         </a>
@@ -35,28 +36,16 @@
                     <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
                 </dd>
             </div>
-            @if (Model.SupportProjectStatus == ProjectStatus.Paused || Model.SupportProjectStatus == ProjectStatus.Stopped)
+            @if (Model.SupportProjectStatus == ProjectStatusValue.Paused || Model.SupportProjectStatus == ProjectStatusValue.Stopped)
             {
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">Reason</dt>
+                    <dt class="govuk-summary-list__key">Date of decision</dt>
                     <dd class="govuk-summary-list__value">
-                        @Model.Reason
+                        @Model.DateOfDecision.ToDateString()
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Details</dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.Details
-                    </dd>
-                </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">Date of decision</dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.DateOfDecision
-                    </dd>
-                </div>
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">Additional details</dt>
                     <dd class="govuk-summary-list__value">
                         @Model.AdditionalDetails
                     </dd>

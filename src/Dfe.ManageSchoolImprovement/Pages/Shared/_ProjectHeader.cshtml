@@ -81,7 +81,7 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
-                    Date added
+                    Date added to MSI
                 </dt>
                 <dd class="govuk-summary-list__value">
                     @createdDate.ToDateString()
@@ -119,7 +119,7 @@
                     <span class="@(displayAssignedTo ? "empty" : "")"
                           data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
                 </dd>
-                @if (Model.ProjectStatus != ProjectStatus.Stopped)
+                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
                 {
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page"
@@ -135,7 +135,7 @@
                     <span class="@(displayAdvisedBy ? "empty" : "")"
                           data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
                 </dd>
-                @if (Model.ProjectStatus != ProjectStatus.Stopped)
+                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
                 {
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page"
@@ -150,7 +150,7 @@
                 <dd class="govuk-summary-list__value">
                     @(engagementConcern ? "Yes" : "No")
                 </dd>
-                @if (Model.ProjectStatus != ProjectStatus.Stopped)
+                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
                 {
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-!-padding-left-50"

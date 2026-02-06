@@ -1,0 +1,74 @@
+@page "/project-status-answers/{id:int}"
+
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.ProjectStatusAnswersModel
+
+@{
+    ViewData["Title"] = "Check your answers";
+
+    var dateLink = Model.SupportProject?.ProjectStatus switch
+    {
+        ProjectStatusValue.InProgress => @Links.ProjectStatusTab.ProjectStatusInProgressDate.Page,
+        ProjectStatusValue.Paused => @Links.ProjectStatusTab.ProjectStatusPausedDate.Page,
+        ProjectStatusValue.Stopped => @Links.ProjectStatusTab.ProjectStatusStoppedDate.Page,
+        _ => string.Empty
+    };
+    
+    var detailsLink = Model.SupportProject?.ProjectStatus switch
+    {
+        ProjectStatusValue.InProgress => @Links.ProjectStatusTab.ProjectStatusInProgressDetails.Page,
+        ProjectStatusValue.Paused => @Links.ProjectStatusTab.ProjectStatusPausedDetails.Page,
+        ProjectStatusValue.Stopped => @Links.ProjectStatusTab.ProjectStatusStoppedDetails.Page,
+        _ => string.Empty
+    };
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link" asp-route-id="@Model.SupportProject?.Id">Back</a>
+    </nav>
+}
+
+<partial name="_ErrorSummary" />
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
+        <h2 class="govuk-heading-l" data-test="project-status-answers">Check your answers</h2>
+
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Project status</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatus</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
+                       asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> project status</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Date of decision</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDate</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@dateLink"
+                       asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> date of decision</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Details</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDetails</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@detailsLink"
+                       asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> details</span></a>
+                </dd>
+            </div>
+        </dl>
+
+        @* this should be an anchor to the next page *@
+        <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
+                data-cy="select-common-submitbutton">
+            Save
+        </button>
+
+    </div>
+</div>

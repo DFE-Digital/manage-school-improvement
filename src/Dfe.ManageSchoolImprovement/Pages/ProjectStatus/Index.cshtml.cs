@@ -10,15 +10,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
 {
     public string ReturnPage { get; set; }
-
-    public void SetErrorPage(string errorPage)
-    {
-        TempData["ErrorPage"] = errorPage;
-    }
     
-    public Domain.ValueObjects.ProjectStatus? SupportProjectStatus { get; set; }
-    public string? Reason { get; set; }
-    public string? Details { get; set; }
+    public Domain.ValueObjects.ProjectStatusValue? SupportProjectStatus { get; set; }
     public DateTime? DateOfDecision { get; set; }
     public string? AdditionalDetails { get; set; }
 
@@ -31,10 +24,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         await base.GetSupportProject(id, cancellationToken);
 
         SupportProjectStatus = SupportProject?.ProjectStatus;
-        Reason = "This is a reason";
-        Details = "These are the details";
-        DateOfDecision = DateTime.Now;
-        AdditionalDetails = "These are additional details";
+        DateOfDecision = SupportProject?.ProjectStatusChangedDate;
+        AdditionalDetails = SupportProject?.ProjectStatusChangedDetails;
 
         return Page();
     }

@@ -166,9 +166,18 @@ public static class Links
         public static readonly LinkItem OverallProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/OverallProgress");
     }
 
-    public static class ProjectStatus
+    public static class ProjectStatusTab
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProjectStatus/Index");
+        public static readonly LinkItem ChangeProjectStatus = AddLinkItem(backText: "Back", page: "/ProjectStatus/ChangeProjectStatus");
+        public static readonly LinkItem ProjectStatusPausedDate = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusPausedDate");
+        public static readonly LinkItem ProjectStatusStoppedDate = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusStoppedDate");
+        public static readonly LinkItem ProjectStatusInProgressDate = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusInProgressDate");
+        public static readonly LinkItem ProjectStatusPausedDetails = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusPausedDetails");
+        public static readonly LinkItem ProjectStatusStoppedDetails = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusStoppedDetails");
+        public static readonly LinkItem ProjectStatusInProgressDetails = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusInProgressDetails");
+        public static readonly LinkItem ProjectStatusAnswers = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusAnswers");
+
     }
 
     public static class Public
