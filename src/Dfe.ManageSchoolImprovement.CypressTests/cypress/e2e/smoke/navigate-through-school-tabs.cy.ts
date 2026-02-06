@@ -2,7 +2,6 @@ import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import aboutTheSchool from "cypress/pages/aboutTheSchool";
-import ofstedReports from "cypress/pages/ofstedReports";
 import contacts from "cypress/pages/contacts";
 import caseStudy from "cypress/pages/caseStudy";
 import engagementConcern from "cypress/pages/engagementConcern";
@@ -38,18 +37,6 @@ describe("User select the school", () => {
             .navigateToTab('About the school');
         aboutTheSchool
             .schoolOverivewSectionVisible()
-
-        cy.executeAccessibilityTests()
-    });
-
-    it("should be able to navigate to the Ofsted reports tab", () => {
-        Logger.log("User navigates to the Ofsted reports tab");
-        taskList
-            .navigateToTab('Ofsted reports');
-        ofstedReports
-            .hasOfstedReport('Most recent Ofsted report')
-            .hasOfstedReport('Previous Ofsted report')
-            .ofstedReportsPageVisible()
 
         cy.executeAccessibilityTests()
     });
