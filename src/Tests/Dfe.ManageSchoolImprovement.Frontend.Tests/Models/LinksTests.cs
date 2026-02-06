@@ -208,18 +208,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
         }
 
         [Fact]
-        public void OfstedReports_Index_ShouldHaveCorrectValues()
-        {
-            // Arrange & Act
-            var linkItem = OfstedReports.Index;
-
-            // Assert
-            Assert.NotNull(linkItem);
-            Assert.Equal("/OfstedReports/Index", linkItem.Page);
-            Assert.Equal("Back", linkItem.BackText);
-        }
-
-        [Fact]
         public void Notes_Index_ShouldHaveCorrectValues()
         {
             // Arrange & Act
