@@ -137,7 +137,7 @@ class TaskList {
   public hasTabs(): this {
     cy.contains('Task list');
     cy.contains('About the school');
-    cy.contains('Ofsted reports');
+    cy.contains('Improvement plan');
     cy.contains('Contacts');
     cy.contains('Case Study');
     cy.contains('Engagement concern');
