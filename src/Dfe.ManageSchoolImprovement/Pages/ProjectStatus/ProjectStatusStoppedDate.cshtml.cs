@@ -38,7 +38,7 @@ public class ProjectStatusStoppedDateModel(ISupportProjectQueryService supportPr
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         

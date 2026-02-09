@@ -35,7 +35,7 @@ public class ProjectStatusInProgressDetailsModel(
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        ReturnPage = @Links.ProjectStatusTab.ProjectStatusInProgressDate.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         

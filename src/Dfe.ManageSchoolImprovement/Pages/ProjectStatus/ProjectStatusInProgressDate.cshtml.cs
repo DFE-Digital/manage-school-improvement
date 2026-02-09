@@ -28,14 +28,13 @@ public class ProjectStatusInProgressDateModel(ISupportProjectQueryService suppor
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-        
     string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue projectStatus, string changedBy, CancellationToken cancellationToken)
     {
         ProjectListFilters.ClearFiltersFrom(TempData);
 
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         

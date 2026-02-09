@@ -1,6 +1,8 @@
 @page "/project-status-answers/{id:int}"
 
+@using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.ProjectStatusAnswersModel
 
 @{
@@ -40,7 +42,7 @@
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Project status</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatus</dd>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatus.GetDisplayName()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
                        asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> project status</span></a>
@@ -48,7 +50,7 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Date of decision</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDate</dd>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDate.ToDateString()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@dateLink"
                        asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> date of decision</span></a>
@@ -63,12 +65,11 @@
                 </dd>
             </div>
         </dl>
-
-        @* this should be an anchor to the next page *@
-        <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
-                data-cy="select-common-submitbutton">
-            Save
-        </button>
-
+        
+        <a asp-page="@Links.ProjectStatusTab.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
+           draggable="false" class="govuk-button" data-module="govuk-button"
+           data-cy="return-to-project-status-button">
+            Save and return
+        </a>
     </div>
 </div>

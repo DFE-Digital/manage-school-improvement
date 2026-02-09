@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
 {
     public string ReturnPage { get; set; }
     
-    public Domain.ValueObjects.ProjectStatusValue? SupportProjectStatus { get; set; }
+    public ProjectStatusValue? SupportProjectStatus { get; set; }
     public DateTime? DateOfDecision { get; set; }
     public string? AdditionalDetails { get; set; }
 
