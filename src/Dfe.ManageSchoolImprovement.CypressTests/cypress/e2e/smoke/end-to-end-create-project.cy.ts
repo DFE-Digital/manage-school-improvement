@@ -13,8 +13,6 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     schoolShort,
     schoolLong,
     lastInspectionDate,
-    qualityOfEducation,
-    leadershipAndManagement,
     assignedTo,
     advisedBy,
     urn,
