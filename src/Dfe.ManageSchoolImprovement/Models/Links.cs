@@ -50,10 +50,6 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/AboutTheSchool/Index");
     }
-    public static class OfstedReports
-    {
-        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/OfstedReports/Index");
-    }
 
     public static class TaskList
     {
@@ -83,10 +79,10 @@ public static class Links
         public static readonly LinkItem ChooseSupportingOrganisationSummary = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/ChooseSupportingOrganisationSummary");
 
         public static readonly LinkItem RecordInitialDiagnosisDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordInitialDiagnosisDecision/Index");
-        
+
         public static readonly LinkItem ConfirmSupportingOrganisationContactDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/Index");
         public static readonly LinkItem ConfirmSupportingOrganisationAddressDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/ConfirmSupportingOrganisationAddressDetails");
-        
+
         public static readonly LinkItem DueDiligenceOnPreferredSupportingOrganisation = AddLinkItem(backText: "Back", page: "/TaskList/DueDiligenceOnPreferredSupportingOrganisation/Index");
         public static readonly LinkItem RecordSupportingOrganisationAppointment = AddLinkItem(backText: "Back", page: "/TaskList/RecordSupportingOrganisationAppointment/Index");
         public static readonly LinkItem ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate = AddLinkItem(backText: "Back", page: "/TaskList/ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate/Index");

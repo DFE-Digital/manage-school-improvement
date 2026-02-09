@@ -1,0 +1,58 @@
+@page "/supporting-organisation-history/{id:int}"
+@using Dfe.ManageSchoolImprovement.Frontend.Models
+@using Dfe.ManageSchoolImprovement.Frontend.TagHelpers
+@using Dfe.Academisation.ExtensionMethods
+@using System.Globalization
+@using Dfe.ManageSchoolImprovement.Utils
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.SupportingOrganisationHistory.IndexModel
+@{
+    Model.SetErrorPage(Links.SchoolList.Index.Page);
+    ViewData["Title"] = "Supporting organisation history";
+    TempData["AssignmentReferrer"] = @Links.AboutTheSchool.Index.Page;
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.SchoolList.Index.BackText</a>
+    </nav>
+}
+
+
+<partial name="_ErrorSummary" />
+
+
+<partial name="_ProjectHeader" model="Model.SupportProject" />
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="ofsted-report">Supporting organisation history</h2>
+
+
+        <div class="moj-timeline">
+
+            @foreach (var history in Model.SupportOrganisationAuditTrail)
+            {
+
+
+                <div class="moj-timeline__item">
+                    <div class="moj-timeline__header">
+                        <h2 class="moj-timeline__title">Supporting organisation field change - @history.FieldName</h2>
+                        <p class="moj-timeline__byline">by @history.LastModifiedBy</p>
+                    </div>
+                    <p class="moj-timeline__date">
+                        <time datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time>
+                    </p>
+                    <div class="moj-timeline__description">
+                        <p>@history.FieldName changed, new value @history.FieldValue </p>
+        
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+
+    </div>
+</div>

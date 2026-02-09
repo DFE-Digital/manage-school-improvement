@@ -10,33 +10,28 @@ class TaskList {
     return this
   }
 
-  public hasDateAdded(date: string): this {
-    cy.get('.govuk-summary-list__value').eq(0).should("contain.text", date);
+  public hasCurrentStatus(status: string): this {
+    cy.get('.govuk-summary-list__value').eq(0).should("contain.text", status);
     return this;
   }
 
-  public hasInspectionDate(date: string): this {
+  public hasDateAdded(date: string): this {
     cy.get('.govuk-summary-list__value').eq(1).should("contain.text", date);
     return this;
   }
 
-  public hasQualityOfEducation(value: string): this {
+  public hasAssignedTo(value: string): this {
     cy.get('.govuk-summary-list__value').eq(2).should("contain.text", value);
     return this;
   }
 
-  public hasLeadershipAndManagement(value: string): this {
+  public hasAdvisedBy(value: string): this {
     cy.get('.govuk-summary-list__value').eq(3).should("contain.text", value);
     return this;
   }
 
-  public hasAssignedTo(value: string): this {
+  public hasEngagementConcern(value: string): this {
     cy.get('.govuk-summary-list__value').eq(4).should("contain.text", value);
-    return this;
-  }
-
-  public hasAdvisedBy(value: string): this {
-    cy.get('.govuk-summary-list__value').eq(5).should("contain.text", value);
     return this;
   }
 
@@ -47,7 +42,7 @@ class TaskList {
       .eq(0)
       .should('have.attr', 'href')
       .and('include', 'delivery-officer');
-    cy.get(':nth-child(6) > .govuk-summary-list__actions > .govuk-link')
+    cy.get(':nth-child(4) > .govuk-summary-list__actions > .govuk-link')
       .filter(':visible')
       .contains('Change')
       .should('have.attr', 'href')
@@ -59,7 +54,6 @@ class TaskList {
   public hasNav(): this {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
-    cy.contains("Ofsted reports")
     cy.contains("Improvement plan")
     cy.contains("Contacts")
     cy.contains("Case Study")
@@ -132,7 +126,7 @@ class TaskList {
   public hasTabs(): this {
     cy.contains('Task list');
     cy.contains('About the school');
-    cy.contains('Ofsted reports');
+    cy.contains('Improvement plan');
     cy.contains('Contacts');
     cy.contains('Case Study');
     cy.contains('Engagement concern');

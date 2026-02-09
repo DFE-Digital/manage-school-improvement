@@ -112,8 +112,20 @@
                 </dl>
             </div>
         </div>
-
-        <details class="govuk-details">
+        <h3 class="govuk-heading-m">Information from other services</h3>
+        <p class="govuk-body">Links open in a new tab.</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>
+                <a class="govuk-link" href="@("https://reports.ofsted.gov.uk/provider/21/" + @Model.SupportProject.SchoolUrn)" rel="noreferrer noopener" target="_blank" data-testid="ofsted-inspection-reports-link">See inspection reports at Ofsted</a>
+            </li>
+            <li>
+                <a class="govuk-link" href="@("https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/" + @Model.SupportProject.SchoolUrn)" rel="noreferrer noopener" target="_blank" data-testid="ofsted-inspection-reports-link">Get information about schools</a>
+            </li>
+            <li>
+                <a class="govuk-link" href="@("https://www.find-information-schools-trusts.education.gov.uk/schools/overview/details?urn=" + @Model.SupportProject.SchoolUrn)" rel="noreferrer noopener" target="_blank" data-testid="ofsted-inspection-reports-link">Find information about schools and trusts</a>
+            </li>
+        </ul>
+         <details class="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
                     Where this information came from

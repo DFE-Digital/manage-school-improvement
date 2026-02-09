@@ -41,4 +41,13 @@ describe("User navigates to the MSI landing page", () => {
 
         cy.executeAccessibilityTests()
     });
+
+    it("the single record in the list should show school details: Name,Current status,URN,Region,Date and LA", () => {
+         Logger.log("First record in the list shows school details")
+        homePage
+            .firstRecordInListShowsDetails()
+       
+        cy.executeAccessibilityTests()
+
+    })
 });

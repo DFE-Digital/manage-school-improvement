@@ -53,7 +53,27 @@ class AboutTheSchool {
 
     return this;
   }
-}
+
+  public hasSeeInspectionReportsAtOfstedLink(): this {
+    cy.get('h3').should('contain', 'Information from other services');
+    cy.get('a').contains('See inspection reports at Ofsted');
+   
+    return this;
+  }
+
+  public hasGetInformationAboutSchoolsLink(): this {
+    cy.get('a').contains('Get information about schools');
+    
+    return this;
+  }
+
+  public hasFindInformationAboutSchoolsAndTrustLink(): this {
+    cy.get('a').contains('Find information about schools and trusts');
+    
+    return this;
+  }
+
+};
 
 const aboutTheSchool = new AboutTheSchool();
 

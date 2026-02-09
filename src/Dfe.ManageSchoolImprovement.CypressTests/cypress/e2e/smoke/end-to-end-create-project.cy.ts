@@ -13,8 +13,6 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     schoolShort,
     schoolLong,
     lastInspectionDate,
-    qualityOfEducation,
-    leadershipAndManagement,
     assignedTo,
     advisedBy,
     urn,
@@ -32,6 +30,8 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     month: "long",
     year: "numeric",
   });
+
+  const status = "In progress";
 
   before(() => {
     cy.removeProjectIfItExists(urn);
@@ -83,12 +83,11 @@ describe("Add a school which requires an improvement and complete it's tasks", (
 
     taskList
       .hasHeader("Plymouth Grove Primary")
+      .hasCurrentStatus(status)
       .hasDateAdded(dateAdded)
-      .hasInspectionDate(lastInspectionDate)
-      .hasQualityOfEducation(qualityOfEducation)
-      .hasLeadershipAndManagement(leadershipAndManagement)
       .hasAssignedTo(assignedTo)
       .hasAdvisedBy(advisedBy)
+      .hasEngagementConcern('No')
       .hasChangeLinks()
       .hasNav()
       .hasTasks()
