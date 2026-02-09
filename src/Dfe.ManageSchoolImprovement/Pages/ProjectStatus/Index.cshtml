@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = "Project status";
     TempData["AssignmentReferrer"] = @Links.ProjectStatusTab.Index.Page;
-    bool taskUpdated = (bool)(TempData["TaskUpdated"] ?? false);
+    bool taskUpdated = (bool)(TempData["projectStatusUpdated"] ?? false);
 }
 
 @section BeforeMain

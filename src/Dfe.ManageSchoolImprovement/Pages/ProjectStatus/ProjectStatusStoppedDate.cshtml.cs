@@ -1,17 +1,14 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 
 public class ProjectStatusStoppedDateModel(ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService,
-    IMediator mediator) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService), IDateValidationMessageProvider
+    ErrorService errorService) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
@@ -20,7 +17,7 @@ public class ProjectStatusStoppedDateModel(ISupportProjectQueryService supportPr
     public DateTime? StoppedDate { get; set; }
     
     [BindProperty]
-    public ProjectStatusValue ProjectStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
     
     [BindProperty]
     public string? ChangedBy { get; set; }
@@ -34,16 +31,14 @@ public class ProjectStatusStoppedDateModel(ISupportProjectQueryService supportPr
         
     string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue projectStatus, string changedBy, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
-
         ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        
-        ProjectStatus = projectStatus;
-        ChangedBy = changedBy;
+
+        ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
+        ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
         
         return Page();
     }

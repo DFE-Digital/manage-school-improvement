@@ -21,7 +21,7 @@ public class ProjectStatusInProgressDetailsModel(
     [BindProperty(Name = "project-status-in-progress-details")]
     public string? InProgressDetails { get; set; }
 
-    [BindProperty(Name = "projectStatus")] public ProjectStatusValue ProjectStatus { get; set; }
+    [BindProperty(Name = "projectStatus")] public ProjectStatusValue? ProjectStatus { get; set; }
 
     [BindProperty(Name = "inProgressDate")] public DateTime? InProgressDate { get; set; }
 
@@ -30,18 +30,16 @@ public class ProjectStatusInProgressDetailsModel(
     public bool ShowError { get; set; }
 
 
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue projectStatus, string changedBy,
-        DateTime inProgressDate, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy,
+        DateTime? inProgressDate, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
-
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusInProgressDate.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         
-        ProjectStatus = projectStatus;
-        InProgressDate = inProgressDate;
-        ChangedBy = changedBy;
+        ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
+        InProgressDate = inProgressDate ?? SupportProject?.ProjectStatusChangedDate;
+        ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
 
         return Page();
     }
@@ -63,7 +61,7 @@ public class ProjectStatusInProgressDetailsModel(
         }
 
 
-        var request = new SetProjectStatusCommand(new SupportProjectId(id), ProjectStatus, InProgressDate, ChangedBy,
+        var request = new SetProjectStatusCommand(new SupportProjectId(id), (ProjectStatusValue)ProjectStatus, InProgressDate, ChangedBy,
             InProgressDetails);
         var result = await mediator.Send(request, cancellationToken);
 

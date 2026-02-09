@@ -23,7 +23,7 @@
 
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ProjectStatus"/>
-            <input type="hidden" name="pausedDate" value="@(Model.InProgressDate?.ToString("yyyy-MM-dd"))"/>
+            <input type="hidden" name="inProgressDate" value="@(Model.InProgressDate?.ToString("yyyy-MM-dd"))"/>
             <input type="hidden" asp-for="@Model.ChangedBy"/>
             <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
                 id="project-status-in-progress-details" name="project-status-in-progress-details" rows="5"

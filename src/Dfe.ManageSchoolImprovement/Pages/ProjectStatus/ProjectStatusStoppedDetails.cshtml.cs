@@ -18,7 +18,7 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
     [BindProperty(Name = "project-status-stopped-details")]
     public string? StoppedDetails { get; set; }
     
-    [BindProperty(Name = "projectStatus")] public ProjectStatusValue ProjectStatus { get; set; }
+    [BindProperty(Name = "projectStatus")] public ProjectStatusValue? ProjectStatus { get; set; }
 
     [BindProperty(Name = "stoppedDate")] public DateTime? StoppedDate { get; set; }
 
@@ -26,18 +26,16 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
 
     public bool ShowError { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue projectStatus, string changedBy,
-        DateTime stoppedDate, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy,
+        DateTime? stoppedDate, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
-
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusStoppedDate.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        
-        ProjectStatus = projectStatus;
-        StoppedDate = stoppedDate;
-        ChangedBy = changedBy;
+
+        ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
+        StoppedDate = stoppedDate ?? SupportProject?.ProjectStatusChangedDate;
+        ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
         
         return Page();
     }
@@ -60,7 +58,7 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
 
         if (SupportProject?.ProjectStatus != null)
         {
-            var request = new SetProjectStatusCommand(new SupportProjectId(id), ProjectStatus, StoppedDate, ChangedBy, StoppedDetails);
+            var request = new SetProjectStatusCommand(new SupportProjectId(id), (ProjectStatusValue)ProjectStatus, StoppedDate, ChangedBy, StoppedDetails);
             var result = await mediator.Send(request, cancellationToken);
         
             if (result == null)

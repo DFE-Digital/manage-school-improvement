@@ -17,7 +17,7 @@ public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportPro
     public DateTime? PausedDate { get; set; }
     
     [BindProperty]
-    public ProjectStatusValue ProjectStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
     
     [BindProperty]
     public string? ChangedBy { get; set; }
@@ -31,16 +31,14 @@ public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportPro
         
     string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue projectStatus, string changedBy, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
-
         ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
         await base.GetSupportProject(id, cancellationToken);
         
-        ProjectStatus = projectStatus;
-        ChangedBy = changedBy;
+        ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
+        ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
         
         return Page();
     }
