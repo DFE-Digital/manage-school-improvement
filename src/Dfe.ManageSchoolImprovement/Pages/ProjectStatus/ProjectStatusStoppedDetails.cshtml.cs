@@ -23,11 +23,13 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
     [BindProperty(Name = "stoppedDate")] public DateTime? StoppedDate { get; set; }
 
     [BindProperty(Name = "changedBy")] public string? ChangedBy { get; set; }
+    
+    [BindProperty] public bool ChangeDetailsLinkClicked { get; set; }
 
     public bool ShowError { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy,
-        DateTime? stoppedDate, CancellationToken cancellationToken)
+        DateTime? stoppedDate, bool changeDetailsLink, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusStoppedDate.Page;
 
@@ -36,6 +38,8 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
         ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
         StoppedDate = stoppedDate ?? SupportProject?.ProjectStatusChangedDate;
         ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
+        
+        ChangeDetailsLinkClicked = changeDetailsLink;
         
         return Page();
     }
@@ -56,6 +60,13 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
             return await base.GetSupportProject(id, cancellationToken);
         }
 
+        if (ChangeDetailsLinkClicked)
+        {
+            ProjectStatus = SupportProject?.ProjectStatus;
+            StoppedDate = SupportProject?.ProjectStatusChangedDate;
+            ChangedBy = SupportProject?.ProjectStatusChangedBy;
+        }
+        
         if (SupportProject?.ProjectStatus != null)
         {
             var request = new SetProjectStatusCommand(new SupportProjectId(id), (ProjectStatusValue)ProjectStatus, StoppedDate, ChangedBy, StoppedDetails);

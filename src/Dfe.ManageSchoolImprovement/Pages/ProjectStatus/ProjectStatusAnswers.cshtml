@@ -45,7 +45,7 @@
                 <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatus.GetDisplayName()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
-                       asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> project status</span></a>
+                       asp-route-id="@Model.SupportProject?.Id" asp-route-changeStatusLink="true">Change<span class="govuk-visually-hidden"> project status</span></a>
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -53,7 +53,7 @@
                 <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDate.ToDateString()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@dateLink"
-                       asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> date of decision</span></a>
+                       asp-route-id="@Model.SupportProject?.Id" asp-route-changeDateLink="true">Change<span class="govuk-visually-hidden"> date of decision</span></a>
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -61,7 +61,7 @@
                 <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDetails</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@detailsLink"
-                       asp-route-id="@Model.SupportProject?.Id">Change <span class="govuk-visually-hidden"> details</span></a>
+                       asp-route-id="@Model.SupportProject?.Id" asp-route-changeDetailsLink="true">Change<span class="govuk-visually-hidden"> details</span></a>
                 </dd>
             </div>
         </dl>

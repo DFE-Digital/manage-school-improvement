@@ -26,12 +26,14 @@ public class ProjectStatusInProgressDetailsModel(
     [BindProperty(Name = "inProgressDate")] public DateTime? InProgressDate { get; set; }
 
     [BindProperty(Name = "changedBy")] public string? ChangedBy { get; set; }
+    
+    [BindProperty] public bool ChangeDetailsLinkClicked { get; set; }
 
     public bool ShowError { get; set; }
 
 
     public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy,
-        DateTime? inProgressDate, CancellationToken cancellationToken)
+        DateTime? inProgressDate, bool changeDetailsLink, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusInProgressDate.Page;
 
@@ -40,6 +42,8 @@ public class ProjectStatusInProgressDetailsModel(
         ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
         InProgressDate = inProgressDate ?? SupportProject?.ProjectStatusChangedDate;
         ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
+        
+        ChangeDetailsLinkClicked = changeDetailsLink;
 
         return Page();
     }
@@ -60,6 +64,12 @@ public class ProjectStatusInProgressDetailsModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
+        if (ChangeDetailsLinkClicked)
+        {
+            ProjectStatus = SupportProject?.ProjectStatus;
+            InProgressDate = SupportProject?.ProjectStatusChangedDate;
+            ChangedBy = SupportProject?.ProjectStatusChangedBy;
+        }
 
         var request = new SetProjectStatusCommand(new SupportProjectId(id), (ProjectStatusValue)ProjectStatus, InProgressDate, ChangedBy,
             InProgressDetails);

@@ -4,6 +4,9 @@
 
 @{
     ViewData["Title"] = "Enter details";
+    
+    var buttonText = Model.ChangeDetailsLinkClicked ? "Save" : "Save and continue"; 
+
 }
 
 @section BeforeMain
@@ -18,19 +21,25 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
-        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status-paused-date">Enter details</h2>
-        <p>Provide details about why this project has been paused and any next steps required.</p>
-
         <form method="post" novalidate>
-            <input type="hidden" asp-for="@Model.ProjectStatus"/>
-            <input type="hidden" name="pausedDate" value="@(Model.PausedDate?.ToString("yyyy-MM-dd"))"/>
-            <input type="hidden" asp-for="@Model.ChangedBy"/>
-            <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
+            <div class="govuk-form-group">
+                <h1 class="govuk-label-wrapper" data-test="project-status-paused-details">
+                    <label class="govuk-label govuk-label--l">
+                        Enter details
+                    </label>
+                </h1>
+                <div class="govuk-hint">Provide details about why this project has been paused and any next steps required</div>
+                <input type="hidden" asp-for="@Model.ProjectStatus"/>
+                <input type="hidden" name="pausedDate" value="@(Model.PausedDate?.ToString("yyyy-MM-dd"))"/>
+                <input type="hidden" asp-for="@Model.ChangedBy"/>
+                <input type="hidden" asp-for="@Model.ChangeDetailsLinkClicked"/>
+                <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
                 id="project-status-paused-details" name="project-status-paused-details" rows="5"
                 asp-for="@Model.PausedDetails" data-cy="paused-details-textarea"></textarea>
+            </div>
             <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">
-                Save and continue
+                @buttonText
             </button>
         </form>
     </div>

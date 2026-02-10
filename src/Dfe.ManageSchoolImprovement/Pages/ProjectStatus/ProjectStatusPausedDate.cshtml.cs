@@ -1,14 +1,17 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 
 public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService), IDateValidationMessageProvider
+    ErrorService errorService,
+    IMediator mediator) : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
@@ -21,6 +24,8 @@ public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportPro
     
     [BindProperty]
     public string? ChangedBy { get; set; }
+    
+    [BindProperty] public bool ChangeDateLinkClicked { get; set; }
 
     public bool ShowError { get; set; }
     
@@ -31,7 +36,7 @@ public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportPro
         
     string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy, bool changeDateLink, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
@@ -39,6 +44,8 @@ public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportPro
         
         ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
         ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
+        
+        ChangeDateLinkClicked = changeDateLink;
         
         return Page();
     }
@@ -57,6 +64,24 @@ public class ProjectStatusPausedDateModel(ISupportProjectQueryService supportPro
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             ShowError = true;
             return await base.GetSupportProject(id, cancellationToken);
+        }
+        
+        if (ChangeDateLinkClicked)
+        {
+            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProject!.ProjectStatus,
+                PausedDate, SupportProject.ProjectStatusChangedBy,
+                SupportProject.ProjectStatusChangedDetails);
+            var result = await mediator.Send(request, cancellationToken);
+
+            if (result == null)
+            {
+                _errorService.AddApiError();
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+            
+            ChangeDateLinkClicked = false;
+
+            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusAnswers.Page, new { id });
         }
         
         return RedirectToPage(@Links.ProjectStatusTab.ProjectStatusPausedDetails.Page,
