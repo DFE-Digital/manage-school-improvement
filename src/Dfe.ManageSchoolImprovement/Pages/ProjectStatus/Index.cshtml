@@ -55,19 +55,24 @@
                     <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
                 </dd>
             </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">Date of decision</dt>
-                <dd class="govuk-summary-list__value">
-                    @Model.DateOfDecision.ToDateString()
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">Details</dt>
-                <dd class="govuk-summary-list__value">
-                    @Model.AdditionalDetails
-                </dd>
-            </div>
-
+            @if(Model.DateOfDecision != null)
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Date of decision</dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.DateOfDecision.ToDateString()
+                    </dd>
+                </div>
+            }
+            @if(!string.IsNullOrEmpty(Model.AdditionalDetails))
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Details</dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.AdditionalDetails
+                    </dd>
+                </div>
+            }
         </dl>
     </div>
 </div>
