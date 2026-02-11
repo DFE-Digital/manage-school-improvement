@@ -1,11 +1,94 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Repositories;
 using FluentAssertions;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 {
+
     public class SupportProjectRepositoryTests(DatabaseFixture fixture) : IClassFixture<DatabaseFixture>
     {
+        [Fact]
+        public async Task FilterByState_InProgress_Should_Filter()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act - Get page 2 with 1 item per page
+            var (projects, totalCount) = await service.SearchForSupportProjects(
+                new SupportProjectSearchCriteria(
+                    title: null,
+                    assignedUsers: [],
+                    assignedAdvisers: [],
+                    regions: [],
+                    localAuthorities: [],
+                    trusts: [],
+                    dates: [],
+                    states: [ProjectStatus.InProgress.ToString()]),
+                page: 1,
+                count: 10,
+                cancellationToken: CancellationToken.None
+            );
+
+            // Assert
+            totalCount.Should().Be(1);
+            projects.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task FilterByState_Paused_Should_Filter()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act - Get page 2 with 1 item per page
+            var (projects, totalCount) = await service.SearchForSupportProjects(
+                new SupportProjectSearchCriteria(
+                    title: null,
+                    assignedUsers: [],
+                    assignedAdvisers: [],
+                    regions: [],
+                    localAuthorities: [],
+                    trusts: [],
+                    dates: [],
+                    states: [ProjectStatus.Paused.ToString()]),
+                page: 1,
+                count: 10,
+                cancellationToken: CancellationToken.None
+            );
+
+            // Assert
+            totalCount.Should().Be(1);
+            projects.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task FilterByState_Stopped_Should_Filter()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act - Get page 2 with 1 item per page
+            var (projects, totalCount) = await service.SearchForSupportProjects(
+                new SupportProjectSearchCriteria(
+                    title: null,
+                    assignedUsers: [],
+                    assignedAdvisers: [],
+                    regions: [],
+                    localAuthorities: [],
+                    trusts: [],
+                    dates: [],
+                    states: [ProjectStatus.Stopped.ToString()]),
+                page: 1,
+                count: 10,
+                cancellationToken: CancellationToken.None
+            );
+
+            // Assert
+            totalCount.Should().Be(1);
+            projects.Should().HaveCount(1);
+        }
+
         [Fact]
         public async Task SearchForSupportProjects_ShouldReturnFilteredAndPagedResults()
         {
@@ -583,5 +666,5 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             yearsAsInts.Should().NotContain(2024); // Assuming School D (soft deleted) was created in 2024
         }
     }
-}
 
+}

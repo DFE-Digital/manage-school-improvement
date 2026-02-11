@@ -50,7 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     }
                 ),
                 SupportProject.Create(
-                    projectStatus: ProjectStatus.InProgress,
+                    projectStatus: ProjectStatus.Paused,
                     new SchoolDetails
                     {
                         SchoolName = "School B",
@@ -65,7 +65,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     }
                 ),
                 SupportProject.Create(
-                    projectStatus: ProjectStatus.InProgress,
+                    projectStatus: ProjectStatus.Stopped,
                     new SchoolDetails
                     {
                         SchoolName = "School C",
@@ -75,6 +75,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                     },
                     trustDetails: null
                 ),
+
                 SupportProject.Create(
                     projectStatus: ProjectStatus.InProgress,
                     new SchoolDetails

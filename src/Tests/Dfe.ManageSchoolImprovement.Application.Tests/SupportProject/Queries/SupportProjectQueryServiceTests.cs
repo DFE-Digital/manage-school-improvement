@@ -2,11 +2,11 @@
 using AutoMapper;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
 using System.Linq.Expressions;
-using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
 {
@@ -390,7 +390,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             // Assert
             Assert.Empty(result);
         }
-        
+
         [Fact]
         public async Task GetAllProjectYears_ShouldReturnSuccess_WhenDataExists()
         {
@@ -483,6 +483,37 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                 Assert.Equal(item.LocalAuthority, project.LocalAuthority);
                 Assert.Equal(item.Region, project.Region);
             }
+        }
+
+        [Fact]
+        public async Task GetAllProjectStatuses_ShouldReturnStatuses_WhenRepositoryReturnsStatuses()
+        {
+            // Arrange
+            var statuses = new List<string> { "Open", "Closed", "InProgress" };
+            _mockRepository.Setup(r => r.GetAllProjectStatuses(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(statuses);
+
+            // Act
+            var result = await _service.GetAllProjectStatuses(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(statuses, result.Value);
+        }
+
+        [Fact]
+        public async Task GetAllProjectStatuses_ShouldReturnFailure_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectStatuses(It.IsAny<CancellationToken>()))
+                .ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectStatuses(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
         }
     }
 }
