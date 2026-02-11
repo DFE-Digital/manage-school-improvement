@@ -71,16 +71,17 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             var dates = AddAllSelectedMonths(request.Years, request.Months);
 
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    request.Title,
-                    request.AssignedUsers,
-                    request.AssignedAdvisers,
-                    request.Regions,
-                    request.LocalAuthorities,
-                    request.Trusts,
-                    dates,
-                    request.States
-                    ),
+                new SupportProjectSearchCriteria
+                {
+                    Title = request.Title,
+                    AssignedUsers = request.AssignedUsers,
+                    AssignedAdvisers = request.AssignedAdvisers,
+                    Regions = request.Regions,
+                    LocalAuthorities = request.LocalAuthorities,
+                    Trusts = request.Trusts,
+                    Dates = dates,
+                    States = request.States
+                },
                 request.Page,
                 request.Count,
                 cancellationToken);

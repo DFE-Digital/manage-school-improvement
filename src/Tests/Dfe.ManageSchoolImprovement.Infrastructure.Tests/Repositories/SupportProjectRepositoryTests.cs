@@ -16,15 +16,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act - Get page 2 with 1 item per page
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: [ProjectStatus.InProgress.ToString()]),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = [ProjectStatusValue.InProgress.ToString()]
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -43,15 +45,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act - Get page 2 with 1 item per page
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: [ProjectStatus.Paused.ToString()]),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = [ProjectStatusValue.Paused.ToString()]
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -70,15 +74,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act - Get page 2 with 1 item per page
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: [ProjectStatus.Stopped.ToString()]),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = [ProjectStatusValue.Stopped.ToString()]
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -97,18 +103,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "School",
-                    assignedUsers: ["User1"],
-                    assignedAdvisers: ["Test Adviser"],
-                    regions: ["Region1"],
-                    localAuthorities: ["Authority1"],
-                    trusts: [], // Add the missing trusts parameter
-                    dates: [],
-                    states: []
-                    ),
-                page: 1,
-                count: 2,
+                new SupportProjectSearchCriteria
+                {
+                    Title = "School",
+                    AssignedUsers = ["User1"],
+                    AssignedAdvisers = ["Test Adviser"],
+                    Regions = ["Region1"],
+                    LocalAuthorities = ["Authority1"],
+                    Trusts = [], // Add the missing trusts parameter
+                    Dates = [],
+                    States = []
+                },
+            page: 1,
+            count: 2,
                 cancellationToken: CancellationToken.None
             );
 
@@ -125,18 +132,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var service = new SupportProjectRepository(fixture.Context);
 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "School",
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [], // Add the missing trusts parameter
-                    dates: [],
-                    states: []
-                    ),
-                page: 1,
-                count: 10,
+                new SupportProjectSearchCriteria
+                {
+                    Title = "School",
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [], // Add the missing trusts parameter
+                    Dates = [],
+                    States = []
+                },
+            page: 1,
+            count: 10,
                 cancellationToken: CancellationToken.None
             );
 
@@ -153,17 +161,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var service = new SupportProjectRepository(fixture.Context);
 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "100001",
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [], // Add the missing trusts parameter
-                    dates: [],
-                    states: []
-                    ),
-                page: 1,
+                new SupportProjectSearchCriteria
+                {
+                    Title = "100001",
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
+            page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
             );
@@ -182,18 +191,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: ["not assigned"],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [], // Add the missing trusts parameter
-                    dates: [],
-                    states: []
-                    ),
-                page: 1,
-                count: 3,
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = ["not assigned"],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [], // Add the missing trusts parameter
+                    Dates = [],
+                    States = []
+                },
+            page: 1,
+            count: 3,
                 cancellationToken: CancellationToken.None
             );
 
@@ -212,17 +222,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: ["not assigned"],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [], // Add the missing trusts parameter
-                    dates: [],
-                    states: []
-                    ),
-                page: 1,
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = ["not assigned"],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
+            page: 1,
                 count: 3,
                 cancellationToken: CancellationToken.None
             );
@@ -250,17 +261,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: title,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: regions,
-                    localAuthorities: localAuthorities,
-                    trusts: [], // Add the missing trusts parameter
-                    dates: [],
-                    states: []
-                    ),
-                page: 1,
+                new SupportProjectSearchCriteria
+                {
+                    Title = title,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = regions,
+                    LocalAuthorities = localAuthorities,
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
+            page: 1,
                 count: 2,
                 cancellationToken: CancellationToken.None
             );
@@ -278,16 +290,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: ["Trust A"],
-                    dates: [],
-                    states: []
-                    ),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = ["Trust A"],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -308,15 +321,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: ["Trust A", "Trust B"],
-                    dates: [],
-                    states: []),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = ["Trust A", "Trust B"],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -337,15 +352,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act - Get page 2 with 1 item per page
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "School",
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: []),
+                new SupportProjectSearchCriteria
+                {
+                    Title = "School",
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
                 page: 2,
                 count: 1,
                 cancellationToken: CancellationToken.None
@@ -474,15 +491,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "School",
-                    assignedUsers: ["User1"],
-                    assignedAdvisers: ["Test Adviser"],
-                    regions: ["Region1"],
-                    localAuthorities: ["Authority1"],
-                    trusts: ["Trust A"],
-                    dates: [],
-                    states: []),
+                new SupportProjectSearchCriteria
+                {
+                    Title = "School",
+                    AssignedUsers = ["User1"],
+                    AssignedAdvisers = ["Test Adviser"],
+                    Regions = ["Region1"],
+                    LocalAuthorities = ["Authority1"],
+                    Trusts = ["Trust A"],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -502,15 +521,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "NonExistentSchool",
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: []),
+                new SupportProjectSearchCriteria
+                {
+                    Title = "NonExistentSchool",
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -529,15 +550,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: []),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -560,16 +583,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: "school a", // lowercase
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: []
-                    ),
+                new SupportProjectSearchCriteria
+                {
+                    Title = "school a", // lowercase
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -589,16 +613,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: [],
-                    states: []
-                    ),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = [],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
@@ -623,16 +648,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Act 
             var (projects, totalCount) = await service.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    title: null,
-                    assignedUsers: [],
-                    assignedAdvisers: [],
-                    regions: [],
-                    localAuthorities: [],
-                    trusts: [],
-                    dates: ["2025 October"],
-                    states: []
-                ),
+                new SupportProjectSearchCriteria
+                {
+                    Title = null,
+                    AssignedUsers = [],
+                    AssignedAdvisers = [],
+                    Regions = [],
+                    LocalAuthorities = [],
+                    Trusts = [],
+                    Dates = ["2025 October"],
+                    States = []
+                },
                 page: 1,
                 count: 10,
                 cancellationToken: CancellationToken.None
