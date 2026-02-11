@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
-public enum ProjectStatus
+public enum ProjectStatusValue
 {
     [Display(Name = "In progress")]
     InProgress = 0,

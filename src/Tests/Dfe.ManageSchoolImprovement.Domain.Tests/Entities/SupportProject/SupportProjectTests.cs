@@ -165,7 +165,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             string schoolUrn = "DefaultURN",
             string localAuthority = "Default Authority",
             string region = "Default Region",
-            ProjectStatus status = ProjectStatus.InProgress)
+            ProjectStatusValue status = ProjectStatusValue.InProgress)
         {
             return Domain.Entities.SupportProject.SupportProject.Create(
                 status,
@@ -193,8 +193,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 responsibleBodyInitialContactDate);
 
             // Assert
-            // supportProject.InitialContactResponsibleBody.Should().Be(initialContactResponsibleBody);
-            // supportProject.InitialContactResponsibleBodyDate.Should().Be(responsibleBodyInitialContactDate);
             mockRepository.VerifyAll();
         }
 
@@ -2089,28 +2087,74 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.Cohort.Should().BeNull();
             mockRepository.VerifyAll();
         }
-
-        // added so that sonar cloud will pass - remove after new record responsible body's response page added
+        
         [Fact]
-        public void CreateSupportProject_WithSaveCompletedConflictOfinterestFormInSharePoint_ShouldBeNull()
+        public void SetProjectStatus_WithValidDetails_SetsTheCorrectProperties()
         {
             // Arrange
             var supportProject = CreateSupportProject();
+            var projectStatus = ProjectStatusValue.Paused;
+            var projectStatusChangedDate = DateTime.UtcNow;
+            var projectStatusChangedBy = "user@education.gov.uk";
+            var projectStatusChangedDetails = "Project paused for review";
+
+            // Act
+            supportProject.SetProjectStatus(
+                projectStatus,
+                projectStatusChangedDate,
+                projectStatusChangedBy,
+                projectStatusChangedDetails);
 
             // Assert
-            supportProject.SaveCompletedConflictOfinterestFormInSharePoint.Should().BeNull();
+            supportProject.ProjectStatus.Should().Be(projectStatus);
+            supportProject.ProjectStatusChangedDate.Should().Be(projectStatusChangedDate);
+            supportProject.ProjectStatusChangedBy.Should().Be(projectStatusChangedBy);
+            supportProject.ProjectStatusChangedDetails.Should().Be(projectStatusChangedDetails);
             mockRepository.VerifyAll();
         }
 
-        // added so that sonar cloud will pass - remove after new record responsible body's response page added
         [Fact]
-        public void CreateSupportProject_WithDateConflictsOfInterestWereChecked_ShouldBeNull()
+        public void SetProjectStatus_WithNullOptionalValues_SetsStatusAndClearsOptionalFields()
         {
             // Arrange
             var supportProject = CreateSupportProject();
+            var projectStatus = ProjectStatusValue.Stopped;
+
+            // Act
+            supportProject.SetProjectStatus(
+                projectStatus,
+                null,
+                null,
+                null);
 
             // Assert
-            supportProject.DateConflictsOfInterestWereChecked.Should().BeNull();
+            supportProject.ProjectStatus.Should().Be(projectStatus);
+            supportProject.ProjectStatusChangedDate.Should().BeNull();
+            supportProject.ProjectStatusChangedBy.Should().BeNull();
+            supportProject.ProjectStatusChangedDetails.Should().BeNull();
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void SetProjectStatus_WhenSettingInProgress_UpdatesStatusCorrectly()
+        {
+            // Arrange - create with Paused then set back to InProgress
+            var supportProject = CreateSupportProject(status: ProjectStatusValue.Paused);
+            var projectStatusChangedDate = DateTime.UtcNow;
+            var projectStatusChangedBy = "admin@education.gov.uk";
+
+            // Act
+            supportProject.SetProjectStatus(
+                ProjectStatusValue.InProgress,
+                projectStatusChangedDate,
+                projectStatusChangedBy,
+                null);
+
+            // Assert
+            supportProject.ProjectStatus.Should().Be(ProjectStatusValue.InProgress);
+            supportProject.ProjectStatusChangedDate.Should().Be(projectStatusChangedDate);
+            supportProject.ProjectStatusChangedBy.Should().Be(projectStatusChangedBy);
+            supportProject.ProjectStatusChangedDetails.Should().BeNull();
             mockRepository.VerifyAll();
         }
     }

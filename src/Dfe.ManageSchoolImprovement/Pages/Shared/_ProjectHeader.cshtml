@@ -1,7 +1,7 @@
 @using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
-@using System.Globalization
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using System.Globalization
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 @{
@@ -25,42 +25,44 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      @if (deliveryOfficerAssigned || deliveryOfficerUnassigned)
-      {
-          <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-              <div class="govuk-notification-banner__header">
-                  <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                      Success
-                  </h2>
-              </div>
-             <div class="govuk-notification-banner__content">
-                @if (deliveryOfficerAssigned)
-                {
-                   <h3 class="govuk-notification-banner__heading" id="project-note-added">
-                      Person is assigned
-                   </h3>
-                }
-                else
-                {
-                   <h3 class="govuk-notification-banner__heading" id="project-note-added">
-                      Person is unassigned
-                   </h3>
-                }
-             </div>
-          </div>
-      }
-        @if (!string.IsNullOrWhiteSpace(contactAddedOrUpdated))
+        @if (deliveryOfficerAssigned || deliveryOfficerUnassigned)
         {
-            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+                 aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
                 <div class="govuk-notification-banner__header">
                     <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
                         Success
                     </h2>
                 </div>
-                <div class="govuk-notification-banner__content"> 
+                <div class="govuk-notification-banner__content">
+                    @if (deliveryOfficerAssigned)
+                    {
+                        <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                            Person is assigned
+                        </h3>
+                    }
+                    else
+                    {
+                        <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                            Person is unassigned
+                        </h3>
+                    }
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(contactAddedOrUpdated))
+        {
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+                 aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Success
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
                     <h3 class="govuk-notification-banner__heading" id="contact-added">
                         Contact @contactAddedOrUpdated
-                    </h3> 
+                    </h3>
                 </div>
             </div>
         }
@@ -79,7 +81,7 @@
           </div>
           <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                  Date added
+                  Date added to MSI
               </dt>
               <dd class="govuk-summary-list__value">
                   @createdDate.ToDateString()
@@ -92,7 +94,7 @@
               <dd class="govuk-summary-list__value">
                   <span class="@(displayAssignedTo ? "empty" : "")" data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
               </dd>
-              @if (Model.ProjectStatus != ProjectStatus.Stopped)
+              @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
               {
                   <dd class="govuk-summary-list__actions">
                       <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
@@ -106,7 +108,7 @@
               <dd class="govuk-summary-list__value">
                   <span class="@(displayAdvisedBy ? "empty" : "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
               </dd>
-              @if (Model.ProjectStatus != ProjectStatus.Stopped)
+              @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
               {
                   <dd class="govuk-summary-list__actions">
                       <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
@@ -120,7 +122,7 @@
               <dd class="govuk-summary-list__value">
                   @(engagementConcern ? "Yes" : "No")
               </dd>
-              @if (Model.ProjectStatus != ProjectStatus.Stopped)
+              @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
               {
                   <dd class="govuk-summary-list__actions">
                       <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a>
@@ -131,12 +133,15 @@
         @if (User.IsInRole(Role.Support))
         {
             <p class="govuk-body govuk-!-margin-top-3">
-                <a class="govuk-button govuk-button--warning" asp-page="@Links.DeleteProject.ConfirmToDeleteProject.Page" asp-route-id="@Model.Id">Delete school</a>
+                <a class="govuk-button govuk-button--warning"
+                   asp-page="@Links.DeleteProject.ConfirmToDeleteProject.Page" asp-route-id="@Model.Id">Delete
+                    school</a>
             </p>
         }
-
-   </div>
-   <div class="govuk-grid-column-full">
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
         <partial name="_SubMenu" model="@Model"/>
-   </div>   
+    </div>
 </div>
