@@ -20,6 +20,7 @@ public class ProjectListFilters
     public List<string> AvailableDeliveryOfficers { get; set; } = new();
     public List<string> AvailableAdvisers { get; set; } = new();
     public List<string> AvailableRegions { get; set; } = new();
+    public List<string> AvailableStatuses { get; set; } = new();
     public List<string> AvailableTrusts { get; set; } = new();
     public List<string> AvailableLocalAuthorities { get; set; } = new();
     public List<string> AvailableYears { get; set; } = new();
@@ -41,8 +42,8 @@ public class ProjectListFilters
     [BindProperty] public string[] SelectedYears { get; set; } = Array.Empty<string>();
 
     [BindProperty] public string[] SelectedMonths { get; set; } = Array.Empty<string>();
-    
-    public List<string> YearsChecked { get; set; } = new ();
+
+    public List<string> YearsChecked { get; set; } = new();
 
     private static List<string> Months = new()
     {
@@ -60,17 +61,17 @@ public class ProjectListFilters
         "December"
     };
     public static List<string> _months => Months;
-    
+
 
     private static List<string> MonthsInCurrentYear = _months.Take(DateTime.Now.Month).ToList();
     public static List<string> _monthsInCurrentYear => MonthsInCurrentYear;
-    
+
     public void RemoveYearsInSelectedMonths(IEnumerable<KeyValuePair<string, StringValues>> requestQuery)
     {
         foreach (var year in SelectedYears)
         {
             var hasMonthsForYear = SelectedMonths.Any(month => month.StartsWith($"{year} "));
-        
+
             if (hasMonthsForYear)
             {
                 SelectedYears = SelectedYears.Where(x => x != year).ToArray();
@@ -78,13 +79,13 @@ public class ProjectListFilters
             }
 
             Dictionary<string, StringValues>? query = new(requestQuery, StringComparer.OrdinalIgnoreCase);
-            
+
             if (query.ContainsKey("remove") && query.ContainsKey(nameof(SelectedMonths)))
             {
                 var monthQuery = query.TryGetValue(nameof(SelectedMonths), out StringValues value) ? value.ToArray() : Array.Empty<string>();
-                
+
                 var hasMonths = monthQuery.Any(month => month != null && month.StartsWith($"{year} "));
-        
+
                 if (hasMonths)
                 {
                     SelectedYears = SelectedYears.Where(x => x != year).ToArray();
@@ -97,7 +98,7 @@ public class ProjectListFilters
     public void RemoveMonthsIfYearUnchecked()
     {
         SelectedMonths = SelectedMonths
-            .Where(month => 
+            .Where(month =>
             {
                 var yearFromMonth = month.Split(' ')[0];
                 return SelectedYears.Contains(yearFromMonth);

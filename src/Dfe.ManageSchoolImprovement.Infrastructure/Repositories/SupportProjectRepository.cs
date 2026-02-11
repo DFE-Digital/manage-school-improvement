@@ -1,9 +1,9 @@
-using System.Globalization;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 {
@@ -25,6 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByLocalAuthority(searchCriteria.LocalAuthorities, queryable);
             queryable = FilterByTrusts(searchCriteria.Trusts, queryable);
             queryable = FilterByDate(searchCriteria.Dates, queryable);
+            queryable = FilterByState(searchCriteria.States, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
             var projects = await queryable
@@ -33,6 +34,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Take(count).ToListAsync(cancellationToken);
 
             return (projects, totalProjects);
+        }
+
+        private static IQueryable<SupportProject> FilterByState(IEnumerable<string>? states, IQueryable<SupportProject> queryable)
+        {
+            if (states != null && states.Any())
+            {
+                var stateSet = new HashSet<string>(states, StringComparer.OrdinalIgnoreCase);
+                queryable = queryable.Where(p => stateSet.Contains(p.ProjectStatus.ToString()));
+            }
+
+            return queryable;
         }
 
         private static IQueryable<SupportProject> FilterByTrusts(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
@@ -226,7 +238,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }
-        
+
         public async Task<IEnumerable<string>> GetAllProjectYears(CancellationToken cancellationToken)
         {
             var years = await DbSet()
@@ -237,6 +249,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Select(year => year.ToString())
                 .ToListAsync(cancellationToken);
             return years;
+        }
+
+        public async Task<IEnumerable<string>> GetAllProjectStatuses(CancellationToken cancellationToken)
+        {
+            var statuses = await DbSet()
+                .AsNoTracking()
+                .Select(p => p.ProjectStatus.ToString())
+                .Distinct()
+                .ToListAsync(cancellationToken);
+
+            return statuses;
         }
     }
 }

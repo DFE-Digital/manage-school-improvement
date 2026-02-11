@@ -275,6 +275,39 @@
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
                                 <h2 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button" id="accordion-status-heading"
+                                           data-cy="select-projectlist-filter-status" for="filter-status">
+                                        Current Status
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-status" placeholder="Type to filter current status..."
+                                       aria-labelledby="accordion-status-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var status in Model.AvailableStatuses)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-status-@status.Stub()" name="selectedStatus"
+                                                   type="checkbox" value="@status"
+                                                   data-cy="select-projectlist-filter-status-@status"
+                                                   @(Model.SelectedStatuses.Contains(status) ? "checked" : null) />
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-status-@status.Stub()">
+                                                @status
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
                                     <span class="govuk-accordion__section-button" id="accordion-officers-heading">
                                         Assigned to
                                     </span>
