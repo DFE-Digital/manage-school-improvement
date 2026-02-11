@@ -207,12 +207,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     private readonly List<EngagementConcern> _engagementConcerns = new();
     public string? Cohort { get; }
-    public ProjectStatus ProjectStatus { get; private set; }
+    public ProjectStatusValue ProjectStatus { get; private set; }
+    public DateTime? ProjectStatusChangedDate { get; private set; }
+    public string? ProjectStatusChangedBy { get; private set; }
+    public string? ProjectStatusChangedDetails { get; private set; }
 
     #endregion
 
     public static SupportProject Create(
-        ProjectStatus projectStatus,
+        ProjectStatusValue projectStatus,
         SchoolDetails schoolDetails,
         TrustDetails? trustDetails = null,
         DateTime? deletedAt = null)
@@ -774,6 +777,14 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public void SetSchoolAddress(string? address)
     {
         Address = address;
+    }
+
+    public void SetProjectStatus(ProjectStatusValue projectStatus, DateTime? projectStatusChangedDate, string? projectStatusChangedBy, string? projectStatusChangedDetails)
+    {
+            ProjectStatus = projectStatus;
+            ProjectStatusChangedDate = projectStatusChangedDate;
+            ProjectStatusChangedBy = projectStatusChangedBy;
+            ProjectStatusChangedDetails = projectStatusChangedDetails;
     }
 
     #endregion

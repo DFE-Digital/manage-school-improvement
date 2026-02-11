@@ -35,7 +35,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
         {
             Context.SupportProjects.AddRange(
                 SupportProject.Create(
-                    projectStatus: ProjectStatus.InProgress,
+                    projectStatus: ProjectStatusValue.InProgress,
                     new SchoolDetails
                     {
                         SchoolName = "School A",
@@ -77,7 +77,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                 ),
 
                 SupportProject.Create(
-                    projectStatus: ProjectStatus.InProgress,
+                    projectStatus: ProjectStatusValue.InProgress,
                     new SchoolDetails
                     {
                         SchoolName = "School D",

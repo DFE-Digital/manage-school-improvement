@@ -332,5 +332,39 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal("/EngagementConcern/RecordEngagementConcern", linkItem.Page);
             Assert.Equal("Back", linkItem.BackText);
         }
+        
+        [Theory]
+        [InlineData("/ProjectStatus/Index")]
+        [InlineData("/ProjectStatus/ChangeProjectStatus")]
+        [InlineData("/ProjectStatus/ProjectStatusPausedDate")]
+        [InlineData("/ProjectStatus/ProjectStatusStoppedDate")]
+        [InlineData("/ProjectStatus/ProjectStatusInProgressDate")]
+        [InlineData("/ProjectStatus/ProjectStatusPausedDetails")]
+        [InlineData("/ProjectStatus/ProjectStatusStoppedDetails")]
+        [InlineData("/ProjectStatus/ProjectStatusInProgressDetails")]
+        [InlineData("/ProjectStatus/ProjectStatusAnswers")]
+        public void ProjectStatus_Items_ShouldHaveCorrectValues(string expectedPage)
+        {
+            // Arrange & Act
+            var expectedBackText = "Back";
+            var projectStatusType = typeof(ProjectStatusTab);
+            var properties = projectStatusType.GetFields();
+
+            LinkItem? foundItem = null;
+
+            foreach (var prop in properties)
+            {
+                if (prop.GetValue(null) is LinkItem item && item.Page == expectedPage)
+                {
+                    foundItem = item;
+                    break;
+                }
+            }
+
+            // Assert
+            Assert.NotNull(foundItem);
+            Assert.Equal(expectedPage, foundItem.Page);
+            Assert.Equal(expectedBackText, foundItem.BackText);
+        }
     }
 }

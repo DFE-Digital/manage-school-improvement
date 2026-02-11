@@ -13,8 +13,6 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     schoolShort,
     schoolLong,
     lastInspectionDate,
-    qualityOfEducation,
-    leadershipAndManagement,
     assignedTo,
     advisedBy,
     urn,
@@ -87,11 +85,9 @@ describe("Add a school which requires an improvement and complete it's tasks", (
       .hasHeader("Plymouth Grove Primary")
       .hasCurrentStatus(status)
       .hasDateAdded(dateAdded)
-      .hasInspectionDate(lastInspectionDate)
-      .hasQualityOfEducation(qualityOfEducation)
-      .hasLeadershipAndManagement(leadershipAndManagement)
       .hasAssignedTo(assignedTo)
       .hasAdvisedBy(advisedBy)
+      .hasEngagementConcern('No')
       .hasChangeLinks()
       .hasNav()
       .hasTasks()

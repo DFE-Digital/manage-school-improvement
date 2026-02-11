@@ -25,4 +25,14 @@ describe("User navigates to About the school tab", () => {
 
         cy.executeAccessibilityTests()
     });
+
+    it("should show the other services information links", () => {
+        aboutTheSchool
+          .hasSeeInspectionReportsAtOfstedLink()
+          .hasGetInformationAboutSchoolsLink()
+          .hasFindInformationAboutSchoolsAndTrustLink();
+
+        cy.executeAccessibilityTests()
+
+    });
 });
