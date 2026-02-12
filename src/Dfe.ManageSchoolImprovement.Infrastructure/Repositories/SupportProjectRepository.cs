@@ -2,6 +2,7 @@ using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
+using Dfe.ManageSchoolImprovement.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -40,8 +41,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             if (states != null && states.Any())
             {
+                // Convert state strings to enum values (case-insensitive)
+                var enumValues = states
+                    .Select(s => Enum.TryParse<ProjectStatusValue>(s, true, out var val) ? (ProjectStatusValue?)val : null)
+                    .Where(e => e.HasValue)
+                    .Select(e => e.Value)
+                    .ToList();
+
                 var stateSet = new HashSet<string>(states, StringComparer.OrdinalIgnoreCase);
-                queryable = queryable.Where(p => stateSet.Contains(p.ProjectStatus.ToString()));
+                queryable = queryable.Where(p => enumValues.Contains(p.ProjectStatus));
             }
 
             return queryable;
@@ -251,11 +259,11 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return years;
         }
 
-        public async Task<IEnumerable<string>> GetAllProjectStatuses(CancellationToken cancellationToken)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllProjectStatuses(CancellationToken cancellationToken)
         {
             var statuses = await DbSet()
                 .AsNoTracking()
-                .Select(p => p.ProjectStatus.ToString())
+                .Select(p => new KeyValuePair<string, string>(p.ProjectStatus.ToString(), p.ProjectStatus.GetDisplayName()))
                 .Distinct()
                 .ToListAsync(cancellationToken);
 

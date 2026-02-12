@@ -489,7 +489,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetAllProjectStatuses_ShouldReturnStatuses_WhenRepositoryReturnsStatuses()
         {
             // Arrange
-            var statuses = new List<string> { "Open", "Closed", "InProgress" };
+            var statuses = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("Open", "Open"), new KeyValuePair<string, string>("Closed", "Closed"), new KeyValuePair<string, string>("InProgress", "In Progress") };
             _mockRepository.Setup(r => r.GetAllProjectStatuses(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(statuses);
 
@@ -505,8 +505,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetAllProjectStatuses_ShouldReturnFailure_WhenRepositoryReturnsNull()
         {
             // Arrange
-            _mockRepository.Setup(r => r.GetAllProjectStatuses(It.IsAny<CancellationToken>()))
-                .ReturnsAsync((IEnumerable<string>?)null);
+            _mockRepository.Setup(r => r.GetAllProjectStatuses(It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((IEnumerable<KeyValuePair<string, string>>?)null);
 
             // Act
             var result = await _service.GetAllProjectStatuses(CancellationToken.None);

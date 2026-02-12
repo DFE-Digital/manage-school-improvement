@@ -20,7 +20,7 @@ public class ProjectListFilters
     public List<string> AvailableDeliveryOfficers { get; set; } = new();
     public List<string> AvailableAdvisers { get; set; } = new();
     public List<string> AvailableRegions { get; set; } = new();
-    public List<string> AvailableStatuses { get; set; } = new();
+    public List<KeyValuePair<string, string>> AvailableStatuses { get; set; } = new();
     public List<string> AvailableTrusts { get; set; } = new();
     public List<string> AvailableLocalAuthorities { get; set; } = new();
     public List<string> AvailableYears { get; set; } = new();

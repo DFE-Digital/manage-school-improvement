@@ -140,12 +140,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
 
-        public async Task<Result<IEnumerable<string>>> GetAllProjectStatuses(CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<KeyValuePair<string, string>>>> GetAllProjectStatuses(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectStatuses(cancellationToken);
 
 
-            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+            return result == null ? Result<IEnumerable<KeyValuePair<string, string>>>.Failure("") : Result<IEnumerable<KeyValuePair<string, string>>>.Success(result);
         }
     }
 }

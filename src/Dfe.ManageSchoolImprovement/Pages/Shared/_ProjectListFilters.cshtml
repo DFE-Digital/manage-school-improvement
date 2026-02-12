@@ -143,6 +143,26 @@
             
                 </ul>
             }
+
+            @if (Model.SelectedStatuses.Length > 0)
+            {
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Statuses</h3>
+
+                <ul class="moj-filter-tags">
+                    @{
+                        foreach (var status in Model.SelectedStatuses)
+                        {
+                            <li>
+                                <a class="moj-filter__tag"
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedStatuses=@status">
+                                    <span class="govuk-visually-hidden">Remove this filter</span> @status.Stub()
+                                </a>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            }
         </div>
         <div class="moj-filter__options">
             <form method="get" class="form">
@@ -290,13 +310,13 @@
                                     {
                                         <div class="govuk-checkboxes__item">
                                             <input class="govuk-checkboxes__input"
-                                                   id="filter-project-status-@status.Stub()" name="selectedStatus"
-                                                   type="checkbox" value="@status"
-                                                   data-cy="select-projectlist-filter-status-@status"
-                                                   @(Model.SelectedStatuses.Contains(status) ? "checked" : null) />
+                                                   id="filter-project-status-@status.Key.Stub()" name="selectedStatuses"
+                                                   type="checkbox" value="@status.Key"
+                                                   data-cy="select-projectlist-filter-status-@status.Key"
+                                                   @(Model.SelectedStatuses.Contains(status.Key) ? "checked" : null) />
                                             <label class="govuk-label govuk-checkboxes__label"
-                                                   for="filter-project-status-@status.Stub()">
-                                                @status
+                                                   for="filter-project-status-@status.Key.Stub()">
+                                                @status.Value
                                             </label>
                                         </div>
                                     }
