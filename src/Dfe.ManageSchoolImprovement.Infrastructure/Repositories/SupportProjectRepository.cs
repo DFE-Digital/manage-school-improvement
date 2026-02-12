@@ -45,11 +45,13 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 var enumValues = states
                     .Select(s => Enum.TryParse<ProjectStatusValue>(s, true, out var val) ? (ProjectStatusValue?)val : null)
                     .Where(e => e.HasValue)
-                    .Select(e => e.Value)
+                    .Select(e => e!.Value)
                     .ToList();
 
-                var stateSet = new HashSet<string>(states, StringComparer.OrdinalIgnoreCase);
-                queryable = queryable.Where(p => enumValues.Contains(p.ProjectStatus));
+                if (enumValues.Any())
+                {
+                    queryable = queryable.Where(p => enumValues.Contains(p.ProjectStatus));
+                }
             }
 
             return queryable;
