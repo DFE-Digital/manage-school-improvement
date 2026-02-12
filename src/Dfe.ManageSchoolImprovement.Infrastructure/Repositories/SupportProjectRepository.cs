@@ -39,7 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 
         private static IQueryable<SupportProject> FilterByState(IEnumerable<string>? states, IQueryable<SupportProject> queryable)
         {
-            if (states != null && states.Count() > 0)
+            if (states != null && states.Any())
             {
                 // Convert state strings to enum values (case-insensitive)
                 var enumValues = states
@@ -48,7 +48,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                     .Select(e => e!.Value)
                     .ToList();
 
-                if (enumValues.Count() > 0)
+                if (enumValues.Count > 0)
                 {
                     queryable = queryable.Where(p => enumValues.Contains(p.ProjectStatus));
                 }
