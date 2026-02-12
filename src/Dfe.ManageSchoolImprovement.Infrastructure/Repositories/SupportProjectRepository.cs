@@ -48,7 +48,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                     .Select(e => e!.Value)
                     .ToList();
 
-                if (enumValues.Any())
+                if (enumValues.Count() > 0)
                 {
                     queryable = queryable.Where(p => enumValues.Contains(p.ProjectStatus));
                 }
