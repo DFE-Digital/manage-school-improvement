@@ -3,6 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
     public DateTime? DateOfDecision { get; set; }
     public string? AdditionalDetails { get; set; }
     
-    public IList<SupportProjectFieldAuditDto<string?>> ProjectStatusAuditTrail { get; set; } = [];
+    public IList<SupportProjectFieldAuditDto<ProjectStatusChangeViewModel?>> ProjectStatusAuditTrail { get; set; } = [];
 
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)

@@ -42,7 +42,6 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Project status</h2>
-        <p>Change the status of a project if targeted intervention work pauses or stops.</p>
         <a asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.SupportProject.Id"
            role="button"
            draggable="false" class="govuk-button" data-module="govuk-button">
@@ -77,24 +76,24 @@
 
         <div class="moj-timeline">
 
-            @foreach (var history in Model.ProjectStatusAuditTrail)
-            {
-
-
-                <div class="moj-timeline__item">
-                    <div class="moj-timeline__header">
-                        <h2 class="moj-timeline__title">Supporting organisation field change - @history.FieldName</h2>
-                        <p class="moj-timeline__byline">by @history.LastModifiedBy</p>
-                    </div>
-                    <p class="moj-timeline__date">
-                        <time datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time>
-                    </p>
-                    <div class="moj-timeline__description">
-                        <p>@history.FieldName changed, new value @history.FieldValue </p>
-                
-                    </div>
-                </div>
-            }
+            @* @foreach (var history in Model.ProjectStatusAuditTrail) *@
+            @* { *@
+            @* *@
+            @* *@
+            @*     <div class="moj-timeline__item"> *@
+            @*         <div class="moj-timeline__header"> *@
+            @*             <partial name="Shared/_ProjectStatus" model="@history.FieldValue" /> *@
+            @*             <p class="moj-timeline__byline">by @history.LastModifiedBy</p> *@
+            @*         </div> *@
+            @*         <p class="moj-timeline__date"> *@
+            @*             <time datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time> *@
+            @*         </p> *@
+            @*         <div class="moj-timeline__description"> *@
+            @*             <p>@history.FieldName changed, new value @history.FieldValue </p> *@
+            @*      *@
+            @*         </div> *@
+            @*     </div> *@
+            @* } *@
 
         </div>
     </div>
