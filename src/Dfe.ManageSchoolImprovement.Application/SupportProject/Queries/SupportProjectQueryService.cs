@@ -2,10 +2,10 @@ using AutoMapper;
 using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.Factories;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
-using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 {
@@ -27,7 +27,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             "December"
         };
         public static List<string> _months => MonthsList;
-        
+
         public async Task<Result<IEnumerable<SupportProjectDto>>> GetAllSupportProjects(CancellationToken cancellationToken)
         {
             var supportProjects = await supportProjectRepository.FetchAsync(sp => true, cancellationToken);
@@ -36,7 +36,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
             return Result<IEnumerable<SupportProjectDto>>.Success(result);
         }
-        
+
         public string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months)
         {
             if (Months != null)
@@ -69,18 +69,20 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         {
 
             var dates = AddAllSelectedMonths(request.Years, request.Months);
-            
+
             var (projects, totalCount) = await supportProjectRepository.SearchForSupportProjects(
-                new SupportProjectSearchCriteria(
-                    request.Title,
-                    request.AssignedUsers, 
-                    request.AssignedAdvisers, 
-                    request.Regions, 
-                    request.LocalAuthorities,
-                    request.Trusts,
-                    dates
-                    ),
-                request.Page, 
+                new SupportProjectSearchCriteria
+                {
+                    Title = request.Title,
+                    AssignedUsers = request.AssignedUsers,
+                    AssignedAdvisers = request.AssignedAdvisers,
+                    Regions = request.Regions,
+                    LocalAuthorities = request.LocalAuthorities,
+                    Trusts = request.Trusts,
+                    Dates = dates,
+                    States = request.States
+                },
+                request.Page,
                 request.Count,
                 cancellationToken);
 
@@ -119,7 +121,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             var result = await supportProjectRepository.GetAllProjectAssignedUsers(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
-        
+
         public async Task<Result<IEnumerable<string>>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectAssignedAdvisers(cancellationToken);
@@ -136,6 +138,14 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         {
             var result = await supportProjectRepository.GetAllProjectYears(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
+        public async Task<Result<IEnumerable<KeyValuePair<string, string>>>> GetAllProjectStatuses(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectStatuses(cancellationToken);
+
+
+            return result == null ? Result<IEnumerable<KeyValuePair<string, string>>>.Failure("") : Result<IEnumerable<KeyValuePair<string, string>>>.Success(result);
         }
     }
 }
