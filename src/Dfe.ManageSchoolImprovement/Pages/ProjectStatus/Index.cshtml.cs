@@ -33,15 +33,9 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         SupportProjectStatus = SupportProject?.ProjectStatus;
         DateOfDecision = SupportProject?.ProjectStatusChangedDate;
         AdditionalDetails = SupportProject?.ProjectStatusChangedDetails;
-        
-        // get each audit trail separately. save as Lists
-        
-        var filteredProjectStatusAudits = new List<SupportProjectFieldAuditDto<ProjectStatusValue>>();
-        var filteredChangedByAudits = new List<SupportProjectFieldAuditDto<string?>>();
-        var filteredDateOfDecisionAudits = new List<SupportProjectFieldAuditDto<DateTime?>>();
-        var filteredDetailsAudits = new List<SupportProjectFieldAuditDto<string?>>();
 
-        // Get audit trail for project status
+        var filteredProjectStatusAudits = new List<SupportProjectFieldAuditDto<ProjectStatusValue>>();
+
         var projectStatusAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
             id, sp => sp.ProjectStatus, cancellationToken);
         
@@ -51,70 +45,23 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
                 .Where(a => a.FieldValue != null)
                 .ToList();
         }
-        
-        // Get audit trail for changed by
-        var changedByAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
-            id, sp => sp.ProjectStatusChangedBy, cancellationToken);
-        
-        if (changedByAuditResult.IsSuccess)
-        {
-            filteredChangedByAudits = changedByAuditResult.Value!
-                .Where(a => !string.IsNullOrEmpty(a.FieldValue))
-                .ToList();
-        }
-        
-        // Get audit trail for date of decision
-        var dateOfDecisionAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
-            id, sp => sp.ProjectStatusChangedDate, cancellationToken);
-        
-        if (projectStatusAuditResult.IsSuccess)
-        {
-            filteredDateOfDecisionAudits = dateOfDecisionAuditResult.Value!
-                .Where(a => a.FieldValue != null)
-                .ToList();
-        }
-        
-        // Get audit trail for details
-        var detailsAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
-            id, sp => sp.ProjectStatusChangedDetails, cancellationToken);
-        
-        if (detailsAuditResult.IsSuccess)
-        {
-            filteredDetailsAudits = detailsAuditResult.Value!
-                .Where(a => !string.IsNullOrEmpty(a.FieldValue))
-                .ToList();
-        }
-        
-        // loop through filteredProjectStatusAudits List retrieve fieldValue - this is ProjectStatus
-        // for each item, loop through each of the other audit result lists to find items with matching LastModifiedOn
-        // construct ProjectStatusChangeViewModel object from these elements - fieldValue will be the correct element
-        // add object to ProjectStatusAuditTrail
 
-        foreach (var project in filteredProjectStatusAudits)
+        foreach (var project in filteredProjectStatusAudits.Skip(1))
         {
-            var changedBy = filteredChangedByAudits
-                .Where(a => a.LastModifiedOn == project.LastModifiedOn)
-                .FirstOrDefault()?.FieldValue;
-            var changedDateOfDecision = filteredDateOfDecisionAudits
-                .Where(a => a.LastModifiedOn == project.LastModifiedOn)
-                .FirstOrDefault()?.FieldValue;
-            var changedDetails = filteredDetailsAudits
-                .Where(a => a.LastModifiedOn == project.LastModifiedOn)
-                .FirstOrDefault()?.FieldValue;
-
-            if (changedBy != null && changedDateOfDecision != null && changedDetails != null)
-            {
+            var result = await supportProjectAuditQueryService.GetSupportProjectAsOfAsync(id, (DateTime)project.LastModifiedOn, cancellationToken);
+            
+            var supportProjectHistory = SupportProjectViewModel.Create(result.Value!);
+           
                 ProjectStatusAuditTrail.Add(new ProjectStatusChangeViewModel
                 {
                     ProjectStatus = project.FieldValue,
-                    ChangedBy = changedBy,
-                    ChangedDateOfDecision = changedDateOfDecision,
-                    ChangedDetails = changedDetails,
+                    ChangedBy = supportProjectHistory.ProjectStatusChangedBy,
+                    ChangedDateOfDecision = supportProjectHistory.ProjectStatusChangedDate,
+                    ChangedDetails = supportProjectHistory.ProjectStatusChangedDetails,
                     LastModifiedOn = project.LastModifiedOn
                 });
-            }
-            
-            ProjectStatusAuditTrail = ProjectStatusAuditTrail.OrderByDescending(a => a.LastModifiedOn).ToList();
+                
+                ProjectStatusAuditTrail = ProjectStatusAuditTrail.OrderByDescending(a => a.LastModifiedOn).ToList();
         }
 
         return Page();
