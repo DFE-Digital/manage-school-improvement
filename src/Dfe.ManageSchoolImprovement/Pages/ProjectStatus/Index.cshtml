@@ -43,7 +43,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Project status</h2>
         <a asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.SupportProject.Id"
-           role="button"
+           role="button" data-cy="change-project-status-button"
            draggable="false" class="govuk-button" data-module="govuk-button">
             Change project status
         </a>
