@@ -231,4 +231,36 @@ describe("User search results by applying filters", () => {
         Logger.log(`Successfully filtered projects by Year: ${dateSchoolAddedToMsi2}`);
 
     });
+
+    it.only("should filter projects by Current status- In progress", () => {
+        Logger.log("Search records with project status filter");
+        const currentStatus = "In progress";
+
+        Logger.log(`Testing - filter projects by Current status: ${currentStatus}`);
+        homePage
+            .selectFilter("Current Status", currentStatus)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Current status: ${currentStatus}`);
+
+        //  cy.executeAccessibilityTests()
+    });
+
+    it("should filter projects by Current status- In progress", () => {
+        Logger.log("Project status filter");
+        const currentStatus = "Paused";
+
+        Logger.log(`Testing - filter projects by Current status: ${currentStatus}`);
+        homePage
+            .selectFilter("Current Status", currentStatus)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Current status: ${currentStatus}`);
+
+        //  cy.executeAccessibilityTests()
+    });
 });

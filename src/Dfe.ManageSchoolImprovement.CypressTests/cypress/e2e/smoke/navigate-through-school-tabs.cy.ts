@@ -93,4 +93,15 @@ describe("User select the school", () => {
         cy.executeAccessibilityTests()
     });
 
+    it("should be able to navigate to the Project status tab", () => {
+        Logger.log("User navigates to the Project status tab");
+        taskList
+            .navigateToTab('Project status');
+        notes
+            .hasHeading('Project status')
+            .hasChangeProjectStatusButton()
+
+        cy.executeAccessibilityTests()
+    });
+
 });   
