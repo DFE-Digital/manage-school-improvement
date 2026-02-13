@@ -94,11 +94,11 @@ public class ChangeProjectStatusModel(
         if (SupportProjectStatus == ProjectStatusValue.Stopped)
         {
             return RedirectToPage(Links.ProjectStatusTab.ProjectStatusStoppedDate.Page,
-                new { id, projectStatus = SupportProjectStatus, changedBy = currentUser?.FullName });
+                new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
         }
 
         return RedirectToPage(Links.ProjectStatusTab.ProjectStatusInProgressDate.Page,
-            new { id, projectStatus = SupportProjectStatus, changedBy = currentUser?.FullName });
+            new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
     }
 
     private static IList<RadioButtonsLabelViewModel> GetRadioButtons()

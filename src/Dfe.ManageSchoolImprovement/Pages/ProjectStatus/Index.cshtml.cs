@@ -21,7 +21,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
     public DateTime? DateOfDecision { get; set; }
     public string? AdditionalDetails { get; set; }
     
-    public IList<SupportProjectFieldAuditDto<ProjectStatusChangeViewModel?>> ProjectStatusAuditTrail { get; set; } = [];
+    public IList<ProjectStatusChangeViewModel?> ProjectStatusAuditTrail { get; set; } = [];
 
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
@@ -34,18 +34,22 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         DateOfDecision = SupportProject?.ProjectStatusChangedDate;
         AdditionalDetails = SupportProject?.ProjectStatusChangedDetails;
         
-        var auditTrail = new List<SupportProjectFieldAuditDto<string?>>();
+        // get each audit trail separately. save as Lists
+        
+        var filteredProjectStatusAudits = new List<SupportProjectFieldAuditDto<ProjectStatusValue>>();
+        var filteredChangedByAudits = new List<SupportProjectFieldAuditDto<string?>>();
+        var filteredDateOfDecisionAudits = new List<SupportProjectFieldAuditDto<DateTime?>>();
+        var filteredDetailsAudits = new List<SupportProjectFieldAuditDto<string?>>();
 
         // Get audit trail for project status
         var projectStatusAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
-            id, sp => sp.ProjectStatus.GetDisplayName(), cancellationToken);
+            id, sp => sp.ProjectStatus, cancellationToken);
         
         if (projectStatusAuditResult.IsSuccess)
         {
-            var filteredProjectStatusAudits = projectStatusAuditResult.Value!
-                .Where(a => !string.IsNullOrEmpty(a.FieldValue))
+            filteredProjectStatusAudits = projectStatusAuditResult.Value!
+                .Where(a => a.FieldValue != null)
                 .ToList();
-            auditTrail.AddRange(filteredProjectStatusAudits!);
         }
         
         // Get audit trail for changed by
@@ -54,22 +58,20 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         
         if (changedByAuditResult.IsSuccess)
         {
-            var filteredChangedByAudits = changedByAuditResult.Value!
+            filteredChangedByAudits = changedByAuditResult.Value!
                 .Where(a => !string.IsNullOrEmpty(a.FieldValue))
                 .ToList();
-            auditTrail.AddRange(filteredChangedByAudits);
         }
         
         // Get audit trail for date of decision
         var dateOfDecisionAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
-            id, sp => sp.ProjectStatusChangedDate.ToString(), cancellationToken);
+            id, sp => sp.ProjectStatusChangedDate, cancellationToken);
         
         if (projectStatusAuditResult.IsSuccess)
         {
-            var filteredDateOfDecisionAudits = dateOfDecisionAuditResult.Value!
-                .Where(a => !string.IsNullOrEmpty(a.FieldValue))
+            filteredDateOfDecisionAudits = dateOfDecisionAuditResult.Value!
+                .Where(a => a.FieldValue != null)
                 .ToList();
-            auditTrail.AddRange(filteredDateOfDecisionAudits);
         }
         
         // Get audit trail for details
@@ -78,10 +80,41 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         
         if (detailsAuditResult.IsSuccess)
         {
-            var filteredDetailsAudits = detailsAuditResult.Value!
+            filteredDetailsAudits = detailsAuditResult.Value!
                 .Where(a => !string.IsNullOrEmpty(a.FieldValue))
                 .ToList();
-            auditTrail.AddRange(filteredDetailsAudits);
+        }
+        
+        // loop through filteredProjectStatusAudits List retrieve fieldValue - this is ProjectStatus
+        // for each item, loop through each of the other audit result lists to find items with matching LastModifiedOn
+        // construct ProjectStatusChangeViewModel object from these elements - fieldValue will be the correct element
+        // add object to ProjectStatusAuditTrail
+
+        foreach (var project in filteredProjectStatusAudits)
+        {
+            var changedBy = filteredChangedByAudits
+                .Where(a => a.LastModifiedOn == project.LastModifiedOn)
+                .FirstOrDefault()?.FieldValue;
+            var changedDateOfDecision = filteredDateOfDecisionAudits
+                .Where(a => a.LastModifiedOn == project.LastModifiedOn)
+                .FirstOrDefault()?.FieldValue;
+            var changedDetails = filteredDetailsAudits
+                .Where(a => a.LastModifiedOn == project.LastModifiedOn)
+                .FirstOrDefault()?.FieldValue;
+
+            if (changedBy != null && changedDateOfDecision != null && changedDetails != null)
+            {
+                ProjectStatusAuditTrail.Add(new ProjectStatusChangeViewModel
+                {
+                    ProjectStatus = project.FieldValue,
+                    ChangedBy = changedBy,
+                    ChangedDateOfDecision = changedDateOfDecision,
+                    ChangedDetails = changedDetails,
+                    LastModifiedOn = project.LastModifiedOn
+                });
+            }
+            
+            ProjectStatusAuditTrail = ProjectStatusAuditTrail.OrderByDescending(a => a.LastModifiedOn).ToList();
         }
 
         return Page();
