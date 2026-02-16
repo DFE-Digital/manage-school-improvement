@@ -50,6 +50,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
             
             var supportProjectHistory = SupportProjectViewModel.Create(result.Value!);
             
+            // If Date and Details are the same as the previous entry, this means Status was changed via change link and
+            // this should not appear on the timeline as a unique event
             if (ProjectStatusAuditTrail.Count > 0 &&
                  ProjectStatusAuditTrail[^1]?.ChangedDateOfDecision == supportProjectHistory.ProjectStatusChangedDate &&
                  ProjectStatusAuditTrail[^1]?.ChangedDetails == supportProjectHistory.ProjectStatusChangedDetails)
