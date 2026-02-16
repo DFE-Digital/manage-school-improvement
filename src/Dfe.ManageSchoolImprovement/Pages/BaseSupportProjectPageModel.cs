@@ -11,7 +11,9 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
     protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
     protected readonly ErrorService _errorService = errorService;
     public SupportProjectViewModel? SupportProject { get; set; }
-    
+
+    public bool IsReadOnly => true;
+
     [TempData]
     public bool TaskUpdated { get; set; }
 

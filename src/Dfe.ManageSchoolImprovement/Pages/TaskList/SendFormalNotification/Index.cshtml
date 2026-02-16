@@ -5,6 +5,13 @@
 
 @{
     ViewData["Title"] = "Send the formal notification";
+    var summaryItems = SummaryListHelper.For<SendFormalNotificationModel>(
+m => m.UseEnrolmentLetterTemplateToDraftEmail!, 
+m => m.AttachTargetedInterventionInformationSheet!, 
+m => m.AddRecipients!, 
+m => m.SendEmail!, 
+m => m.DateOfFormalContact!
+);
 }
 
 @section BeforeMain
