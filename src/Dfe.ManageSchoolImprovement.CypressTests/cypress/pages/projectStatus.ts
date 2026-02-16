@@ -119,7 +119,9 @@ class ProjectStatus {
             cy.get('.govuk-summary-list__row').each($row => {
                 cy.wrap($row).within(() => {
                     cy.get('.govuk-summary-list__key').invoke('text').then((keyText) => {
-                        if (['Status', 'Date of decision', 'Details'].includes(keyText.trim())) {
+                        const trimmedKeyText = keyText.trim();
+                        const keysToCheck = ['Status', 'Date of decision', 'Details'];
+                        if (keysToCheck.includes(trimmedKeyText)) {
                             cy.get('.govuk-summary-list__value').should('not.be.empty');
                         }
                     });

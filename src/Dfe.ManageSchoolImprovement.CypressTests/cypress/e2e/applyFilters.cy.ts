@@ -232,7 +232,7 @@ describe("User search results by applying filters", () => {
 
     });
 
-    it.only("should filter projects by Current status- In progress", () => {
+    it("should filter projects by Current status- In progress", () => {
         Logger.log("Search records with project status filter");
         const currentStatus = "In progress";
 

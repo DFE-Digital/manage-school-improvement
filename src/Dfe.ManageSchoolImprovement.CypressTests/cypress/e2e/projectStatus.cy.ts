@@ -46,7 +46,7 @@ describe("User navigates to the Project Status Tab", () => {
         projectStatus
             .clickSaveAndContinueButton()
             .hasValidation('Enter details', 'project-status-in-progress-details-error-link')
-            .hasValidation('Enter details', 'project-status-in-progress-details-error')
+            .hasValidation('Enter details', 'more-detail-error')
 
         cy.executeAccessibilityTests()
     });
