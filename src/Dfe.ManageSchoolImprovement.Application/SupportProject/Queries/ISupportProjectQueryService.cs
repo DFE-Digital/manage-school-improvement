@@ -18,7 +18,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         Task<Result<IEnumerable<string>>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectYears(CancellationToken cancellationToken);
-        
+
         string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months);
+        Task<Result<IEnumerable<KeyValuePair<string, string>>>> GetAllProjectStatuses(CancellationToken cancellationToken);
     }
 }

@@ -1,7 +1,7 @@
 @{
     var id = ViewContext.RouteData.Values["id"];
 }
-<nav class="moj-sub-navigation" aria-label="Sub navigation">
+<nav class="moj-sub-navigation govuk-!-margin-top-6" aria-label="Sub navigation">
     <ul class="moj-sub-navigation__list govuk-!-margin-top-6">
         <li class="moj-sub-navigation__item">
             <sub-menu-link class="moj-sub-navigation__link"
@@ -46,11 +46,18 @@
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-                    <sub-menu-link class="moj-sub-navigation__link"
-                                   asp-page="@Links.Notes.Index.Page"
-                                   asp-route-id="@id">
-                        Notes
-                    </sub-menu-link>
-                </li>
+            <sub-menu-link class="moj-sub-navigation__link"
+                           asp-page="@Links.Notes.Index.Page"
+                           asp-route-id="@id">
+                Notes
+            </sub-menu-link>
+        </li>
+        <li class="moj-sub-navigation__item">
+            <sub-menu-link class="moj-sub-navigation__link"
+                           asp-page="@Links.ProjectStatusTab.Index.Page"
+                           asp-route-id="@id">
+                Project status
+            </sub-menu-link>
+        </li>
     </ul>
 </nav>

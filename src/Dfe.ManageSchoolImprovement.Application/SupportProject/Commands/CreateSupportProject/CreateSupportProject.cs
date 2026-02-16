@@ -31,7 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
             }.Where(x => !string.IsNullOrWhiteSpace(x)));
 
             var supportProject = Domain.Entities.SupportProject.SupportProject.Create(
-                ProjectStatus.InProgress,
+                ProjectStatusValue.InProgress,
                 new SchoolDetails
                 {
                     SchoolName = request.schoolName, SchoolUrn = request.schoolUrn,

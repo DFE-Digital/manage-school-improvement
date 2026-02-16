@@ -1,9 +1,10 @@
-using System.Globalization;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
+using Dfe.ManageSchoolImprovement.Utils;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
 {
@@ -25,6 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByLocalAuthority(searchCriteria.LocalAuthorities, queryable);
             queryable = FilterByTrusts(searchCriteria.Trusts, queryable);
             queryable = FilterByDate(searchCriteria.Dates, queryable);
+            queryable = FilterByState(searchCriteria.States, queryable);
 
             var totalProjects = await queryable.CountAsync(cancellationToken);
             var projects = await queryable
@@ -33,6 +35,26 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Take(count).ToListAsync(cancellationToken);
 
             return (projects, totalProjects);
+        }
+
+        private static IQueryable<SupportProject> FilterByState(IEnumerable<string>? states, IQueryable<SupportProject> queryable)
+        {
+            if (states != null && states.Any())
+            {
+                // Convert state strings to enum values (case-insensitive)
+                var enumValues = states
+                    .Select(s => Enum.TryParse<ProjectStatusValue>(s, true, out var val) ? (ProjectStatusValue?)val : null)
+                    .Where(e => e.HasValue)
+                    .Select(e => e!.Value)
+                    .ToList();
+
+                if (enumValues.Count > 0)
+                {
+                    queryable = queryable.Where(p => enumValues.Contains(p.ProjectStatus));
+                }
+            }
+
+            return queryable;
         }
 
         private static IQueryable<SupportProject> FilterByTrusts(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
@@ -226,7 +248,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }
-        
+
         public async Task<IEnumerable<string>> GetAllProjectYears(CancellationToken cancellationToken)
         {
             var years = await DbSet()
@@ -237,6 +259,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Select(year => year.ToString())
                 .ToListAsync(cancellationToken);
             return years;
+        }
+
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllProjectStatuses(CancellationToken cancellationToken)
+        {
+            var statuses = await DbSet()
+                .AsNoTracking()
+                .Select(p => new KeyValuePair<string, string>(p.ProjectStatus.ToString(), p.ProjectStatus.GetDisplayName()))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+
+            return statuses;
         }
     }
 }
