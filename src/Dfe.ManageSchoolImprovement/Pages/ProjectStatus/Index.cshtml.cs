@@ -1,11 +1,9 @@
-using Dfe.Academisation.ExtensionMethods;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
@@ -48,21 +46,28 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
 
         foreach (var project in filteredProjectStatusAudits.Skip(1))
         {
-            var result = await supportProjectAuditQueryService.GetSupportProjectAsOfAsync(id, (DateTime)project.LastModifiedOn, cancellationToken);
+            var result = await supportProjectAuditQueryService.GetSupportProjectAsOfAsync(id, project.ValidFrom, cancellationToken);
             
             var supportProjectHistory = SupportProjectViewModel.Create(result.Value!);
-           
-                ProjectStatusAuditTrail.Add(new ProjectStatusChangeViewModel
-                {
-                    ProjectStatus = project.FieldValue,
-                    ChangedBy = supportProjectHistory.ProjectStatusChangedBy,
-                    ChangedDateOfDecision = supportProjectHistory.ProjectStatusChangedDate,
-                    ChangedDetails = supportProjectHistory.ProjectStatusChangedDetails,
-                    LastModifiedOn = project.LastModifiedOn
-                });
-                
-                ProjectStatusAuditTrail = ProjectStatusAuditTrail.OrderByDescending(a => a.LastModifiedOn).ToList();
+            
+            if (ProjectStatusAuditTrail.Count > 0 &&
+                 ProjectStatusAuditTrail[^1]?.ChangedDateOfDecision == supportProjectHistory.ProjectStatusChangedDate &&
+                 ProjectStatusAuditTrail[^1]?.ChangedDetails == supportProjectHistory.ProjectStatusChangedDetails)
+            {
+                ProjectStatusAuditTrail.RemoveAt(ProjectStatusAuditTrail.Count - 1);
+            }
+            
+            ProjectStatusAuditTrail.Add(new ProjectStatusChangeViewModel
+            {
+                ProjectStatus = supportProjectHistory.ProjectStatus,
+                ChangedBy = supportProjectHistory.ProjectStatusChangedBy,
+                ChangedDateOfDecision = supportProjectHistory.ProjectStatusChangedDate,
+                ChangedDetails = supportProjectHistory.ProjectStatusChangedDetails,
+                LastModifiedOn = project.LastModifiedOn
+            });
         }
+        
+        ProjectStatusAuditTrail = ProjectStatusAuditTrail.OrderByDescending(a => a?.LastModifiedOn).ToList();
 
         return Page();
     }
