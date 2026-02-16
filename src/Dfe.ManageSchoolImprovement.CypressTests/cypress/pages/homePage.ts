@@ -115,6 +115,17 @@ class HomePage {
     return this;
   }
 
+    public selectCurrentStatusFilter(status: string): this { 
+    cy.getByCyData('select-projectlist-filter-status')
+      .should("exist")
+      .click();
+    cy.get('.govuk-checkboxes').contains(status)
+      .closest('.govuk-checkboxes__item')
+      .find('input[type="checkbox"]')
+      .check();
+    return this;
+  }
+
   public hasProjectFilter(): this {
     cy.get(".moj-filter__options").should("be.visible");
 
@@ -388,6 +399,9 @@ class HomePage {
           this.selectYearMonthFilter(year, month);
         }
         break;
+      case 'current status':
+        this.selectCurrentStatusFilter(filterValue);
+        break;  
       default:
         throw new Error(`Filter type '${filterType}' is not supported.`);
     }
