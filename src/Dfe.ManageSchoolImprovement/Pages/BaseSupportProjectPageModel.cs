@@ -12,7 +12,7 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
     protected readonly ErrorService _errorService = errorService;
     public SupportProjectViewModel? SupportProject { get; set; }
 
-    public bool IsReadOnly => true;
+    public bool IsReadOnly => false;
 
     [TempData]
     public bool TaskUpdated { get; set; }
