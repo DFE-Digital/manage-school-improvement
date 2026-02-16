@@ -7,6 +7,7 @@ import caseStudy from "cypress/pages/caseStudy";
 import engagementConcern from "cypress/pages/engagementConcern";
 import notes from "cypress/pages/notes";
 import improvementPlan from "cypress/pages/improvementPlan";
+import projectStatus from "cypress/pages/projectStatus";
 
 describe("User select the school", () => {
     beforeEach(() => {
@@ -97,7 +98,7 @@ describe("User select the school", () => {
         Logger.log("User navigates to the Project status tab");
         taskList
             .navigateToTab('Project status');
-        notes
+        projectStatus
             .hasHeading('Project status')
             .hasChangeProjectStatusButton()
 
