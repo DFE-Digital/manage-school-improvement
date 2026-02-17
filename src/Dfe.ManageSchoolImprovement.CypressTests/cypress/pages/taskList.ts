@@ -59,6 +59,7 @@ class TaskList {
     cy.contains("Case Study")
     cy.contains("Engagement concern")
     cy.contains("Notes")
+    cy.contains("Project status");
 
     return this;
   }
@@ -131,6 +132,7 @@ class TaskList {
     cy.contains('Case Study');
     cy.contains('Engagement concern');
     cy.contains('Notes');
+    cy.contains('Project status');
 
     return this;
 
@@ -142,7 +144,6 @@ class TaskList {
 
     return this;
   }
-
 
   public hasFilterSuccessNotification(): this {
     cy.get('[cy-data="task-updated-success-notification"]').should("be.visible");
@@ -162,12 +163,6 @@ class TaskList {
 
   public selectTask(taskName: string) {
     cy.contains(taskName).click();
-
-    return this;
-  }
-
-  public deleteSchool(): this {
-    cy.contains("Delete school").click({ force: true });
 
     return this;
   }

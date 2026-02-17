@@ -4,8 +4,6 @@
 
 @{
     ViewData["Title"] = "Enter details";
-
-    var buttonText = Model.ChangeDetailsLinkClicked ? "Save" : "Save and continue";
 }
 
 @section BeforeMain
@@ -34,7 +32,6 @@
                 <input type="hidden" asp-for="@Model.ProjectStatus"/>
                 <input type="hidden" name="pausedDate" value="@(Model.PausedDate?.ToString("yyyy-MM-dd"))"/>
                 <input type="hidden" asp-for="@Model.ChangedBy"/>
-                <input type="hidden" asp-for="@Model.ChangeDetailsLinkClicked"/>
                 @if (Model.ShowError)
                 {
                     <p id="more-detail-error" class="govuk-error-message">
@@ -47,7 +44,7 @@
             </div>
             <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">
-                @buttonText
+                Continue
             </button>
         </form>
     </div>

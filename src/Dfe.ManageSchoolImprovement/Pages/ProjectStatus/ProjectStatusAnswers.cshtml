@@ -7,22 +7,6 @@
 
 @{
     ViewData["Title"] = "Check your answers";
-
-    var dateLink = Model.SupportProject?.ProjectStatus switch
-    {
-        ProjectStatusValue.InProgress => @Links.ProjectStatusTab.ProjectStatusInProgressDate.Page,
-        ProjectStatusValue.Paused => @Links.ProjectStatusTab.ProjectStatusPausedDate.Page,
-        ProjectStatusValue.Stopped => @Links.ProjectStatusTab.ProjectStatusStoppedDate.Page,
-        _ => string.Empty
-    };
-    
-    var detailsLink = Model.SupportProject?.ProjectStatus switch
-    {
-        ProjectStatusValue.InProgress => @Links.ProjectStatusTab.ProjectStatusInProgressDetails.Page,
-        ProjectStatusValue.Paused => @Links.ProjectStatusTab.ProjectStatusPausedDetails.Page,
-        ProjectStatusValue.Stopped => @Links.ProjectStatusTab.ProjectStatusStoppedDetails.Page,
-        _ => string.Empty
-    };
 }
 
 @section BeforeMain
@@ -42,7 +26,7 @@
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Project status</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatus.GetDisplayName()</dd>
+                <dd class="govuk-summary-list__value">@Model.ProjectStatus.GetDisplayName()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
                        asp-route-id="@Model.SupportProject?.Id" asp-route-changeStatusLink="true">Change<span class="govuk-visually-hidden"> project status</span></a>
@@ -50,26 +34,23 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Date of decision</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDate.ToDateString()</dd>
-                <dd class="govuk-summary-list__actions">
-                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@dateLink"
-                       asp-route-id="@Model.SupportProject?.Id" asp-route-changeDateLink="true">Change<span class="govuk-visually-hidden"> date of decision</span></a>
-                </dd>
+                <dd class="govuk-summary-list__value">@Model.ChangedDate.ToDateString()</dd>
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Details</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.ProjectStatusChangedDetails</dd>
-                <dd class="govuk-summary-list__actions">
-                    <a class="govuk-link govuk-!-padding-left-50" asp-page="@detailsLink"
-                       asp-route-id="@Model.SupportProject?.Id" asp-route-changeDetailsLink="true">Change<span class="govuk-visually-hidden"> details</span></a>
-                </dd>
+                <dd class="govuk-summary-list__value">@Model.ChangedDetails</dd>
             </div>
         </dl>
         
-        <a asp-page="@Links.ProjectStatusTab.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
-           draggable="false" class="govuk-button" data-module="govuk-button"
-           data-cy="return-to-project-status-button">
-            Save and return
-        </a>
+        <form method="post" novalidate="">
+            <input type="hidden" asp-for="@Model.ProjectStatus"/>
+            <input type="hidden" name="inProgressDate" value="@(Model.ChangedDate?.ToString("yyyy-MM-dd"))"/>
+            <input type="hidden" asp-for="@Model.ChangedBy"/>
+            <input type="hidden" asp-for="@Model.ChangedDetails"/>
+            <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
+                Save and continue
+            </button>
+        </form>
     </div>
 </div>
