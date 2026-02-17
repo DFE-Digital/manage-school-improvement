@@ -9,29 +9,36 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" class="govuk-back-link" asp-route-id="@Model.SupportProject?.Id">@Links.ProjectStatusTab.ProjectStatusInProgressDate.BackText</a>
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link"
+           asp-route-id="@Model.SupportProject?.Id">@Links.ProjectStatusTab.ProjectStatusInProgressDate.BackText</a>
     </nav>
 }
 
-<partial name="_ErrorSummary" />
+<partial name="_ErrorSummary"/>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <form method="post" novalidate>
-            <div class="govuk-form-group">
             <h1 class="govuk-label-wrapper" data-test="project-status-in-progress-details">
                 <label class="govuk-label govuk-label--l">
                     Enter details
                 </label>
             </h1>
-            <div class="govuk-hint">Give details about why work will continue and what must happen next</div>
-            <input type="hidden" asp-for="@Model.ProjectStatus"/>
-            <input type="hidden" name="inProgressDate" value="@(Model.InProgressDate?.ToString("yyyy-MM-dd"))"/>
-            <input type="hidden" asp-for="@Model.ChangedBy"/>
-            <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
-                id="project-status-in-progress-details" name="project-status-in-progress-details" rows="5"
-                asp-for="@Model.InProgressDetails" data-cy="in-progress-details-textarea"></textarea>
+            <div class="govuk-form-group @(Model.ShowError ? "govuk-form-group--error" : string.Empty)">
+                <div class="govuk-hint">Give details about why work will continue and what must happen next.</div>
+                <input type="hidden" asp-for="@Model.ProjectStatus"/>
+                <input type="hidden" name="inProgressDate" value="@(Model.InProgressDate?.ToString("yyyy-MM-dd"))"/>
+                <input type="hidden" asp-for="@Model.ChangedBy"/>
+                @if (Model.ShowError)
+                {
+                    <p id="more-detail-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> Enter details
+                    </p>
+                }
+                <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
+                          id="project-status-in-progress-details" name="project-status-in-progress-details" rows="5"
+                          asp-for="@Model.InProgressDetails" data-cy="in-progress-details-textarea"></textarea>
             </div>
             <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">

@@ -143,6 +143,26 @@
             
                 </ul>
             }
+
+            @if (Model.SelectedStatuses.Length > 0)
+            {
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Statuses</h3>
+
+                <ul class="moj-filter-tags">
+                    @{
+                        foreach (var status in Model.SelectedStatuses)
+                        {
+                            <li>
+                                <a class="moj-filter__tag"
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedStatuses=@status">
+                                    <span class="govuk-visually-hidden">Remove this filter</span> @status.Stub()
+                                </a>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            }
         </div>
         <div class="moj-filter__options">
             <form method="get" class="form">
@@ -271,6 +291,39 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button" id="accordion-status-heading"
+                                           data-cy="select-projectlist-filter-status" for="filter-status">
+                                        Current Status
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-status" placeholder="Type to filter current status..."
+                                       aria-labelledby="accordion-status-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var status in Model.AvailableStatuses)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-status-@status.Key.Stub()" name="selectedStatuses"
+                                                   type="checkbox" value="@status.Key"
+                                                   data-cy="select-projectlist-filter-status-@status.Key"
+                                                   @(Model.SelectedStatuses.Contains(status.Key) ? "checked" : null) />
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-status-@status.Key.Stub()">
+                                                @status.Value
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
