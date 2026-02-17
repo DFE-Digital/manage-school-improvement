@@ -2,6 +2,7 @@
 
 @using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.IndexModel
 @{
     ViewData["Title"] = "Project status";
@@ -73,5 +74,26 @@
                 </div>
             }
         </dl>
+
+        <div class="moj-timeline">
+            @foreach (var history in Model.ProjectStatusAuditTrail)
+            {
+                <div class="moj-timeline__item">
+                    <div class="moj-timeline__header">
+                        <partial name="Shared/_ProjectStatus" model="@history?.ProjectStatus" />
+                        <p class="moj-timeline__byline">by @history.ChangedBy</p>
+                    </div>
+                    <p class="moj-timeline__date">
+                        <time datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time>
+                    </p>
+                    <div class="moj-timeline__description">
+                        <p class="govuk-!-font-weight-bold">
+                            This decision was made on @history.ChangedDateOfDecision.ToDateString().
+                        </p>
+                        <p>@history.ChangedDetails</p>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
