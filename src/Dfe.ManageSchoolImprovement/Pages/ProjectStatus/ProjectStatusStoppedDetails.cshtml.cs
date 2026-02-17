@@ -23,13 +23,11 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
     [BindProperty(Name = "stoppedDate")] public DateTime? StoppedDate { get; set; }
 
     [BindProperty(Name = "changedBy")] public string? ChangedBy { get; set; }
-    
-    [BindProperty] public bool ChangeDetailsLinkClicked { get; set; }
 
     public bool ShowError { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy,
-        DateTime? stoppedDate, bool changeDetailsLink, CancellationToken cancellationToken)
+        DateTime? stoppedDate, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusStoppedDate.Page;
 
@@ -38,8 +36,6 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
         ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
         StoppedDate = stoppedDate ?? SupportProject?.ProjectStatusChangedDate;
         ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
-        
-        ChangeDetailsLinkClicked = changeDetailsLink;
         
         return Page();
     }
@@ -59,29 +55,9 @@ public class ProjectStatusStoppedDetailsModel(ISupportProjectQueryService suppor
             ShowError = true;
             return await base.GetSupportProject(id, cancellationToken);
         }
-
-        if (ChangeDetailsLinkClicked)
-        {
-            ProjectStatus = SupportProject?.ProjectStatus;
-            StoppedDate = SupportProject?.ProjectStatusChangedDate;
-            ChangedBy = SupportProject?.ProjectStatusChangedBy;
-        }
         
-        if (SupportProject?.ProjectStatus != null)
-        {
-            var request = new SetProjectStatusCommand(new SupportProjectId(id), (ProjectStatusValue)ProjectStatus, StoppedDate, ChangedBy, StoppedDetails);
-            var result = await mediator.Send(request, cancellationToken);
-        
-            if (result == null)
-            {
-                _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
-            }
-        }
-        
-        TempData["projectStatusUpdated"] = true;
-        
-        return RedirectToPage(@Links.ProjectStatusTab.ProjectStatusAnswers.Page, new { id });
+        return RedirectToPage(@Links.ProjectStatusTab.ProjectStatusAnswers.Page, new { id, projectStatus = ProjectStatus, changedBy = ChangedBy, changedDate = StoppedDate,
+            changedDetails = StoppedDetails });
     }
     
 }

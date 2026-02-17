@@ -4,9 +4,6 @@
 
 @{
     ViewData["Title"] = "Enter details";
-    
-    var buttonText = Model.ChangeDetailsLinkClicked ? "Save" : "Save and continue"; 
-
 }
 
 @section BeforeMain
@@ -32,14 +29,13 @@
                 <input type="hidden" asp-for="@Model.ProjectStatus"/>
                 <input type="hidden" name="stoppedDate" value="@(Model.StoppedDate?.ToString("yyyy-MM-dd"))"/>
                 <input type="hidden" asp-for="@Model.ChangedBy"/>
-                <input type="hidden" asp-for="@Model.ChangeDetailsLinkClicked"/>
                 <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
                       id="project-status-stopped-details" name="project-status-stopped-details" rows="5"
                       asp-for="@Model.StoppedDetails" data-cy="stopped-details-textarea"></textarea>
             </div>
             <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">
-                @buttonText
+                Continue
             </button>
         </form>
     </div>
