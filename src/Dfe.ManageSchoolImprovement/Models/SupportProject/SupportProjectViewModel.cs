@@ -1,7 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
@@ -10,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public int Id { get; set; }
 
         public DateTime CreatedOn { get; set; }
-        
+
         public DateTime? LastModifiedOn { get; set; }
 
         public string SchoolName { get; set; } = string.Empty;
@@ -24,7 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? TrustName { get; set; }
 
         public string? TrustReferenceNumber { get; set; }
-        
+
         public string? Address { get; set; }
 
         public string Diocese { get; set; } = string.Empty;
@@ -108,7 +107,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? SupportOrganisationName { get; set; }
 
         public string? SupportOrganisationIdNumber { get; set; }
-        
+
         public string? SupportingOrganisationAddress { get; set; }
 
         public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
@@ -184,6 +183,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? ProjectStatusChangedDate { get; set; }
         public string? ProjectStatusChangedBy { get; private set; }
         public string? ProjectStatusChangedDetails { get; private set; }
+
+        public bool IsReadOnly { get { return ProjectStatus != ProjectStatusValue.InProgress; } }
 
         public static SupportProjectViewModel Create(SupportProjectDto supportProjectDto)
         {
@@ -285,7 +286,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>(),
                 SupportOrganisationType = supportProjectDto.SupportingOrganisationType,
-                
+
                 ProjectStatus = supportProjectDto.ProjectStatus,
                 ProjectStatusChangedDate = supportProjectDto.ProjectStatusChangedDate,
                 ProjectStatusChangedBy = supportProjectDto.ProjectStatusChangedBy,
