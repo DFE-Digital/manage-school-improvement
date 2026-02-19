@@ -44,7 +44,7 @@ describe("User navigates to the Project Status Tab", () => {
 
         Logger.log("check validation message for details field");
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasValidation('Enter details', 'project-status-in-progress-details-error-link')
             .hasValidation('Enter details', 'more-detail-error')
 
@@ -73,13 +73,13 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('In progress')
 
@@ -109,13 +109,13 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Paused')
 
@@ -144,13 +144,13 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Stopped')
         cy.executeAccessibilityTests()
@@ -179,14 +179,14 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         Logger.log("save and return after updating In progress status and check saved details");
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('In progress')
 

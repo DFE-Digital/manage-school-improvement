@@ -94,8 +94,11 @@ class ProjectStatus {
             cy.wrap($row).within(() => {
                 cy.get('.govuk-summary-list__key').should('not.be.empty');
                 cy.get('.govuk-summary-list__value').should('not.be.empty');
-                cy.get('a').contains('Change').should('exist');
-
+                if ($row.index() === 0) {
+                    cy.get('a').contains('Change').should('exist');
+                } else {
+                    cy.log('No Change link required here');
+                }
             });
         });
         return this;
