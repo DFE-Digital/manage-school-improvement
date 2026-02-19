@@ -533,7 +533,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
         [InlineData("Behind schedule", "Some areas need improvement")]
         [InlineData("Exceeding expectations", "Outstanding progress in all areas")]
         [InlineData("At risk", "Serious concerns about current trajectory")]
-        [InlineData("", "")]
+        [InlineData("", "No details recorded yet")]
         [InlineData("Complete", "All objectives successfully met")]
         public void Create_WithDifferentOverallProgressValues_ShouldSetCorrectOverallProgress(string progressStatus, string progressDetails)
         {
@@ -601,7 +601,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
 
             // Assert
             Assert.Null(viewModel.HowIsTheSchoolProgressingOverall);
-            Assert.Null(viewModel.OverallProgressDetails);
+            Assert.Equal("No details recorded yet", viewModel.OverallProgressDetails);
         }
     }
 }
