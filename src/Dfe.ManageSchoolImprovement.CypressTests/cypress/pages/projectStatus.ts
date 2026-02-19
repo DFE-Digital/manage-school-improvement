@@ -17,6 +17,28 @@ class ProjectStatus {
         return this;
     }
 
+    public bannerDisplayedForPausedOrStoppedStatus(status: string): this {
+        if (status === 'Paused') {
+            cy.get('.govuk-notification-banner').should('contain', 'Project paused');
+            cy.get('.govuk-notification-banner').within(() => {
+                cy.get('a').contains('Change status').should('exist');
+            });
+        } else if (status === 'Stopped') {
+            cy.get('.govuk-notification-banner').should('contain', 'Project stopped');
+            cy.get('.govuk-notification-banner').within(() => {
+                cy.get('a').contains('Change status').should('exist');
+            });
+        }
+        
+        return this;
+    }
+
+    public hasNoBannerForInProgressStatus(): this {
+        cy.get('.govuk-notification-banner').should('not.exist');
+
+        return this;
+    }
+
     public hasChangeProjectStatusButton(): this {
         cy.get('[role="button"]').should("be.visible");
 
@@ -116,6 +138,12 @@ class ProjectStatus {
         return this;
     }
 
+    public hasNoStatusHistory(): this {
+        cy.get('.moj-timeline').should('not.be.visible')
+
+        return this;
+    }
+
     public getUpdatedStatusWithDetails(status: string): this {
         cy.get('.govuk-summary-list__value').should('contain', status);
         cy.get('dl.govuk-summary-list').first().within(() => {
@@ -129,6 +157,25 @@ class ProjectStatus {
                         }
                     });
                // });
+            });
+        });
+
+        return this;
+    }
+
+    public getProjectStatusChangeHistory(status: string): this {
+        cy.get('.moj-timeline').should('exist');
+        cy.get('.moj-timeline__item').each(() => {
+            cy.get('.moj-timeline__header').first().within(() => {
+                if (status == 'Stopped') {
+                    cy.get('.govuk-tag.govuk-tag--red').should('contain', status);
+                } 
+                else if (status == 'Paused') {
+                    cy.get('.govuk-tag.govuk-tag--yellow').should('contain', status);
+                }
+                else if (status == 'In progress') {
+                    cy.get('.govuk-tag.govuk-tag--green').should('contain', status);
+                }
             });
         });
 

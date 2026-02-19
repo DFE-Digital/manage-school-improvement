@@ -18,13 +18,22 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("newly added schoolshould show the default status as In progress", () => {
+    it("newly added school should show the default status as In progress and no history shown ", () => {
         Logger.log("Check the default status for newly added school");
         projectStatus
             .hasCurrentStatus('In progress')
+            .hasNoStatusHistory()
 
         cy.executeAccessibilityTests()
     });
+
+    it("user should not see an important banner when the project has In Progress status", () => {
+        projectStatus 
+          .hasCurrentStatus('In progress')
+          .hasNoBannerForInProgressStatus()
+
+         cy.executeAccessibilityTests()
+    }) 
 
     it("validation error messages should show for invalid dates and blank details", () => {
         Logger.log("check validation message for date field");
@@ -86,7 +95,7 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Paused", () => {
+    it("user could change the project status to Paused and see the change history", () => {
         projectStatus
             .clickChangeProjectStatusButton()
             .hasHeading('Change project status')
@@ -118,11 +127,20 @@ describe("User navigates to the Project Status Tab", () => {
             .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Paused')
+            .getProjectStatusChangeHistory('Paused')
 
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Stopped", () => {
+    it("user should see an important banner when the project is Paused or Stopped", () => {
+        projectStatus 
+          .hasCurrentStatus('Paused')
+          .bannerDisplayedForPausedOrStoppedStatus('Paused')
+
+         cy.executeAccessibilityTests()
+    }) 
+
+    it("user could change the project status to Stopped and see the change status history timeline", () => {
         projectStatus
             .clickChangeProjectStatusButton()
             .hasHeading('Change project status')
@@ -153,6 +171,8 @@ describe("User navigates to the Project Status Tab", () => {
             .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Stopped')
+            .getProjectStatusChangeHistory('Stopped')
+
         cy.executeAccessibilityTests()
     });
 
@@ -191,5 +211,5 @@ describe("User navigates to the Project Status Tab", () => {
             .getUpdatedStatusWithDetails('In progress')
 
         cy.executeAccessibilityTests()
-    });
+    });   
 });
