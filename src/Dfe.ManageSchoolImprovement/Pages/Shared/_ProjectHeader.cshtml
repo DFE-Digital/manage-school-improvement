@@ -1,17 +1,10 @@
 @using Dfe.Academisation.ExtensionMethods
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
-@using System.Globalization
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
 @{
     DateTime createdDate = @Model.CreatedOn;
-    DateTime? lastInspectionDate = null;
-
-    if (@Model.LastInspectionDate != null || !string.IsNullOrWhiteSpace(@Model.LastInspectionDate))
-    {
-        lastInspectionDate = DateTime.ParseExact(Model.LastInspectionDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
-    }
 
     var engagementConcerns = new List<EngagementConcernViewModel>(Model.EngagementConcerns);
 
@@ -21,6 +14,8 @@
     var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
     var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
     bool engagementConcern = engagementConcerns.Any();
+    bool projectNotInProgress = Model.ProjectStatus != ProjectStatusValue.InProgress;
+    DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
 }
 
 <div class="govuk-grid-row">
@@ -63,6 +58,23 @@
                     <h3 class="govuk-notification-banner__heading" id="contact-added">
                         Contact @contactAddedOrUpdated
                     </h3>
+                </div>
+            </div>
+        }
+        @if (projectNotInProgress)
+        {
+            <div class="govuk-notification-banner" role="alert"
+                 aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Important
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading" id="project-paused-or-stopped">
+                        Project @(Model.ProjectStatus == ProjectStatusValue.Paused ? "paused" : "stopped") on @(projectStatusChangedDate.HasValue ? projectStatusChangedDate.ToDateString() : "unknown")
+                    </h3>
+                    <a class="govuk-link" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.Id">Change status</a>
                 </div>
             </div>
         }
