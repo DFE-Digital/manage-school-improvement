@@ -70,7 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Title = dto.title.ToSentenceCase(),
                 Order = dto.order,
                 HowIsTheSchoolProgressingOverall = dto.howIsTheSchoolProgressingOverall,
-                OverallProgressDetails = dto.overallProgressDetails
+                OverallProgressDetails = string.IsNullOrEmpty(dto.overallProgressDetails) ? "No details recorded yet" : dto.overallProgressDetails
             };
         }
     }
