@@ -88,14 +88,14 @@ public class ChangeProjectStatusModel(
                 Id = "in-progress",
                 Name = ProjectStatusValue.InProgress.GetDisplayName(),
                 Value = "InProgress",
-                Hint = "Work to support the school through targeted intervention has begun and is progressing."
+                Hint = "Work on the project has begun and is progressing."
             },
             new()
             {
                 Id = "paused",
                 Name = ProjectStatusValue.Paused.GetDisplayName(),
                 Value = "Paused",
-                Hint = "Work is temporarily paused while a decision is made about the school's eligibility."
+                Hint = "Work is temporarily paused while a decision is made about whether to continue."
             },
             new()
             {
@@ -103,7 +103,7 @@ public class ChangeProjectStatusModel(
                 Name = ProjectStatusValue.Stopped.GetDisplayName(),
                 Value = "Stopped",
                 Hint =
-                    "Work has ended because the school has improved sufficiently, or is undergoing structural intervention."
+                    "Work has ended because the school has improved sufficiently, or is now undergoing structural intervention."
             }
         };
     }
