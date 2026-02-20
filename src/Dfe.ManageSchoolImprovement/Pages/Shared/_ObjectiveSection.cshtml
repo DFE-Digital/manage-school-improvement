@@ -2,7 +2,6 @@
 
 @if (Model.Objectives.Any())
 {
-    @Model.IsReadOnly
     <div class="govuk-summary-card">
         <div class="govuk-summary-card__title-wrapper">
             <h2 class="govuk-summary-card__title">@Model.AreaTitle</h2>
@@ -16,7 +15,7 @@
                             Objective @(objective.Order)
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            test @objective.Details
+                            @objective.Details
                         </dd>
                         @if (!Model.IsReadOnly)
                         {
