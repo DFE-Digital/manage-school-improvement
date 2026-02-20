@@ -165,19 +165,20 @@ class ProjectStatus {
 
     public getProjectStatusChangeHistory(status: string): this {
         cy.get('.moj-timeline').should('exist');
-        cy.get('.moj-timeline__item').each(() => {
-            cy.get('.moj-timeline__header').first().within(() => {
+        cy.get('.moj-timeline__item').first().within(() => {
                 if (status == 'Stopped') {
                     cy.get('.govuk-tag.govuk-tag--red').should('contain', status);
-                }
+                  
+                } 
                 else if (status == 'Paused') {
                     cy.get('.govuk-tag.govuk-tag--yellow').should('contain', status);
                 }
                 else if (status == 'In progress') {
                     cy.get('.govuk-tag.govuk-tag--green').should('contain', status);
                 }
+                cy.get('.moj-timeline__date').should('not.be.empty');
             });
-        });
+
 
         return this;
     }
@@ -186,3 +187,5 @@ class ProjectStatus {
 const projectStatus = new ProjectStatus();
 
 export default projectStatus;
+
+

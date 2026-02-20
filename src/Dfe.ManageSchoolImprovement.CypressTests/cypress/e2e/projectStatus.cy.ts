@@ -2,6 +2,7 @@ import projectStatus from "cypress/pages/projectStatus";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import { Logger } from "cypress/common/logger";
+import improvementPlan from "cypress/pages/improvementPlan";
 
 describe("User navigates to the Project Status Tab", () => {
 
@@ -132,6 +133,19 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
+    it("user should only View Progress of Improvement Plan when project status is Paused ", () => {
+        projectStatus
+            .hasCurrentStatus('Paused')
+        taskList
+            .navigateToTab('Improvement plan')
+
+        Logger.log("User could only see View Progress when project status is Paused");
+        improvementPlan
+            .hasViewProgressButton()
+
+        cy.executeAccessibilityTests()
+    });
+
     it("user should see an important banner when the project is Paused or Stopped", () => {
         projectStatus
             .hasCurrentStatus('Paused')
@@ -171,7 +185,23 @@ describe("User navigates to the Project Status Tab", () => {
             .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Stopped')
+
+            Logger.log("Check the project status change history timeline for Stopped status");
+        projectStatus    
             .getProjectStatusChangeHistory('Stopped')
+
+        cy.executeAccessibilityTests()
+    });
+
+    it("user should not be able to record the Improvement plan if the project status is Stopped", () => {
+        projectStatus
+            .hasCurrentStatus('Stopped')
+        taskList
+            .navigateToTab('Improvement plan')
+
+        Logger.log("User could only see View Progresswhen project status is Stopped");
+        improvementPlan
+            .hasViewProgressButton()
 
         cy.executeAccessibilityTests()
     });
