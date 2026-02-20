@@ -28,12 +28,12 @@ describe("User navigates to the Project Status Tab", () => {
     });
 
     it("user should not see an important banner when the project has In Progress status", () => {
-        projectStatus 
-          .hasCurrentStatus('In progress')
-          .hasNoBannerForInProgressStatus()
+        projectStatus
+            .hasCurrentStatus('In progress')
+            .hasNoBannerForInProgressStatus()
 
-         cy.executeAccessibilityTests()
-    }) 
+        cy.executeAccessibilityTests()
+    })
 
     it("validation error messages should show for invalid dates and blank details", () => {
         Logger.log("check validation message for date field");
@@ -133,12 +133,12 @@ describe("User navigates to the Project Status Tab", () => {
     });
 
     it("user should see an important banner when the project is Paused or Stopped", () => {
-        projectStatus 
-          .hasCurrentStatus('Paused')
-          .bannerDisplayedForPausedOrStoppedStatus('Paused')
+        projectStatus
+            .hasCurrentStatus('Paused')
+            .bannerDisplayedForPausedOrStoppedStatus('Paused')
 
-         cy.executeAccessibilityTests()
-    }) 
+        cy.executeAccessibilityTests()
+    })
 
     it("user could change the project status to Stopped and see the change status history timeline", () => {
         projectStatus
@@ -211,5 +211,5 @@ describe("User navigates to the Project Status Tab", () => {
             .getUpdatedStatusWithDetails('In progress')
 
         cy.executeAccessibilityTests()
-    });   
+    });
 });

@@ -29,7 +29,7 @@ class ProjectStatus {
                 cy.get('a').contains('Change status').should('exist');
             });
         }
-        
+
         return this;
     }
 
@@ -148,15 +148,15 @@ class ProjectStatus {
         cy.get('.govuk-summary-list__value').should('contain', status);
         cy.get('dl.govuk-summary-list').first().within(() => {
             cy.get('.govuk-summary-list__row').each($row => {
-               // cy.wrap($row).within(() => {
-                    cy.get('.govuk-summary-list__key').invoke('text').then((keyText) => {
-                        const trimmedKeyText = keyText.trim();
-                        const keysToCheck = ['Status', 'Date of decision', 'Details'];
-                        if (keysToCheck.includes(trimmedKeyText)) {
-                            cy.get('.govuk-summary-list__value').should('not.be.empty');
-                        }
-                    });
-               // });
+                // cy.wrap($row).within(() => {
+                cy.get('.govuk-summary-list__key').invoke('text').then((keyText) => {
+                    const trimmedKeyText = keyText.trim();
+                    const keysToCheck = ['Status', 'Date of decision', 'Details'];
+                    if (keysToCheck.includes(trimmedKeyText)) {
+                        cy.get('.govuk-summary-list__value').should('not.be.empty');
+                    }
+                });
+                // });
             });
         });
 
@@ -169,7 +169,7 @@ class ProjectStatus {
             cy.get('.moj-timeline__header').first().within(() => {
                 if (status == 'Stopped') {
                     cy.get('.govuk-tag.govuk-tag--red').should('contain', status);
-                } 
+                }
                 else if (status == 'Paused') {
                     cy.get('.govuk-tag.govuk-tag--yellow').should('contain', status);
                 }
