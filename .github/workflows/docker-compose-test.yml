@@ -13,17 +13,17 @@ on:
         description: "Environment type - 'docker' for containerized testing"
     secrets:
       USERNAME:
-        required: false
+        required: true
       AZURE_WEB_ENDPOINT:
-        required: false
+        required: true
       AZURE_API_ENDPOINT:
-        required: false
+        required: true
       AZURE_API_KEY:
-        required: false
+        required: true
       CYPRESS_TEST_SECRET:
-        required: false
-      TEAMS_WEBHOOK_URL:
-        required: false
+        required: true
+      SLACK_WEBHOOK_URL:
+        required: true
 
 jobs:
   setup-infrastructure:
