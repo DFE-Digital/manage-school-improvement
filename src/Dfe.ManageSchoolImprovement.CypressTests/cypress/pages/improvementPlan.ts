@@ -46,6 +46,12 @@ class ImprovementPlan {
         return this;
     }
 
+    public hasViewProgressButton(): this {
+        cy.getByCyData('record-or-view-progress-button').should('contain.text', 'View Progress');
+
+        return this;
+    }
+
     public recordOrViewProgressButtonNotVisible(): this {
         cy.getByCyData('record-or-view-progress-button').should('not.exist');
 
@@ -154,6 +160,7 @@ class ImprovementPlan {
     }
 
     public validateOverallProgressPage(): this {
+        cy.getByCyData('overall-progress-details-textarea').clear();
         cy.get('[type="submit"]').contains('Save and return').click();
         cy.getByCyData('error-summary').should('be.visible');
         cy.getByCyData('error-summary').should('contain.text', 'Enter the next steps');

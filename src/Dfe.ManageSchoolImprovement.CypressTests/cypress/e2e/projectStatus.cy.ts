@@ -2,6 +2,7 @@ import projectStatus from "cypress/pages/projectStatus";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import { Logger } from "cypress/common/logger";
+import improvementPlan from "cypress/pages/improvementPlan";
 
 describe("User navigates to the Project Status Tab", () => {
 
@@ -18,13 +19,22 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("newly added schoolshould show the default status as In progress", () => {
+    it("newly added school should show the default status as In progress and no history shown ", () => {
         Logger.log("Check the default status for newly added school");
         projectStatus
             .hasCurrentStatus('In progress')
+            .hasNoStatusHistory()
 
         cy.executeAccessibilityTests()
     });
+
+    it("user should not see an important banner when the project has In Progress status", () => {
+        projectStatus
+            .hasCurrentStatus('In progress')
+            .hasNoBannerForInProgressStatus()
+
+        cy.executeAccessibilityTests()
+    })
 
     it("validation error messages should show for invalid dates and blank details", () => {
         Logger.log("check validation message for date field");
@@ -44,7 +54,7 @@ describe("User navigates to the Project Status Tab", () => {
 
         Logger.log("check validation message for details field");
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasValidation('Enter details', 'project-status-in-progress-details-error-link')
             .hasValidation('Enter details', 'more-detail-error')
 
@@ -73,20 +83,20 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('In progress')
 
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Paused", () => {
+    it("user could change the project status to Paused and see the change history", () => {
         projectStatus
             .clickChangeProjectStatusButton()
             .hasHeading('Change project status')
@@ -109,20 +119,42 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Paused')
+            .getProjectStatusChangeHistory('Paused')
 
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Stopped", () => {
+    it("user should only View Progress of Improvement Plan when project status is Paused ", () => {
+        projectStatus
+            .hasCurrentStatus('Paused')
+        taskList
+            .navigateToTab('Improvement plan')
+
+        Logger.log("User could only see View Progress when project status is Paused");
+        improvementPlan
+            .hasViewProgressButton()
+
+        cy.executeAccessibilityTests()
+    });
+
+    it("user should see an important banner when the project is Paused or Stopped", () => {
+        projectStatus
+            .hasCurrentStatus('Paused')
+            .bannerDisplayedForPausedOrStoppedStatus('Paused')
+
+        cy.executeAccessibilityTests()
+    })
+
+    it("user could change the project status to Stopped and see the change status history timeline", () => {
         projectStatus
             .clickChangeProjectStatusButton()
             .hasHeading('Change project status')
@@ -144,15 +176,33 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Stopped')
+
+            Logger.log("Check the project status change history timeline for Stopped status");
+        projectStatus    
+            .getProjectStatusChangeHistory('Stopped')
+
+        cy.executeAccessibilityTests()
+    });
+
+    it("user should not be able to record the Improvement plan if the project status is Stopped", () => {
+        projectStatus
+            .hasCurrentStatus('Stopped')
+        taskList
+            .navigateToTab('Improvement plan')
+
+        Logger.log("User could only see View Progresswhen project status is Stopped");
+        improvementPlan
+            .hasViewProgressButton()
+
         cy.executeAccessibilityTests()
     });
 
@@ -179,14 +229,14 @@ describe("User navigates to the Project Status Tab", () => {
 
         cy.executeAccessibilityTests()
         projectStatus
-            .clickSaveAndContinueButton()
+            .clickContinueButton()
             .hasPageHeading('Check your answers')
             .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         Logger.log("save and return after updating In progress status and check saved details");
         projectStatus
-            .clickSaveAndReturnButton()
+            .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('In progress')
 
