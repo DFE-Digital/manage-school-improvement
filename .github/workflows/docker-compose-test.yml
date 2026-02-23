@@ -152,7 +152,7 @@ jobs:
           path: src/Dfe.ManageSchoolImprovement.CypressTests/mochareports
 
       - name: Report results to Teams (if webhook provided)
-        if: secrets.TEAMS_WEBHOOK_URL
+        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
         run: |
           node scripts/send-teams-notification.js
         working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
