@@ -6,8 +6,6 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc; 
-using System.ComponentModel.DataAnnotations;
-using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
 {
@@ -20,6 +18,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
         [BindProperty(Name = "SchoolIsNotEligibleNotes")]
         public string? SchoolIsNotEligibleNotes { get; set; }
         
+        public TaskListStatus? TaskListStatus { get; set; }
+        
+        public ProjectStatusValue? ProjectStatus { get; set; }
+        
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
         public string? ErrorMessage { get; set; }  
@@ -30,17 +32,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            if (SupportProject.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
+            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
             {
                 SchoolIsEligible = true;
             }
             
-            if (SupportProject.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
+            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
             {
                 SchoolIsEligible = false;
             }
 
-            SchoolIsNotEligibleNotes = SupportProject.SchoolIsNotEligibleNotes;
+            SchoolIsNotEligibleNotes = SupportProject?.SchoolIsNotEligibleNotes;
+            TaskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject?.ProjectStatus;
             RadioButtons = EligibilityRadioButtons;
             return Page();
         }

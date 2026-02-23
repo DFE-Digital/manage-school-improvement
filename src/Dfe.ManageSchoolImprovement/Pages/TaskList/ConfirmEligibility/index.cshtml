@@ -1,4 +1,5 @@
 @page "/task-list/check-eligibility/{id:int}"
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility.IndexModel
 @{
     ViewData["Title"] = "Confirm eligibility";
@@ -10,6 +11,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.SupportProject?.ProjectStatus != ProjectStatusValue.InProgress)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary" />
 }
 
 @if (Model.ShowError)
