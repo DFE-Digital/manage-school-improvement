@@ -24,8 +24,6 @@ public class ProjectStatusInProgressDateModel(ISupportProjectQueryService suppor
     
     [BindProperty]
     public string? ChangedBy { get; set; }
-    
-    [BindProperty] public bool ChangeDateLinkClicked { get; set; }
 
     public bool ShowError { get; set; }
     
@@ -35,7 +33,7 @@ public class ProjectStatusInProgressDateModel(ISupportProjectQueryService suppor
     }
     string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy, bool changeDateLink, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue? projectStatus, string? changedBy, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
@@ -43,8 +41,6 @@ public class ProjectStatusInProgressDateModel(ISupportProjectQueryService suppor
         
         ProjectStatus = projectStatus ?? SupportProject?.ProjectStatus;
         ChangedBy = changedBy ?? SupportProject?.ProjectStatusChangedBy;
-        
-        ChangeDateLinkClicked = changeDateLink;
         
         return Page();
     }
@@ -63,24 +59,6 @@ public class ProjectStatusInProgressDateModel(ISupportProjectQueryService suppor
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             ShowError = true;
             return await base.GetSupportProject(id, cancellationToken);
-        }
-        
-        if (ChangeDateLinkClicked)
-        {
-            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProject!.ProjectStatus,
-                InProgressDate, SupportProject.ProjectStatusChangedBy,
-                SupportProject.ProjectStatusChangedDetails);
-            var result = await mediator.Send(request, cancellationToken);
-
-            if (result == null)
-            {
-                _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
-            }
-            
-            ChangeDateLinkClicked = false;
-
-            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusAnswers.Page, new { id });
         }
         
         return RedirectToPage(@Links.ProjectStatusTab.ProjectStatusInProgressDetails.Page,

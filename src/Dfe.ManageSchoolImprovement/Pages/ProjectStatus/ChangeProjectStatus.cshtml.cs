@@ -22,15 +22,13 @@ public class ChangeProjectStatusModel(
 
     [BindProperty] public ProjectStatusValue SupportProjectStatus { get; set; }
 
-    [BindProperty] public bool ChangeStatusLinkClicked { get; set; }
-
     private string? CurrentUserName { get; set; }
 
     public string? ErrorMessage { get; set; }
 
     public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, bool changeStatusLink, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.Index.Page;
 
@@ -40,8 +38,6 @@ public class ChangeProjectStatusModel(
         {
             SupportProjectStatus = SupportProject.ProjectStatus;
         }
-
-        ChangeStatusLinkClicked = changeStatusLink;
 
         RadioButtons = GetRadioButtons();
         return Page();
@@ -67,24 +63,6 @@ public class ChangeProjectStatusModel(
             }
         }
 
-        if (ChangeStatusLinkClicked)
-        {
-            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus,
-                SupportProject?.ProjectStatusChangedDate, CurrentUserName,
-                SupportProject?.ProjectStatusChangedDetails);
-            var result = await mediator.Send(request, cancellationToken);
-
-            if (result == null)
-            {
-                _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
-            }
-            
-            ChangeStatusLinkClicked = false;
-
-            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusAnswers.Page, new { id });
-        }
-
         if (SupportProjectStatus == ProjectStatusValue.Paused)
         {
             return RedirectToPage(Links.ProjectStatusTab.ProjectStatusPausedDate.Page,
@@ -94,11 +72,11 @@ public class ChangeProjectStatusModel(
         if (SupportProjectStatus == ProjectStatusValue.Stopped)
         {
             return RedirectToPage(Links.ProjectStatusTab.ProjectStatusStoppedDate.Page,
-                new { id, projectStatus = SupportProjectStatus, changedBy = currentUser?.FullName });
+                new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
         }
 
         return RedirectToPage(Links.ProjectStatusTab.ProjectStatusInProgressDate.Page,
-            new { id, projectStatus = SupportProjectStatus, changedBy = currentUser?.FullName });
+            new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
     }
 
     private static IList<RadioButtonsLabelViewModel> GetRadioButtons()
@@ -110,14 +88,14 @@ public class ChangeProjectStatusModel(
                 Id = "in-progress",
                 Name = ProjectStatusValue.InProgress.GetDisplayName(),
                 Value = "InProgress",
-                Hint = "Work to support the school through targeted intervention has begun and is progressing."
+                Hint = "Work on the project has begun and is progressing."
             },
             new()
             {
                 Id = "paused",
                 Name = ProjectStatusValue.Paused.GetDisplayName(),
                 Value = "Paused",
-                Hint = "Work is temporarily paused while a decision is made about the school's eligibility."
+                Hint = "Work is temporarily paused while a decision is made about whether to continue."
             },
             new()
             {
@@ -125,7 +103,7 @@ public class ChangeProjectStatusModel(
                 Name = ProjectStatusValue.Stopped.GetDisplayName(),
                 Value = "Stopped",
                 Hint =
-                    "Work has ended because the school has improved sufficiently, or is undergoing structural intervention."
+                    "Work has ended because the school has improved sufficiently, or is now undergoing structural intervention."
             }
         };
     }
