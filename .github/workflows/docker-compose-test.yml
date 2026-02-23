@@ -115,7 +115,7 @@ jobs:
           CYPRESS_url: "http://localhost:8080"
           CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
           CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
-          CYPRESS_api: "Don't need this'"
+          CYPRESS_api: "Don't need this setting"
           CYPRESS_msiApi: "http://localhost:8080/api"
         with:
           browser: ${{ matrix.browser }}
@@ -140,19 +140,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate report
+        if: always()
         run: |
           mkdir mochareports
           npm run generate:html:report
         working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
 
       - name: Upload report
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: reports-${{ inputs.environment || 'docker' }}-edge
           path: src/Dfe.ManageSchoolImprovement.CypressTests/mochareports
 
       - name: Report results to Teams (if webhook provided)
-        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+        if: always()
         run: |
           node scripts/send-teams-notification.js
         working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
