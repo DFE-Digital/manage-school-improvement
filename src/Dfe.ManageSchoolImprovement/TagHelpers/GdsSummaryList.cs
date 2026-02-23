@@ -29,7 +29,7 @@ public class GdsSummaryListTagHelper : TagHelper
     public Dictionary<string, Func<object?, string>>? Formatters { get; set; }
 
     /// <summary>Optional: Text to show when a value is null or empty.</summary>
-    public string NullDisplayText { get; set; } = "—";
+    public string NullDisplayText { get; set; } = "Incomplete";
 
     /// <summary>Optional: Culture to use for date/number formatting (defaults to current).</summary>
     public string? Culture { get; set; }

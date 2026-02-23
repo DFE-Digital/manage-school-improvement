@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
     protected readonly ErrorService _errorService = errorService;
     public SupportProjectViewModel? SupportProject { get; set; }
 
-    public bool IsReadOnly => false;
+    public bool IsReadOnly => SupportProject?.ProjectStatus != ProjectStatusValue.InProgress;
 
     [TempData]
     public bool TaskUpdated { get; set; }

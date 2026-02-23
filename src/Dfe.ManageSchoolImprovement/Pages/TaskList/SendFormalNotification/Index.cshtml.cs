@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendFormalNotification;
 
@@ -17,21 +18,29 @@ public class SendFormalNotificationModel(
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "use-enrolment-letter-template-to-draft-email")]
+    [Display(Name = "Use the enrolment letter template to draft the email")]
     public bool? UseEnrolmentLetterTemplateToDraftEmail { get; set; }
 
     [BindProperty(Name = "attach-targeted-intervention-information-sheet")]
+    [Display(Name = "Attach the intervention information sheet")]
     public bool? AttachTargetedInterventionInformationSheet { get; set; }
 
     [BindProperty(Name = "add-recipients")]
+    [Display(Name = "Add recipients")]
     public bool? AddRecipients { get; set; }
 
     [BindProperty(Name = "send-email")]
+    [Display(Name = "Send email")]
     public bool? SendEmail { get; set; }
 
     [BindProperty(Name = "date-of-formal-contact", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [Display(Name = "Enter the date of formal contact")]
     public DateTime? DateOfFormalContact { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+        
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
     public string EnrolmentLetterTemplate { get; set; } = string.Empty;
@@ -50,6 +59,9 @@ public class SendFormalNotificationModel(
 
         // Populate form fields from support project data
         PopulateFormFields();
+        
+        TaskListStatus = TaskStatusViewModel.SendFormalNotificationTaskStatus(SupportProject);
+        ProjectStatus = SupportProject?.ProjectStatus;
 
         return Page();
     }

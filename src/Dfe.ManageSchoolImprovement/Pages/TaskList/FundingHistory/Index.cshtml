@@ -1,8 +1,12 @@
 @page "/task-list/funding-history/{id:int}"
-@inject IConfiguration Configuration
+
 @model IndexModel
 @{
-    ViewData["Title"] = "Has the school received any funnding in the last 2 financial years?";
+    ViewData["Title"] = "Has the school received any funding in the last 2 financial years?";
+    
+    var summaryItems = SummaryListHelper.For<IndexModel>(
+        m => m.HasSchoolReceivedFundingInLastTwoYears!
+    );
 }
 
 @section BeforeMain
@@ -11,6 +15,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary" />
 }
 
 @if (Model.ShowError)
@@ -27,16 +36,23 @@
         <p class="govuk-body">Use the <a href="@Model.PreviousFundingChecksSpreadsheetLink"
                                          class="govuk-link" rel="noreferrer noopener" target="_blank">previous funding
                 checks spreadsheet (opens in new tab)</a> to find out what funding a school has received.</p>
-        <form method="post" novalidate>
-            <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
-                                      name="@nameof(Model.HasSchoolReceivedFundingInLastTwoYears)"
-                                      radio-buttons="@Model.RadioButtons"
-                                      asp-for="@Model.HasSchoolReceivedFundingInLastTwoYears"
-                                      error-message="@Model.HasSchoolReceivedFundingInLastTwoYearsErrorMessage"/>
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and continue
-            </button>
-        </form>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems" />
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
+                                          name="@nameof(Model.HasSchoolReceivedFundingInLastTwoYears)"
+                                          radio-buttons="@Model.RadioButtons"
+                                          asp-for="@Model.HasSchoolReceivedFundingInLastTwoYears"
+                                          error-message="@Model.HasSchoolReceivedFundingInLastTwoYearsErrorMessage"/>
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and continue
+                </button>
+            </form>
+        }
     </div>
 </div>

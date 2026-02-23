@@ -1,12 +1,14 @@
 @page "/task-list/make-initial-contact-with-responsible-body/{id:int}"
-@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
-@using Dfe.Academisation.ExtensionMethods
 
-@inject IConfiguration Configuration
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.MakeInitialContactWithResponsibleBody.MakeInitialContactWithResponsibleBodyModel
 
 @{
     ViewData["Title"] = "Make initial contact with the responsible body";
+
+    var summaryItems = SummaryListHelper.For<MakeInitialContactWithResponsibleBodyModel>(
+        m => m.InitialContactResponsibleBody!,
+        m => m.ResponsibleBodyInitialContactDate!
+    );
 }
 
 @section BeforeMain
@@ -15,6 +17,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -64,53 +71,64 @@
                     your collective knowledge.</p>
             </div>
         </details>
-        <form method="post" novalidate>
-            <div class="govuk-form-group">
-                <div class="govuk-checkboxes">
-                    <div class="govuk-checkboxes__item">
-                        <input name="initial-contact-responsible-body-hidden" type="hidden" value="false"/>
-                        <input class="govuk-checkboxes__input"
-                               id="initial-contact-responsible-body"
-                               name="initial-contact-responsible-body"
-                               type="checkbox"
-                               value="true"
-                               checked="@Model.InitialContactResponsibleBody">
-                        <label class="govuk-label govuk-checkboxes__label" for="initial-contact-responsible-body">
-                            Contact the responsible body
-                        </label>
-                        <div id="initial-contact-responsible-body-hint" class="govuk-hint govuk-checkboxes__hint">
-                            There is
-                            <a class="govuk-link"
-                               href="@Model.TargetedInterventionGuidanceLink"
-                               rel="noreferrer noopener"
-                               target="_blank">guidance on SharePoint (opens in new tab)</a>
-                            that contains links to a call script and answers to commonly asked questions that can help
-                            you.
-                            <details class="govuk-details govuk-!-margin-top-3 margin-bottom-minus-10">
-                                <summary class="govuk-details__summary">
+        @if (Model.IsReadOnly)
+
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input name="initial-contact-responsible-body-hidden" type="hidden" value="false"/>
+                            <input class="govuk-checkboxes__input"
+                                   id="initial-contact-responsible-body"
+                                   name="initial-contact-responsible-body"
+                                   type="checkbox"
+                                   value="true"
+                                   checked="@Model.InitialContactResponsibleBody">
+                            <label class="govuk-label govuk-checkboxes__label" for="initial-contact-responsible-body">
+                                Contact the responsible body
+                            </label>
+                            <div id="initial-contact-responsible-body-hint" class="govuk-hint govuk-checkboxes__hint">
+                                There is
+                                <a class="govuk-link"
+                                   href="@Model.TargetedInterventionGuidanceLink"
+                                   rel="noreferrer noopener"
+                                   target="_blank">guidance on SharePoint (opens in new tab)</a>
+                                that contains links to a call script and answers to commonly asked questions that can
+                                help
+                                you.
+                                <details class="govuk-details govuk-!-margin-top-3 margin-bottom-minus-10">
+                                    <summary class="govuk-details__summary">
                                         <span class="govuk-details__summary-text">
                                             What to say when you notify the responsible body
                                         </span>
-                                </summary>
-                                <div class="govuk-details__text">
-                                    <p>You should reassure the responsible body that RISE targeted intervention is a
-                                        collaborative process.</p>
-                                    <p>Explain that the RISE team and adviser will work together with the responsible
-                                        body and school and their experience, plans and views will be taken into
-                                        account.</p>
-                                </div>
-                            </details>
+                                    </summary>
+                                    <div class="govuk-details__text">
+                                        <p>You should reassure the responsible body that RISE targeted intervention is a
+                                            collaborative process.</p>
+                                        <p>Explain that the RISE team and adviser will work together with the
+                                            responsible
+                                            body and school and their experience, plans and views will be taken into
+                                            account.</p>
+                                    </div>
+                                </details>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <govuk-date-input heading-label="false" label="Enter the date of initial contact"
-                              id="responsible-body-initial-contact-date" name="responsible-body-initial-contact-date"
-                              asp-for="@Model.ResponsibleBodyInitialContactDate" hint="For example, 1 7 2024."/>
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+                <govuk-date-input heading-label="false" label="Enter the date of initial contact"
+                                  id="responsible-body-initial-contact-date"
+                                  name="responsible-body-initial-contact-date"
+                                  asp-for="@Model.ResponsibleBodyInitialContactDate" hint="For example, 1 7 2024."/>
+                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>

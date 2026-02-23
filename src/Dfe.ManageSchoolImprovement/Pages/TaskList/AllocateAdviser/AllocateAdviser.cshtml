@@ -5,6 +5,12 @@
 
 @{
     ViewData["Title"] = "Allocate an adviser";
+
+    var summaryItems = SummaryListHelper.For<AllocateAdviser>(
+        m => m.AdviserFullName!,
+        m => m.AdviserEmailAddress!,
+        m => m.DateAdviserAllocated!
+    );
 }
 
 @section BeforeMain
@@ -12,6 +18,11 @@
     <nav aria-label="back navigation">
         <a asp-page="@Model.Referrer" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -22,76 +33,86 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <h1 class="govuk-heading-l">
+            Allocate an adviser
+        </h1>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <div class="govuk-form-group">
 
-        <form method="post" novalidate>
-            <div class="govuk-form-group">
-                <h1 class="govuk-heading-l">
-                    Allocate an adviser
-                </h1>
-                <p class="govuk-body">
-                    Find the adviser allocated to this school. You can search by name or email address.
-                </p>
-                <div class="govuk-form-group @(Model.AdviserError ? "govuk-form-group--error" : "")">
-                    <h2 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--m" for="adviser">
-                            Enter the name of the adviser
-                        </label>
-                    </h2>
-                    @if (Model.AdviserError)
-                    {
-                        <p id="more-detail-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> Enter the name or email address of the adviser
-                        </p>
-                    }
-                    <input type="hidden" id="adviser-input" name="AdviserInput"/>
-                    <div class="@(Model.AdviserError ? "msi-autocomplete" : "")">
-                        <select name="SelectedName" class="autocomplete__menu govuk-select" id="adviser">
-                            <option value=""></option>
-                            @{
-                                foreach (User riseAdviser in Model.RiseAdvisers)
-                                {
-                                    if (Model.AdviserEmailAddress == riseAdviser.EmailAddress)
+                    <p class="govuk-body">
+                        Find the adviser allocated to this school. You can search by name or email address.
+                    </p>
+
+
+                    <div class="govuk-form-group @(Model.AdviserError ? "govuk-form-group--error" : "")">
+                        <h2 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--m" for="adviser">
+                                Enter the name of the adviser
+                            </label>
+                        </h2>
+                        @if (Model.AdviserError)
+                        {
+                            <p id="more-detail-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> Enter the name or email address of the
+                                adviser
+                            </p>
+                        }
+                        <input type="hidden" id="adviser-input" name="AdviserInput"/>
+                        <div class="@(Model.AdviserError ? "msi-autocomplete" : "")">
+                            <select name="SelectedName" class="autocomplete__menu govuk-select" id="adviser">
+                                <option value=""></option>
+                                @{
+                                    foreach (User riseAdviser in Model.RiseAdvisers)
                                     {
-                                        <option value="@riseAdviser.EmailAddress"
-                                                selected>@(riseAdviser.FullName) (@riseAdviser.EmailAddress)
-                                        </option>
-                                    }
-                                    else
-                                    {
-                                        <option
-                                            value="@riseAdviser.EmailAddress">@(riseAdviser.FullName) (@riseAdviser.EmailAddress)
-                                        </option>
+                                        if (Model.AdviserEmailAddress == riseAdviser.EmailAddress)
+                                        {
+                                            <option value="@riseAdviser.EmailAddress"
+                                                    selected>@(riseAdviser.FullName) (@riseAdviser.EmailAddress)
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option
+                                                value="@riseAdviser.EmailAddress">@(riseAdviser.FullName) (@riseAdviser.EmailAddress)
+                                            </option>
+                                        }
                                     }
                                 }
-                            }
-                        </select> 
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <govuk-date-input heading-label="false" label="Enter date the adviser was allocated"
-                              id="date-adviser-allocated" name="date-adviser-allocated"
-                              asp-for="@Model.DateAdviserAllocated" hint="For example, 1 7 2024."/>
-            <input type="hidden" asp-for="@Model.Referrer"/>
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+                <govuk-date-input heading-label="false" label="Enter date the adviser was allocated"
+                                  id="date-adviser-allocated" name="date-adviser-allocated"
+                                  asp-for="@Model.DateAdviserAllocated" hint="For example, 1 7 2024."/>
+                <input type="hidden" asp-for="@Model.Referrer"/>
+                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>
 
 <script type="application/javascript" asp-add-nonce>
-    const deliveryOfficerSelect = document.querySelector('#adviser');
-    const inputClasses = '@Model.AdviserError' ? "govuk-input--error" : "";
-    
+    const deliveryOfficerSelect = document.querySelector('#adviser')
+    const inputClasses = '@Model.AdviserError' ? 'govuk-input--error' : ''
+
     accessibleAutocomplete.enhanceSelectElement({
         selectElement: deliveryOfficerSelect,
         inputClasses
-    });
-    
-    document.querySelector('#adviser-input').value = document.querySelector('#adviser').value;
+    })
+
+    document.querySelector('#adviser-input').value = document.querySelector('#adviser').value
 
     document.querySelector('#adviser').addEventListener('change', function () {
         document.querySelector('#adviser-input').value = this.value
-    });
+    })
 </script>

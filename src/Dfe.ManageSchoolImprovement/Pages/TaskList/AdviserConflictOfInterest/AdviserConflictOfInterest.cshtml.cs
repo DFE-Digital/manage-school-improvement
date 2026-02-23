@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.
     SetAdviserConflictOfInterestDetails;
 
@@ -17,12 +18,17 @@ public class AdviserConflictOfInterest(
     IDateValidationMessageProvider
 {
     [BindProperty(Name = "review-advisers-conflict-of-interest-form")]
+    [Display(Name = "Review the advisers conflict of interest form")]
     public bool? ReviewAdvisersConflictOfInterestForm { get; set; }
 
     [BindProperty(Name = "date-conflict-of-interest-declaration-checked", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date conflict of interest declaration checked")]
+    [Display(Name = "Date conflict of interest declaration checked")]
     public DateTime? DateConflictOfInterestDeclarationChecked { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+        
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -40,6 +46,9 @@ public class AdviserConflictOfInterest(
         ReviewAdvisersConflictOfInterestForm = SupportProject.ReviewAdvisersConflictOfInterestForm;
 
         DateConflictOfInterestDeclarationChecked = SupportProject.DateConflictOfInterestDeclarationChecked;
+        
+        TaskListStatus = TaskStatusViewModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus(SupportProject);
+        ProjectStatus = SupportProject.ProjectStatus;
 
         return Page();
     }

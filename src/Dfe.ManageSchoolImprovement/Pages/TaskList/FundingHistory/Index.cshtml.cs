@@ -19,6 +19,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         public bool? HasSchoolReceivedFundingInLastTwoYears { get; set; }
 
         public string? HasSchoolReceivedFundingInLastTwoYearsErrorMessage { get; set; } = null;
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
 
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
@@ -32,6 +35,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
 
             HasSchoolReceivedFundingInLastTwoYears = SupportProject.HasReceivedFundingInThelastTwoYears;
+            
+            TaskListStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject?.ProjectStatus;
+            
             RadioButtons = RadioButtonModel;
             return Page();
         }
