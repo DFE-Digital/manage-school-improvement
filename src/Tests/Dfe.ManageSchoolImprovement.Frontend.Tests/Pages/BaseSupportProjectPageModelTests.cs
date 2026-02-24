@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
 {
@@ -29,7 +30,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
         {
             // Arrange
             var projectId = 1;
-            var mockProject = new SupportProjectDto(projectId, DateTime.Now, DateTime.Now, "schoolName", "URN234", "local Authority", "Region");
+            var mockProject = new SupportProjectDto(projectId, DateTime.Now, DateTime.Now, "schoolName", "URN234",
+                "local Authority", "Region", ProjectStatus: ProjectStatusValue.InProgress);
             var result = Result<SupportProjectDto?>.Success(mockProject);
 
             _mockQueryService.Setup(s => s.GetSupportProject(projectId, _cancellationToken)).ReturnsAsync(result);
@@ -40,7 +42,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             // Assert
             Assert.IsType<PageResult>(response);
             Assert.NotNull(_pageModel.SupportProject);
-        } 
+        }
 
         [Fact]
         public async Task GetSupportProject_ReturnsNotFound_WhenProjectDoesNotExist()
