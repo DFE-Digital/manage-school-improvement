@@ -1,5 +1,6 @@
-﻿using Dfe.ManageSchoolImprovement.Application.Common.Models;
+using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Pages;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -57,6 +58,50 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
 
             // Assert
             Assert.IsType<NotFoundResult>(response);
+        }
+
+        [Fact]
+        public void IsReadOnly_ReturnsTrue_WhenSupportProjectIsNull()
+        {
+            // Arrange - SupportProject is null by default
+            // Act & Assert
+            Assert.True(_pageModel.IsReadOnly);
+        }
+
+        [Fact]
+        public void IsReadOnly_ReturnsFalse_WhenProjectStatusIsInProgress()
+        {
+            // Arrange
+            var dto = new SupportProjectDto(1, DateTime.Now, DateTime.Now, "schoolName", "URN234",
+                "local Authority", "Region", ProjectStatus: ProjectStatusValue.InProgress);
+            _pageModel.SupportProject = SupportProjectViewModel.Create(dto);
+
+            // Act & Assert
+            Assert.False(_pageModel.IsReadOnly);
+        }
+
+        [Fact]
+        public void IsReadOnly_ReturnsTrue_WhenProjectStatusIsPaused()
+        {
+            // Arrange
+            var dto = new SupportProjectDto(1, DateTime.Now, DateTime.Now, "schoolName", "URN234",
+                "local Authority", "Region", ProjectStatus: ProjectStatusValue.Paused);
+            _pageModel.SupportProject = SupportProjectViewModel.Create(dto);
+
+            // Act & Assert
+            Assert.True(_pageModel.IsReadOnly);
+        }
+
+        [Fact]
+        public void IsReadOnly_ReturnsTrue_WhenProjectStatusIsStopped()
+        {
+            // Arrange
+            var dto = new SupportProjectDto(1, DateTime.Now, DateTime.Now, "schoolName", "URN234",
+                "local Authority", "Region", ProjectStatus: ProjectStatusValue.Stopped);
+            _pageModel.SupportProject = SupportProjectViewModel.Create(dto);
+
+            // Act & Assert
+            Assert.True(_pageModel.IsReadOnly);
         }
     }
 }
