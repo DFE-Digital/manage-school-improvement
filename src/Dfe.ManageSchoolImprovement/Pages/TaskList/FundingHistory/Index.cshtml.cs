@@ -7,6 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
@@ -22,6 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         
         public TaskListStatus? TaskListStatus { get; set; }
         public ProjectStatusValue? ProjectStatus { get; set; }
+        public IEnumerable<FundingHistoryViewModel>? FundingHistory { get; set; } = [];
 
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
@@ -34,10 +36,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
             await base.GetSupportProject(id, cancellationToken);
             PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
 
-            HasSchoolReceivedFundingInLastTwoYears = SupportProject.HasReceivedFundingInThelastTwoYears;
+            HasSchoolReceivedFundingInLastTwoYears = SupportProject?.HasReceivedFundingInThelastTwoYears;
             
             TaskListStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
             ProjectStatus = SupportProject?.ProjectStatus;
+            FundingHistory = SupportProject?.FundingHistories;
             
             RadioButtons = RadioButtonModel;
             return Page();

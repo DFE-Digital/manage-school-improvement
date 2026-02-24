@@ -12,7 +12,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -29,7 +29,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Has the school received any funding in the last 2 financial years?
         </h1>
@@ -39,6 +39,52 @@
         @if (Model.IsReadOnly)
         {
             <govuk-summary-list model="Model" items="summaryItems" />
+            
+            @if (Model.SupportProject.FundingHistories.Any())
+            {
+                @foreach (var fundingHistory in Model.SupportProject?.FundingHistories)
+                {
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                <h2 class="govuk-heading-m">@fundingHistory.FundingType</h2>
+                            </dt>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Funding Amount
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @($"{fundingHistory.FundingAmount.ToString("C", new System.Globalization.CultureInfo("en-GB"))}")
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Financial Year
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @fundingHistory.FinancialYear
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Funding rounds
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @fundingHistory.FundingRounds
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Comments
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @fundingHistory.Comments
+                            </dd>
+                        </div>
+                    </dl>
+                }
+            }
         }
         else
         {
