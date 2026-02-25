@@ -3,6 +3,26 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.4.2] - Q4 – Sprint 5 (Part 1)- 2026-02-25
+
+### 📌 User Stories 
+
+- **262234** - Changes to "About the school" tab
+- **262226** - Delete "Ofsted reports" tab and references to Ofsted judgments from School Summary
+- **258618** - Create Statuses and Reasons in back-end
+- **258619** - New Project Status Page
+- **258621** - Add a Project Status Filter to Project Listing Page
+- **258624** - Add "Paused" and "Stopped" Notification Banner
+- **258628** - Make Improvement Plan tab read-only when school is "paused" or "stopped"
+- **258630** - Add Status History timeline to Project Status tab
+- **267694** - Hide project status work before release
+
+### 🐛 Bug Fixes
+
+- **263839** - User is able to add the same school multiple times while navigating back and forth from the browser.
+
+--
+
 ## 📅 [v1.4.2] - Q4 – Sprint 3 (Part 1)- 2026-01-30
 
 ### 📌 User Stories 
