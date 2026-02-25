@@ -3,7 +3,7 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
-## 📅 [v1.4.2] - Q4 – Sprint 5 (Part 1)- 2026-02-25
+## 📅 [v1.5.0] - Q4 – Sprint 5 (Part 1)- 2026-02-25
 
 ### 📌 User Stories 
 
