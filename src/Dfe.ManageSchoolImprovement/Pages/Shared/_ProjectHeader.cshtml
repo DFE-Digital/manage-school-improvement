@@ -3,6 +3,8 @@
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
+@inject IWebHostEnvironment Environment
+
 @{
     DateTime createdDate = @Model.CreatedOn;
 
@@ -61,7 +63,7 @@
                 </div>
             </div>
         }
-        @if (projectNotInProgress)
+        @if (projectNotInProgress && Environment.IsDevelopment())
         {
             <div class="govuk-notification-banner" role="alert"
                  aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -82,66 +84,69 @@
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-2" data-cy="select-heading">
          @Model.SchoolName
       </h1> 
-      <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Current status
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  <partial name="_ProjectStatus" model="Model.ProjectStatus"/>
-              </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Date added to MSI
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  @createdDate.ToDateString()
-              </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Assigned to
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  <span class="@(displayAssignedTo ? "empty" : "")" data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
-              </dd>
-              @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
-              {
-                  <dd class="govuk-summary-list__actions">
-                      <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
-                  </dd>
-              }
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Advised by
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  <span class="@(displayAdvisedBy ? "empty" : "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
-              </dd>
-              @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
-              {
-                  <dd class="govuk-summary-list__actions">
-                      <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
-                  </dd> 
-              }
-          </div>
-          <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                  Engagement concern
-              </dt>
-              <dd class="govuk-summary-list__value">
-                  @(engagementConcern ? "Yes" : "No")
-              </dd>
-              @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
-              {
-                  <dd class="govuk-summary-list__actions">
-                      <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a>
-                  </dd>
-              }
-          </div>
-      </dl> 
+        <dl class="govuk-summary-list">
+            @if (Environment.IsDevelopment())
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Current status
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <partial name="_ProjectStatus" model="Model.ProjectStatus"/>
+                    </dd>
+                </div>
+            }
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Date added to MSI
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @createdDate.ToDateString()
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Assigned to
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span class="@(displayAssignedTo ? "empty" : "")" data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
+                </dd>
+                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                {
+                    <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page" asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
+                    </dd>
+                }
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Advised by
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span class="@(displayAdvisedBy ? "empty" : "")" data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
+                </dd>
+                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                {
+                    <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
+                    </dd>
+                }
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Engagement concern
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(engagementConcern ? "Yes" : "No")
+                </dd>
+                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                {
+                    <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.EngagementConcern.RecordEngagementConcern.Page" asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> record an engagement concern</span></a>
+                    </dd>
+                }
+            </div>
+        </dl> 
         @if (User.IsInRole(Role.Support))
         {
             <p class="govuk-body govuk-!-margin-top-3">

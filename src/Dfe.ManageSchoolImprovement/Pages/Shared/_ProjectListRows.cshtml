@@ -1,7 +1,8 @@
-@using Dfe.ManageSchoolImprovement.Frontend.Models
 @using Dfe.ManageSchoolImprovement.Utils
 @using static Dfe.Academisation.ExtensionMethods.DateTimeExtensions
 @model IEnumerable<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.SupportProjectViewModel>
+
+@inject IWebHostEnvironment Environment
 
 @{
     var index = 0;
@@ -19,9 +20,12 @@
                            data-cy="trust-name-@index" asp-route-id="@project.Id">@project.SchoolName</a>
                     </strong>
                 </div>
-                <div class="govuk-!-margin-top-1">
-                    <partial name="_ProjectStatus" model="project.ProjectStatus"/>
-                </div>
+                @if (Environment.IsDevelopment())
+                {
+                    <div class="govuk-!-margin-top-1">
+                        <partial name="_ProjectStatus" model="project.ProjectStatus"/>
+                    </div>
+                }
                 <div class="govuk-!-margin-top-1">
                     <span id="@("urn-" + index)"><strong>URN:</strong> @project.SchoolUrn</span>
                 </div>
