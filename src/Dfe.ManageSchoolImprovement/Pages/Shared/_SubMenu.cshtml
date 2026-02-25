@@ -1,63 +1,55 @@
+@inject IWebHostEnvironment Environment
 @{
     var id = ViewContext.RouteData.Values["id"];
 }
 <nav class="moj-sub-navigation govuk-!-margin-top-6" aria-label="Sub navigation">
     <ul class="moj-sub-navigation__list govuk-!-margin-top-6">
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.TaskList.Index.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.TaskList.Index.Page" asp-route-id="@id">
                 Task list
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.AboutTheSchool.Index.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.AboutTheSchool.Index.Page"
+                asp-route-id="@id">
                 About the school
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                asp-route-id="@id">
                 Improvement plan
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.Contacts.Index.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.Contacts.Index.Page" asp-route-id="@id">
                 Contacts
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.CaseStudy.Index.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.CaseStudy.Index.Page" asp-route-id="@id">
                 Case Study
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.EngagementConcern.Index.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.EngagementConcern.Index.Page"
+                asp-route-id="@id">
                 Engagement concern
             </sub-menu-link>
         </li>
         <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.Notes.Index.Page"
-                           asp-route-id="@id">
+            <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.Notes.Index.Page" asp-route-id="@id">
                 Notes
             </sub-menu-link>
         </li>
-        <li class="moj-sub-navigation__item">
-            <sub-menu-link class="moj-sub-navigation__link"
-                           asp-page="@Links.ProjectStatusTab.Index.Page"
-                           asp-route-id="@id">
-                Project status
-            </sub-menu-link>
-        </li>
+        @if (Environment.IsDevelopment())
+        {
+            <li class="moj-sub-navigation__item">
+                <sub-menu-link class="moj-sub-navigation__link" asp-page="@Links.ProjectStatusTab.Index.Page"
+                    asp-route-id="@id">
+                    Project status
+                </sub-menu-link>
+            </li>
+        }
     </ul>
 </nav>
