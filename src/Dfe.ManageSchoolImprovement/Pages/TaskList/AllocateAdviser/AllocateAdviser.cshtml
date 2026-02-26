@@ -1,6 +1,5 @@
 @page "/task-list/allocate-adviser/{id:int}"
-@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
-@using Dfe.Academisation.ExtensionMethods
+
 @model AllocateAdviser
 
 @{
@@ -32,7 +31,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l">
             Allocate an adviser
         </h1>

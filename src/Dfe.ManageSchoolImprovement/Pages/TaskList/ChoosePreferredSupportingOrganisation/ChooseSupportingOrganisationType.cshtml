@@ -3,6 +3,12 @@
 
 @{
     ViewData["Title"] = "Choose preferred supporting organisation";
+    
+    var summaryItems = SummaryListHelper.For<ChooseSupportOrganisationTypeModel>(
+        m => m.SupportOrganisationName!,
+        m => m.SupportOrganisationIdNumber!,
+        m => m.DateSupportOrganisationChosen!
+    );
 }
 
 @section BeforeMain
@@ -11,6 +17,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -26,67 +37,73 @@
         </h1>
         <p class="govuk-body">The supporting organisation is not confirmed until the school and regional director both
             agree to the choice.</p>
-
-        <form method="post" novalidate>
-            <input type="hidden" name="js-enabled" value="true"/>
-            <noscript>
-                <input type="hidden" name="js-enabled" value="false"/>
-            </noscript>
-            <div class="govuk-form-group @(Model.ShowCompleteAssessmentToolError ? "govuk-form-group--error" : "")">
-                <div class="govuk-checkboxes">
-                    @if (Model.ShowCompleteAssessmentToolError)
-                    {
-                        <p id="complete-assessment-tool-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> Confirm you have completed the assessment
-                            tool
-                        </p>
-                    }
-                    <div class="govuk-checkboxes__item">
-                        <input name="complete-assessment-tool-hidden" type="hidden" value="false"/>
-                        <input class="govuk-checkboxes__input @(Model.ShowCompleteAssessmentToolError ? "govuk-checkbox--error" : "")"
-                               id="complete-assessment-tool"
-                               name="complete-assessment-tool"
-                               type="checkbox"
-                               value="true"
-                               checked="@Model.CompleteAssessmentTool">
-                        <label class="govuk-label govuk-checkboxes__label" for="complete-assessment-tool">
-                            Complete assessment tool 2: Selecting a supporting organisation
-                            <br/>
-                            <span id="complete-assessment-tool-hint" class="govuk-hint">
-                                You must download a
-                                <a class="govuk-link"
-                                   href="@Model.AssessmentToolTwoLink"
-                                   rel="noreferrer noopener"
-                                   target="_blank">copy of the assessment tool (opens in new tab)</a>.
-                                When complete
-                                <a class="govuk-link"
-                                   href="@Model.AssessmentToolTwoSharePointFolderLink"
-                                   rel="noreferrer noopener"
-                                   target="_blank">upload it to the relevant region's assessment folder in SharePoint (opens in new tab)</a>.
-                            </span>
-                        </label>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <input type="hidden" name="js-enabled" value="true"/>
+                <noscript>
+                    <input type="hidden" name="js-enabled" value="false"/>
+                </noscript>
+                <div class="govuk-form-group @(Model.ShowCompleteAssessmentToolError ? "govuk-form-group--error" : "")">
+                    <div class="govuk-checkboxes">
+                        @if (Model.ShowCompleteAssessmentToolError)
+                        {
+                            <p id="complete-assessment-tool-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> Confirm you have completed the assessment
+                                tool
+                            </p>
+                        }
+                        <div class="govuk-checkboxes__item">
+                            <input name="complete-assessment-tool-hidden" type="hidden" value="false"/>
+                            <input class="govuk-checkboxes__input @(Model.ShowCompleteAssessmentToolError ? "govuk-checkbox--error" : "")"
+                                   id="complete-assessment-tool"
+                                   name="complete-assessment-tool"
+                                   type="checkbox"
+                                   value="true"
+                                   checked="@Model.CompleteAssessmentTool">
+                            <label class="govuk-label govuk-checkboxes__label" for="complete-assessment-tool">
+                                Complete assessment tool 2: Selecting a supporting organisation
+                                <br/>
+                                <span id="complete-assessment-tool-hint" class="govuk-hint">
+                                    You must download a
+                                    <a class="govuk-link"
+                                       href="@Model.AssessmentToolTwoLink"
+                                       rel="noreferrer noopener"
+                                       target="_blank">copy of the assessment tool (opens in new tab)</a>.
+                                    When complete
+                                    <a class="govuk-link"
+                                       href="@Model.AssessmentToolTwoSharePointFolderLink"
+                                       rel="noreferrer noopener"
+                                       target="_blank">upload it to the relevant region's assessment folder in SharePoint (opens in new tab)</a>.
+                                </span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <h2 class="govuk-heading-m">
-                Choose the type of supporting organisation
-            </h2>
+                <h2 class="govuk-heading-m">
+                    Choose the type of supporting organisation
+                </h2>
 
-            <div class="govuk-form-group">
-                <govuk-radiobuttons-input
-                    heading-style="govuk-visually-hidden"
-                    name="@nameof(Model.SupportOrganisationType)"
-                    radio-buttons="@Model.SupportOrganisationTypeOptions"
-                    asp-for="@Model.SupportOrganisationType"
-                    error-message="@Model.SupportOrganisationTypeErrorMessage"
-                    data-cy="support-organisation-type-radio-buttons"/>
-            </div>
+                <div class="govuk-form-group">
+                    <govuk-radiobuttons-input
+                        heading-style="govuk-visually-hidden"
+                        name="@nameof(Model.SupportOrganisationType)"
+                        radio-buttons="@Model.SupportOrganisationTypeOptions"
+                        asp-for="@Model.SupportOrganisationType"
+                        error-message="@Model.SupportOrganisationTypeErrorMessage"
+                        data-cy="support-organisation-type-radio-buttons"/>
+                </div>
 
-            <button class="govuk-button" id="continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton" type="submit">
-                Save and continue
-            </button>
-        </form>
+                <button class="govuk-button" id="continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton" type="submit">
+                    Save and continue
+                </button>
+            </form>
+        }
     </div>
 </div>
 

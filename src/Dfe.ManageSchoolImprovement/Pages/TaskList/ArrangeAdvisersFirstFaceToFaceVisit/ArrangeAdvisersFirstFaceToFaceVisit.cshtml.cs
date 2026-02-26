@@ -6,12 +6,14 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ArrangeAdvisersFirstFaceToFaceVisit;
 
 public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "confirm-adviser-has-note-of-visit-template")]
+    [Display(Name = "Confirm adviser advise has note of visit template")]
     public bool? ConfirmAdviserHasNoteOfVisitTemplate { get; set; }
 
     [BindProperty(Name = "adviser-visit-date", BinderType = typeof(DateInputModelBinder))]
@@ -19,6 +21,9 @@ public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryServic
 
     public DateTime? AdviserVisitDate { get; set; }
 
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
+    
     public bool ShowError { get; set; }
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
@@ -32,9 +37,15 @@ public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryServic
 
         await base.GetSupportProject(id, cancellationToken);
 
-        AdviserVisitDate = SupportProject.AdviserVisitDate ?? null;
-        ConfirmAdviserHasNoteOfVisitTemplate = SupportProject.GiveTheAdviserTheNoteOfVisitTemplate ?? null;
-
+        if (SupportProject != null)
+        {
+            AdviserVisitDate = SupportProject.AdviserVisitDate ?? null;
+            ConfirmAdviserHasNoteOfVisitTemplate = SupportProject.GiveTheAdviserTheNoteOfVisitTemplate ?? null;
+            
+            TaskListStatus = TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+        }
+        
         return Page();
     }
 

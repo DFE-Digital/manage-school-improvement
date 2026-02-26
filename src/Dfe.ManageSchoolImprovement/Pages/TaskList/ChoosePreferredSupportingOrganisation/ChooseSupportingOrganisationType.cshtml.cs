@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -22,6 +23,17 @@ public class ChooseSupportOrganisationTypeModel(
     [BindProperty(Name = "complete-assessment-tool")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
     public bool? CompleteAssessmentTool { get; set; }
+    
+    [Display(Name = "Supporting organisation name")]
+    public string? SupportOrganisationName { get; set; }
+    
+    [Display(Name = "Supporting organisation ID number")]
+    public string? SupportOrganisationIdNumber { get; set; }
+    
+    [Display(Name = "Date supporting organisation chosen")]
+    public DateTime? DateSupportOrganisationChosen { get; set; }
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     [BindProperty(Name = "js-enabled")]
     public bool JavaScriptEnabled { get; set; }
@@ -48,8 +60,19 @@ public class ChooseSupportOrganisationTypeModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        CompleteAssessmentTool = SupportProject?.AssessmentToolTwoCompleted;
-        SupportOrganisationType = SupportProject?.SupportOrganisationType;
+        if (SupportProject != null)
+        {
+            CompleteAssessmentTool = SupportProject.AssessmentToolTwoCompleted;
+            SupportOrganisationType = SupportProject.SupportOrganisationType;
+            
+            TaskListStatus = TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+            SupportOrganisationName = SupportProject.SupportOrganisationName;
+            SupportOrganisationIdNumber = SupportProject.SupportOrganisationIdNumber;
+            DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
+        }
+
+
 
         await LoadSharePointLinksAsync(cancellationToken);
 

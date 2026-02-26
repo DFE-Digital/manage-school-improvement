@@ -19,7 +19,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [Display(Name = "Date adviser was allocated")]
     public DateTime? DateAdviserAllocated { get; set; }
-    public IEnumerable<User> RiseAdvisers { get; private set; }
+    public IEnumerable<User>? RiseAdvisers { get; private set; }
     public string? Referrer { get; set; }
 
     public TaskListStatus? TaskListStatus { get; set; }
@@ -44,16 +44,19 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        AdviserEmailAddress = SupportProject.AdviserEmailAddress;
+        if (SupportProject != null)
+        {
+            AdviserEmailAddress = SupportProject.AdviserEmailAddress;
 
-        DateAdviserAllocated = SupportProject.DateAdviserAllocated;
+            DateAdviserAllocated = SupportProject.DateAdviserAllocated;
 
-        RiseAdvisers = await userRepository.GetAllRiseAdvisers();
+            RiseAdvisers = await userRepository.GetAllRiseAdvisers();
         
-        TaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
-        ProjectStatus = SupportProject?.ProjectStatus;
-        AdviserFullName = SupportProject?.AdviserFullName;
-
+            TaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+            AdviserFullName = SupportProject.AdviserFullName;
+        }
+        
         Referrer = TempData["AssignmentReferrer"] == null ? @Links.TaskList.Index.Page : TempData["AssignmentReferrer"].ToString();
 
         return Page();

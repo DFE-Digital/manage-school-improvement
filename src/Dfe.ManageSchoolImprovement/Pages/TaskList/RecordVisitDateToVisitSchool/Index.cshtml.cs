@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToVisitSchool
 {
@@ -13,8 +14,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
     {
         [BindProperty(Name = "school-visit-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "School visit")]
+        [Display(Name = "School visit date")]
         public DateTime? SchoolVisitDate { get; set; }
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
 
         public bool ShowError { get; set; }
 
@@ -24,6 +28,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
         }
         
         string IDateValidationMessageProvider.AllMissing => "Enter a date";
+        
+        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        {
+            await base.GetSupportProject(id, cancellationToken);
+
+            if (SupportProject != null)
+            {
+                SchoolVisitDate = SupportProject.SchoolVisitDate;
+                
+                TaskListStatus = TaskStatusViewModel.RecordVisitDateToVisitSchoolTaskListStatus(SupportProject);
+                ProjectStatus = SupportProject.ProjectStatus;
+            }
+            
+            return Page();
+        }
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
@@ -46,13 +65,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
 
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
-        }
-
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
-        {
-            await base.GetSupportProject(id, cancellationToken);
-            SchoolVisitDate = SupportProject.SchoolVisitDate;
-            return Page();
         }
     }
 }

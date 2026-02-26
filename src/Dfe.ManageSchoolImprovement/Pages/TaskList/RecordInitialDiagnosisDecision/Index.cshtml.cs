@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -6,9 +7,8 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordMatchingDecision;
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordInitialDiagnosisDecision;
 
 public class IndexModel(
     ISupportProjectQueryService supportProjectQueryService,
@@ -19,22 +19,28 @@ public class IndexModel(
 {
     [BindProperty(Name = "decision-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "record matching decision")]
+    [Display(Name = "Date regional director made the decision")]
     public DateTime? RegionalDirectorDecisionDate { get; set; }
 
     [BindProperty(Name = "HasSchoolMatchedWithSupportingOrganisation")]
+    [Display(Name = "Record decision")]
     public string? HasSchoolMatchedWithSupportingOrganisation { get; set; }
 
     [BindProperty(Name = "NotMatchingNotes")]
+    [Display(Name = "Not matching notes")]
     public string? NotMatchingNotes { get; set; }
 
     [BindProperty(Name = "UnableToAssessNotes")]
+    [Display(Name = "Unable to assess notes")]
     public string? UnableToAssessNotes { get; set; }
 
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
+    
     public required IList<RadioButtonsLabelViewModel> RadioButtonModels { get; set; }
     public bool ShowError { get; set; }
     public string? ErrorMessage { get; set; }
-    public string AssessmenToolOneLink { get; set; } = string.Empty;
+    public string AssessmentToolOneLink { get; set; } = string.Empty;
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -47,23 +53,29 @@ public class IndexModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // Tuple deconstruction for multiple assignments
-        (HasSchoolMatchedWithSupportingOrganisation, RegionalDirectorDecisionDate, AssessmenToolOneLink) = (
-            SupportProject?.InitialDiagnosisMatchingDecision,
-            SupportProject?.RegionalDirectorDecisionDate,
-            await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty
-        );
-
-        // Conditional assignment using switch expression
-        // Fix for CS8131 and CS8506: Ensure the switch expression has a clear type and the deconstruction is valid.
-        var decisionNotes = HasSchoolMatchedWithSupportingOrganisation switch
+        if (SupportProject != null)
         {
-            "Review school's progress" => (SupportProject?.InitialDiagnosisMatchingDecisionNotes, null),
-            "Unable to assess" => ((string?)null, SupportProject?.InitialDiagnosisMatchingDecisionNotes),
-            _ => (null, null)
-        };
+            (HasSchoolMatchedWithSupportingOrganisation, RegionalDirectorDecisionDate, AssessmentToolOneLink) = (
+                SupportProject.InitialDiagnosisMatchingDecision,
+                SupportProject.RegionalDirectorDecisionDate,
+                await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty
+            );
+            
+            // Conditional assignment using switch expression
+            // Fix for CS8131 and CS8506: Ensure the switch expression has a clear type and the deconstruction is valid.
+            var decisionNotes = HasSchoolMatchedWithSupportingOrganisation switch
+            {
+                "Review school's progress" => (SupportProject.InitialDiagnosisMatchingDecisionNotes, null),
+                "Unable to assess" => ((string?)null, SupportProject.InitialDiagnosisMatchingDecisionNotes),
+                _ => (null, null)
+            };
+            
+            (NotMatchingNotes, UnableToAssessNotes) = decisionNotes;
+            
+            TaskListStatus = TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
 
-        (NotMatchingNotes, UnableToAssessNotes) = decisionNotes;
+        }
 
         RadioButtonModels = RadioButtons;
         return Page();
@@ -123,7 +135,7 @@ public class IndexModel(
     // Extracted method for cleaner error handling
     private async Task<IActionResult> HandleValidationErrorsAsync(int id, CancellationToken cancellationToken)
     {
-        AssessmenToolOneLink = await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolOneLink = await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
         RadioButtonModels = RadioButtons;
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         ShowError = true;
