@@ -4,11 +4,31 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
+  workflow_call:
+    inputs:
+      environment:
+        required: false
+        type: string
+        default: "docker"
+        description: "Environment type - 'docker' for containerized testing"
+    secrets:
+      USERNAME:
+        required: true
+      AZURE_WEB_ENDPOINT:
+        required: true
+      AZURE_API_ENDPOINT:
+        required: true
+      AZURE_API_KEY:
+        required: true
+      CYPRESS_TEST_SECRET:
+        required: true
+      SLACK_WEBHOOK_URL:
+        required: true
 
 jobs:
-  docker-compose:
+  docker-compose-tests:
+    name: Docker Compose Tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -31,14 +51,94 @@ jobs:
             sleep 2
           done
 
-      - name: Run tests inside app container
+      - name: Wait for migrations to complete
         run: |
-          docker exec msi echo "Running tests ..."
+          echo "Waiting for migrations to complete..."
+          docker wait msi_migrations || echo "Migrations completed"
+
+      - name: Wait for application to be ready
+        run: |
+          echo "Waiting for application to start..."
+          for i in {1..60}; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 2>/dev/null || echo "000")
+            echo "Attempt $i: HTTP Status = $HTTP_STATUS"
+            
+            if [[ $HTTP_STATUS =~ ^[23] ]] || [[ $HTTP_STATUS == "401" ]]; then
+              echo "Application is responding (Status: $HTTP_STATUS)"
+              break
+            fi
+            sleep 5
+          done
+
+      - name: Rise Cypress cache
+        uses: cypress-io/github-action@v6
+        with:
+          runTests: false
+          browser: edge
+          working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
+
+      - name: Verify containerized application availability
+        run: |
+          echo "Verifying application is ready for Cypress tests..."
+          curl -f http://localhost:8080 || exit 1
+
+      - name: Rise Cypress cache
+        uses: cypress-io/github-action@v6
+        with:
+          runTests: false
+          browser: ${{ matrix.browser }}
+          working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
+
+      - name: Run Cypress tests against containerized app
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_username: ${{ secrets.USERNAME }}
+          CYPRESS_grepTags: '-smoke'
+          CYPRESS_url: "http://localhost:8080"
+          CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
+          CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
+          CYPRESS_api: "Don't need this setting"
+          CYPRESS_msiApi: "http://localhost:8080/api"
+        with:
+          browser: ${{ matrix.browser }}
+          working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
+          wait-on: http://localhost:8080
+          spec: cypress/e2e/**/*.cy.ts
+
+      - name: Upload screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: screenshots-${{ inputs.environment || 'docker' }}-${{ matrix.browser }}
+          path: src/Dfe.ManageSchoolImprovement.CypressTests/cypress/screenshots
+
+      - name: Generate report
+        if: always()
+        run: |
+          mkdir mochareports
+          npm run generate:html:report
+        working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: reports-${{ inputs.environment || 'docker' }}-edge
+          path: src/Dfe.ManageSchoolImprovement.CypressTests/mochareports
+
+      - name: Report results to Teams (if webhook provided)
+        if: always()
+        run: |
+          node scripts/send-teams-notification.js
+        working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ENVIRONMENT: ${{ inputs.environment || 'docker' }}
+          INFORMATION_LINK: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
       - name: Dump logs on failure
         if: failure()
         run: docker compose logs
 
       - name: Shutdown containers
-        if: always()
         run: docker compose -f docker-compose.yml -f docker-compose.ci.yml down -v

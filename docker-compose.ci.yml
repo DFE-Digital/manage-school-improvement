@@ -1,7 +1,23 @@
 services:
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: initcontainer
+      secrets:
+        - github_token
+    container_name: msi_migrations
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sql_server,1433;Database=sip;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true;"
+    depends_on:
+      - sql
+    command: ["./migratedb", "--connection", "Server=sql_server,1433;Database=sip;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true;"]
+
   app:
     environment:
       ASPNETCORE_ENVIRONMENT: CI
+    depends_on:
+      - migrate  # App waits for migrations
     build:
       secrets:
         - github_token
