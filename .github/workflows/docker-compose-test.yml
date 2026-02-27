@@ -62,7 +62,8 @@ jobs:
       - name: Run database migrations
         run: |
           echo "Running EF migrations..."
-          docker exec msi dotnet-ef database update --connection "Server=sql_server,1433;Database=msi;User Id=sa;Password=sqlS3cret!;TrustServerCertificate=true;"
+          cd src/Dfe.ManageSchoolImprovement
+          dotnet ef database update --connection "Server=localhost,1433;Database=sip;User Id=sa;Password=sqlS3cret!;TrustServerCertificate=true;"
 
       - name: Wait for application to be ready
         run: |
