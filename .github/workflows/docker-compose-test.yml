@@ -51,6 +51,14 @@ jobs:
             sleep 2
           done
 
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+         dotnet-version: '8.0.x'
+
+      - name: Install EF Tools
+        run: dotnet tool install --global dotnet-ef
+
       - name: Run database migrations
         run: |
           echo "Running EF migrations..."
