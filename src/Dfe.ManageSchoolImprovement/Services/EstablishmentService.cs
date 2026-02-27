@@ -1,3 +1,4 @@
+using System.Web;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
@@ -15,13 +16,13 @@ public class EstablishmentService(IDfeHttpClientFactory httpClientFactory,
 
     public async Task<EstablishmentDto> GetEstablishmentByUrn(string urn)
     {
-        HttpResponseMessage response = await _httpClient.GetAsync($"/v4/establishment/urn/{urn}");
+        HttpResponseMessage response = await _httpClient.GetAsync($"/v4/establishment/urn/{HttpUtility.UrlEncode(urn)}");
         if (!response.IsSuccessStatusCode)
         {
             logger.LogWarning("Unable to get establishment data for establishment with URN: {Urn}", urn);
             return new EstablishmentDto();
         }
-
+    
         return await response.Content.ReadFromJsonAsync<EstablishmentDto>();
     }
     public async Task<MisEstablishmentResponse> GetEstablishmentOfstedDataByUrn(string urn)
