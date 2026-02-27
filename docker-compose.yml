@@ -8,6 +8,8 @@ services:
     container_name: msi
     environment:
       ConnectionStrings__DefaultConnection: ${ConnectionStrings__DefaultConnection}
+      AzureAd__ClientId: ${AzureAd__ClientId}
+      AzureAd__TenantId: ${AzureAd__TenantId}
     depends_on:
       - sql
     ports:
