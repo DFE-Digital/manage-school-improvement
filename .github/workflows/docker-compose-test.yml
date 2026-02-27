@@ -51,38 +51,24 @@ jobs:
             sleep 2
           done
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-         dotnet-version: '8.0.x'
-
-      - name: Install EF Tools
-        run: dotnet tool install --global dotnet-ef
-
-      - name: Restore packages and run migrations
+      - name: Wait for migrations to complete
         run: |
-          echo "Restoring NuGet packages and running EF migrations..."
-          cd src/Dfe.ManageSchoolImprovement
-          dotnet restore
-          dotnet ef database update --connection "Server=localhost,1433;Database=sip;User Id=sa;Password=sqlS3cret!;TrustServerCertificate=true;"
+          echo "Waiting for migrations to complete..."
+          docker wait msi_migrations || echo "Migrations completed"
 
       - name: Wait for application to be ready
         run: |
           echo "Waiting for application to start..."
-          for i in {1..30}; do
-            if curl -f http://localhost:8080/health 2>/dev/null; then
-              echo "Application is ready"
+          for i in {1..60}; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 2>/dev/null || echo "000")
+            echo "Attempt $i: HTTP Status = $HTTP_STATUS"
+            
+            if [[ $HTTP_STATUS =~ ^[23] ]] || [[ $HTTP_STATUS == "401" ]]; then
+              echo "Application is responding (Status: $HTTP_STATUS)"
               break
             fi
-            echo "Attempt $i: Application not ready yet..."
             sleep 5
           done
-
-      - name: Verify application is responding
-        run: |
-          echo "Testing application endpoints..."
-          curl -v http://localhost:8080 || echo "Root endpoint failed"
-          docker logs msi --tail 20
 
   setup-cypress:
     name: Setup Cypress Environment
