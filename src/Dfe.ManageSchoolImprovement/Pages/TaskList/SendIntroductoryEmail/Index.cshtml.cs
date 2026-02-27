@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEmail
 {
@@ -13,12 +14,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
     {
         [BindProperty(Name = "introductory-email-sent-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "introductory email sent")]
+        [Display(Name = "Date introductory email sent")]
         public DateTime? IntroductoryEmailSentDate { get; set; }
 
         [BindProperty(Name = "remind-adviser-to-copy-in-rise-team-on-email-sent")]
+        [Display(Name = "Remind adviser to copy in RISE team")]
         public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; set; }
 
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
+        
         public bool ShowError { get; set; }
 
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
@@ -27,6 +32,22 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
         }
         
         string IDateValidationMessageProvider.AllMissing => "Enter a date";
+        
+        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        {
+            await base.GetSupportProject(id, cancellationToken);
+
+            if (SupportProject != null)
+            {
+                RemindAdviserToCopyRiseTeamWhenSentEmail = SupportProject.RemindAdviserToCopyRiseTeamWhenSentEmail;
+                IntroductoryEmailSentDate = SupportProject.IntroductoryEmailSentDate;
+            
+                TaskListStatus = TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(SupportProject);
+                ProjectStatus = SupportProject.ProjectStatus; 
+            }
+            
+            return Page();
+        }
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
@@ -49,14 +70,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
 
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
-        }
-
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
-        {
-            await base.GetSupportProject(id, cancellationToken);
-            RemindAdviserToCopyRiseTeamWhenSentEmail = SupportProject.RemindAdviserToCopyRiseTeamWhenSentEmail;
-            IntroductoryEmailSentDate = SupportProject.IntroductoryEmailSentDate;
-            return Page();
         }
     }
 }

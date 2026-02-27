@@ -5,21 +5,28 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetAdviserDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AllocateAdviser;
 
 public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryService, IUserRepository userRepository, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
+    [Display(Name = "Adviser email address")]
     public string? AdviserEmailAddress { get; set; }
 
     [BindProperty(Name = "date-adviser-allocated", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date adviser was allocated")]
+    [Display(Name = "Date adviser was allocated")]
     public DateTime? DateAdviserAllocated { get; set; }
-    public IEnumerable<User> RiseAdvisers { get; private set; }
+    public IEnumerable<User>? RiseAdvisers { get; private set; }
     public string? Referrer { get; set; }
 
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
+    
+    [Display(Name = "Adviser name")]
+    public string? AdviserFullName { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -37,12 +44,19 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        AdviserEmailAddress = SupportProject.AdviserEmailAddress;
+        if (SupportProject != null)
+        {
+            AdviserEmailAddress = SupportProject.AdviserEmailAddress;
 
-        DateAdviserAllocated = SupportProject.DateAdviserAllocated;
+            DateAdviserAllocated = SupportProject.DateAdviserAllocated;
 
-        RiseAdvisers = await userRepository.GetAllRiseAdvisers();
-
+            RiseAdvisers = await userRepository.GetAllRiseAdvisers();
+        
+            TaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+            AdviserFullName = SupportProject.AdviserFullName;
+        }
+        
         Referrer = TempData["AssignmentReferrer"] == null ? @Links.TaskList.Index.Page : TempData["AssignmentReferrer"].ToString();
 
         return Page();

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -6,8 +7,6 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc; 
-using System.ComponentModel.DataAnnotations;
-using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
 {
@@ -15,10 +14,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
     {
 
         [BindProperty(Name = "SchoolIsEligible")]
+        [Display(Name = "School is eligible")]
         public bool? SchoolIsEligible { get; set; }
-
+        
         [BindProperty(Name = "SchoolIsNotEligibleNotes")]
+        [Display(Name = "School is not eligible (notes)")]
         public string? SchoolIsNotEligibleNotes { get; set; }
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
         
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
@@ -30,17 +34,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            if (SupportProject.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
+            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
             {
                 SchoolIsEligible = true;
             }
             
-            if (SupportProject.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
+            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
             {
                 SchoolIsEligible = false;
             }
 
-            SchoolIsNotEligibleNotes = SupportProject.SchoolIsNotEligibleNotes;
+            SchoolIsNotEligibleNotes = SupportProject?.SchoolIsNotEligibleNotes;
+            
+            TaskListStatus = TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject?.ProjectStatus;
+            
             RadioButtons = EligibilityRadioButtons;
             return Page();
         }

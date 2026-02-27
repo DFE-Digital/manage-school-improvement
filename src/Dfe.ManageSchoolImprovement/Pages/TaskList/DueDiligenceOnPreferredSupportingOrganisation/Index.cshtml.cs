@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetDueDiligenceOnPreferredSupportingOrganisationDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.DueDiligenceOnPreferredSupportingOrganisation;
@@ -13,26 +14,33 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "check-organisation-has-capacity-and-willing-to-provide-support")]
+    [Display(Name = "Check organisation has capacity and willing to-provide support")]
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
     [BindProperty(Name = "speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice")]
+    [Display(Name = "Speak to trust relationship manager or local authority lead")]
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }
 
     [BindProperty(Name = "contact-sfso-for-financial-check")]
+    [Display(Name = "Contact SFSO for financial check")]
     public bool? ContactSfsoForFinancialCheck { get; set; }
 
     [BindProperty(Name = "check-the-organisation-has-a-vendor-account")]
+    [Display(Name = "Check the organisation has a vendor account")]
     public bool? CheckTheOrganisationHasAVendorAccount { get; set; }
 
     [BindProperty(Name = "due-diligence-completed-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date due diligence completed")]
+    [Display(Name = "Date due diligence completed")]
     public DateTime? DateDueDiligenceCompleted { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
 
     public string CheckSupportingOrgVendorAccountLink { get; set; } = string.Empty;
-    public string SFSOCommissioningFormLink { get; set; } = string.Empty;
+    public string SfsoCommissioningFormLink { get; set; } = string.Empty;
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
@@ -45,14 +53,21 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        CheckOrganisationHasCapacityAndWillingToProvideSupport = SupportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport;
-        CheckChoiceWithTrustRelationshipManagerOrLaLead = SupportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead;
-        ContactSfsoForFinancialCheck = SupportProject.DiscussChoiceWithSfso;
-        CheckTheOrganisationHasAVendorAccount = SupportProject.CheckTheOrganisationHasAVendorAccount;
-        DateDueDiligenceCompleted = SupportProject.DateDueDiligenceCompleted;
+        if (SupportProject != null)
+        {
+            CheckOrganisationHasCapacityAndWillingToProvideSupport = SupportProject.CheckOrganisationHasCapacityAndWillingToProvideSupport;
+            CheckChoiceWithTrustRelationshipManagerOrLaLead = SupportProject.CheckChoiceWithTrustRelationshipManagerOrLaLead;
+            ContactSfsoForFinancialCheck = SupportProject.DiscussChoiceWithSfso;
+            CheckTheOrganisationHasAVendorAccount = SupportProject.CheckTheOrganisationHasAVendorAccount;
+            DateDueDiligenceCompleted = SupportProject.DateDueDiligenceCompleted;
+            
+            TaskListStatus = TaskStatusViewModel.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+        }
 
+        
         CheckSupportingOrgVendorAccountLink = await sharePointResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
-        SFSOCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
+        SfsoCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
 
         return Page();
     }
@@ -60,7 +75,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
         CheckSupportingOrgVendorAccountLink = await sharePointResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
-        SFSOCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
+        SfsoCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
 
         if (!ModelState.IsValid)
         {

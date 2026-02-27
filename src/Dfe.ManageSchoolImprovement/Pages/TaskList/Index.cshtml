@@ -1,5 +1,6 @@
 @page "/task-list/{id:int}"
 
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.IndexModel
 @{
     Model.SetErrorPage(Links.SchoolList.Index.Page);
@@ -57,7 +58,7 @@
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears ?? false)
+                        @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears == true && Model.SupportProject.ProjectStatus == ProjectStatusValue.InProgress)
                         {
                             <a class="govuk-link govuk-task-list__link"
                                asp-page="@Links.TaskList.FundingHistoryDetails.Page"
@@ -234,11 +235,13 @@
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         @if (!string.IsNullOrEmpty(Model.SupportProject.SupportOrganisationName)
                              && !string.IsNullOrEmpty(Model.SupportProject.SupportOrganisationIdNumber)
-                             && Model.SupportProject.DateSupportOrganisationChosen.HasValue)
+                             && Model.SupportProject.DateSupportOrganisationChosen.HasValue
+                             && Model.SupportProject.ProjectStatus == ProjectStatusValue.InProgress)
                         {
                             <a class="govuk-link govuk-task-list__link"
                                asp-page="@Links.TaskList.ChooseSupportingOrganisationSummary.Page"
-                               asp-route-id="@Model.SupportProject.Id" data-cy="choose-preferred-supporting-organisation"
+                               asp-route-id="@Model.SupportProject.Id"
+                               data-cy="choose-preferred-supporting-organisation"
                                aria-describedby="choose-preferred-supporting-organisation-status">
                                 Choose preferred supporting organisation
                             </a>
@@ -247,7 +250,8 @@
                         {
                             <a class="govuk-link govuk-task-list__link"
                                asp-page="@Links.TaskList.ChoosePreferredSupportingOrganisationType.Page"
-                               asp-route-id="@Model.SupportProject.Id" data-cy="choose-preferred-supporting-organisation"
+                               asp-route-id="@Model.SupportProject.Id"
+                               data-cy="choose-preferred-supporting-organisation"
                                aria-describedby="choose-preferred-supporting-organisation-status">
                                 Choose preferred supporting organisation
                             </a>

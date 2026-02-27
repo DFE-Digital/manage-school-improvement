@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +14,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
     {
         [BindProperty(Name = nameof(ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate), BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+        [Display(Name = "Date the response was received")]
         public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; set; }
 
-        [BindProperty()]
+        [BindProperty(Name = nameof(ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint))]
+        [Display(Name = "Response saved in SharePoint")]
         public bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint { get; set; }
 
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
+        
         public bool ShowError { get; set; }
 
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
@@ -31,6 +38,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
             await base.GetSupportProject(id, cancellationToken);
             ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint;
             ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate;
+            
+            TaskListStatus = TaskStatusViewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestStatus(SupportProject);
+            ProjectStatus = SupportProject?.ProjectStatus;
+            
             return Page();
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)

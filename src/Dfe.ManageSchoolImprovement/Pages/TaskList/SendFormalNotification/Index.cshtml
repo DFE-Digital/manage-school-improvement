@@ -1,10 +1,16 @@
 @page "/task-list/send-formal-notification/{id:int}"
 
-@inject IConfiguration Configuration
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendFormalNotification.SendFormalNotificationModel
 
 @{
     ViewData["Title"] = "Send the formal notification";
+    var summaryItems = SummaryListHelper.For<SendFormalNotificationModel>(
+m => m.UseEnrolmentLetterTemplateToDraftEmail!, 
+m => m.AttachTargetedInterventionInformationSheet!, 
+m => m.AddRecipients!, 
+m => m.SendEmail!, 
+m => m.DateOfFormalContact!
+);
 }
 
 @section BeforeMain
@@ -13,6 +19,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary" />
 }
 
 @if (Model.ShowError)
@@ -32,105 +43,111 @@
         <p class="govuk-body">DfE must send the formal notification by email to the responsible body and other
             stakeholders.</p>
         <p class="govuk-body">This must be sent by email from the regional RISE team's mailbox.</p>
-
-        <form method="post" novalidate>
-            <div class="govuk-form-group">
-                <div class="govuk-checkboxes">
-                    <div class="govuk-checkboxes__item">
-                        <input name="use-enrolment-letter-template-to-draft-email-hidden" type="hidden" value="false"/>
-                        <input class="govuk-checkboxes__input"
-                               id="use-enrolment-letter-template-to-draft-email"
-                               name="use-enrolment-letter-template-to-draft-email"
-                               type="checkbox"
-                               value="true"
-                               checked="@Model.UseEnrolmentLetterTemplateToDraftEmail">
-                        <label class="govuk-label govuk-checkboxes__label"
-                               for="use-enrolment-letter-template-to-draft-email">
-                            Use the enrolment letter template to draft the email
-                        </label>
-                        <div id="use-enrolment-letter-template-to-draft-email-hint"
-                             class="govuk-hint govuk-checkboxes__hint">
-                            <a class="govuk-link"
-                               href="@Model.EnrolmentLetterTemplate"
-                               rel="noreferrer noopener"
-                               target="_blank">Download the enrolment letter template from SharePoint (opens in new
-                                tab)</a>
-                            and edit it as required. The template includes the conflict of interest form.
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems" />
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input name="use-enrolment-letter-template-to-draft-email-hidden" type="hidden" value="false"/>
+                            <input class="govuk-checkboxes__input"
+                                   id="use-enrolment-letter-template-to-draft-email"
+                                   name="use-enrolment-letter-template-to-draft-email"
+                                   type="checkbox"
+                                   value="true"
+                                   checked="@Model.UseEnrolmentLetterTemplateToDraftEmail">
+                            <label class="govuk-label govuk-checkboxes__label"
+                                   for="use-enrolment-letter-template-to-draft-email">
+                                Use the enrolment letter template to draft the email
+                            </label>
+                            <div id="use-enrolment-letter-template-to-draft-email-hint"
+                                 class="govuk-hint govuk-checkboxes__hint">
+                                <a class="govuk-link"
+                                   href="@Model.EnrolmentLetterTemplate"
+                                   rel="noreferrer noopener"
+                                   target="_blank">Download the enrolment letter template from SharePoint (opens in new
+                                    tab)</a>
+                                and edit it as required. The template includes the conflict of interest form.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="govuk-checkboxes__item">
-                    <input name="attach-targeted-intervention-information-sheet-hidden" type="hidden" value="false"/>
-                    <input class="govuk-checkboxes__input"
-                           id="attach-targeted-intervention-information-sheet"
-                           name="attach-targeted-intervention-information-sheet"
-                           type="checkbox"
-                           value="true"
-                           checked="@Model.AttachTargetedInterventionInformationSheet">
-                    <label class="govuk-label govuk-checkboxes__label"
-                           for="attach-targeted-intervention-information-sheet">
-                        Attach the targeted intervention information sheet
-                    </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                    <input name="add-recipients-hidden" type="hidden" value="false"/>
-                    <input class="govuk-checkboxes__input"
-                           id="add-recipients"
-                           name="add-recipients"
-                           type="checkbox"
-                           value="true"
-                           checked="@Model.AddRecipients">
-                    <label class="govuk-label govuk-checkboxes__label" for="add-recipients">
-                        Add recipients
-                    </label>
-                    <div id="add-recipients-hint" class="govuk-hint govuk-checkboxes__hint">
-                        The enrolment letter must be sent to particular people at the responsible body depending on the
-                        type of school
-                        <details class="govuk-details govuk-!-margin-top-3 margin-bottom-minus-10">
-                            <summary class="govuk-details__summary">
-                                <span class="govuk-details__summary-text">
-                                    Who to sent the enrolment letter to
-                                </span>
-                            </summary>
-                            <div class="govuk-details__text">
-                                <h2 class="govuk-heading-m">Academies</h2>
-                                <p>Send the letter, by email, to the chair of the trust and the trust CEO.</p>
-                                <h2 class="govuk-heading-m">Local authority maintained schools</h2>
-                                <p>Send the letter, by email, to the chair of governors, and the director of children's
-                                    services at the local authority. You must also copy in the school's headteacher.</p>
-                                <h2 class="govuk-heading-m">Faith schools</h2>
-                                <p>Copy in the diocese or other relevant religious authority if it is a faith
-                                    school.</p>
-                                <h2 class="govuk-heading-m">Foundation schools</h2>
-                                <p>Copy in the foundation trust if it is a foundation school.</p>
-                                <h2 class="govuk-heading-m">DfE</h2>
-                                <p>You must copy in the regional director or their support team, along with the trust
-                                    relationship manager or local authority lead.</p>
-                            </div>
-                        </details>
+                    <div class="govuk-checkboxes__item">
+                        <input name="attach-targeted-intervention-information-sheet-hidden" type="hidden" value="false"/>
+                        <input class="govuk-checkboxes__input"
+                               id="attach-targeted-intervention-information-sheet"
+                               name="attach-targeted-intervention-information-sheet"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.AttachTargetedInterventionInformationSheet">
+                        <label class="govuk-label govuk-checkboxes__label"
+                               for="attach-targeted-intervention-information-sheet">
+                            Attach the targeted intervention information sheet
+                        </label>
+                    </div>
+                    <div class="govuk-checkboxes__item">
+                        <input name="add-recipients-hidden" type="hidden" value="false"/>
+                        <input class="govuk-checkboxes__input"
+                               id="add-recipients"
+                               name="add-recipients"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.AddRecipients">
+                        <label class="govuk-label govuk-checkboxes__label" for="add-recipients">
+                            Add recipients
+                        </label>
+                        <div id="add-recipients-hint" class="govuk-hint govuk-checkboxes__hint">
+                            The enrolment letter must be sent to particular people at the responsible body depending on the
+                            type of school
+                            <details class="govuk-details govuk-!-margin-top-3 margin-bottom-minus-10">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text">
+                                        Who to sent the enrolment letter to
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <h2 class="govuk-heading-m">Academies</h2>
+                                    <p>Send the letter, by email, to the chair of the trust and the trust CEO.</p>
+                                    <h2 class="govuk-heading-m">Local authority maintained schools</h2>
+                                    <p>Send the letter, by email, to the chair of governors, and the director of children's
+                                        services at the local authority. You must also copy in the school's headteacher.</p>
+                                    <h2 class="govuk-heading-m">Faith schools</h2>
+                                    <p>Copy in the diocese or other relevant religious authority if it is a faith
+                                        school.</p>
+                                    <h2 class="govuk-heading-m">Foundation schools</h2>
+                                    <p>Copy in the foundation trust if it is a foundation school.</p>
+                                    <h2 class="govuk-heading-m">DfE</h2>
+                                    <p>You must copy in the regional director or their support team, along with the trust
+                                        relationship manager or local authority lead.</p>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                    <div class="govuk-checkboxes__item">
+                        <input name="send-email-hidden" type="hidden" value="false"/>
+                        <input class="govuk-checkboxes__input"
+                               id="send-email"
+                               name="send-email"
+                               type="checkbox"
+                               value="true"
+                               checked="@Model.SendEmail">
+                        <label class="govuk-label govuk-checkboxes__label"
+                               for="attach-targeted-intervention-information-sheet">
+                            Send email
+                        </label>
                     </div>
                 </div>
-                <div class="govuk-checkboxes__item">
-                    <input name="send-email-hidden" type="hidden" value="false"/>
-                    <input class="govuk-checkboxes__input"
-                           id="send-email"
-                           name="send-email"
-                           type="checkbox"
-                           value="true"
-                           checked="@Model.SendEmail">
-                    <label class="govuk-label govuk-checkboxes__label"
-                           for="attach-targeted-intervention-information-sheet">
-                        Send email
-                    </label>
-                </div>
-            </div>
-            <govuk-date-input heading-label="false" label="Enter the date of formal contact"
-                              id="date-of-formal-contact" name="date-of-formal-contact"
-                              asp-for="@Model.DateOfFormalContact" hint="For example, 1 7 2024."/>
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+                <govuk-date-input heading-label="false" label="Enter the date of formal contact"
+                                  id="date-of-formal-contact" name="date-of-formal-contact"
+                                  asp-for="@Model.DateOfFormalContact" hint="For example, 1 7 2024."/>
+                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>

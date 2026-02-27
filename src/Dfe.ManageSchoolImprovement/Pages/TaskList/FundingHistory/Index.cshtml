@@ -1,16 +1,25 @@
 @page "/task-list/funding-history/{id:int}"
-@inject IConfiguration Configuration
+
 @model IndexModel
 @{
-    ViewData["Title"] = "Has the school received any funnding in the last 2 financial years?";
+    ViewData["Title"] = "Has the school received any funding in the last 2 financial years?";
+    
+    var summaryItems = SummaryListHelper.For<IndexModel>(
+        m => m.HasSchoolReceivedFundingInLastTwoYears!
+    );
 }
 
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary" />
 }
 
 @if (Model.ShowError)
@@ -20,23 +29,76 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Has the school received any funding in the last 2 financial years?
         </h1>
         <p class="govuk-body">Use the <a href="@Model.PreviousFundingChecksSpreadsheetLink"
                                          class="govuk-link" rel="noreferrer noopener" target="_blank">previous funding
                 checks spreadsheet (opens in new tab)</a> to find out what funding a school has received.</p>
-        <form method="post" novalidate>
-            <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
-                                      name="@nameof(Model.HasSchoolReceivedFundingInLastTwoYears)"
-                                      radio-buttons="@Model.RadioButtons"
-                                      asp-for="@Model.HasSchoolReceivedFundingInLastTwoYears"
-                                      error-message="@Model.HasSchoolReceivedFundingInLastTwoYearsErrorMessage"/>
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and continue
-            </button>
-        </form>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems" />
+            
+            @if (Model.SupportProject.FundingHistories.Any())
+            {
+                @foreach (var fundingHistory in Model.SupportProject?.FundingHistories)
+                {
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                <h2 class="govuk-heading-m">@fundingHistory.FundingType</h2>
+                            </dt>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Funding Amount
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @($"{fundingHistory.FundingAmount.ToString("C", new System.Globalization.CultureInfo("en-GB"))}")
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Financial Year
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @fundingHistory.FinancialYear
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Funding rounds
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @fundingHistory.FundingRounds
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Comments
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @fundingHistory.Comments
+                            </dd>
+                        </div>
+                    </dl>
+                }
+            }
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
+                                          name="@nameof(Model.HasSchoolReceivedFundingInLastTwoYears)"
+                                          radio-buttons="@Model.RadioButtons"
+                                          asp-for="@Model.HasSchoolReceivedFundingInLastTwoYears"
+                                          error-message="@Model.HasSchoolReceivedFundingInLastTwoYearsErrorMessage"/>
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and continue
+                </button>
+            </form>
+        }
     </div>
 </div>

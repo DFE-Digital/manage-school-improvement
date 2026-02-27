@@ -14,14 +14,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
     {
         [BindProperty(Name = "appointment-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "record supporting organisation appointment")]
+        [Display(Name = "Date the regional director made the appointment")]
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
 
         [BindProperty(Name = "HasConfirmedSupportingOrganisationAppointment")]
+        [Display(Name = "Has regional director approved appointment")]
         public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
 
         [BindProperty(Name = "DisapprovingSupportingOrganisationAppointmentNotes")]
+        [Display(Name = "Approval not given notes")]
         public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
 
         public required IList<RadioButtonsLabelViewModel> RadioButtoons { get; set; }
 
@@ -37,9 +42,17 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasConfirmedSupportingOrganisationAppointment = SupportProject.HasConfirmedSupportingOrganisationAppointment;
-            RegionalDirectorAppointmentDate = SupportProject.RegionalDirectorAppointmentDate;
-            DisapprovingSupportingOrganisationAppointmentNotes = SupportProject.DisapprovingSupportingOrganisationAppointmentNotes;
+
+            if (SupportProject != null)
+            {
+                HasConfirmedSupportingOrganisationAppointment = SupportProject.HasConfirmedSupportingOrganisationAppointment;
+                RegionalDirectorAppointmentDate = SupportProject.RegionalDirectorAppointmentDate;
+                DisapprovingSupportingOrganisationAppointmentNotes = SupportProject.DisapprovingSupportingOrganisationAppointmentNotes;
+                
+                TaskListStatus = TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProject);
+                ProjectStatus = SupportProject.ProjectStatus;
+            }
+            
             RadioButtoons = RadioButtons;
             return Page();
         }
