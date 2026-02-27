@@ -26,8 +26,8 @@ on:
         required: true
 
 jobs:
-  setup-infrastructure:
-    name: Setup Docker Infrastructure
+  docker-compose-tests:
+    name: Docker Compose Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -70,14 +70,6 @@ jobs:
             sleep 5
           done
 
-  setup-cypress:
-    name: Setup Cypress Environment
-    runs-on: ubuntu-latest
-    needs: setup-infrastructure
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: Rise Cypress cache
         uses: cypress-io/github-action@v6
         with:
@@ -89,19 +81,6 @@ jobs:
         run: |
           echo "Verifying application is ready for Cypress tests..."
           curl -f http://localhost:8080 || exit 1
-
-  cypress-tests:
-    name: Run Cypress Tests
-    runs-on: ubuntu-latest
-    needs: setup-cypress
-    strategy:
-      matrix:
-        browser: [
-          "edge"
-        ]
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
       - name: Rise Cypress cache
         uses: cypress-io/github-action@v6
@@ -133,15 +112,6 @@ jobs:
           name: screenshots-${{ inputs.environment || 'docker' }}-${{ matrix.browser }}
           path: src/Dfe.ManageSchoolImprovement.CypressTests/cypress/screenshots
 
-  generate-reports:
-    name: Generate Test Reports
-    runs-on: ubuntu-latest
-    needs: cypress-tests
-    if: always()
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: Generate report
         if: always()
         run: |
@@ -162,18 +132,9 @@ jobs:
           node scripts/send-teams-notification.js
         working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
         env:
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          TEAMS_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           ENVIRONMENT: ${{ inputs.environment || 'docker' }}
           INFORMATION_LINK: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
-  cleanup:
-    name: Cleanup Infrastructure
-    runs-on: ubuntu-latest
-    needs: [setup-infrastructure, generate-reports]
-    if: always()
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
       - name: Dump logs on failure
         if: failure()
