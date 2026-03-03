@@ -19,15 +19,15 @@ public class IndexModel(
 {
     [BindProperty(Name = "saved-assessemnt-template-in-sharepoint-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Date assessment template saved")]
+    [Display(Name = "Enter date assessment template saved in SharePoint")]
     public DateTime? SavedAssessmentTemplateInSharePointDate { get; set; }
 
     [BindProperty(Name = "has-talk-to-adviser")]
-    [Display(Name = "Has talked to adviser about findings")]
+    [Display(Name = "Talk to the adviser about their findings from the visit and discussions with the school")]
     public bool? HasTalkToAdviserAboutFindings { get; set; }
 
     [BindProperty(Name = "complete-assessment-template")]
-    [Display(Name = "Complete Assessment Tool 1")]
+    [Display(Name = "Complete Assessment Tool 1: Initial Diagnosis and save a copy of the completed version")]
     public bool? HasCompleteAssessmentTemplate { get; set; }
 
     public TaskListStatus? TaskListStatus { get; set; }

@@ -1,15 +1,35 @@
 @page "/task-list/record-initial-diagnosis-decision/{id:int}"
+@using System.Linq.Expressions
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordInitialDiagnosisDecision.IndexModel
 
 @{
     ViewData["Title"] = "Record initial diagnosis decision";
 
-    var summaryItems = SummaryListHelper.For<IndexModel>(
-        m => m.HasSchoolMatchedWithSupportingOrganisation!,
-        m => m.RegionalDirectorDecisionDate!,
-        m => m.NotMatchingNotes!,
-        m => m.UnableToAssessNotes!
-    );
+    List<LambdaExpression> summaryItems;
+
+    if (!string.IsNullOrWhiteSpace(Model.NotMatchingNotes))
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.HasSchoolMatchedWithSupportingOrganisation!,
+            m => m.RegionalDirectorDecisionDate!,
+            m => m.NotMatchingNotes!
+        );
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.UnableToAssessNotes))
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.HasSchoolMatchedWithSupportingOrganisation!,
+            m => m.RegionalDirectorDecisionDate!,
+            m => m.UnableToAssessNotes!        
+        );
+    }
+    else
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.HasSchoolMatchedWithSupportingOrganisation!,
+            m => m.RegionalDirectorDecisionDate!
+        );
+    }
 }
 
 @section BeforeMain

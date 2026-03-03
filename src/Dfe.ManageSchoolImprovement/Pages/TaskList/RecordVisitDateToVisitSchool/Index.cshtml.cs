@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
     {
         [BindProperty(Name = "school-visit-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "School visit date")]
+        [Display(Name = "Enter the date of visit")]
         public DateTime? SchoolVisitDate { get; set; }
         
         public TaskListStatus? TaskListStatus { get; set; }

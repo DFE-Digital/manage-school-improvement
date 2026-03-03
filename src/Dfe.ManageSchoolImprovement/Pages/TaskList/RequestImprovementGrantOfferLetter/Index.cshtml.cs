@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovementGrantOfferLetter
 {
@@ -13,20 +14,27 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
     {
         [BindProperty(Name = "grant-team-contacted-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "grant team contacted date")]
+        [Display(Name = "Enter date grant team contacted")]
         public DateTime? GrantTeamContactedDate { get; set; }
 
         [BindProperty(Name = "include-contact-details")]
+        [Display(Name = "Include the required contact details in the email")]
         public bool? IncludeContactDetails { get; set; }
 
         [BindProperty(Name = "attach-school-improvement-plan")]
+        [Display(Name = "Attach the school improvement plan Excel template including the expenditure plan")]
         public bool? AttachSchoolImprovementPlan { get; set; }
 
         [BindProperty(Name = "copy-in-regional-director")]
+        [Display(Name = "Copy the regional director in to the email")]
         public bool? CopyInRegionalDirector { get; set; }
 
         [BindProperty(Name = "send-email-to-grant-team")]
+        [Display(Name = "Send email to the RISE grant team")]
         public bool? SendEmailToGrantTeam { get; set; }
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
 
         public string? EmailAddress { get; set; }
 
@@ -38,6 +46,27 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
         }
         
         string IDateValidationMessageProvider.AllMissing => "Enter a date";
+        
+        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        {
+            await base.GetSupportProject(id, cancellationToken);
+
+            if (SupportProject != null)
+            {
+                GrantTeamContactedDate = SupportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter;
+                IncludeContactDetails = SupportProject.IncludeContactDetails;
+                AttachSchoolImprovementPlan = SupportProject.AttachSchoolImprovementPlan;
+                CopyInRegionalDirector = SupportProject.CopyInRegionalDirector;
+                SendEmailToGrantTeam = SupportProject.SendEmailToGrantTeam;
+                
+                TaskListStatus = TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(SupportProject);
+                ProjectStatus = SupportProject.ProjectStatus;
+            }
+
+
+            EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
+            return Page();
+        }
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
@@ -60,19 +89,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
 
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
-        }
-
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
-        {
-            await base.GetSupportProject(id, cancellationToken);
-            GrantTeamContactedDate = SupportProject.DateTeamContactedForRequestingImprovementGrantOfferLetter;
-            IncludeContactDetails = SupportProject.IncludeContactDetails;
-            AttachSchoolImprovementPlan = SupportProject.AttachSchoolImprovementPlan;
-            CopyInRegionalDirector = SupportProject.CopyInRegionalDirector;
-            SendEmailToGrantTeam = SupportProject.SendEmailToGrantTeam;
-
-            EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
-            return Page();
         }
     }
 }

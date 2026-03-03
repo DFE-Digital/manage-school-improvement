@@ -18,12 +18,12 @@ public class AdviserConflictOfInterest(
     IDateValidationMessageProvider
 {
     [BindProperty(Name = "review-advisers-conflict-of-interest-form")]
-    [Display(Name = "Review the advisers conflict of interest form")]
+    [Display(Name = "Review the advisers conflict of interest declaration")]
     public bool? ReviewAdvisersConflictOfInterestForm { get; set; }
 
     [BindProperty(Name = "date-conflict-of-interest-declaration-checked", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Date conflict of interest declaration checked")]
+    [Display(Name = "Enter date when adviser's conflict of interest declaration was checked")]
     public DateTime? DateConflictOfInterestDeclarationChecked { get; set; }
     
     public TaskListStatus? TaskListStatus { get; set; }

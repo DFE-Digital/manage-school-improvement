@@ -14,11 +14,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
     {
 
         [BindProperty(Name = "SchoolIsEligible")]
-        [Display(Name = "School is eligible")]
+        [Display(Name = "Is this school still eligible for targeted intervention?")]
         public bool? SchoolIsEligible { get; set; }
         
         [BindProperty(Name = "SchoolIsNotEligibleNotes")]
-        [Display(Name = "School is not eligible (notes)")]
+        [Display(Name = "If it is no longer eligible, give details")]
         public string? SchoolIsNotEligibleNotes { get; set; }
         
         public TaskListStatus? TaskListStatus { get; set; }

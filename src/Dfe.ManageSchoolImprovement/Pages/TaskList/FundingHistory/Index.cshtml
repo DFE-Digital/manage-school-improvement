@@ -42,7 +42,7 @@
             
             @if (Model.SupportProject.FundingHistories.Any())
             {
-                @foreach (var fundingHistory in Model.SupportProject?.FundingHistories)
+                @foreach (var fundingHistory in Model.SupportProject.FundingHistories)
                 {
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row">
@@ -76,7 +76,7 @@
                         </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
-                                Comments
+                                Any additional comments
                             </dt>
                             <dd class="govuk-summary-list__value">
                                 @fundingHistory.Comments

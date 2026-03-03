@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetConfirmImprovementGrantOfferLetterDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmImprovementGrantOfferLetterSent;
@@ -13,8 +14,11 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 {
     [BindProperty(Name = "date-improvement-grant-offer-letter-sent", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date improvement grant offer letter sent")]
+    [Display(Name = "Enter date improvement grant offer letter sent")]
     public DateTime? DateImprovementGrantOfferLetterSent { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -29,7 +33,13 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        DateImprovementGrantOfferLetterSent = SupportProject.DateImprovementGrantOfferLetterSent;
+        if (SupportProject != null)
+        {
+            DateImprovementGrantOfferLetterSent = SupportProject.DateImprovementGrantOfferLetterSent;
+
+            TaskListStatus = TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+        }
 
         return Page();
     }

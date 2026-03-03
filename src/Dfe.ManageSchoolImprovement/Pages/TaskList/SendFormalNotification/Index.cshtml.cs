@@ -22,7 +22,7 @@ public class SendFormalNotificationModel(
     public bool? UseEnrolmentLetterTemplateToDraftEmail { get; set; }
 
     [BindProperty(Name = "attach-targeted-intervention-information-sheet")]
-    [Display(Name = "Attach the intervention information sheet")]
+    [Display(Name = "Attach the targeted intervention information sheet")]
     public bool? AttachTargetedInterventionInformationSheet { get; set; }
 
     [BindProperty(Name = "add-recipients")]

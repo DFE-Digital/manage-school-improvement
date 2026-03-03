@@ -14,14 +14,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
     {
         [BindProperty(Name = "improvement-plan-decision-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "record improvement plan decision")]
+        [Display(Name = "Enter date the regional director approved this plan")]
         public DateTime? RegionalDirectorDecisionDate { get; set; }
 
         [BindProperty(Name = "HasApprovedImprovementPlanDecision")]
+        [Display(Name = "Has a regional director approved this improvement plan?")]
         public bool? HasApprovedImprovementPlanDecision { get; set; }
 
         [BindProperty(Name = "DisapprovingImprovementPlanDecisionNotes")]
+        [Display(Name = "Provide some details about why approval was not given")]
         public string? DisapprovingImprovementPlanDecisionNotes { get; set; }
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
 
         public required IList<RadioButtonsLabelViewModel> RadioButtoons { get; set; }
 
@@ -37,9 +42,17 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementP
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            HasApprovedImprovementPlanDecision = SupportProject.HasApprovedImprovementPlanDecision;
-            RegionalDirectorDecisionDate = SupportProject.RegionalDirectorImprovementPlanDecisionDate;
-            DisapprovingImprovementPlanDecisionNotes = SupportProject.DisapprovingImprovementPlanDecisionNotes;
+
+            if (SupportProject != null)
+            {
+                HasApprovedImprovementPlanDecision = SupportProject.HasApprovedImprovementPlanDecision;
+                RegionalDirectorDecisionDate = SupportProject.RegionalDirectorImprovementPlanDecisionDate;
+                DisapprovingImprovementPlanDecisionNotes = SupportProject.DisapprovingImprovementPlanDecisionNotes;
+                
+                TaskListStatus = TaskStatusViewModel.RecordImprovementPlanDecisionTaskListStatus(SupportProject);
+                ProjectStatus = SupportProject.ProjectStatus;
+            }
+
             RadioButtoons = RadioButtons;
             return Page();
         }

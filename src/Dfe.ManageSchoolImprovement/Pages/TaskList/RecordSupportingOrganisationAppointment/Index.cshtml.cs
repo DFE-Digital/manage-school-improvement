@@ -14,15 +14,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
     {
         [BindProperty(Name = "appointment-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "Date the regional director made the appointment")]
+        [Display(Name = "Date the regional director made this appointment")]
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
 
         [BindProperty(Name = "HasConfirmedSupportingOrganisationAppointment")]
-        [Display(Name = "Has regional director approved appointment")]
+        [Display(Name = "Has a regional director approved the appointment of this supporting organisation?")]
         public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
 
         [BindProperty(Name = "DisapprovingSupportingOrganisationAppointmentNotes")]
-        [Display(Name = "Approval not given notes")]
+        [Display(Name = "Provide some details about why approval was not given")]
         public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
         
         public TaskListStatus? TaskListStatus { get; set; }

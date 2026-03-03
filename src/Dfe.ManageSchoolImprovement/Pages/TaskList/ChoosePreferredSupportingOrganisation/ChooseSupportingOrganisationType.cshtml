@@ -5,8 +5,10 @@
     ViewData["Title"] = "Choose preferred supporting organisation";
     
     var summaryItems = SummaryListHelper.For<ChooseSupportOrganisationTypeModel>(
+        m => m.CompleteAssessmentTool!,
         m => m.SupportOrganisationName!,
         m => m.SupportOrganisationIdNumber!,
+        m => m.SupportOrganisationAddress!,
         m => m.DateSupportOrganisationChosen!
     );
 }
@@ -14,7 +16,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -31,7 +33,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l">
             Choose preferred supporting organisation
         </h1>
