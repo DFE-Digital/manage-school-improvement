@@ -1,0 +1,23 @@
+@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly)
+
+@if (Model.Objectives.Any())
+{
+    <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+                <h2 class="govuk-heading-m">@Model.AreaTitle</h2>
+            </dt>
+        </div>
+        @foreach (var objective in Model.Objectives)
+        {
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Objective @(objective.Order)
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @objective.Details
+                </dd>
+            </div>
+        }
+    </dl>
+}

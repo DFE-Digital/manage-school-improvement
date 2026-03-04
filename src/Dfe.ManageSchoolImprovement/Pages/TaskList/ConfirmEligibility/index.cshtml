@@ -1,13 +1,26 @@
 @page "/task-list/check-eligibility/{id:int}"
 
+@using System.Linq.Expressions
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility.IndexModel
 @{
     ViewData["Title"] = "Confirm eligibility";
-    
-    var summaryItems = SummaryListHelper.For<IndexModel>(
-        m => m.SchoolIsEligible!, 
-        m => m.SchoolIsNotEligibleNotes!
-    );
+
+    List<LambdaExpression> summaryItems;
+
+    if (!string.IsNullOrWhiteSpace(Model.SchoolIsNotEligibleNotes))
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.SchoolIsEligible!, 
+            m => m.SchoolIsNotEligibleNotes!
+        );
+    }
+    else
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.SchoolIsEligible!
+        );
+    }
+
 }
 
 @section BeforeMain
@@ -38,7 +51,7 @@
         </h1>
         @if (Model.IsReadOnly)
         {
-            <govuk-summary-list model="Model" items="summaryItems" />
+            <govuk-summary-list model="Model" items="@summaryItems" />
         }
         else
         {

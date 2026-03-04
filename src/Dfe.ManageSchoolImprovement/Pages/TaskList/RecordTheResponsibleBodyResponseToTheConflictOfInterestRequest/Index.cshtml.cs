@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
     {
         [BindProperty(Name = nameof(ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate), BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "Date the response was received")]
+        [Display(Name = "Enter date the response was received")]
         public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; set; }
 
         [BindProperty(Name = nameof(ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint))]

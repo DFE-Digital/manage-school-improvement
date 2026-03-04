@@ -22,6 +22,7 @@ public class ChooseSupportOrganisationTypeModel(
 
     [BindProperty(Name = "complete-assessment-tool")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
+    [Display(Name = "Complete assessment tool 2: Selecting a supporting organisation")]
     public bool? CompleteAssessmentTool { get; set; }
     
     [Display(Name = "Supporting organisation name")]
@@ -30,7 +31,10 @@ public class ChooseSupportOrganisationTypeModel(
     [Display(Name = "Supporting organisation ID number")]
     public string? SupportOrganisationIdNumber { get; set; }
     
-    [Display(Name = "Date supporting organisation chosen")]
+    [Display(Name = "Supporting organisation address")]
+    public string? SupportOrganisationAddress { get; set; }
+    
+    [Display(Name = "Enter date supporting organisation confirmed")]
     public DateTime? DateSupportOrganisationChosen { get; set; }
     public TaskListStatus? TaskListStatus { get; set; }
     public ProjectStatusValue? ProjectStatus { get; set; }
@@ -69,6 +73,7 @@ public class ChooseSupportOrganisationTypeModel(
             ProjectStatus = SupportProject.ProjectStatus;
             SupportOrganisationName = SupportProject.SupportOrganisationName;
             SupportOrganisationIdNumber = SupportProject.SupportOrganisationIdNumber;
+            SupportOrganisationAddress = SupportProject.SupportingOrganisationAddress;
             DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
         }
 

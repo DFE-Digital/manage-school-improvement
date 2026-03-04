@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc; 
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmPlanningGrantOfferLetterSent
 {
@@ -13,8 +14,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmPlanningGra
     {
         [BindProperty(Name = "planning-grant-offer-letter-sent-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "planning-grant-offer-letter-sent-date")]
+        [Display(Name = "Enter date planning grant offer letter sent")]
         public DateTime? PlanningGrantOfferLetterSentDate { get; set; }
+        
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
         
         public bool ShowError { get; set; }
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
@@ -27,7 +31,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmPlanningGra
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            PlanningGrantOfferLetterSentDate = SupportProject.DateTeamContactedForConfirmingPlanningGrantOfferLetter;
+
+            if (SupportProject != null)
+            {
+                PlanningGrantOfferLetterSentDate = SupportProject.DateTeamContactedForConfirmingPlanningGrantOfferLetter;
+
+                TaskListStatus = TaskStatusViewModel.ConfirmPlanningGrantOfferLetterTaskListStatus(SupportProject);
+                ProjectStatus = SupportProject.ProjectStatus;
+            }
             return Page();
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)

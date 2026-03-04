@@ -13,11 +13,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ArrangeAdvisersFir
 public class ArrangeAdvisersFirstFaceToFaceVisitModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "confirm-adviser-has-note-of-visit-template")]
-    [Display(Name = "Confirm adviser advise has note of visit template")]
+    [Display(Name = "Confirm the adviser has the Note of Visit template")]
     public bool? ConfirmAdviserHasNoteOfVisitTemplate { get; set; }
 
     [BindProperty(Name = "adviser-visit-date", BinderType = typeof(DateInputModelBinder))]
-    [Display(Name = "Adviser visit date")]
+    [Display(Name = "Enter planned date of visit")]
 
     public DateTime? AdviserVisitDate { get; set; }
 

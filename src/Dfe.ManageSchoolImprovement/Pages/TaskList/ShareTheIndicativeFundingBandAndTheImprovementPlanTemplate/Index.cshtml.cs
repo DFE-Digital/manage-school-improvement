@@ -21,17 +21,23 @@ public class IndexModel(
 {
     [BindProperty(Name = "date-templates-sent", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date templates sent")]
+    [Display(Name = "Enter date templates and indicative funding band sent")]
     public DateTime? DateTemplatesSent { get; set; }
 
     [BindProperty(Name = "calculate-funding-band")]
+    [Display(Name = "Calculate indicative funding band")]
     public bool? CalculateFundingBand { get; set; }
 
     [BindProperty(Name = "FundingBand")]
+    [Display(Name = "Choose indicative funding band")]
     public string? FundingBand { get; set; }
 
     [BindProperty(Name = "send-template")]
+    [Display(Name = "Send the improvement and expenditure plan template, with the indicative funding band selected, to the supporting organisation and the school's responsible body")]
     public bool? SendTemplate { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
     public string? FundingBandErrorMessage { get; set; }
@@ -60,14 +66,20 @@ public class IndexModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // Tuple deconstruction for property assignments
-        (DateTemplatesSent, CalculateFundingBand, FundingBand, SendTemplate) = (
-            SupportProject?.DateTemplatesAndIndicativeFundingBandSent,
-            SupportProject?.IndicativeFundingBandCalculated,
-            SupportProject?.IndicativeFundingBand,
-            SupportProject?.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody
-        );
-
+        if (SupportProject != null)
+        {
+            // Tuple deconstruction for property assignments
+            (DateTemplatesSent, CalculateFundingBand, FundingBand, SendTemplate) = (
+                SupportProject.DateTemplatesAndIndicativeFundingBandSent,
+                SupportProject.IndicativeFundingBandCalculated,
+                SupportProject.IndicativeFundingBand,
+                SupportProject.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody
+            );
+            
+            TaskListStatus = TaskStatusViewModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+        }
+        
         // Sequential SharePoint link retrieval to avoid DbContext threading issues
         await LoadSharePointLinksAsync(cancellationToken);
 

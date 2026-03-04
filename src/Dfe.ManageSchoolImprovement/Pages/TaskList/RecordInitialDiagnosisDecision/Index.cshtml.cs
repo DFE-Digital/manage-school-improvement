@@ -19,7 +19,7 @@ public class IndexModel(
 {
     [BindProperty(Name = "decision-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Date regional director made the decision")]
+    [Display(Name = "Enter date the regional director made this decision")]
     public DateTime? RegionalDirectorDecisionDate { get; set; }
 
     [BindProperty(Name = "HasSchoolMatchedWithSupportingOrganisation")]
@@ -27,7 +27,7 @@ public class IndexModel(
     public string? HasSchoolMatchedWithSupportingOrganisation { get; set; }
 
     [BindProperty(Name = "NotMatchingNotes")]
-    [Display(Name = "Not matching notes")]
+    [Display(Name = "Review school's progress notes")]
     public string? NotMatchingNotes { get; set; }
 
     [BindProperty(Name = "UnableToAssessNotes")]

@@ -5,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetRequestPlanningGrantOfferLetterDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestPlanningGrantOfferLetter;
@@ -13,21 +14,28 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 {
     [BindProperty(Name = "date-grant-team-contacted", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "date grant team contacted")]
+    [Display(Name = "Enter date grant team contacted")]
     public DateTime? DateGrantTeamContacted { get; set; }
     public string EmailAddress { get; set; } = string.Empty;
     
     [BindProperty(Name = "include-contact-details")]
+    [Display(Name = "Include the required contact details in the email")]
     public bool? IncludeContactDetails { get; set; }
     
     [BindProperty(Name = "confirm-amount-funding")]
+    [Display(Name = "Confirm the amount of funding requested")]
     public bool? ConfirmAmountOfFunding { get; set; }
     
     [BindProperty(Name = "copy-regional-director")]
+    [Display(Name = "Copy the regional director in to the email")]
     public bool? CopyInRegionalDirector { get; set; }
     
     [BindProperty(Name = "email-rise-grant-team")]
+    [Display(Name = "Send email to the RISE grant team")]
     public bool? EmailRiseGrantTeam { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -42,11 +50,17 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        DateGrantTeamContacted = SupportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter;
-        IncludeContactDetails = SupportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail;
-        ConfirmAmountOfFunding = SupportProject.ConfirmAmountOfPlanningGrantFundingRequested;
-        CopyInRegionalDirector = SupportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail;
-        EmailRiseGrantTeam = SupportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam;
+        if (SupportProject != null)
+        {
+            DateGrantTeamContacted = SupportProject.DateTeamContactedForRequestingPlanningGrantOfferLetter;
+            IncludeContactDetails = SupportProject.IncludeContactDetailsRequestingPlanningGrantOfferEmail;
+            ConfirmAmountOfFunding = SupportProject.ConfirmAmountOfPlanningGrantFundingRequested;
+            CopyInRegionalDirector = SupportProject.CopyInRegionalDirectorRequestingPlanningGrantOfferEmail;
+            EmailRiseGrantTeam = SupportProject.SendRequestingPlanningGrantOfferEmailToRiseGrantTeam;
+            
+            TaskListStatus = TaskStatusViewModel.RequestPlanningGrantOfferLetterTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+        }
         
         EmailAddress = configuration.GetValue<string>("EmailForGrantOfferLetter") ?? string.Empty;
         

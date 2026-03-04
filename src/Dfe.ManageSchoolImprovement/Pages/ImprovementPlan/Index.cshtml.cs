@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
@@ -16,7 +18,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
         IMediator mediator)
         : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
-        [BindProperty] public bool MarkAsComplete { get; set; }
+        [BindProperty]
+        [Display(Name = "Mark this section as complete")]
+        public bool MarkAsComplete { get; set; }
 
         public ImprovementPlanViewModel? ImprovementPlan { get; set; }
 
@@ -40,6 +44,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Personal development")
                 .OrderBy(o => o.Order).ToList() ?? new();
 
+        public TaskListStatus? TaskListStatus { get; set; }
+        public ProjectStatusValue? ProjectStatus { get; set; }
+        
         public bool ShowMarkAsCompleteError => _errorService.GetError(nameof(MarkAsComplete)) != null;
         public bool ShowError => _errorService.HasErrors();
 
@@ -56,6 +63,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
                     MarkAsComplete = ImprovementPlan.ObjectivesSectionComplete ?? false;
                 }
             }
+            
+            TaskListStatus = TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
 
             return Page();
         }

@@ -15,7 +15,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.Referrer" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link">Back</a>
+        <a asp-page="@Model.Referrer" asp-route-id="@Model.SupportProject?.Id" class="govuk-back-link">Back</a>
     </nav>
 }
 

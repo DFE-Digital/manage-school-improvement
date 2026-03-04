@@ -14,11 +14,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
     {
         [BindProperty(Name = "introductory-email-sent-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "Date introductory email sent")]
+        [Display(Name = "Enter date the introductory email was sent")]
         public DateTime? IntroductoryEmailSentDate { get; set; }
 
         [BindProperty(Name = "remind-adviser-to-copy-in-rise-team-on-email-sent")]
-        [Display(Name = "Remind adviser to copy in RISE team")]
+        [Display(Name = "Remind the adviser to copy in the RISE team when they send the email")]
         public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; set; }
 
         public TaskListStatus? TaskListStatus { get; set; }

@@ -17,7 +17,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
 
     [BindProperty(Name = "date-adviser-allocated", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Date adviser was allocated")]
+    [Display(Name = "Enter date the adviser was allocated")]
     public DateTime? DateAdviserAllocated { get; set; }
     public IEnumerable<User>? RiseAdvisers { get; private set; }
     public string? Referrer { get; set; }
@@ -25,7 +25,7 @@ public class AllocateAdviser(ISupportProjectQueryService supportProjectQueryServ
     public TaskListStatus? TaskListStatus { get; set; }
     public ProjectStatusValue? ProjectStatus { get; set; }
     
-    [Display(Name = "Adviser name")]
+    [Display(Name = "Enter the name of the adviser")]
     public string? AdviserFullName { get; set; }
 
     public bool ShowError { get; set; }

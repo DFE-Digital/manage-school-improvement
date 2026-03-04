@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.Enums;
@@ -21,19 +22,27 @@ public class IndexModel(
 
     [BindProperty(Name = "date-improvement-plan-received", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    [Display(Name = "Enter date improvement plan received")]
     public DateTime? DateImprovementPlanReceived { get; set; }
 
     [BindProperty(Name = "review-improvement-plan")]
+    [Display(Name = "Review the draft improvement and expenditure plans with the adviser, regional team and RISE grant team")]
     public bool? ReviewImprovementAndExpenditurePlan { get; set; }
 
     [BindProperty(Name = "confirm-plan-cleared-by-rise")]
+    [Display(Name = "Confirm plan has been cleared by the RISE grant team")]
     public bool? ConfirmPlanClearedByRiseGrantTeam { get; set; }
 
     [BindProperty(Name = "FundingBand")]
+    [Display(Name = "Select confirmed funding band")]
     public string? FundingBand { get; set; }
 
     [BindProperty(Name = "confirm-funding-band")]
+    [Display(Name = "Confirm funding band")]
     public bool? ConfirmFundingBand { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public required string EmailAddress { get; init; } = "rise.grant@education.gov.uk";
 
@@ -54,13 +63,16 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
-        // Convert to tuple expression`
-
         await base.GetSupportProject(id, cancellationToken);
         await LoadSharePointLinksAsync(cancellationToken);
-
-        // Populate form fields from support project data
+        
         PopulateFormFields();
+
+        if (SupportProject != null)
+        {
+            TaskListStatus = TaskStatusViewModel.ReviewTheImprovementPlanTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus; 
+        }
 
         return Page();
     }

@@ -14,24 +14,24 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "check-organisation-has-capacity-and-willing-to-provide-support")]
-    [Display(Name = "Check organisation has capacity and willing to-provide support")]
+    [Display(Name = "Check the organisation has capacity and is willing to provide support to this school")]
     public bool? CheckOrganisationHasCapacityAndWillingToProvideSupport { get; set; }
 
     [BindProperty(Name = "speak-to-trust-relationship-manager-or-local-authority-lead-to-check-choice")]
-    [Display(Name = "Speak to trust relationship manager or local authority lead")]
+    [Display(Name = "Speak to trust relationship manager or local authority lead to check choice")]
     public bool? CheckChoiceWithTrustRelationshipManagerOrLaLead { get; set; }
 
     [BindProperty(Name = "contact-sfso-for-financial-check")]
-    [Display(Name = "Contact SFSO for financial check")]
+    [Display(Name = "Contact SFSO (Schools Financial Support and Oversight) so they can complete financial check on supporting organisation")]
     public bool? ContactSfsoForFinancialCheck { get; set; }
 
     [BindProperty(Name = "check-the-organisation-has-a-vendor-account")]
-    [Display(Name = "Check the organisation has a vendor account")]
+    [Display(Name = "Check the supporting organisation has a vendor account")]
     public bool? CheckTheOrganisationHasAVendorAccount { get; set; }
 
     [BindProperty(Name = "due-diligence-completed-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Date due diligence completed")]
+    [Display(Name = "Enter date due diligence completed")]
     public DateTime? DateDueDiligenceCompleted { get; set; }
     
     public TaskListStatus? TaskListStatus { get; set; }

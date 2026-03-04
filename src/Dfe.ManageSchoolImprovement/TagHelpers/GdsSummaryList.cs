@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+using Dfe.Academisation.ExtensionMethods;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -135,17 +136,12 @@ public class GdsSummaryListTagHelper : TagHelper
                 return HtmlEncoder.Default.Encode(dOnly.ToString("dd MMM yyyy", CultureInfo));
 
             case DateTime dt:
-                // Display date only if time is midnight; otherwise include time
-                var format = (dt.TimeOfDay == TimeSpan.Zero)
-                    ? "dd MMM yyyy"
-                    : "dd MMM yyyy HH:mm";
-                return HtmlEncoder.Default.Encode(dt.ToString(format, CultureInfo));
+                var dtStr = dt.ToDateString();
+                return HtmlEncoder.Default.Encode(string.IsNullOrEmpty(dtStr) ? NullDisplayText : dtStr);
 
             case DateTimeOffset dto:
-                var f2 = (dto.TimeOfDay == TimeSpan.Zero)
-                    ? "dd MMM yyyy"
-                    : "dd MMM yyyy HH:mm";
-                return HtmlEncoder.Default.Encode(dto.ToString(f2, CultureInfo));
+                var dtoStr = dto.DateTime.ToDateString();
+                return HtmlEncoder.Default.Encode(string.IsNullOrEmpty(dtoStr) ? NullDisplayText : dtoStr);
 
             case IFormattable formattable:
                 // Numbers, decimals, etc.
