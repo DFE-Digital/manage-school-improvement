@@ -151,6 +151,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             }
             
             objective.SetDeleted(deletedBy);
+
+            var reorderedObjectives = objective.SetOrder(_improvementPlanObjectives, objective);
+            
+            // save these to the db 
+            _improvementPlanObjectives.Clear();
+            _improvementPlanObjectives.AddRange(reorderedObjectives);
         }
     }
 }

@@ -38,5 +38,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             DeletedAt = DateTime.Now;
             DeletedBy = DeletedBy = deletedBy;
         }
+
+        public IEnumerable<ImprovementPlanObjective> SetOrder(IEnumerable<ImprovementPlanObjective> improvementPlanObjectives, ImprovementPlanObjective objective)
+        {
+            var objectives = improvementPlanObjectives.Where(o => o.ImprovementPlanId == objective.ImprovementPlanId && o.AreaOfImprovement == objective.AreaOfImprovement).ToList();
+            for (var i = 0; i < objectives.Count; i++)
+            {
+                objectives[i].Order = i + 1;
+            }
+
+            return objectives;
+        }
     }
 }
