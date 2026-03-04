@@ -65,15 +65,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
                 new ImprovementPlanId(ImprovementPlanId),
                 new ImprovementPlanObjectiveId(ImprovementPlanObjectiveId),
                 User.Identity?.Name!);
-            // var editObjectiveRequest = new SetImprovementPlanObjectiveDetailsCommand(
-            //     new SupportProjectId(id),
-            //     new ImprovementPlanId(ImprovementPlanId),
-            //     new ImprovementPlanObjectiveId(ImprovementPlanObjectiveId),
-            //     ObjectiveDetails!.Trim());
-            //
-            // await mediator.Send(editObjectiveRequest, cancellationToken);
-            
-            // delete objective
+
+            await mediator.Send(deleteObjectiveRequest, cancellationToken);
 
             TaskUpdated = true;
 

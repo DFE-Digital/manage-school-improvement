@@ -140,6 +140,9 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new ImprovementPlanObjectiveId(v));
+        
+        builder
+            .HasQueryFilter(p => p.DeletedAt == null);
     }
 
     private static void ConfigureImprovementPlan(EntityTypeBuilder<ImprovementPlan> builder)

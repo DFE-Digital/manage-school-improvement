@@ -25,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string AreaOfImprovement { get; set; }
         public string Details { get; set; }
         
-        public string DeletedBy { get; set; }
+        public string? DeletedBy { get; set; }
         public DateTime? DeletedAt { get; set; }
 
         public void SetDetails(string details)
