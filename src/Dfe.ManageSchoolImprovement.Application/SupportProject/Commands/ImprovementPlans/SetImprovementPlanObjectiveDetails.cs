@@ -10,7 +10,7 @@ public class SetImprovementPlanObjectiveDetails
             SupportProjectId SupportProjectId,
             ImprovementPlanId ImprovementPlanId,
             ImprovementPlanObjectiveId ImprovementPlanObjectiveId,
-            string details
+            string Details
     ) : IRequest<bool>;
 
     public class SetImprovementPlanObjectiveDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -25,7 +25,7 @@ public class SetImprovementPlanObjectiveDetails
                 throw new KeyNotFoundException($"Support project with id {request.SupportProjectId} not found");
             }
 
-            supportProject.SetImprovementPlanObjectiveDetails(request.ImprovementPlanObjectiveId, request.ImprovementPlanId, request.details);
+            supportProject.SetImprovementPlanObjectiveDetails(request.ImprovementPlanObjectiveId, request.ImprovementPlanId, request.Details);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

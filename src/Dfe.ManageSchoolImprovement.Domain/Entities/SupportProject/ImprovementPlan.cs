@@ -138,5 +138,19 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
                 howIsTheSchoolProgressingOverall,
                 overallProgressDetails);
         }
+        
+        public void SetDeleteObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId,
+            string deletedBy)
+        {
+            var objective = _improvementPlanObjectives.FirstOrDefault(o => o.Id == improvementPlanObjectiveId);
+
+            if (objective == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Improvement plan objective with id {improvementPlanObjectiveId} not found");
+            }
+            
+            objective.SetDeleted(deletedBy);
+        }
     }
 }

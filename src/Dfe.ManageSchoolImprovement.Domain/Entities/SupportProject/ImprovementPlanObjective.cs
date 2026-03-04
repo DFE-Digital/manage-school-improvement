@@ -24,10 +24,19 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? LastModifiedBy { get; set; }
         public string AreaOfImprovement { get; set; }
         public string Details { get; set; }
+        
+        public string DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public void SetDetails(string details)
         {
             Details = details;
+        }
+
+        public void SetDeleted(string deletedBy)
+        {
+            DeletedAt = DateTime.Now;
+            DeletedBy = DeletedBy = deletedBy;
         }
     }
 }
