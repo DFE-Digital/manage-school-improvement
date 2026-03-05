@@ -1,7 +1,15 @@
 @page "/task-list/record-the-responsible-body-response-to-the-conflict-of-interest-form/{id:int}"
+
+@using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsibleBodyResponse
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsibleBodyResponse.IndexModel
+
 @{
     ViewData["Title"] = "Record the responsible body's response to the conflict of interest request";
+
+    var summaryItems = SummaryListHelper.For<IndexModel>(
+        m => m.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint!,
+        m => m.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate!
+    );
 }
 
 @section BeforeMain
@@ -10,6 +18,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -23,30 +36,38 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Record the responsible body's response to the conflict of interest request
         </h1>
-        <form method="post" novalidate>
-            <p class="govuk-body" data-cy="school-confirmtion-target-support">
-                The responsible body should respond to the conflict of interest request within 3 working days of
-                receiving it in the formal letter of notification.
-            </p>
-            <p class="govuk-body">
-                This may take longer in the school holidays.
-            </p>
-            <govuk-checkbox-input heading="Save the response"
-                                  heading-style="govuk-fieldset__legend--m"
-                                  label="Response saved in SharePoint"
-                                  id="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)"
-                                  name="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)"
-                                  asp-for="@Model.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint"/>
-            <govuk-date-input heading-label="false"
-                              label="Enter date the response was received"
-                              id="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate)"
-                              name="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate)"
-                              asp-for="@Model.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate"
-                              hint="For example, 1 7 2024."/>
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+
+        <p class="govuk-body" data-cy="school-confirmtion-target-support">
+            The responsible body should respond to the conflict of interest request within 3 working days of
+            receiving it in the formal letter of notification.
+        </p>
+        <p class="govuk-body">
+            This may take longer in the school holidays.
+        </p>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <govuk-checkbox-input heading="Save the response"
+                                      heading-style="govuk-fieldset__legend--m"
+                                      label="Response saved in SharePoint"
+                                      id="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)"
+                                      name="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)"
+                                      asp-for="@Model.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint"/>
+                <govuk-date-input heading-label="false"
+                                  label="Enter date the response was received"
+                                  id="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate)"
+                                  name="@nameof(Model.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate)"
+                                  asp-for="@Model.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate"
+                                  hint="For example, 1 7 2024."/>
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>

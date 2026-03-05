@@ -1,0 +1,22 @@
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+
+@{
+    var projectStatusText = Model.ProjectStatus == ProjectStatusValue.Paused ? "paused" : "stopped";
+}
+
+<div class="govuk-notification-banner" role="alert"
+     aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+            Important
+        </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+        <h3 class="govuk-notification-banner__heading" id="project-paused-or-stopped">
+            Intervention @projectStatusText
+        </h3>
+        <p>Targeted intervention at this school has @projectStatusText.</p>
+        <p>This task was previously <partial name="_TaskListStatus" model="@Model.TaskListStatus"/></p>
+        <p>You cannot make changes to this task.</p>
+    </div>
+</div>

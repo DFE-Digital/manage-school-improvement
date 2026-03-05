@@ -1,7 +1,26 @@
 @page "/task-list/record-improvement-plan-decision/{id:int}"
+@using System.Linq.Expressions
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordImprovementPlanDecision.IndexModel
 @{
     ViewData["Title"] = "Record improvement plan decision";
+    
+    List<LambdaExpression> summaryItems;
+
+    if (!string.IsNullOrWhiteSpace(Model.DisapprovingImprovementPlanDecisionNotes))
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.HasApprovedImprovementPlanDecision!,
+            m => m.RegionalDirectorDecisionDate!,
+            m => m.DisapprovingImprovementPlanDecisionNotes!
+        );
+    }
+    else
+    {
+        summaryItems = SummaryListHelper.For<IndexModel>(
+            m => m.HasApprovedImprovementPlanDecision!,
+            m => m.RegionalDirectorDecisionDate!
+        );
+    }
 }
 
 @section BeforeMain
@@ -10,6 +29,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -23,23 +47,30 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Record improvement plan decision
         </h1>
-        <form method="post" novalidate>
-            <p class="govuk-body" data-cy="instruction-to-adviser">Confirm if a regional director has approved this
-                improvement plan.</p>
-            <govuk-radiobuttons-input heading="Has a regional director approved this improvement plan?"
-                                      heading-style="govuk-fieldset__legend--m"
-                                      hint="If approval has not been given, add a note to explain why."
-                                      name="@nameof(Model.HasApprovedImprovementPlanDecision)"
-                                      radio-buttons="@Model.RadioButtoons"
-                                      asp-for="@Model.HasApprovedImprovementPlanDecision"/>
-            <govuk-date-input heading-label="false" label="Enter date the regional director approved this plan"
-                              id="improvement-plan-decision-date" name="improvement-plan-decision-date"
-                              asp-for="@Model.RegionalDirectorDecisionDate" hint="For example, 1 7 2024."/>
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <p class="govuk-body" data-cy="instruction-to-adviser">Confirm if a regional director has approved this
+                    improvement plan.</p>
+                <govuk-radiobuttons-input heading="Has a regional director approved this improvement plan?"
+                                          heading-style="govuk-fieldset__legend--m"
+                                          hint="If approval has not been given, add a note to explain why."
+                                          name="@nameof(Model.HasApprovedImprovementPlanDecision)"
+                                          radio-buttons="@Model.RadioButtoons"
+                                          asp-for="@Model.HasApprovedImprovementPlanDecision"/>
+                <govuk-date-input heading-label="false" label="Enter date the regional director approved this plan"
+                                  id="improvement-plan-decision-date" name="improvement-plan-decision-date"
+                                  asp-for="@Model.RegionalDirectorDecisionDate" hint="For example, 1 7 2024."/>
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>
 

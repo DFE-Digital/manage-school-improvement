@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.CompleteAndSaveInitialDiagnosisAssessment;
 
@@ -18,15 +19,20 @@ public class IndexModel(
 {
     [BindProperty(Name = "saved-assessemnt-template-in-sharepoint-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    [Display(Name = "Saved assessement template")]
+    [Display(Name = "Enter date assessment template saved in SharePoint")]
     public DateTime? SavedAssessmentTemplateInSharePointDate { get; set; }
 
     [BindProperty(Name = "has-talk-to-adviser")]
+    [Display(Name = "Talk to the adviser about their findings from the visit and discussions with the school")]
     public bool? HasTalkToAdviserAboutFindings { get; set; }
 
     [BindProperty(Name = "complete-assessment-template")]
+    [Display(Name = "Complete Assessment Tool 1: Initial Diagnosis and save a copy of the completed version")]
     public bool? HasCompleteAssessmentTemplate { get; set; }
 
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
+    
     public string AssessmentToolOneLink { get; set; } = string.Empty;
     public bool ShowError { get; set; }
 
@@ -41,12 +47,18 @@ public class IndexModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // Using object initializer with conditional assignment
-        (SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate, AssessmentToolOneLink) =
-            (SupportProject?.SavedAssessmentTemplateInSharePointDate,
-             SupportProject?.HasTalkToAdviserAboutFindings,
-             SupportProject?.HasCompleteAssessmentTemplate,
-             await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty);
+        if (SupportProject != null)
+        {
+            (SavedAssessmentTemplateInSharePointDate, HasTalkToAdviserAboutFindings, HasCompleteAssessmentTemplate,
+                    AssessmentToolOneLink) =
+                (SupportProject.SavedAssessmentTemplateInSharePointDate,
+                    SupportProject.HasTalkToAdviserAboutFindings,
+                    SupportProject.HasCompleteAssessmentTemplate,
+                    await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty);
+
+            TaskListStatus = TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+        }
 
         return Page();
     }

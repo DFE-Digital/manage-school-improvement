@@ -1,4 +1,4 @@
-using Dfe.Academisation.ExtensionMethods;
+using GovUK.Dfe.CoreLibs.Utilities.Extensions;
 using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 using User = Dfe.ManageSchoolImprovement.Frontend.Models.User;
 

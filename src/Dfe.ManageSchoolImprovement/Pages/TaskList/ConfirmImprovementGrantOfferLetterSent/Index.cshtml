@@ -1,10 +1,13 @@
 @page "/task-list/confirm-improvement-grant-offer-letter-sent/{id:int}"
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
-@using Dfe.Academisation.ExtensionMethods
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model IndexModel
 
 @{
     ViewData["Title"] = "Confirm improvement grant offer letter sent";
+    
+    var summaryItems = SummaryListHelper.For<IndexModel>(
+        m => m.DateImprovementGrantOfferLetterSent!);
 }
 
 @section BeforeMain
@@ -13,6 +16,11 @@
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
            class="govuk-back-link">Back</a>
     </nav>
+}
+
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -28,15 +36,22 @@
         </h1>
         <p class="govuk-body">The grant team should have copied you into the email they send the school's responsible
             body.</p>
-        <form method="post" novalidate>
-            <govuk-date-input heading-label="false" label="Enter date improvement grant offer letter sent"
-                              id="date-improvement-grant-offer-letter-sent"
-                              name="date-improvement-grant-offer-letter-sent"
-                              asp-for="@Model.DateImprovementGrantOfferLetterSent" hint="For example, 1 7 2024."/>
-            <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <govuk-date-input heading-label="false" label="Enter date improvement grant offer letter sent"
+                                  id="date-improvement-grant-offer-letter-sent"
+                                  name="date-improvement-grant-offer-letter-sent"
+                                  asp-for="@Model.DateImprovementGrantOfferLetterSent" hint="For example, 1 7 2024."/>
+                <button class="govuk-button" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>

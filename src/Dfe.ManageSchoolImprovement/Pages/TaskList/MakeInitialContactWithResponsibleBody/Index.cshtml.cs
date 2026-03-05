@@ -6,6 +6,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.MakeInitialContactWithResponsibleBody;
 
@@ -22,8 +23,13 @@ public class MakeInitialContactWithResponsibleBodyModel(
     public DateTime? ResponsibleBodyInitialContactDate { get; set; }
 
     [BindProperty(Name = "initial-contact-responsible-body")]
+    [Display(Name = "Contact the responsible body")]
     public bool? InitialContactResponsibleBody { get; set; }
 
+    public TaskListStatus? TaskListStatus { get; set; }
+        
+    public ProjectStatusValue? ProjectStatus { get; set; }
+    
     public bool ShowError { get; set; }
     public string TargetedInterventionGuidanceLink { get; set; } = string.Empty;
 
@@ -44,6 +50,9 @@ public class MakeInitialContactWithResponsibleBodyModel(
             SupportProject?.InitialContactResponsibleBodyDate,
             SupportProject?.InitialContactResponsibleBody
         );
+        
+        TaskListStatus = TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
+        ProjectStatus = SupportProject?.ProjectStatus;
 
         return Page();
     }

@@ -2,6 +2,11 @@
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEmail.IndexModel
 @{
     ViewData["Title"] = "Send introductory email";
+    
+    var summaryItems = SummaryListHelper.For<IndexModel>(
+        m => m.RemindAdviserToCopyRiseTeamWhenSentEmail!,
+            m => m.IntroductoryEmailSentDate!
+    );
 }
 
 @section BeforeMain
@@ -12,6 +17,11 @@
     </nav>
 }
 
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
+}
+
 @if (Model.ShowError)
 {
     <partial name="_ErrorSummary"/>
@@ -19,24 +29,31 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Send introductory email
         </h1>
         <p class="govuk-body" data-cy="instruction-to-adviser">The adviser should email the school to introduce
             themselves to the school's responsible body.</p>
-        <form method="post" novalidate>
-            <govuk-checkbox-input label="Remind the adviser to copy in the RISE team when they send the email"
-                                  id="remind-adviser-to-copy-in-rise-team-on-email-sent"
-                                  name="remind-adviser-to-copy-in-rise-team-on-email-sent"
-                                  asp-for="@Model.RemindAdviserToCopyRiseTeamWhenSentEmail"/>
-            <govuk-date-input heading-label="false" label="Enter date the introductory email was sent"
-                              id="introductory-email-sent-date" name="introductory-email-sent-date"
-                              asp-for="@Model.IntroductoryEmailSentDate" hint="For example, 1 7 2024."/>
-            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
-                    data-cy="select-common-submitbutton">
-                Save and return
-            </button>
-        </form>
+        @if (Model.IsReadOnly)
+        {
+            <govuk-summary-list model="Model" items="summaryItems"/>
+        }
+        else
+        {
+            <form method="post" novalidate>
+                <govuk-checkbox-input label="Remind the adviser to copy in the RISE team when they send the email"
+                                      id="remind-adviser-to-copy-in-rise-team-on-email-sent"
+                                      name="remind-adviser-to-copy-in-rise-team-on-email-sent"
+                                      asp-for="@Model.RemindAdviserToCopyRiseTeamWhenSentEmail"/>
+                <govuk-date-input heading-label="false" label="Enter date the introductory email was sent"
+                                  id="introductory-email-sent-date" name="introductory-email-sent-date"
+                                  asp-for="@Model.IntroductoryEmailSentDate" hint="For example, 1 7 2024."/>
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+            </form>
+        }
     </div>
 </div>

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -21,7 +22,22 @@ public class ChooseSupportOrganisationTypeModel(
 
     [BindProperty(Name = "complete-assessment-tool")]
     [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
+    [Display(Name = "Complete assessment tool 2: Selecting a supporting organisation")]
     public bool? CompleteAssessmentTool { get; set; }
+    
+    [Display(Name = "Supporting organisation name")]
+    public string? SupportOrganisationName { get; set; }
+    
+    [Display(Name = "Supporting organisation ID number")]
+    public string? SupportOrganisationIdNumber { get; set; }
+    
+    [Display(Name = "Supporting organisation address")]
+    public string? SupportOrganisationAddress { get; set; }
+    
+    [Display(Name = "Enter date supporting organisation confirmed")]
+    public DateTime? DateSupportOrganisationChosen { get; set; }
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     [BindProperty(Name = "js-enabled")]
     public bool JavaScriptEnabled { get; set; }
@@ -48,8 +64,20 @@ public class ChooseSupportOrganisationTypeModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        CompleteAssessmentTool = SupportProject?.AssessmentToolTwoCompleted;
-        SupportOrganisationType = SupportProject?.SupportOrganisationType;
+        if (SupportProject != null)
+        {
+            CompleteAssessmentTool = SupportProject.AssessmentToolTwoCompleted;
+            SupportOrganisationType = SupportProject.SupportOrganisationType;
+            
+            TaskListStatus = TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
+            ProjectStatus = SupportProject.ProjectStatus;
+            SupportOrganisationName = SupportProject.SupportOrganisationName;
+            SupportOrganisationIdNumber = SupportProject.SupportOrganisationIdNumber;
+            SupportOrganisationAddress = SupportProject.SupportingOrganisationAddress;
+            DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
+        }
+
+
 
         await LoadSharePointLinksAsync(cancellationToken);
 

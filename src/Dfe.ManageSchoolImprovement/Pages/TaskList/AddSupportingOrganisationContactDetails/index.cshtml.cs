@@ -7,6 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Validation;
+using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Dfe.ManageSchoolImprovement.Utils;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
 using MediatR;
@@ -45,6 +46,9 @@ public class IndexModel(
     [BindProperty] public bool SupportingSchoolIsAcademy { get; set; }
     
     public bool TaskIsComplete { get; set; }
+    
+    public TaskListStatus? TaskListStatus { get; set; }
+    public ProjectStatusValue? ProjectStatus { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -115,6 +119,9 @@ public class IndexModel(
                 PhoneNumber = AccountingOfficer?.Phone;
             }
         }
+        
+        TaskListStatus = TaskStatusViewModel.SupportingOrganisationContactDetailsTaskListStatus(SupportProject);
+        ProjectStatus = SupportProject.ProjectStatus;
 
         return Page();
     }

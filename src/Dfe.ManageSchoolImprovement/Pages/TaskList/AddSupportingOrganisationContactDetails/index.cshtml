@@ -15,6 +15,11 @@
     </nav>
 }
 
+@if (Model.IsReadOnly)
+{
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
+}
+
 @if (Model.ShowError)
 {
     <partial name="_ErrorSummary"/>
@@ -22,7 +27,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @if (Model.TaskIsComplete)
+        @if (Model.TaskIsComplete && !Model.IsReadOnly)
         {
             <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title"
                  data-module="govuk-notification-banner">
@@ -55,27 +60,34 @@
             </div>
         }
 
-        @if (Model.TaskIsComplete)
+        @if (Model.TaskIsComplete || Model.SupportProject.IsReadOnly)
         {
             <dl class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key govuk-!-width-one-half">@contactJobTitle name</dt>
-                    <dd class="govuk-summary-list__value">@Model.Name</dd>
+                    <dd class="govuk-summary-list__value">@(Model.Name ?? "Incomplete")</dd>
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key govuk-!-width-one-half">Email address</dt>
-                    <dd class="govuk-summary-list__value">@Model.EmailAddress</dd>
+                    <dd class="govuk-summary-list__value">@(Model.EmailAddress ?? "Incomplete")</dd>
                 </div>
                 @if (!string.IsNullOrEmpty(Model.PhoneNumber))
                 {
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-width-one-half">UK phone number</dt>
-                        <dd class="govuk-summary-list__value">@Model.PhoneNumber</dd>
+                        <dd class="govuk-summary-list__value">@(Model.PhoneNumber ?? "Incomplete")</dd>
                     </div>
                 }
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key govuk-!-width-one-half">Address</dt>
-                    <dd class="govuk-summary-list__value">@Html.Raw(Model.SupportProject?.SupportingOrganisationContactAddress?.Replace(",", "<br>"))</dd>
+                    @if (!string.IsNullOrEmpty(Model.SupportProject?.SupportingOrganisationContactAddress))
+                    {
+                        <dd class="govuk-summary-list__value">@(Html.Raw(Model.SupportProject?.SupportingOrganisationContactAddress?.Replace(",", "<br>")))</dd>
+                    }
+                    else
+                    {
+                        <dd class="govuk-summary-list__value">Incomplete</dd>
+                    }
                 </div>
             </dl>
         }
