@@ -140,5 +140,13 @@ jobs:
         if: failure()
         run: docker compose logs
 
+      - name: Quick debug check
+        run: |
+          echo "=== Quick Debug Check ==="
+          docker ps
+          docker logs msi --tail 30
+          curl -v http://localhost:8080 2>&1 | head -10
+          netstat -tlnp | grep 8080
+
       - name: Shutdown containers
         run: docker compose -f docker-compose.yml -f docker-compose.ci.yml down -v
