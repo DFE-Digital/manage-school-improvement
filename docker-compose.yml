@@ -14,7 +14,7 @@ services:
       - sql
     ports:
       - "8080:8080"
-    command: ["/bin/bash", "-c", "./docker-entrypoint.sh dotnet Dfe.ManageSchoolImprovement.Frontend.dll"]
+    command: ["/bin/bash"]
 
   sql:
     image: mcr.microsoft.com/mssql/server:2022-latest

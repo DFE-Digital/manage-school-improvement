@@ -39,8 +39,7 @@ COPY ./src/Tests/${PROJECT_NAME}.Utils.Tests/${PROJECT_NAME}.Utils.Tests.csproj 
 COPY ./src/Tests/GovUK.Dfe.CoreLibs.ApplicationSettings.Tests/GovUK.Dfe.CoreLibs.ApplicationSettings.Tests.csproj   ./src/Tests/GovUK.Dfe.CoreLibs.ApplicationSettings.Tests/
 
 # Mount GitHub Token and restore
-RUN --mount=type=secret,id=github_token dotnet nuget add source --username USERNAME --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DFE-Digital/index.json" && \
-    dotnet restore ${PROJECT_NAME}.sln
+RUN dotnet restore ${PROJECT_NAME}.sln
 ## END: Restore Packages
 
 COPY ./src/ /build/src/
@@ -94,5 +93,6 @@ COPY --from=build /app .
 COPY --from=assets /app ./wwwroot
 
 # Set permissions and user
+RUN ls -l ./docker-entrypoint.sh
 RUN chmod +x ./docker-entrypoint.sh
 USER $APP_UID
