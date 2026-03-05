@@ -1,4 +1,4 @@
-using Dfe.Academisation.ExtensionMethods;
+using GovUK.Dfe.CoreLibs.Utilities.Extensions;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
