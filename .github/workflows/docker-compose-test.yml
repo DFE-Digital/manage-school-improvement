@@ -35,6 +35,14 @@ jobs:
         run: |
           docker exec msi echo "Running tests ..."
 
+      - name: Quick debug check
+        run: |
+          echo "=== Quick Debug Check ==="
+          docker ps
+          docker logs msi --tail 30
+          curl -v http://localhost:8080 2>&1 | head -10
+          netstat -tlnp | grep 8080
+
       - name: Dump logs on failure
         if: failure()
         run: docker compose logs
