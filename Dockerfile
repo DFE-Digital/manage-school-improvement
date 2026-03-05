@@ -53,6 +53,9 @@ RUN dotnet build ${PROJECT_NAME}.sln --no-restore -c Release && \
 # Copy entrypoint script
 COPY ./scripts/docker-entrypoint.sh /app/docker-entrypoint.sh
 
+# Ensure the script has Unix line endings (optional, only if you can install dos2unix)
+RUN tdnf install -y dos2unix && dos2unix /app/docker-entrypoint.sh
+
 # ==============================================
 # Entity Framework: Migration Builder
 # ==============================================
@@ -93,6 +96,5 @@ COPY --from=build /app .
 COPY --from=assets /app ./wwwroot
 
 # Set permissions and user
-RUN ls -l ./docker-entrypoint.sh
 RUN chmod +x ./docker-entrypoint.sh
 USER $APP_UID

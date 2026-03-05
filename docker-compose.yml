@@ -10,11 +10,12 @@ services:
       ConnectionStrings__DefaultConnection: ${ConnectionStrings__DefaultConnection}
       AzureAd__ClientId: ${AzureAd__ClientId}
       AzureAd__TenantId: ${AzureAd__TenantId}
+      CypressTestSecret: ${CYPRESS_TEST_SECRET}
     depends_on:
       - sql
     ports:
       - "8080:8080"
-    command: ["/bin/bash"]
+    command: ["/bin/bash", "-c", "./docker-entrypoint.sh dotnet Dfe.ManageSchoolImprovement.Frontend.dll"]
 
   sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
