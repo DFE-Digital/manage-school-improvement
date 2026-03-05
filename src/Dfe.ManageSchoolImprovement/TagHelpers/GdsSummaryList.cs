@@ -1,4 +1,4 @@
-using Dfe.Academisation.ExtensionMethods;
+using GovUK.Dfe.CoreLibs.Utilities.Extensions;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.ComponentModel;
