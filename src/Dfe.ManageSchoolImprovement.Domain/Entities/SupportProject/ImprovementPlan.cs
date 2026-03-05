@@ -151,12 +151,29 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             }
             
             objective.SetDeleted(deletedBy);
-
-            var reorderedObjectives = objective.SetOrder(_improvementPlanObjectives, objective);
             
-            // save these to the db 
-            _improvementPlanObjectives.Clear();
-            _improvementPlanObjectives.AddRange(reorderedObjectives);
+            var remainingObjectives = _improvementPlanObjectives.Where(o => o.DeletedAt == null).ToList();
+
+            if (remainingObjectives.Count > 0)
+            {
+                var reorderedObjectives = SetOrder(remainingObjectives, objective);
+                
+                _improvementPlanObjectives.RemoveAll(o => o.AreaOfImprovement == objective.AreaOfImprovement);
+                _improvementPlanObjectives.AddRange(reorderedObjectives);
+            }
+        }
+        
+        private static List<ImprovementPlanObjective> SetOrder(IEnumerable<ImprovementPlanObjective> improvementPlanObjectives, ImprovementPlanObjective objective)
+        {
+            var objectives = improvementPlanObjectives
+                .Where(o => o.ImprovementPlanId == objective.ImprovementPlanId && o.AreaOfImprovement == objective.AreaOfImprovement)
+                .ToList();
+            for (var i = 0; i < objectives.Count; i++)
+            {
+                objectives[i].Order = i + 1;
+            }
+
+            return objectives;
         }
     }
 }

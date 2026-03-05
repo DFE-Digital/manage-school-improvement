@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public ImprovementPlanObjectiveId? Id { get; private set; }
         public int ReadableId { get; }
         public ImprovementPlanId ImprovementPlanId { get; private set; }
-        public int Order { get; private set; }
+        public int Order { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? LastModifiedOn { get; set; }
@@ -37,17 +37,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         {
             DeletedAt = DateTime.Now;
             DeletedBy = DeletedBy = deletedBy;
-        }
-
-        public IEnumerable<ImprovementPlanObjective> SetOrder(IEnumerable<ImprovementPlanObjective> improvementPlanObjectives, ImprovementPlanObjective objective)
-        {
-            var objectives = improvementPlanObjectives.Where(o => o.ImprovementPlanId == objective.ImprovementPlanId && o.AreaOfImprovement == objective.AreaOfImprovement).ToList();
-            for (var i = 0; i < objectives.Count; i++)
-            {
-                objectives[i].Order = i + 1;
-            }
-
-            return objectives;
         }
     }
 }
