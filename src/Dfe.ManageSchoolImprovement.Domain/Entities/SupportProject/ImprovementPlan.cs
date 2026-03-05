@@ -138,5 +138,42 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
                 howIsTheSchoolProgressingOverall,
                 overallProgressDetails);
         }
+        
+        public void SetDeleteObjective(ImprovementPlanObjectiveId improvementPlanObjectiveId,
+            string deletedBy)
+        {
+            var objective = _improvementPlanObjectives.FirstOrDefault(o => o.Id == improvementPlanObjectiveId);
+
+            if (objective == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Improvement plan objective with id {improvementPlanObjectiveId} not found");
+            }
+            
+            objective.SetDeleted(deletedBy);
+            
+            var remainingObjectives = _improvementPlanObjectives.Where(o => o.DeletedAt == null).ToList();
+
+            if (remainingObjectives.Count > 0)
+            {
+                var reorderedObjectives = SetOrder(remainingObjectives, objective);
+                
+                _improvementPlanObjectives.RemoveAll(o => o.AreaOfImprovement == objective.AreaOfImprovement);
+                _improvementPlanObjectives.AddRange(reorderedObjectives);
+            }
+        }
+        
+        private static List<ImprovementPlanObjective> SetOrder(IEnumerable<ImprovementPlanObjective> improvementPlanObjectives, ImprovementPlanObjective objective)
+        {
+            var objectives = improvementPlanObjectives
+                .Where(o => o.ImprovementPlanId == objective.ImprovementPlanId && o.AreaOfImprovement == objective.AreaOfImprovement)
+                .ToList();
+            for (var i = 0; i < objectives.Count; i++)
+            {
+                objectives[i].Order = i + 1;
+            }
+
+            return objectives;
+        }
     }
 }

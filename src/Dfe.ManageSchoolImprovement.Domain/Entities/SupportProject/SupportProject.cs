@@ -747,6 +747,20 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             overallProgressDetails);
     }
 
+    public void DeleteImprovementPlanObjective(ImprovementPlanId improvementPlanId,
+        ImprovementPlanObjectiveId improvementPlanObjectiveId,
+        string deletedBy)
+    {
+        var improvementPlan = _improvementPlans.SingleOrDefault(x => x.Id == improvementPlanId);
+
+        if (improvementPlan == null)
+        {
+            throw new InvalidOperationException($"Improvement plan with id {improvementPlanId} not found.");
+        }
+
+        improvementPlan.SetDeleteObjective(improvementPlanObjectiveId, deletedBy);
+    }
+
     public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,
         bool? interimExecutiveBoardCreated,
         string? interimExecutiveBoardCreatedDetails, DateTime? interimExecutiveBoardCreatedDate)

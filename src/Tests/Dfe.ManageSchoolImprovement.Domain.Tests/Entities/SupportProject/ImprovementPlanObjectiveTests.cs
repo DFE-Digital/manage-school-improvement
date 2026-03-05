@@ -231,5 +231,73 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Assert
             Assert.Equal(lastModifiedOn, objective.LastModifiedOn);
         }
+
+        [Fact]
+        public void SetDeleted_WithDeletedBy_SetsDeletedAtAndDeletedBy()
+        {
+            // Arrange
+            var objective = new ImprovementPlanObjective(_objectiveId, _improvementPlanId, _areaOfImprovement, _details, _order);
+            var deletedBy = "deleted.user@example.com";
+            var beforeCall = DateTime.Now;
+
+            // Act
+            objective.SetDeleted(deletedBy);
+
+            var afterCall = DateTime.Now;
+
+            // Assert
+            Assert.Equal(deletedBy, objective.DeletedBy);
+            Assert.NotNull(objective.DeletedAt);
+            Assert.InRange(objective.DeletedAt!.Value, beforeCall.AddSeconds(-1), afterCall.AddSeconds(1));
+        }
+
+        [Theory]
+        [InlineData("admin@example.com")]
+        [InlineData("user123")]
+        [InlineData("system")]
+        public void SetDeleted_WithVariousDeletedByValues_SetsDeletedByCorrectly(string deletedBy)
+        {
+            // Arrange
+            var objective = new ImprovementPlanObjective(_objectiveId, _improvementPlanId, _areaOfImprovement, _details, _order);
+
+            // Act
+            objective.SetDeleted(deletedBy);
+
+            // Assert
+            Assert.Equal(deletedBy, objective.DeletedBy);
+            Assert.NotNull(objective.DeletedAt);
+        }
+
+        [Fact]
+        public void SetDeleted_WithEmptyString_SetsDeletedByToEmpty()
+        {
+            // Arrange
+            var objective = new ImprovementPlanObjective(_objectiveId, _improvementPlanId, _areaOfImprovement, _details, _order);
+
+            // Act
+            objective.SetDeleted(string.Empty);
+
+            // Assert
+            Assert.Equal(string.Empty, objective.DeletedBy);
+            Assert.NotNull(objective.DeletedAt);
+        }
+
+        [Fact]
+        public void SetDeleted_DoesNotAffectOtherProperties()
+        {
+            // Arrange
+            var objective = new ImprovementPlanObjective(_objectiveId, _improvementPlanId, _areaOfImprovement, _details, _order);
+            var deletedBy = "deleted.user@example.com";
+
+            // Act
+            objective.SetDeleted(deletedBy);
+
+            // Assert - Verify other properties remain unchanged
+            Assert.Equal(_objectiveId, objective.Id);
+            Assert.Equal(_improvementPlanId, objective.ImprovementPlanId);
+            Assert.Equal(_areaOfImprovement, objective.AreaOfImprovement);
+            Assert.Equal(_details, objective.Details);
+            Assert.Equal(_order, objective.Order);
+        }
     }
 } 
