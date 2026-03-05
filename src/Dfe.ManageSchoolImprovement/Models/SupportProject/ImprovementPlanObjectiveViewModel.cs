@@ -10,6 +10,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string AreaOfImprovement { get; set; } = string.Empty;
         public string Details { get; set; } = string.Empty;
         public int Order { get; set; }
+        public string? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public static ImprovementPlanObjectiveViewModel Create(ImprovementPlanObjectiveDto dto)
         {

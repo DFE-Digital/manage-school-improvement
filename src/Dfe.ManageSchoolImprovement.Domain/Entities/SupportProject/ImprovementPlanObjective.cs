@@ -17,17 +17,26 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public ImprovementPlanObjectiveId? Id { get; private set; }
         public int ReadableId { get; }
         public ImprovementPlanId ImprovementPlanId { get; private set; }
-        public int Order { get; private set; }
+        public int Order { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
         public string AreaOfImprovement { get; set; }
         public string Details { get; set; }
+        
+        public string? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public void SetDetails(string details)
         {
             Details = details;
+        }
+
+        public void SetDeleted(string deletedBy)
+        {
+            DeletedAt = DateTime.Now;
+            DeletedBy = DeletedBy = deletedBy;
         }
     }
 }

@@ -1,0 +1,59 @@
+@page "/task-list/improvement-plan/delete-an-objective/{id:int}"
+@model DeleteAnObjectiveModel
+@{
+    ViewData["Title"] = "Delete an objective";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id"
+            class="govuk-back-link" data-cy="back-link">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Are you sure you want to delete this objective?
+        </h1>
+        <p class="govuk-body">You should only delete incorrect information.</p>
+        <p class="govuk-body">Only the service support team can restore deleted objectives.</p>
+        
+        <form method="post" novalidate>
+            <h2 class="govuk-heading-m">Objective to be deleted</h2>
+            
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">@Model.SelectedAreaOfImprovement</h2>
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Objective @Model.ObjectiveOrder
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                @Model.ObjectiveDetails
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+            <input type="hidden" name="@nameof(Model.ImprovementPlanId)" value="@Model.ImprovementPlanId" />
+            <input type="hidden" name="@nameof(Model.ImprovementPlanObjectiveId)"
+                   value="@Model.ImprovementPlanObjectiveId" />
+        
+            <div class="govuk-button-group">
+                <button class="govuk-button govuk-button--warning" type="submit" name="action" value="add-another" data-module="govuk-button"
+                        data-cy="save-and-add-another-button">
+                    Delete objective
+                </button>
+                <a class="govuk-link" asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                   asp-route-id="@Model.SupportProject?.Id"
+                   asp-route-returnpage="@Model.ReturnPage"
+                   data-cy="objective-summary-change-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -654,5 +654,134 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         #endregion
+
+        #region SetDeleteObjective Tests
+
+        [Fact]
+        public void SetDeleteObjective_WithNonExistentObjective_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var nonExistentObjectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var deletedBy = "test.user@example.com";
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                _improvementPlan.SetDeleteObjective(nonExistentObjectiveId, deletedBy));
+
+            Assert.Equal($"Improvement plan objective with id {nonExistentObjectiveId} not found", exception.Message);
+        }
+
+        [Fact]
+        public void SetDeleteObjective_WithExistingObjective_MarksObjectiveAsDeleted()
+        {
+            // Arrange
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var deletedBy = "admin@school.gov.uk";
+            _improvementPlan.AddObjective(objectiveId, _improvementPlanId, "QualityOfEducation", "Improve maths", 1);
+
+            // Act
+            _improvementPlan.SetDeleteObjective(objectiveId, deletedBy);
+
+            // Assert
+            var objective = _improvementPlan.ImprovementPlanObjectives.First(o => o.Id == objectiveId);
+            Assert.NotNull(objective.DeletedAt);
+            Assert.Equal(deletedBy, objective.DeletedBy);
+        }
+
+        [Fact]
+        public void SetDeleteObjective_WhenSingleObjectiveInArea_RemovesObjectiveFromList()
+        {
+            // Arrange - single objective in plan
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            _improvementPlan.AddObjective(objectiveId, _improvementPlanId, "QualityOfEducation", "Only objective", 1);
+
+            // Act
+            _improvementPlan.SetDeleteObjective(objectiveId, "deleter@test.com");
+
+            // Assert - objective is soft-deleted but still in collection; no remaining non-deleted in same area so list has one (deleted) item
+            var objectives = _improvementPlan.ImprovementPlanObjectives.ToList();
+            Assert.Single(objectives);
+            Assert.NotNull(objectives[0].DeletedAt);
+        }
+
+        [Fact]
+        public void SetDeleteObjective_WhenMultipleObjectivesInSameArea_ReordersRemainingToSequentialOrder()
+        {
+            // Arrange - three objectives in same area, delete the second (order 2)
+            var objective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective3Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            _improvementPlan.AddObjective(objective1Id, _improvementPlanId, "QualityOfEducation", "First", 1);
+            _improvementPlan.AddObjective(objective2Id, _improvementPlanId, "QualityOfEducation", "Second", 2);
+            _improvementPlan.AddObjective(objective3Id, _improvementPlanId, "QualityOfEducation", "Third", 3);
+
+            // Act
+            _improvementPlan.SetDeleteObjective(objective2Id, "deleter@test.com");
+
+            // Assert - remaining two should have Order 1 and 2 (SetOrder behaviour)
+            var remaining = _improvementPlan.ImprovementPlanObjectives.Where(o => o.DeletedAt == null).ToList();
+            Assert.Equal(2, remaining.Count);
+            var orders = remaining.Select(o => o.Order).OrderBy(x => x).ToList();
+            Assert.Equal(1, orders[0]);
+            Assert.Equal(2, orders[1]);
+        }
+
+        [Fact]
+        public void SetDeleteObjective_WhenObjectivesInDifferentAreas_OnlyReordersObjectivesInSameArea()
+        {
+            // Arrange - two in QualityOfEducation, two in LeadershipAndManagement
+            var quality1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var quality2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var leadership1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var leadership2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            _improvementPlan.AddObjective(quality1Id, _improvementPlanId, "QualityOfEducation", "Q1", 1);
+            _improvementPlan.AddObjective(quality2Id, _improvementPlanId, "QualityOfEducation", "Q2", 2);
+            _improvementPlan.AddObjective(leadership1Id, _improvementPlanId, "LeadershipAndManagement", "L1", 1);
+            _improvementPlan.AddObjective(leadership2Id, _improvementPlanId, "LeadershipAndManagement", "L2", 2);
+
+            // Act - delete first Quality objective
+            _improvementPlan.SetDeleteObjective(quality1Id, "deleter@test.com");
+
+            // Assert - remaining Quality objective has Order 1; Leadership unchanged (1, 2)
+            var qualityRemaining = _improvementPlan.ImprovementPlanObjectives
+                .Where(o => o.AreaOfImprovement == "QualityOfEducation" && o.DeletedAt == null).ToList();
+            var leadershipObjectives = _improvementPlan.ImprovementPlanObjectives
+                .Where(o => o.AreaOfImprovement == "LeadershipAndManagement").ToList();
+
+            Assert.Single(qualityRemaining);
+            Assert.Equal(1, qualityRemaining[0].Order);
+            Assert.Equal(2, leadershipObjectives.Count);
+            Assert.Equal(1, leadershipObjectives.First(o => o.Id == leadership1Id).Order);
+            Assert.Equal(2, leadershipObjectives.First(o => o.Id == leadership2Id).Order);
+        }
+
+        [Fact]
+        public void SetDeleteObjective_Reordering_AssignsConsecutiveOrdersStartingFromOne()
+        {
+            // Arrange - four objectives in same area; delete the one with order 1
+            var id1 = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var id2 = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var id3 = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var id4 = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            _improvementPlan.AddObjective(id1, _improvementPlanId, "BehaviourAndAttitudes", "A", 1);
+            _improvementPlan.AddObjective(id2, _improvementPlanId, "BehaviourAndAttitudes", "B", 2);
+            _improvementPlan.AddObjective(id3, _improvementPlanId, "BehaviourAndAttitudes", "C", 3);
+            _improvementPlan.AddObjective(id4, _improvementPlanId, "BehaviourAndAttitudes", "D", 4);
+
+            // Act
+            _improvementPlan.SetDeleteObjective(id1, "user@test.com");
+
+            // Assert - SetOrder should give remaining three orders 1, 2, 3
+            var remaining = _improvementPlan.ImprovementPlanObjectives
+                .Where(o => o.AreaOfImprovement == "BehaviourAndAttitudes" && o.DeletedAt == null)
+                .OrderBy(o => o.Order)
+                .ToList();
+            Assert.Equal(3, remaining.Count);
+            Assert.Equal(1, remaining[0].Order);
+            Assert.Equal(2, remaining[1].Order);
+            Assert.Equal(3, remaining[2].Order);
+        }
+
+        #endregion
     }
 }
