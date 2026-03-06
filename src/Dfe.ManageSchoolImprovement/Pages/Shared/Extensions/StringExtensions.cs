@@ -1,6 +1,6 @@
 namespace Dfe.ManageSchoolImprovement.Frontend.Extensions;
 
-using Dfe.Academisation.ExtensionMethods;
+using GovUK.Dfe.CoreLibs.Utilities.Extensions;
 
 public static class StringExtensions
 {

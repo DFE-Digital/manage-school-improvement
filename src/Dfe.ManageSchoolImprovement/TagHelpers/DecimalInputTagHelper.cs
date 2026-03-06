@@ -1,4 +1,4 @@
-﻿using Dfe.Academisation.ExtensionMethods;
+﻿using GovUK.Dfe.CoreLibs.Utilities.Extensions;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;

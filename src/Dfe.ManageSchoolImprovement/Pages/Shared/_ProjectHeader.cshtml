@@ -1,21 +1,20 @@
-@using Dfe.Academisation.ExtensionMethods
+@using System.Collections
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
-
+@using System.Collections.Generic
+@using System.Linq
 @inject IWebHostEnvironment Environment
 
 @{
     DateTime createdDate = @Model.CreatedOn;
-
-    var engagementConcerns = new List<EngagementConcernViewModel>(Model.EngagementConcerns);
-
+    bool engagementConcern = Model.EngagementConcern;
     bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
     bool deliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
     var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
     var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
-    bool engagementConcern = engagementConcerns.Any();
     bool projectNotInProgress = Model.ProjectStatus != ProjectStatusValue.InProgress;
     DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
 }

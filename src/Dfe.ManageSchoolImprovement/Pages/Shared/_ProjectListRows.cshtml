@@ -1,5 +1,5 @@
 @using Dfe.ManageSchoolImprovement.Utils
-@using static Dfe.Academisation.ExtensionMethods.DateTimeExtensions
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model IEnumerable<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.SupportProjectViewModel>
 
 @inject IWebHostEnvironment Environment
@@ -31,7 +31,7 @@
                 </div>
                 <div id="@("region-" + project.Id)" class="govuk-!-margin-top-1">
                     <strong>Region:</strong>
-                    @if (@project.Region.IsEmpty())
+                    @if (string.IsNullOrWhiteSpace(project.Region))
                     {
                         <span class="empty">Empty</span>
                     }
@@ -46,7 +46,7 @@
                 </div>
                 <div id="@("localauthority-" + project.Id)" class="govuk-!-margin-top-1">
                     <strong>Local authority:</strong>
-                    @if (@project.LocalAuthority.IsEmpty())
+                    @if (string.IsNullOrWhiteSpace(project.LocalAuthority))
                     {
                         <span class="empty">Empty</span>
                     }

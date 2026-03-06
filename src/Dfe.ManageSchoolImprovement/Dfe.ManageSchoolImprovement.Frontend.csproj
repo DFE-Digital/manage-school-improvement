@@ -22,8 +22,6 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Dfe.Academisation.CorrelationIdMiddleware" Version="2.0.3" />
-        <PackageReference Include="Dfe.Academisation.ExtensionMethods" Version="2.0.0" />
         <PackageReference Include="GovUK.Dfe.CoreLibs.http" Version="1.0.8" />
         <PackageReference Include="GovUK.Dfe.PersonsApi.Client" Version="0.1.2" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />

@@ -171,6 +171,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? SendEmailToGrantTeam { get; set; }
 
         public IEnumerable<EngagementConcernViewModel>? EngagementConcerns { get; set; }
+        
+        public bool EngagementConcern { get; set; }
 
         public bool? AssessmentToolTwoCompleted { get; set; }
 
@@ -285,6 +287,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
 
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>(),
+                EngagementConcern = (supportProjectDto.EngagementConcerns != null && supportProjectDto.EngagementConcerns.Any()),
                 SupportOrganisationType = supportProjectDto.SupportingOrganisationType,
 
                 ProjectStatus = supportProjectDto.ProjectStatus,

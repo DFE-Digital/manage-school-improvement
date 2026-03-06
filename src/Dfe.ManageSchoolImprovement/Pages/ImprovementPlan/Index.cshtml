@@ -21,7 +21,7 @@
 
 @if (Model.IsReadOnly)
 {
-    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary" />
+    <partial name="Shared/_TaskPausedOrStoppedNotificationSummary"/>
 }
 
 @if (Model.ShowError)
@@ -54,7 +54,8 @@
                      model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)' />
             
             <form method="post" novalidate>
-                <div class="govuk-form-group @(Model.ShowMarkAsCompleteError ? "govuk-form-group--error" : string.Empty)">
+                <div
+                    class="govuk-form-group @(Model.ShowMarkAsCompleteError ? "govuk-form-group--error" : string.Empty)">
                     @if (Model.ShowMarkAsCompleteError)
                     {
                         <p id="nationality-error" class="govuk-error-message">
@@ -106,13 +107,34 @@
                 <partial name="Shared/_ObjectiveSectionSummaryList"
                          model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly)'/>
                 
-                <govuk-summary-list model="Model" items="summaryItems" />
-                
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Mark this section as complete
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @(Model.MarkAsComplete ? "Yes" : "Incomplete")
+                        </dd>
+                    </div>
+                </dl>
             }
             else
             {
-                <p>No objectives recorded</p>
-                <govuk-summary-list model="Model" items="summaryItems" />
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            No objectives recorded
+                        </dt>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Mark this section as complete
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @(Model.MarkAsComplete ? "Yes" : "Incomplete")
+                        </dd>
+                    </div>
+                </dl>
             }
         }
 
