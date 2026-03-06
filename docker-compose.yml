@@ -10,11 +10,16 @@ services:
       ConnectionStrings__DefaultConnection: ${ConnectionStrings__DefaultConnection}
       AzureAd__ClientId: ${AzureAd__ClientId}
       AzureAd__TenantId: ${AzureAd__TenantId}
-      CypressTestSecret: ${CYPRESS_TEST_SECRET}
+      CypressTestSecret: ${cypressKey}
+      ASPNETCORE_URLS: "https://+:8443" # Enable HTTPS on port 8443
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "YourDevCertPassword" # Replace with your actual password or use a secret
     depends_on:
       - sql
     ports:
-      - "8080:8080"
+      - "7088:8443" # Expose HTTPS port 8443 on host port 7088
+    volumes:
+      - ./certs/aspnetapp.pfx:/https/aspnetapp.pfx:ro # Mount your dev certificate
     command: ["/bin/bash", "-c", "./docker-entrypoint.sh dotnet Dfe.ManageSchoolImprovement.Frontend.dll"]
 
   sql:
