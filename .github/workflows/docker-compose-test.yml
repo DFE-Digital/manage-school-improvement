@@ -33,6 +33,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Create certs directory
+        run: mkdir -p ./certs
+
       - name: Generate dev certificate
         run: dotnet dev-certs https -ep ./certs/aspnetapp.pfx -p SuperSecretPassword
 
