@@ -13,7 +13,7 @@ services:
       CypressTestSecret: ${cypressKey}
       ASPNETCORE_URLS: "https://+:8443" # Enable HTTPS on port 8443
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-      ASPNETCORE_Kestrel__Certificates__Default__Password: "YourDevCertPassword" # Replace with your actual password or use a secret
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "SuperSecretPassword" # Replace with your actual password or use a secret
     depends_on:
       - sql
     ports:
