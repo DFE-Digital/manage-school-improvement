@@ -76,6 +76,9 @@ jobs:
             sleep 5
           done
 
+      - name: Debug app logs
+        run: docker logs msi
+
       - name: Rise Cypress cache
         uses: cypress-io/github-action@v6
         with:
