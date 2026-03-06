@@ -6,6 +6,9 @@
     var summaryItems = SummaryListHelper.For<IndexModel>(
         m => m.MarkAsComplete!
     );
+    
+    var improvementPlanReviewsCount =  Model.SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews.Count;
+
 }
 
 @section BeforeMain
@@ -36,19 +39,19 @@
         @if (!Model.IsReadOnly)
         {
             <partial name="_ObjectiveSection"
-                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly)'/>
+                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly)' />
+                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)' />
 
             <partial name="_ObjectiveSection"
-                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly)' />
+                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)' />
 
             <partial name="_ObjectiveSection"
-                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly)' />
+                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)' />
 
             <partial name="_ObjectiveSection"
-                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly)' />
+                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)' />
             
             <form method="post" novalidate>
                 <div class="govuk-form-group @(Model.ShowMarkAsCompleteError ? "govuk-form-group--error" : string.Empty)">
