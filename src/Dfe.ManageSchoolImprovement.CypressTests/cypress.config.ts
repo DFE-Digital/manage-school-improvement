@@ -20,8 +20,7 @@ export default defineConfig({
       json: true,
     },
   },
-    e2e: {   
-    chromeWebSecurity: false,
+    e2e: { 
     setupNodeEvents(on, config) {
 
       on("before:run", () => {

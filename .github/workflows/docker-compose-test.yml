@@ -92,7 +92,7 @@ jobs:
       - name: Verify containerized application availability
         run: |
           echo "Verifying application is ready for Cypress tests..."
-          curl -f https://localhost:7088 || exit 1
+          curl -f -k https://localhost:7088 || exit 1
 
       - name: Rise Cypress cache
         uses: cypress-io/github-action@v6
