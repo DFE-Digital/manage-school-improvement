@@ -1,4 +1,4 @@
-@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly)
+@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly, int? previousReviews)
 
 @if (Model.Objectives.Any())
 {
@@ -28,13 +28,16 @@
                                            asp-route-returnpage="@Model.ReturnPage"
                                            data-cy="objective-summary-change-link">Change</a>
                                     </li>
-                                    <li class="govuk-summary-list__actions-list-item">
-                                        <a class="govuk-link" asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
-                                           asp-route-id="@Model.SupportProjectId"
-                                           asp-route-objectiveid="@objective.ReadableId"
-                                           asp-route-returnpage="@Model.ReturnPage"
-                                           data-cy="objective-summary-change-link">Delete</a>
-                                    </li>
+                                    @if (Model.previousReviews == 0)
+                                    {
+                                        <li class="govuk-summary-list__actions-list-item">
+                                            <a class="govuk-link" asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
+                                               asp-route-id="@Model.SupportProjectId"
+                                               asp-route-objectiveid="@objective.ReadableId"
+                                               asp-route-returnpage="@Model.ReturnPage"
+                                               data-cy="objective-summary-change-link">Delete</a>
+                                        </li>  
+                                    }
                                 </ul>
                             </dd>
                         }
