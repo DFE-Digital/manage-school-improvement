@@ -29,8 +29,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
         [BindProperty]
         public Guid ImprovementPlanObjectiveId { get; set; }
 
-        public string? ObjectiveDetailsErrorMessage { get; set; } = null;
-
         public string ReturnPage { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnGet(int id, int ObjectiveId, string? returnPage, CancellationToken cancellationToken)

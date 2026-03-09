@@ -8,7 +8,7 @@
     );
     
     var improvementPlanReviewsCount =  Model.SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews.Count;
-
+    bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
 }
 
 @section BeforeMain
@@ -27,6 +27,24 @@
 @if (Model.ShowError)
 {
     <partial name="_ErrorSummary"/>
+}
+
+@if (objectiveDeleted)
+{
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+         aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
+         cy-data="task-updated-success-notification">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Success
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <h3 class="govuk-notification-banner__heading" id="contact-added">
+                Objective deleted
+            </h3>
+        </div>
+    </div>
 }
 
 <div class="govuk-grid-row">
