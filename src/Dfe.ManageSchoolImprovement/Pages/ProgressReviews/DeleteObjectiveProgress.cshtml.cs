@@ -12,12 +12,13 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Imp
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 
-public class ChangeProgressModel(
+public class DeleteObjectiveProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     IMediator mediator,
     ErrorService errorService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
+    [BindProperty]
     public string ReturnPage { get; set; } = string.Empty;
 
     public ImprovementPlanObjectiveViewModel? Objective { get; private set; }
@@ -40,33 +41,23 @@ public class ChangeProgressModel(
     public ImprovementPlanId? ImprovementPlanId { get; set; }
     
     public int? ObjectiveProgressId { get; set; }
-
-    public string? ProgressStatusErrorMessage { get; set; } = null;
-
-    public bool ShowProgressStatusError => ModelState.ContainsKey(nameof(ProgressStatus)) &&
-                                           ModelState[nameof(ProgressStatus)]?.Errors.Count > 0;
-
-    public IList<RadioButtonsLabelViewModel> ProgressRadioButtons { get; set; } = [];
-
+    
     public bool ShowError => _errorService.HasErrors();
-
-    public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) &&
-                                    ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage,
         CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
+        ReturnPage = returnPage ?? Links.ImprovementPlan.ImprovementPlanTab.Page;
 
 
         await base.GetSupportProject(id, cancellationToken);
 
         // using readableId here as they are pastd through the url
         LoadPageData(objectiveProgressId);
-        SetupProgressRadioButtons();
 
         ProgressStatus = ObjectiveProgress?.HowIsSchoolProgressing ?? string.Empty;
-        ProgressDetails = ObjectiveProgress?.ProgressDetails ?? string.Empty;
+        var details = ObjectiveProgress?.ProgressDetails ?? string.Empty;
+        ProgressDetails = details.Length > 200 ? details[..200] + "…" : details;
         ObjectiveProgressId = ObjectiveProgress?.ReadableId;
 
         return Page();
@@ -102,73 +93,41 @@ public class ChangeProgressModel(
         }
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, string? returnPage,
+    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId,
         CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
-
         await base.GetSupportProject(id, cancellationToken);
-        SetupProgressRadioButtons();
         LoadPageData(objectiveProgressId);
 
-        if (!ModelState.IsValid)
-        {
-            if (ShowProgressStatusError)
-            {
-                ProgressStatusErrorMessage = "Select how the school is progressing with this objective";
-                _errorService.AddError(ProgressRadioButtons.First().Id, ProgressStatusErrorMessage);
-            }
+        // if (!ModelState.IsValid)
+        // {
+        //     _errorService.AddErrors(Request.Form.Keys, ModelState);
+        //     return Page();
+        // }
 
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            return Page();
+        // var result = await mediator.Send(new SetImprovementPlanObjectiveProgressDetailsCommand(
+        //     new SupportProjectId(id),
+        //     ImprovementPlanId,
+        //     new ImprovementPlanReviewId(ImprovementPlanReview.Id),
+        //     new ImprovementPlanObjectiveProgressId(ObjectiveProgress.Id),
+        //     ProgressStatus!, ProgressDetails), cancellationToken);
+
+        // if (result == null)
+        // {
+        //     _errorService.AddApiError();
+        //     return await base.GetSupportProject(id, cancellationToken);
+        // }
+
+        var targetPage = string.IsNullOrEmpty(ReturnPage)
+            ? Links.ImprovementPlan.ImprovementPlanTab.Page
+            : ReturnPage;
+
+        if (Links.ProgressReviews.ProgressSummary.Page.Equals(targetPage, StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToPage(targetPage, new { id, reviewId = ImprovementPlanReview?.ReadableId });
         }
 
-        var result = await mediator.Send(new SetImprovementPlanObjectiveProgressDetailsCommand(
-            new SupportProjectId(id),
-            ImprovementPlanId,
-            new ImprovementPlanReviewId(ImprovementPlanReview.Id),
-            new ImprovementPlanObjectiveProgressId(ObjectiveProgress.Id),
-            ProgressStatus!, ProgressDetails), cancellationToken);
-
-        if (result == null)
-        {
-            _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
-        }
-
-        // All objectives completed, redirect to summary
-        return RedirectToPage(ReturnPage, new { id, reviewId = ImprovementPlanReview.ReadableId });
+        return RedirectToPage(targetPage, new { id });
     }
-
-
-    private void SetupProgressRadioButtons()
-    {
-        ProgressRadioButtons = new List<RadioButtonsLabelViewModel>
-        {
-            new()
-            {
-                Id = "red",
-                Name = "Red",
-                Value = "Red",
-                Hint =
-                    "Improvement activities are off track and short-term or end-of-programme changes are unlikely without major intervention"
-            },
-            new()
-            {
-                Id = "amber",
-                Name = "Amber",
-                Value = "Amber",
-                Hint =
-                    "Improvement activities require attention. Short-term or end-of-programme changes are at risk but achievable with timely action"
-            },
-            new()
-            {
-                Id = "green",
-                Name = "Green",
-                Value = "Green",
-                Hint =
-                    "Improvement activities are on track and both short-term and end-of-programme changes are likely to be achieved"
-            },
-        };
-    }
+    
 }

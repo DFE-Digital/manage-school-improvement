@@ -26,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
         public string ReturnPage { get; set; } = string.Empty;
 
-        public async Task<IActionResult> OnGet(int id, int objectiveId, string? returnPage, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, int objectiveId, int? reviewId, string? returnPage, CancellationToken cancellationToken)
         {
             ReturnPage = returnPage ?? Links.ImprovementPlan.Index.Page;
 
@@ -50,7 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             return Page();
         }
-        public async Task<IActionResult> OnPost(int id, int objectiveId, string? returnPage, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPost(int id, int objectiveId, int? reviewId, string? returnPage, CancellationToken cancellationToken)
         {
             ReturnPage = returnPage ?? Links.ImprovementPlan.Index.Page;
 
@@ -69,10 +69,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
             await mediator.Send(deleteObjectiveRequest, cancellationToken);
 
             TaskUpdated = true;
-
-            // Redirect to review objectives page  
-            return RedirectToPage(ReturnPage, new { id });
-
+            
+            return RedirectToPage(ReturnPage, new { id, reviewId });
         }
 
 

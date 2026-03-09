@@ -54,25 +54,42 @@
                             @if (!Model.SupportProject!.IsReadOnly)
                             {
                                 <li class="govuk-summary-card__action">
-
                                     @if (objective.ReadableId != 0)
                                     {
-                                    <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
-                                       asp-route-id="@Model.SupportProject?.Id"
-                                       asp-route-objectiveProgressId="@objective.ReadableId" class="govuk-link"
-                                       data-cy="change-objective-progress-link-@objective.ReadableId">
-                                        Change<span class="govuk-visually-hidden"> @objective.Title</span>
-                                    </a>
+                                        <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
+                                           asp-route-id="@Model.SupportProject?.Id"
+                                           asp-route-objectiveProgressId="@objective.ReadableId"
+                                           class="govuk-link"
+                                           data-cy="change-objective-progress-link">
+                                            Change or delete<span class="govuk-visually-hidden"> @objective.Title</span>
+                                        </a>
                                     }
                                     else
                                     {
-                                    <a asp-page="@Links.ProgressReviews.RecordProgress.Page"
-                                       asp-route-id="@Model.SupportProject?.Id" asp-route-reviewId="@Model.ReviewId"
-                                       asp-route-objectiveId="@objective.ObjectiveReadableId"
-                                       asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page" class="govuk-link"
-                                       data-cy="record-objective-progress-link-@objective.ObjectiveReadableId">
-                                        Record<span class="govuk-visually-hidden"> @objective.Title</span>
-                                    </a>
+                                        <dd class="govuk-summary-list__actions">
+                                            <ul class="govuk-summary-list__actions-list">
+                                                <li class="govuk-summary-list__actions-list-item">
+                                                    <a class="govuk-link"
+                                                       asp-page="@Links.ProgressReviews.RecordProgress.Page"
+                                                       asp-route-id="@Model.SupportProject?.Id"
+                                                       asp-route-reviewId="@Model.ReviewId"
+                                                       asp-route-objectiveId="@objective.ObjectiveReadableId"
+                                                       asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                       data-cy="record-objective-progress-link-@objective.ObjectiveReadableId">Record<span
+                                                            class="govuk-visually-hidden"> @objective.Title</span></a>
+                                                </li>
+                                                <li class="govuk-summary-list__actions-list-item">
+                                                    <a class="govuk-link"
+                                                       asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
+                                                       asp-route-id="@Model.SupportProject?.Id"
+                                                       asp-route-objectiveid="@objective.ObjectiveReadableId"
+                                                       asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                       asp-route-reviewid="@Model.ReviewId"
+                                                       data-cy="objective-summary-change-link">Delete<span
+                                                            class="govuk-visually-hidden"> @objective.Title</span></a>
+                                                </li>
+                                            </ul>
+                                        </dd>
                                     }
 
                                 </li>
