@@ -68,11 +68,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             await mediator.Send(deleteObjectiveRequest, cancellationToken);
 
-            TaskUpdated = true;
-
-            // Redirect to review objectives page  
+            TempData["objectiveDeleted"] = true;
+            
             return RedirectToPage(ReturnPage, new { id });
-
         }
 
 
