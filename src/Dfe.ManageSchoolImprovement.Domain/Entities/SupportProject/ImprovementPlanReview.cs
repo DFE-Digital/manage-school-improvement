@@ -89,5 +89,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             HowIsTheSchoolProgressingOverall = howIsTheSchoolProgressingOverall;
             OverallProgressDetails = overallProgressDetails;
         }
+
+        public void SetDeleteProgress(ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId, 
+            string deletedBy)
+        {
+            var progress =
+                _ImprovementPlanObjectiveProgresses.SingleOrDefault(x => x.Id == improvementPlanObjectiveProgressId);
+
+            if (progress == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Improvement plan review objective progress with id {improvementPlanObjectiveProgressId} not found");
+            }
+
+            progress.SetProgressDeleted(deletedBy);
+        }
     }
 }

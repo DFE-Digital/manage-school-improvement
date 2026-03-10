@@ -783,5 +783,104 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         #endregion
+
+        #region SetDeleteObjectiveProgress Tests
+
+        [Fact]
+        public void SetDeleteObjectiveProgress_WithNonExistentReview_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var nonExistentReviewId = new ImprovementPlanReviewId(Guid.NewGuid());
+            var progressId = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
+            var deletedBy = "test.user@example.com";
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                _improvementPlan.SetDeleteObjectiveProgress(nonExistentReviewId, progressId, deletedBy));
+
+            Assert.Equal($"Improvement plan review with id {nonExistentReviewId} not found", exception.Message);
+        }
+
+        [Fact]
+        public void SetDeleteObjectiveProgress_WithExistingReviewAndProgress_MarksProgressAsDeleted()
+        {
+            // Arrange
+            var reviewId = new ImprovementPlanReviewId(Guid.NewGuid());
+            var progressId = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var deletedBy = "admin@school.gov.uk";
+
+            _improvementPlan.AddReview(reviewId, "Test Reviewer", DateTime.UtcNow);
+            _improvementPlan.AddImprovementPlanObjectiveProgress(reviewId, progressId, objectiveId, "On track", "Good progress");
+
+            // Act
+            _improvementPlan.SetDeleteObjectiveProgress(reviewId, progressId, deletedBy);
+
+            // Assert
+            var review = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == reviewId);
+            var progress = review.ImprovementPlanObjectiveProgresses.First(p => p.Id == progressId);
+            Assert.NotNull(progress.DeletedAt);
+            Assert.Equal(deletedBy, progress.DeletedBy);
+        }
+
+        [Fact]
+        public void SetDeleteObjectiveProgress_WithMultipleReviews_DeletesProgressOnCorrectReviewOnly()
+        {
+            // Arrange - two reviews, each with progress; delete progress on first review only
+            var review1Id = new ImprovementPlanReviewId(Guid.NewGuid());
+            var review2Id = new ImprovementPlanReviewId(Guid.NewGuid());
+            var progress1Id = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
+            var progress2Id = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
+            var objectiveId = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            _improvementPlan.AddReview(review1Id, "Reviewer 1", DateTime.UtcNow);
+            _improvementPlan.AddReview(review2Id, "Reviewer 2", DateTime.UtcNow.AddDays(30));
+            _improvementPlan.AddImprovementPlanObjectiveProgress(review1Id, progress1Id, objectiveId, "On track", "Details 1");
+            _improvementPlan.AddImprovementPlanObjectiveProgress(review2Id, progress2Id, objectiveId, "Behind", "Details 2");
+
+            // Act
+            _improvementPlan.SetDeleteObjectiveProgress(review1Id, progress1Id, "deleter@test.com");
+
+            // Assert - first review's progress is deleted, second is unchanged
+            var review1 = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == review1Id);
+            var review2 = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == review2Id);
+            var progress1 = review1.ImprovementPlanObjectiveProgresses.First(p => p.Id == progress1Id);
+            var progress2 = review2.ImprovementPlanObjectiveProgresses.First(p => p.Id == progress2Id);
+
+            Assert.NotNull(progress1.DeletedAt);
+            Assert.Equal("deleter@test.com", progress1.DeletedBy);
+            Assert.Null(progress2.DeletedAt);
+            Assert.Null(progress2.DeletedBy);
+        }
+
+        [Fact]
+        public void SetDeleteObjectiveProgress_WithMultipleProgressEntriesOnSameReview_DeletesCorrectProgressOnly()
+        {
+            // Arrange - one review with two progress entries
+            var reviewId = new ImprovementPlanReviewId(Guid.NewGuid());
+            var progress1Id = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
+            var progress2Id = new ImprovementPlanObjectiveProgressId(Guid.NewGuid());
+            var objective1Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+            var objective2Id = new ImprovementPlanObjectiveId(Guid.NewGuid());
+
+            _improvementPlan.AddReview(reviewId, "Test Reviewer", DateTime.UtcNow);
+            _improvementPlan.AddImprovementPlanObjectiveProgress(reviewId, progress1Id, objective1Id, "On track", "Details 1");
+            _improvementPlan.AddImprovementPlanObjectiveProgress(reviewId, progress2Id, objective2Id, "Behind", "Details 2");
+
+            // Act - delete only the first progress
+            _improvementPlan.SetDeleteObjectiveProgress(reviewId, progress1Id, "user@test.com");
+
+            // Assert
+            var review = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == reviewId);
+            var progress1 = review.ImprovementPlanObjectiveProgresses.First(p => p.Id == progress1Id);
+            var progress2 = review.ImprovementPlanObjectiveProgresses.First(p => p.Id == progress2Id);
+
+            Assert.NotNull(progress1.DeletedAt);
+            Assert.Equal("user@test.com", progress1.DeletedBy);
+            Assert.Null(progress2.DeletedAt);
+            Assert.Null(progress2.DeletedBy);
+        }
+
+        #endregion
     }
 }

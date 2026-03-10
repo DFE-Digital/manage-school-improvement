@@ -1,0 +1,68 @@
+@page "/progress-reviews/{id:int}/delete-progress/{objectiveProgressId:int}"
+
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.DeleteObjectiveProgressModel
+@{
+    ViewData["Title"] = "Delete progress";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.ProgressReviews.ChangeProgress.Page" asp-route-id="@Model.SupportProject.Id"
+            asp-route-objectiveProgressId="@Model.ObjectiveProgressId" class="govuk-back-link" data-cy="back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Are you sure you want to delete this progress review?
+        </h1>
+        <p>You should only delete incorrect information.</p>
+        <p>Only the service support team can restore deleted progress ratings.</p>
+
+        <div class="govuk-summary-card govuk-!-margin-bottom-6">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-summary-card__title">@Model.ObjectiveTitle</h3>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Progress rating
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_ProgressRating" model=@Model.ProgressStatus />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Details
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.ProgressDetails
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <form method="post" novalidate>
+            <input type="hidden" name="ReturnPage" value="@Model.ReturnPage" />
+            <div class="govuk-button-group">
+                <button class="govuk-button govuk-button--warning" type="submit" data-module="govuk-button"
+                    data-cy="save-and-return-button">
+                    Delete review
+                </button>
+                <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
+                    class="govuk-link" data-cy="cancel-link">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

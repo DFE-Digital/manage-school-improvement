@@ -29,11 +29,20 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? LastModifiedBy { get; set; }
         public string ProgressDetails { get; private set; }
         public string HowIsSchoolProgressing { get; private set; }
+        
+        public DateTime? DeletedAt { get; set; }
+        public string? DeletedBy { get; set; }
 
         public void SetProgress(string howIsSchoolProgressing, string progress)
         {
             HowIsSchoolProgressing = howIsSchoolProgressing;
             ProgressDetails = progress;
+        }
+
+        public void SetProgressDeleted(string deletedBy)
+        {
+            DeletedAt = DateTime.Now;
+            DeletedBy = DeletedBy = deletedBy;
         }
     }
 }

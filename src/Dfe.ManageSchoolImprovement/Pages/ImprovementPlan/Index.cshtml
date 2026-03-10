@@ -3,10 +3,6 @@
 @{
     ViewData["Title"] = "Review objectives";
     
-    var summaryItems = SummaryListHelper.For<IndexModel>(
-        m => m.MarkAsComplete!
-    );
-    
     var improvementPlanReviewsCount =  Model.SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews.Count;
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
 }
