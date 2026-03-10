@@ -446,7 +446,7 @@ describe("Add a school which requires an improvement and complete it's tasks", (
 
     //task is locked after completion
     Logger.log("Selecting 'Confirm supporting organisation contact details' COMPLETED task");
-    taskListActions.hasDisplayedImportantInfo('Accounting officer confirmed You cannot make changes to this task.')
+    taskListActions.hasDisplayedImportantBanner('Accounting officer confirmed You cannot make changes to this task.')
     taskListActions.hasSOSummeryList()
   });
 

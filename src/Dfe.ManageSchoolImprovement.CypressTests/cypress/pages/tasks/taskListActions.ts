@@ -111,7 +111,7 @@ class TaskListActions {
         return this;
     }   
 
-    public hasDisplayedImportantInfo(infoText: string): this {
+    public hasDisplayedImportantBanner(infoText: string): this {
          cy.get('.govuk-notification-banner__content').invoke('text').then((text) => {
             const normalizedText = text.replaceAll(/\s+/g, ' ').trim();
             expect(normalizedText).to.contain(infoText);
