@@ -183,6 +183,9 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new ImprovementPlanReviewId(v));
+        
+        builder
+            .HasQueryFilter(p => p.DeletedAt == null);
     }
 
     private static void ConfigureImprovementPlanReview(EntityTypeBuilder<ImprovementPlanReview> builder)

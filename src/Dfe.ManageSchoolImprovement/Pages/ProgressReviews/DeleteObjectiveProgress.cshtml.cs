@@ -7,6 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
     SetImprovementPlanObjectiveProgressDetails;
 
@@ -24,22 +25,15 @@ public class DeleteObjectiveProgressModel(
     public ImprovementPlanObjectiveViewModel? Objective { get; private set; }
     public ImprovementPlanObjectiveProgressViewModel? ObjectiveProgress { get; private set; }
     public ImprovementPlanReviewViewModel? ImprovementPlanReview { get; private set; }
-
-    [BindProperty]
-    [Required(ErrorMessage = "Select how the school is progressing with this objective")]
+    
     public string ProgressStatus { get; set; } = string.Empty;
-
-    [BindProperty]
-    [Required(ErrorMessage = "Enter details about how the school is progressing with this objective")]
+    
     public string ProgressDetails { get; set; } = string.Empty;
 
     public string ObjectiveTitle { get; set; } = string.Empty;
-    public string AreaOfImprovement { get; set; } = string.Empty;
-    public DateTime ReviewDate { get; set; }
-    public string ReviewerName { get; set; } = string.Empty;
 
     public ImprovementPlanId? ImprovementPlanId { get; set; }
-    
+
     public int? ObjectiveProgressId { get; set; }
     
     public bool ShowError => _errorService.HasErrors();
@@ -51,8 +45,7 @@ public class DeleteObjectiveProgressModel(
 
 
         await base.GetSupportProject(id, cancellationToken);
-
-        // using readableId here as they are pastd through the url
+        
         LoadPageData(objectiveProgressId);
 
         ProgressStatus = ObjectiveProgress?.HowIsSchoolProgressing ?? string.Empty;
@@ -86,9 +79,6 @@ public class DeleteObjectiveProgressModel(
         if (ImprovementPlanReview != null && Objective != null)
         {
             ObjectiveTitle = Objective.Details;
-            AreaOfImprovement = Objective.AreaOfImprovement;
-            ReviewDate = ImprovementPlanReview.ReviewDate;
-            ReviewerName = ImprovementPlanReview.Reviewer;
             ImprovementPlanId = new ImprovementPlanId(ImprovementPlanReview.ImprovementPlanId);
         }
     }
@@ -98,25 +88,29 @@ public class DeleteObjectiveProgressModel(
     {
         await base.GetSupportProject(id, cancellationToken);
         LoadPageData(objectiveProgressId);
+        
+        ObjectiveProgressId = ObjectiveProgress?.ReadableId;
 
-        // if (!ModelState.IsValid)
-        // {
-        //     _errorService.AddErrors(Request.Form.Keys, ModelState);
-        //     return Page();
-        // }
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            return Page();
+        }
 
-        // var result = await mediator.Send(new SetImprovementPlanObjectiveProgressDetailsCommand(
-        //     new SupportProjectId(id),
-        //     ImprovementPlanId,
-        //     new ImprovementPlanReviewId(ImprovementPlanReview.Id),
-        //     new ImprovementPlanObjectiveProgressId(ObjectiveProgress.Id),
-        //     ProgressStatus!, ProgressDetails), cancellationToken);
+        var result = await mediator.Send(new DeleteImprovementPlanObjectiveProgress.DeleteImprovementPlanObjectiveProgressCommand(
+            new SupportProjectId(id),
+            ImprovementPlanId,
+            new ImprovementPlanReviewId(ImprovementPlanReview.Id),
+            new ImprovementPlanObjectiveProgressId(ObjectiveProgress.Id),
+            User.Identity?.Name!), cancellationToken);
 
-        // if (result == null)
-        // {
-        //     _errorService.AddApiError();
-        //     return await base.GetSupportProject(id, cancellationToken);
-        // }
+        if (result == null)
+        {
+            _errorService.AddApiError();
+            return await base.GetSupportProject(id, cancellationToken);
+        }
+        
+        TempData["reviewDeleted"] = true;
 
         var targetPage = string.IsNullOrEmpty(ReturnPage)
             ? Links.ImprovementPlan.ImprovementPlanTab.Page

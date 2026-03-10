@@ -8,6 +8,7 @@
     var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentReview?.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentReview.OverallProgressDetails;
     var improvementPlanReviewsCount = Model.SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews.Count;
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
+    bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
 }
 
 @section BeforeMain {
@@ -16,7 +17,7 @@
     </nav>
 }
 
-@if (objectiveDeleted)
+@if (objectiveDeleted || reviewDeleted)
 {
     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
          aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -28,7 +29,7 @@
         </div>
         <div class="govuk-notification-banner__content">
             <h3 class="govuk-notification-banner__heading" id="contact-added">
-                Objective deleted
+                @(objectiveDeleted ? "Objective" : "Review") deleted
             </h3>
         </div>
     </div>
