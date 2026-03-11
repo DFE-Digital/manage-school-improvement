@@ -35,6 +35,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string Reviewer { get; set; }
         public string? HowIsTheSchoolProgressingOverall { get; set; }
         public string? OverallProgressDetails { get; set; }
+        
+        public string? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public IEnumerable<ImprovementPlanObjectiveProgress> ImprovementPlanObjectiveProgresses =>
             _ImprovementPlanObjectiveProgresses.AsReadOnly();
@@ -103,6 +106,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             }
 
             progress.SetProgressDeleted(deletedBy);
+        }
+
+        public void SetDeleteReview(ImprovementPlanReviewId improvementPlanReviewId, string deletedBy)
+        {
+            DeletedBy = deletedBy;
+            DeletedAt = DateTime.Now;
         }
     }
 }

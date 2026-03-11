@@ -176,6 +176,18 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             review.SetDeleteProgress(improvementPlanObjectiveProgressId, deletedBy);
         }
         
+        public void SetDeleteReview(ImprovementPlanReviewId improvementPlanReviewId, string deletedBy)
+        {
+            var review = _improvementPlanReviews.SingleOrDefault(x => x.Id == improvementPlanReviewId);
+
+            if (review == null)
+            {
+                throw new KeyNotFoundException($"Improvement plan review with id {improvementPlanReviewId} not found");
+            }
+
+            review.SetDeleteReview(improvementPlanReviewId, deletedBy);
+        }
+        
         private static List<ImprovementPlanObjective> SetOrder(IEnumerable<ImprovementPlanObjective> improvementPlanObjectives, ImprovementPlanObjective objective)
         {
             var objectives = improvementPlanObjectives

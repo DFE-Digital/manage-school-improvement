@@ -61,13 +61,6 @@ public class DeleteReviewModel(
     public async Task<IActionResult> OnPostAsync(int id, int reviewId, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        // Get the previous review for validation
-        var reviews = SupportProject?.ImprovementPlans?
-            .SingleOrDefault(x => x.Id == ImprovementPlanId)?
-            .ImprovementPlanReviews.OrderByDescending(x => x.Order).ToList();
-
-        // Find the current review being edited
-        var currentReviewIndex = reviews?.FindIndex(r => r.Id == ImprovementPlanReviewId) ?? -1;
         
         //
         // var result = await mediator.Send(new SetImprovementPlanReviewDetailsCommand(new SupportProjectId(id),
