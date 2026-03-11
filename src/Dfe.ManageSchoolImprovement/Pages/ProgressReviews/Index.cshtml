@@ -4,6 +4,8 @@
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
 @{
     ViewData["Title"] = "Progress reviews";
+    
+    bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
 }
 
 @section BeforeMain
@@ -14,7 +16,23 @@
     </nav>
 }
 
-@* Add success banner *@
+@if (progressReviewDeleted)
+{
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+         aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
+         cy-data="task-updated-success-notification">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Success
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <h3 class="govuk-notification-banner__heading" id="contact-added">
+                Progress review deleted
+            </h3>
+        </div>
+    </div>
+}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
