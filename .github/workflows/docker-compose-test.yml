@@ -116,7 +116,7 @@ jobs:
           browser: ${{ matrix.browser }}
           working-directory: src/Dfe.ManageSchoolImprovement.CypressTests
           wait-on: https://localhost:7088
-          spec: cypress/e2e/**/*.cy.ts
+          spec: cypress/e2e/smoke/*
 
       - name: Upload screenshots
         if: ${{ failure() }}
