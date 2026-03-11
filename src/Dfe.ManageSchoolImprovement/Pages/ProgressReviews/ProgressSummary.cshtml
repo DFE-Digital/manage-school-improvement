@@ -6,6 +6,17 @@
     
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
+    bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
+
+    var bannerText = "Progress review";
+    if (objectiveDeleted)
+    {
+        bannerText = "Objective";
+    }
+    else if (reviewDeleted)
+    {
+        bannerText = "Review";
+    }
 }
 
 @section BeforeMain
@@ -16,7 +27,7 @@
     </nav>
 }
 
-@if (objectiveDeleted || reviewDeleted)
+@if (objectiveDeleted || reviewDeleted || progressReviewDeleted)
 {
     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
          aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -28,7 +39,7 @@
         </div>
         <div class="govuk-notification-banner__content">
             <h3 class="govuk-notification-banner__heading" id="contact-added">
-                @(objectiveDeleted ? "Objective" : "Review") deleted
+                @bannerText deleted
             </h3>
         </div>
     </div>

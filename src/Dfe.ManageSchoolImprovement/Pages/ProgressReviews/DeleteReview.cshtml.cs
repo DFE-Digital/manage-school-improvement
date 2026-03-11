@@ -82,6 +82,8 @@ public class DeleteReviewModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
         
+        TempData["progressReviewDeleted"] = true;
+        
         return RedirectToPage(Links.ProgressReviews.Index.Page, new { id });
     }
 }
