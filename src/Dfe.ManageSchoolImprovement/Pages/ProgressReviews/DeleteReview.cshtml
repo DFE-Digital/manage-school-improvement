@@ -53,6 +53,8 @@
         </article>
         <form method="post" novalidate>
             <input type="hidden" name="ReturnPage" value="@Model.ReturnPage" />
+            <input type="hidden" name="@nameof(Model.ImprovementPlanId)" value="@Model.ImprovementPlanId" />
+            <input type="hidden" name="@nameof(Model.ImprovementPlanReviewId)" value="@Model.ImprovementPlanReviewId" />
             <div class="govuk-button-group">
                 <button class="govuk-button govuk-button--warning" type="submit" data-module="govuk-button"
                     data-cy="save-and-return-button">

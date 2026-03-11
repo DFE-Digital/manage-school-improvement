@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -17,11 +18,13 @@ public class DeleteReviewModel(
 {
     public string ReturnPage { get; set; } = string.Empty;
     public DateTime? ReviewDate { get; set; }
-
+    
+    [BindProperty]
     public Guid ImprovementPlanReviewId { get; set; }
     
     public int ReviewReadableId { get; set; }
 
+    [BindProperty]
     public Guid ImprovementPlanId { get; set; }
     
     public string? ReviewStatus { get; set; }
@@ -62,16 +65,23 @@ public class DeleteReviewModel(
     {
         await base.GetSupportProject(id, cancellationToken);
         
-        //
-        // var result = await mediator.Send(new SetImprovementPlanReviewDetailsCommand(new SupportProjectId(id),
-        //     new ImprovementPlanId(ImprovementPlanId),
-        //     new ImprovementPlanReviewId(ImprovementPlanReviewId),
-        //     reviewer ?? string.Empty, ReviewDate!.Value), cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            return Page();
+        }
+        
+        var result = await mediator.Send(new DeleteImprovementPlanReview.DeleteImprovementPlanReviewCommand(new SupportProjectId(id),
+            new ImprovementPlanId(ImprovementPlanId),
+            new ImprovementPlanReviewId(ImprovementPlanReviewId),
+            User.Identity?.Name!), cancellationToken);
 
-        // get latest version of the support project
-        await base.GetSupportProject(id, cancellationToken);
-
-        // For now, redirect back to the progress reviews index
+        if (result == null)
+        {
+            _errorService.AddApiError();
+            return await base.GetSupportProject(id, cancellationToken);
+        }
+        
         return RedirectToPage(Links.ProgressReviews.Index.Page, new { id });
     }
 }

@@ -202,6 +202,9 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey("ImprovementPlanReviewId")
             .IsRequired();
+        
+        builder
+            .HasQueryFilter(p => p.DeletedAt == null);
     }
 
     private static void ConfigureEngagementConcerns(EntityTypeBuilder<EngagementConcern> builder)
