@@ -14,6 +14,8 @@
     </nav>
 }
 
+@* Add success banner *@
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">Plan progress</span>
@@ -96,7 +98,7 @@
                         <div class='govuk-grid-row'>
                             <div class='govuk-grid-column-one-half'>
                                 <p class='govuk-body govuk-!-margin-bottom-0'>
-                                    <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br />
+                                    <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br/>
                                     <strong>by</strong> @review.Reviewer
                                 </p>
                             </div>
@@ -106,7 +108,8 @@
                                     if (!Model.SupportProject.IsReadOnly)
                                     {
                                         <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
-                                           asp-route-id='@Model.SupportProject.Id' asp-route-reviewId='@review.ReadableId'
+                                           asp-route-id='@Model.SupportProject.Id'
+                                           asp-route-reviewId='@review.ReadableId'
                                            asp-route-enableSkip='true'
                                            class='govuk-link' data-cy='record-progress-link'>Record progress</a>
                                     }
@@ -119,12 +122,17 @@
                                 }
                             </div>
                         </div>
+
                         @if (!Model.SupportProject.IsReadOnly)
                         {
                             <p class='govuk-body govuk-!-margin-top-2'>
-                                <a asp-page='@Links.ProgressReviews.EditReview.Page' asp-route-id='@Model.SupportProject.Id'
+                                <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                                   asp-route-id='@Model.SupportProject.Id'
                                    asp-route-reviewid='@review.ReadableId' class='govuk-link'
-                                   data-cy='edit-review-details-link'>Edit review details</a>
+                                   data-cy='edit-review-details-link'>@(review.ReadableId == Model.CurrentProgressReview?.ReadableId
+                                                                            && review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
+                                        ? "Edit or delete review"
+                                        : "Edit review details")</a>
                             </p>
                         }
                     </section>
