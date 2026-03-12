@@ -31,9 +31,13 @@ public class EditReviewModel(
 
     [BindProperty]
     public Guid ImprovementPlanReviewId { get; set; }
+    
+    public int ReviewReadableId { get; set; }
 
     [BindProperty]
     public Guid ImprovementPlanId { get; set; }
+    
+    public string? ReviewStatus { get; set; }
 
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
 
@@ -53,7 +57,9 @@ public class EditReviewModel(
         {
             ImprovementPlanId = improvementPlanReview.ImprovementPlanId;
             ImprovementPlanReviewId = improvementPlanReview.Id;
+            ReviewReadableId = reviewId;
             ReviewDate = improvementPlanReview.ReviewDate;
+            ReviewStatus = improvementPlanReview.ProgressStatus;
 
             if (improvementPlanReview.Reviewer != SupportProject?.AdviserFullName &&
                 improvementPlanReview.Reviewer != SupportProject?.AssignedDeliveryOfficerFullName)
