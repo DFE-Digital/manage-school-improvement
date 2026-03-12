@@ -1,5 +1,3 @@
-import { Logger } from "cypress/common/logger";
-
 class TaskListActions {
     public hasHeader(header: string): this {
         cy.get("h1").contains(header);
