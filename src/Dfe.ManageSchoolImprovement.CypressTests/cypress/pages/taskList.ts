@@ -161,8 +161,20 @@ class TaskList {
     cy.get(`#${id}`).contains("In Progress");
   }
 
+  public hasTaskStatusCannotProgress(id: string) {
+    cy.get(`#${id}`).contains("Cannot progress");
+
+    return this;
+  }
+
   public selectTask(taskName: string) {
     cy.contains(taskName).click();
+
+    return this;
+  }
+
+  public clickBackLink(): this {
+    cy.get('.govuk-back-link').click(); 
 
     return this;
   }

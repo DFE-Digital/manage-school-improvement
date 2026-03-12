@@ -58,8 +58,15 @@ class ImprovementPlan {
         return this;
     }
 
-    public hasChangeObjectiveLinks(): this {
+    public hasChangeObjectiveLink(): this {
         cy.contains('a.govuk-link', 'Change')
+            .should('exist');
+        return this;
+    }
+
+    public hasDeleteObjectiveLink(): this {
+        cy.url().should('include', '/improvement-plan');
+        cy.contains('a.govuk-link', 'Delete')
             .should('exist');
         return this;
     }
@@ -93,7 +100,7 @@ class ImprovementPlan {
 
     public clickChangeOverallProgressLink(): this {
         cy.getByCyData('change-overall-progress-link').click();
-        cy.url().should('include', '/overall-progress');    
+        cy.url().should('include', '/overall-progress');
 
         return this;
     }
@@ -164,7 +171,7 @@ class ImprovementPlan {
         cy.get('[type="submit"]').contains('Save and return').click();
         cy.getByCyData('error-summary').should('be.visible');
         cy.getByCyData('error-summary').should('contain.text', 'Enter the next steps');
-       
+
         return this;
     }
 
@@ -203,6 +210,7 @@ class ImprovementPlan {
 
     public hasRecordObjectiveLink(): this {
         cy.getByCyData('record-objective-link').first().should('exist');
+        
         return this;
     }
 
@@ -240,6 +248,17 @@ class ImprovementPlan {
 
     public clickRecordOrViewProgressForce(): this {
         cy.get('.govuk-button').contains('Record or view progress').click({ force: true });
+
+        return this;
+    }
+
+    public deleteObjectiveSuccessfully(): this {
+        cy.url().should('include', '/improvement-plan');
+        cy.get('a.govuk-link').contains('Delete').click();
+        cy.get('h1').should('contain.text', 'Are you sure you want to delete this objective?');
+        cy.get('.govuk-button.govuk-button--warning').contains('Delete objective').click();
+        cy.get('.govuk-notification-banner__content').should('contain.text', 'Objective deleted');
+
         return this;
     }
 }

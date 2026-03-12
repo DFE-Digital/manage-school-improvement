@@ -31,7 +31,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     it('should allow changing objectives from improvement plan tab', () => {
         Logger.log("change objective details");
         improvementPlan
-            .hasChangeObjectiveLinks()
+            .hasChangeObjectiveLink()
             .clickFirstChangeObjective()
             .updateObjectiveDetails('Updated details text')
 

@@ -3,6 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import { Logger } from "cypress/common/logger";
 import improvementPlan from "cypress/pages/improvementPlan";
+import taskListActions from "cypress/pages/tasks/taskListActions";
 
 describe("User navigates to the Project Status Tab", () => {
 
@@ -133,6 +134,41 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
+    it("tasks in task list should be ready only when the project status is Paused ", () => {
+        Logger.log("cannot progress the task when the project status is Paused");
+        projectStatus
+            .hasCurrentStatus('Paused')
+        taskList.navigateToTab('Task list')    
+
+        Logger.log("Phase 1 task cannot progress");
+        taskList.hasTaskStatusCannotProgress("confirm_responsible_body_status");
+
+        taskList.selectTask("Make initial contact with the responsible body");
+        taskListActions
+            .hasDisplayedImportantBanner('paused')
+
+        cy.executeAccessibilityTests()
+
+        Logger.log("Phase 2 task cannot progress");
+        taskList.clickBackLink();
+        taskList.hasTaskStatusCannotProgress("record-school-visit-date_status");
+        taskList.selectTask("Record date of initial visit");
+        taskListActions
+            .hasDisplayedImportantBanner('paused')
+
+        cy.executeAccessibilityTests()
+
+        Logger.log("Phase 3 task cannot progress");
+        taskList.clickBackLink();
+        taskList.hasTaskStatusCannotProgress("enter-improvement-plan-objectives_status");
+        taskList.selectTask("Enter improvement plan objectives");
+        taskListActions
+            .hasDisplayedImportantBanner('paused')
+
+        cy.executeAccessibilityTests()
+
+    });
+
     it("user should only View Progress of Improvement Plan when project status is Paused ", () => {
         projectStatus
             .hasCurrentStatus('Paused')
@@ -186,11 +222,46 @@ describe("User navigates to the Project Status Tab", () => {
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Stopped')
 
-            Logger.log("Check the project status change history timeline for Stopped status");
-        projectStatus    
+        Logger.log("Check the project status change history timeline for Stopped status");
+        projectStatus
             .getProjectStatusChangeHistory('Stopped')
 
         cy.executeAccessibilityTests()
+    });
+
+    it("tasks in task list should be ready only when the project status is Stopped ", () => {
+        Logger.log("cannot progress the task when the project status is Stopped");
+        projectStatus
+            .hasCurrentStatus('Stopped')
+        taskList.navigateToTab('Task list')    
+
+        Logger.log("Phase 1 task cannot progress");
+        taskList.hasTaskStatusCannotProgress("confirm_responsible_body_status");
+
+        taskList.selectTask("Make initial contact with the responsible body");
+        taskListActions
+            .hasDisplayedImportantBanner('stopped')
+
+        cy.executeAccessibilityTests()
+
+        Logger.log("Phase 2 task cannot progress");
+        taskList.clickBackLink();
+        taskList.hasTaskStatusCannotProgress("record-school-visit-date_status");
+        taskList.selectTask("Record date of initial visit");
+        taskListActions
+            .hasDisplayedImportantBanner('stopped')
+
+        cy.executeAccessibilityTests()
+
+        Logger.log("Phase 3 task cannot progress");
+        taskList.clickBackLink();
+        taskList.hasTaskStatusCannotProgress("enter-improvement-plan-objectives_status");
+        taskList.selectTask("Enter improvement plan objectives");
+        taskListActions
+            .hasDisplayedImportantBanner('stopped')
+
+        cy.executeAccessibilityTests()
+
     });
 
     it("user should not be able to record the Improvement plan if the project status is Stopped", () => {
