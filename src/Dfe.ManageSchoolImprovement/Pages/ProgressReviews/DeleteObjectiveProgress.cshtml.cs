@@ -36,6 +36,8 @@ public class DeleteObjectiveProgressModel(
 
     public int? ObjectiveProgressId { get; set; }
     
+    public int? ImprovementPlanReviewId { get; set; }
+    
     public bool ShowError => _errorService.HasErrors();
 
     public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage,
@@ -80,6 +82,7 @@ public class DeleteObjectiveProgressModel(
         {
             ObjectiveTitle = Objective.Details;
             ImprovementPlanId = new ImprovementPlanId(ImprovementPlanReview.ImprovementPlanId);
+            ImprovementPlanReviewId = ImprovementPlanReview.ReadableId;
         }
     }
 
