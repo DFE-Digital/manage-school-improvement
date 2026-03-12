@@ -8,8 +8,10 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.ProgressReviews.ChangeProgress.Page" asp-route-id="@Model.SupportProject.Id"
-            asp-route-objectiveProgressId="@Model.ObjectiveProgressId" class="govuk-back-link" data-cy="back-link">Back</a>
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id"
+           asp-route-objectiveProgressId="@Model.ObjectiveProgressId"
+           asp-route-reviewId="@Model.ImprovementPlanReviewId"
+           class="govuk-back-link" data-cy="back-link">Back</a>
     </nav>
 }
 
