@@ -98,9 +98,8 @@
                                     }
                                     else
                                     {
-                                        <dd class="govuk-summary-list__actions">
-                                            <ul class="govuk-summary-list__actions-list">
-                                                <li class="govuk-summary-list__actions-list-item">
+                                        <ul class="govuk-summary-card__actions">
+                                            <li class="govuk-summary-card__action">
                                                     <a class="govuk-link"
                                                        asp-page="@Links.ProgressReviews.RecordProgress.Page"
                                                        asp-route-id="@Model.SupportProject?.Id"
@@ -110,7 +109,7 @@
                                                        data-cy="record-objective-progress-link-@objective.ObjectiveReadableId">Record<span
                                                             class="govuk-visually-hidden"> @objective.Title</span></a>
                                                 </li>
-                                                <li class="govuk-summary-list__actions-list-item">
+                                            <li class="govuk-summary-card__action">
                                                     <a class="govuk-link"
                                                        asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
                                                        asp-route-id="@Model.SupportProject?.Id"
@@ -121,7 +120,6 @@
                                                             class="govuk-visually-hidden"> @objective.Title</span></a>
                                                 </li>
                                             </ul>
-                                        </dd>
                                     }
 
                                 </li>
