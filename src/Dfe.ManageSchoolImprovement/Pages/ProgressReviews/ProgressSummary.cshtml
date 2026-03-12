@@ -77,13 +77,24 @@
                                 <li class="govuk-summary-card__action">
                                     @if (objective.ReadableId != 0)
                                     {
-                                        <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
-                                           asp-route-id="@Model.SupportProject?.Id"
-                                           asp-route-objectiveProgressId="@objective.ReadableId"
-                                           class="govuk-link"
-                                           data-cy="change-objective-progress-link">
-                                            Change or delete<span class="govuk-visually-hidden"> @objective.Title</span>
-                                        </a>
+                                        <ul class="govuk-summary-card__actions">
+                                            <li class="govuk-summary-card__action">
+                                                <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
+                                                   asp-route-id="@Model.SupportProject?.Id"
+                                                   asp-route-objectiveProgressId="@objective.ReadableId"
+                                                   class="govuk-link"
+                                                   data-cy="change-objective-progress-link">
+                                                    Change<span class="govuk-visually-hidden"> @objective.Title</span></a>
+                                            </li>
+                                            <li class="govuk-summary-card__action">
+                                                <a class="govuk-link"
+                                                   asp-page="@Links.ProgressReviews.DeleteObjectiveProgress.Page"
+                                                   asp-route-id="@Model.SupportProject?.Id"
+                                                   asp-route-objectiveprogressid="@objective.ReadableId"
+                                                   asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                   data-cy="objective-summary-change-link">Delete</a>
+                                            </li>
+                                        </ul>
                                     }
                                     else
                                     {
