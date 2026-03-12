@@ -160,6 +160,7 @@ public static class Links
         public static readonly LinkItem ProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/ProgressSummary");
         public static readonly LinkItem NextReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/NextReview");
         public static readonly LinkItem OverallProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/OverallProgress");
+        public static readonly LinkItem DeleteObjectiveProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/DeleteObjectiveProgress");
     }
 
     public static class ProjectStatusTab

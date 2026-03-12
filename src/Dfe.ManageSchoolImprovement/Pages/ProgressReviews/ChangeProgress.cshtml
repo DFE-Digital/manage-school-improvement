@@ -39,10 +39,9 @@
 
         <form method="post" novalidate>
 
-            <govuk-radiobuttons-input heading="Select progress rating"
-                heading-style="govuk-fieldset__legend--m" name="ProgressStatus" asp-for="@Model.ProgressStatus"
-                radio-buttons="@Model.ProgressRadioButtons" data-cy="progress-status-radios"
-                error-message="@Model.ProgressStatusErrorMessage" />
+            <govuk-radiobuttons-input heading="Select progress rating" heading-style="govuk-fieldset__legend--m"
+                name="ProgressStatus" asp-for="@Model.ProgressStatus" radio-buttons="@Model.ProgressRadioButtons"
+                data-cy="progress-status-radios" error-message="@Model.ProgressStatusErrorMessage" />
 
             <div class="govuk-form-group @(Model.ShowDetailsError ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-label-wrapper">
@@ -66,6 +65,7 @@
                 <button class="govuk-button" type="submit" data-module="govuk-button" data-cy="save-and-return-button">
                     Save and return
                 </button>
+
             </div>
         </form>
     </div>

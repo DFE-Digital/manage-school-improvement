@@ -7,66 +7,52 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
     SetImprovementPlanObjectiveProgressDetails;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 
-public class ChangeProgressModel(
+public class DeleteObjectiveProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     IMediator mediator,
     ErrorService errorService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
+    [BindProperty]
     public string ReturnPage { get; set; } = string.Empty;
 
     public ImprovementPlanObjectiveViewModel? Objective { get; private set; }
     public ImprovementPlanObjectiveProgressViewModel? ObjectiveProgress { get; private set; }
     public ImprovementPlanReviewViewModel? ImprovementPlanReview { get; private set; }
-
-    [BindProperty]
-    [Required(ErrorMessage = "Select how the school is progressing with this objective")]
+    
     public string ProgressStatus { get; set; } = string.Empty;
-
-    [BindProperty]
-    [Required(ErrorMessage = "Enter details about how the school is progressing with this objective")]
+    
     public string ProgressDetails { get; set; } = string.Empty;
 
     public string ObjectiveTitle { get; set; } = string.Empty;
-    public string AreaOfImprovement { get; set; } = string.Empty;
-    public DateTime ReviewDate { get; set; }
-    public string ReviewerName { get; set; } = string.Empty;
 
     public ImprovementPlanId? ImprovementPlanId { get; set; }
-    
+
     public int? ObjectiveProgressId { get; set; }
-
-    public string? ProgressStatusErrorMessage { get; set; } = null;
-
-    public bool ShowProgressStatusError => ModelState.ContainsKey(nameof(ProgressStatus)) &&
-                                           ModelState[nameof(ProgressStatus)]?.Errors.Count > 0;
-
-    public IList<RadioButtonsLabelViewModel> ProgressRadioButtons { get; set; } = [];
-
+    
+    public int? ImprovementPlanReviewId { get; set; }
+    
     public bool ShowError => _errorService.HasErrors();
-
-    public bool ShowDetailsError => ModelState.ContainsKey(nameof(ProgressDetails)) &&
-                                    ModelState[nameof(ProgressDetails)]?.Errors.Count > 0;
 
     public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage,
         CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
+        ReturnPage = returnPage ?? Links.ImprovementPlan.ImprovementPlanTab.Page;
 
 
         await base.GetSupportProject(id, cancellationToken);
-
-        // using readableId here as they are pastd through the url
+        
         LoadPageData(objectiveProgressId);
-        SetupProgressRadioButtons();
 
         ProgressStatus = ObjectiveProgress?.HowIsSchoolProgressing ?? string.Empty;
-        ProgressDetails = ObjectiveProgress?.ProgressDetails ?? string.Empty;
+        var details = ObjectiveProgress?.ProgressDetails ?? string.Empty;
+        ProgressDetails = details.Length > 200 ? details[..200] + "…" : details;
         ObjectiveProgressId = ObjectiveProgress?.ReadableId;
 
         return Page();
@@ -95,80 +81,50 @@ public class ChangeProgressModel(
         if (ImprovementPlanReview != null && Objective != null)
         {
             ObjectiveTitle = Objective.Details;
-            AreaOfImprovement = Objective.AreaOfImprovement;
-            ReviewDate = ImprovementPlanReview.ReviewDate;
-            ReviewerName = ImprovementPlanReview.Reviewer;
             ImprovementPlanId = new ImprovementPlanId(ImprovementPlanReview.ImprovementPlanId);
+            ImprovementPlanReviewId = ImprovementPlanReview.ReadableId;
         }
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId, string? returnPage,
+    public async Task<IActionResult> OnPostAsync(int id, int objectiveProgressId,
         CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ProgressReviews.ProgressSummary.Page;
-
         await base.GetSupportProject(id, cancellationToken);
-        SetupProgressRadioButtons();
         LoadPageData(objectiveProgressId);
+        
+        ObjectiveProgressId = ObjectiveProgress?.ReadableId;
 
         if (!ModelState.IsValid)
         {
-            if (ShowProgressStatusError)
-            {
-                ProgressStatusErrorMessage = "Select how the school is progressing with this objective";
-                _errorService.AddError(ProgressRadioButtons.First().Id, ProgressStatusErrorMessage);
-            }
-
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
         }
 
-        var result = await mediator.Send(new SetImprovementPlanObjectiveProgressDetailsCommand(
+        var result = await mediator.Send(new DeleteImprovementPlanObjectiveProgress.DeleteImprovementPlanObjectiveProgressCommand(
             new SupportProjectId(id),
             ImprovementPlanId,
             new ImprovementPlanReviewId(ImprovementPlanReview.Id),
             new ImprovementPlanObjectiveProgressId(ObjectiveProgress.Id),
-            ProgressStatus!, ProgressDetails), cancellationToken);
+            User.Identity?.Name!), cancellationToken);
 
         if (result == null)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
+        
+        TempData["reviewDeleted"] = true;
 
-        // All objectives completed, redirect to summary
-        return RedirectToPage(ReturnPage, new { id, reviewId = ImprovementPlanReview.ReadableId });
-    }
+        var targetPage = string.IsNullOrEmpty(ReturnPage)
+            ? Links.ImprovementPlan.ImprovementPlanTab.Page
+            : ReturnPage;
 
-
-    private void SetupProgressRadioButtons()
-    {
-        ProgressRadioButtons = new List<RadioButtonsLabelViewModel>
+        if (Links.ProgressReviews.ProgressSummary.Page.Equals(targetPage, StringComparison.OrdinalIgnoreCase))
         {
-            new()
-            {
-                Id = "red",
-                Name = "Red",
-                Value = "Red",
-                Hint =
-                    "Improvement activities are off track and short-term or end-of-programme changes are unlikely without major intervention"
-            },
-            new()
-            {
-                Id = "amber",
-                Name = "Amber",
-                Value = "Amber",
-                Hint =
-                    "Improvement activities require attention. Short-term or end-of-programme changes are at risk but achievable with timely action"
-            },
-            new()
-            {
-                Id = "green",
-                Name = "Green",
-                Value = "Green",
-                Hint =
-                    "Improvement activities are on track and both short-term and end-of-programme changes are likely to be achieved"
-            },
-        };
+            return RedirectToPage(targetPage, new { id, reviewId = ImprovementPlanReview?.ReadableId });
+        }
+
+        return RedirectToPage(targetPage, new { id });
     }
+    
 }
