@@ -22,6 +22,13 @@ class ImprovementPlan {
         return this;
     }
 
+    public hasAddNextReviewDateLink(): this {
+        cy.url().should('include', '/progress-reviews');
+        cy.get('a').contains('Add next review date').should('exist');
+
+        return this;
+    }
+
     public selectAddAnotherObjective(buttonText: string): this {
         cy.get('.govuk-button--secondary').contains(buttonText).click();
         return this;
@@ -29,7 +36,7 @@ class ImprovementPlan {
 
     public clickRecordProgressLink(): this {
         cy.getByCyData('record-progress-link').click()
-        cy.url().should('include', '/overall-progress');
+        cy.url().should('include', '/progress-reviews');
 
         return this;
     }
@@ -178,10 +185,17 @@ class ImprovementPlan {
     public recordOverallProgress(): this {
         cy.url().should('include', '/overall-progress')
         cy.getByCyData('overall-progress-details-textarea').type('Overall progress details')
-        cy.getByCyData('save-and-return-button').click();
+        cy.getByCyData('save-button').click();
 
         return this;
 
+    }
+
+    public returnToProgressReviews(): this {
+        cy.getByCyData('return-to-progress-reviews-button').click();
+        cy.url().should('include', '/progress-reviews');
+
+        return this;
     }
 
     public hasEditReviewDetailsLink(): this {
@@ -190,8 +204,41 @@ class ImprovementPlan {
         return this;
     }
 
-    public hasChangeNextReviewDateLink(): this {
-        cy.get('a').contains('Change next review date').should('exist');
+    public clickEditReviewDetailsLink(): this {
+        cy.url().should('include', '/progress-reviews');
+        cy.get('a').contains('Edit review details').should('exist');
+
+        return this;
+    }
+
+    public noDeleteButtonExist(): this {
+        cy.get('[type = "button"]').should('not.contain.text', 'Delete review');
+        return this;
+    }
+
+
+    public clickEditReviewDetails(): this {
+        cy.get('a').contains('Edit review details').click();
+        cy.get('h1').should('contain.text', 'Edit progress review');
+        return this;
+    }
+
+    public hasEditOrDeleteReview(): this {
+        cy.get('a').contains('Edit or delete review').should('exist');
+
+        return this;
+    }
+
+    public deleteReview(): this {
+        cy.get('a').contains('Edit or delete review').click();
+        cy.get('h1').should('contain.text', 'Edit progress review');        
+        cy.getByCyData('delete-review-link').contains('Delete').click(); //button name should be Delete review
+        cy.get('h1').should('contain.text', 'Are you sure you want to delete this progress review?');
+
+        cy.executeAccessibilityTests();
+
+        cy.getByCyData('save-and-return-button').contains('Delete review').click();
+        cy.get('.govuk-notification-banner__content').should('contain.text', 'Progress review deleted');
 
         return this;
     }
@@ -222,7 +269,7 @@ class ImprovementPlan {
             cy.getByCyData('progress-details-textarea').type('Test progress comments');
             cy.getByCyData('skip-objective-link').should('exist');
             cy.getByCyData('save-button').click();
-        } while (cy.url().should('not.include', '/progress-summary'));
+        } while (cy.url().should('not.include', '/overall-progress'));
 
         return this;
     }
@@ -249,6 +296,18 @@ class ImprovementPlan {
     public clickRecordOrViewProgressForce(): this {
         cy.get('.govuk-button').contains('Record or view progress').click({ force: true });
 
+        return this;
+    }
+
+    public ifObjectiveExist(): this {
+        cy.url().should('include', '/improvement-plan');
+        cy.get('body').then($body => {
+            if ($body.find('a.govuk-link:contains("Delete")').length > 0) {
+                this.deleteObjectiveSuccessfully();
+            } else {
+                cy.log('There is no objective to delete');
+            }
+        });
         return this;
     }
 
