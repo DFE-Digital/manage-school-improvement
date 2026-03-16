@@ -45,7 +45,7 @@
                 {
                     <a class="govuk-button govuk-button--warning" asp-page="@Links.ProgressReviews.DeleteReview.Page"
                         asp-route-id="@Model.SupportProject?.Id" asp-route-reviewId="@Model.ReviewReadableId"
-                        asp-route-returnpage="@Model.ReturnPage" data-cy="delete-review-link">Delete</a>
+                        asp-route-returnpage="@Model.ReturnPage" data-cy="delete-review-link">Delete review</a>
                 }
                 <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
                     class="govuk-link" data-cy="cancel-link">
