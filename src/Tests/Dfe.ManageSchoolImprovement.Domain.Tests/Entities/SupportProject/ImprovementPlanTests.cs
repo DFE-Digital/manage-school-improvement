@@ -882,5 +882,64 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         #endregion
+
+        #region SetDeleteReview Tests
+
+        [Fact]
+        public void SetDeleteReview_WithNonExistentReview_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var nonExistentReviewId = new ImprovementPlanReviewId(Guid.NewGuid());
+            var deletedBy = "test.user@example.com";
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                _improvementPlan.SetDeleteReview(nonExistentReviewId, deletedBy));
+
+            Assert.Equal($"Improvement plan review with id {nonExistentReviewId} not found", exception.Message);
+        }
+
+        [Fact]
+        public void SetDeleteReview_WithExistingReview_MarksReviewAsDeleted()
+        {
+            // Arrange
+            var reviewId = new ImprovementPlanReviewId(Guid.NewGuid());
+            var deletedBy = "admin@school.gov.uk";
+
+            _improvementPlan.AddReview(reviewId, "Test Reviewer", DateTime.UtcNow);
+
+            // Act
+            _improvementPlan.SetDeleteReview(reviewId, deletedBy);
+
+            // Assert
+            var review = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == reviewId);
+            Assert.NotNull(review.DeletedAt);
+            Assert.Equal(deletedBy, review.DeletedBy);
+        }
+
+        [Fact]
+        public void SetDeleteReview_WithMultipleReviews_DeletesCorrectReviewOnly()
+        {
+            // Arrange - two reviews; delete the first only
+            var review1Id = new ImprovementPlanReviewId(Guid.NewGuid());
+            var review2Id = new ImprovementPlanReviewId(Guid.NewGuid());
+
+            _improvementPlan.AddReview(review1Id, "Reviewer 1", DateTime.UtcNow);
+            _improvementPlan.AddReview(review2Id, "Reviewer 2", DateTime.UtcNow.AddDays(30));
+
+            // Act
+            _improvementPlan.SetDeleteReview(review1Id, "deleter@test.com");
+
+            // Assert - first review is deleted, second is unchanged
+            var review1 = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == review1Id);
+            var review2 = _improvementPlan.ImprovementPlanReviews.First(r => r.Id == review2Id);
+
+            Assert.NotNull(review1.DeletedAt);
+            Assert.Equal("deleter@test.com", review1.DeletedBy);
+            Assert.Null(review2.DeletedAt);
+            Assert.Null(review2.DeletedBy);
+        }
+
+        #endregion
     }
 }

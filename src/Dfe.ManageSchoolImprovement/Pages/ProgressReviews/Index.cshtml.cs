@@ -19,8 +19,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
     public ImprovementPlanReviewViewModel? CurrentProgressReview { get; private set; }
 
-    public Dictionary<int, string> ReviewTitleByReadableId { get; private set; } = new();
-
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         // Set the return page to the improvement plan tab
@@ -28,7 +26,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         await base.GetSupportProject(id, cancellationToken);
 
-        ProgressReviews = SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews.OrderByDescending(x => x.Order).ToList() ?? [];
+        ProgressReviews = SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews
+            .OrderByDescending(x => x.Order).ToList() ?? [];
         SetCurrentProgressReview();
 
         return Page();

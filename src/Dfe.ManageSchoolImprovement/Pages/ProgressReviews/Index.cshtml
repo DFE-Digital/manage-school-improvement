@@ -4,6 +4,8 @@
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
 @{
     ViewData["Title"] = "Progress reviews";
+    
+    bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
 }
 
 @section BeforeMain
@@ -12,6 +14,24 @@
         <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
            data-cy="back-link">Back</a>
     </nav>
+}
+
+@if (progressReviewDeleted)
+{
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+         aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
+         cy-data="task-updated-success-notification">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Success
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <h3 class="govuk-notification-banner__heading" id="contact-added">
+                Progress review deleted
+            </h3>
+        </div>
+    </div>
 }
 
 <div class="govuk-grid-row">
@@ -96,7 +116,7 @@
                         <div class='govuk-grid-row'>
                             <div class='govuk-grid-column-one-half'>
                                 <p class='govuk-body govuk-!-margin-bottom-0'>
-                                    <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br />
+                                    <strong>Reviewed on @review.ReviewDate.ToDateString()</strong><br/>
                                     <strong>by</strong> @review.Reviewer
                                 </p>
                             </div>
@@ -106,7 +126,8 @@
                                     if (!Model.SupportProject.IsReadOnly)
                                     {
                                         <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
-                                           asp-route-id='@Model.SupportProject.Id' asp-route-reviewId='@review.ReadableId'
+                                           asp-route-id='@Model.SupportProject.Id'
+                                           asp-route-reviewId='@review.ReadableId'
                                            asp-route-enableSkip='true'
                                            class='govuk-link' data-cy='record-progress-link'>Record progress</a>
                                     }
@@ -119,12 +140,17 @@
                                 }
                             </div>
                         </div>
+
                         @if (!Model.SupportProject.IsReadOnly)
                         {
                             <p class='govuk-body govuk-!-margin-top-2'>
-                                <a asp-page='@Links.ProgressReviews.EditReview.Page' asp-route-id='@Model.SupportProject.Id'
+                                <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                                   asp-route-id='@Model.SupportProject.Id'
                                    asp-route-reviewid='@review.ReadableId' class='govuk-link'
-                                   data-cy='edit-review-details-link'>Edit review details</a>
+                                   data-cy='edit-review-details-link'>@(review.ReadableId == Model.CurrentProgressReview?.ReadableId
+                                                                            && review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
+                                        ? "Edit or delete review"
+                                        : "Edit review details")</a>
                             </p>
                         }
                     </section>

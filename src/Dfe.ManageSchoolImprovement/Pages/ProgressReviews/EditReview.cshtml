@@ -1,4 +1,5 @@
 @page "/progress-reviews/{id:int}/edit-review/{reviewId:int}"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.EditReviewModel
 @{
     ViewData["Title"] = "Edit progress review";
@@ -7,7 +8,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject?.Id" class="govuk-back-link"
             data-cy="back-link">Back</a>
     </nav>
 }
@@ -40,7 +41,13 @@
                 <button class="govuk-button" type="submit" data-module="govuk-button" data-cy="save-and-return-button">
                     Save and return
                 </button>
-                <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject.Id"
+                @if (Model.ReviewStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
+                {
+                    <a class="govuk-button govuk-button--warning" asp-page="@Links.ProgressReviews.DeleteReview.Page"
+                        asp-route-id="@Model.SupportProject?.Id" asp-route-reviewId="@Model.ReviewReadableId"
+                        asp-route-returnpage="@Model.ReturnPage" data-cy="delete-review-link">Delete</a>
+                }
+                <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
                     class="govuk-link" data-cy="cancel-link">
                     Cancel
                 </a>
