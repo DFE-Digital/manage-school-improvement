@@ -20,7 +20,7 @@ class TaskListActions {
     }
 
     public selectButtonOrCheckbox(id: string): this {
-        cy.getById(id).click();
+        cy.getById(id).check();
 
         return this;
     }
@@ -133,7 +133,7 @@ class TaskListActions {
         cy.get('h1').should('contain.text', 'Review objectives ');
         cy.get('a.govuk-link').contains('Delete')
             .should('exist');
-            
+
         return this;
     }
 
@@ -153,10 +153,7 @@ class TaskListActions {
 
                 cy.getByCyData('add-another-objective-button').click();
             } else {
-                cy.getById('quality-of-education').click();
-                cy.getById('save-and-continue-button').click();
-                cy.getByCyData('objective-details-textarea').type('New objective details');
-                cy.getByCyData('save-and-finish-button').click();
+                this.addObjective();
                 cy.getByCyData('objective-summary-change-link').should('contain.text', 'Delete');
             }
         });
