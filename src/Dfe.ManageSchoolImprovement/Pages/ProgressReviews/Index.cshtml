@@ -147,8 +147,7 @@
                                 <a asp-page='@Links.ProgressReviews.EditReview.Page'
                                    asp-route-id='@Model.SupportProject.Id'
                                    asp-route-reviewid='@review.ReadableId' class='govuk-link'
-                                   data-cy='edit-review-details-link'>@(review.ReadableId == Model.CurrentProgressReview?.ReadableId
-                                                                            && review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
+                                   data-cy='edit-review-details-link'>@(review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
                                         ? "Edit or delete review"
                                         : "Edit review details")</a>
                             </p>

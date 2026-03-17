@@ -1,13 +1,13 @@
 @page "/task-list/improvement-plan/delete-an-objective/{id:int}"
 @model DeleteAnObjectiveModel
 @{
-    ViewData["Title"] = "Delete an objective";
+    ViewData["Title"] = "Are you sure you want to delete this objective?";
 }
 
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page" asp-route-id="@Model.SupportProject?.Id"
             class="govuk-back-link" data-cy="back-link">Back</a>
     </nav>
 }

@@ -96,7 +96,15 @@ public class RecordProgressModel(
         if (objectiveId == null)
         {
             Objective = objectives?.First();
-            NextObjectiveId = objectives?[1].ReadableId;
+
+            if (objectives?.Count > 1)
+            {
+                NextObjectiveId = objectives?[1].ReadableId;
+            }
+            else
+            {
+                NextObjectiveId = null;
+            }
         }
         else
         {
