@@ -20,6 +20,12 @@ class TaskListActions {
     }
 
     public selectButtonOrCheckbox(id: string): this {
+        cy.getById(id).click();
+
+        return this;
+    }
+
+    public checkCheckbox(id: string): this {
         cy.getById(id).check();
 
         return this;
