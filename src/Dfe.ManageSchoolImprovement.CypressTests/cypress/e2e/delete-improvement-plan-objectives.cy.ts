@@ -29,7 +29,7 @@ describe('Delete improvement plan objective', () => {
         Logger.log("delete objective details from Improvement plan tab");
         taskList.selectTask("Enter improvement plan objectives");
         taskListActions.addObjective();
-        taskListActions.selectButtonOrCheckbox("MarkAsComplete")
+        taskListActions.checkCheckbox("MarkAsComplete")
         taskListActions.clickButton('save');
         taskList
             .navigateToTab('Improvement plan')
@@ -53,7 +53,7 @@ describe('Delete improvement plan objective', () => {
             .navigateToTab('Task list')
         taskList.selectTask("Enter improvement plan objectives");
         taskListActions.addObjective();
-        taskListActions.selectButtonOrCheckbox("MarkAsComplete")
+        taskListActions.checkCheckbox("MarkAsComplete")
         taskListActions.clickButton('save');
 
         Logger.log("delete progress review");
@@ -82,7 +82,7 @@ describe('Delete improvement plan objective', () => {
             .navigateToTab('Task list')
         taskList.selectTask("Enter improvement plan objectives");
         taskListActions.addObjective();
-        taskListActions.selectButtonOrCheckbox("MarkAsComplete")
+        taskListActions.checkCheckbox("MarkAsComplete")
         taskListActions.clickButton('save');
 
         Logger.log("delete progress review");
