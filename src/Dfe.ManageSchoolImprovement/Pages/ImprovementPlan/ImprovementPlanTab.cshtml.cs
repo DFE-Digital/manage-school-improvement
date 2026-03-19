@@ -20,6 +20,7 @@ public class ImprovementPlanTabModel(
 
     public bool NoObjectivesRecorded => ImprovementPlan?.ImprovementPlanObjectives == null || ImprovementPlan.ImprovementPlanObjectives.Count == 0;
     public bool ObjectivesComplete => ImprovementPlan?.ObjectivesSectionComplete ?? false;
+    public bool CompletedReviews => ImprovementPlan != null && ImprovementPlan.ImprovementPlanReviews.Any(x => x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
 
     public List<ObjectiveProgressGroup> ObjectiveProgressGroups { get; set; } = [];
 

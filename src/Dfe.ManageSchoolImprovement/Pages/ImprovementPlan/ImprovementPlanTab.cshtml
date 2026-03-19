@@ -61,19 +61,19 @@
         @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded)
         {
             <partial name="_ObjectiveSection"
-                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)'/>
+                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)'/>
+                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)'/>
+                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)'/>
+                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, improvementPlanReviewsCount)'/>
+                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
         }
         else if (!Model.NoProgressReviewsRecorded)
         {
@@ -146,15 +146,18 @@
                                                data-cy="objective-summary-change-link">Record<span
                                                     class="govuk-visually-hidden"> @objective.Title</span></a>
                                         </li>
-                                        <li class="govuk-summary-card__action">
-                                            <a class="govuk-link"
-                                               asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
-                                               asp-route-id="@Model.SupportProject?.Id"
-                                               asp-route-objectiveid="@objective.ObjectiveReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
-                                               data-cy="objective-summary-change-link">Delete<span
-                                                    class="govuk-visually-hidden"> @objective.Title</span></a>
-                                        </li>
+                                        @if (!Model.CompletedReviews)
+                                        {
+                                            <li class="govuk-summary-card__action">
+                                                <a class="govuk-link"
+                                                   asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
+                                                   asp-route-id="@Model.SupportProject?.Id"
+                                                   asp-route-objectiveid="@objective.ObjectiveReadableId"
+                                                   asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                                                   data-cy="objective-summary-change-link">Delete<span
+                                                        class="govuk-visually-hidden"> @objective.Title</span></a>
+                                            </li>
+                                        }
                                     </ul>
                                 }
                             }

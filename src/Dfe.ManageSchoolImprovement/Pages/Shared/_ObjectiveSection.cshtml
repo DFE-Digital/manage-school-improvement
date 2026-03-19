@@ -1,4 +1,4 @@
-@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly, int? previousReviews)
+@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly, bool completedReviews)
 
 @if (Model.Objectives.Any())
 {
@@ -28,7 +28,7 @@
                                            asp-route-returnpage="@Model.ReturnPage"
                                            data-cy="objective-summary-change-link">Change</a>
                                     </li>
-                                    @if (Model.previousReviews == 0)
+                                    @if (!Model.completedReviews)
                                     {
                                         <li class="govuk-summary-card__action">
                                             <a class="govuk-link" asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"

@@ -20,6 +20,8 @@ public class ProgressSummaryModel(
     public ImprovementPlanViewModel ImprovementPlan { get; private set; }
 
     public List<ObjectiveProgressGroup> ObjectiveProgressGroups { get; set; } = [];
+    
+    public bool CompletedReviews => ImprovementPlan.ImprovementPlanReviews.Any(x => x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
 
     public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken, string? returnPage)
     {
