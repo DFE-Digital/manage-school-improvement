@@ -6,7 +6,6 @@
     ViewData["Title"] = "Improvement plan";
 
     var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentReview?.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentReview.OverallProgressDetails;
-    var improvementPlanReviewsCount = Model.SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews.Count;
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
 }
