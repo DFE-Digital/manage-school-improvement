@@ -24,11 +24,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
         [BindProperty]
         public Guid ImprovementPlanObjectiveId { get; set; }
 
-        public string ReturnPage { get; set; } = string.Empty;
+        [BindProperty(SupportsGet = true)]
+        public int? ReviewId { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string? ReturnPage { get; set; }
 
         public async Task<IActionResult> OnGet(int id, int objectiveId, int? reviewId, string? returnPage, CancellationToken cancellationToken)
         {
             ReturnPage = returnPage ?? Links.ImprovementPlan.Index.Page;
+            ReviewId = reviewId;
 
             await base.GetSupportProject(id, cancellationToken);
 
@@ -70,7 +75,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             TempData["objectiveDeleted"] = true;
             
-            return RedirectToPage(ReturnPage, new { id, reviewId });
+            if (ReturnPage == Links.ProgressReviews.ProgressSummary.Page)
+            {
+                return RedirectToPage(ReturnPage, new { id, reviewId = ReviewId });
+            }
+            
+            return RedirectToPage(ReturnPage, new { id });
         }
 
 
