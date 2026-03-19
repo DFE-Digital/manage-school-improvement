@@ -3,7 +3,7 @@
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.ProgressSummaryModel
 @{
     ViewData["Title"] = "Progress summary";
-    
+
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
 }
@@ -49,13 +49,14 @@
                         </h2>
                     </div>
                     <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
-                        <strong class='govuk-tag @Model.Review.ProgressStatusClass'>@Model.Review.ProgressStatus</strong>
+                        <strong
+                            class='govuk-tag @Model.Review.ProgressStatusClass'>@Model.Review.ProgressStatus</strong>
                     </div>
                 </div>
                 <div class='govuk-grid-row'>
                     <div class='govuk-grid-column-two-thirds'>
                         <p class='govuk-body govuk-!-margin-bottom-0'>
-                            <strong>Reviewed on @Model.Review.ReviewDate.ToDateString()</strong><br />
+                            <strong>Reviewed on @Model.Review.ReviewDate.ToDateString()</strong><br/>
                             <strong>by</strong> @Model.Review.Reviewer
                         </p>
                     </div>
@@ -84,7 +85,8 @@
                                                    asp-route-objectiveProgressId="@objective.ReadableId"
                                                    class="govuk-link"
                                                    data-cy="change-objective-progress-link">
-                                                    Change<span class="govuk-visually-hidden"> @objective.Title</span></a>
+                                                    Change<span
+                                                        class="govuk-visually-hidden"> @objective.Title</span></a>
                                             </li>
                                             <li class="govuk-summary-card__action">
                                                 <a class="govuk-link"
@@ -100,16 +102,18 @@
                                     {
                                         <ul class="govuk-summary-card__actions">
                                             <li class="govuk-summary-card__action">
-                                                    <a class="govuk-link"
-                                                       asp-page="@Links.ProgressReviews.RecordProgress.Page"
-                                                       asp-route-id="@Model.SupportProject?.Id"
-                                                       asp-route-reviewId="@Model.ReviewId"
-                                                       asp-route-objectiveId="@objective.ObjectiveReadableId"
-                                                       asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
-                                                       data-cy="record-objective-progress-link-@objective.ObjectiveReadableId">Record<span
-                                                            class="govuk-visually-hidden"> @objective.Title</span></a>
-                                                </li>
-                                            <li class="govuk-summary-card__action">
+                                                <a class="govuk-link"
+                                                   asp-page="@Links.ProgressReviews.RecordProgress.Page"
+                                                   asp-route-id="@Model.SupportProject?.Id"
+                                                   asp-route-reviewId="@Model.ReviewId"
+                                                   asp-route-objectiveId="@objective.ObjectiveReadableId"
+                                                   asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                   data-cy="record-objective-progress-link-@objective.ObjectiveReadableId">Record<span
+                                                                                                                                     class="govuk-visually-hidden"> @objective.Title</span></a>
+                                            </li>
+                                            @if (!Model.CompletedReviews)
+                                            {
+                                                <li class="govuk-summary-card__action">
                                                     <a class="govuk-link"
                                                        asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
                                                        asp-route-id="@Model.SupportProject?.Id"
@@ -117,9 +121,10 @@
                                                        asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
                                                        asp-route-reviewid="@Model.ReviewId"
                                                        data-cy="objective-summary-change-link">Delete<span
-                                                            class="govuk-visually-hidden"> @objective.Title</span></a>
+                                                                                                         class="govuk-visually-hidden"> @objective.Title</span></a>
                                                 </li>
-                                            </ul>
+                                            }
+                                        </ul>
                                     }
 
                                 </li>
@@ -133,7 +138,7 @@
                                     Progress rating
                                 </dt>
                                 <dd class="govuk-summary-list__value">
-                                    <partial name="_ProgressRating" model=@objective.Progress />
+                                    <partial name="_ProgressRating" model=@objective.Progress/>
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
