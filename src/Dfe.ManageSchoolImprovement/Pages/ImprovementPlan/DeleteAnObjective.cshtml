@@ -7,8 +7,16 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page" asp-route-id="@Model.SupportProject?.Id"
-            class="govuk-back-link" data-cy="back-link">Back</a>
+        @{
+            // Check if the destination is the Summary page
+            var isSummaryPage = Model.ReturnPage == Links.ProgressReviews.ProgressSummary.Page;
+        }
+
+        <a asp-page="@Model.ReturnPage" 
+           asp-route-id="@Model.SupportProject?.Id"
+           asp-route-reviewId="@(isSummaryPage ? Model.ReviewId : null)"
+           class="govuk-back-link" 
+           data-cy="back-link">Back</a>
     </nav>
 }
 
@@ -49,10 +57,13 @@
                         data-cy="save-and-add-another-button">
                     Delete objective
                 </button>
-                <a class="govuk-link" asp-page="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                <a class="govuk-link" 
+                   asp-page="@Model.ReturnPage"
                    asp-route-id="@Model.SupportProject?.Id"
-                   asp-route-returnpage="@Model.ReturnPage"
-                   data-cy="objective-summary-change-link">Cancel</a>
+                   asp-route-reviewId="@(Model.ReturnPage == Links.ProgressReviews.ProgressSummary.Page ? Model.ReviewId : null)"
+                   data-cy="objective-summary-change-link">
+                    Cancel
+                </a>
             </div>
         </form>
     </div>

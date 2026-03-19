@@ -21,7 +21,7 @@ public class ProgressSummaryModel(
 
     public List<ObjectiveProgressGroup> ObjectiveProgressGroups { get; set; } = [];
 
-    public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken, string? returnPage)
     {
         ReturnPage = Links.ProgressReviews.Index.Page;
         ReviewId = reviewId;

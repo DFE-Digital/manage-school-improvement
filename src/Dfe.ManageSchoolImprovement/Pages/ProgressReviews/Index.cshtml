@@ -74,7 +74,7 @@
                 <div class="govuk-inset-text govuk-!-margin-bottom-6">
                     @if (Model.CurrentProgressReview?.NextReviewDate is null)
                     {
-                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h3>
+                        <h2 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h2>
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
                                asp-route-reviewid="@Model.CurrentProgressReview.ReadableId" class="govuk-link"
@@ -105,9 +105,9 @@
                     <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
                         <div class='govuk-grid-row'>
                             <div class='govuk-grid-column-one-half'>
-                                <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
+                                <h3 class='govuk-heading-m govuk-!-margin-bottom-5'>
                                     @review.Title
-                                </h2>
+                                </h3>
                             </div>
                             <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
                                 <strong class='govuk-tag @review.ProgressStatusClass'>@review.ProgressStatus</strong>
