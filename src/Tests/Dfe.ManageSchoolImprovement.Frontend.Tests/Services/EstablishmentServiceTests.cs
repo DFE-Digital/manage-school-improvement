@@ -2,17 +2,150 @@
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Dtos;
 using Dfe.ManageSchoolImprovement.Frontend.Services.Http;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
 {
     public class EstablishmentServiceTests
     {
+        [Fact]
+        public async Task GetEstablishmentByUrn_ReturnsData_WhenApiCallIsSuccessful()
+        {
+            // Arrange
+            var urn = "123456";
+            var expected = new EstablishmentDto
+            {
+                OfstedLastInspection = "2020-01-01"
+            };
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString().Contains($"/v4/establishment/urn/{urn}")),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = JsonContent.Create(expected)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object)
+            {
+                BaseAddress = new Uri("https://fakeapi.com")
+            };
+
+            var httpClientFactoryMock = new Mock<IDfeHttpClientFactory>();
+            httpClientFactoryMock.Setup(f => f.CreateAcademiesClient()).Returns(httpClient);
+
+            var loggerMock = new Mock<ILogger<EstablishmentService>>();
+            var httpClientServiceMock = new Mock<IHttpClientService>(); // not used in this method
+
+            var service = new EstablishmentService(httpClientFactoryMock.Object, loggerMock.Object, httpClientServiceMock.Object);
+
+            // Act
+            var result = await service.GetEstablishmentByUrn(urn);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(expected.OfstedLastInspection, result.OfstedLastInspection);
+        }
+
+        [Fact]
+        public async Task GetEstablishmentByUrn_ReturnsEmptyResponse_WhenApiCallFails()
+        {
+            // Arrange
+            var urn = "123456";
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.NotFound
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object)
+            {
+                BaseAddress = new Uri("https://fakeapi.com")
+            };
+
+            var httpClientFactoryMock = new Mock<IDfeHttpClientFactory>();
+            httpClientFactoryMock.Setup(f => f.CreateAcademiesClient()).Returns(httpClient);
+
+            var loggerMock = new Mock<ILogger<EstablishmentService>>();
+            var httpClientServiceMock = new Mock<IHttpClientService>();
+
+            var service = new EstablishmentService(httpClientFactoryMock.Object, loggerMock.Object, httpClientServiceMock.Object);
+
+            // Act
+            var result = await service.GetEstablishmentByUrn(urn);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<EstablishmentDto>(result);
+            Assert.Null(result.OfstedLastInspection);
+        }
+
+        [Fact]
+        public async Task GetEstablishmentByUrn_EncodesUrnInRequestPath()
+        {
+            // Arrange
+            var urn = "ABC/123 45";
+            var encodedUrn = HttpUtility.UrlEncode(urn);
+            var expected = new EstablishmentDto
+            {
+                OfstedLastInspection = "2021-05-05"
+            };
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req =>
+                        req.RequestUri!.ToString().EndsWith($"/v4/establishment/urn/{encodedUrn}")
+                    ),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = JsonContent.Create(expected)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object)
+            {
+                BaseAddress = new Uri("https://fakeapi.com")
+            };
+
+            var httpClientFactoryMock = new Mock<IDfeHttpClientFactory>();
+            httpClientFactoryMock.Setup(f => f.CreateAcademiesClient()).Returns(httpClient);
+
+            var loggerMock = new Mock<ILogger<EstablishmentService>>();
+            var httpClientServiceMock = new Mock<IHttpClientService>();
+
+            var service = new EstablishmentService(httpClientFactoryMock.Object, loggerMock.Object, httpClientServiceMock.Object);
+
+            // Act
+            var result = await service.GetEstablishmentByUrn(urn);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(expected.OfstedLastInspection, result.OfstedLastInspection);
+        }
+
         [Fact]
         public async Task GetEstablishmentOfstedDataByUrn_ReturnsData_WhenApiCallIsSuccessful()
         {
