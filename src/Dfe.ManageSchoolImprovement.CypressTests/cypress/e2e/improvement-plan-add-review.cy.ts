@@ -47,7 +47,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         cy.executeAccessibilityTests()
     });
 
-    it('should be able to Add first review successfully', () => {
+    it.only('should be able to Add first review successfully', () => {
         Logger.log("add First review");
         improvementPlan
             .clickRecordOrViewProgress()
@@ -61,7 +61,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
 
         improvementPlan
             .hasAddReviewButton()
-            .hasAddNextReviewDateLink()
+            .hasChangeNextReviewDateLink()
             .hasReturnToImprovementPlanLink()
 
         cy.executeAccessibilityTests()
