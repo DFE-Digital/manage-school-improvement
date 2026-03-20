@@ -29,6 +29,13 @@ class ImprovementPlan {
         return this;
     }
 
+    public hasChangeNextReviewDateLink(): this {
+        cy.url().should('include', '/progress-reviews');
+
+        cy.get('a').contains('Change next review date').should('exist');
+        return this;
+    }
+
     public selectAddAnotherObjective(buttonText: string): this {
         cy.get('.govuk-button--secondary').contains(buttonText).click();
         return this;
@@ -156,7 +163,7 @@ class ImprovementPlan {
     }
 
     public fillReviewDetails(): this {
-        this.enterDate('ReviewDate', '02', '08', '2025');
+        this.enterDate('ReviewDate', '19', '03', '2026');
         cy.getByCyData('select-radio-someone-else').check();
         cy.getById('CustomReviewerName').type('Richika Test');
         cy.get('[type="submit"]').contains('Save').click();
@@ -167,7 +174,7 @@ class ImprovementPlan {
     public anotherReviewNeeded(): this {
         cy.url().should('include', '/next-review');
         cy.getById('yes').check();
-        this.enterDate('NextReviewDate', '12', '12', '2026');
+        this.enterDate('NextReviewDate', '12', '12', '2027');
         cy.get('[type="submit"]').contains('Save and return').click();
 
         return this;
@@ -277,7 +284,7 @@ class ImprovementPlan {
     public hasFirstReviewStatusAndLinks(): this {
         cy.get('.moj-ticket-panel__content').within(() => {
             cy.get('.govuk-tag').first().should('contain.text', 'Progress not recorded');
-            cy.get('a').contains('Edit review details').should('exist');
+            cy.get('a').contains('Edit or delete review').should('exist');
             cy.get('a').contains('Record progress').should('exist');
         });
 
@@ -285,7 +292,7 @@ class ImprovementPlan {
     }
 
     public hasStatusTag(status: string): this {
-        cy.get('.moj-ticket-panel__content').within(() => {
+        cy.get('.moj-ticket-panel__content').first().within(() => {
             cy.get('.govuk-tag').should('contain.text', status);
 
         });

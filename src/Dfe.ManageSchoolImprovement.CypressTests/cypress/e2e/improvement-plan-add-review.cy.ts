@@ -61,7 +61,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
 
         improvementPlan
             .hasAddReviewButton()
-            .hasAddNextReviewDateLink()
+            .hasChangeNextReviewDateLink()
             .hasReturnToImprovementPlanLink()
 
         cy.executeAccessibilityTests()
