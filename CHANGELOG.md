@@ -3,6 +3,21 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.5.1] - Q4 – Sprint 6 (Part 1)- 2026-03-20
+
+### 📌 User Stories 
+
+- **265311** - Give users the ability to delete an individual review and rating against an objective
+- **265310** - Give users ability to delete objectives
+- **266577** - Make tasks read-only when project is "Paused" or "Stopped" (Phase 3 tasks only)
+- **266575** - Make tasks read-only when project is "Paused" or "Stopped" (Phase 2 tasks only)
+- **258626** - Make tasks read-only when project is "Paused" or "Stopped" (Phase 1 tasks only)
+- **265313** - Give users ability to delete progress reviews when no review/ratings have been recorded
+- **272499** - Don't allow users to delete Objectives when there are any "Progress recorded" progress reviews
+- **272546** - Change button from "Save and return" to "Save and continue"
+
+--
+
 ## 📅 [v1.5.0] - Q4 – Sprint 5 (Part 1)- 2026-02-25
 
 ### 📌 User Stories 
