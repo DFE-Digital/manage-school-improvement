@@ -158,22 +158,24 @@ public class RecordProgressModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
+        var returnToIndex = returnPage == Links.ProgressReviews.ProgressSummary.Page
+                            || returnPage == Links.ImprovementPlan.ImprovementPlanTab.Page;
+
         // Check if there are more objectives to review
-        if (NextObjectiveId.HasValue && returnPage != Links.ProgressReviews.ProgressSummary.Page)
+        if (NextObjectiveId.HasValue && !returnToIndex)
         {
             // Redirect to the next objective
             return RedirectToPage(Links.ProgressReviews.RecordProgress.Page,
                 new { id, reviewId, objectiveId = NextObjectiveId, enableSkip });
         }
-        else if (returnPage is not null)
+
+        if (returnPage is not null)
         {
             return RedirectToPage(returnPage, new { id, reviewId });
         }
-        else
-        {
-            // All objectives completed, redirect to summary
-            return RedirectToPage(Links.ProgressReviews.OverallProgress.Page, new { id, reviewId });
-        }
+
+        // All objectives completed, redirect to summary
+        return RedirectToPage(Links.ProgressReviews.OverallProgress.Page, new { id, reviewId });
     }
 
 
