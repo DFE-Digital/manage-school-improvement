@@ -3,6 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupp
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Moq;
 using System.Linq.Expressions;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject
 {
@@ -26,7 +27,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetEligibilityCommand(
                 _mockSupportProject.Id,
-                true, // SchoolIsEligible
+                SupportProjectEligibilityStatus.EligibleForSupport,
+                DateTime.Now,
                 "Eligible for support"
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -46,7 +48,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetEligibilityCommand(
                 _mockSupportProject.Id,
-                null, // SchoolIsEligible (null)
+                null, // SchoolIsEligible (null),
+                null,
                 null  // SchoolIsNotEligibleNotes (null)
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -66,7 +69,8 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetEligibilityCommand(
                 _mockSupportProject.Id,
-                true, // SchoolIsEligible
+                SupportProjectEligibilityStatus.EligibleForSupport,
+                DateTime.Now,
                 "Eligible for support"
             );
 

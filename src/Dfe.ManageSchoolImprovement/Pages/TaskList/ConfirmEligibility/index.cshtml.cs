@@ -80,16 +80,18 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
             {
                 SchoolIsNotEligibleNotes = null;
             }
+            
+            // this task is going to be permanently readonly
 
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SchoolIsEligible,SchoolIsNotEligibleNotes);
-
-            var result = await mediator.Send(request, cancellationToken);
-
-            if (!result)
-            {
-                _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken); 
-            }
+            // var request = new SetEligibilityCommand(new SupportProjectId(id), SchoolIsEligible,SchoolIsNotEligibleNotes);
+            //
+            // var result = await mediator.Send(request, cancellationToken);
+            //
+            // if (!result)
+            // {
+            //     _errorService.AddApiError();
+            //     return await base.GetSupportProject(id, cancellationToken); 
+            // }
 
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
