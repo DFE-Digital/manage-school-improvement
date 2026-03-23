@@ -159,6 +159,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public string? SchoolIsNotEligibleNotes { get; set; }
         public SupportProjectEligibilityStatus? SupportProjectEligibilityStatus { get; set; }
+        public DateTime? DateEligibilityChanged { get; private set; }
         public string? PreviousUrn { get; set; }
         public bool? CaseStudyCandidate { get; set; }
         public string? CaseStudyDetails { get; set; }
@@ -268,6 +269,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
                 SupportProjectEligibilityStatus = supportProjectDto.SupportProjectEligibilityStatus,
                 SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
+                DateEligibilityChanged = supportProjectDto.DateEligibilityChanged,
                 Contacts = supportProjectDto.Contacts,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
                 FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,

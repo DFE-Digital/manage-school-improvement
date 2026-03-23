@@ -27,7 +27,9 @@ public static class Links
     public static class AddSchool
     {
         public static readonly LinkItem SelectSchool = AddLinkItem(backText: "Back", page: "/AddSchool/SelectSchool");
-        public static readonly LinkItem Summary = AddLinkItem(page: "/AddSchool/Summary");
+        public static readonly LinkItem Summary = AddLinkItem(backText:"Back", page: "/AddSchool/Summary");
+        public static readonly LinkItem ConfirmStartingEligibility = AddLinkItem(backText:"Back", page: "/AddSchool/ConfirmStartingEligibility");
+        public static readonly LinkItem EligibilityCheckDate = AddLinkItem(backText:"Back", page: "/AddSchool/EligibilityCheckDate");
     }
 
     public static class SchoolList

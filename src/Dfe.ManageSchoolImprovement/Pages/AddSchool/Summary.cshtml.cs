@@ -10,13 +10,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool;
 
 public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQueryService supportProjectQueryService, IMediator mediator) : PageModel
 {
-    public GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto Establishment { get; set; }
+    public GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto? Establishment { get; set; }
 
     [BindProperty]
     public string? TrustName { get; set; }
 
     [BindProperty]
     public string? TrustReferenceNumber { get; set; }
+    
     public async Task<IActionResult> OnGetAsync(string urn, CancellationToken cancellationToken)
     {
         Establishment = await getEstablishment.GetEstablishmentByUrn(urn);
@@ -33,7 +34,7 @@ public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQue
         var trust = await getEstablishment.GetEstablishmentTrust(urn);
 
         //if there is one set trust name
-        if (trust != null && trust.Name != null)
+        if (trust != null)
         {
             TrustName = trust.Name;
             TrustReferenceNumber = trust.ReferenceNumber;
@@ -48,18 +49,15 @@ public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQue
 
         var request = new CreateSupportProjectCommand(establishment.Name, establishment.Urn, establishment.LocalAuthorityName, establishment.Gor.Name, TrustName, TrustReferenceNumber, establishment.Address);
 
-        var id = await mediator.Send(request);
+        await mediator.Send(request);
+        
+        var existingSupportProjects = await supportProjectQueryService.GetAllSupportProjects(cancellationToken);
+        
+        var supportProjectId  = existingSupportProjects.Value?.First(a => a.SchoolUrn == establishment.Urn).Id;
 
-        if (id != null)
-        {
-            TempData["schoolAdded"] = true;
-            return RedirectToPage(Links.SchoolList.Index.Page);
-        }
-
-        else
-        {
-            return RedirectToPage(Links.AddSchool.Summary.Page);
-        }
+        TempData["schoolAdded"] = true;
+        
+        return RedirectToPage(Links.AddSchool.ConfirmStartingEligibility.Page, new {id = supportProjectId});
     }
 
 }

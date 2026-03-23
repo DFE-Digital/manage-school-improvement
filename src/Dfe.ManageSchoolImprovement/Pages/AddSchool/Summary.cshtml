@@ -32,12 +32,6 @@
         </h1>
     </div>
 
-    <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-m">
-            School
-        </h2>
-    </div>
-
     <div class="govuk-grid-column-full" data-cy="school_details">
 
         <dl class="govuk-summary-list govuk-!-margin-bottom-9">
@@ -106,16 +100,6 @@
 
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
-                    Ofsted rating
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @(Model.Establishment.OfstedRating ?? "Not available")
-                </dd>
-                <dd class="govuk-summary-list__value"></dd>
-            </div>
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
                     Last inspection
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -143,7 +127,7 @@
     </div>
     <div class="govuk-grid-column-two-thirds">
         <form method="post">
-            <input type="hidden" value="@Model.Establishment.Urn" />
+            <input type="hidden" value="@Model.Establishment?.Urn" />
             <input type="hidden" asp-for="@Model.TrustName" />
             <input type="hidden" asp-for="@Model.TrustReferenceNumber" />
             <div class="govuk-button-group">
