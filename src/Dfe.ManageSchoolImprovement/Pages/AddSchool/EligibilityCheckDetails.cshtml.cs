@@ -9,32 +9,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
 {
-    public class EligibilityCheckDateModel(
+    public class EligibilityCheckDetailsModel(
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
         IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
         IDateValidationMessageProvider
     {
-        [BindProperty(Name = "eligibility-check-date", BinderType = typeof(DateInputModelBinder))]
-        [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-        [Display(Name = "When did the school's eligibility change?")]
-        public DateTime? DateEligibilityChanged { get; set; }
+        [BindProperty(Name = "eligibility-check-details")]
+        [Display(Name = "Explain the reasons for the eligibility change")]
+        public string? SchoolIsNotEligibleNotes { get; set; }
         
-        public bool ShowError { get; set; }
-
-        string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
-        {
-            return $"Date must include a {string.Join(" and ", missingParts)}";
-        }
-
-        string IDateValidationMessageProvider.AllMissing => "Enter a date";
+        private const string SchoolIsNotEligibleNotesKey = "eligibility-check-details";
+        
+        public bool ShowError => _errorService.HasErrors();
+        
 
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            DateEligibilityChanged = SupportProject?.DateEligibilityChanged;
+            SchoolIsNotEligibleNotes = SupportProject?.SchoolIsNotEligibleNotes;
 
             return Page();
         }
@@ -43,7 +38,23 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.NotEligibleForSupport, DateEligibilityChanged, null);
+            if (string.IsNullOrEmpty(SchoolIsNotEligibleNotes))
+            {
+                ModelState.AddModelError(SchoolIsNotEligibleNotesKey, "Enter details");
+            }
+            
+            if (SchoolIsNotEligibleNotes?.Length > 500)
+            {
+                ModelState.AddModelError(SchoolIsNotEligibleNotesKey, "Details must be 500 characters or less");
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                _errorService.AddErrors(Request.Form.Keys, ModelState);
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+            
+            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.NotEligibleForSupport, SupportProject?.DateEligibilityChanged, SchoolIsNotEligibleNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -54,7 +65,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             }
 
             // TaskUpdated = true;
-            return RedirectToPage(@Links.AddSchool.EligibilityCheckDetails.Page, new { id });
+            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }
     }
 }
