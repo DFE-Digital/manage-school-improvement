@@ -4,7 +4,6 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
         IDateValidationMessageProvider
     {
+        [BindProperty(Name = "eligibility-check-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
         [Display(Name = "When did the school's eligibility change?")]
         public DateTime? DateEligibilityChanged { get; set; }
