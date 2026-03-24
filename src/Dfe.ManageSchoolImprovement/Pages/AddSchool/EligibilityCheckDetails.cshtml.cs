@@ -15,6 +15,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
         IDateValidationMessageProvider
     {
+        public string? ReturnPage { get; set; }
+        
         [BindProperty(Name = "eligibility-check-details")]
         [Display(Name = "Explain the reasons for the eligibility change")]
         public string? SchoolIsNotEligibleNotes { get; set; }
@@ -25,8 +27,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         
 
 
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ?? @Links.AddSchool.EligibilityCheckDate.Page;
+            
             await base.GetSupportProject(id, cancellationToken);
             
             SchoolIsNotEligibleNotes = SupportProject?.SchoolIsNotEligibleNotes;
@@ -45,7 +49,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             
             if (SchoolIsNotEligibleNotes?.Length > 500)
             {
-                ModelState.AddModelError(SchoolIsNotEligibleNotesKey, "Details must be 500 characters or less");
+                ModelState.AddModelError(SchoolIsNotEligibleNotesKey, "Details must be 00 characters or less");
             }
             
             if (!ModelState.IsValid)
@@ -65,7 +69,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             }
 
             // TaskUpdated = true;
-            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+            return RedirectToPage(@Links.AddSchool.EligibilityCheckAnswers.Page, new { id });
         }
     }
 }

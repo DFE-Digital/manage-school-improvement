@@ -31,6 +31,7 @@ public static class Links
         public static readonly LinkItem ConfirmStartingEligibility = AddLinkItem(backText:"Back", page: "/AddSchool/ConfirmStartingEligibility");
         public static readonly LinkItem EligibilityCheckDate = AddLinkItem(backText:"Back", page: "/AddSchool/EligibilityCheckDate");
         public static readonly LinkItem EligibilityCheckDetails = AddLinkItem(backText:"Back", page: "/AddSchool/EligibilityCheckDetails");
+        public static readonly LinkItem EligibilityCheckAnswers = AddLinkItem(backText:"Back", page: "/AddSchool/EligibilityCheckAnswers");
 
     }
 
