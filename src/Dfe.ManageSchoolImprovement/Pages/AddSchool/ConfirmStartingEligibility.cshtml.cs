@@ -31,19 +31,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             await base.GetSupportProject(id, cancellationToken);
             
             ReturnPage = returnPage ??  @Links.AddSchool.Summary.Page;
-
-            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
-            {
-                SchoolIsEligible = true;
-            }
-
-            if (SupportProject?.SupportProjectEligibilityStatus ==
-                SupportProjectEligibilityStatus.NotEligibleForSupport)
-            {
-                SchoolIsEligible = false;
-            }
-
-            SchoolIsEligible ??= true;
+            
+            SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus != SupportProjectEligibilityStatus.NotEligibleForSupport;
 
             RadioButtons = EligibilityRadioButtons;
             return Page();
