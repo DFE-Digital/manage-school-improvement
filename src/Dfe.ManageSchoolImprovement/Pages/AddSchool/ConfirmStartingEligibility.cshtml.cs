@@ -43,6 +43,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
                 SchoolIsEligible = false;
             }
 
+            SchoolIsEligible ??= true;
+
             RadioButtons = EligibilityRadioButtons;
             return Page();
         }
