@@ -47,36 +47,11 @@ public class ChangeProjectStatusModel(
     {
         await base.GetSupportProject(id, cancellationToken);
         
-        IEnumerable<User> allUsers = await userRepository.GetAllUsers();
-
-        var currentUser = allUsers.SingleOrDefault(u => u.EmailAddress == User.Identity?.Name);
-
-        if (currentUser != null)
-        {
-            CurrentUserName = currentUser.FullName;
-        }
-        else
-        {
-            if (User.Identity?.Name != null)
-            {
-                CurrentUserName = User.Identity.Name.FullNameFromEmail();
-            }
-        }
-
-        if (SupportProjectStatus == ProjectStatusValue.Paused)
-        {
-            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusPausedDate.Page,
-                new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
-        }
-
-        if (SupportProjectStatus == ProjectStatusValue.Stopped)
-        {
-            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusStoppedDate.Page,
-                new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
-        }
-
-        return RedirectToPage(Links.ProjectStatusTab.ProjectStatusInProgressDate.Page,
+        
+        
+        return RedirectToPage(Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page,
             new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
+        
     }
 
     private static IList<RadioButtonsLabelViewModel> GetRadioButtons()
