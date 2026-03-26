@@ -18,7 +18,6 @@ public class EditReviewModel(
     public string ReturnPage { get; set; } = string.Empty;
 
     [BindProperty(Name = "ReviewDate")]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     [ModelBinder(BinderType = typeof(DateInputModelBinder))]
     public DateTime? ReviewDate { get; set; }
 
