@@ -1,9 +1,19 @@
 @page "/check-your-answers/{id:int}"
 
+@using Dfe.ManageSchoolImprovement.Domain.ValueObjects
+@using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.CheckYourAnswersModel
 
 @{
     ViewData["Title"] = "Check your answers";
+
+    string? eligibility = Model.SchoolIsEligible switch
+    {
+        true => "Eligible for support",
+        false => "Not eligible for support",
+        null => null
+    };
+
 }
 
 @section BeforeMain
@@ -32,22 +42,22 @@
 
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
-                        Current Elgibility
+                        Current Project Status
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <strong class="govuk-tag govuk-tag--green">@Model.SupportProjectStatus</strong>
+                        <strong class="@ProjectStatusAndEligibilityUtils.ToGovUkTagClass(Model.SupportProjectStatus.Value)">@Model.SupportProjectStatus.GetDisplayName()</strong>
                     </dd>
                     <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link" href="change-project-status">Change<span class="govuk-visually-hidden"> project status</span></a>
+                        <a class="govuk-link" href="">Change<span class="govuk-visually-hidden"> project status</span></a>
                     </dd>
                 </div>
 
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
-                        Previous ProjectStatus
+                        Previous Project Status
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        @Model.PreviousProgressStatus
+                        <strong class="@ProjectStatusAndEligibilityUtils.ToGovUkTagClass(Model.PreviousProgressStatus.Value)">@Model.PreviousProgressStatus.GetDisplayName()</strong>
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
@@ -80,10 +90,10 @@
                         Current Eligibility
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <strong class="govuk-tag govuk-tag--green">@Model.SchoolIsEligible
+                        <strong class="govuk-summary-list__value">@eligibility
                             @if (Model.DateSupportIsDueToEnd.HasValue)
                             {
-                                <text>, support ending on @Model.DateSupportIsDueToEnd.Value.ToString("d MMMM yyyy")</text>
+                                <text>, support ending on @Model.DateSupportDueToEnd</text>
                             }
                         </strong>
                     </dd>
@@ -97,7 +107,14 @@
                         Previous Eligibility
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        @Model.PreviousEligibility
+                        @if (Model.PreviousEligibility != null)
+                        {
+                            @Model.PreviousEligibility.GetDisplayName()
+                        }
+                        @if (Model.PreviousDateSupportIsDueToEnd.HasValue)
+                        {
+                            <text>, support ending on @Model.PreviousDateSupportDueToEnd</text>
+                        }
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
@@ -105,7 +122,7 @@
                         Date of change
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        @Model.DateEligibilityChanged
+                        @Model.DateEligibilityChanged.Value.ToString("d MMMM yyyy");
                     </dd>
                 </div>
 

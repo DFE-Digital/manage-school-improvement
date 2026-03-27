@@ -11,19 +11,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 public class EnterProjectStatusChangeDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService,
-    IMediator mediator)
+    ErrorService errorService)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),
         IDateValidationMessageProvider
 {
     
     public string ReturnPage { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-   
-    public int Id { get; set; }
     
-
     [BindProperty(SupportsGet = true)]
     public ProjectStatusValue? SupportProjectStatus { get; set; }
 
@@ -59,7 +53,7 @@ public class EnterProjectStatusChangeDetailsModel(
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.ProjectStatusTab.ProjectStatusPausedDate.Page;
+        ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 

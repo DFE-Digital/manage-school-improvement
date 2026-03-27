@@ -13,9 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 public class ChangeProjectStatusModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService,
-    IUserRepository userRepository,
-    IMediator mediator)
+    ErrorService errorService)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
 {
     public string ReturnPage { get; set; }

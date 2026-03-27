@@ -62,11 +62,15 @@ public class CheckYourAnswersModel(
     [BindProperty(SupportsGet = true)]
     public bool ProjectStatusChanged { get; set; }
    
-    public ProjectStatusValue PreviousProgressStatus { get; set; }
-    public SupportProjectEligibilityStatus PreviousEligibility { get; set; }
+    public ProjectStatusValue? PreviousProgressStatus { get; set; }
+    public SupportProjectEligibilityStatus? PreviousEligibility { get; set; }
+    
+    public DateTime? PreviousDateSupportIsDueToEnd { get; set; }
     
     public string DateSupportDueToEnd { get; set; }
-    
+
+    public string PreviousDateSupportDueToEnd { get; set; }
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.Index.Page;
@@ -84,10 +88,20 @@ public class CheckYourAnswersModel(
         {
             PreviousEligibility = SupportProjectEligibilityStatus.NotEligibleForSupport;
         }
+        
+        PreviousDateSupportIsDueToEnd = SupportProject.DateSupportIsDueToEnd;
+
+        ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(PreviousEligibility);
 
         if (DateSupportIsDueToEnd.HasValue)
         {
-            DateSupportDueToEnd =  DateSupportDueToEnd = DateSupportIsDueToEnd.Value
+            DateSupportDueToEnd = DateSupportIsDueToEnd.Value
+                .ToString("d MMMM yyyy");
+        }
+        
+        if (PreviousDateSupportIsDueToEnd.HasValue)
+        {
+            PreviousDateSupportDueToEnd  = PreviousDateSupportIsDueToEnd.Value
                 .ToString("d MMMM yyyy");
         }
 
@@ -155,13 +169,18 @@ public class CheckYourAnswersModel(
 
         return RedirectToPage(Links.ProjectStatusTab.Index.Page, new
         {
-            id,
-            SupportProjectStatus,
-            SchoolIsEligible,
-            DateEligibilityChanged,
-            DateSupportIsDueToEnd,
-            ProjectStatusChangedDetails
-            
+            id
         });
+    }
+    
+     private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
+    {
+        if (status == SupportProjectEligibilityStatus.EligibleForSupport)
+            return true;
+    
+        if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
+            return false;
+
+        return null; 
     }
 }

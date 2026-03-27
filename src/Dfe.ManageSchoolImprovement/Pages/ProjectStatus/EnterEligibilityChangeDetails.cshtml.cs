@@ -11,19 +11,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 public class EnterEligibilityChangeDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService,
-    IMediator mediator)
+    ErrorService errorService)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),
         IDateValidationMessageProvider
 {
     
     public string ReturnPage { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-   
-    public int Id { get; set; }
     
-
     [BindProperty(SupportsGet = true)]
     public ProjectStatusValue? SupportProjectStatus { get; set; }
 
@@ -35,19 +29,12 @@ public class EnterEligibilityChangeDetailsModel(
     
     [BindProperty(SupportsGet = true)]
     public bool ProjectStatusChanged { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    
-    public string? ChangedBy { get; set; }
-
-    private string? CurrentUserName { get; set; }
     
     [BindProperty(SupportsGet = true)]
     public DateTime? DateSupportIsDueToEnd { get; set; }
     
     [BindProperty(Name = "eligibility-changed-details")]
     public string? EligibilityChangedDetails { get; set; }
-    
     
     [BindProperty(SupportsGet = true)]
   
@@ -60,10 +47,7 @@ public class EnterEligibilityChangeDetailsModel(
     [BindProperty(SupportsGet = true)]
     public string? ProjectStatusChangedDetails { get; set; }
     
-    public bool EligibilityChanged { get; set; }
     
-    
-
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusPausedDate.Page;
@@ -82,7 +66,6 @@ public class EnterEligibilityChangeDetailsModel(
             ModelState.AddModelError("eligibility-changed-details", "Enter details");
         }
         
-        
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -90,8 +73,6 @@ public class EnterEligibilityChangeDetailsModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
         
-        
-
         return RedirectToPage(Links.ProjectStatusTab.CheckYourAnswers.Page, new
         {
             id,

@@ -17,59 +17,54 @@ public class IsThisSchoolEligibleForInterventionModel(
     ErrorService errorService,
     IUserRepository userRepository,
     IMediator mediator)
-    : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),IDateValidationMessageProvider
+    : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),
+        IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 
-    [BindProperty(SupportsGet = true)] 
-    public ProjectStatusValue SupportProjectStatus { get; set; }
-    
+    [BindProperty(SupportsGet = true)] public ProjectStatusValue SupportProjectStatus { get; set; }
+
     [BindProperty]
     [Display(Name = "Is this school still eligible for targeted intervention?")]
-   
+
     public bool? SchoolIsEligible { get; set; }
-    
+
     public string? ErrorMessage { get; set; }
-    
+
     public bool ShowError { get; set; }
-    
-    [BindProperty(SupportsGet = true)] 
-    public bool ProjectStatusChanged { get; set; }
-    
+
+    [BindProperty(SupportsGet = true)] public bool ProjectStatusChanged { get; set; }
+
     public bool EligibilityChanged { get; set; }
     private string? CurrentUserName { get; set; }
-    
-    [BindProperty(SupportsGet = true)] 
-    public DateTime? DateProjectStatusChanged { get; set; }
-    
-    [BindProperty(SupportsGet = true)] 
-    public string? ProjectStatusChangedDetails { get; set; }
-    
-    
-    [BindProperty(Name = "support-is-due-to-end-date",BinderType = typeof(DateInputModelBinder))]
+
+    [BindProperty(SupportsGet = true)] public DateTime? DateProjectStatusChanged { get; set; }
+
+    [BindProperty(SupportsGet = true)] public string? ProjectStatusChangedDetails { get; set; }
+
+
+    [BindProperty(Name = "support-is-due-to-end-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportIsDueToEnd { get; set; }
 
     public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
-    
+
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-    
-    
+
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
-        
+        ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
-        //SupportProjectStatus = projectStatus;
-        
         await base.GetSupportProject(id, cancellationToken);
-        
+
         DateSupportIsDueToEnd = SupportProject.DateSupportIsDueToEnd;
 
-        SchoolIsEligible = MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
+        SchoolIsEligible =
+            ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
 
         RadioButtons = RadioButtonModel;
         return Page();
@@ -78,7 +73,7 @@ public class IsThisSchoolEligibleForInterventionModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
+
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -86,7 +81,7 @@ public class IsThisSchoolEligibleForInterventionModel(
             RadioButtons = RadioButtonModel;
             return await base.GetSupportProject(id, cancellationToken);
         }
-        
+
         IEnumerable<User> allUsers = await userRepository.GetAllUsers();
 
         var currentUser = allUsers.SingleOrDefault(u => u.EmailAddress == User.Identity?.Name);
@@ -102,10 +97,11 @@ public class IsThisSchoolEligibleForInterventionModel(
                 CurrentUserName = User.Identity.Name.FullNameFromEmail();
             }
         }
-        
+
         var previousSupportEndDate = SupportProject.DateSupportIsDueToEnd;
 
-        var previousEligibilityStatus = MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
+        var previousEligibilityStatus =
+            ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
 
         if (SchoolIsEligible == previousEligibilityStatus && DateSupportIsDueToEnd == previousSupportEndDate)
         {
@@ -123,7 +119,7 @@ public class IsThisSchoolEligibleForInterventionModel(
                     DateProjectStatusChanged,
                     ProjectStatusChangedDetails,
                     EligibilityChanged = false
-                });  
+                });
         }
 
 
@@ -137,7 +133,7 @@ public class IsThisSchoolEligibleForInterventionModel(
                 ProjectStatusChangedDetails,
                 SchoolIsEligible,
                 DateSupportIsDueToEnd,
-            });  
+            });
     }
 
     private IList<RadioButtonsLabelViewModel> RadioButtonModel
@@ -146,12 +142,14 @@ public class IsThisSchoolEligibleForInterventionModel(
         {
             var list = new List<RadioButtonsLabelViewModel>
             {
-                new() {
+                new()
+                {
                     Id = "yes",
                     Name = "Yes",
                     Value = "True"
                 },
-                new() {
+                new()
+                {
                     Id = "no",
                     Name = "No",
                     Value = "False",
@@ -160,17 +158,6 @@ public class IsThisSchoolEligibleForInterventionModel(
 
             return list;
         }
-    }
-    
-    private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
-    {
-        if (status == SupportProjectEligibilityStatus.EligibleForSupport)
-            return true;
-    
-        if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
-            return false;
-
-        return null; // if unknown or null
     }
 }
 
