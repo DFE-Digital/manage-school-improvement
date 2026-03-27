@@ -44,17 +44,54 @@ public class CheckYourAnswersModel(
     
     [BindProperty(SupportsGet = true)] 
     public DateTime? DateEligibilityChanged { get; set; }
+    
+    [BindProperty(SupportsGet = true)] 
+    public string? EligibilityChangedDetails { get; set; }
+    
+    [BindProperty(SupportsGet = true)] 
+    public bool EligibilityChanged { get; set; }
 
     [BindProperty(SupportsGet =  true)]
     
     public string? ProjectStatusChangedDetails { get; set; }
-
+    
+    [BindProperty(SupportsGet = true)]
+  
+    public DateTime? DateProjectStatusChanged { get; set; }
+    
+    [BindProperty(SupportsGet = true)]
+    public bool ProjectStatusChanged { get; set; }
+   
+    public ProjectStatusValue PreviousProgressStatus { get; set; }
+    public SupportProjectEligibilityStatus PreviousEligibility { get; set; }
+    
+    public string DateSupportDueToEnd { get; set; }
+    
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.Index.Page;
-
+        
         await base.GetSupportProject(id, cancellationToken);
         
+        PreviousProgressStatus = SupportProject.ProjectStatus;
+        
+        if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
+        {
+            PreviousEligibility = SupportProjectEligibilityStatus.EligibleForSupport;
+        }
+            
+        if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
+        {
+            PreviousEligibility = SupportProjectEligibilityStatus.NotEligibleForSupport;
+        }
+
+        if (DateSupportIsDueToEnd.HasValue)
+        {
+            DateSupportDueToEnd =  DateSupportDueToEnd = DateSupportIsDueToEnd.Value
+                .ToString("d MMMM yyyy");
+        }
+
+
         return Page();
     }
 
@@ -84,17 +121,38 @@ public class CheckYourAnswersModel(
             ? SupportProjectEligibilityStatus.EligibleForSupport
             : SupportProjectEligibilityStatus.NotEligibleForSupport;
 
-        var request = new SetEligibilityCommand(new SupportProjectId(id), eligibilityStatus, DateEligibilityChanged, DateSupportIsDueToEnd,null);
-        var result = await mediator.Send(request, cancellationToken);
-
-        if (result == null)
+        if (ProjectStatusChanged)
         {
-            _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus.Value, DateProjectStatusChanged,
+                CurrentUserName, ProjectStatusChangedDetails);
+            var result = await mediator.Send(request, cancellationToken);
+
+            if (result == null)
+            {
+                _errorService.AddApiError();
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+
+            TempData["ProjectStatusUpdated"] = true;
         }
-        
-        TempData["projectStatusUpdated"] = true;
-        
+
+        if(EligibilityChanged)
+        {
+
+
+            var request = new SetEligibilityCommand(new SupportProjectId(id), eligibilityStatus, DateEligibilityChanged,
+                DateSupportIsDueToEnd, EligibilityChangedDetails);
+            var result = await mediator.Send(request, cancellationToken);
+
+            if (result == null)
+            {
+                _errorService.AddApiError();
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+
+            TempData["EligibilityUpdated"] = true;
+        }
+
         return RedirectToPage(Links.ProjectStatusTab.Index.Page, new
         {
             id,

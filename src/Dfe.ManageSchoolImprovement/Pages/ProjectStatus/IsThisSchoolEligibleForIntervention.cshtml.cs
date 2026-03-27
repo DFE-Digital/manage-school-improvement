@@ -21,7 +21,8 @@ public class IsThisSchoolEligibleForInterventionModel(
 {
     public string ReturnPage { get; set; }
 
-    [BindProperty] public ProjectStatusValue SupportProjectStatus { get; set; }
+    [BindProperty(SupportsGet = true)] 
+    public ProjectStatusValue SupportProjectStatus { get; set; }
     
     [BindProperty]
     [Display(Name = "Is this school still eligible for targeted intervention?")]
@@ -32,7 +33,17 @@ public class IsThisSchoolEligibleForInterventionModel(
     
     public bool ShowError { get; set; }
     
+    [BindProperty(SupportsGet = true)] 
+    public bool ProjectStatusChanged { get; set; }
+    
+    public bool EligibilityChanged { get; set; }
     private string? CurrentUserName { get; set; }
+    
+    [BindProperty(SupportsGet = true)] 
+    public DateTime? DateProjectStatusChanged { get; set; }
+    
+    [BindProperty(SupportsGet = true)] 
+    public string? ProjectStatusChangedDetails { get; set; }
     
     
     [BindProperty(Name = "support-is-due-to-end-date",BinderType = typeof(DateInputModelBinder))]
@@ -47,24 +58,18 @@ public class IsThisSchoolEligibleForInterventionModel(
     }
     
     
-    public async Task<IActionResult> OnGetAsync(int id, ProjectStatusValue projectStatus, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        
 
-        SupportProjectStatus = projectStatus;
-
+        //SupportProjectStatus = projectStatus;
+        
         await base.GetSupportProject(id, cancellationToken);
         
-        
-        if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
-        {
-            SchoolIsEligible = true;
-        }
-            
-        if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
-        {
-            SchoolIsEligible = false;
-        }
+        DateSupportIsDueToEnd = SupportProject.DateSupportIsDueToEnd;
+
+        SchoolIsEligible = MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
 
         RadioButtons = RadioButtonModel;
         return Page();
@@ -73,13 +78,6 @@ public class IsThisSchoolEligibleForInterventionModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
-        
-        
-        if (!DateSupportIsDueToEnd.HasValue)
-        {
-            ModelState.AddModelError("support-is-due-to-end-date", "Enter a date");
-        }
         
         if (!ModelState.IsValid)
         {
@@ -105,15 +103,40 @@ public class IsThisSchoolEligibleForInterventionModel(
             }
         }
         
+        var previousSupportEndDate = SupportProject.DateSupportIsDueToEnd;
 
-        return RedirectToPage(@Links.ProjectStatusTab.ConfirmTheChange.Page,
+        var previousEligibilityStatus = MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
+
+        if (SchoolIsEligible == previousEligibilityStatus && DateSupportIsDueToEnd == previousSupportEndDate)
+        {
+            if (ProjectStatusChanged == false)
+            {
+                return RedirectToPage(@Links.ProjectStatusTab.Index.Page, new { id });
+            }
+
+            return RedirectToPage(@Links.ProjectStatusTab.CheckYourAnswers.Page,
+                new
+                {
+                    id,
+                    SupportProjectStatus,
+                    ProjectStatusChanged,
+                    DateProjectStatusChanged,
+                    ProjectStatusChangedDetails,
+                    EligibilityChanged = false
+                });  
+        }
+
+
+        return RedirectToPage(@Links.ProjectStatusTab.EnterEligibilityChangeDetails.Page,
             new
             {
                 id,
                 SupportProjectStatus,
+                ProjectStatusChanged,
+                DateProjectStatusChanged,
+                ProjectStatusChangedDetails,
                 SchoolIsEligible,
-                changedBy = CurrentUserName,
-                DateSupportIsDueToEnd
+                DateSupportIsDueToEnd,
             });  
     }
 
@@ -125,18 +148,29 @@ public class IsThisSchoolEligibleForInterventionModel(
             {
                 new() {
                     Id = "yes",
-                    Name = "Yes, elibible",
+                    Name = "Yes",
                     Value = "True"
                 },
                 new() {
                     Id = "no",
-                    Name = "No, not eli",
+                    Name = "No",
                     Value = "False",
                 }
             };
 
             return list;
         }
+    }
+    
+    private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
+    {
+        if (status == SupportProjectEligibilityStatus.EligibleForSupport)
+            return true;
+    
+        if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
+            return false;
+
+        return null; // if unknown or null
     }
 }
 

@@ -39,10 +39,19 @@ public class ConfirmTheChangeModel(
     public bool ShowError { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    
-    public string? ChangedBy { get; set; }
 
-    private string? CurrentUserName { get; set; }
+    public bool ProjectStatusChanged { get; set; }
+   
+    [BindProperty(SupportsGet = true)] 
+        
+    public bool EligibiltyChanged { get; set; }
+        
+        
+    [BindProperty(SupportsGet = true)] 
+    public DateTime? DateProjectStatusChanged { get; set; }
+        
+    [BindProperty(SupportsGet = true)] 
+    public string? ProjectStatusChangedDetails { get; set; }
     
     [BindProperty(SupportsGet = true)]
     public DateTime? DateSupportIsDueToEnd { get; set; }
@@ -76,7 +85,8 @@ public class ConfirmTheChangeModel(
         SchoolIsEligible = schoolIsEligible;
         SupportProjectStatus = supportProjectStatus;
 
-        return Page();
+        
+return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)

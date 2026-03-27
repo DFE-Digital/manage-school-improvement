@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 
-public class EnterDetailsAboutTheChangeModel(
+public class EnterProjectStatusChangeDetailsModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
     ErrorService errorService,
@@ -20,35 +20,55 @@ public class EnterDetailsAboutTheChangeModel(
     public string ReturnPage { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    
+   
     public int Id { get; set; }
     
 
     [BindProperty(SupportsGet = true)]
     public ProjectStatusValue? SupportProjectStatus { get; set; }
+
+    [BindProperty(SupportsGet = true)]
     
-    bool ProjectStatusChanged { get; set; }
+    public bool? SchoolIsEligible { get; set; }
+    
     public bool ShowError { get; set; }
     
-    [BindProperty(Name = "project-status-changed-date")] 
-    public DateTime? DateProjectStatusChanged { get; set; }
+    bool ProjectStatusChanged { get; set; }
 
-    [BindProperty(Name = "project-status-changed-details")]
+    [BindProperty(SupportsGet = true)]
     
+    public string? ChangedBy { get; set; }
+
+    private string? CurrentUserName { get; set; }
+    
+    [BindProperty(SupportsGet = true)]
+    public DateTime? DateSupportIsDueToEnd { get; set; }
+    
+    
+    [BindProperty(Name = "project-status-changed-date",BinderType = typeof(DateInputModelBinder))]
+    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
+    public DateTime? DateProjectStatusChanged { get; set; }
+    
+    [BindProperty(SupportsGet = true)] 
+    public DateTime? DateEligibilityChanged { get; set; }
+    
+    [BindProperty(Name = "project-status-changed-details")]
     public string? ProjectStatusChangedDetails { get; set; }
+    
+    
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ProjectStatusPausedDate.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-        
-        ProjectStatusChangedDetails =  SupportProject?.ProjectStatusChangedDetails;
+
+        ProjectStatusChanged = true;
         
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id ,CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
         
@@ -69,12 +89,16 @@ public class EnterDetailsAboutTheChangeModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
         
-        return RedirectToPage(Links.ProjectStatusTab.CheckYourAnswers.Page, new
+        return RedirectToPage(Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page, new
         {
             id,
             SupportProjectStatus,
+            SchoolIsEligible,
+            DateEligibilityChanged,
+            DateSupportIsDueToEnd,
+            ProjectStatusChangedDetails,
             DateProjectStatusChanged,
-            ProjectStatusChangedDetails
+            ProjectStatusChanged = true
             
         });
     }

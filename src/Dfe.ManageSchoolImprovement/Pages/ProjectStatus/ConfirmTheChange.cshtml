@@ -18,15 +18,16 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">Change status and eligibility</span>
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Confirm the change</h2>
-        <p>The previous status and eligibility was:</p>
+        <p>The previous project status and eligibility was:</p>
         
+        @if(@Model.ProjectStatusChanged == true){
         <div class="govuk-inset-text">
             <dl class="govuk-summary-list">
   
     
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
-                        Previous status
+                        Previous project status
                     </dt>
                     <dd class="govuk-summary-list__value">
                         <strong class="govuk-tag govuk-tag--green">@Model.PreviousProgressStatus</strong>
@@ -38,10 +39,10 @@
     
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
-                        Previous eligibility
+                        Current project status
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        @Model.PreviousEligibility.ToString()
+                        @Model.SupportProjectStatus
                     </dd>
       
                 </div>
@@ -51,7 +52,9 @@
   
             </dl>
         </div>
+        }
         
+        @if(@Model.EligibiltyChanged == true){
         <p class-govuk-body>The current status and eligibility will be:</p>
         
         <div class="govuk-inset-text">
@@ -74,10 +77,8 @@
                 </div>
             </dl>
         </div>
-        <form method="post" novalidate>
-            <govuk-date-input heading-label="false" label="When did the project status or eligibility change?"
-                              id="eligibility-changed-date" name="eligibility-changed-date"
-                              asp-for="@Model.DateEligibilityChanged" hint="For example, 1 5 2026."/>
+        }
+        <form method="post" novalidate>s
             <input type="hidden" asp-for="SupportProjectStatus" />
             <input type="hidden" asp-for="DateSupportIsDueToEnd" />
             
