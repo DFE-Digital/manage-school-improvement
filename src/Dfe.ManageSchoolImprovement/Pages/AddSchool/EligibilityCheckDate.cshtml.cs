@@ -15,6 +15,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
         IDateValidationMessageProvider
     {
+        public string? ReturnPage { get; set; }
+        
         [BindProperty(Name = "eligibility-check-date", BinderType = typeof(DateInputModelBinder))]
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
         [Display(Name = "When did the school's eligibility change?")]
@@ -30,8 +32,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
 
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ?? @Links.AddSchool.ConfirmStartingEligibility.Page;
             await base.GetSupportProject(id, cancellationToken);
             
             DateEligibilityChanged = SupportProject?.DateEligibilityChanged;
@@ -39,11 +42,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPost(int id, string? returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ?? @Links.AddSchool.EligibilityCheckDetails.Page;
+            
             await base.GetSupportProject(id, cancellationToken);
             
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.NotEligibleForSupport, DateEligibilityChanged, null,null);
+            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, DateEligibilityChanged, SupportProject?.SchoolIsNotEligibleNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -54,7 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             }
 
             // TaskUpdated = true;
-            return RedirectToPage(@Links.TaskList.Index.Page, new { id });
+            return RedirectToPage(ReturnPage, new { id });
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
+        public string? ReturnPage { get; set; }
+        
         [BindProperty(Name = "SchoolIsEligible")]
         [Display(Name = "Is this school still eligible for targeted intervention?")]
         public bool? SchoolIsEligible { get; set; }
@@ -24,27 +26,22 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         public bool ShowError { get; set; }
 
 
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-
-            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
-            {
-                SchoolIsEligible = true;
-            }
-
-            if (SupportProject?.SupportProjectEligibilityStatus ==
-                SupportProjectEligibilityStatus.NotEligibleForSupport)
-            {
-                SchoolIsEligible = false;
-            }
+            
+            ReturnPage = returnPage ??  @Links.AddSchool.Summary.Page;
+            
+            SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus != SupportProjectEligibilityStatus.NotEligibleForSupport;
 
             RadioButtons = EligibilityRadioButtons;
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPost(int id, string? returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ??  @Links.AddSchool.EligibilityCheckDate.Page;
+            
             if (!ModelState.IsValid || SchoolIsEligible == null)
             {
                 if (SchoolIsEligible == null)
@@ -61,7 +58,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
 
             if (SchoolIsEligible == true)
             {
-                var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.EligibleForSupport, null,null, null);
+                // set date and notes to null - this takes care of data previously saved if user has come via link on check answers page
+                var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.EligibleForSupport, null, null);
 
                 var result = await mediator.Send(request, cancellationToken);
 
@@ -76,7 +74,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             }
 
             // direct to next page
-            return RedirectToPage(@Links.AddSchool.EligibilityCheckDate.Page, new { id });
+            return RedirectToPage(ReturnPage, new { id });
         }
 
 

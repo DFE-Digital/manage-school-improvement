@@ -1,0 +1,65 @@
+@page "/eligibility-not-eligible-guidance/{id:int}"
+
+@using Dfe.ManageSchoolImprovement.Utils
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool.SchoolNotEligibleGuidanceModel
+@{
+    ViewData["Title"] = "School is not eligible";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.AddSchool.EligibilityCheckAnswers.Page" asp-route-id="@Model.SupportProject?.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">Confirm starting eligibility</span>
+        <h2 class="govuk-heading-l">School is not eligible</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Eligibility</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.SupportProjectEligibilityStatus?.GetDisplayName()</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Date of change</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.DateEligibilityChanged.ToDateString()</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Details</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.SchoolIsNotEligibleNotes</dd>
+            </div>
+        </dl>
+        <h3 class="govuk-heading-m">What this means</h3>
+        <p class="govuk-body">As the school is no longer eligible to begin targeted intervention, there is no more
+            project work to be done.</p>
+        <p class="govuk-body">A record of this project has been saved for future reference.</p>
+
+        <h3 class="govuk-heading-m">Tell the grant team about this change</h3>
+        <p class="govuk-body">You must contact the grant team to let them know that the school is no longer eligible.
+            They will make arrangements for funding to stop if necessary.</p>
+
+        <h3 class="govuk-heading-m">Inform the school</h3>
+        <p class="govuk-body">You must make the school aware of this change in eligibility and discuss what it means for
+            them and what will happen next.</p>
+
+        <h3 class="govuk-heading-m">If the school becomes eligible again</h3>
+        <p class="govuk-body">A new project must be created if the school becomes eligible for targeted intervention in
+            the future.</p>
+        <p class="govuk-body">Any new project will be linked to older targeted intervention projects and records for the
+            same school.</p>
+
+        <h3 class="govuk-heading-m">Contact service support if this is a mistake</h3>
+        <p class="govuk-body">If this school has been recorded as not eligible by mistake, you must contact service
+            support so they can delete it.</p>
+
+        <div class="govuk-button-group">
+            <a asp-page="@Links.SchoolList.Index.Page" class="govuk-button" data-cy="back-to-project-list-button">
+                Back to project list
+            </a>
+        </div>
+    </div>
+</div>

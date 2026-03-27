@@ -1,0 +1,63 @@
+@page "/eligibility-check-answers/{id:int}"
+
+@using Dfe.ManageSchoolImprovement.Utils
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool.EligibilityCheckAnswersModel
+@{
+    ViewData["Title"] = "Check your answers";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.AddSchool.EligibilityCheckDetails.Page" asp-route-id="@Model.SupportProject?.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">Confirm starting eligibility</span>
+        <h2 class="govuk-heading-l">Check your answers</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Eligibility</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.SupportProjectEligibilityStatus?.GetDisplayName()</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" asp-page="@Links.AddSchool.ConfirmStartingEligibility.Page"
+                       asp-route-id="@Model.SupportProject?.Id"
+                       asp-route-returnpage="@Links.AddSchool.EligibilityCheckAnswers.Page"
+                       data-cy="eligibility-change-link">Change<span
+                            class="govuk-visually-hidden"> eligibility</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Date of change</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.DateEligibilityChanged.ToDateString()</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" asp-page="@Links.AddSchool.EligibilityCheckDate.Page"
+                       asp-route-id="@Model.SupportProject?.Id"
+                       asp-route-returnpage="@Links.AddSchool.EligibilityCheckAnswers.Page"
+                       data-cy="eligibility-change-link">Change<span class="govuk-visually-hidden"> date</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Details</dt>
+                <dd class="govuk-summary-list__value">@Model.SupportProject?.SchoolIsNotEligibleNotes</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" asp-page="@Links.AddSchool.EligibilityCheckDetails.Page"
+                       asp-route-id="@Model.SupportProject?.Id"
+                       asp-route-returnpage="@Links.AddSchool.EligibilityCheckAnswers.Page"
+                       data-cy="eligibility-change-link">Change<span class="govuk-visually-hidden"> details</span></a>
+                </dd>
+            </div>
+        </dl>
+
+        <form method="post" novalidate>
+            <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                    data-cy="select-common-submitbutton">
+                Save and complete
+            </button>
+        </form>
+    </div>
+</div>
