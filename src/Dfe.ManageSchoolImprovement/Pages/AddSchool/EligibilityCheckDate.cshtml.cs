@@ -48,7 +48,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             
             await base.GetSupportProject(id, cancellationToken);
             
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, DateEligibilityChanged, SupportProject?.SchoolIsNotEligibleNotes);
+            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, DateEligibilityChanged, null,SupportProject?.SchoolIsNotEligibleNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
