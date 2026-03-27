@@ -1,5 +1,7 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProject;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
@@ -10,6 +12,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool;
 
 public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQueryService supportProjectQueryService, IMediator mediator) : PageModel
 {
+    public string? ReturnPage { get; set; }
     public GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto? Establishment { get; set; }
 
     [BindProperty]
@@ -18,13 +21,15 @@ public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQue
     [BindProperty]
     public string? TrustReferenceNumber { get; set; }
     
-    public async Task<IActionResult> OnGetAsync(string urn, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(string urn, bool? backLinkClicked, CancellationToken cancellationToken)
     {
+        ReturnPage = @Links.AddSchool.SelectSchool.Page;
+        
         Establishment = await getEstablishment.GetEstablishmentByUrn(urn);
 
         var existingSupportProjects = await supportProjectQueryService.GetAllSupportProjects(cancellationToken);
 
-        if (existingSupportProjects.Value != null && existingSupportProjects.Value.Any(a => a.SchoolUrn == Establishment.Urn))
+        if (existingSupportProjects.Value != null && existingSupportProjects.Value.Any(a => a.SchoolUrn == Establishment.Urn) && backLinkClicked != true)
         {
             // if we are in the position the user must have selected back so navigate them to the summary page
             return RedirectToPage(Links.SchoolList.Index.Page);
@@ -38,6 +43,19 @@ public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQue
         {
             TrustName = trust.Name;
             TrustReferenceNumber = trust.ReferenceNumber;
+        }
+
+        if (backLinkClicked == true)
+        {
+            var supportProjectId  = existingSupportProjects.Value?.First(a => a.SchoolUrn == Establishment.Urn).Id;
+
+            if (supportProjectId.HasValue)
+            {
+                var request = new SetSoftDeletedCommand(new SupportProjectId((int)supportProjectId), User.Identity?.Name!);
+                await mediator.Send(request);
+                
+                TempData.Remove("schoolAdded");
+            }
         }
 
         return Page();
