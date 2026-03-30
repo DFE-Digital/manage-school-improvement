@@ -19,7 +19,7 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">Change status and eligibility</span>
         <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Change project status</h2>
-        <p>The previous status and eligibility was:</p>
+        <p>The previous status was: <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/></p>
 
         <form method="post" novalidate="">
             <govuk-radiobuttons-input error-message="@Model.ErrorMessage" name="@nameof(Model.SupportProjectStatus)"

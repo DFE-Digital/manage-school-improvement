@@ -20,35 +20,18 @@ public class EnterProjectStatusChangeDetailsModel(
     
     [BindProperty(SupportsGet = true)]
     public ProjectStatusValue? SupportProjectStatus { get; set; }
-
+    
     [BindProperty(SupportsGet = true)]
-    
-    public bool? SchoolIsEligible { get; set; }
-    
-    public bool ShowError { get; set; }
-    
     bool ProjectStatusChanged { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    
-    public string? ChangedBy { get; set; }
-
-    private string? CurrentUserName { get; set; }
-    
-    [BindProperty(SupportsGet = true)]
-    public DateTime? DateSupportIsDueToEnd { get; set; }
-    
     
     [BindProperty(Name = "project-status-changed-date",BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateProjectStatusChanged { get; set; }
     
-    [BindProperty(SupportsGet = true)] 
-    public DateTime? DateEligibilityChanged { get; set; }
-    
     [BindProperty(Name = "project-status-changed-details")]
     public string? ProjectStatusChangedDetails { get; set; }
-    
+    public bool ShowError { get; set; }    
+
     
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
@@ -87,13 +70,9 @@ public class EnterProjectStatusChangeDetailsModel(
         {
             id,
             SupportProjectStatus,
-            SchoolIsEligible,
-            DateEligibilityChanged,
-            DateSupportIsDueToEnd,
             ProjectStatusChangedDetails,
             DateProjectStatusChanged,
             ProjectStatusChanged = true
-            
         });
     }
 }
