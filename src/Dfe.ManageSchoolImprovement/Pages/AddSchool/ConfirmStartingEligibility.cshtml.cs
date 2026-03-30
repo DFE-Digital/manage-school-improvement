@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -59,7 +60,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             if (SchoolIsEligible == true)
             {
                 // set date and notes to null - this takes care of data previously saved if user has come via link on check answers page
-                var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.EligibleForSupport, null, null,null);
+                var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.EligibleForSupport, null);
 
                 var result = await mediator.Send(request, cancellationToken);
 

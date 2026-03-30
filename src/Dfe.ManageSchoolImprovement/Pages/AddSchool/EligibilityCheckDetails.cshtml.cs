@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -58,7 +59,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
                 return await base.GetSupportProject(id, cancellationToken);
             }
             
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.NotEligibleForSupport, SupportProject?.DateEligibilityChanged, null,SchoolIsNotEligibleNotes);
+            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProjectEligibilityStatus.NotEligibleForSupport, SchoolIsNotEligibleNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -68,7 +69,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            // TaskUpdated = true;
             return RedirectToPage(@Links.AddSchool.EligibilityCheckAnswers.Page, new { id });
         }
     }

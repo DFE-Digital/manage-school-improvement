@@ -47,12 +47,13 @@ public class ChangeProjectStatusModel(
     {
         await base.GetSupportProject(id, cancellationToken);
         
-        ProjectStatusChanged = SupportProject.ProjectStatus != SupportProjectStatus;
+        ProjectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
+        CurrentUserName = User.Identity!.Name;
 
         if (!ProjectStatusChanged)
         {
             return RedirectToPage(Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page,
-                new { id,SupportProjectStatus, changedBy = CurrentUserName,ProjectStatusChanged  });
+                new { id, SupportProjectStatus, changedBy = CurrentUserName, ProjectStatusChanged  });
         }
         
         return RedirectToPage(Links.ProjectStatusTab.EnterProjectStatusChangeDetails.Page,

@@ -2,20 +2,21 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using MediatR;
 
-namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
+namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility
 {
-    public record SetEligibilityCommand(
+    public record UpdateEligibilityCommand(
         SupportProjectId SupportProjectId,
         SupportProjectEligibilityStatus? SchoolIsEligible,
         DateTime? DateEligibilityChanged,
+        string? EligibilityChangedBy,
         DateTime? DateSupportIsDueToEnd,
         string? SchoolIsNotEligibleNotes
     ) : IRequest<bool>;
 
-    public class SetEligibilityCommandHandler(ISupportProjectRepository supportProjectRepository)
-        : IRequestHandler<SetEligibilityCommand, bool>
+    public class UpdateEligibilityCommandHandler(ISupportProjectRepository supportProjectRepository)
+        : IRequestHandler<UpdateEligibilityCommand, bool>
     {
-        public async Task<bool> Handle(SetEligibilityCommand request,
+        public async Task<bool> Handle(UpdateEligibilityCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
@@ -25,7 +26,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetEligibility(request.SchoolIsEligible, request.DateEligibilityChanged,request.DateSupportIsDueToEnd, request.SchoolIsNotEligibleNotes);
+            supportProject.UpdateEligibility(request.SchoolIsEligible, request.DateEligibilityChanged, request.DateSupportIsDueToEnd, request.EligibilityChangedBy, request.SchoolIsNotEligibleNotes);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

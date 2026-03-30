@@ -61,10 +61,10 @@ public class IsThisSchoolEligibleForInterventionModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        DateSupportIsDueToEnd = SupportProject.DateSupportIsDueToEnd;
+        DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
 
         SchoolIsEligible =
-            ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
+            ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(SupportProject?.SupportProjectEligibilityStatus);
 
         RadioButtons = RadioButtonModel;
         return Page();
@@ -98,10 +98,10 @@ public class IsThisSchoolEligibleForInterventionModel(
             }
         }
 
-        var previousSupportEndDate = SupportProject.DateSupportIsDueToEnd;
+        var previousSupportEndDate = SupportProject?.DateSupportIsDueToEnd;
 
         var previousEligibilityStatus =
-            ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(SupportProject.SupportProjectEligibilityStatus);
+            ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(SupportProject?.SupportProjectEligibilityStatus);
 
         if (SchoolIsEligible == previousEligibilityStatus && DateSupportIsDueToEnd == previousSupportEndDate)
         {

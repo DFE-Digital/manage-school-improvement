@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -77,7 +78,7 @@ public class CheckYourAnswersModel(
         
         await base.GetSupportProject(id, cancellationToken);
         
-        PreviousProgressStatus = SupportProject.ProjectStatus;
+        PreviousProgressStatus = SupportProject?.ProjectStatus;
         
         if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
         {
@@ -89,7 +90,7 @@ public class CheckYourAnswersModel(
             PreviousEligibility = SupportProjectEligibilityStatus.NotEligibleForSupport;
         }
         
-        PreviousDateSupportIsDueToEnd = SupportProject.DateSupportIsDueToEnd;
+        PreviousDateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
 
         ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(PreviousEligibility);
 
@@ -133,11 +134,11 @@ public class CheckYourAnswersModel(
         
         var eligibilityStatus = SchoolIsEligible == true
             ? SupportProjectEligibilityStatus.EligibleForSupport
-            : SupportProjectEligibilityStatus.NotEligibleForSupport;
+            : SupportProjectEligibilityStatus.NoLongerEligibleForSupport;
 
         if (ProjectStatusChanged)
         {
-            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus.Value, DateProjectStatusChanged,
+            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus!.Value, DateProjectStatusChanged,
                 CurrentUserName, ProjectStatusChangedDetails);
             var result = await mediator.Send(request, cancellationToken);
 
@@ -150,11 +151,11 @@ public class CheckYourAnswersModel(
             TempData["ProjectStatusUpdated"] = true;
         }
 
-        if(EligibilityChanged)
+        if (EligibilityChanged)
         {
 
 
-            var request = new SetEligibilityCommand(new SupportProjectId(id), eligibilityStatus, DateEligibilityChanged,
+            var request = new UpdateEligibilityCommand(new SupportProjectId(id), eligibilityStatus, DateEligibilityChanged, CurrentUserName, 
                 DateSupportIsDueToEnd, EligibilityChangedDetails);
             var result = await mediator.Send(request, cancellationToken);
 
@@ -173,14 +174,14 @@ public class CheckYourAnswersModel(
         });
     }
     
-     private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
-    {
-        if (status == SupportProjectEligibilityStatus.EligibleForSupport)
-            return true;
-    
-        if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
-            return false;
-
-        return null; 
-    }
+    //  private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
+    // {
+    //     if (status == SupportProjectEligibilityStatus.EligibleForSupport)
+    //         return true;
+    //
+    //     if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
+    //         return false;
+    //
+    //     return null; 
+    // }
 }
