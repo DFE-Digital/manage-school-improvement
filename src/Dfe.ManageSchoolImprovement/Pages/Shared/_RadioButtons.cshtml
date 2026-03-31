@@ -38,7 +38,7 @@
                        type="radio"
                        data-cy="select-radio-@radioButton.Id"
                        value="@radioButton.Value"
-                       @(radioButton.Input != null ? $"data-aria-controls=conditional-{radioButton.Id}")
+                       @(radioButton.Input != null ? $"data-aria-controls=conditional-{radioButton.Id}" : "")
                        @(radioButton.Value == Model.Value ? "checked=\"checked\"" : "") />
 
                 <label class="govuk-label govuk-radios__label" for="@radioButton.Id">
