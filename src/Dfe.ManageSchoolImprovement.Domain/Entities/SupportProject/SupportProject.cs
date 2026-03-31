@@ -169,6 +169,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DateEligibilityChanged { get; private set; }
 
     public string? SchoolIsNotEligibleNotes { get; private set; }
+    
+    public bool? EligibilityComplete { get; private set; }
 
     public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
     public bool? FundingHistoryDetailsComplete { get; private set; }
@@ -474,20 +476,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateImprovementGrantOfferLetterSent = dateImprovementGrantOfferLetterSent;
     }
 
-    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, DateTime? dateEligibilityChanged, string? schoolIsNotEligibleNotes)
+    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, DateTime? dateEligibilityChanged, string? schoolIsNotEligibleNotes, bool eligibilityComplete)
     {
-        if (schoolIsEligible == ValueObjects.SupportProjectEligibilityStatus.EligibleForSupport)
-        {
-            SupportProjectEligibilityStatus = ValueObjects.SupportProjectEligibilityStatus.EligibleForSupport;
-        }
-
-        if (schoolIsEligible == ValueObjects.SupportProjectEligibilityStatus.NotEligibleForSupport)
-        {
-            SupportProjectEligibilityStatus = ValueObjects.SupportProjectEligibilityStatus.NotEligibleForSupport;
-        }
-
+        SupportProjectEligibilityStatus = schoolIsEligible;
         DateEligibilityChanged = dateEligibilityChanged;
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
+        EligibilityComplete = eligibilityComplete;
     }
 
     public void SetSoftDeleted(string deletedBy)

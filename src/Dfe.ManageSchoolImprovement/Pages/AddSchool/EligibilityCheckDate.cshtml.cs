@@ -47,6 +47,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             ReturnPage = returnPage ?? @Links.AddSchool.EligibilityCheckDetails.Page;
             
             await base.GetSupportProject(id, cancellationToken);
+
+            if (!DateEligibilityChanged.HasValue)
+            {
+                ModelState.AddModelError("eligibility-check-date", "Enter a date");
+
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                _errorService.AddErrors(Request.Form.Keys, ModelState);
+                ShowError = true;
+                return await base.GetSupportProject(id, cancellationToken);
+            }
             
             var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, DateEligibilityChanged, SupportProject?.SchoolIsNotEligibleNotes);
 
@@ -57,8 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
                 _errorService.AddApiError();
                 return await base.GetSupportProject(id, cancellationToken);
             }
-
-            // TaskUpdated = true;
+            
             return RedirectToPage(ReturnPage, new { id });
         }
     }

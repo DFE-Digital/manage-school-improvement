@@ -11,6 +11,7 @@
 {
     <nav aria-label="back navigation">
         <a asp-page="@Links.AddSchool.EligibilityCheckDetails.Page" asp-route-id="@Model.SupportProject?.Id"
+           asp-route-returnpage="@Links.AddSchool.EligibilityCheckAnswers.Page"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -22,7 +23,7 @@
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Eligibility</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.SupportProjectEligibilityStatus?.GetDisplayName()</dd>
+                <dd class="govuk-summary-list__value">@Model.EligibilityStatus?.GetDisplayName()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link" asp-page="@Links.AddSchool.ConfirmStartingEligibility.Page"
                        asp-route-id="@Model.SupportProject?.Id"
@@ -33,7 +34,7 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Date of change</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.DateEligibilityChanged.ToDateString()</dd>
+                <dd class="govuk-summary-list__value">@Model.DateEligibilityChanged.ToDateString()</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link" asp-page="@Links.AddSchool.EligibilityCheckDate.Page"
                        asp-route-id="@Model.SupportProject?.Id"
@@ -43,7 +44,7 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Details</dt>
-                <dd class="govuk-summary-list__value">@Model.SupportProject?.SchoolIsNotEligibleNotes</dd>
+                <dd class="govuk-summary-list__value">@Model.EligibilityChangedDetails</dd>
                 <dd class="govuk-summary-list__actions">
                     <a class="govuk-link" asp-page="@Links.AddSchool.EligibilityCheckDetails.Page"
                        asp-route-id="@Model.SupportProject?.Id"

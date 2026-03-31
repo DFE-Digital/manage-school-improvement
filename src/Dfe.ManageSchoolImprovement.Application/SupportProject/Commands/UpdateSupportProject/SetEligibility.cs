@@ -8,7 +8,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
         SupportProjectId SupportProjectId,
         SupportProjectEligibilityStatus? SchoolIsEligible,
         DateTime? DateEligibilityChanged,
-        string? SchoolIsNotEligibleNotes
+        string? SchoolIsNotEligibleNotes,
+        bool EligibilityComplete = false
     ) : IRequest<bool>;
 
     public class SetEligibilityCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -24,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
                 return false;
             }
 
-            supportProject.SetEligibility(request.SchoolIsEligible, request.DateEligibilityChanged, request.SchoolIsNotEligibleNotes);
+            supportProject.SetEligibility(request.SchoolIsEligible, request.DateEligibilityChanged, request.SchoolIsNotEligibleNotes, request.EligibilityComplete);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

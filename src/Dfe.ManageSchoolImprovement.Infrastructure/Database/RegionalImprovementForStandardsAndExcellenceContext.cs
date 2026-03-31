@@ -97,7 +97,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
 
         supportProjectConfiguration
             .HasQueryFilter(p => p.DeletedAt == null
-                && p.SupportProjectEligibilityStatus != SupportProjectEligibilityStatus.NotEligibleForSupport);
+                && p.EligibilityComplete != true);
     }
 
     private static void ConfigureSupportProjectNotes(EntityTypeBuilder<SupportProjectNote> supportProjectNoteConfiguration)
