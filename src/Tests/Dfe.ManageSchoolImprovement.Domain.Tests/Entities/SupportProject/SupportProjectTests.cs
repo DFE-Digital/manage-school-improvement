@@ -584,15 +584,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             
             string note = "note";
-            DateTime date = DateTime.Now;
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, date,date, note);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, note, false);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.EligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
-            supportProject.DateSupportIsDueToEnd.Should().Be(date);
-            supportProject.DateEligibilityChanged.Should().Be(date);
             mockRepository.VerifyAll();
         }
 
@@ -603,15 +600,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             
             string note = "note";
-            DateTime date = DateTime.Now;
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, date, date,note);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, note, true);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
-            supportProject.DateSupportIsDueToEnd.Should().Be(date);
-            supportProject.DateEligibilityChanged.Should().Be(date);
             mockRepository.VerifyAll();
         }
         
@@ -625,9 +619,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Act
             supportProject.SetEligibility(
                 SupportProjectEligibilityStatus.NotEligibleForSupport,
-                null,
-                null,
-                note);
+                note,
+                false
+                );
 
             // Assert
             supportProject.SupportProjectEligibilityStatus

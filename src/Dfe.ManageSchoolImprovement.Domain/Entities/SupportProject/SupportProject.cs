@@ -173,6 +173,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? EligibilityChangedBy { get; private set; }
 
     public string? SchoolIsNotEligibleNotes { get; private set; }
+    
+    public bool? EligibilityComplete { get; private set; }
 
     public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
     public bool? FundingHistoryDetailsComplete { get; private set; }
@@ -478,11 +480,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         DateImprovementGrantOfferLetterSent = dateImprovementGrantOfferLetterSent;
     }
-
-    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, string? schoolIsNotEligibleNotes)
+    
+    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, string? schoolIsNotEligibleNotes, bool eligibilityComplete)
     {
         SupportProjectEligibilityStatus = schoolIsEligible;
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
+        EligibilityComplete = eligibilityComplete;
     }
 
     public void UpdateEligibility(SupportProjectEligibilityStatus? schoolIsEligible,

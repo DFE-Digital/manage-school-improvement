@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     [DbContext(typeof(RegionalImprovementForStandardsAndExcellenceContext))]
-    partial class RegionalImprovementForStandardsAndExcellenceContextModelSnapshot : ModelSnapshot
+    [Migration("20260330132300_add-eligibility-complete-field")]
+    partial class addeligibilitycompletefield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -583,9 +586,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                     b.Property<DateTime?>("DateImprovementGrantOfferLetterSent")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateSupportIsDueToEnd")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("DateSupportOrganisationChosen")
                         .HasColumnType("datetime2");
 
@@ -615,9 +615,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 
                     b.Property<bool?>("DiscussChoiceWithSfso")
                         .HasColumnType("bit");
-
-                    b.Property<string>("EligibilityChangedBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("EligibilityComplete")
                         .HasColumnType("bit");
