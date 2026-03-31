@@ -8,6 +8,4 @@ public enum SupportProjectEligibilityStatus
     EligibleForSupport = 0,
     [Display(Name = "Not eligible")]
     NotEligibleForSupport = 1,
-    [Display(Name = "No longer eligible")]
-    NoLongerEligibleForSupport = 2,
 }

@@ -134,7 +134,7 @@ public class CheckYourAnswersModel(
         
         var eligibilityStatus = SchoolIsEligible == true
             ? SupportProjectEligibilityStatus.EligibleForSupport
-            : SupportProjectEligibilityStatus.NoLongerEligibleForSupport;
+            : SupportProjectEligibilityStatus.NotEligibleForSupport;
 
         if (ProjectStatusChanged)
         {

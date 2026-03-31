@@ -61,7 +61,6 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/TaskList/Index");
         public static readonly LinkItem CheckEligibility = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmEligibility/Index");
-        public static readonly LinkItem ChangeProgressStatus = AddLinkItem(backText: "Back", page: "/TaskList/ConfirmEligibility/ChangeProjectStatus");
         public static readonly LinkItem MakeInitialContactWithResponsibleBody = AddLinkItem(backText: "Back", page: "/TaskList/MakeInitialContactWithResponsibleBody/index");
         public static readonly LinkItem RecordTheResponsibleBodyResponseToTheConflictOfInterestRequest = AddLinkItem(backText: "Back", page: "/TaskList/RecordTheResponsibleBodyResponseToTheConflictOfInterestRequest/Index");
         public static readonly LinkItem CheckPotentialAdviserConflictsOfInterest = AddLinkItem(backText: "Back", page: "/TaskList/AdviserConflictOfInterest/AdviserConflictOfInterest");
@@ -130,7 +129,6 @@ public static class Links
         public static readonly LinkItem ChangeUseOfInformationPowers = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInformationPowers");
         public static readonly LinkItem RecordUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordUseOfInterimExecutiveBoard");
         public static readonly LinkItem ChangeUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInterimExecutiveBoard");
-        public static readonly LinkItem RecordInterimExecutiveBoardDate = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordInterimExecutiveBoardDate");
         public static readonly LinkItem SelectRelevantConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/SelectRelevantConcern");
         public static readonly LinkItem AssignToDifferentConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/AssignToDifferentConcern");
     }
@@ -175,7 +173,6 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProjectStatus/Index");
         public static readonly LinkItem ChangeProjectStatus = AddLinkItem(backText: "Back", page: "/ProjectStatus/ChangeProjectStatus");
-        public static readonly LinkItem EnterProjectStatusChangeDetails = AddLinkItem(backText: "Back", page: "/ProjectStatus/EnterProjectStatusChangeDetails");
         public static readonly LinkItem EnterEligibilityChangeDetails = AddLinkItem(backText: "Back", page: "/ProjectStatus/EnterEligibilityChangeDetails");
         public static readonly LinkItem IsThisSchoolEligibleForIntervention = AddLinkItem(backText: "Back", page: "/ProjectStatus/IsThisSchoolEligibleForIntervention");
         public static readonly LinkItem EnterDetailsAboutTheChange= AddLinkItem(backText: "Back", page: "/ProjectStatus/EnterDetailsAboutTheChange");

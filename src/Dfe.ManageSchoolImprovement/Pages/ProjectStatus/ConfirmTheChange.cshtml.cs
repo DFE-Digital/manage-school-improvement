@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 
-public class IsThisSchoolEligibleForInterventionModel(
+public class ConfirmChangeModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
     ErrorService errorService,
@@ -82,7 +82,7 @@ public class IsThisSchoolEligibleForInterventionModel(
         // unsure whether to include date - sort out later
         var eligibilityChanged = eligiblityStatus != previousEligibilityStatus || DateSupportIsDueToEnd != previousSupportEndDate;
         
-        return RedirectToPage(@Links.ProjectStatusTab.ConfirmTheChange.Page,
+        return RedirectToPage(@Links.ProjectStatusTab.EnterEligibilityChangeDetails.Page,
             new
             {
                 id,
