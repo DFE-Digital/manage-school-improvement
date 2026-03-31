@@ -7,8 +7,9 @@ import fundingHistory from "cypress/pages/tasks/fundingHistory";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import * as schoolData from "cypress/fixtures/school-data.json";
 import supportingOrgType from "cypress/pages/tasks/supportingOrgType";
+import confirmStartingEligibility from "cypress/pages/confirmStartingEligibility";
 
-describe("Add a school which requires an improvement and complete it's tasks", () => {
+describe("Add a school which is eligible for improvement and complete it's tasks", () => {
   const {
     schoolShort,
     schoolLong,
@@ -20,7 +21,6 @@ describe("Add a school which requires an improvement and complete it's tasks", (
     region,
     schoolType,
     faithSchool,
-    ofstedRating,
     pfi
   } = schoolData;
 
@@ -63,23 +63,21 @@ describe("Add a school which requires an improvement and complete it's tasks", (
       .hasLocalAuthority(localAuthority)
       .hasSchoolType(schoolType)
       .hasFaithSchool(faithSchool)
-      .hasOfstedRating(ofstedRating)
       .hasLastInspection(lastInspectionDate)
       .hasPFI(pfi);
 
     checkSchoolDetails.clickContinue();
+     
+    cy.executeAccessibilityTests();
 
-    homePage
-      .hasSchoolName("Plymouth Grove Primary")
-      .hasURN(urn)
-      .hasLocalAuthority(localAuthority)
-      .hasRegion(region)
-      .hasAddSchoolSuccessNotification();
-
-    Logger.log("Selecting previously created project");
-    homePage.selectSchoolName(schoolLong);
+    confirmStartingEligibility
+      .hasHeader("Is this school eligible to begin targeted intervention?")
 
     cy.executeAccessibilityTests();
+
+    confirmStartingEligibility
+      .selectEligibility(true)
+      .clickContinue();
 
     taskList
       .hasHeader("Plymouth Grove Primary")
@@ -92,20 +90,34 @@ describe("Add a school which requires an improvement and complete it's tasks", (
       .hasNav()
       .hasTasks()
       .hasTasksNotStartedElementsPresent();
+
+    cy.executeAccessibilityTests();  
+
+    taskList
+       .clickBackLink();  
+    homePage
+      .hasSchoolName("Plymouth Grove Primary")
+      .hasURN(urn)
+      .hasLocalAuthority(localAuthority)
+      .hasRegion(region)
+      .hasAddSchoolSuccessNotification();
+
   });
 
   // Task 1: Confirm eligibility
-  it("Should complete the 'Confirm eligibility' task", () => {
+  it("Should complete the 'Confirm starting eligibility' task", () => {
     homePage.selectSchoolName(schoolLong);
 
-    Logger.log("Selecting 'Confirm eligibility' task");
-    taskList.selectTask("Confirm eligibility");
-    //cy.executeAccessibilityTests(); COMMENTED OUT AS AXE FALSE POSITIVE ARIA-EXPANDED RADIO BUTTON THING
-    taskListActions.hasHeader("Is this school still eligible for targeted intervention?");
-    taskListActions.selectYesAndContinue();
     cy.executeAccessibilityTests();
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusCompleted("confirm-eligibility-status");
+
+    Logger.log("Selecting 'Confirm starting eligibility' task");
+    taskList.selectTask("Confirm starting eligibility");
+    taskListActions.hasHeader("Is this school still eligible for targeted intervention?");
+ 
+    cy.executeAccessibilityTests();
+
+    taskList.clickBackLink();
+    taskList.hasTaskStatusCompleted("confirm-eligibility-status");
 
     cy.executeAccessibilityTests();
   });
