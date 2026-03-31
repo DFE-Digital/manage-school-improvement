@@ -14,8 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 public class IsThisSchoolEligibleForInterventionModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService,
-    IUserRepository userRepository)
+    ErrorService errorService)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),
         IDateValidationMessageProvider
 {
@@ -30,10 +29,9 @@ public class IsThisSchoolEligibleForInterventionModel(
     public bool? SchoolIsEligible { get; set; } = false;
     
     [BindProperty(Name = "support-is-due-to-end-date", BinderType = typeof(DateInputModelBinder))]
-    [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
     public DateTime? DateSupportIsDueToEnd { get; set; }
     
-    private string? CurrentUserName { get; set; }
+    public SupportProjectEligibilityStatus? EligibilityStatus { get; set; }
     
     public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
     
@@ -45,8 +43,8 @@ public class IsThisSchoolEligibleForInterventionModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
-
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
+    
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
@@ -73,24 +71,22 @@ public class IsThisSchoolEligibleForInterventionModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var previousSupportEndDate = SupportProject?.DateSupportIsDueToEnd;
-        
-        var eligiblityStatus = SchoolIsEligible == true ? SupportProjectEligibilityStatus.EligibleForSupport : SupportProjectEligibilityStatus.NotEligibleForSupport;
-
-        var previousEligibilityStatus = SupportProject?.SupportProjectEligibilityStatus;
+        // var previousSupportEndDate = SupportProject?.DateSupportIsDueToEnd;
+        //
+        EligibilityStatus = SchoolIsEligible == true ? SupportProjectEligibilityStatus.EligibleForSupport : SupportProjectEligibilityStatus.NotEligibleForSupport;
+        //
+        // var previousEligibilityStatus = SupportProject?.SupportProjectEligibilityStatus;
         
         // unsure whether to include date - sort out later
-        var eligibilityChanged = eligiblityStatus != previousEligibilityStatus || DateSupportIsDueToEnd != previousSupportEndDate;
+        // var eligibilityChanged = eligiblityStatus != previousEligibilityStatus || DateSupportIsDueToEnd != previousSupportEndDate;
         
         return RedirectToPage(@Links.ProjectStatusTab.ConfirmTheChange.Page,
             new
             {
                 id,
                 SupportProjectStatus,
-                ProjectStatusChanged,
-                eligiblityStatus,
-                DateSupportIsDueToEnd,
-                eligibilityChanged
+                EligibilityStatus,
+                DateSupportIsDueToEnd
             });
     }
 

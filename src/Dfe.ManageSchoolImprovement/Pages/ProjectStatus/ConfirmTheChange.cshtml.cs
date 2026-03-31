@@ -21,31 +21,23 @@ public class ConfirmChangeModel(
 {
     public string ReturnPage { get; set; }
 
-    [BindProperty(SupportsGet = true)] public ProjectStatusValue SupportProjectStatus { get; set; }
+    public ProjectStatusValue? PreviousSupportProjectStatus { get; set; }
+    public SupportProjectEligibilityStatus? PreviousEligibilityStatus { get; set; }
+    [BindProperty(SupportsGet = true)] public ProjectStatusValue? SupportProjectStatus { get; set; }
+    [BindProperty(SupportsGet = true)] public SupportProjectEligibilityStatus? EligibilityStatus { get; set; }
+    [BindProperty(SupportsGet = true)] public DateTime? DateSupportIsDueToEnd { get; set; }
     
-    [BindProperty(SupportsGet = true)] public bool ProjectStatusChanged { get; set; }
-
-    [BindProperty]
-    [Display(Name = "Is this school still eligible for targeted intervention?")]
-    public bool? SchoolIsEligible { get; set; } = false;
-    
-    [BindProperty(Name = "support-is-due-to-end-date", BinderType = typeof(DateInputModelBinder))]
+    [BindProperty(Name = "status-eligibility-change-date", BinderType = typeof(DateInputModelBinder))]
     [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
-    public DateTime? DateSupportIsDueToEnd { get; set; }
+    public DateTime? StatusOrEligiblityChangeDate { get; set; }
     
-    private string? CurrentUserName { get; set; }
-    
-    public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
-    
-    public string? ErrorMessage { get; set; }
-
     public bool ShowError { get; set; }
 
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-
+    string IDateValidationMessageProvider.AllMissing => "Enter a date";
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -53,11 +45,12 @@ public class ConfirmChangeModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
-
-        SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport;
-
-        RadioButtons = RadioButtonModel;
+        if (SupportProject != null)
+        {
+            PreviousSupportProjectStatus = SupportProject.ProjectStatus;
+            PreviousEligibilityStatus = SupportProject.SupportProjectEligibilityStatus!.Value;
+        }
+        
         return Page();
     }
 
@@ -69,53 +62,18 @@ public class ConfirmChangeModel(
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             ShowError = true;
-            RadioButtons = RadioButtonModel;
             return await base.GetSupportProject(id, cancellationToken);
         }
-
-        var previousSupportEndDate = SupportProject?.DateSupportIsDueToEnd;
         
-        var eligiblityStatus = SchoolIsEligible == true ? SupportProjectEligibilityStatus.EligibleForSupport : SupportProjectEligibilityStatus.NotEligibleForSupport;
-
-        var previousEligibilityStatus = SupportProject?.SupportProjectEligibilityStatus;
-        
-        // unsure whether to include date - sort out later
-        var eligibilityChanged = eligiblityStatus != previousEligibilityStatus || DateSupportIsDueToEnd != previousSupportEndDate;
-        
-        return RedirectToPage(@Links.ProjectStatusTab.EnterEligibilityChangeDetails.Page,
+        return RedirectToPage(@Links.ProjectStatusTab.EnterDetailsAboutTheChange.Page,
             new
             {
                 id,
                 SupportProjectStatus,
-                ProjectStatusChanged,
-                eligiblityStatus,
+                EligibilityStatus,
                 DateSupportIsDueToEnd,
-                eligibilityChanged
+                StatusOrEligiblityChangeDate
             });
-    }
-
-    private IList<RadioButtonsLabelViewModel> RadioButtonModel
-    {
-        get
-        {
-            var list = new List<RadioButtonsLabelViewModel>
-            {
-                new()
-                {
-                    Id = "yes",
-                    Name = "Yes",
-                    Value = "True"
-                },
-                new()
-                {
-                    Id = "no",
-                    Name = "No",
-                    Value = "False",
-                }
-            };
-
-            return list;
-        }
     }
 }
 

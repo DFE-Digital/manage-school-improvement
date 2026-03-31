@@ -1,5 +1,6 @@
 @page "/confirm-change/{id:int}"
 
+@using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.ConfirmChangeModel
 
 @{
@@ -20,18 +21,57 @@
             <span class="govuk-caption-l">Change status and eligibility</span>
             <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Confirm the change</h2>
             <p>The previous status and eligibility was:</p>
-            
+            <div class="govuk-inset-text">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Previous status
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_ProjectStatus" model="@Model.PreviousSupportProjectStatus" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Previous eligibility
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.PreviousEligibilityStatus?.GetDisplayName()
+                        </dd>
+                    </div>
+                </dl>
+            </div>
             
             <p>The current status and eligibility will be:</p>
-            
+            <div class="govuk-inset-text">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Current status
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <partial name="_ProjectStatus" model="@Model.SupportProjectStatus" />
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Current eligibility
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.EligibilityStatus?.GetDisplayName()
+                        </dd>
+                    </div>
+                </dl>
+            </div>
             
             <form method="post" novalidate>
                 
                 <govuk-date-input heading-label="false" label="When did the project status or eligibility change?"
                                   id="status-eligibility-change-date" name="status-eligibility-change-date"
-                                  asp-for="@Model.DateSupportIsDueToEnd" hint="For example, 1 5 2026."/>
+                                  asp-for="@Model.StatusOrEligiblityChangeDate" hint="For example, 1 5 2026."/>
                 <input type="hidden" asp-for="SupportProjectStatus"/>
-                <input type="hidden" asp-for="ProjectStatusChanged"/>
+                <input type="hidden" asp-for="EligibilityStatus"/>
+                <input type="hidden" asp-for="DateSupportIsDueToEnd"/>
                 
                 <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
                         data-cy="select-common-submitbutton">

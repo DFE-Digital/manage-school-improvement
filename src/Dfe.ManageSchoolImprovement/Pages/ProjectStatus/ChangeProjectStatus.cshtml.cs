@@ -20,8 +20,6 @@ public class ChangeProjectStatusModel(
 
     [BindProperty] public ProjectStatusValue SupportProjectStatus { get; set; }
 
-    bool ProjectStatusChanged { get; set; }
-
     private string? CurrentUserName { get; set; }
 
     public string? ErrorMessage { get; set; }
@@ -47,11 +45,11 @@ public class ChangeProjectStatusModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        ProjectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
+        // ProjectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
         CurrentUserName = User.Identity!.Name;
 
         return RedirectToPage(Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page,
-            new { id, SupportProjectStatus, changedBy = CurrentUserName, ProjectStatusChanged });
+            new { id, SupportProjectStatus, changedBy = CurrentUserName });
     }
 
     private static IList<RadioButtonsLabelViewModel> GetRadioButtons()

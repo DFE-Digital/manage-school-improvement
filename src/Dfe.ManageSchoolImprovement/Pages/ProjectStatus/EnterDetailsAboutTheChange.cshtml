@@ -20,25 +20,47 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">Change status and eligibility</span>
         <form method="post" novalidate>
-            <h1 class="govuk-label-wrapper" data-test="project-status-paused-details">
-                <label class="govuk-label govuk-label--l">
-                    Enter details about the change
-                </label>
-            </h1>
-            <div class="govuk-form-group @(Model.ShowError ? "govuk-form-group--error" : string.Empty)">
-                <div class="govuk-hint">Provide details about the change and any next steps required.
+            <div
+                class="govuk-form-group govuk-character-count @(Model.ShowError ? "govuk-form-group--error govuk-js-character-count--error" : "")"
+                data-module="govuk-character-count"
+                data-maxlength="500">
+                <h1 class="govuk-label-wrapper">
+                    <label id="change-details" class="govuk-label govuk-label--l" data-cy="page-heading"
+                           for="change-details">
+                        Enter details about the change
+                    </label>
+                </h1>
+                <div class="govuk-hint" id="change-details-hint">
+                    Provide details about the change and any next steps required.
                 </div>
-                <input type="hidden" asp-for="SupportProjectStatus" />
                 @if (Model.ShowError)
                 {
-                    <p id="more-detail-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Enter details
-                    </p>
+                    @if (Model.ChangeDetails == null)
+                    {
+                        <p id="change-details-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Enter details
+                        </p>
+                    }
+                    else
+                    {
+                        <p id="character-count-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Details must be 500 characters or
+                            less
+                        </p>
+                    }
                 }
-                <textarea class="govuk-textarea @(Model.ShowError ? "govuk-textarea--error" : string.Empty)"
-                          id="project-status-changed-details" name="project-status-changed-details" rows="5"
-                          asp-for="@Model.ProjectStatusChangedDetails" data-cy="paused-details-textarea"></textarea>
+                <textarea
+                    class="govuk-textarea govuk-js-character-count @(Model.ShowError ? "govuk-textarea--error" : "")"
+                    id="change-details" name="change-details"
+                    rows="5">@Model.ChangeDetails</textarea>
+                <div id="change-details-info" class="govuk-hint govuk-character-count__message">
+                    You can enter up to 500 characters
+                </div>
             </div>
+            <input type="hidden" asp-for="SupportProjectStatus"/>
+            <input type="hidden" asp-for="EligibilityStatus"/>
+            <input type="hidden" asp-for="DateSupportIsDueToEnd"/>
+            <input type="hidden" asp-for="StatusOrEligiblityChangeDate"/>
             <button class="govuk-button" type="submit" id="continue-button" data-module="govuk-button"
                     data-cy="select-common-submitbutton">
                 Continue
