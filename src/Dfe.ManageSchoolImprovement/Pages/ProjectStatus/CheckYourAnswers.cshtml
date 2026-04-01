@@ -6,14 +6,6 @@
 
 @{
     ViewData["Title"] = "Check your answers";
-
-    string? eligibility = Model.SchoolIsEligible switch
-    {
-        true => "Eligible for support",
-        false => "Not eligible for support",
-        null => null
-    };
-
 }
 
 @section BeforeMain
@@ -35,8 +27,7 @@
             </label>
         </h1>
         
-        @if (@Model.ProjectStatusChanged)
-        {
+
 
             <dl class="govuk-summary-list">
 
@@ -45,7 +36,7 @@
                         Current Project Status
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <strong class="@ProjectStatusAndEligibilityUtils.ToGovUkTagClass(Model.SupportProjectStatus.Value)">@Model.SupportProjectStatus.GetDisplayName()</strong>
+                        <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
                     </dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link" href="">Change<span class="govuk-visually-hidden"> project status</span></a>
@@ -57,7 +48,7 @@
                         Previous Project Status
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <strong class="@ProjectStatusAndEligibilityUtils.ToGovUkTagClass(Model.PreviousProgressStatus.Value)">@Model.PreviousProgressStatus.GetDisplayName()</strong>
+                        <partial name="Shared/_ProjectStatus" model="@Model.PreviousProgressStatus"/>
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
@@ -79,10 +70,7 @@
                 </div>
 
             </dl>
-        }
-        
-        @if (Model.EligibilityChanged)
-        {
+
             <dl class="govuk-summary-list">
 
                 <div class="govuk-summary-list__row">
@@ -90,7 +78,7 @@
                         Current Eligibility
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <strong class="govuk-summary-list__value">@eligibility
+                        <strong class="govuk-summary-list__value">@Model.EligibilityStatus.GetDisplayName()
                             @if (Model.DateSupportIsDueToEnd.HasValue)
                             {
                                 <text>, support ending on @Model.DateSupportDueToEnd</text>
@@ -136,7 +124,7 @@
                 </div>
 
             </dl>
-        }
+        
         <form method="post" novalidate>
                 <input type="hidden" asp-for="SupportProjectStatus" />
                 <input type="hidden" name="DateProjectStatusChanged"
@@ -144,7 +132,7 @@
                 <input type="hidden" asp-for="ProjectStatusChangedDetails" />
                 <input type="hidden" asp-for="ProjectStatusChanged" />
                 
-                <input type="hidden" asp-for="SchoolIsEligible" />
+                <input type="hidden" asp-for="EligibilityStatus" />
                 <input type="hidden" asp-for="EligibilityChangedDetails" />
                 <input type="hidden" name="DateProjectStatusChanged"
                        value="@Model.DateSupportIsDueToEnd?.ToString("yyyy-MM-dd")" />

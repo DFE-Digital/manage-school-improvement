@@ -30,7 +30,7 @@ public class CheckYourAnswersModel(
     public ProjectStatusValue? SupportProjectStatus { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    public bool? SchoolIsEligible { get; set; }
+    public SupportProjectEligibilityStatus? EligibilityStatus { get; set; }
     
     public bool ShowError { get; set; }
 
@@ -131,10 +131,6 @@ public class CheckYourAnswersModel(
         }
         
         await base.GetSupportProject(id, cancellationToken);
-        
-        var eligibilityStatus = SchoolIsEligible == true
-            ? SupportProjectEligibilityStatus.EligibleForSupport
-            : SupportProjectEligibilityStatus.NotEligibleForSupport;
 
         if (ProjectStatusChanged)
         {
@@ -155,7 +151,7 @@ public class CheckYourAnswersModel(
         {
 
 
-            var request = new UpdateEligibilityCommand(new SupportProjectId(id), eligibilityStatus, DateEligibilityChanged, CurrentUserName, 
+            var request = new UpdateEligibilityCommand(new SupportProjectId(id), EligibilityStatus, DateEligibilityChanged, CurrentUserName, 
                 DateSupportIsDueToEnd, EligibilityChangedDetails);
             var result = await mediator.Send(request, cancellationToken);
 
