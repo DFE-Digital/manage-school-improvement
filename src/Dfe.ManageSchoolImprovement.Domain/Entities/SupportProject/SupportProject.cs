@@ -171,6 +171,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? DateSupportIsDueToEnd { get; private set; }
     
     public string? EligibilityChangedBy { get; private set; }
+    
+    public string? EligibilityChangedDetails { get; private set; }
 
     public string? SchoolIsNotEligibleNotes { get; private set; }
     
@@ -492,10 +494,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateTime? dateEligbilityChanged,
         DateTime? dateSupportIsDueToEnd,
         string? eligibilityChangedBy,
-        string? schoolIsNotEligibleNotes)
+        string? eligibilityChangedDetails)
     {
         SupportProjectEligibilityStatus = schoolIsEligible;
-        SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
+        EligibilityChangedDetails = eligibilityChangedDetails;
         DateEligibilityChanged = dateEligbilityChanged;
         DateSupportIsDueToEnd = dateSupportIsDueToEnd;
         EligibilityChangedBy = eligibilityChangedBy;
