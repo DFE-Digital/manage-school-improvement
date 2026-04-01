@@ -40,39 +40,10 @@ public class CheckYourAnswersModel(
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        ReturnPage = @Links.ProjectStatusTab.EnterDetailsAboutTheChange.Page;
         
         await base.GetSupportProject(id, cancellationToken);
         
-        // PreviousProgressStatus = SupportProject?.ProjectStatus;
-        //
-        // if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
-        // {
-        //     PreviousEligibility = SupportProjectEligibilityStatus.EligibleForSupport;
-        // }
-        //     
-        // if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
-        // {
-        //     PreviousEligibility = SupportProjectEligibilityStatus.NotEligibleForSupport;
-        // }
-        //
-        // PreviousDateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
-        //
-        // ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(PreviousEligibility);
-        //
-        // if (DateSupportIsDueToEnd.HasValue)
-        // {
-        //     DateSupportDueToEnd = DateSupportIsDueToEnd.Value
-        //         .ToString("d MMMM yyyy");
-        // }
-        //
-        // if (PreviousDateSupportIsDueToEnd.HasValue)
-        // {
-        //     PreviousDateSupportDueToEnd  = PreviousDateSupportIsDueToEnd.Value
-        //         .ToString("d MMMM yyyy");
-        // }
-
-
         return Page();
     }
 

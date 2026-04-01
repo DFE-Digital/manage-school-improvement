@@ -36,7 +36,10 @@
                         <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
                     </dd>
                     <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link" href="">Change<span class="govuk-visually-hidden"> project status</span></a>
+                        <a class="govuk-link" 
+                           asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
+                           asp-route-id="@Model.SupportProject?.Id"
+                           data-cy="change-project-status-link">Change<span class="govuk-visually-hidden"> project status</span></a>
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">

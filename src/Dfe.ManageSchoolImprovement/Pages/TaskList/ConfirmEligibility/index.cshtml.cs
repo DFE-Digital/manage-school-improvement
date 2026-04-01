@@ -12,6 +12,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
+        public string? ReturnPage { get; set; }
 
         [BindProperty(Name = "SchoolIsEligible")]
         [Display(Name = "Is this school still eligible for targeted intervention?")]
@@ -30,8 +31,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
         public bool ShowError { get; set; }
         
 
-        public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
         {
+            ReturnPage = returnPage ??  @Links.TaskList.Index.Page;
+            
             await base.GetSupportProject(id, cancellationToken);
             
             SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport;

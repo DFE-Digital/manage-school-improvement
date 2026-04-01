@@ -16,7 +16,7 @@ public class ChangeProjectStatusModel(
     ErrorService errorService)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
 {
-    public string ReturnPage { get; set; }
+    public string? ReturnPage { get; set; }
 
     [BindProperty] public ProjectStatusValue SupportProjectStatus { get; set; }
 
@@ -26,9 +26,9 @@ public class ChangeProjectStatusModel(
 
     public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, string? returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        ReturnPage = returnPage ?? Links.ProjectStatusTab.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 

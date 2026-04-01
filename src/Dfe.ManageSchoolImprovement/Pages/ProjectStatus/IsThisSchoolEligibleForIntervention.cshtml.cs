@@ -50,7 +50,7 @@ public class IsThisSchoolEligibleForInterventionModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
+        // DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
 
         SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport;
 

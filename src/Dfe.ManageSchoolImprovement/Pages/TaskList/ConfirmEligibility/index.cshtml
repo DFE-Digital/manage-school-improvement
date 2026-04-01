@@ -34,6 +34,7 @@
 {
     <nav aria-label="back navigation">
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           asp-route-returnpage="@Model.ReturnPage"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -48,12 +49,8 @@
     <partial name="_ErrorSummary"/>
 }
 
-
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        
-        
         <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" data-govuk-notification-banner-init="">
             <div class="govuk-notification-banner__header">
                 <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
@@ -65,7 +62,8 @@
                 <p class="govuk-notification-banner__heading">
                     If the eligibility of the school has changed, 
                     <a class="govuk-notification-banner__link" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
-                       asp-route-id="@(Model?.SupportProject?.Id)">
+                       asp-route-id="@(Model?.SupportProject?.Id)"
+                       asp-route-returnPage="@Links.TaskList.CheckEligibility.Page">
                        change the project status and eligibility</a>.
                 </p>
   

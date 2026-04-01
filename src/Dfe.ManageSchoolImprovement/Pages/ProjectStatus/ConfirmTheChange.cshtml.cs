@@ -41,7 +41,7 @@ public class ConfirmChangeModel(
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
+        ReturnPage = @Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 
