@@ -2236,7 +2236,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateEligibilityChanged.Should().Be(dateEligibilityChanged);
             supportProject.DateSupportIsDueToEnd.Should().BeNull();
             supportProject.EligibilityChangedBy.Should().Be(eligibilityChangedBy);
-            supportProject.SchoolIsNotEligibleNotes.Should().Be(notEligibleNotes);
+            supportProject.EligibilityChangedDetails.Should().Be(notEligibleNotes);
             mockRepository.VerifyAll();
         }
 
@@ -2263,7 +2263,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateEligibilityChanged.Should().Be(dateEligibilityChanged);
             supportProject.DateSupportIsDueToEnd.Should().BeNull();
             supportProject.EligibilityChangedBy.Should().Be(eligibilityChangedBy);
-            supportProject.SchoolIsNotEligibleNotes.Should().Be(notEligibleNotes);
+            supportProject.EligibilityChangedDetails.Should().Be(notEligibleNotes);
             mockRepository.VerifyAll();
         }
 
@@ -2313,7 +2313,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.DateEligibilityChanged.Should().Be(secondDate);
             supportProject.DateSupportIsDueToEnd.Should().BeNull();
             supportProject.EligibilityChangedBy.Should().Be("second.user@education.gov.uk");
-            supportProject.SchoolIsNotEligibleNotes.Should().Be("Changed to not eligible.");
+            supportProject.EligibilityChangedDetails.Should().Be("Changed to not eligible.");
             mockRepository.VerifyAll();
         }
     }
