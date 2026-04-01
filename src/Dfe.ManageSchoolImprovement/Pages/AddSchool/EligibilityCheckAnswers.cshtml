@@ -11,7 +11,6 @@
 {
     <nav aria-label="back navigation">
         <a asp-page="@Links.AddSchool.EligibilityCheckDetails.Page" asp-route-id="@Model.SupportProject?.Id"
-           asp-route-returnpage="@Links.AddSchool.EligibilityCheckAnswers.Page"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -19,7 +18,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">Confirm starting eligibility</span>
-        <h2 class="govuk-heading-l">Check your answers</h2>
+        <h1 class="govuk-heading-l">Check your answers</h1>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Eligibility</dt>
