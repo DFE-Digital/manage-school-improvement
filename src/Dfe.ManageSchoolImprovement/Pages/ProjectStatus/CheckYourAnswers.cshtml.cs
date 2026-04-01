@@ -19,12 +19,7 @@ public class CheckYourAnswersModel(
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),
         IDateValidationMessageProvider
 {
-    
     public string ReturnPage { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    public int Id { get; set; }
-    
 
     [BindProperty(SupportsGet = true)]
     public ProjectStatusValue? SupportProjectStatus { get; set; }
@@ -32,45 +27,16 @@ public class CheckYourAnswersModel(
     [BindProperty(SupportsGet = true)]
     public SupportProjectEligibilityStatus? EligibilityStatus { get; set; }
     
-    public bool ShowError { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    
-    public string? ChangedBy { get; set; }
-
-    private string? CurrentUserName { get; set; }
-    
     [BindProperty(SupportsGet = true)]
     public DateTime? DateSupportIsDueToEnd { get; set; }
     
     [BindProperty(SupportsGet = true)] 
-    public DateTime? DateEligibilityChanged { get; set; }
+    public DateTime? StatusOrEligiblityChangeDate { get; set; }
     
     [BindProperty(SupportsGet = true)] 
-    public string? EligibilityChangedDetails { get; set; }
-    
-    [BindProperty(SupportsGet = true)] 
-    public bool EligibilityChanged { get; set; }
+    public string? ChangeDetails { get; set; }
 
-    [BindProperty(SupportsGet =  true)]
-    
-    public string? ProjectStatusChangedDetails { get; set; }
-    
-    [BindProperty(SupportsGet = true)]
-  
-    public DateTime? DateProjectStatusChanged { get; set; }
-    
-    [BindProperty(SupportsGet = true)]
-    public bool ProjectStatusChanged { get; set; }
-   
-    public ProjectStatusValue? PreviousProgressStatus { get; set; }
-    public SupportProjectEligibilityStatus? PreviousEligibility { get; set; }
-    
-    public DateTime? PreviousDateSupportIsDueToEnd { get; set; }
-    
-    public string DateSupportDueToEnd { get; set; }
-
-    public string PreviousDateSupportDueToEnd { get; set; }
+    private string? CurrentUserName { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -78,33 +44,33 @@ public class CheckYourAnswersModel(
         
         await base.GetSupportProject(id, cancellationToken);
         
-        PreviousProgressStatus = SupportProject?.ProjectStatus;
-        
-        if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
-        {
-            PreviousEligibility = SupportProjectEligibilityStatus.EligibleForSupport;
-        }
-            
-        if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
-        {
-            PreviousEligibility = SupportProjectEligibilityStatus.NotEligibleForSupport;
-        }
-        
-        PreviousDateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
-
-        ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(PreviousEligibility);
-
-        if (DateSupportIsDueToEnd.HasValue)
-        {
-            DateSupportDueToEnd = DateSupportIsDueToEnd.Value
-                .ToString("d MMMM yyyy");
-        }
-        
-        if (PreviousDateSupportIsDueToEnd.HasValue)
-        {
-            PreviousDateSupportDueToEnd  = PreviousDateSupportIsDueToEnd.Value
-                .ToString("d MMMM yyyy");
-        }
+        // PreviousProgressStatus = SupportProject?.ProjectStatus;
+        //
+        // if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
+        // {
+        //     PreviousEligibility = SupportProjectEligibilityStatus.EligibleForSupport;
+        // }
+        //     
+        // if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
+        // {
+        //     PreviousEligibility = SupportProjectEligibilityStatus.NotEligibleForSupport;
+        // }
+        //
+        // PreviousDateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
+        //
+        // ProjectStatusAndEligibilityUtils.MapEligibilityStatusToBool(PreviousEligibility);
+        //
+        // if (DateSupportIsDueToEnd.HasValue)
+        // {
+        //     DateSupportDueToEnd = DateSupportIsDueToEnd.Value
+        //         .ToString("d MMMM yyyy");
+        // }
+        //
+        // if (PreviousDateSupportIsDueToEnd.HasValue)
+        // {
+        //     PreviousDateSupportDueToEnd  = PreviousDateSupportIsDueToEnd.Value
+        //         .ToString("d MMMM yyyy");
+        // }
 
 
         return Page();
@@ -132,10 +98,12 @@ public class CheckYourAnswersModel(
         
         await base.GetSupportProject(id, cancellationToken);
 
-        if (ProjectStatusChanged)
+        var projectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
+        
+        if (projectStatusChanged)
         {
-            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus!.Value, DateProjectStatusChanged,
-                CurrentUserName, ProjectStatusChangedDetails);
+            var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus!.Value, StatusOrEligiblityChangeDate,
+                CurrentUserName, ChangeDetails);
             var result = await mediator.Send(request, cancellationToken);
 
             if (result == null)
@@ -146,13 +114,13 @@ public class CheckYourAnswersModel(
 
             TempData["ProjectStatusUpdated"] = true;
         }
+        
+        var eligibilityChanged = SupportProject?.SupportProjectEligibilityStatus != EligibilityStatus;
 
-        if (EligibilityChanged)
+        if (eligibilityChanged)
         {
-
-
-            var request = new UpdateEligibilityCommand(new SupportProjectId(id), EligibilityStatus, DateEligibilityChanged, CurrentUserName, 
-                DateSupportIsDueToEnd, EligibilityChangedDetails);
+            var request = new UpdateEligibilityCommand(new SupportProjectId(id), EligibilityStatus, StatusOrEligiblityChangeDate, CurrentUserName, 
+                DateSupportIsDueToEnd, ChangeDetails);
             var result = await mediator.Send(request, cancellationToken);
 
             if (result == null)

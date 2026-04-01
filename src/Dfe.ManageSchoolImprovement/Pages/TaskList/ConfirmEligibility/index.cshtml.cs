@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
 
         [BindProperty(Name = "SchoolIsEligible")]
         [Display(Name = "Is this school still eligible for targeted intervention?")]
-        public bool? SchoolIsEligible { get; set; }
+        public bool? SchoolIsEligible { get; set; } = false;
         
         [BindProperty(Name = "SchoolIsNotEligibleNotes")]
         [Display(Name = "If it is no longer eligible, give details")]
@@ -34,15 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ConfirmEligibility
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport)
-            {
-                SchoolIsEligible = true;
-            }
-            
-            if (SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.NotEligibleForSupport)
-            {
-                SchoolIsEligible = false;
-            }
+            SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport;
 
             SchoolIsNotEligibleNotes = SupportProject?.SchoolIsNotEligibleNotes;
             

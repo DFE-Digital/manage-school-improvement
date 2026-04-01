@@ -43,7 +43,6 @@ public class IsThisSchoolEligibleForInterventionModel(
     {
         return $"Date must include a {string.Join(" and ", missingParts)}";
     }
-    string IDateValidationMessageProvider.AllMissing => "Enter a date";
     
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -71,14 +70,7 @@ public class IsThisSchoolEligibleForInterventionModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        // var previousSupportEndDate = SupportProject?.DateSupportIsDueToEnd;
-        //
-        EligibilityStatus = SchoolIsEligible == true ? SupportProjectEligibilityStatus.EligibleForSupport : SupportProjectEligibilityStatus.NotEligibleForSupport;
-        //
-        // var previousEligibilityStatus = SupportProject?.SupportProjectEligibilityStatus;
-        
-        // unsure whether to include date - sort out later
-        // var eligibilityChanged = eligiblityStatus != previousEligibilityStatus || DateSupportIsDueToEnd != previousSupportEndDate;
+        EligibilityStatus = SchoolIsEligible == true ? SupportProjectEligibilityStatus.EligibleForSupport : SupportProjectEligibilityStatus.NotEligibleForSupportMidIntervention;
         
         return RedirectToPage(@Links.ProjectStatusTab.ConfirmTheChange.Page,
             new

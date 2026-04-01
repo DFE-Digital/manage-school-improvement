@@ -57,6 +57,12 @@ public class ConfirmChangeModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        if (!StatusOrEligiblityChangeDate.HasValue)
+        {
+            ModelState.AddModelError("status-eligibility-change-date", "Enter a date");
+
+        }
 
         if (!ModelState.IsValid)
         {
