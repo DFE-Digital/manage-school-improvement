@@ -585,7 +585,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             
             string note = "note";
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, DateTime.Now, note);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, DateTime.Now, note, false);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.EligibleForSupport);
@@ -601,7 +601,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             
             string note = "note";
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, DateTime.Now, note);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, DateTime.Now, note, true);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);

@@ -25,8 +25,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         
         public bool ShowError => _errorService.HasErrors();
         
-
-
         public async Task<IActionResult> OnGet(int id, string? returnPage, CancellationToken cancellationToken)
         {
             ReturnPage = returnPage ?? @Links.AddSchool.EligibilityCheckDate.Page;
@@ -49,7 +47,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             
             if (SchoolIsNotEligibleNotes?.Length > 500)
             {
-                ModelState.AddModelError(SchoolIsNotEligibleNotesKey, "Details must be 00 characters or less");
+                ModelState.AddModelError(SchoolIsNotEligibleNotesKey, "Details must be 500 characters or less");
             }
             
             if (!ModelState.IsValid)
@@ -67,8 +65,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
                 _errorService.AddApiError();
                 return await base.GetSupportProject(id, cancellationToken);
             }
-
-            // TaskUpdated = true;
+            
             return RedirectToPage(@Links.AddSchool.EligibilityCheckAnswers.Page, new { id });
         }
     }
