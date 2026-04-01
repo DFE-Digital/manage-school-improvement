@@ -21,11 +21,14 @@ class ConfirmStartingEligibilityPage {
 
     public eligibilityChangeDate(date: string): this {
         cy.get('h1').should('contain', 'When did the school\'s eligibility change?');
+        cy.getByName('eligibility-check-date-day').clear();
+        cy.getByName('eligibility-check-date-month').clear();
+        cy.getByName('eligibility-check-date-year').clear();
         const [day, month, year] = date.split('/');
         cy.getByName('eligibility-check-date-day').type(day);
         cy.getByName('eligibility-check-date-month').type(month);
         cy.getByName('eligibility-check-date-year').type(year);
-   
+
         return this;
     }
 
@@ -38,7 +41,7 @@ class ConfirmStartingEligibilityPage {
 
     public checkYourAnswers(): this {
         cy.url().should('include', '/eligibility-check-answers');
-        cy.get('h2').should('contain', 'Check your answers');
+        cy.get('h1').should('contain', 'Check your answers');
         cy.get('dl').within(() => {
             cy.get('dt').contains('Eligibility').should('exist')
                 .siblings('dd').find('a').contains('Change').should('exist');
@@ -61,7 +64,7 @@ class ConfirmStartingEligibilityPage {
 
     public schoolIsNotEligiblePage(): this {
         cy.url().should('include', '/eligibility-not-eligible-guidance');
-        cy.get('h2').should('contain', 'School is not eligible');
+        cy.get('h1').should('contain', 'School is not eligible');
         cy.contains('Page not found').should('not.exist');
 
         return this;
@@ -71,6 +74,21 @@ class ConfirmStartingEligibilityPage {
         cy.url().should('include', '/eligibility-not-eligible-guidance');
         cy.getById('save-and-continue-button').contains('Back to project list').click();
         cy.url().should('include', '/schools-identified-for-targeted-intervention');
+
+        return this;
+    }
+
+    public hasValidation(valText: string, id: string): this {
+        cy.getById(id).contains(valText);
+
+        return this;
+    }
+
+    public clickChangeLink(fieldName: string): this {
+        cy.get('dl').within(() => {
+            cy.get('dt').contains(fieldName).should('exist')
+                .siblings('dd').find('a').contains('Change').click();
+        });
 
         return this;
     }
