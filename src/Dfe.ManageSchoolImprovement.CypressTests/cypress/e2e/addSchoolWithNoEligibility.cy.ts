@@ -9,7 +9,14 @@ describe("User try to add a school which is not eligible for intervention", () =
         schoolShort = "Ashbury",
         schoolLong = "Ashbury Meadow Primary School",
         urn = "133770",
+        reasonMoreThan500Characters = [
+            "The conference hall was already busy before the first session began. ",
+            "People gathered around the stands, picking up brochures, chatting over coffee, and comparing notes from earlier talks. ",
+            "One area focused on cloud security, another on AI infrastructure, while a smaller corner displayed a simple experiment showing seeds growing inside a small box, like astronauts use in space. ",
+            "It was surprisingly memorable and reminded everyone that even the smallest idea can grow with the right conditions nearby.!"
+        ].join('')
     } = Cypress.env();
+
 
     beforeEach(() => {
         cy.removeProjectIfItExists(urn);
@@ -100,7 +107,7 @@ describe("User try to add a school which is not eligible for intervention", () =
             .hasHeader("Explain the reasons for the eligibility change")
             .clickContinue()
             .hasValidation("Enter details", "eligibility-check-details-error-link")
-            .eligibilityChangeReason("The conference hall was already busy before the first session began. People gathered around the stands, picking up brochures, chatting over coffee, and comparing notes from earlier talks. One area focused on cloud security, another on AI infrastructure, while a smaller corner displayed a simple experiment showing seeds growing inside a small box, like astronauts use in space. It was surprisingly memorable and reminded everyone that even the smallest idea can grow with the right conditions nearby.!")
+            .eligibilityChangeReason(reasonMoreThan500Characters)
             .clickContinue()
             .hasValidation("Details must be 500 characters or less", "eligibility-check-details-error-link")
 
