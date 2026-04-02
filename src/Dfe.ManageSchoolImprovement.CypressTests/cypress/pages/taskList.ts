@@ -65,7 +65,7 @@ class TaskList {
   }
 
   public hasTasks(): this {
-    cy.contains('Confirm eligibility');
+    cy.contains('Confirm starting eligibility');
     cy.contains('Enter the funding history');
     cy.contains('Make initial contact with the responsible body');
     cy.contains('Check potential adviser conflicts of interest');
@@ -95,7 +95,7 @@ class TaskList {
   }
 
   public hasTasksNotStartedElementsPresent(): this {
-    cy.get("#confirm-eligibility-status").contains('Not Started');
+    cy.get("#confirm-eligibility-status").contains('Completed');
     cy.get('#funding_history_status').contains("Not Started");
     cy.get('#confirm_responsible_body_status').contains('Not Started');
     cy.get('#record-school-response_status').contains("Not Started");

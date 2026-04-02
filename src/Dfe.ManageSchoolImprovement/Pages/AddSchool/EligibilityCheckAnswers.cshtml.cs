@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -34,7 +35,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
         {
             await base.GetSupportProject(id, cancellationToken);
             
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, SupportProject?.DateEligibilityChanged, SupportProject?.SchoolIsNotEligibleNotes);
+            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, SupportProject?.SchoolIsNotEligibleNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 

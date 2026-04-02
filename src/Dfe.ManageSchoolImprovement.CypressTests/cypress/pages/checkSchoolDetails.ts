@@ -41,23 +41,16 @@ class CheckSchoolDetails {
     return this;
   }
 
-  public hasOfstedRating(ofstedRating: string): this {
-
-    cy.get(".govuk-summary-list__value").eq(9).contains(ofstedRating);
-
-    return this;
-  }
-
   public hasLastInspection(lastInspection: string): this {
 
-    cy.get(".govuk-summary-list__value").eq(11).contains(lastInspection);
+    cy.get(".govuk-summary-list__value").eq(9).contains(lastInspection);
 
     return this;
   }
 
   public hasPFI(pfi: string): this {
 
-    cy.get(".govuk-summary-list__value").eq(13).contains(pfi);
+    cy.get(".govuk-summary-list__value").eq(11).contains(pfi);
 
     return this;
   }

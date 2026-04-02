@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -47,8 +48,21 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             ReturnPage = returnPage ?? @Links.AddSchool.EligibilityCheckDetails.Page;
             
             await base.GetSupportProject(id, cancellationToken);
+
+            if (!DateEligibilityChanged.HasValue)
+            {
+                ModelState.AddModelError("eligibility-check-date", "Enter a date");
+
+            }
             
-            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, DateEligibilityChanged, SupportProject?.SchoolIsNotEligibleNotes);
+            if (!ModelState.IsValid)
+            {
+                _errorService.AddErrors(Request.Form.Keys, ModelState);
+                ShowError = true;
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+            
+            var request = new SetEligibilityCommand(new SupportProjectId(id), SupportProject?.SupportProjectEligibilityStatus, SupportProject?.SchoolIsNotEligibleNotes);
 
             var result = await mediator.Send(request, cancellationToken);
 
@@ -57,8 +71,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
                 _errorService.AddApiError();
                 return await base.GetSupportProject(id, cancellationToken);
             }
-
-            // TaskUpdated = true;
+            
             return RedirectToPage(ReturnPage, new { id });
         }
     }

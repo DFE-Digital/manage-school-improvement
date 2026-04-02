@@ -80,6 +80,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime? DateImprovementGrantOfferLetterSent = null,
         SupportProjectEligibilityStatus? SupportProjectEligibilityStatus = null,
         DateTime? DateEligibilityChanged = null,
+        DateTime? DateSupportIsDueToEnd = null,
         string? SchoolIsNotEligibleNotes = null,
         IEnumerable<SupportProjectContact> Contacts = null!,
         IEnumerable<SupportProjectNote> Notes = null!,

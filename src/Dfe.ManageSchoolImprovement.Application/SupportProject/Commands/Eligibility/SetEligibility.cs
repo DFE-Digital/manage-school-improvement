@@ -2,13 +2,13 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using MediatR;
 
-namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
+namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility
 {
     public record SetEligibilityCommand(
         SupportProjectId SupportProjectId,
         SupportProjectEligibilityStatus? SchoolIsEligible,
-        DateTime? DateEligibilityChanged,
-        string? SchoolIsNotEligibleNotes
+        string? SchoolIsNotEligibleNotes,
+        bool EligibilityComplete = false
     ) : IRequest<bool>;
 
     public class SetEligibilityCommandHandler(ISupportProjectRepository supportProjectRepository)
@@ -23,8 +23,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
             {
                 return false;
             }
-
-            supportProject.SetEligibility(request.SchoolIsEligible, request.DateEligibilityChanged, request.SchoolIsNotEligibleNotes);
+            
+            supportProject.SetEligibility(request.SchoolIsEligible, request.SchoolIsNotEligibleNotes, request.EligibilityComplete);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
