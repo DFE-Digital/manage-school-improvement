@@ -10,5 +10,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? ChangedDetails { get; set; }
         public DateTime? LastModifiedOn { get; set; }
         public SupportProjectEligibilityStatus? Eligibility { get; set; }
+        public DateTime? DateSupportIsDueToEnd { get; set; }
     }
 }

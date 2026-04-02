@@ -71,7 +71,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
                 ChangedDateOfDecision = supportProjectHistory.ProjectStatusChangedDate,
                 ChangedDetails = supportProjectHistory.ProjectStatusChangedDetails,
                 LastModifiedOn = project.LastModifiedOn,
-                Eligibility = supportProjectHistory.SupportProjectEligibilityStatus
+                Eligibility = supportProjectHistory.SupportProjectEligibilityStatus,
+                DateSupportIsDueToEnd = supportProjectHistory.DateSupportIsDueToEnd,
             });
         }
         
@@ -84,11 +85,12 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
             ProjectStatusAuditTrail.Add(new ProjectStatusChangeViewModel
             {
                 ProjectStatus = supportProjectHistory.ProjectStatus,
-                ChangedBy = supportProjectHistory.ProjectStatusChangedBy,
-                ChangedDateOfDecision = supportProjectHistory.ProjectStatusChangedDate,
-                ChangedDetails = supportProjectHistory.ProjectStatusChangedDetails,
+                ChangedBy = supportProjectHistory.EligibilityChangedBy,
+                ChangedDateOfDecision = supportProjectHistory.DateEligibilityChanged,
+                ChangedDetails = supportProjectHistory.EligibilityChangedDetails,
                 LastModifiedOn = project.LastModifiedOn,
-                Eligibility = supportProjectHistory.SupportProjectEligibilityStatus
+                Eligibility = supportProjectHistory.SupportProjectEligibilityStatus,
+                DateSupportIsDueToEnd = supportProjectHistory.DateSupportIsDueToEnd,
             });
         }
         
