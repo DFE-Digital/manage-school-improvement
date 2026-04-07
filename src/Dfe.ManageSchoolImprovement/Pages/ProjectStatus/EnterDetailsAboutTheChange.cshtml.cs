@@ -46,6 +46,11 @@ public class EnterDetailsAboutTheChangeModel(
             ModelState.AddModelError("change-details", "Enter details");
         }
         
+        if (ChangeDetails?.Length > 500)
+        {
+            ModelState.AddModelError("change-details", "Details must be 500 characters or less");
+        }
+        
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);

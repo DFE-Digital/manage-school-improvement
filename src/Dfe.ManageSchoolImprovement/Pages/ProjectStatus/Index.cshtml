@@ -1,11 +1,11 @@
-@page "/project-status/{id:int}"
+@page "/project-status-eligibility/{id:int}"
 
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
 @using Dfe.ManageSchoolImprovement.Utils
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus.IndexModel
 @{
-    ViewData["Title"] = "Project status";
+    ViewData["Title"] = "Project status and eligibility";
     TempData["AssignmentReferrer"] = @Links.ProjectStatusTab.Index.Page;
     bool statusUpdated = (bool)(TempData["projectStatusUpdated"] ?? false);
 }
