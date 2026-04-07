@@ -32,12 +32,9 @@ describe("Add a school which is eligible for improvement and complete it's tasks
   });
 
   const status = "In progress";
+  const eligibility = "Eligible";
 
   before(() => {
-    cy.removeProjectIfItExists(urn);
-  });
-
-   after(() => {
     cy.removeProjectIfItExists(urn);
   });
 
@@ -86,6 +83,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
     taskList
       .hasHeader("Plymouth Grove Primary")
       .hasCurrentStatus(status)
+      .hasEligibility(eligibility)
       .hasDateAdded(dateAdded)
       .hasAssignedTo(assignedTo)
       .hasAdvisedBy(advisedBy)
@@ -116,8 +114,8 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Confirm starting eligibility' task");
     taskList.selectTask("Confirm starting eligibility");
-    taskListActions.hasHeader("Is this school still eligible for targeted intervention?");
- 
+    taskListActions.hasHeader("Is this school eligible to begin targeted intervention?");
+    taskListActions.eligibilityBannerExists();
     cy.executeAccessibilityTests();
 
     taskList.clickBackLink();
