@@ -175,6 +175,13 @@ class TaskListActions {
         return this;
     }
 
+    public eligibilityBannerExists(): this {
+        cy.get('.govuk-notification-banner').should('exist');
+        cy.get('.govuk-notification-banner__heading').should('contain.text', 'If the eligibility of the school has changed');
+
+        return this;
+    }
+
 }
 
 const taskListActions = new TaskListActions();

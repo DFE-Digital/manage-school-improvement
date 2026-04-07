@@ -39,13 +39,13 @@ class ProjectStatus {
         return this;
     }
 
-    public hasChangeProjectStatusButton(): this {
-        cy.get('[role="button"]').should("be.visible");
+    public hasChangeStatusAndEligibilityButton(): this {
+        cy.getByCyData('change-project-status-button').should("be.visible");
 
         return this;
     }
-    public clickChangeProjectStatusButton(): this {
-        cy.get('[role="button"]').contains('Change project status').click();
+    public clickChangeStatusAndEligibilityButton(): this {
+        cy.getByCyData('change-project-status-button').click();
 
         return this;
     }
@@ -73,13 +73,38 @@ class ProjectStatus {
     }
 
     public clickContinueButton(): this {
-        cy.getById('continue-button').contains('Continue').click();
+        cy.get('[type="submit"]').contains('Continue').click();
+        return this;
+    }
+
+    public projectEligibleForIntervention(eligibility: string): this {
+        if (eligibility === 'Yes') {
+            cy.getById('yes').click();
+        } else if (eligibility === 'No') {
+            cy.getById('no').click();
+        }
+          return this;    
+    }
+
+    public enterDateSupportIsDueToEnd(day: string, month: string, year: string): this {
+        cy.getById('support-is-due-to-end-date-day').type(day);
+        cy.getById('support-is-due-to-end-date-month').type(month);
+        cy.getById('support-is-due-to-end-date-year').type(year);
+
+       return this;
+    }
+
+
+    public hasValidation(valText: string, id: string): this {
+        cy.getById(id).contains(valText);
 
         return this;
     }
 
-    public hasValidation(valText: string, id: string): this {
-        cy.getById(id).contains(valText);
+    public enterDateProjectStatusOrEligibilityChange(day: string, month: string, year: string): this {
+        cy.getById('status-eligibility-change-date-day').type(day);
+        cy.getById('status-eligibility-change-date-month').type(month);
+        cy.getById('status-eligibility-change-date-year').type(year); 
 
         return this;
     }
@@ -93,7 +118,7 @@ class ProjectStatus {
     }
 
     public enterDetails(id: string, details: string): this {
-        cy.getById(id).clear().type(details);
+        cy.getByName(id).type(details);
 
         return this;
     }
@@ -105,13 +130,12 @@ class ProjectStatus {
     }
 
     public clickSaveAndContinueButton(): this {
-        cy.getById('continue-button').contains('Save and continue').click();
-
+        cy.get('[type="submit"]').click();
         return this;
     }
 
     public hasCheckYourAnswersPageWithDetails(): this {
-        cy.url().should('include', '/project-status-answers');
+        cy.url().should('include', '/check-your-answers');
         cy.get('.govuk-summary-list__row').each($row => {
             cy.wrap($row).within(() => {
                 cy.get('.govuk-summary-list__key').should('not.be.empty');
@@ -133,7 +157,7 @@ class ProjectStatus {
     }
 
     public hasSuccessNotification(): this {
-        cy.get('.govuk-notification-banner__content').contains('Status updated successfully').should("be.visible");
+        cy.get('.govuk-notification-banner.govuk-notification-banner--success').contains('Status and eligibility updated successfully').should("be.visible");
 
         return this;
     }

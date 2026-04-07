@@ -94,13 +94,13 @@ describe("User select the school", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("should be able to navigate to the Project status tab", () => {
-        Logger.log("User navigates to the Project status tab");
+    it("should be able to navigate to the Status and eligibility tab", () => {
+        Logger.log("User navigates to the Status and eligibility tab");
         taskList
-            .navigateToTab('Project status');
+            .navigateToTab('Status and eligibility');
         projectStatus
-            .hasHeading('Project status')
-            .hasChangeProjectStatusButton()
+            .hasHeading('Status and eligibility')
+            .hasChangeStatusAndEligibilityButton()
 
         cy.executeAccessibilityTests()
     });
