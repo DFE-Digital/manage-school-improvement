@@ -70,8 +70,24 @@ public class CheckYourAnswersModel(
         await base.GetSupportProject(id, cancellationToken);
 
         var projectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
-        
-        if (projectStatusChanged)
+        var eligibilityChanged = SupportProject?.SupportProjectEligibilityStatus != EligibilityStatus;
+
+        if (projectStatusChanged && eligibilityChanged)
+        {
+            var request = new SetProjectStatusAndEligibilityCommand(new SupportProjectId(id), SupportProjectStatus!.Value,
+                EligibilityStatus!.Value, StatusOrEligiblityChangeDate, CurrentUserName, ChangeDetails, DateSupportIsDueToEnd);
+            var result = await mediator.Send(request, cancellationToken);
+
+            if (result == null)
+            {
+                _errorService.AddApiError();
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+
+            TempData["ProjectStatusUpdated"] = true;
+            TempData["EligibilityUpdated"] = true;
+        }
+        else if (projectStatusChanged)
         {
             var request = new SetProjectStatusCommand(new SupportProjectId(id), SupportProjectStatus!.Value, StatusOrEligiblityChangeDate,
                 CurrentUserName, ChangeDetails);
@@ -85,12 +101,9 @@ public class CheckYourAnswersModel(
 
             TempData["ProjectStatusUpdated"] = true;
         }
-        
-        var eligibilityChanged = SupportProject?.SupportProjectEligibilityStatus != EligibilityStatus;
-
-        if (eligibilityChanged)
+        else if (eligibilityChanged)
         {
-            var request = new UpdateEligibilityCommand(new SupportProjectId(id), EligibilityStatus, StatusOrEligiblityChangeDate, CurrentUserName, 
+            var request = new UpdateEligibilityCommand(new SupportProjectId(id), EligibilityStatus, StatusOrEligiblityChangeDate, CurrentUserName,
                 DateSupportIsDueToEnd, ChangeDetails);
             var result = await mediator.Send(request, cancellationToken);
 
@@ -109,14 +122,4 @@ public class CheckYourAnswersModel(
         });
     }
     
-    //  private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
-    // {
-    //     if (status == SupportProjectEligibilityStatus.EligibleForSupport)
-    //         return true;
-    //
-    //     if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
-    //         return false;
-    //
-    //     return null; 
-    // }
 }
