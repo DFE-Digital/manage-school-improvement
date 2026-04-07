@@ -91,6 +91,7 @@
             }
         </dl>
 
+        <h3 class="govuk-heading-m">Status and eligibility history</h3>
         <div class="moj-timeline">
             @foreach (var history in Model.ProjectStatusAuditTrail)
             {
@@ -104,8 +105,22 @@
                             datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time>
                     </p>
                     <div class="moj-timeline__description">
-                        <p class="govuk-!-font-weight-bold">
-                            This decision was made on @history.ChangedDateOfDecision.ToDateString().
+
+                        @if (history.DateSupportIsDueToEnd.HasValue)
+                        {
+                            <p class="govuk-!-font-weight-bold">
+                                @history.Eligibility?.GetDisplayName(), support ending
+                                on @history.DateSupportIsDueToEnd.ToDateString()
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="govuk-!-font-weight-bold">
+                                @history.Eligibility?.GetDisplayName()
+                            </p>
+                        }
+                        <p>
+                            This change was made on @history.ChangedDateOfDecision.ToDateString().
                         </p>
                         <p>@history.ChangedDetails</p>
                     </div>
