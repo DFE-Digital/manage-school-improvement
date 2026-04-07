@@ -42,7 +42,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Project status</h2>
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Status and eligibility</h2>
         <a asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.SupportProject.Id"
            role="button" data-cy="change-project-status-button"
            draggable="false" class="govuk-button" data-module="govuk-button">
@@ -50,10 +50,26 @@
         </a>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">Status</dt>
+                <dt class="govuk-summary-list__key">Current status</dt>
                 <dd class="govuk-summary-list__value">
                     <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
                 </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Current eligibility</dt>
+                @if (Model.DateSupportIsDueToEnd.HasValue)
+                {
+                    <dd class="govuk-summary-list__value">
+                        @Model.EligibilityStatus?.GetDisplayName(), support ending
+                        on @Model.DateSupportIsDueToEnd.ToDateString()
+                    </dd>
+                }
+                else
+                {
+                    <dd class="govuk-summary-list__value">
+                        @Model.EligibilityStatus?.GetDisplayName()
+                    </dd>
+                }
             </div>
             @if (Model.DateOfDecision != null)
             {
