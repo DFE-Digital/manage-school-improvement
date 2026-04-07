@@ -13,13 +13,13 @@
         <a asp-page="@Model.ReturnPage" class="govuk-back-link"
            asp-route-id="@Model.SupportProject?.Id">@Links.ProjectStatusTab.Index.BackText</a>
     </nav>
-
+}
     <partial name="_ErrorSummary"/>
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <span class="govuk-caption-l">Change status and eligibility</span>
-            <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Confirm the change</h2>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Confirm the change</h1>
             <p>The previous status and eligibility was:</p>
             <div class="govuk-inset-text">
                 <dl class="govuk-summary-list">
@@ -80,4 +80,3 @@
             </form>
         </div>
     </div>
-}
