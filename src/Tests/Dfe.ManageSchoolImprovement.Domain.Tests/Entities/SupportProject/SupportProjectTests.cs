@@ -585,7 +585,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             
             string note = "note";
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, DateTime.Now, note, false);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, note, false);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.EligibleForSupport);
@@ -601,11 +601,41 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             
             string note = "note";
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, DateTime.Now, note, true);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, note, true);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
+            mockRepository.VerifyAll();
+        }
+        
+        [Fact]
+        public void SetEligibility_WithNotEligible_SetsDatesToNull()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            string note = "not eligible note";
+
+            // Act
+            supportProject.SetEligibility(
+                SupportProjectEligibilityStatus.NotEligibleForSupport,
+                note,
+                false
+                );
+
+            // Assert
+            supportProject.SupportProjectEligibilityStatus
+                .Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
+
+            supportProject.DateSupportIsDueToEnd
+                .Should().BeNull();
+
+            supportProject.DateEligibilityChanged
+                .Should().BeNull();
+
+            supportProject.SchoolIsNotEligibleNotes
+                .Should().Be(note);
+
             mockRepository.VerifyAll();
         }
 
@@ -2153,6 +2183,137 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.ProjectStatusChangedDate.Should().Be(projectStatusChangedDate);
             supportProject.ProjectStatusChangedBy.Should().Be(projectStatusChangedBy);
             supportProject.ProjectStatusChangedDetails.Should().BeNull();
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void UpdateEligibility_WithEligibleStatus_SetsAllProperties()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var eligibilityStatus = SupportProjectEligibilityStatus.EligibleForSupport;
+            var dateEligibilityChanged = DateTime.UtcNow;
+            var dateSupportIsDueToEnd = DateTime.UtcNow.AddMonths(6);
+            var eligibilityChangedBy = "admin@education.gov.uk";
+
+            // Act
+            supportProject.UpdateEligibility(
+                eligibilityStatus,
+                dateEligibilityChanged,
+                dateSupportIsDueToEnd,
+                eligibilityChangedBy,
+                null);
+
+            // Assert
+            supportProject.SupportProjectEligibilityStatus.Should().Be(eligibilityStatus);
+            supportProject.DateEligibilityChanged.Should().Be(dateEligibilityChanged);
+            supportProject.DateSupportIsDueToEnd.Should().Be(dateSupportIsDueToEnd);
+            supportProject.EligibilityChangedBy.Should().Be(eligibilityChangedBy);
+            supportProject.SchoolIsNotEligibleNotes.Should().BeNull();
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void UpdateEligibility_WithNotEligibleStatus_SetsStatusAndNotes()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var eligibilityStatus = SupportProjectEligibilityStatus.NotEligibleForSupport;
+            var dateEligibilityChanged = DateTime.UtcNow;
+            var eligibilityChangedBy = "admin@education.gov.uk";
+            var notEligibleNotes = "School does not meet the eligibility criteria.";
+
+            // Act
+            supportProject.UpdateEligibility(
+                eligibilityStatus,
+                dateEligibilityChanged,
+                null,
+                eligibilityChangedBy,
+                notEligibleNotes);
+
+            // Assert
+            supportProject.SupportProjectEligibilityStatus.Should().Be(eligibilityStatus);
+            supportProject.DateEligibilityChanged.Should().Be(dateEligibilityChanged);
+            supportProject.DateSupportIsDueToEnd.Should().BeNull();
+            supportProject.EligibilityChangedBy.Should().Be(eligibilityChangedBy);
+            supportProject.EligibilityChangedDetails.Should().Be(notEligibleNotes);
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void UpdateEligibility_WithNotEligibleMidInterventionStatus_SetsStatusAndNotes()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var eligibilityStatus = SupportProjectEligibilityStatus.NotEligibleForSupportMidIntervention;
+            var dateEligibilityChanged = DateTime.UtcNow;
+            var eligibilityChangedBy = "admin@education.gov.uk";
+            var notEligibleNotes = "Mid-intervention ineligibility reason.";
+
+            // Act
+            supportProject.UpdateEligibility(
+                eligibilityStatus,
+                dateEligibilityChanged,
+                null,
+                eligibilityChangedBy,
+                notEligibleNotes);
+
+            // Assert
+            supportProject.SupportProjectEligibilityStatus.Should().Be(eligibilityStatus);
+            supportProject.DateEligibilityChanged.Should().Be(dateEligibilityChanged);
+            supportProject.DateSupportIsDueToEnd.Should().BeNull();
+            supportProject.EligibilityChangedBy.Should().Be(eligibilityChangedBy);
+            supportProject.EligibilityChangedDetails.Should().Be(notEligibleNotes);
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void UpdateEligibility_WithAllNullValues_SetsAllPropertiesToNull()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+
+            // Act
+            supportProject.UpdateEligibility(null, null, null, null, null);
+
+            // Assert
+            supportProject.SupportProjectEligibilityStatus.Should().BeNull();
+            supportProject.DateEligibilityChanged.Should().BeNull();
+            supportProject.DateSupportIsDueToEnd.Should().BeNull();
+            supportProject.EligibilityChangedBy.Should().BeNull();
+            supportProject.SchoolIsNotEligibleNotes.Should().BeNull();
+            mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void UpdateEligibility_CalledTwice_OverwritesPreviousValues()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstDate = new DateTime(2025, 1, 1);
+            var secondDate = new DateTime(2026, 1, 1);
+
+            supportProject.UpdateEligibility(
+                SupportProjectEligibilityStatus.EligibleForSupport,
+                firstDate,
+                firstDate.AddMonths(6),
+                "first.user@education.gov.uk",
+                null);
+
+            // Act
+            supportProject.UpdateEligibility(
+                SupportProjectEligibilityStatus.NotEligibleForSupport,
+                secondDate,
+                null,
+                "second.user@education.gov.uk",
+                "Changed to not eligible.");
+
+            // Assert
+            supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
+            supportProject.DateEligibilityChanged.Should().Be(secondDate);
+            supportProject.DateSupportIsDueToEnd.Should().BeNull();
+            supportProject.EligibilityChangedBy.Should().Be("second.user@education.gov.uk");
+            supportProject.EligibilityChangedDetails.Should().Be("Changed to not eligible.");
             mockRepository.VerifyAll();
         }
     }

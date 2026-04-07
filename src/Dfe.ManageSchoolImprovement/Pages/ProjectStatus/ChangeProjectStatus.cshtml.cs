@@ -13,12 +13,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
 public class ChangeProjectStatusModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
-    ErrorService errorService,
-    IUserRepository userRepository,
-    IMediator mediator)
+    ErrorService errorService)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
 {
-    public string ReturnPage { get; set; }
+    public string? ReturnPage { get; set; }
 
     [BindProperty] public ProjectStatusValue SupportProjectStatus { get; set; }
 
@@ -28,9 +26,9 @@ public class ChangeProjectStatusModel(
 
     public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, string? returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.ProjectStatusTab.Index.Page;
+        ReturnPage = returnPage ?? Links.ProjectStatusTab.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 
@@ -46,37 +44,12 @@ public class ChangeProjectStatusModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
-        IEnumerable<User> allUsers = await userRepository.GetAllUsers();
 
-        var currentUser = allUsers.SingleOrDefault(u => u.EmailAddress == User.Identity?.Name);
+        // ProjectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
+        CurrentUserName = User.Identity!.Name;
 
-        if (currentUser != null)
-        {
-            CurrentUserName = currentUser.FullName;
-        }
-        else
-        {
-            if (User.Identity?.Name != null)
-            {
-                CurrentUserName = User.Identity.Name.FullNameFromEmail();
-            }
-        }
-
-        if (SupportProjectStatus == ProjectStatusValue.Paused)
-        {
-            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusPausedDate.Page,
-                new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
-        }
-
-        if (SupportProjectStatus == ProjectStatusValue.Stopped)
-        {
-            return RedirectToPage(Links.ProjectStatusTab.ProjectStatusStoppedDate.Page,
-                new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
-        }
-
-        return RedirectToPage(Links.ProjectStatusTab.ProjectStatusInProgressDate.Page,
-            new { id, projectStatus = SupportProjectStatus, changedBy = CurrentUserName });
+        return RedirectToPage(Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page,
+            new { id, SupportProjectStatus, changedBy = CurrentUserName });
     }
 
     private static IList<RadioButtonsLabelViewModel> GetRadioButtons()

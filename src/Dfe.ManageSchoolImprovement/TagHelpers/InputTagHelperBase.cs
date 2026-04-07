@@ -54,6 +54,9 @@ public abstract class InputTagHelperBase(IHtmlHelper htmlHelper) : TagHelper
     
     [HtmlAttributeName("email")]
     public string Email { get; set; } = string.Empty;
+    
+    [HtmlAttributeName("inline")]
+    public bool Inline { get; set; } = false;
 
     [ViewContext]
     public ViewContext ViewContext { get; set; } = null!;

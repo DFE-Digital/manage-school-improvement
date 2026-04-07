@@ -129,7 +129,6 @@ public static class Links
         public static readonly LinkItem ChangeUseOfInformationPowers = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInformationPowers");
         public static readonly LinkItem RecordUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordUseOfInterimExecutiveBoard");
         public static readonly LinkItem ChangeUseOfInterimExecutiveBoard = AddLinkItem(backText: "Back", page: "/EngagementConcern/ChangeUseOfInterimExecutiveBoard");
-        public static readonly LinkItem RecordInterimExecutiveBoardDate = AddLinkItem(backText: "Back", page: "/EngagementConcern/RecordInterimExecutiveBoardDate");
         public static readonly LinkItem SelectRelevantConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/SelectRelevantConcern");
         public static readonly LinkItem AssignToDifferentConcern = AddLinkItem(backText: "Back", page: "/EngagementConcern/AssignToDifferentConcern");
     }
@@ -174,6 +173,11 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProjectStatus/Index");
         public static readonly LinkItem ChangeProjectStatus = AddLinkItem(backText: "Back", page: "/ProjectStatus/ChangeProjectStatus");
+        public static readonly LinkItem EnterEligibilityChangeDetails = AddLinkItem(backText: "Back", page: "/ProjectStatus/EnterEligibilityChangeDetails");
+        public static readonly LinkItem IsThisSchoolEligibleForIntervention = AddLinkItem(backText: "Back", page: "/ProjectStatus/IsThisSchoolEligibleForIntervention");
+        public static readonly LinkItem EnterDetailsAboutTheChange= AddLinkItem(backText: "Back", page: "/ProjectStatus/EnterDetailsAboutTheChange");
+        public static readonly LinkItem ConfirmTheChange = AddLinkItem(backText: "Back", page: "/ProjectStatus/ConfirmTheChange");
+        public static readonly LinkItem CheckYourAnswers = AddLinkItem(backText: "Back", page: "/ProjectStatus/CheckYourAnswers");
         public static readonly LinkItem ProjectStatusPausedDate = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusPausedDate");
         public static readonly LinkItem ProjectStatusStoppedDate = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusStoppedDate");
         public static readonly LinkItem ProjectStatusInProgressDate = AddLinkItem(backText: "Back", page: "/ProjectStatus/ProjectStatusInProgressDate");

@@ -165,8 +165,14 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? DeletedBy { get; private set; }
 
     public SupportProjectEligibilityStatus? SupportProjectEligibilityStatus { get; private set; }
-    
+
     public DateTime? DateEligibilityChanged { get; private set; }
+
+    public DateTime? DateSupportIsDueToEnd { get; private set; }
+    
+    public string? EligibilityChangedBy { get; private set; }
+    
+    public string? EligibilityChangedDetails { get; private set; }
 
     public string? SchoolIsNotEligibleNotes { get; private set; }
     
@@ -368,7 +374,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         InitialDiagnosisMatchingDecisionNotes = initialDiagnosisMatchingDecisionNotes;
     }
 
-    public void SetSupportingOrganisationContactDetails(string? supportingOrganisationContactName, string? supportingOrganisationContactEmailAddress, string? supportingOrganisationContactPhone)
+    public void SetSupportingOrganisationContactDetails(string? supportingOrganisationContactName,
+        string? supportingOrganisationContactEmailAddress, string? supportingOrganisationContactPhone)
     {
         SupportingOrganisationContactName = supportingOrganisationContactName;
         SupportingOrganisationContactEmailAddress = supportingOrganisationContactEmailAddress;
@@ -475,13 +482,25 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     {
         DateImprovementGrantOfferLetterSent = dateImprovementGrantOfferLetterSent;
     }
-
-    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, DateTime? dateEligibilityChanged, string? schoolIsNotEligibleNotes, bool eligibilityComplete)
+    
+    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, string? schoolIsNotEligibleNotes, bool eligibilityComplete)
     {
         SupportProjectEligibilityStatus = schoolIsEligible;
-        DateEligibilityChanged = dateEligibilityChanged;
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
         EligibilityComplete = eligibilityComplete;
+    }
+
+    public void UpdateEligibility(SupportProjectEligibilityStatus? schoolIsEligible,
+        DateTime? dateEligbilityChanged,
+        DateTime? dateSupportIsDueToEnd,
+        string? eligibilityChangedBy,
+        string? eligibilityChangedDetails)
+    {
+        SupportProjectEligibilityStatus = schoolIsEligible;
+        EligibilityChangedDetails = eligibilityChangedDetails;
+        DateEligibilityChanged = dateEligbilityChanged;
+        DateSupportIsDueToEnd = dateSupportIsDueToEnd;
+        EligibilityChangedBy = eligibilityChangedBy;
     }
 
     public void SetSoftDeleted(string deletedBy)
@@ -757,7 +776,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
         improvementPlan.SetDeleteObjective(improvementPlanObjectiveId, deletedBy);
     }
-    
+
     public void DeleteImprovementPlanObjectiveProgress(ImprovementPlanId improvementPlanId,
         ImprovementPlanReviewId improvementPlanReviewId,
         ImprovementPlanObjectiveProgressId improvementPlanObjectiveProgressId,
@@ -773,7 +792,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         improvementPlan.SetDeleteObjectiveProgress(improvementPlanReviewId,
             improvementPlanObjectiveProgressId, deletedBy);
     }
-    
+
     public void DeleteImprovementPlanReview(ImprovementPlanId improvementPlanId,
         ImprovementPlanReviewId improvementPlanReviewId,
         string deletedBy)
@@ -820,12 +839,13 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         Address = address;
     }
 
-    public void SetProjectStatus(ProjectStatusValue projectStatus, DateTime? projectStatusChangedDate, string? projectStatusChangedBy, string? projectStatusChangedDetails)
+    public void SetProjectStatus(ProjectStatusValue projectStatus, DateTime? projectStatusChangedDate,
+        string? projectStatusChangedBy, string? projectStatusChangedDetails)
     {
-            ProjectStatus = projectStatus;
-            ProjectStatusChangedDate = projectStatusChangedDate;
-            ProjectStatusChangedBy = projectStatusChangedBy;
-            ProjectStatusChangedDetails = projectStatusChangedDetails;
+        ProjectStatus = projectStatus;
+        ProjectStatusChangedDate = projectStatusChangedDate;
+        ProjectStatusChangedBy = projectStatusChangedBy;
+        ProjectStatusChangedDetails = projectStatusChangedDetails;
     }
 
     #endregion

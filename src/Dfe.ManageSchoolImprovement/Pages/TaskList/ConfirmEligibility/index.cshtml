@@ -20,6 +20,13 @@
             m => m.SchoolIsEligible!
         );
     }
+    
+    string eligibility = Model.SchoolIsEligible switch
+    {
+        true => "Eligible",
+        false => "Not eligible for support",
+        _ => "Empty"
+    };
 
 }
 
@@ -27,6 +34,7 @@
 {
     <nav aria-label="back navigation">
         <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+           asp-route-returnpage="@Model.ReturnPage"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -41,30 +49,42 @@
     <partial name="_ErrorSummary"/>
 }
 
-
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
-        <h1 id="eligibilityquestion" class="govuk-heading-l" data-cy="page-heading">
-            Is this school still eligible for targeted intervention?
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" data-govuk-notification-banner-init="">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Important
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+  
+                <p class="govuk-notification-banner__heading">
+                    If the eligibility of the school has changed, 
+                    <a class="govuk-notification-banner__link" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
+                       asp-route-id="@(Model?.SupportProject?.Id)"
+                       asp-route-returnPage="@Links.TaskList.CheckEligibility.Page">
+                       change the project status and eligibility</a>.
+                </p>
+  
+            </div>
+        </div>
+        <span class="govuk-caption-l">Confirm starting eligibility</span>
+        <h1 class="govuk-heading-l">
+            Is this school eligible to begin targeted intervention?
         </h1>
-        @if (Model.IsReadOnly)
-        {
-            <govuk-summary-list model="Model" items="@summaryItems" />
-        }
-        else
-        {
-            <form method="post" novalidate>
-                <govuk-radiobuttons-input heading-style="govuk-fieldset__legend--m"
-                                          name="@nameof(Model.SchoolIsEligible)" radio-buttons="@Model.RadioButtons"
-                                          asp-for="@Model.SchoolIsEligible" error-message="@Model.ErrorMessage"/>
+        
+        <dl class="govuk-summary-list">
 
-                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
-                        data-cy="select-common-submitbutton">
-                    Save and return
-                </button>
-            </form>
-        }
+  
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key govuk-!-width-one-half">
+                    Is this school eligible to begin targeted intervention?
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @eligibility
+                </dd>
+            </div>
+        </dl>
     </div>
 </div>

@@ -11,6 +11,7 @@ public class RadioButtonViewModel
     public string? Name { get; set; } = null;
     public IList<RadioButtonsLabelViewModel> RadioButtons { get; set; } = [];
     public string? Value { get; set; } = null;
+    public bool Inline { get; set; } = false;
 }
 public class RadioButtonsLabelViewModel
 {
