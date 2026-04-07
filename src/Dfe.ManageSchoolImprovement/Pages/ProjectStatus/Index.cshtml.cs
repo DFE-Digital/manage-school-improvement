@@ -18,6 +18,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
     public ProjectStatusValue? SupportProjectStatus { get; set; }
     public DateTime? DateOfDecision { get; set; }
     public string? AdditionalDetails { get; set; }
+    public DateTime? DateSupportIsDueToEnd { get; set; }
+    public SupportProjectEligibilityStatus? EligibilityStatus { get; set; }
     
     public IList<ProjectStatusChangeViewModel?> ProjectStatusAuditTrail { get; set; } = [];
 
@@ -31,6 +33,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         SupportProjectStatus = SupportProject?.ProjectStatus;
         DateOfDecision = SupportProject?.ProjectStatusChangedDate;
         AdditionalDetails = SupportProject?.ProjectStatusChangedDetails;
+        DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
+        EligibilityStatus = SupportProject?.SupportProjectEligibilityStatus;
 
         var filteredProjectStatusAudits = new List<SupportProjectFieldAuditDto<ProjectStatusValue>>();
 
