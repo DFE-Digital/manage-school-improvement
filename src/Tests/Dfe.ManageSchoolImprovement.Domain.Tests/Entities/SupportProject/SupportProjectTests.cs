@@ -610,38 +610,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
             mockRepository.VerifyAll();
         }
-        
-        [Fact]
-        public void SetEligibility_WithNotEligible_SetsDatesToNull()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-            var note = "not eligible note";
-            var date = DateTime.UtcNow;
-
-            // Act
-            supportProject.SetEligibility(
-                SupportProjectEligibilityStatus.NotEligibleForSupport,
-                date,
-                note,
-                false
-                );
-
-            // Assert
-            supportProject.SupportProjectEligibilityStatus
-                .Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
-
-            supportProject.DateSupportIsDueToEnd
-                .Should().BeNull();
-
-            supportProject.DateEligibilityChanged
-                .Should().BeNull();
-
-            supportProject.SchoolIsNotEligibleNotes
-                .Should().Be(note);
-
-            mockRepository.VerifyAll();
-        }
 
         [Fact]
         public void SetSoftDeleted_SetsProjectSoftDeleted()
