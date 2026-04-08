@@ -17,7 +17,10 @@
     </nav>
 }
 
-<partial name="_ErrorSummary"/>
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -27,14 +30,25 @@
                 Check your answers
             </label>
         </h1>
-            <dl class="govuk-summary-list">
+            <dl class="govuk-summary-list" id="change-status-eligibility" name="change-status-eligibility">
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
                         Current status
                     </dt>
-                    <dd class="govuk-summary-list__value">
-                        <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
-                    </dd>
+                    
+                        @if (Model.SupportProjectStatus.HasValue)
+                    {
+                        <dd class="govuk-summary-list__value">
+                            <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
+                        
+                        </dd>
+                    }
+                        else
+                        {
+                            <dd class="govuk-summary-list__value">
+                                Not selected
+                            </dd>
+                        }
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link" 
                            asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page"
@@ -46,33 +60,61 @@
                     <dt class="govuk-summary-list__key">
                         Current eligibility
                     </dt>
-                    <dd class="govuk-summary-list__value">
-                        @if (Model.DateSupportIsDueToEnd.HasValue)
-                        {
-                            @Model.EligibilityStatus?.GetDisplayName()<span>, support ending on @Model.DateSupportIsDueToEnd.ToDateString()</span>
-                        }
-                        else
-                        {
-                            @Model.EligibilityStatus?.GetDisplayName()
-                        }
-                    </dd>
+                    @if (Model.EligibilityStatus.HasValue)
+                    {
+                        <dd class="govuk-summary-list__value">
+                            @if (Model.DateSupportIsDueToEnd.HasValue)
+                            {
+                                @Model.EligibilityStatus?.GetDisplayName()<span>, support ending on @Model.DateSupportIsDueToEnd.ToDateString()</span>
+                            }
+                            else
+                            {
+                                @Model.EligibilityStatus?.GetDisplayName()
+                            }
+                        </dd> 
+                    }
+                    else
+                    {
+                        <dd class="govuk-summary-list__value">
+                            Not selected
+                        </dd>
+                    }
+                    
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
                         Date of change
                     </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.StatusOrEligiblityChangeDate.ToDateString()
-                    </dd>
+                    @if (Model.StatusOrEligiblityChangeDate.HasValue)
+                    {
+                        <dd class="govuk-summary-list__value">
+                            @Model.StatusOrEligiblityChangeDate.ToDateString()
+                        </dd>
+                    }
+                    else
+                    {
+                        <dd class="govuk-summary-list__value">
+                            Not added
+                        </dd>
+                    }
                 </div>
 
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
                         Details
                     </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.ChangeDetails
-                    </dd>
+                    @if (!string.IsNullOrEmpty(Model.ChangeDetails))
+                    {
+                        <dd class="govuk-summary-list__value">
+                            @Model.ChangeDetails
+                        </dd> 
+                    }
+                    else
+                    {
+                        <dd class="govuk-summary-list__value">
+                            Not added
+                        </dd>
+                    }
                 </div>
 
             </dl>
