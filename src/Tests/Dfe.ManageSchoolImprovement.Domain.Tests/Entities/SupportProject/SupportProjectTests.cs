@@ -584,8 +584,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             
             string note = "note";
+            var date = DateTime.UtcNow;
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, note, false);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.EligibleForSupport, date, note, false);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.EligibleForSupport);
@@ -599,43 +600,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             
-            string note = "note";
+            var date = DateTime.UtcNow;
+            var note = "note";
             // Act
-            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, note, true);
+            supportProject.SetEligibility(SupportProjectEligibilityStatus.NotEligibleForSupport, date, note, true);
 
             // Assert
             supportProject.SupportProjectEligibilityStatus.Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
             supportProject.SchoolIsNotEligibleNotes.Should().Be(note);
-            mockRepository.VerifyAll();
-        }
-        
-        [Fact]
-        public void SetEligibility_WithNotEligible_SetsDatesToNull()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-            string note = "not eligible note";
-
-            // Act
-            supportProject.SetEligibility(
-                SupportProjectEligibilityStatus.NotEligibleForSupport,
-                note,
-                false
-                );
-
-            // Assert
-            supportProject.SupportProjectEligibilityStatus
-                .Should().Be(SupportProjectEligibilityStatus.NotEligibleForSupport);
-
-            supportProject.DateSupportIsDueToEnd
-                .Should().BeNull();
-
-            supportProject.DateEligibilityChanged
-                .Should().BeNull();
-
-            supportProject.SchoolIsNotEligibleNotes
-                .Should().Be(note);
-
             mockRepository.VerifyAll();
         }
 

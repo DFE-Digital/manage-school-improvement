@@ -483,9 +483,10 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateImprovementGrantOfferLetterSent = dateImprovementGrantOfferLetterSent;
     }
     
-    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, string? schoolIsNotEligibleNotes, bool eligibilityComplete)
+    public void SetEligibility(SupportProjectEligibilityStatus? schoolIsEligible, DateTime? dateEligibilityChanged, string? schoolIsNotEligibleNotes, bool eligibilityComplete)
     {
         SupportProjectEligibilityStatus = schoolIsEligible;
+        DateEligibilityChanged = dateEligibilityChanged;
         SchoolIsNotEligibleNotes = schoolIsNotEligibleNotes;
         EligibilityComplete = eligibilityComplete;
     }
