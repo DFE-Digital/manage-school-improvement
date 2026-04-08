@@ -35,6 +35,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
             
             var request = new SetEligibilityCommand(new SupportProjectId(id), 
                 SupportProject?.SupportProjectEligibilityStatus, 
+                SupportProject?.DateEligibilityChanged,
                 SupportProject?.SchoolIsNotEligibleNotes,
                 true
             );

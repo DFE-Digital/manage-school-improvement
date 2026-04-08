@@ -28,6 +28,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetEligibilityCommand(
                 _mockSupportProject.Id,
                 SupportProjectEligibilityStatus.EligibleForSupport,
+                DateTime.Now,
                 "Eligible for support"
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -47,6 +48,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetEligibilityCommand(
                 _mockSupportProject.Id,
+                null,
                 null, // SchoolIsEligible (null),
                 null  // SchoolIsNotEligibleNotes (null)
             );
@@ -68,6 +70,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var command = new SetEligibilityCommand(
                 _mockSupportProject.Id,
                 SupportProjectEligibilityStatus.EligibleForSupport,
+                DateTime.Now,
                 "Eligible for support"
             );
 
