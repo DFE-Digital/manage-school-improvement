@@ -15,23 +15,28 @@ class TaskList {
     return this;
   }
 
+  public hasEligibility(eligibility: string): this {
+    cy.get('.govuk-summary-list__value').eq(1).should("contain.text", eligibility);
+    return this;
+  }
+
   public hasDateAdded(date: string): this {
-    cy.get('.govuk-summary-list__value').eq(1).should("contain.text", date);
+    cy.get('.govuk-summary-list__value').eq(2).should("contain.text", date);
     return this;
   }
 
   public hasAssignedTo(value: string): this {
-    cy.get('.govuk-summary-list__value').eq(2).should("contain.text", value);
-    return this;
-  }
-
-  public hasAdvisedBy(value: string): this {
     cy.get('.govuk-summary-list__value').eq(3).should("contain.text", value);
     return this;
   }
 
-  public hasEngagementConcern(value: string): this {
+  public hasAdvisedBy(value: string): this {
     cy.get('.govuk-summary-list__value').eq(4).should("contain.text", value);
+    return this;
+  }
+
+  public hasEngagementConcern(value: string): this {
+    cy.get('.govuk-summary-list__value').eq(5).should("contain.text", value);
     return this;
   }
 
@@ -41,8 +46,13 @@ class TaskList {
       .contains('Change')
       .eq(0)
       .should('have.attr', 'href')
-      .and('include', 'delivery-officer');
+      .and('include', 'status');
     cy.get(':nth-child(4) > .govuk-summary-list__actions > .govuk-link')
+      .filter(':visible')
+      .contains('Change')
+      .should('have.attr', 'href')
+      .and('include', 'delivery-officer');
+    cy.get(':nth-child(5) > .govuk-summary-list__actions > .govuk-link')
       .filter(':visible')
       .contains('Change')
       .should('have.attr', 'href')
@@ -59,13 +69,13 @@ class TaskList {
     cy.contains("Case Study")
     cy.contains("Engagement concern")
     cy.contains("Notes")
-    cy.contains("Project status");
+    cy.contains("Status and eligibility");
 
     return this;
   }
 
   public hasTasks(): this {
-    cy.contains('Confirm eligibility');
+    cy.contains('Confirm starting eligibility');
     cy.contains('Enter the funding history');
     cy.contains('Make initial contact with the responsible body');
     cy.contains('Check potential adviser conflicts of interest');
@@ -95,7 +105,7 @@ class TaskList {
   }
 
   public hasTasksNotStartedElementsPresent(): this {
-    cy.get("#confirm-eligibility-status").contains('Not Started');
+    cy.get("#confirm-eligibility-status").contains('Completed');
     cy.get('#funding_history_status').contains("Not Started");
     cy.get('#confirm_responsible_body_status').contains('Not Started');
     cy.get('#record-school-response_status').contains("Not Started");
@@ -132,7 +142,7 @@ class TaskList {
     cy.contains('Case Study');
     cy.contains('Engagement concern');
     cy.contains('Notes');
-    cy.contains('Project status');
+    cy.contains('Status and eligibility');
 
     return this;
 

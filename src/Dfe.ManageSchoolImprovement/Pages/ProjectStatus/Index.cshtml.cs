@@ -18,6 +18,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
     public ProjectStatusValue? SupportProjectStatus { get; set; }
     public DateTime? DateOfDecision { get; set; }
     public string? AdditionalDetails { get; set; }
+    public DateTime? DateSupportIsDueToEnd { get; set; }
+    public SupportProjectEligibilityStatus? EligibilityStatus { get; set; }
     
     public IList<ProjectStatusChangeViewModel?> ProjectStatusAuditTrail { get; set; } = [];
 
@@ -31,8 +33,11 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         SupportProjectStatus = SupportProject?.ProjectStatus;
         DateOfDecision = SupportProject?.ProjectStatusChangedDate;
         AdditionalDetails = SupportProject?.ProjectStatusChangedDetails;
+        DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
+        EligibilityStatus = SupportProject?.SupportProjectEligibilityStatus;
 
         var filteredProjectStatusAudits = new List<SupportProjectFieldAuditDto<ProjectStatusValue>>();
+        var filteredEligiblityAudits = new List<SupportProjectFieldAuditDto<SupportProjectEligibilityStatus?>>();
 
         var projectStatusAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
             id, sp => sp.ProjectStatus, cancellationToken);
@@ -44,19 +49,41 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
                 .ToList();
         }
 
-        foreach (var project in filteredProjectStatusAudits.Skip(1))
+        var eligibilityAuditResult = await supportProjectAuditQueryService.GetFieldAuditTrailAsync(
+            id, sp => sp.SupportProjectEligibilityStatus, cancellationToken);
+
+        if (eligibilityAuditResult.IsSuccess)
         {
-            var result = await supportProjectAuditQueryService.GetSupportProjectAsOfAsync(id, project.ValidFrom, cancellationToken);
-            
+            filteredEligiblityAudits = eligibilityAuditResult.Value!
+                .Where(a => a.FieldValue != null)
+                .ToList();
+        }
+
+        var statusValidFroms = filteredProjectStatusAudits.Skip(1).ToDictionary(a => a.ValidFrom);
+        var eligibilityValidFroms = filteredEligiblityAudits.Skip(1).ToDictionary(a => a.ValidFrom);
+
+        var allValidFroms = statusValidFroms.Keys.Union(eligibilityValidFroms.Keys).ToList();
+
+        foreach (var validFrom in allValidFroms)
+        {
+            var result = await supportProjectAuditQueryService.GetSupportProjectAsOfAsync(id, validFrom, cancellationToken);
             var supportProjectHistory = SupportProjectViewModel.Create(result.Value!);
-            
+
+            var hasStatusChange = statusValidFroms.TryGetValue(validFrom, out var statusAudit);
+            eligibilityValidFroms.TryGetValue(validFrom, out var eligibilityAudit);
+            var auditEntryLastModified = hasStatusChange ? statusAudit!.LastModifiedOn : eligibilityAudit!.LastModifiedOn;
+            var auditEntryValidFrom = hasStatusChange ? statusAudit!.ValidFrom : eligibilityAudit!.ValidFrom;
+
             ProjectStatusAuditTrail.Add(new ProjectStatusChangeViewModel
             {
                 ProjectStatus = supportProjectHistory.ProjectStatus,
-                ChangedBy = supportProjectHistory.ProjectStatusChangedBy,
-                ChangedDateOfDecision = supportProjectHistory.ProjectStatusChangedDate,
-                ChangedDetails = supportProjectHistory.ProjectStatusChangedDetails,
-                LastModifiedOn = project.LastModifiedOn
+                ChangedBy = hasStatusChange ? supportProjectHistory.ProjectStatusChangedBy : supportProjectHistory.EligibilityChangedBy,
+                ChangedDateOfDecision = hasStatusChange ? supportProjectHistory.ProjectStatusChangedDate : supportProjectHistory.DateEligibilityChanged,
+                ChangedDetails = hasStatusChange ? supportProjectHistory.ProjectStatusChangedDetails : supportProjectHistory.EligibilityChangedDetails,
+                LastModifiedOn = auditEntryLastModified,
+                ValidFrom = auditEntryValidFrom,
+                Eligibility = supportProjectHistory.SupportProjectEligibilityStatus,
+                DateSupportIsDueToEnd = supportProjectHistory.DateSupportIsDueToEnd,
             });
         }
         

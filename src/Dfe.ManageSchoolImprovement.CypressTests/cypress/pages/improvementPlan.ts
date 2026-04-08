@@ -152,12 +152,10 @@ class ImprovementPlan {
         cy.getByCyData('error-summary').should('be.visible');
         cy.getByCyData('error-summary').should('contain.text', 'Select who carried out the review');
         cy.getByCyData('error-summary').should('contain.text', 'Enter a date');
-
-        //invalid date - date should be today's or a past date
         cy.get('[data-cy="select-radio-adviser"]').check()
-        this.enterDate('ReviewDate', '12', '11', '2040')
+        this.enterDate('ReviewDate', '12', '11', '2055')
         cy.get('[type="submit"]').contains('Save').click();
-        cy.getByCyData('error-summary').should('contain.text', "Enter today's date or a date in the past");
+        cy.getByCyData('error-summary').should('contain.text', "Year must be between 2000 and 2050");
 
         return this;
     }

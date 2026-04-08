@@ -41,7 +41,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Project status</h2>
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="project-status">Status and eligibility</h2>
         <a asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.SupportProject.Id"
            role="button" data-cy="change-project-status-button"
            draggable="false" class="govuk-button" data-module="govuk-button">
@@ -49,12 +49,28 @@
         </a>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">Status</dt>
+                <dt class="govuk-summary-list__key">Current status</dt>
                 <dd class="govuk-summary-list__value">
                     <partial name="Shared/_ProjectStatus" model="@Model.SupportProjectStatus"/>
                 </dd>
             </div>
-            @if(Model.DateOfDecision != null)
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Current eligibility</dt>
+                @if (Model.DateSupportIsDueToEnd.HasValue)
+                {
+                    <dd class="govuk-summary-list__value">
+                        @Model.EligibilityStatus?.GetDisplayName(), support ending
+                        on @Model.DateSupportIsDueToEnd.ToDateString()
+                    </dd>
+                }
+                else
+                {
+                    <dd class="govuk-summary-list__value">
+                        @Model.EligibilityStatus?.GetDisplayName()
+                    </dd>
+                }
+            </div>
+            @if (Model.DateOfDecision != null)
             {
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Date of decision</dt>
@@ -63,7 +79,7 @@
                     </dd>
                 </div>
             }
-            @if(!string.IsNullOrEmpty(Model.AdditionalDetails))
+            @if (!string.IsNullOrEmpty(Model.AdditionalDetails))
             {
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Details</dt>
@@ -74,20 +90,36 @@
             }
         </dl>
 
+        <h3 class="govuk-heading-m">Status and eligibility history</h3>
         <div class="moj-timeline">
             @foreach (var history in Model.ProjectStatusAuditTrail)
             {
                 <div class="moj-timeline__item">
                     <div class="moj-timeline__header">
-                        <partial name="Shared/_ProjectStatus" model="@history?.ProjectStatus" />
+                        <partial name="Shared/_ProjectStatus" model="@history?.ProjectStatus"/>
                         <p class="moj-timeline__byline">by @history.ChangedBy</p>
                     </div>
                     <p class="moj-timeline__date">
-                        <time datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time>
+                        <time
+                            datetime="2019-06-14T14:01:00.000Z">@history.LastModifiedOn!.Value.UtcDateTimeToGdsDateTimeString()</time>
                     </p>
                     <div class="moj-timeline__description">
-                        <p class="govuk-!-font-weight-bold">
-                            This decision was made on @history.ChangedDateOfDecision.ToDateString().
+
+                        @if (history.DateSupportIsDueToEnd.HasValue)
+                        {
+                            <p class="govuk-!-font-weight-bold">
+                                @history.Eligibility?.GetDisplayName(), support ending
+                                on @history.DateSupportIsDueToEnd.ToDateString()
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="govuk-!-font-weight-bold">
+                                @history.Eligibility?.GetDisplayName()
+                            </p>
+                        }
+                        <p>
+                            This change was made on @history.ChangedDateOfDecision.ToDateString().
                         </p>
                         <p>@history.ChangedDetails</p>
                     </div>

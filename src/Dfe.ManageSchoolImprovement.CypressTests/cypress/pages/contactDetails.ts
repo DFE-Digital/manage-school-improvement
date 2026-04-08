@@ -6,7 +6,7 @@ class ContactDetails {
 
         const randomFirstName = 'First' + firstNameSuffix;
         const randomEmail = `test.${emailSuffix}@example.com`;
-        const randomPhone = '079'+ timestamp.substring(0, 9).replaceAll(/[a-z]/g, '5');
+        const randomPhone = '079' + timestamp.substring(0, 9).replaceAll(/[a-z]/g, '5');
 
         cy.getByName('name').type(randomFirstName);
         cy.getByName('email-address').type(randomEmail);
@@ -38,13 +38,13 @@ class ContactDetails {
 
     public enterInvalidPhoneNumber(): this {
         cy.getByName('phone').clear().type('23232323');
-       
+
         return this;
     }
 
     public editFullName(fullName: string): this {
         cy.getByName('name').clear().type(fullName);
-         cy.getById('add-contact-button').contains('Save and return').click();
+        cy.getById('add-contact-button').contains('Save and return').click();
 
         return this;
     }

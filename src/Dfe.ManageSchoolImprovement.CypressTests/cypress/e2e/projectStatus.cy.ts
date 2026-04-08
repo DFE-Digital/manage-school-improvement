@@ -5,17 +5,19 @@ import { Logger } from "cypress/common/logger";
 import improvementPlan from "cypress/pages/improvementPlan";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 
-describe("User navigates to the Project Status Tab", () => {
+describe("User navigates to the Status and Eligibility Tab", () => {
 
     beforeEach(() => {
         cy.login();
         homePage
             .rejectCookies()
             .hasAddSchool()
+            .selectProjectFilter("Plymouth Grove Primary")
+            .applyFilters()
             .selectFirstSchoolFromList()
-        Logger.log("User navigates to the Project Status tab")
+        Logger.log("User navigates to the Status and Eligibility tab")
         taskList
-            .navigateToTab('Project status');
+            .navigateToTab('Status and eligibility');
 
         cy.executeAccessibilityTests()
     });
@@ -41,52 +43,71 @@ describe("User navigates to the Project Status Tab", () => {
         Logger.log("check validation message for date field");
         projectStatus
             .hasCurrentStatus('In progress')
-            .clickChangeProjectStatusButton()
+            .clickChangeStatusAndEligibilityButton()
             .clickContinueButton()
-            .hasHeading('Enter date the project continued')
-            .clickContinueButton()
-            .hasValidation('Enter a date', 'project-status-in-progress-date-error-link')
-            .hasValidation('Enter a date', 'project-status-in-progress-date-error')
-            .enterDate('project-status-in-progress-date', '01', '01', '2049')
-            .clickContinueButton()
-            .hasValidation('Enter today\'s date or a date in the past', 'project-status-in-progress-date-error')
-            .enterDate('project-status-in-progress-date', '02', '01', '2024')
+        
+            cy.executeAccessibilityTests()
+
+        projectStatus    
+            .projectEligibleForIntervention('Yes')
+            .enterDateSupportIsDueToEnd('01', '01', '2048')
+             .clickContinueButton()
+
+            cy.executeAccessibilityTests()
+
+            projectStatus
+                .hasPageHeading('Confirm the change')
+                .clickContinueButton()
+                .hasValidation('Enter a date', 'status-eligibility-change-date-error-link')
+                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+
             .clickContinueButton()
 
-        Logger.log("check validation message for details field");
+               Logger.log("check validation message for details field");
+             
+            projectStatus   
+                .hasPageHeading('Enter details about the change')
+                .clickContinueButton()
+                .hasValidation('Enter details', 'change-details-error-link')
+                .enterDetails('change-details', 'The change is required')
+                .clickContinueButton()
+        
         projectStatus
-            .clickContinueButton()
-            .hasValidation('Enter details', 'project-status-in-progress-details-error-link')
-            .hasValidation('Enter details', 'more-detail-error')
+           .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
     });
 
-    it("user could update the details for In progress status", () => {
+    it("user could update the details for Eligible and In progress status", () => {
         projectStatus
-            .clickChangeProjectStatusButton()
+            .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
             .checkedStatusBydefault('in-progress')
+            .clickContinueButton()
 
         cy.executeAccessibilityTests()
         Logger.log("update details for In progress status");
-        projectStatus
-            .clickContinueButton()
-            .hasHeading('Enter date the project continued')
-            .enterDate('project-status-in-progress-date', '01', '01', '2024')
+       projectStatus    
+            .projectEligibleForIntervention('Yes')
+            .enterDateSupportIsDueToEnd('01', '01', '2048')
+             .clickContinueButton()
 
-        cy.executeAccessibilityTests()
+            cy.executeAccessibilityTests()
 
-        projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Enter details')
-            .enterDetails('project-status-in-progress-details', 'Project is progressing as expected.')
+            projectStatus
+                .hasPageHeading('Confirm the change')
+                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+                .clickContinueButton()
 
-        cy.executeAccessibilityTests()
+               Logger.log("check validation message for details field");
+             
+            projectStatus   
+                .hasPageHeading('Enter details about the change')
+                .enterDetails('change-details', 'The change is required')
+                .clickContinueButton()
+        
         projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Check your answers')
-            .hasCheckYourAnswersPageWithDetails()
+           .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
@@ -97,9 +118,9 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Paused and see the change history", () => {
+    it("user could change the project status to Paused, eligibility Yes and see the change history", () => {
         projectStatus
-            .clickChangeProjectStatusButton()
+            .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
             .selectStatusPaused()
 
@@ -108,28 +129,39 @@ describe("User navigates to the Project Status Tab", () => {
         Logger.log("update details for Paused status");
         projectStatus
             .clickContinueButton()
-            .hasHeading('Enter date the intervention paused')
-            .enterDate('project-status-paused-date', '03', '12', '2024')
+          .projectEligibleForIntervention('Yes')
+            .enterDateSupportIsDueToEnd('01', '01', '2048')
+             .clickContinueButton()
 
-        cy.executeAccessibilityTests()
+            cy.executeAccessibilityTests()
 
+            projectStatus
+                .hasPageHeading('Confirm the change')
+                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+                .clickContinueButton()
+
+               Logger.log("check validation message for details field");
+             
+            projectStatus   
+                .hasPageHeading('Enter details about the change')
+                .enterDetails('change-details', 'The change is required')
+                .clickContinueButton()
+        
         projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Enter details')
-            .enterDetails('project-status-paused-details', 'Project is paused due to unforeseen circumstances.')
-
-        cy.executeAccessibilityTests()
-        projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Check your answers')
-            .hasCheckYourAnswersPageWithDetails()
-
+           .hasCheckYourAnswersPageWithDetails()
         cy.executeAccessibilityTests()
         projectStatus
             .clickSaveAndContinueButton()
             .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Paused')
             .getProjectStatusChangeHistory('Paused')
+
+        Logger.log("Important banner should display when status is Paused");    
+        projectStatus
+            .hasCurrentStatus('Paused')
+            .bannerDisplayedForPausedOrStoppedStatus('Paused')
+
+        cy.executeAccessibilityTests()    
 
         cy.executeAccessibilityTests()
     });
@@ -182,17 +214,9 @@ describe("User navigates to the Project Status Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("user should see an important banner when the project is Paused or Stopped", () => {
+    it("user could change the project status to Stopped, with eligibility No and see the change status history timeline", () => {
         projectStatus
-            .hasCurrentStatus('Paused')
-            .bannerDisplayedForPausedOrStoppedStatus('Paused')
-
-        cy.executeAccessibilityTests()
-    })
-
-    it("user could change the project status to Stopped and see the change status history timeline", () => {
-        projectStatus
-            .clickChangeProjectStatusButton()
+            .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
             .selectStatusStopped()
 
@@ -201,20 +225,26 @@ describe("User navigates to the Project Status Tab", () => {
         Logger.log("update details for Stopped status");
         projectStatus
             .clickContinueButton()
-            .enterDate('project-status-stopped-date', '02', '02', '2025')
+            .projectEligibleForIntervention('No')
+            .enterDateSupportIsDueToEnd('01', '01', '2048')
+             .clickContinueButton()
 
-        cy.executeAccessibilityTests()
+            cy.executeAccessibilityTests()
 
+            projectStatus
+                .hasPageHeading('Confirm the change')
+                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+                .clickContinueButton()
+
+               Logger.log("check validation message for details field");
+             
+            projectStatus   
+                .hasPageHeading('Enter details about the change')
+                .enterDetails('change-details', 'The change is required')
+                .clickContinueButton()
+        
         projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Enter details')
-            .enterDetails('project-status-stopped-details', 'Project is stopped due to unforeseen circumstances.')
-
-        cy.executeAccessibilityTests()
-        projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Check your answers')
-            .hasCheckYourAnswersPageWithDetails()
+           .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
@@ -280,30 +310,35 @@ describe("User navigates to the Project Status Tab", () => {
     it("user could change the project status back to In progress from Stopped status", () => {
         projectStatus
             .hasCurrentStatus('Stopped')
-            .clickChangeProjectStatusButton()
+            .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
             .selectStatusInProgress()
 
         cy.executeAccessibilityTests()
 
         projectStatus
-            .clickContinueButton()
-            .hasHeading('Enter date the project continued')
-            .enterDate('project-status-in-progress-date', '15', '01', '2026')
+           .clickContinueButton()
+          .projectEligibleForIntervention('Yes')
+            .enterDateSupportIsDueToEnd('01', '01', '2048')
+             .clickContinueButton()
 
-        cy.executeAccessibilityTests()
+            cy.executeAccessibilityTests()
 
+            projectStatus
+                .hasPageHeading('Confirm the change')
+                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+                .clickContinueButton()
+
+               Logger.log("check validation message for details field");
+             
+            projectStatus   
+                .hasPageHeading('Enter details about the change')
+                .enterDetails('change-details', 'The change is required')
+                .clickContinueButton()
+        
         projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Enter details')
-            .enterDetails('project-status-in-progress-details', 'Project is progressing as expected.')
-
-        cy.executeAccessibilityTests()
-        projectStatus
-            .clickContinueButton()
-            .hasPageHeading('Check your answers')
-            .hasCheckYourAnswersPageWithDetails()
-
+           .hasCheckYourAnswersPageWithDetails()
+           
         cy.executeAccessibilityTests()
         Logger.log("save and return after updating In progress status and check saved details");
         projectStatus

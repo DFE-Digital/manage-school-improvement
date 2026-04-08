@@ -1,10 +1,7 @@
-@using System.Collections
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @using Dfe.ManageSchoolImprovement.Application.Common.Models
 @using Dfe.ManageSchoolImprovement.Domain.ValueObjects
-@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
-@using System.Collections.Generic
-@using System.Linq
+@using Dfe.ManageSchoolImprovement.Utils
 @inject IWebHostEnvironment Environment
 
 @{
@@ -17,6 +14,8 @@
     var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
     bool projectNotInProgress = Model.ProjectStatus != ProjectStatusValue.InProgress;
     DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
+    DateTime? dateSupportIsDueToEnd = Model.DateSupportIsDueToEnd;
+    SupportProjectEligibilityStatus? eligibilityStatus = Model.SupportProjectEligibilityStatus;
 }
 
 <div class="govuk-grid-row">
@@ -75,7 +74,8 @@
                     <h3 class="govuk-notification-banner__heading" id="project-paused-or-stopped">
                         Project @(Model.ProjectStatus == ProjectStatusValue.Paused ? "paused" : "stopped") on @(projectStatusChangedDate.HasValue ? projectStatusChangedDate.ToDateString() : "unknown")
                     </h3>
-                    <a class="govuk-link" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.Id">Change status</a>
+                    <p>You cannot make changes to this project. You can still
+                    <a class="govuk-link" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.Id">Change the project status and eligibility</a></p>
                 </div>
             </div>
         }
@@ -93,6 +93,28 @@
                     <dd class="govuk-summary-list__value">
                         <partial name="_ProjectStatus" model="Model.ProjectStatus"/>
                     </dd>
+                    <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" asp-page="@Links.ProjectStatusTab.ChangeProjectStatus.Page" asp-route-id="@Model.Id">Change
+                            <span class="govuk-visually-hidden"> status</span></a>
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Eligibility
+                    </dt>
+                    @if (dateSupportIsDueToEnd.HasValue)
+                    {
+                        <dd class="govuk-summary-list__value">
+                            @eligibilityStatus.GetDisplayName(), support ending @dateSupportIsDueToEnd.ToDateString()
+                        </dd>
+                    }
+                    else
+                    {
+                        <dd class="govuk-summary-list__value">
+                            @eligibilityStatus.GetDisplayName()
+                        </dd>
+                    }
+                    
                 </div>
             }
             <div class="govuk-summary-list__row">
