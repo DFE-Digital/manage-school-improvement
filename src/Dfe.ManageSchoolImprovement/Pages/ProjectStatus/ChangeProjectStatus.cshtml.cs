@@ -1,11 +1,9 @@
-using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
@@ -44,8 +42,7 @@ public class ChangeProjectStatusModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
-
-        // ProjectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
+        
         CurrentUserName = User.Identity!.Name;
 
         return RedirectToPage(Links.ProjectStatusTab.IsThisSchoolEligibleForIntervention.Page,

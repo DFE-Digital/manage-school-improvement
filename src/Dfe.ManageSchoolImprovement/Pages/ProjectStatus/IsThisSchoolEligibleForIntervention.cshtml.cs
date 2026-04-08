@@ -49,9 +49,7 @@ public class IsThisSchoolEligibleForInterventionModel(
         ReturnPage = @Links.ProjectStatusTab.ChangeProjectStatus.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        // DateSupportIsDueToEnd = SupportProject?.DateSupportIsDueToEnd;
-
+        
         SchoolIsEligible = SupportProject?.SupportProjectEligibilityStatus == SupportProjectEligibilityStatus.EligibleForSupport;
 
         RadioButtons = RadioButtonModel;

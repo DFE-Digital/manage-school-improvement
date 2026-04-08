@@ -37,6 +37,9 @@ public class CheckYourAnswersModel(
     public string? ChangeDetails { get; set; }
 
     private string? CurrentUserName { get; set; }
+    
+    public bool ShowError { get; set; }
+
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -50,6 +53,19 @@ public class CheckYourAnswersModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        if (SupportProjectStatus == null && EligibilityStatus == null)
+        {
+            ModelState.AddModelError("change-status-eligibility", "Enter the missing details using the change link");
+            _errorService.AddError("change-status-eligibility", "Enter the missing details using the change link");
+        }
+        
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            ShowError = true;
+            return await base.GetSupportProject(id, cancellationToken);
+        }
         
         IEnumerable<User> allUsers = await userRepository.GetAllUsers();
         
@@ -66,10 +82,9 @@ public class CheckYourAnswersModel(
                 CurrentUserName = User.Identity.Name.FullNameFromEmail();
             }
         }
-        
-        await base.GetSupportProject(id, cancellationToken);
 
         var projectStatusChanged = SupportProject?.ProjectStatus != SupportProjectStatus;
+        var eligibilityChanged = SupportProject?.SupportProjectEligibilityStatus != EligibilityStatus;
         
         if (projectStatusChanged)
         {
@@ -86,7 +101,6 @@ public class CheckYourAnswersModel(
             TempData["ProjectStatusUpdated"] = true;
         }
         
-        var eligibilityChanged = SupportProject?.SupportProjectEligibilityStatus != EligibilityStatus;
 
         if (eligibilityChanged)
         {
@@ -108,15 +122,4 @@ public class CheckYourAnswersModel(
             id
         });
     }
-    
-    //  private bool? MapEligibilityStatusToBool(SupportProjectEligibilityStatus? status)
-    // {
-    //     if (status == SupportProjectEligibilityStatus.EligibleForSupport)
-    //         return true;
-    //
-    //     if (status == SupportProjectEligibilityStatus.NotEligibleForSupport)
-    //         return false;
-    //
-    //     return null; 
-    // }
 }
