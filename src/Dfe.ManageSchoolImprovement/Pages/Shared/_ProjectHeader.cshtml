@@ -107,10 +107,16 @@
                         @eligibilityStatus.GetDisplayName(), support ending @dateSupportIsDueToEnd.ToDateString()
                     </dd>
                 }
-                else
+                else if (eligibilityStatus.HasValue)
                 {
                     <dd class="govuk-summary-list__value">
                         @eligibilityStatus.GetDisplayName()
+                    </dd>
+                }
+                else
+                {
+                    <dd class="govuk-summary-list__value">
+                        Empty
                     </dd>
                 }
             </div>
