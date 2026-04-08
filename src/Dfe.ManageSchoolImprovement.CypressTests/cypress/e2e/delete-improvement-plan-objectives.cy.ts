@@ -9,9 +9,9 @@ describe('Delete improvement plan objective', () => {
         cy.login();
         homePage
             .rejectCookies()
-            .selectProjectFilter("Boston Nursery School")
+            .selectProjectFilter("Spencer Nursery School")
             .applyFilters()
-            .selectSchoolName("Boston Nursery School");
+            .selectSchoolName("Spencer Nursery School");
 
     });
 

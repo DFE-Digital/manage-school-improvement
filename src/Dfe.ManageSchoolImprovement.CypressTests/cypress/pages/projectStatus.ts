@@ -21,12 +21,12 @@ class ProjectStatus {
         if (status === 'Paused') {
             cy.get('.govuk-notification-banner').should('contain', 'Project paused');
             cy.get('.govuk-notification-banner').within(() => {
-                cy.get('a').contains('Change status').should('exist');
+                cy.get('a').contains('Change the project status and eligibility').should('exist');
             });
         } else if (status === 'Stopped') {
             cy.get('.govuk-notification-banner').should('contain', 'Project stopped');
             cy.get('.govuk-notification-banner').within(() => {
-                cy.get('a').contains('Change status').should('exist');
+                cy.get('a').contains('Change the project status and eligibility').should('exist');
             });
         }
 
@@ -93,7 +93,6 @@ class ProjectStatus {
 
        return this;
     }
-
 
     public hasValidation(valText: string, id: string): this {
         cy.getById(id).contains(valText);
@@ -170,17 +169,19 @@ class ProjectStatus {
 
     public getUpdatedStatusWithDetails(status: string): this {
         cy.get('.govuk-summary-list__value').should('contain', status);
-        cy.get('dl.govuk-summary-list').first().within(() => {
-            cy.get('.govuk-summary-list__row').each($row => {
-                // cy.wrap($row).within(() => {
-                cy.get('.govuk-summary-list__key').invoke('text').then((keyText) => {
-                    const trimmedKeyText = keyText.trim();
-                    const keysToCheck = ['Status', 'Date of decision', 'Details'];
-                    if (keysToCheck.includes(trimmedKeyText)) {
-                        cy.get('.govuk-summary-list__value').should('not.be.empty');
-                    }
+        cy.get('dl.govuk-summary-list').each($summaryList => {
+            cy.wrap($summaryList).within(() => {
+                cy.get('.govuk-summary-list__row').each($row => {
+                    cy.wrap($row).within(() => {
+                        cy.get('.govuk-summary-list__key').invoke('text').then((keyText) => {
+                            const trimmedKeyText = keyText.trim();
+                            const keysToCheck = ['Status', 'Date of decision', 'Details'];
+                            if (keysToCheck.includes(trimmedKeyText)) {
+                                cy.get('.govuk-summary-list__value').should('not.be.empty');
+                            }
+                        });
+                    });
                 });
-                // });
             });
         });
 

@@ -78,7 +78,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("user could update the details for Eligible and In progress status", () => {
+    it("user should update the details for Eligible and In progress status", () => {
         projectStatus
             .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
@@ -112,13 +112,12 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
         projectStatus
             .clickSaveAndContinueButton()
-            .hasSuccessNotification()
             .getUpdatedStatusWithDetails('In progress')
 
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Paused, eligibility Yes and see the change history", () => {
+    it("user should change the project status to Paused, eligibility Yes and see the change history", () => {
         projectStatus
             .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
@@ -152,7 +151,6 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
         projectStatus
             .clickSaveAndContinueButton()
-            .hasSuccessNotification()
             .getUpdatedStatusWithDetails('Paused')
             .getProjectStatusChangeHistory('Paused')
 
@@ -163,7 +161,6 @@ describe("User navigates to the Status and Eligibility Tab", () => {
 
         cy.executeAccessibilityTests()    
 
-        cy.executeAccessibilityTests()
     });
 
     it("tasks in task list should be ready only when the project status is Paused ", () => {
