@@ -117,7 +117,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("user should change the project status to Paused, eligibility Yes and see the change history", () => {
+    it("user should change the project status to Paused, eligibility Yes and the history gets updated with the change", () => {
         projectStatus
             .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
@@ -211,7 +211,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("user could change the project status to Stopped, with eligibility No and see the change status history timeline", () => {
+    it("user could change the project status to Stopped, with eligibility No and the history gets updated with the change", () => {
         projectStatus
             .clickChangeStatusAndEligibilityButton()
             .hasHeading('Change project status')
