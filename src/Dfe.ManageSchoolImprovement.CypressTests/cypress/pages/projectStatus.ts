@@ -184,7 +184,7 @@ class ProjectStatus {
         cy.wrap($row).within(() => {
             cy.get('.govuk-summary-list__key').invoke('text').then((keyText) => {
                 const trimmedKeyText = keyText.trim();
-                const keysToCheck = ['Status', 'Date of decision', 'Details'];
+                const keysToCheck = ['Current status', 'Current eligibility']
                 if (keysToCheck.includes(trimmedKeyText)) {
                     cy.get('.govuk-summary-list__value').should('not.be.empty');
                 }
