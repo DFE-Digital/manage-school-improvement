@@ -3,6 +3,19 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v1.6.0] - Q1 – Sprint1 (Part 1)- 2026-04-08
+
+### 📌 User Stories 
+
+- **269657** - Changes to the "Add a school" journey to incorporate eligibility check
+- **269352** - Incorporate changing eligibility status into the "Change project status" journey
+- **271084** - Changes to the "Project Status" tab to incorporate eligibility
+- **272511** - Status and eligibility timeline changes
+- **272887** - Remove the "Must be today's date or in the past" condition from "Add progress" journey
+- **274833** - Unhide project status work in prod
+
+--
+
 ## 📅 [v1.5.1] - Q4 – Sprint 6 (Part 1)- 2026-03-20
 
 ### 📌 User Stories 
