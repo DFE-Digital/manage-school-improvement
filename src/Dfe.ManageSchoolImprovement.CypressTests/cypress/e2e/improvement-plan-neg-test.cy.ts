@@ -8,7 +8,10 @@ describe('User navigate to the Improvement Plan, and  navigate to Add Review pag
         cy.login();
         homePage
             .acceptCookies()
-            .selectFirstSchoolFromList()
+            .selectProjectFilter("Plymouth Grove Primary School")
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .selectSchoolName("Plymouth Grove Primary School");
         taskList
             .navigateToTab('Improvement plan')
 
