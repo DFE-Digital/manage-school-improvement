@@ -8,7 +8,10 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         cy.login();
         homePage
             .rejectCookies()
-            .selectFirstSchoolFromList()
+            .selectProjectFilter("Plymouth Grove Primary School")
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .selectSchoolName("Plymouth Grove Primary School");
         taskList
             .navigateToTab('Improvement plan')
 
@@ -21,20 +24,26 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     })
 
     it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
-        Logger.log("Record or View Progress button is visible");
+        Logger.log("Record or View Progress button, with Change and Delete links for objectives is visible");
         improvementPlan
             .hasRecordOrViewProgressButton()
+            .hasChangeObjectiveLink()
+            .hasDeleteObjectiveLink()
 
         cy.executeAccessibilityTests()
     });
 
-    it('should allow changing objectives from improvement plan tab', () => {
+    it('should allow change objectives from improvement plan tab', () => {
         Logger.log("change objective details");
         improvementPlan
             .hasChangeObjectiveLink()
             .clickFirstChangeObjective()
-            .updateObjectiveDetails('Updated details text')
 
+        cy.executeAccessibilityTests()
+
+        improvementPlan
+          .updateObjectiveDetails('Updated objective details');
+    
         cy.executeAccessibilityTests()
     });
 

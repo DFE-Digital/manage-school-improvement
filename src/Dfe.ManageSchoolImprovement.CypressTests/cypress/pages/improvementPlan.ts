@@ -54,9 +54,13 @@ class ImprovementPlan {
     }
 
     public hasRecordOrViewProgressButton(): this {
-        cy.getByCyData('record-or-view-progress-button')
-            .should('be.visible')
+        cy.url().should('include', '/improvement-plan');
+        cy.get('h2').should('contain.text', 'Improvement plan');
+        cy.get('[data-cy="record-or-view-progress-button"]')
+            .should('exist')
+            .and('be.visible')
             .and('contain.text', 'Record or view progress');
+
         return this;
     }
 
@@ -94,18 +98,27 @@ class ImprovementPlan {
         return this;
     }
 
+    public clickFirstDeleteObjective (): this {
+        cy.get('.govuk-grid-column-two-thirds > :nth-child(4)')
+            .within(() => {
+                cy.contains('a.govuk-link', 'Delete').click()
+            })
+        return this;
+    }
+
     public updateObjectiveDetails(text: string): this {
+        cy.url().should('include', '/change-an-objective');
         cy.get('#ObjectiveDetails')
             .clear()
             .type(text)
         cy.get('.govuk-button').click();
-        cy.url().should('include', '/improvement-plan');
+        cy.get('h2').should('contain.text', 'Improvement plan');
 
         return this;
     }
 
     public clickRecordOrViewProgress(): this {
-        cy.getByCyData('record-or-view-progress-button').should('exist');
+        this.hasRecordOrViewProgressButton();
         cy.getByCyData('record-or-view-progress-button').click();
         cy.url().should('include', '/progress-reviews');
 
@@ -317,7 +330,7 @@ class ImprovementPlan {
     }
 
     public deleteObjectiveSuccessfully(): this {
-        cy.url().should('include', '/improvement-plan');
+        cy.url().should('include', '/improvement-plan/delete-an-objective');
         cy.get('a.govuk-link').contains('Delete').click();
         cy.get('h1').should('contain.text', 'Are you sure you want to delete this objective?');
         cy.get('.govuk-button.govuk-button--warning').contains('Delete objective').click();
