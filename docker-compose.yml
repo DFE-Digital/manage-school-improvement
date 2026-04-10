@@ -15,7 +15,7 @@ services:
     command: ["/bin/bash", "-c", "./docker-entrypoint.sh dotnet Dfe.ManageSchoolImprovement.Frontend.dll"]
 
   sql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest@sha256:49b45a911dc535e9345fbfd7101a1bd8a1e190a5f29b877ef75387a061e5fcf0
     container_name: sql_server
     environment:
       ACCEPT_EULA: "Y"
