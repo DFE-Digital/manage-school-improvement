@@ -167,6 +167,7 @@ class TaskListActions {
     }
 
     public addObjective(): this {
+        cy.url().should('include', '/improvement-plan/select-an-area-of-improvement');        
         cy.getById('quality-of-education').click();
         cy.getById('save-and-continue-button').click();
         cy.getByCyData('objective-details-textarea').type('New objective details');

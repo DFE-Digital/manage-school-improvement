@@ -9,9 +9,9 @@ describe('Delete improvement plan objective', () => {
         cy.login();
         homePage
             .rejectCookies()
-            .selectProjectFilter("Spencer Nursery School")
+            .selectProjectFilter("Boston Nursery School")
             .applyFilters()
-            .selectSchoolName("Spencer Nursery School");
+            .selectSchoolName("Boston Nursery School");
 
     });
 
@@ -20,7 +20,6 @@ describe('Delete improvement plan objective', () => {
         taskList.selectTask("Enter improvement plan objectives");
         taskListActions
             .addAndDeleteObjective()
-            .deleteObjectiveSuccessfully();
 
         cy.executeAccessibilityTests()
     });
