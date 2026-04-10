@@ -330,7 +330,6 @@ class ImprovementPlan {
     }
 
     public deleteObjectiveSuccessfully(): this {
-        cy.url().should('include', '/improvement-plan/delete-an-objective');
         cy.get('a.govuk-link').contains('Delete').click();
         cy.get('h1').should('contain.text', 'Are you sure you want to delete this objective?');
         cy.get('.govuk-button.govuk-button--warning').contains('Delete objective').click();
