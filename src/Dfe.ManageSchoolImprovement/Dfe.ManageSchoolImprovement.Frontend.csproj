@@ -18,10 +18,10 @@
       <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Application\Dfe.ManageSchoolImprovement.Application.csproj" />
       <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Infrastructure\Dfe.ManageSchoolImprovement.Infrastructure.csproj" />
       <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Utils\Dfe.ManageSchoolImprovement.Utils.csproj" />
-      <ProjectReference Include="..\GovUK.Dfe.CoreLibs.ApplicationSettings\GovUK.Dfe.CoreLibs.ApplicationSettings.csproj" />
     </ItemGroup>
     
     <ItemGroup>
+        <PackageReference Include="GovUK.Dfe.CoreLibs.ApplicationSettings" Version="0.1.0" />
         <PackageReference Include="GovUK.Dfe.CoreLibs.http" Version="1.0.8" />
         <PackageReference Include="GovUK.Dfe.PersonsApi.Client" Version="0.1.2" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
