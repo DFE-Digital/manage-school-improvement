@@ -39,6 +39,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string AssignedDeliveryOfficerFullName { get; set; } = string.Empty;
 
         public string AssignedDeliveryOfficerEmailAddress { get; set; } = string.Empty;
+        
+        public bool? InitialDeliveryOfficerAssigned { get; set; }
 
         public string QualityOfEducation { get; set; } = string.Empty;
 
@@ -271,6 +273,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 DateImprovementGrantOfferLetterSent = supportProjectDto.DateImprovementGrantOfferLetterSent,
                 AssignedDeliveryOfficerFullName = supportProjectDto.AssignedDeliveryOfficerFullName,
                 AssignedDeliveryOfficerEmailAddress = supportProjectDto.AssignedDeliveryOfficerEmailAddress,
+                InitialDeliveryOfficerAssigned = supportProjectDto.InitialDeliveryOfficerAssigned,
                 SupportProjectEligibilityStatus = supportProjectDto.SupportProjectEligibilityStatus,
                 SchoolIsNotEligibleNotes = supportProjectDto.SchoolIsNotEligibleNotes,
                 DateEligibilityChanged = supportProjectDto.DateEligibilityChanged,

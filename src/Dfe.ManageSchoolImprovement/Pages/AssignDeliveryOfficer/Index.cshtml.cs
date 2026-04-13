@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -40,9 +41,10 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
          selectedName = string.Empty;
       }
 
+      // am getting rid of this anyway
       if (unassignAdviser)
       {
-         var request = new SetDeliveryOfficerCommand(supportProjectId, null!, null!);
+         var request = new SetDeliveryOfficerCommand(supportProjectId, null!, null!, true);
          await _mediator.Send(request);
          TempData["deliveryOfficerUnassigned"] = true;
       }
@@ -51,7 +53,9 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
          IEnumerable<User> deliveryOfficers = await userRepository.GetAllUsers();
 
          var assignedAdviser = deliveryOfficers.SingleOrDefault(u => u.FullName == selectedName);
-            var request = new SetDeliveryOfficerCommand(supportProjectId, assignedAdviser?.FullName!, assignedAdviser?.EmailAddress!);
+         var initialDeliveryOfficerAssigned = true;
+         
+         var request = new SetDeliveryOfficerCommand(supportProjectId, assignedAdviser?.FullName!, assignedAdviser?.EmailAddress!, initialDeliveryOfficerAssigned);
 
          await _mediator.Send(request);
          TempData["deliveryOfficerAssigned"] = true;

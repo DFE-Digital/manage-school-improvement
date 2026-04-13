@@ -16,6 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? Address = null,
         string AssignedDeliveryOfficerFullName = "",
         string AssignedDeliveryOfficerEmailAddress = "",
+        bool? InitialDeliveryOfficerAssigned = null,
         bool? FormalNotificationSent = null,
         DateTime? DateFormalNotificationSent = null,
         bool? UseEnrolmentLetterTemplateToDraftEmail = null,
