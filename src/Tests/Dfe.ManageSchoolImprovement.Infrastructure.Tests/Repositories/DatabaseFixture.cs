@@ -98,7 +98,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Set the delivery officer on one school to prove filter is working
             var school = Context.SupportProjects.Single(x => x.SchoolName == "School A");
-            school.SetDeliveryOfficer("User1", "User1");
+            school.SetDeliveryOfficer("User1", "User1", true);
             school.SetAdviserDetails("Adviser@adviser.com", DateTime.Now, "Test Adviser");
 
             school.CreatedOn = new DateTime(2025, 10, 1);

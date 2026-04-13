@@ -55,9 +55,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? LastModifiedBy { get; set; }
 
     public string? AssignedDeliveryOfficerFullName { get; private set; }
-
-
     public string? AssignedDeliveryOfficerEmailAddress { get; private set; }
+    public bool? InitialDeliveryOfficerAssigned { get; private set; }
 
     public IEnumerable<SupportProjectNote> Notes => _notes.AsReadOnly();
     public IEnumerable<SupportProjectContact> Contacts => _contacts.AsReadOnly();
@@ -246,10 +245,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     #region Methods
 
-    public void SetDeliveryOfficer(string assignedDeliveryOfficerFullName, string assignedDeliveryOfficerEmailAddress)
+    public void SetDeliveryOfficer(string assignedDeliveryOfficerFullName, string assignedDeliveryOfficerEmailAddress, bool? initialDeliveryOfficerAssigned)
     {
         AssignedDeliveryOfficerFullName = assignedDeliveryOfficerFullName;
         AssignedDeliveryOfficerEmailAddress = assignedDeliveryOfficerEmailAddress;
+        InitialDeliveryOfficerAssigned = initialDeliveryOfficerAssigned;
     }
 
     public void AddNote(SupportProjectNoteId id, string note, string author, DateTime date,

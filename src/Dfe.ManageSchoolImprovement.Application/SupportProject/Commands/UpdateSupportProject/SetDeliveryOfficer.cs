@@ -7,7 +7,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
 public record SetDeliveryOfficerCommand(
     SupportProjectId SupportProjectId,
     string AssignedDeliveryOfficerFullName,
-    string AssignedDeliveryOfficerEmail
+    string AssignedDeliveryOfficerEmail,
+    bool? InitialDeliveryOfficerAssigned
 ) : IRequest<bool>;
 
 
@@ -28,7 +29,7 @@ public class SetDeliveryOfficer
                 return false;
             }
 
-            supportProject.SetDeliveryOfficer(request.AssignedDeliveryOfficerFullName, request.AssignedDeliveryOfficerEmail);
+            supportProject.SetDeliveryOfficer(request.AssignedDeliveryOfficerFullName, request.AssignedDeliveryOfficerEmail, request.InitialDeliveryOfficerAssigned);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
             

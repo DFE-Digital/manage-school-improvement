@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -29,7 +30,7 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
       return Page();
    }
 
-   public async Task<IActionResult> OnPost(int id, string selectedName, bool unassignAdviser, string adviserInput,CancellationToken cancellationToken)
+   public async Task<IActionResult> OnPost(int id, string selectedName, bool unassignAdviser, string adviserInput, CancellationToken cancellationToken)
    {
       var projectResponse = await supportProjectQueryService.GetSupportProject(id, cancellationToken);
       
@@ -40,22 +41,18 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
          selectedName = string.Empty;
       }
 
-      if (unassignAdviser)
-      {
-         var request = new SetDeliveryOfficerCommand(supportProjectId, null!, null!);
-         await _mediator.Send(request);
-         TempData["deliveryOfficerUnassigned"] = true;
-      }
-      else if (!string.IsNullOrEmpty(selectedName))
-      {
-         IEnumerable<User> deliveryOfficers = await userRepository.GetAllUsers();
+      if (!string.IsNullOrEmpty(selectedName))
+         {
+            IEnumerable<User> deliveryOfficers = await userRepository.GetAllUsers();
 
-         var assignedAdviser = deliveryOfficers.SingleOrDefault(u => u.FullName == selectedName);
-            var request = new SetDeliveryOfficerCommand(supportProjectId, assignedAdviser?.FullName!, assignedAdviser?.EmailAddress!);
+            var assignedAdviser = deliveryOfficers.SingleOrDefault(u => u.FullName == selectedName);
+            var initialDeliveryOfficerAssigned = true;
+            
+            var request = new SetDeliveryOfficerCommand(supportProjectId, assignedAdviser?.FullName!, assignedAdviser?.EmailAddress!, initialDeliveryOfficerAssigned);
 
-         await _mediator.Send(request);
-         TempData["deliveryOfficerAssigned"] = true;
-      }
+            await _mediator.Send(request);
+            TempData["deliveryOfficerAssigned"] = true;
+         }
 
       return RedirectToPage(Links.TaskList.Index.Page, new { id });
    }

@@ -57,25 +57,34 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears == true && Model.SupportProject.ProjectStatus == ProjectStatusValue.InProgress)
-                        {
-                            <a class="govuk-link govuk-task-list__link"
-                               asp-page="@Links.TaskList.FundingHistoryDetails.Page"
-                               asp-route-id="@Model.SupportProject.Id" data-cy="funding_history"
-                               aria-describedby="funding_history_status">
-                                Enter the funding history
-                            </a>
-                        }
-                        else
-                        {
-                            <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.FundingHistory.Page"
-                               asp-route-id="@Model.SupportProject.Id" data-cy="funding_history"
-                               aria-describedby="funding_history_status">
-                                Enter the funding history
-                            </a>
-                        }
-                    </div>
+                    @if (Model.ProjectNotYetAssigned)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            Enter the funding history
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears == true && Model.SupportProject.ProjectStatus == ProjectStatusValue.InProgress)
+                            {
+                                <a class="govuk-link govuk-task-list__link"
+                                   asp-page="@Links.TaskList.FundingHistoryDetails.Page"
+                                   asp-route-id="@Model.SupportProject.Id" data-cy="funding_history"
+                                   aria-describedby="funding_history_status">
+                                    Enter the funding history
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.FundingHistory.Page"
+                                   asp-route-id="@Model.SupportProject.Id" data-cy="funding_history"
+                                   aria-describedby="funding_history_status">
+                                    Enter the funding history
+                                </a>
+                            }
+                        </div>
+                    }
                     <div class="govuk-task-list__status" id="funding_history_status">
                         <partial name="Shared/_TaskListStatus" model="@Model.FundingHistoryStatus"/>
                     </div>
@@ -86,55 +95,91 @@
         <div>
             <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.MakeInitialContactWithResponsibleBody.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="make_initial_contact_responsible_body"
-                           aria-describedby="make_initial_contact_responsible_body_status">
-                            Make initial contact with the responsible body
-                        </a>
-                    </div>
-                    <div class="govuk-task-list__status" id="confirm_responsible_body_status">
+            @if (Model.ProjectNotYetAssigned)
+            {
+                <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                    Make initial contact with the responsible body
+                </div>
+            }
+            else
+            {
+                <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                    <a class="govuk-link govuk-task-list__link"
+                       asp-page="@Links.TaskList.MakeInitialContactWithResponsibleBody.Page"
+                       asp-route-id="@Model.SupportProject.Id" data-cy="make_initial_contact_responsible_body"
+                       aria-describedby="make_initial_contact_responsible_body_status">
+                        Make initial contact with the responsible body
+                    </a>
+                </div>
+            }
+            <div class="govuk-task-list__status" id="confirm_responsible_body_status">
                         <partial name="Shared/_TaskListStatus"
                                  model="@Model.InitialContactWithResponsibleBodyTaskListStatus"/>
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.CheckPotentialAdviserConflictsOfInterest.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="CheckPotentialAdviserConflictsOfInterest"
-                           aria-describedby="CheckPotentialAdviserConflictsOfInterest_status">
+                    @if (Model.ProjectNotYetAssigned)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Check potential adviser conflicts of interest
-                        </a>
-                    </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.CheckPotentialAdviserConflictsOfInterest.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="CheckPotentialAdviserConflictsOfInterest"
+                               aria-describedby="CheckPotentialAdviserConflictsOfInterest_status">
+                                Check potential adviser conflicts of interest
+                            </a>
+                        </div>
+                    }
                     <div class="govuk-task-list__status" id="CheckPotentialAdviserConflictsOfInterest_status">
                         <partial name="Shared/_TaskListStatus"
                                  model="@Model.CheckThePotentialAdviserConflictsOfInterestTaskListStatus"/>
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.SendFormalNotification.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="send-formal-notification"
-                           aria-describedby="send-formal-notification_status">
+                    @if (Model.ProjectNotYetAssigned)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Send the formal notification
-                        </a>
-                    </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.SendFormalNotification.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="send-formal-notification"
+                               aria-describedby="send-formal-notification_status">
+                                Send the formal notification
+                            </a>
+                        </div>
+                    }
                     <div class="govuk-task-list__status" id="send-formal-notification_status">
                         <partial name="Shared/_TaskListStatus" model="@Model.SendFormalNotificationTaskListStatus"/>
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.RecordTheResponsibleBodyResponseToTheConflictOfInterestRequest.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="record-school-response"
-                           aria-describedby="record-school-response_status">
+                    @if (Model.ProjectNotYetAssigned)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Record the responsible body's response to the conflict of interest request
-                        </a>
-                    </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.RecordTheResponsibleBodyResponseToTheConflictOfInterestRequest.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="record-school-response"
+                               aria-describedby="record-school-response_status">
+                                Record the responsible body's response to the conflict of interest request
+                            </a>
+                        </div>
+                    }
                     <div class="govuk-task-list__status" id="record-school-response_status">
                         <partial name="Shared/_TaskListStatus" model="@Model.RecordTheSchoolResponseTaskListStatus"/>
                     </div>

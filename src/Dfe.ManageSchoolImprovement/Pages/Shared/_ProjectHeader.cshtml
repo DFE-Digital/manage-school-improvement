@@ -79,6 +79,23 @@
                 </div>
             </div>
         }
+        @if (!Model.InitialDeliveryOfficerAssigned)
+        {
+            <div class="govuk-notification-banner" role="alert"
+                 aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Important
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading" id="project-paused-or-stopped">
+                        Project must be assigned
+                    </h3>
+                    <p class="govuk-body">Tasks cannot be started until the project has been assigned to a delivery officer.</p>
+                </div>
+            </div>
+        }
         <span class="govuk-caption-xl" data-cy=".govuk-caption-xl">URN: @Model.SchoolUrn</span>
         <h1 class="govuk-heading-xl govuk-!-margin-bottom-2" data-cy="select-heading">
             @Model.SchoolName
