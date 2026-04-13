@@ -50,6 +50,8 @@ public class IndexModel(
     public TaskListStatus FundingHistoryStatus { get; set; }
     public TaskListStatus EnterImprovementPlanObjectivesTaskListStatus { get; set; }
 
+    public bool ProjectNotYetAssigned { get; set; }
+
     public void SetErrorPage(string errorPage)
     {
         TempData["ErrorPage"] = errorPage;
@@ -64,40 +66,63 @@ public class IndexModel(
         if (SupportProject != null)
         {
             var projectStatusPausedOrStopped = SupportProject.ProjectStatus != ProjectStatusValue.InProgress;
+            ProjectNotYetAssigned = !SupportProject.InitialDeliveryOfficerAssigned;
+            
+            ConfirmEligibilityTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
 
-            InitialContactWithResponsibleBodyTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
-            RecordTheSchoolResponseTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestStatus(SupportProject);
-            CheckThePotentialAdviserConflictsOfInterestTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus(SupportProject);
-            SendFormalNotificationTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.SendFormalNotificationTaskStatus(SupportProject);
+            // phase one tasks
+            if (ProjectNotYetAssigned)
+            {
+                FundingHistoryStatus = TaskListStatus.CannotStartYet;
+                InitialContactWithResponsibleBodyTaskListStatus = TaskListStatus.CannotStartYet;
+                CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskListStatus.CannotStartYet;
+                SendFormalNotificationTaskListStatus = TaskListStatus.CannotStartYet;
+                RecordTheSchoolResponseTaskListStatus = TaskListStatus.CannotStartYet;
+            }
+            else
+            {
+                FundingHistoryStatus = projectStatusPausedOrStopped
+                    ? TaskListStatus.CannotProgress
+                    : TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
+                InitialContactWithResponsibleBodyTaskListStatus = projectStatusPausedOrStopped
+                    ? TaskListStatus.CannotProgress
+                    : TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
+                CheckThePotentialAdviserConflictsOfInterestTaskListStatus = projectStatusPausedOrStopped
+                    ? TaskListStatus.CannotProgress
+                    : TaskStatusViewModel.CheckThePotentialAdviserConflictsOfInterestTaskListStatus(SupportProject);
+                SendFormalNotificationTaskListStatus = projectStatusPausedOrStopped
+                    ? TaskListStatus.CannotProgress
+                    : TaskStatusViewModel.SendFormalNotificationTaskStatus(SupportProject);
+                RecordTheSchoolResponseTaskListStatus = projectStatusPausedOrStopped
+                    ? TaskListStatus.CannotProgress
+                    : TaskStatusViewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestStatus(SupportProject);
+            }
+
             AllocateAdviserTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
+            
+            // Phase two tasks
             SendIntroductoryEmailTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(SupportProject);
             ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(SupportProject);
-            CompleteAndSaveInitialDiagnosisTemplateTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProject);
             RecordVisitDateToVisitSchoolTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.RecordVisitDateToVisitSchoolTaskListStatus(SupportProject);
-            ChosePreferredSupportingOrganisationTaskListStatus = projectStatusPausedOrStopped
+            CompleteAndSaveInitialDiagnosisTemplateTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
+                : TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProject);
             RecordSupportDecisionTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
+            ChosePreferredSupportingOrganisationTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
             DueDiligenceOnPreferredSupportingOrganisationTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(SupportProject);
@@ -107,40 +132,36 @@ public class IndexModel(
             SupportingOrganisationContactDetailsTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.SupportingOrganisationContactDetailsTaskListStatus(SupportProject);
-            ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(
-                    SupportProject);
-            RecordImprovementPlanDecisionTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.RecordImprovementPlanDecisionTaskListStatus(SupportProject);
-            SendAgreedImprovementPlanForApprovalTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.SendAgreedImprovementPlanForApprovalTaskListStatus(SupportProject);
+            
+            // Phase three tasks
             RequestPlanningGrantOfferLetterTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.RequestPlanningGrantOfferLetterTaskListStatus(SupportProject);
             ConfirmPlanningGrantOfferLetterTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.ConfirmPlanningGrantOfferLetterTaskListStatus(SupportProject);
+            ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(
+                    SupportProject);
             ReviewTheImprovementPlanTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.ReviewTheImprovementPlanTaskListStatus(SupportProject);
+            SendAgreedImprovementPlanForApprovalTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.SendAgreedImprovementPlanForApprovalTaskListStatus(SupportProject);
+            RecordImprovementPlanDecisionTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.RecordImprovementPlanDecisionTaskListStatus(SupportProject);
+            EnterImprovementPlanObjectivesTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(SupportProject);
             RequestImprovementGrantOfferLetterTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(SupportProject);
             ConfirmImprovementGrantOfferLetterTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
-            ConfirmEligibilityTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
-            FundingHistoryStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
-            EnterImprovementPlanObjectivesTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(SupportProject);
         }
 
         return Page();

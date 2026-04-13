@@ -5,5 +5,6 @@ public enum TaskListStatus
     NotStarted,
     InProgress,
     Complete,
-    CannotProgress
+    CannotProgress,
+    CannotStartYet,
 }

@@ -152,7 +152,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Act
             supportProject.SetDeliveryOfficer(
                 deliveryOfficerName,
-                deliveryOfficerEmailAddress);
+                deliveryOfficerEmailAddress,
+                true);
 
             // Assert
             supportProject.AssignedDeliveryOfficerEmailAddress.Should().Be(deliveryOfficerEmailAddress);

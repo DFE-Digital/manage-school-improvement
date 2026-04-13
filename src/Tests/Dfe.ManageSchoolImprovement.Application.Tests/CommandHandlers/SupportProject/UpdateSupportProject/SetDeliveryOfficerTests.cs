@@ -29,7 +29,8 @@ public class SetDeliveryOfficerTests
         var command = new SetDeliveryOfficerCommand(
             _mockSupportProject.Id,
             "Dave Dave",
-            "dave.dave@example.com"
+            "dave.dave@example.com",
+             true
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var setDeliveryOfficerCommandHandler = new SetDeliveryOfficer.SetDeliveryOfficerCommandHandler(_mockSupportProjectRepository.Object);
@@ -48,6 +49,7 @@ public class SetDeliveryOfficerTests
         // Arrange
         var command = new SetDeliveryOfficerCommand(
             _mockSupportProject.Id,
+            null!,
             null!,
             null!
         );
@@ -69,7 +71,8 @@ public class SetDeliveryOfficerTests
         var command = new SetDeliveryOfficerCommand(
             _mockSupportProject.Id,
             "Dave Dave",
-            "dave.dave@example.com"
+            "dave.dave@example.com", 
+            true
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(
             It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), 
