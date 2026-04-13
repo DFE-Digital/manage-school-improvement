@@ -40,7 +40,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 
         public string AssignedDeliveryOfficerEmailAddress { get; set; } = string.Empty;
         
-        public bool? InitialDeliveryOfficerAssigned { get; set; }
+        public bool InitialDeliveryOfficerAssigned { get; set; }
 
         public string QualityOfEducation { get; set; } = string.Empty;
 

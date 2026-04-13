@@ -50,7 +50,7 @@ public class IndexModel(
     public TaskListStatus FundingHistoryStatus { get; set; }
     public TaskListStatus EnterImprovementPlanObjectivesTaskListStatus { get; set; }
 
-    public bool? ProjectNotYetAssigned { get; set; }
+    public bool ProjectNotYetAssigned { get; set; }
 
     public void SetErrorPage(string errorPage)
     {
@@ -67,11 +67,14 @@ public class IndexModel(
         {
             var projectStatusPausedOrStopped = SupportProject.ProjectStatus != ProjectStatusValue.InProgress;
             ProjectNotYetAssigned = !SupportProject.InitialDeliveryOfficerAssigned;
+            
+            ConfirmEligibilityTaskListStatus = projectStatusPausedOrStopped
+                ? TaskListStatus.CannotProgress
+                : TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
 
             // phase one tasks
-            if (ProjectNotYetAssigned == null)
+            if (ProjectNotYetAssigned)
             {
-                ConfirmEligibilityTaskListStatus = TaskListStatus.CannotStartYet;
                 FundingHistoryStatus = TaskListStatus.CannotStartYet;
                 InitialContactWithResponsibleBodyTaskListStatus = TaskListStatus.CannotStartYet;
                 CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskListStatus.CannotStartYet;
@@ -80,9 +83,6 @@ public class IndexModel(
             }
             else
             {
-                ConfirmEligibilityTaskListStatus = projectStatusPausedOrStopped
-                    ? TaskListStatus.CannotProgress
-                    : TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
                 FundingHistoryStatus = projectStatusPausedOrStopped
                     ? TaskListStatus.CannotProgress
                     : TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
