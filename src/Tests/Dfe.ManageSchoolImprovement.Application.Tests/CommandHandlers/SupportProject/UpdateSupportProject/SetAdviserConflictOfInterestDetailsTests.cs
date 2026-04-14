@@ -28,11 +28,13 @@ public class SetAdviserConflictOfInterestDetailsTests
         // Arrange
         bool? reviewAdvisersConflictOfInterestForm = true;
         DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
+        bool? adviserCanBeSet = true;
 
         var command = new SetAdviserConflictOfInterestDetailsCommand(
             _mockSupportProject.Id,
             reviewAdvisersConflictOfInterestForm,
-            dateConflictOfInterestDeclarationChecked
+            dateConflictOfInterestDeclarationChecked,
+            adviserCanBeSet
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var SetAdviserConflictOfInterestDetailsCommandHandler = new SetAdviserConflictOfInterestDetailsHandler(_mockSupportProjectRepository.Object);
@@ -51,7 +53,7 @@ public class SetAdviserConflictOfInterestDetailsTests
         // Arrange 
         var command = new SetAdviserConflictOfInterestDetailsCommand(
             _mockSupportProject.Id,
-            null, null
+            null, null, null
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var SetAdviserConflictOfInterestDetailsCommandHandler = new SetAdviserConflictOfInterestDetailsHandler(_mockSupportProjectRepository.Object);
@@ -70,11 +72,13 @@ public class SetAdviserConflictOfInterestDetailsTests
         // Arrange
         bool? reviewAdvisersConflictOfInterestForm = true;
         DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
+        bool? adviserCanBeSet = true;
 
         var command = new SetAdviserConflictOfInterestDetailsCommand(
             _mockSupportProject.Id,
             reviewAdvisersConflictOfInterestForm,
-            dateConflictOfInterestDeclarationChecked
+            dateConflictOfInterestDeclarationChecked,
+            adviserCanBeSet
         );
 
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>()))!.ReturnsAsync((Domain.Entities.SupportProject.SupportProject)null!);

@@ -165,17 +165,27 @@
                 <dt class="govuk-summary-list__key">
                     Advised by
                 </dt>
-                <dd class="govuk-summary-list__value">
-                    <span class="@(displayAdvisedBy ? "empty" : "")"
-                          data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
-                </dd>
-                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                @if (Model.AdviserCanBeSet == true)
                 {
-                    <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page"
-                           asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
+                    <dd class="govuk-summary-list__value">
+                        <span class="@(displayAdvisedBy ? "empty" : "")"
+                              data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
+                    </dd>
+                    @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                    {
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page"
+                               asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
+                        </dd>
+                    }
+                }
+                else
+                {
+                    <dd class="govuk-summary-list__value">
+                        Cannot allocate an adviser yet
                     </dd>
                 }
+
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">

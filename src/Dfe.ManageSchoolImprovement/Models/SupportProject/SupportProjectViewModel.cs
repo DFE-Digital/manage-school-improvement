@@ -79,6 +79,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public IEnumerable<SupportProjectNote>? Notes { get; set; }
 
         public IEnumerable<SupportProjectContact>? Contacts { get; set; }
+        
+        public bool? AdviserCanBeSet { get; private set;}
 
         public DateTime? DateAdviserAllocated { get; private set; }
         public string? AdviserEmailAddress { get; private set; }
@@ -223,6 +225,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
                 RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
                 IntroductoryEmailSentDate = supportProjectDto.IntroductoryEmailSentDate,
+                AdviserCanBeSet = supportProjectDto.AdviserCanBeSet,
                 AdviserEmailAddress = supportProjectDto.AdviserEmailAddress,
                 AdviserFullName = supportProjectDto.AdviserFullName,
                 DateAdviserAllocated = supportProjectDto.DateAdviserAllocated,

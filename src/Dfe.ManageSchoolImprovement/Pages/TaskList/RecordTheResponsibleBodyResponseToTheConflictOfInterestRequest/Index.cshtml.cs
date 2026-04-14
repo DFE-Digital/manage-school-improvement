@@ -24,6 +24,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
         public TaskListStatus? TaskListStatus { get; set; }
         public ProjectStatusValue? ProjectStatus { get; set; }
         
+        private bool? AdviserCanBeSet { get; set; }
+
         public bool ShowError { get; set; }
 
         string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts)
@@ -46,17 +48,30 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
         }
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
+            await base.GetSupportProject(id, cancellationToken);
+            
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
+            
+            if (SupportProject != null && SupportProject.AdviserCanBeSet != true)
+            {
+                AdviserCanBeSet = SupportProject.DateConflictOfInterestDeclarationChecked.HasValue && 
+                                  SupportProject.DateFormalNotificationSent.HasValue;
+            }
+            else
+            {
+                AdviserCanBeSet = SupportProject?.AdviserCanBeSet;
+            }
 
             var request = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 new SupportProjectId(id),
                 ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
-                ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint);
+                ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
+                AdviserCanBeSet);
 
             var result = await mediator.Send(request, cancellationToken);
 

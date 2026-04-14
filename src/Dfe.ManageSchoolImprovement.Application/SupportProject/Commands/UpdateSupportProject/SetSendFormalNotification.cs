@@ -10,7 +10,8 @@ public record SetSendFormalNotificationCommand(
     bool? AttachTargetedInterventionInformationSheet,
     bool? AddRecipientsForFormalNotification,
     bool? FormalNotificationSent,
-    DateTime? DateFormalNotificationSent
+    DateTime? DateFormalNotificationSent,
+    bool? AdviserCanBeSet
 ) : IRequest<bool>;
 
 public class SetSendFormalNotification
@@ -33,7 +34,8 @@ public class SetSendFormalNotification
                 request.AttachTargetedInterventionInformationSheet, 
                 request.AddRecipientsForFormalNotification,
                 request.FormalNotificationSent,
-                request.DateFormalNotificationSent);
+                request.DateFormalNotificationSent,
+                request.AdviserCanBeSet);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

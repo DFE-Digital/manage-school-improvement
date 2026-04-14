@@ -5,13 +5,13 @@
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addinitialdeliveryofficerassignedfield : Migration
+    public partial class addadvisercanbesetfield : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "InitialDeliveryOfficerAssigned",
+                name: "AdviserCanBeSet",
                 schema: "RISE",
                 table: "SupportProject",
                 type: "bit",
@@ -23,16 +23,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Migrations
                 .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart");
             
             migrationBuilder.Sql(@"
-                UPDATE RISE.SupportProject
-                SET InitialDeliveryOfficerAssigned = 'true' WHERE AssignedDeliveryOfficerFullName is not null
-            ");
+            UPDATE RISE.SupportProject
+            SET AdviserCanBeSet = 'true' 
+            WHERE DateFormalNotificationSent is not null 
+            AND ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate is not null
+            AND DateConflictOfInterestDeclarationChecked is not null      
+");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "InitialDeliveryOfficerAssigned",
+                name: "AdviserCanBeSet",
                 schema: "RISE",
                 table: "SupportProject")
                 .Annotation("SqlServer:IsTemporal", true)

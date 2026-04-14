@@ -185,13 +185,22 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.AllocateAdviser.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="AllocateAdviser"
-                           aria-describedby="AllocateAdviser_status">
+                    @if (Model.AdviserCanBeSet == true)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.AllocateAdviser.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="AllocateAdviser"
+                               aria-describedby="AllocateAdviser_status">
+                                Allocate an adviser
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Allocate an adviser
-                        </a>
-                    </div>
+                        </div>
+                    }
                     <div class="govuk-task-list__status" id="AllocateAdviser_status">
                         <partial name="Shared/_TaskListStatus" model="@Model.AllocateAdviserTaskListStatus"/>
                     </div>
