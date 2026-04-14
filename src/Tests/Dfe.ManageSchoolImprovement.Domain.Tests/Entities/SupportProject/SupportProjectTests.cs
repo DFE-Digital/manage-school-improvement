@@ -30,11 +30,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             var supportProject = CreateSupportProject();
             DateTime? schoolResponseDate = DateTime.Now;
             bool? hasSavedSchoolResponseinSharePoint = true;
+            var adviserCanBeSet = true;
 
             // Act
             supportProject.SetResponsibleBodyResponseToTheConflictOfInterestRequest(
                 schoolResponseDate,
-                hasSavedSchoolResponseinSharePoint);
+                hasSavedSchoolResponseinSharePoint,
+                adviserCanBeSet);
 
             // Assert
             supportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.Should().Be(schoolResponseDate);
@@ -106,11 +108,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             bool? reviewAdvisersConflictOfInterestForm = true;
             DateTime? dateConflictOfInterestDeclarationChecked = DateTime.UtcNow;
+            var adviserCanBeSet = true;
 
             // Act
             supportProject.SetAdviserConflictOfInterestDetails(
                 reviewAdvisersConflictOfInterestForm,
-                dateConflictOfInterestDeclarationChecked);
+                dateConflictOfInterestDeclarationChecked,
+                adviserCanBeSet);
 
             // Assert
             supportProject.ReviewAdvisersConflictOfInterestForm.Should().Be(reviewAdvisersConflictOfInterestForm);

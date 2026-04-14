@@ -28,6 +28,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = null,
         DateTime? DateConflictOfInterestDeclarationChecked = null,
         DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = null,
+        bool? AdviserCanBeSet = null,
         DateTime? DateAdviserAllocated = null,
         string? AdviserEmailAddress = null,
         string? AdviserFullName = null,

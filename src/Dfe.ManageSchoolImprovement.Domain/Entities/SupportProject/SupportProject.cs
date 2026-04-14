@@ -84,6 +84,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint { get; private set; }
 
     public DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate { get; private set; }
+    
+    public bool? AdviserCanBeSet { get; private set; }
 
     public DateTime? DateAdviserAllocated { get; private set; }
     public string? AdviserEmailAddress { get; private set; }
@@ -292,31 +294,36 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public void SetSendTheFormalNotification(bool? useEnrolmentLetterTemplateToDraftEmail,
         bool? attachTargetedInterventionInformationSheet, bool? addRecipientsForFormalNotification,
-        bool? formalNotificationSent, DateTime? dateFormalNotificationSent)
+        bool? formalNotificationSent, DateTime? dateFormalNotificationSent, bool? adviserCanBeSet)
     {
         UseEnrolmentLetterTemplateToDraftEmail = useEnrolmentLetterTemplateToDraftEmail;
         AttachTargetedInterventionInformationSheet = attachTargetedInterventionInformationSheet;
         AddRecipientsForFormalNotification = addRecipientsForFormalNotification;
         FormalNotificationSent = formalNotificationSent;
         DateFormalNotificationSent = dateFormalNotificationSent;
+        AdviserCanBeSet = adviserCanBeSet;
     }
 
     public void SetAdviserConflictOfInterestDetails(
         bool? reviewAdvisersConflictOfInterestForm,
-        DateTime? dateConflictOfInterestDeclarationChecked)
+        DateTime? dateConflictOfInterestDeclarationChecked,
+        bool? adviserCanBeSet)
     {
         ReviewAdvisersConflictOfInterestForm = reviewAdvisersConflictOfInterestForm;
         DateConflictOfInterestDeclarationChecked = dateConflictOfInterestDeclarationChecked;
+        AdviserCanBeSet = adviserCanBeSet;
     }
 
     public void SetResponsibleBodyResponseToTheConflictOfInterestRequest(
         DateTime? responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
-        bool? responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint)
+        bool? responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
+        bool? adviserCanBeSet)
     {
         ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint =
             responsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint;
         ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate =
             responsibleBodyResponseToTheConflictOfInterestRequestReceivedDate;
+        AdviserCanBeSet = adviserCanBeSet;
     }
 
     public void SetAdviserDetails(string? adviserEmailAddress, DateTime? dateAdviserAllocated, string? adviserFullName)

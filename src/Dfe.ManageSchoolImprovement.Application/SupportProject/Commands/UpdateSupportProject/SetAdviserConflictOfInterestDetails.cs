@@ -9,7 +9,8 @@ public class SetAdviserConflictOfInterestDetails
     public record SetAdviserConflictOfInterestDetailsCommand(
         SupportProjectId SupportProjectId,
         bool? ReviewAdvisersConflictOfInterestForm,
-        DateTime? DateConflictOfInterestDeclarationChecked
+        DateTime? DateConflictOfInterestDeclarationChecked,
+        bool? AdviserCanBeSet
     ) : IRequest<bool>;
 
     public class SetAdviserConflictOfInterestDetailsHandler(ISupportProjectRepository supportProjectRepository)
@@ -28,7 +29,8 @@ public class SetAdviserConflictOfInterestDetails
 
             supportProject.SetAdviserConflictOfInterestDetails(
                 request.ReviewAdvisersConflictOfInterestForm,
-                request.DateConflictOfInterestDeclarationChecked);
+                request.DateConflictOfInterestDeclarationChecked,
+                request.AdviserCanBeSet);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

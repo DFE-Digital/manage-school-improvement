@@ -30,6 +30,7 @@ public class SetSendFormalNotificationTests
         bool? addRecipientsForFormalNotification = true;
         bool? formalNotificationSent = true;
         DateTime? dateFormalNotificationSent = DateTime.UtcNow;
+        var adviserCanBeSet = true;
 
         var command = new SetSendFormalNotificationCommand(
             _mockSupportProject.Id,
@@ -37,7 +38,8 @@ public class SetSendFormalNotificationTests
             attachTargetedInterventionInformationSheet,
             addRecipientsForFormalNotification,
             formalNotificationSent,
-            dateFormalNotificationSent
+            dateFormalNotificationSent,
+            adviserCanBeSet
         );
         _mockSupportProjectRepository
             .Setup(repo =>
@@ -62,6 +64,7 @@ public class SetSendFormalNotificationTests
         // Arrange
         var command = new SetSendFormalNotificationCommand(
             _mockSupportProject.Id,
+            null,
             null,
             null,
             null,
@@ -94,6 +97,7 @@ public class SetSendFormalNotificationTests
         bool? addRecipientsForFormalNotification = true;
         bool? formalNotificationSent = true;
         DateTime? dateFormalNotificationSent = DateTime.UtcNow;
+        var adviserCanBeSet = true;
 
         var command = new SetSendFormalNotificationCommand(
             _mockSupportProject.Id,
@@ -101,7 +105,8 @@ public class SetSendFormalNotificationTests
             attachTargetedInterventionInformationSheet,
             addRecipientsForFormalNotification,
             formalNotificationSent,
-            dateFormalNotificationSent
+            dateFormalNotificationSent,
+            adviserCanBeSet
         );
 
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(

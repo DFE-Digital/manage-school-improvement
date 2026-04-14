@@ -78,7 +78,15 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
             // Arrange
             int projectId = 1;
             var cancellationToken = CancellationToken.None;
-            var mockProject = () => Result<SupportProjectDto?>.Success(new SupportProjectDto(projectId, DateTime.Now, DateTime.Now, "schoolName", _urn, "local Authority", "Region", InitialDeliveryOfficerAssigned: true));
+            var mockProject = () => Result<SupportProjectDto?>.Success(new SupportProjectDto(projectId, 
+                DateTime.Now, 
+                DateTime.Now, 
+                "schoolName", 
+                _urn, 
+                "local Authority", 
+                "Region", 
+                InitialDeliveryOfficerAssigned: true,
+                AdviserCanBeSet: true));
             _mockSupportProjectQueryService.Setup(service => service.GetSupportProject(projectId, cancellationToken))
                 .ReturnsAsync(mockProject);
 

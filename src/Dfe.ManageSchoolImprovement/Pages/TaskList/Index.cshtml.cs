@@ -51,6 +51,8 @@ public class IndexModel(
     public TaskListStatus EnterImprovementPlanObjectivesTaskListStatus { get; set; }
 
     public bool ProjectNotYetAssigned { get; set; }
+    
+    public bool? AdviserCanBeSet { get; set; }
 
     public void SetErrorPage(string errorPage)
     {
@@ -67,12 +69,13 @@ public class IndexModel(
         {
             var projectStatusPausedOrStopped = SupportProject.ProjectStatus != ProjectStatusValue.InProgress;
             ProjectNotYetAssigned = !SupportProject.InitialDeliveryOfficerAssigned;
-
+            AdviserCanBeSet = SupportProject.AdviserCanBeSet;
+            
+            // phase one tasks
             ConfirmEligibilityTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
-
-            // phase one tasks
+            
             if (projectStatusPausedOrStopped)
             {
                 FundingHistoryStatus = TaskListStatus.CannotProgress;
@@ -102,9 +105,18 @@ public class IndexModel(
                     TaskStatusViewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestStatus(SupportProject);
             }
 
-            AllocateAdviserTaskListStatus = projectStatusPausedOrStopped
-                ? TaskListStatus.CannotProgress
-                : TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
+            if (projectStatusPausedOrStopped)
+            {
+                AllocateAdviserTaskListStatus = TaskListStatus.CannotProgress;
+            }
+            else if (AdviserCanBeSet != true)
+            {
+                AllocateAdviserTaskListStatus = TaskListStatus.CannotStartYet;
+            }
+            else
+            {
+                AllocateAdviserTaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
+            }
 
             // Phase two tasks
             SendIntroductoryEmailTaskListStatus = projectStatusPausedOrStopped

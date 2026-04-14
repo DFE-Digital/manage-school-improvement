@@ -7,23 +7,29 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     public record SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
         SupportProjectId SupportProjectId,
         DateTime? ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
-        bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint
+        bool? ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
+        bool? AdviserCanBeSet
     ) : IRequest<bool>;
 
-    public class SetResponsibleBodyResponseToTheConflictOfInterestRequestCommandHandler(ISupportProjectRepository supportProjectRepository)
+    public class SetResponsibleBodyResponseToTheConflictOfInterestRequestCommandHandler(
+        ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand, bool>
     {
         public async Task<bool> Handle(SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand request,
             CancellationToken cancellationToken)
         {
-            var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
+            var supportProject =
+                await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
 
             if (supportProject is null)
             {
                 return false;
             }
 
-            supportProject.SetResponsibleBodyResponseToTheConflictOfInterestRequest(request.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate, request.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint);
+            supportProject.SetResponsibleBodyResponseToTheConflictOfInterestRequest(
+                request.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
+                request.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
+                request.AdviserCanBeSet);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 
