@@ -30,7 +30,8 @@ describe("User navigates to About the school tab", () => {
         aboutTheSchool
           .hasSeeInspectionReportsAtOfstedLink()
           .hasGetInformationAboutSchoolsLink()
-          .hasFindInformationAboutSchoolsAndTrustLink();
+          .hasFindInformationAboutSchoolsAndTrustLink()
+          .hasInformationText()
 
         cy.executeAccessibilityTests()
 
