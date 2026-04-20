@@ -10,7 +10,7 @@
     bool deliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
     var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
-    var displayAdvisedBy = (Model.AdviserEmailAddress == null || string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
+    var displayAdvisedBy = (Model.AdviserEmailAddress != null || !string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
     bool projectNotInProgress = Model.ProjectStatus != ProjectStatusValue.InProgress;
     DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
     DateTime? dateSupportIsDueToEnd = Model.DateSupportIsDueToEnd;
@@ -167,10 +167,19 @@
                 </dt>
                 @if (Model.AdviserCanBeSet == true)
                 {
-                    <dd class="govuk-summary-list__value">
-                        <span class="@(displayAdvisedBy ? "empty" : "")"
-                              data-id="assigned-user">@(displayAdvisedBy ? "Empty" : Model.AdviserFullName)</span>
-                    </dd>
+                    @if (displayAdvisedBy)
+                    {
+                        <dd class="govuk-summary-list__value">
+                            @Model.AdviserFullName
+                        </dd>
+                    }
+                    else
+                    {
+                        <dd class="govuk-summary-list__value">
+                            <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page"
+                               asp-route-id="@Model.Id">Allocate an advisor</a>
+                        </dd>
+                    }
                     @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
                     {
                         <dd class="govuk-summary-list__actions">

@@ -82,7 +82,9 @@ public class SendFormalNotificationModel(
         if (SupportProject != null && SupportProject.AdviserCanBeSet != true)
         {
             AdviserCanBeSet = SupportProject.DateConflictOfInterestDeclarationChecked.HasValue && 
-                              SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue;
+                              SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue &&
+                              SupportProject.ReviewAdvisersConflictOfInterestForm == true &&
+                              SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint == true;
         }
         else
         {
