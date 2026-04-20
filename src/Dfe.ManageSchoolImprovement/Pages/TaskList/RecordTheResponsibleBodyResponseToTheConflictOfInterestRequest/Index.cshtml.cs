@@ -60,7 +60,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordTheResponsib
             if (SupportProject != null && SupportProject.AdviserCanBeSet != true)
             {
                 AdviserCanBeSet = SupportProject.DateConflictOfInterestDeclarationChecked.HasValue && 
-                                  SupportProject.DateFormalNotificationSent.HasValue;
+                                  SupportProject.DateFormalNotificationSent.HasValue &&
+                                  SupportProject.ReviewAdvisersConflictOfInterestForm == true &&
+                                  SupportProject.UseEnrolmentLetterTemplateToDraftEmail == true &&
+                                  SupportProject.AttachTargetedInterventionInformationSheet == true &&
+                                  SupportProject.AddRecipientsForFormalNotification == true &&
+                                  SupportProject.FormalNotificationSent == true;
             }
             else
             {

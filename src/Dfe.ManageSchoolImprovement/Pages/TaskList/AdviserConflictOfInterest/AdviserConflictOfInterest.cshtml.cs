@@ -69,7 +69,12 @@ public class AdviserConflictOfInterest(
         if (SupportProject != null && SupportProject.AdviserCanBeSet != true)
         {
             AdviserCanBeSet = SupportProject.DateFormalNotificationSent.HasValue && 
-                                  SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue;
+                                  SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue &&
+                                  SupportProject.UseEnrolmentLetterTemplateToDraftEmail == true &&
+                                  SupportProject.AttachTargetedInterventionInformationSheet == true &&
+                                  SupportProject.AddRecipientsForFormalNotification == true &&
+                                  SupportProject.FormalNotificationSent == true &&
+                                  SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint == true;
         }
         else
         {
