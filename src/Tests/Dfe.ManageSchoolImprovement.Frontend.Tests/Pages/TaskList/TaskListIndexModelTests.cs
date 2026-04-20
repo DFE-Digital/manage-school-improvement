@@ -4,6 +4,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using Dfe.ManageSchoolImprovement.Infrastructure.Migrations;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -86,7 +87,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
                 "local Authority", 
                 "Region", 
                 InitialDeliveryOfficerAssigned: true,
-                AdviserCanBeSet: true));
+                AdviserCanBeSet: true,
+                AdviserFullName: "Test.Name"));
             _mockSupportProjectQueryService.Setup(service => service.GetSupportProject(projectId, cancellationToken))
                 .ReturnsAsync(mockProject);
 
