@@ -26,7 +26,7 @@
          <form method="post" id="assign-user-form">
             <input type="hidden" asp-for="@Model.Id"/>
             <input type="hidden" id="user-input" name="UserInput"/>
-            <select name="SelectedName" class="autocomplete__menu govuk-select" id="assigned-to">
+            <select name="SelectedName" class="autocomplete__menu govuk-select" id="delivery-officer">
                <option value=""></option>
                @{
                   foreach (User deliveryOfficer in Model.DeliveryOfficers)
@@ -55,18 +55,13 @@
 </div>
 
 <script type="application/javascript" asp-add-nonce>
-   var deliveryOfficerSelect = document.querySelector('#adviser')
+   var deliveryOfficerSelect = document.querySelector('#delivery-officer')
    accessibleAutocomplete.enhanceSelectElement({
       selectElement: deliveryOfficerSelect
    })
-   document.querySelector('#adviser-input').value = document.querySelector('#adviser').value
+   document.querySelector('#user-input').value = document.querySelector('#delivery-officer').value
 
-   document.querySelector('#adviser').addEventListener('change', function () {
-      document.querySelector('#adviser-input').value = this.value
+   document.querySelector('#delivery-officer').addEventListener('change', function () {
+      document.querySelector('#user-input').value = this.value
    })
-
-   document.querySelector('#unassign-link').onclick = () => {
-      document.querySelector('#UnassignAdviser').value = true
-      document.querySelector('form').submit()
-   }
 </script>

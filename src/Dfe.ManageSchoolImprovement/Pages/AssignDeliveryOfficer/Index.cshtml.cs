@@ -30,13 +30,13 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
       return Page();
    }
 
-   public async Task<IActionResult> OnPost(int id, string selectedName, bool unassignAdviser, string adviserInput, CancellationToken cancellationToken)
+   public async Task<IActionResult> OnPost(int id, string selectedName, string userInput, CancellationToken cancellationToken)
    {
       var projectResponse = await supportProjectQueryService.GetSupportProject(id, cancellationToken);
       
       SupportProjectId supportProjectId = new(projectResponse.Value!.Id);
       
-      if (string.IsNullOrWhiteSpace(adviserInput))
+      if (string.IsNullOrWhiteSpace(userInput))
       {
          selectedName = string.Empty;
       }
@@ -45,10 +45,10 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
          {
             IEnumerable<User> deliveryOfficers = await userRepository.GetAllUsers();
 
-            var assignedAdviser = deliveryOfficers.SingleOrDefault(u => u.FullName == selectedName);
+            var assignedDeliveryOfficer = deliveryOfficers.SingleOrDefault(u => u.FullName == selectedName);
             var initialDeliveryOfficerAssigned = true;
             
-            var request = new SetDeliveryOfficerCommand(supportProjectId, assignedAdviser?.FullName!, assignedAdviser?.EmailAddress!, initialDeliveryOfficerAssigned);
+            var request = new SetDeliveryOfficerCommand(supportProjectId, assignedDeliveryOfficer?.FullName!, assignedDeliveryOfficer?.EmailAddress!, initialDeliveryOfficerAssigned);
 
             await _mediator.Send(request);
             TempData["deliveryOfficerAssigned"] = true;
