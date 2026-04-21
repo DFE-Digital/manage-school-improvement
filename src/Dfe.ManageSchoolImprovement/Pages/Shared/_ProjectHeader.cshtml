@@ -8,8 +8,8 @@
     bool engagementConcern = Model.EngagementConcern;
     bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
-    var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress != null || !string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
-    var displayAdvisedBy = (Model.AdviserEmailAddress != null || !string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
+    var displayAssignedTo = Model.InitialDeliveryOfficerAssigned;
+    var displayAdvisedBy = Model.AdviserEmailAddress != null || !string.IsNullOrWhiteSpace(Model.AdviserEmailAddress);
     bool projectNotInProgress = Model.ProjectStatus != ProjectStatusValue.InProgress;
     DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
     DateTime? dateSupportIsDueToEnd = Model.DateSupportIsDueToEnd;
@@ -69,7 +69,7 @@
                 </div>
             </div>
         }
-        @if (!Model.InitialDeliveryOfficerAssigned)
+        @if (!displayAssignedTo)
         {
             <div class="govuk-notification-banner" role="alert"
                  aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -145,19 +145,20 @@
                     <dd class="govuk-summary-list__value" data-id="assigned-user">
                         @Model.AssignedDeliveryOfficerFullName
                     </dd>
+                    @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                    {
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link govuk-!-padding-left-50"
+                               asp-page="@Links.AssignDeliveryOfficer.Index.Page"
+                               asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
+                        </dd>
+                    }
                 }
                 else
                 {
                     <dd class="govuk-summary-list__value">
                         <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page"
                            asp-route-id="@Model.Id" data-id="assign-user">Assign a delivery officer</a>
-                    </dd>
-                }
-                @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
-                {
-                    <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page"
-                           asp-route-id="@Model.Id">Change <span class="govuk-visually-hidden"> the delivery officer assigned to this school</span></a>
                     </dd>
                 }
             </div>
@@ -172,6 +173,14 @@
                         <dd class="govuk-summary-list__value">
                             @Model.AdviserFullName
                         </dd>
+                        @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
+                        {
+                            <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link govuk-!-padding-left-50"
+                                   asp-page="@Links.TaskList.AllocateAdviser.Page"
+                                   asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
+                            </dd>
+                        }
                     }
                     else
                     {
@@ -179,15 +188,6 @@
                             <a class="govuk-link govuk-!-padding-left-50"
                                asp-page="@Links.TaskList.AllocateAdviser.Page"
                                asp-route-id="@Model.Id">Allocate an advisor</a>
-                        </dd>
-                    }
-
-                    @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
-                    {
-                        <dd class="govuk-summary-list__actions">
-                            <a class="govuk-link govuk-!-padding-left-50"
-                               asp-page="@Links.TaskList.AllocateAdviser.Page"
-                               asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
                         </dd>
                     }
                 }
