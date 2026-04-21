@@ -1,3 +1,4 @@
+import { Logger } from "cypress/common/logger";
 import { url } from "inspector";
 
 class TaskList {
@@ -178,6 +179,12 @@ class TaskList {
     return this;
   }
 
+  public hasTaskStatusCannotStartYet(id: string) {
+    cy.get(`#${id}`).contains("Cannot start yet");
+
+    return this;
+  }
+
   public hasTaskStatusNotStarted(id: string) {
     cy.get(`#${id}`).contains("Not Started");
 
@@ -202,6 +209,46 @@ class TaskList {
     return this;
   }
 
+  public assignUserToSchoolIfNotAssigned(): this {
+    if ( cy.get ('.govuk-summary-list__value').eq(3).contains('a')) {
+          Logger.log("Assigning user to school");
+          this.assignUserToSchool()
+          this.userAssignedSuccessMessage();
+        }
+        else {
+          Logger.log("User is already assigned to the school");
+        }
+
+        return this;     
+  }
+
+  public allocateAdviserIfNotAllocated(): this {
+    if (cy.get('.govuk-summary-list__value').eq(4).contains('text', 'Cannot allocate an adviser yet')) {
+      Logger.log("Allocating adviser to school");
+      cy.get('.govuk-summary-list__row')
+        .contains('Advised by')
+        .parent()
+        .find('.govuk-link')
+        .contains('Change')
+        .click();
+
+      cy.url().should('include', '/allocate-adviser');
+      cy.get('h1').should('contain.text', 'Allocate adviser to school');
+      cy.getById('adviser').
+        should('exist');
+      cy.getById('adviser').click().type('TestFirstName TestSurname');  
+
+      cy.getById('adviser').should('not.have.value', '');
+      cy.getByCyData('continue-Btn').click();
+    } 
+    else {
+      Logger.log("Adviser is already allocated to the school");
+
+    }
+
+    return this;
+  }
+
   public assignUserToSchool(): this {
     cy.get('.govuk-summary-list__row')
       .contains('Assigned to')
@@ -209,17 +256,12 @@ class TaskList {
       .find('.govuk-link')
       .contains('Change')
       .click();
-
-    this.assignUser();
-
-    return this;
-  }
-
-  public assignUser(): this {
+      
+    cy.url().should('include', '/assign-delivery-officer');
     cy.get('h1').should('contain.text', 'Who will work with this school?');
-    cy.getById('adviser').should('exist');
-    cy.getById('adviser').click().type('Ric');
-    cy.getByCyData('user-select-option-0').should('be.visible').click();
+    cy.getById('delivery-officer').should('exist');
+    cy.getById('delivery-officer').click().type('TestFirstName TestSurname');
+    cy.getById('delivery-officer').should('not.have.value', '');
     cy.getByCyData('continue-Btn').click();
 
     return this;

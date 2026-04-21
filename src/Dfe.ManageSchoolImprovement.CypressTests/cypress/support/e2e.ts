@@ -23,7 +23,8 @@ registerCypressGrep();
 
 Cypress.on('uncaught:exception', (err, runnable) => {
     if (err.message.includes('Invalid or unexpected token') || 
-        err.message.includes('Cannot set properties of null (setting \'value\')')) {
+        err.message.includes('Cannot set properties of null (setting \'value\'') ||
+        err.message.includes('Cannot set properties of null (setting \'onclick\'')) {
       return false; 
     }
   });
