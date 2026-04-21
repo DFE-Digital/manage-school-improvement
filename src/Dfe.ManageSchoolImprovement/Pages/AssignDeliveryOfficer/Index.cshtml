@@ -19,12 +19,13 @@
       <h1 class="govuk-heading-l">Who will work with this school?</h1>
 
       <div class="govuk-form-group">
-         <div id="delivery-officer-assigned-hint" class="govuk-hint">
-            Enter the person's name
-         </div>
+
 
          <form method="post" id="assign-user-form">
             <input type="hidden" asp-for="@Model.Id"/>
+            <label id="delivery-officer-assigned-hint" class="govuk-hint" for="delivery-officer">
+               Enter the person's name
+            </label>
             <input type="hidden" id="user-input" name="UserInput"/>
             <select name="SelectedName" class="autocomplete__menu govuk-select" id="delivery-officer">
                <option value=""></option>

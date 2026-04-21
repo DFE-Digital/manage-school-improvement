@@ -7,9 +7,8 @@
     DateTime createdDate = @Model.CreatedOn;
     bool engagementConcern = Model.EngagementConcern;
     bool deliveryOfficerAssigned = (bool)(TempData["deliveryOfficerAssigned"] ?? false);
-    bool deliveryOfficerUnassigned = (bool)(TempData["deliveryOfficerUnassigned"] ?? false);
     var contactAddedOrUpdated = (string?)TempData["contactAddedOrUpdated"];
-    var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress == null || string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
+    var displayAssignedTo = Model.AssignedDeliveryOfficerEmailAddress != null || !string.IsNullOrWhiteSpace(Model.AssignedDeliveryOfficerEmailAddress);
     var displayAdvisedBy = (Model.AdviserEmailAddress != null || !string.IsNullOrWhiteSpace(Model.AdviserEmailAddress));
     bool projectNotInProgress = Model.ProjectStatus != ProjectStatusValue.InProgress;
     DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
@@ -19,7 +18,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @if (deliveryOfficerAssigned || deliveryOfficerUnassigned)
+        @if (deliveryOfficerAssigned)
         {
             <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
                  aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -29,18 +28,9 @@
                     </h2>
                 </div>
                 <div class="govuk-notification-banner__content">
-                    @if (deliveryOfficerAssigned)
-                    {
-                        <h3 class="govuk-notification-banner__heading" id="project-note-added">
-                            Person is assigned
-                        </h3>
-                    }
-                    else
-                    {
-                        <h3 class="govuk-notification-banner__heading" id="project-note-added">
-                            Person is unassigned
-                        </h3>
-                    }
+                    <h3 class="govuk-notification-banner__heading" id="project-note-added">
+                        Person is assigned
+                    </h3>
                 </div>
             </div>
         }
@@ -92,7 +82,8 @@
                     <h3 class="govuk-notification-banner__heading" id="project-paused-or-stopped">
                         Project must be assigned
                     </h3>
-                    <p class="govuk-body">Tasks cannot be started until the project has been assigned to a delivery officer.</p>
+                    <p class="govuk-body">Tasks cannot be started until the project has been assigned to a delivery
+                        officer.</p>
                 </div>
             </div>
         }
@@ -149,10 +140,19 @@
                 <dt class="govuk-summary-list__key">
                     Assigned to
                 </dt>
-                <dd class="govuk-summary-list__value">
-                    <span class="@(displayAssignedTo ? "empty" : "")"
-                          data-id="assigned-user">@(displayAssignedTo ? "Empty" : Model.AssignedDeliveryOfficerFullName)</span>
-                </dd>
+                @if (displayAssignedTo)
+                {
+                    <dd class="govuk-summary-list__value" data-id="assigned-user">
+                        @Model.AssignedDeliveryOfficerFullName
+                    </dd>
+                }
+                else
+                {
+                    <dd class="govuk-summary-list__value">
+                        <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.AssignDeliveryOfficer.Index.Page"
+                           asp-route-id="@Model.Id" data-id="assign-user">Assign a delivery officer</a>
+                    </dd>
+                }
                 @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
                 {
                     <dd class="govuk-summary-list__actions">
@@ -176,14 +176,17 @@
                     else
                     {
                         <dd class="govuk-summary-list__value">
-                            <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page"
+                            <a class="govuk-link govuk-!-padding-left-50"
+                               asp-page="@Links.TaskList.AllocateAdviser.Page"
                                asp-route-id="@Model.Id">Allocate an advisor</a>
                         </dd>
                     }
+
                     @if (Model.ProjectStatus != ProjectStatusValue.Stopped)
                     {
                         <dd class="govuk-summary-list__actions">
-                            <a class="govuk-link govuk-!-padding-left-50" asp-page="@Links.TaskList.AllocateAdviser.Page"
+                            <a class="govuk-link govuk-!-padding-left-50"
+                               asp-page="@Links.TaskList.AllocateAdviser.Page"
                                asp-route-id="@Model.Id">Change<span class="govuk-visually-hidden"> the adviser allocated to this school</span></a>
                         </dd>
                     }
