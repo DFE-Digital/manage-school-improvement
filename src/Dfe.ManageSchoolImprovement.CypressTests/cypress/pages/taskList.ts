@@ -1,5 +1,4 @@
 import { Logger } from "cypress/common/logger";
-import { url } from "inspector";
 
 class TaskList {
   public hasHeader(header: string): this {
