@@ -97,31 +97,33 @@ class TaskList {
   }
 
   public hasTasksCannotStartYetElementsPresent(): this {
+    const cannotStartYet = "Cannot start yet";
+    
     cy.get("#confirm-eligibility-status").contains('Completed');
-    cy.get('#funding_history_status').contains("Cannot start yet");
-    cy.get('#confirm_responsible_body_status').contains('Cannot start yet');
-    cy.get('#record-school-response_status').contains("Cannot start yet");
-    cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains("Cannot start yet");
-    cy.get('#send-formal-notification_status').contains("Cannot start yet");
-    cy.get('#AllocateAdviser_status').contains("Cannot start yet");
-    cy.get('#send-introductory-email-request-improvement-plan_status').contains("Cannot start yet");
-    cy.get('#adviser-school-visit_status').contains("Cannot start yet");
-    cy.get('#record-school-visit-date_status').contains("Cannot start yet");
-    cy.get('#complate-save-assessment-template_status').contains("Cannot start yet");
-    cy.get('#record-support-decision_status').contains('Cannot start yet');
-    cy.get('#choose-preferred-supporting-organisation-status').contains('Cannot start yet');
-    cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains('Cannot start yet');
-    cy.get('#record-supporting-organisation-appointment-status').contains("Cannot start yet");
-    cy.get('#add-supporting-organisation-contact-details-status').contains("Cannot start yet");
-    cy.get('#request-planning-grant-offer-letter_status').contains("Cannot start yet");
-    cy.get('#confirm-planning-grant-offer-letter_status').contains("Cannot start yet");
-    cy.get('#share-the-improvement-plan-template_status').contains("Cannot start yet");
-    cy.get('#review-the-improvement-plan_status').contains('Cannot start yet');
-    cy.get("#send-agreed-improvement-plan_status").contains('Cannot start yet');
-    cy.get("#record-improvement-plan-decision_status").contains('Cannot start yet');
-    cy.get("#enter-improvement-plan-objectives_status").contains('Cannot start yet');
-    cy.get('#request-improvement-grant-offer-letter_status').contains("Cannot start yet");
-    cy.get("#confirm-improvement-grant-offer-letter_status").contains('Cannot start yet');
+    cy.get('#funding_history_status').contains(cannotStartYet);
+    cy.get('#confirm_responsible_body_status').contains(cannotStartYet);
+    cy.get('#record-school-response_status').contains(cannotStartYet);
+    cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains(cannotStartYet);
+    cy.get('#send-formal-notification_status').contains(cannotStartYet);
+    cy.get('#AllocateAdviser_status').contains(cannotStartYet);
+    cy.get('#send-introductory-email-request-improvement-plan_status').contains(cannotStartYet);
+    cy.get('#adviser-school-visit_status').contains(cannotStartYet);
+    cy.get('#record-school-visit-date_status').contains(cannotStartYet);
+    cy.get('#complate-save-assessment-template_status').contains(cannotStartYet);
+    cy.get('#record-support-decision_status').contains(cannotStartYet);
+    cy.get('#choose-preferred-supporting-organisation-status').contains(cannotStartYet);
+    cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains(cannotStartYet);
+    cy.get('#record-supporting-organisation-appointment-status').contains(cannotStartYet);
+    cy.get('#add-supporting-organisation-contact-details-status').contains(cannotStartYet);
+    cy.get('#request-planning-grant-offer-letter_status').contains(cannotStartYet);
+    cy.get('#confirm-planning-grant-offer-letter_status').contains(cannotStartYet);
+    cy.get('#share-the-improvement-plan-template_status').contains(cannotStartYet);
+    cy.get('#review-the-improvement-plan_status').contains(cannotStartYet);
+    cy.get("#send-agreed-improvement-plan_status").contains(cannotStartYet);
+    cy.get("#record-improvement-plan-decision_status").contains(cannotStartYet);
+    cy.get("#enter-improvement-plan-objectives_status").contains(cannotStartYet);
+    cy.get('#request-improvement-grant-offer-letter_status').contains(cannotStartYet);
+    cy.get("#confirm-improvement-grant-offer-letter_status").contains(cannotStartYet);
 
     return this;
   }
