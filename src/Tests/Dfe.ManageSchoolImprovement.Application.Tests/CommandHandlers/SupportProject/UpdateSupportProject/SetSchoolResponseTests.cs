@@ -27,11 +27,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
             var hasSavedSchoolResponseinSharePoint = true;
+            var adviserCanBeSet = true;
 
             var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasSavedSchoolResponseinSharePoint
+                hasSavedSchoolResponseinSharePoint,
+                adviserCanBeSet
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommandHandler(_mockSupportProjectRepository.Object);
@@ -50,6 +52,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 _mockSupportProject.Id,
+                null,
                 null,
                 null
             );
@@ -70,11 +73,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var schoolResponseDate = DateTime.UtcNow;
             var hasSavedSchoolResponseinSharePoint = true;
+            var adviserCanBeSet = true;
 
             var command = new SetResponsibleBodyResponseToTheConflictOfInterestRequestCommand(
                 _mockSupportProject.Id,
                 schoolResponseDate,
-                hasSavedSchoolResponseinSharePoint
+                hasSavedSchoolResponseinSharePoint,
+                adviserCanBeSet
             );
 
             _mockSupportProjectRepository.Setup(repo =>

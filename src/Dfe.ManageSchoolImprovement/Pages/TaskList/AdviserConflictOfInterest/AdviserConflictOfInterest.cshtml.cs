@@ -29,6 +29,8 @@ public class AdviserConflictOfInterest(
     public TaskListStatus? TaskListStatus { get; set; }
         
     public ProjectStatusValue? ProjectStatus { get; set; }
+    
+    private bool? AdviserCanBeSet { get; set;}
 
     public bool ShowError { get; set; }
 
@@ -55,6 +57,8 @@ public class AdviserConflictOfInterest(
 
     public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
+        await base.GetSupportProject(id, cancellationToken);
+        
         if (!ModelState.IsValid)
         {
             _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -62,8 +66,24 @@ public class AdviserConflictOfInterest(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
+        if (SupportProject != null && SupportProject.AdviserCanBeSet != true)
+        {
+            AdviserCanBeSet = SupportProject.DateFormalNotificationSent.HasValue && 
+                                  SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue &&
+                                  SupportProject.UseEnrolmentLetterTemplateToDraftEmail == true &&
+                                  SupportProject.AttachTargetedInterventionInformationSheet == true &&
+                                  SupportProject.AddRecipientsForFormalNotification == true &&
+                                  SupportProject.FormalNotificationSent == true &&
+                                  SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint == true;
+        }
+        else
+        {
+            AdviserCanBeSet = SupportProject?.AdviserCanBeSet;
+        }
+        
+
         var request = new SetAdviserConflictOfInterestDetailsCommand(new SupportProjectId(id),
-            ReviewAdvisersConflictOfInterestForm, DateConflictOfInterestDeclarationChecked);
+            ReviewAdvisersConflictOfInterestForm, DateConflictOfInterestDeclarationChecked, AdviserCanBeSet);
 
         var result = await mediator.Send(request, cancellationToken);
 

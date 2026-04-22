@@ -10,8 +10,16 @@ public class UserRepository(IGraphUserService graphUserService, IHostEnvironment
     {
         IEnumerable<Microsoft.Graph.User> users = await graphUserService.GetAllUsers();
 
-        return users
+        var result = users
            .Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper()}"));
+
+        // add a test user in if in dev and test for cypress testing
+        if (environment.IsStaging() || environment.IsEnvironment("Test") || environment.IsDevelopment())
+        {
+            result = result.Append(new User(Guid.NewGuid().ToString(), "TestFirstName.TestSurname@education.gov.uk", $"TestFirstName TestSurname"));
+        }
+        
+        return result;
     }
 
     public async Task<IEnumerable<User>> GetAllRiseAdvisers()

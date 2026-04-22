@@ -41,6 +41,8 @@ public class SendFormalNotificationModel(
     public TaskListStatus? TaskListStatus { get; set; }
         
     public ProjectStatusValue? ProjectStatus { get; set; }
+    
+    private bool? AdviserCanBeSet { get; set; }
 
     public bool ShowError { get; set; }
     public string EnrolmentLetterTemplate { get; set; } = string.Empty;
@@ -68,12 +70,26 @@ public class SendFormalNotificationModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
+        await base.GetSupportProject(id, cancellationToken);
+        
         // Load template early for both success and error paths
         await LoadEnrolmentLetterTemplateAsync(cancellationToken);
 
         // Early return for validation errors
         if (!ModelState.IsValid)
             return await HandleValidationErrorAsync(id, cancellationToken);
+        
+        if (SupportProject != null && SupportProject.AdviserCanBeSet != true)
+        {
+            AdviserCanBeSet = SupportProject.DateConflictOfInterestDeclarationChecked.HasValue && 
+                              SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate.HasValue &&
+                              SupportProject.ReviewAdvisersConflictOfInterestForm == true &&
+                              SupportProject.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint == true;
+        }
+        else
+        {
+            AdviserCanBeSet = SupportProject?.AdviserCanBeSet;
+        }
 
         // Target-typed new expression (.NET 8)
         SetSendFormalNotificationCommand request = new(
@@ -82,7 +98,8 @@ public class SendFormalNotificationModel(
             AttachTargetedInterventionInformationSheet,
             AddRecipients,
             SendEmail,
-            DateOfFormalContact);
+            DateOfFormalContact,
+            AdviserCanBeSet);
 
         var result = await mediator.Send(request, cancellationToken);
 
