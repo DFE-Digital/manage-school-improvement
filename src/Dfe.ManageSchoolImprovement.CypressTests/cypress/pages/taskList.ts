@@ -209,16 +209,16 @@ class TaskList {
   }
 
   public assignUserToSchoolIfNotAssigned(): this {
-    if ( cy.get ('.govuk-summary-list__value').eq(3).contains('a')) {
-          Logger.log("Assigning user to school");
-          this.assignUserToSchool()
-          this.userAssignedSuccessMessage();
-        }
-        else {
-          Logger.log("User is already assigned to the school");
-        }
+    if (cy.get('.govuk-summary-list__value').eq(3).contains('a')) {
+      Logger.log("Assigning user to school");
+      this.assignUserToSchool()
+      this.userAssignedSuccessMessage();
+    }
+    else {
+      Logger.log("User is already assigned to the school");
+    }
 
-        return this;     
+    return this;
   }
 
   public allocateAdviserIfNotAllocated(): this {
@@ -235,11 +235,11 @@ class TaskList {
       cy.get('h1').should('contain.text', 'Allocate adviser to school');
       cy.getById('adviser').
         should('exist');
-      cy.getById('adviser').click().type('TestFirstName TestSurname');  
+      cy.getById('adviser').click().type('TestFirstName TestSurname');
 
       cy.getById('adviser').should('not.have.value', '');
       cy.getByCyData('continue-Btn').click();
-    } 
+    }
     else {
       Logger.log("Adviser is already allocated to the school");
 
@@ -255,7 +255,7 @@ class TaskList {
       .find('.govuk-link')
       .contains('Assign a delivery officer')
       .click();
-      
+
     cy.url().should('include', '/assign-delivery-officer');
     cy.get('h1').should('contain.text', 'Who will work with this school?');
     cy.getById('delivery-officer').should('exist');
@@ -295,8 +295,8 @@ class TaskList {
       .contains('Change')
       .click();
 
-      cy.url().should('include', '/assign-delivery-officer');
-      cy.get('h1').should('contain.text', 'Who will work with this school?');
+    cy.url().should('include', '/assign-delivery-officer');
+    cy.get('h1').should('contain.text', 'Who will work with this school?');
 
     return this;
   }
@@ -311,6 +311,20 @@ class TaskList {
 
     cy.url().should('include', '/record-engagement-concern');
     cy.get('h1').should('contain.text', 'Record engagement concern');
+
+    return this;
+  }
+
+  public navigateToAllocateAdviserPage(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('Advised by')
+      .parent()
+      .find('.govuk-link')
+      .contains('Change')
+      .click();
+
+    cy.url().should('include', '/allocate-adviser');
+    cy.get('h1').should('contain.text', 'Allocate an adviser');
 
     return this;
   }

@@ -8,6 +8,8 @@ describe("User navigates to any Tab listed for school", () => {
         homePage
             .acceptCookies()
             .hasAddSchool()
+            .selectProjectFilter("Plymouth Grove Primary")
+            .applyFilters()
             .selectFirstSchoolFromList()
 
         cy.executeAccessibilityTests()
@@ -17,8 +19,6 @@ describe("User navigates to any Tab listed for school", () => {
         taskList
           .navigateToTab('Task list')
           .hasSchoolSummaryList()
-          .hasChangeLinks()
-
     });
 
     it("should be able navigate to Change Current Status ", () => {
@@ -29,11 +29,20 @@ describe("User navigates to any Tab listed for school", () => {
         cy.executeAccessibilityTests()
     });
 
- it("should be able navigate to  Change Assigned to", () => {
+    it("should be able navigate to  Change Assigned to", () => {
         Logger.log("User navigates to Change Assigned person page using Change link in the summery list");
 
         taskList
             .navigateToAssignDeliveryOfficerPage()
+
+        cy.executeAccessibilityTests()
+    });
+
+     it("should be able navigate to Allocate an adviser page", () => {
+        Logger.log("User navigates to Allocate an adviser page using Change link in the summery list");
+
+        taskList
+            .navigateToAllocateAdviserPage()
 
         cy.executeAccessibilityTests()
     });

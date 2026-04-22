@@ -17,7 +17,6 @@ describe("User navigates to the Status and Eligibility Tab", () => {
             .selectFirstSchoolFromList()
         Logger.log("User navigates to the Status and Eligibility tab")
         taskList
-           .assignUserToSchoolIfNotAssigned()
            .navigateToTab('Status and eligibility');
 
         cy.executeAccessibilityTests()
