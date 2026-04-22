@@ -46,7 +46,7 @@ class TaskList {
     cy.get('a')
     cy.get('.govuk-summary-list').within(() => {
       cy.get('.govuk-summary-list__row').eq(0).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'status');
-      cy.get('.govuk-summary-list__row').eq(3).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'assign-delivery-officer');
+      cy.get('.govuk-summary-list__row').eq(3).find('.govuk-link').contains('Assign a delivery officer')
       cy.get('.govuk-summary-list__row').eq(5).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'record-engagement-concern');
     });
 
@@ -253,7 +253,7 @@ class TaskList {
       .contains('Assigned to')
       .parent()
       .find('.govuk-link')
-      .contains('Change')
+      .contains('Assign a delivery officer')
       .click();
       
     cy.url().should('include', '/assign-delivery-officer');
