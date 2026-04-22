@@ -217,13 +217,15 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
 
     private readonly List<EngagementConcern> _engagementConcerns = new();
-    public string? Cohort { get; }
+    public string? Cohort { get; private set;}
     public ProjectStatusValue ProjectStatus { get; private set; }
     public DateTime? ProjectStatusChangedDate { get; private set; }
     public string? ProjectStatusChangedBy { get; private set; }
     public string? ProjectStatusChangedDetails { get; private set; }
 
     #endregion
+
+    private const string DefaultCohort = "Flow";
 
     public static SupportProject Create(
         ProjectStatusValue projectStatus,
@@ -241,7 +243,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
             TrustName = trustDetails?.TrustName,
             TrustReferenceNumber = trustDetails?.TrustReferenceNumber,
             Address = schoolDetails.Address,
-            DeletedAt = deletedAt
+            DeletedAt = deletedAt,
+            Cohort = DefaultCohort
         };
     }
 
