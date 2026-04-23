@@ -3,7 +3,16 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
-## 📅 [v2.0] - Q1 – Sprint2 (Part 1)- 2026-04-23
+## 📅 [v2.1.0] - Q1 – Sprint2 (Part 2)- 2026-04-23
+
+### 📌 User Stories 
+
+- **270925** - Cohort field for manually added schools should be "Flow"
+               The "Cohort" field should always read "Flow"
+
+--
+
+## 📅 [v2.0.0] - Q1 – Sprint2 (Part 1)- 2026-04-23
 
 ### 📌 User Stories 
 
