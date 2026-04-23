@@ -3,6 +3,16 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v2.0] - Q1 – Sprint2 (Part 1)- 2026-04-23
+
+### 📌 User Stories 
+
+- **262749** - Cannot "allocate an adviser" until necessary due diligence checks have been completed
+- **262742** - User must be assigned to school, to progress though the task list
+- **262747** - School must have adviser allocated before Phase 2 + 3 are available in the task list
+
+--
+
 ## 📅 [v1.6.0] - Q1 – Sprint1 (Part 1)- 2026-04-08
 
 ### 📌 User Stories 
