@@ -2083,13 +2083,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
         }
 
         [Fact]
-        public void CreateSupportProject_WithCohort_ShouldBeNull()
+        public void CreateSupportProject_WithCohort_ShouldBeFlow()
         {
             // Arrange
             var supportProject = CreateSupportProject();
 
             // Assert
-            supportProject.Cohort.Should().BeNull();
+            supportProject.Cohort.Should().Be("Flow");
             mockRepository.VerifyAll();
         }
         
