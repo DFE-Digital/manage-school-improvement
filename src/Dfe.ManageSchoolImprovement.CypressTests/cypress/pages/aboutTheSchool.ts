@@ -56,20 +56,27 @@ class AboutTheSchool {
 
   public hasSeeInspectionReportsAtOfstedLink(): this {
     cy.get('h3').should('contain', 'Information from other services');
-    cy.get('a').contains('See inspection reports at Ofsted');
+    cy.get('a').contains('See inspection reports at Ofsted').should('have.attr', 'href').and('include', 'reports.ofsted');
    
     return this;
   }
 
   public hasGetInformationAboutSchoolsLink(): this {
-    cy.get('a').contains('Get information about schools');
+    cy.get('a').contains('Get information about schools').should('have.attr', 'href').and('include', 'get-information-schools');
     
     return this;
   }
 
   public hasFindInformationAboutSchoolsAndTrustLink(): this {
-    cy.get('a').contains('Find information about schools and trusts');
+    cy.get('a').contains('Find information about schools and trusts').should('have.attr', 'href').and('include', 'find-information-schools-trusts')
     
+    return this;
+  }
+
+  public hasInformationText(): this {
+    cy.get('.govuk-details').should('contain.text', 'Where this information came from')
+      .click(); 
+
     return this;
   }
 
