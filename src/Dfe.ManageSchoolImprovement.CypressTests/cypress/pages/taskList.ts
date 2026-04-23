@@ -1,3 +1,5 @@
+import { Logger } from "cypress/common/logger";
+
 class TaskList {
   public hasHeader(header: string): this {
     cy.get("h1").contains(header);
@@ -42,21 +44,11 @@ class TaskList {
 
   public hasChangeLinks(): this {
     cy.get('a')
-      .filter(':visible')
-      .contains('Change')
-      .eq(0)
-      .should('have.attr', 'href')
-      .and('include', 'status');
-    cy.get(':nth-child(4) > .govuk-summary-list__actions > .govuk-link')
-      .filter(':visible')
-      .contains('Change')
-      .should('have.attr', 'href')
-      .and('include', 'delivery-officer');
-    cy.get(':nth-child(5) > .govuk-summary-list__actions > .govuk-link')
-      .filter(':visible')
-      .contains('Change')
-      .should('have.attr', 'href')
-      .and('include', 'adviser');
+    cy.get('.govuk-summary-list').within(() => {
+      cy.get('.govuk-summary-list__row').eq(0).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'status');
+      cy.get('.govuk-summary-list__row').eq(3).find('.govuk-link').contains('Assign a delivery officer')
+      cy.get('.govuk-summary-list__row').eq(5).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'record-engagement-concern');
+    });
 
     return this;
   }
@@ -104,32 +96,34 @@ class TaskList {
     return this;
   }
 
-  public hasTasksNotStartedElementsPresent(): this {
+  public hasTasksCannotStartYetElementsPresent(): this {
+    const cannotStartYet = "Cannot start yet";
+    
     cy.get("#confirm-eligibility-status").contains('Completed');
-    cy.get('#funding_history_status').contains("Not Started");
-    cy.get('#confirm_responsible_body_status').contains('Not Started');
-    cy.get('#record-school-response_status').contains("Not Started");
-    cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains("Not Started");
-    cy.get('#send-formal-notification_status').contains("Not Started");
-    cy.get('#AllocateAdviser_status').contains("Not Started");
-    cy.get('#send-introductory-email-request-improvement-plan_status').contains("Not Started");
-    cy.get('#adviser-school-visit_status').contains("Not Started");
-    cy.get('#record-school-visit-date_status').contains("Not Started");
-    cy.get('#complate-save-assessment-template_status').contains("Not Started");
-    cy.get('#record-support-decision_status').contains('Not Started');
-    cy.get('#choose-preferred-supporting-organisation-status').contains('Not Started');
-    cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains('Not Started');
-    cy.get('#record-supporting-organisation-appointment-status').contains("Not Started");
-    cy.get('#add-supporting-organisation-contact-details-status').contains("Not Started");
-    cy.get('#request-planning-grant-offer-letter_status').contains("Not Started");
-    cy.get('#confirm-planning-grant-offer-letter_status').contains("Not Started");
-    cy.get('#share-the-improvement-plan-template_status').contains("Not Started");
-    cy.get('#review-the-improvement-plan_status').contains('Not Started');
-    cy.get("#send-agreed-improvement-plan_status").contains('Not Started');
-    cy.get("#record-improvement-plan-decision_status").contains('Not Started');
-    cy.get("#enter-improvement-plan-objectives_status").contains('Not Started');
-    cy.get('#request-improvement-grant-offer-letter_status').contains("Not Started");
-    cy.get("#confirm-improvement-grant-offer-letter_status").contains('Not Started');
+    cy.get('#funding_history_status').contains(cannotStartYet);
+    cy.get('#confirm_responsible_body_status').contains(cannotStartYet);
+    cy.get('#record-school-response_status').contains(cannotStartYet);
+    cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains(cannotStartYet);
+    cy.get('#send-formal-notification_status').contains(cannotStartYet);
+    cy.get('#AllocateAdviser_status').contains(cannotStartYet);
+    cy.get('#send-introductory-email-request-improvement-plan_status').contains(cannotStartYet);
+    cy.get('#adviser-school-visit_status').contains(cannotStartYet);
+    cy.get('#record-school-visit-date_status').contains(cannotStartYet);
+    cy.get('#complate-save-assessment-template_status').contains(cannotStartYet);
+    cy.get('#record-support-decision_status').contains(cannotStartYet);
+    cy.get('#choose-preferred-supporting-organisation-status').contains(cannotStartYet);
+    cy.get('#due-diligence-on-preferred-supporting-organisation-status').contains(cannotStartYet);
+    cy.get('#record-supporting-organisation-appointment-status').contains(cannotStartYet);
+    cy.get('#add-supporting-organisation-contact-details-status').contains(cannotStartYet);
+    cy.get('#request-planning-grant-offer-letter_status').contains(cannotStartYet);
+    cy.get('#confirm-planning-grant-offer-letter_status').contains(cannotStartYet);
+    cy.get('#share-the-improvement-plan-template_status').contains(cannotStartYet);
+    cy.get('#review-the-improvement-plan_status').contains(cannotStartYet);
+    cy.get("#send-agreed-improvement-plan_status").contains(cannotStartYet);
+    cy.get("#record-improvement-plan-decision_status").contains(cannotStartYet);
+    cy.get("#enter-improvement-plan-objectives_status").contains(cannotStartYet);
+    cy.get('#request-improvement-grant-offer-letter_status').contains(cannotStartYet);
+    cy.get("#confirm-improvement-grant-offer-letter_status").contains(cannotStartYet);
 
     return this;
   }
@@ -146,6 +140,15 @@ class TaskList {
 
     return this;
 
+  }
+
+  public hasSchoolSummaryList(): this {
+    cy.get('.govuk-summary-list').should('exist');
+    cy.get('.govuk-summary-list__row').each(($row) => {
+      cy.wrap($row).find('.govuk-summary-list__value').should('not.be.empty');
+    });
+
+    return this;
   }
 
   public navigateToTab(tabName: string): this {
@@ -177,6 +180,19 @@ class TaskList {
     return this;
   }
 
+  public hasTaskStatusCannotStartYet(id: string) {
+    cy.get(`#${id}`).contains("Cannot start yet");
+
+    return this;
+  }
+
+  public hasTaskStatusNotStarted(id: string) {
+    cy.get(`#${id}`).contains("Not Started");
+
+    return this;
+  }
+
+
   public selectTask(taskName: string) {
     cy.contains(taskName).click();
 
@@ -184,7 +200,133 @@ class TaskList {
   }
 
   public clickBackLink(): this {
-    cy.get('.govuk-back-link').click(); 
+    cy.get('.govuk-back-link').click();
+
+    return this;
+  }
+
+  public hasProjectMustBeAssignedBanner(): this {
+    cy.get('.govuk-notification-banner__content').should('contain.text', 'Project must be assigned');
+    return this;
+  }
+
+  public assignUserToSchoolIfNotAssigned(): this {
+    if (cy.get('.govuk-summary-list__value').eq(3).contains('a')) {
+      Logger.log("Assigning user to school");
+      this.assignUserToSchool()
+      this.userAssignedSuccessMessage();
+    }
+    else {
+      Logger.log("User is already assigned to the school");
+    }
+
+    return this;
+  }
+
+  public allocateAdviserIfNotAllocated(): this {
+    if (cy.get('.govuk-summary-list__value').eq(4).contains('text', 'Cannot allocate an adviser yet')) {
+      Logger.log("Allocating adviser to school");
+      cy.get('.govuk-summary-list__row')
+        .contains('Advised by')
+        .parent()
+        .find('.govuk-link')
+        .contains('Change')
+        .click();
+
+      cy.url().should('include', '/allocate-adviser');
+      cy.get('h1').should('contain.text', 'Allocate adviser to school');
+      cy.getById('adviser').
+        should('exist');
+      cy.getById('adviser').click().type('TestFirstName TestSurname');
+
+      cy.getById('adviser').should('not.have.value', '');
+      cy.getByCyData('continue-Btn').click();
+    }
+    else {
+      Logger.log("Adviser is already allocated to the school");
+
+    }
+
+    return this;
+  }
+
+  public assignUserToSchool(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('Assigned to')
+      .parent()
+      .find('.govuk-link')
+      .contains('Assign a delivery officer')
+      .click();
+
+    cy.url().should('include', '/assign-delivery-officer');
+    cy.get('h1').should('contain.text', 'Who will work with this school?');
+    cy.getById('delivery-officer').should('exist');
+    cy.getById('delivery-officer').click().type('TestFirstName TestSurname');
+    cy.getById('delivery-officer').should('not.have.value', '');
+    cy.getByCyData('continue-Btn').click();
+
+    return this;
+  }
+
+  public userAssignedSuccessMessage(): this {
+    cy.get('.govuk-notification-banner.govuk-notification-banner--success').should('contain.text', 'Person is assigned');
+
+    return this;
+  }
+
+  public navigateToChangeCurrentStatusPage(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('Current status')
+      .parent()
+      .find('.govuk-link')
+      .contains('Change')
+      .click();
+
+    cy.url().should('include', '/change-project-status');
+    cy.get('h2').should('contain.text', 'Change project status');
+
+    return this;
+
+  }
+
+  public navigateToAssignDeliveryOfficerPage(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('Assigned to')
+      .parent()
+      .find('.govuk-link')
+      .contains('Change')
+      .click();
+
+    cy.url().should('include', '/assign-delivery-officer');
+    cy.get('h1').should('contain.text', 'Who will work with this school?');
+
+    return this;
+  }
+
+  public navigateToRecordEngagementConcernPage(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('Engagement concern')
+      .parent()
+      .find('.govuk-link')
+      .contains('Change')
+      .click();
+
+    cy.url().should('include', '/record-engagement-concern');
+    cy.get('h1').should('contain.text', 'Record engagement concern');
+
+    return this;
+  }
+
+  public navigateToAllocateAdviserPage(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('Advised by')
+      .parent()
+      .find('.govuk-link')
+      .contains('Change')
+      .click();
+
+    cy.url().should('include', '/allocate-adviser');
+    cy.get('h1').should('contain.text', 'Allocate an adviser');
 
     return this;
   }

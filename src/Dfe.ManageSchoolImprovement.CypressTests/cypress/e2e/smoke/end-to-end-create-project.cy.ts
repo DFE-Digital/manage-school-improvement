@@ -91,7 +91,8 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasChangeLinks()
       .hasNav()
       .hasTasks()
-      .hasTasksNotStartedElementsPresent();
+      .hasTasksCannotStartYetElementsPresent()
+      .hasProjectMustBeAssignedBanner();
 
     cy.executeAccessibilityTests();  
 
@@ -122,6 +123,24 @@ describe("Add a school which is eligible for improvement and complete it's tasks
     taskList.hasTaskStatusCompleted("confirm-eligibility-status");
 
     cy.executeAccessibilityTests();
+  });
+
+  it('Should be able to complete other tasks only if user is assigned to the school', () => {
+    homePage.selectSchoolName(schoolLong);
+    taskList.hasProjectMustBeAssignedBanner();
+    taskList.hasTaskStatusCannotStartYet("funding_history_status");
+    taskList.hasTaskStatusCannotStartYet("confirm_responsible_body_status");
+
+    cy.executeAccessibilityTests();
+
+    Logger.log("Assigning user to school");
+    taskList.assignUserToSchool();
+    taskList.userAssignedSuccessMessage()
+    taskList.hasTaskStatusNotStarted("funding_history_status");
+    taskList.hasTaskStatusNotStarted("confirm_responsible_body_status");
+    taskList.hasTaskStatusNotStarted("confirm_responsible_body_status");
+    taskList.hasTaskStatusCannotStartYet("AllocateAdviser_status");
+    taskList.hasTaskStatusCannotStartYet("send-introductory-email-request-improvement-plan_status");
   });
 
   // Task 2: Funding history
