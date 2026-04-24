@@ -41,6 +41,11 @@ public static class Links
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/SchoolList/Index");
     }
 
+    public static class Watchlist
+    {
+        public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/Watchlist/Index");
+    }
+
     public static class Contacts
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/Contacts/Index");
