@@ -45,6 +45,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<ImprovementPlanReview>(ConfigureImprovementPlanReview);
         modelBuilder.Entity<ImprovementPlanObjectiveProgress>(ConfigureImprovementPlanObjectiveProgress);
         modelBuilder.Entity<EngagementConcern>(ConfigureEngagementConcerns);
+        modelBuilder.Entity<Watchlist>(ConfigureWatchlist);
 
         // Configure ApplicationSettings using the extension method
         modelBuilder.ConfigureApplicationSettings(DefaultSchema);
@@ -217,6 +218,27 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .HasConversion(
                 v => v!.Value,
                 v => new EngagementConcernId(v));
+    }
+
+    private static void ConfigureWatchlist(EntityTypeBuilder<Watchlist> builder)
+    {
+        builder.ToTable("Watchlist", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new WatchlistId(v));
+        builder.Property(e => e.SupportProjectId)
+            .HasConversion(
+                v => v!.Value,
+                v => new SupportProjectId(v));
+
+        builder
+            .HasOne<SupportProject>()
+            .WithMany()
+            .HasForeignKey(SupportProjectForeignKeyName)
+            .IsRequired();
     }
 
 

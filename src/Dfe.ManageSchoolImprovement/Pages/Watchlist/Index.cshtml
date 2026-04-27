@@ -1,10 +1,30 @@
 @page "/watchlist"
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Watchlist</h1>
-        <p class="govuk-body">
-            This is your watchlist.
-        </p>
-    </div>
+    <h1 class="govuk-heading-xl">Your school watchlist</h1>
+    <p class="govuk-body">
+        You can use your watchlist to save schools that are important to you and find them quickly.
+    </p>
+</div>
+<div class=govuk-grid-row>
+    <table class="govuk-table" data-module="moj-sortable-table">
+        <caption class="govuk-table__caption govuk-visually-hidden">
+            My watched schools
+        </caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+                School
+            </th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell" data-sort-value="My school">My school</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell" data-sort-value="Another school">Another school</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
