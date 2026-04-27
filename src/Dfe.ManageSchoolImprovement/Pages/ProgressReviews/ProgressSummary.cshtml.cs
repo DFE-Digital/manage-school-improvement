@@ -20,8 +20,10 @@ public class ProgressSummaryModel(
     public ImprovementPlanViewModel ImprovementPlan { get; private set; }
 
     public List<ObjectiveProgressGroup> ObjectiveProgressGroups { get; set; } = [];
-    
-    public bool CompletedReviews => ImprovementPlan.ImprovementPlanReviews.Any(x => x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
+
+    public bool CompletedReviews =>
+        ImprovementPlan.ImprovementPlanReviews.Any(x =>
+            x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
 
     public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken, string? returnPage)
     {
@@ -37,54 +39,65 @@ public class ProgressSummaryModel(
 
     private void LoadPageData()
     {
-        ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
-        Review = ImprovementPlan?.ImprovementPlanReviews.Single(x => x.ReadableId == ReviewId);
+        ImprovementPlan = SupportProject?.ImprovementPlans?
+            .First(x => x.ImprovementPlanReviews.Any(r => r.ReadableId == ReviewId));
 
-        if (ImprovementPlan?.ImprovementPlanObjectives != null)
+        Review = ImprovementPlan?.ImprovementPlanReviews
+            .Single(x => x.ReadableId == ReviewId);
+
+        if (ImprovementPlan?.ImprovementPlanObjectives == null || Review == null)
+            return;
+
+        var areaConfigurations = new Dictionary<string, int>
         {
-            // Define areas with display order and any additional metadata
-            var areaConfigurations = new Dictionary<string, int>
+            { "Quality of education", 1 },
+            { "Leadership and management", 2 },
+            { "Behaviour and attitudes", 3 },
+            { "Attendance", 4 },
+            { "Personal development", 5 }
+        };
+
+        //  Build lookup once 
+        var progresses = Review.ImprovementPlanObjectiveProgresses;
+        var progressLookup = new Dictionary<Guid, ImprovementPlanObjectiveProgressViewModel>(
+            progresses?.Count ?? 0);
+
+        if (progresses is not null)
+        {
+            foreach (var p in progresses)
             {
-                { "Quality of education", 1 },
-                { "Leadership and management", 2 },
-                { "Behaviour and attitudes", 3 },
-                { "Attendance", 4 },
-                { "Personal development", 5 }
-            };
-
-            ObjectiveProgressGroups = ImprovementPlan.ImprovementPlanObjectives
-                .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
-                .GroupBy(o => o.AreaOfImprovement)
-                .OrderBy(group => areaConfigurations[group.Key])
-                .SelectMany(group => BuildObjectiveProgressGroups(group.OrderBy(o => o.Order).ToList(), Review.Id))
-                .ToList();
+                // overwrite
+                progressLookup[p.ImprovementPlanObjectiveId] = p;
+            }
         }
-    }
 
-    private List<ObjectiveProgressGroup> BuildObjectiveProgressGroups(List<ImprovementPlanObjectiveViewModel> improvementPlanObjectives, Guid reviewId)
-    {
-        return improvementPlanObjectives
-            .GroupBy(obj => obj.AreaOfImprovement)
+        //  Single pass grouping
+        ObjectiveProgressGroups = ImprovementPlan.ImprovementPlanObjectives
+            .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
+            .GroupBy(o => o.AreaOfImprovement)
+            .OrderBy(g => areaConfigurations[g.Key])
             .Select(group => new ObjectiveProgressGroup
             {
                 AreaOfImprovement = group.Key,
-                ObjectiveProgresses = group.OrderBy(obj => obj.Order).Select(obj =>
-                {
-                    var objectiveProgress = Review?.ImprovementPlanObjectiveProgresses?
-                        .FirstOrDefault(op => op.ImprovementPlanObjectiveId == obj.Id);
 
-                    return new ObjectiveProgressViewModel
+                ObjectiveProgresses = group
+                    .OrderBy(o => o.Order)
+                    .Select(obj =>
                     {
-                        Id = objectiveProgress?.Id ?? Guid.Empty,
-                        ReadableId = objectiveProgress?.ReadableId ?? 0,
-                        ObjectiveReadableId = obj.ReadableId,
-                        Title = obj.Details,
-                        Progress = objectiveProgress?.HowIsSchoolProgressing ?? "No progress recorded yet",
-                        Details = objectiveProgress?.ProgressDetails ?? "No details recorded yet"
-                    };
-                }).ToList()
+                        progressLookup.TryGetValue(obj.Id, out var progress);
+
+                        return new ObjectiveProgressViewModel
+                        {
+                            Id = progress?.Id ?? Guid.Empty,
+                            ReadableId = progress?.ReadableId ?? 0,
+                            ObjectiveReadableId = obj.ReadableId,
+                            Title = obj.Details,
+                            Progress = progress?.HowIsSchoolProgressing ?? "No progress recorded yet",
+                            Details = progress?.ProgressDetails ?? "No details recorded yet"
+                        };
+                    })
+                    .ToList()
             })
-            .OrderBy(group => group.AreaOfImprovement)
             .ToList();
     }
 }
