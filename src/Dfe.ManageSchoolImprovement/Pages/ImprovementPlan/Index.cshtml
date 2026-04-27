@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = "Review objectives";
 
-    bool completedReviews = Model.ImprovementPlan != null && Model.ImprovementPlan.ImprovementPlanReviews.Any(x => x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
+    bool reviewsStarted = Model.ImprovementPlan != null && Model.ImprovementPlan.ImprovementPlanReviews.Any(
+        x => x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded 
+             || x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusPartlyRecorded);
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
 }
 
@@ -54,19 +56,19 @@
         @if (!Model.IsReadOnly && Model.SupportProject != null)
         {
             <partial name="_ObjectiveSection"
-                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, completedReviews)'/>
+                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, reviewsStarted)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, completedReviews)'/>
+                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, reviewsStarted)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, completedReviews)'/>
+                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, reviewsStarted)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, completedReviews)'/>
+                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, reviewsStarted)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, completedReviews)'/>
+                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.Index.Page, Model.SupportProject.IsReadOnly, reviewsStarted)'/>
 
             <form method="post" novalidate>
                 <div
