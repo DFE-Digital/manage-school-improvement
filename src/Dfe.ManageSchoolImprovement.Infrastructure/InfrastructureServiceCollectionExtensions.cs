@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             //Repos
             services.AddScoped<ISupportProjectRepository, SupportProjectRepository>();
             services.AddScoped<ISupportProjectAuditRepository, SupportProjectAuditRepository>();
+            services.AddScoped<IWatchlistRepository, WatchlistRepository>();
 
             //Cache service
             services.AddServiceCaching(config);

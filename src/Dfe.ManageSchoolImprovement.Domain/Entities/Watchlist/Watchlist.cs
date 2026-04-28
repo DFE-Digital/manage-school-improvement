@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
 {
-    public class Watchlist : IEntity<WatchlistId>
+    public class Watchlist : BaseAggregateRoot, IEntity<WatchlistId>
     {
         private Watchlist()
         {
@@ -17,9 +17,10 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             SupportProjectId = supportProjectId;
             User = user;
         }
-        public WatchlistId Id { get; }
+
+        public WatchlistId Id { get; set; }
         public int ReadableId { get; }
-        public SupportProjectId SupportProjectId { get; private set; }
+        public SupportProjectId SupportProjectId { get; set; }
         public string? User { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
