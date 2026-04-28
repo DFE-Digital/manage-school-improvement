@@ -59,7 +59,10 @@ Cypress.Commands.add("login", (params) => {
     // Intercept all browser requests and add our special auth header
     // Means we don't have to use azure to authenticate
     new AuthenticationInterceptor().register(params);
-    cy.visit("/");
+    cy.visit("/watchlist");
+    cy.url().should('contains', 'watchlist')
+    cy.getById('navigation').should('be.visible')
+    cy.get('a').contains('All schools').click();
     cy.url().should('contains', 'schools-identified-for-targeted-intervention')
 });
 
