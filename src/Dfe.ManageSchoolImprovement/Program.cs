@@ -200,7 +200,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/", context =>
     {
-        context.Response.Redirect("schools-identified-for-targeted-intervention", false);
+        context.Response.Redirect("watchlist", false);
         return Task.CompletedTask;
     });
     endpoints.MapControllers();

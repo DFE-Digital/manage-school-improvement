@@ -1,5 +1,5 @@
-@using Microsoft.AspNetCore.Http
 @inject IConfiguration Configuration
+
 @{
     var analyticsConsent = Context.Request.Cookies.ContainsKey(".ManageSchoolImprovement.Consent")
                            && bool.Parse(Context.Request.Cookies[".ManageSchoolImprovement.Consent"] ?? string.Empty);
@@ -11,6 +11,7 @@
     // var SESSION_KEY = "RoleCapabilities";
     var titleDescription = "- Manage school improvement";
     //var HasPermission = session.HasPermission($"{SESSION_KEY}_{User.Identity.Name}", RoleCapability.AddIncomingTrustReferenceNumber);
+    var currentPath = Context.Request.Path.ToString();
 }
 
 <!DOCTYPE html>
@@ -92,11 +93,59 @@
          data-module="govuk-service-navigation">
     <div class="dfe-width-container">
         <div class="govuk-service-navigation__container">
-      <span class="govuk-service-navigation__service-name">
-        <a href="/" class="govuk-service-navigation__link">
-          Manage school improvement
-        </a>
-      </span>
+            <span class="govuk-service-navigation__service-name">
+                <a href="/" class="govuk-service-navigation__link">
+                    Manage school improvement
+                </a>
+            </span>
+            <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden aria-hidden="true">
+                    Menu
+                </button>
+                <ul class="govuk-service-navigation__list" id="navigation">
+                    @{
+                        var watchlistPath = Url.Page(Links.Watchlist.Index.Page);
+                        var schoolListPath = Url.Page(Links.SchoolList.Index.Page);
+                        var razorPageRoute = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+                        var isWatchlist = currentPath.StartsWith(watchlistPath ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+                        // AddSchool pages use friendly URLs (@page "/select-school", etc.); match by logical page path under Pages/AddSchool.
+                        var isSchoolList = currentPath.StartsWith(schoolListPath ?? string.Empty, StringComparison.OrdinalIgnoreCase)
+                                           || razorPageRoute.StartsWith("/AddSchool/", StringComparison.OrdinalIgnoreCase);
+                    }
+                    <li class="govuk-service-navigation__item@(isWatchlist ? " govuk-service-navigation__item--active" : "")">
+                        
+                            @if (isWatchlist)
+                            {
+                                <a class="govuk-service-navigation__link" asp-page="@Links.Watchlist.Index.Page" aria-current="true">
+                                <strong class="govuk-service-navigation__active-fallback">Watchlist</strong>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="govuk-service-navigation__link" asp-page="@Links.Watchlist.Index.Page">
+                                <text>Watchlist</text>
+                                </a>
+                            }
+                        
+                    </li>
+                    <li class="govuk-service-navigation__item@(isSchoolList ? " govuk-service-navigation__item--active" : "")">
+                        
+                            @if (isSchoolList)
+                            {
+                                <a class="govuk-service-navigation__link" asp-page="@Links.SchoolList.Index.Page"  aria-current="true">
+                                <strong class="govuk-service-navigation__active-fallback">All schools</strong>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="govuk-service-navigation__link" asp-page="@Links.SchoolList.Index.Page">
+                                    <text>All schools</text>
+                                </a>
+                            }
+                        
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
