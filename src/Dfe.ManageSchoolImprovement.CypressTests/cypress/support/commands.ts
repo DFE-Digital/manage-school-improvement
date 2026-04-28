@@ -61,6 +61,10 @@ Cypress.Commands.add("login", (params) => {
     new AuthenticationInterceptor().register(params);
     cy.visit("/watchlist");
     cy.url().should('contains', 'watchlist')
+    cy.navigateToAllSchools();
+});
+
+Cypress.Commands.add("navigateToAllSchools", () => {
     cy.getById('navigation').should('be.visible')
     cy.get('a').contains('All schools').click();
     cy.url().should('contains', 'schools-identified-for-targeted-intervention')

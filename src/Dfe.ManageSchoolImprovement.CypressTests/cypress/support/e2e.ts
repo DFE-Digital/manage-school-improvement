@@ -47,6 +47,7 @@ declare global {
             assertChildList(selector: string, values: string[]): Chainable<Element>;
             executeAccessibilityTests(ruleExclusions?: RuleObject): Chainable<Element>;
             typeFast(text: string): Chainable<Element>;
+            navigateToAllSchools(): Chainable<Element>;
         }
     }
 }
