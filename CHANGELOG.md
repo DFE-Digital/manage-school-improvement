@@ -3,6 +3,16 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v2.1.1] - Q1 – Sprint2 (Part 3)- 2026-04-27
+
+### 🐛 Bug Fixes
+
+- **278160** - Fix slow progress summary page
+
+- **274624** - Review showing as 'progress recorded' when an objective has not been recorded yet
+
+--
+
 ## 📅 [v2.1.0] - Q1 – Sprint2 (Part 2)- 2026-04-23
 
 ### 📌 User Stories 
