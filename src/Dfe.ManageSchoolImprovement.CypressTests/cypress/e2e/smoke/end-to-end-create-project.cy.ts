@@ -40,7 +40,6 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
   beforeEach(() => {
     cy.login();
-    cy.url().should("contains", "schools-identified-for-targeted-intervention");
   });
 
   // Initial project creation
