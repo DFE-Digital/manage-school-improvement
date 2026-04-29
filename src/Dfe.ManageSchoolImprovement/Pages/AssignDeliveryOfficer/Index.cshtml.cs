@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -49,8 +50,11 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
             var initialDeliveryOfficerAssigned = true;
             
             var request = new SetDeliveryOfficerCommand(supportProjectId, assignedDeliveryOfficer?.FullName!, assignedDeliveryOfficer?.EmailAddress!, initialDeliveryOfficerAssigned);
-
             await _mediator.Send(request);
+            
+            var watchlistRequest = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(supportProjectId, assignedDeliveryOfficer?.EmailAddress!);
+            await _mediator.Send(watchlistRequest);
+            
             TempData["deliveryOfficerAssigned"] = true;
          }
 
