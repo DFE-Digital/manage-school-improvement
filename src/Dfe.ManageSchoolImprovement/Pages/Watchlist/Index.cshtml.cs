@@ -25,8 +25,6 @@ public class IndexModel(IWatchlistQueryService watchlistQueryService,
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
-        ProjectListFilters.ClearFiltersFrom(TempData);
-
         ReturnPage = @Links.Watchlist.Index.Page;
         
         CurrentUser = User.Identity?.Name;

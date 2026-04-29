@@ -239,6 +239,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithMany()
             .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
+        
+        builder.HasIndex(e => new { e.User, e.SupportProjectId });
     }
 
 
