@@ -10,6 +10,11 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
     {
         public async Task<IEnumerable<int>> GetAllSchoolsForUser(string user, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(user))
+            {
+                return Array.Empty<int>();
+            }
+
             return await DbSet()
                 .AsNoTracking()
                 .Where(w => w.User == user)

@@ -1,18 +1,27 @@
+using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist;
 
-public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
-    IGetEstablishment getEstablishment,
+public class IndexModel(IWatchlistQueryService watchlistQueryService,
+    ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService) : PageModel
 {
+    protected readonly IWatchlistQueryService _watchlistQueryService = watchlistQueryService;
+    protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
+    protected readonly ErrorService _errorService = errorService;
+
     public string ReturnPage { get; set; }
     
     public string? CurrentUser { get; set; }
+    public Result<IEnumerable<int>>? WatchlistSupportProjectIds { get; set; }
+    public List<string> SchoolNames { get; set; } = [];
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -21,6 +30,28 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService,
         ReturnPage = @Links.Watchlist.Index.Page;
         
         CurrentUser = User.Identity?.Name;
+        
+        WatchlistSupportProjectIds =
+            await _watchlistQueryService.GetAllSchoolsForUser(CurrentUser ?? string.Empty, cancellationToken);
+
+        if (WatchlistSupportProjectIds.Value != null && WatchlistSupportProjectIds.Value.Count() != 0)
+        {
+            foreach (var schoolId in WatchlistSupportProjectIds.Value)
+            {
+                var result = await _supportProjectQueryService.GetSupportProject(schoolId, cancellationToken);
+            
+                if (result.IsSuccess && result.Value != null)
+                {
+                    SchoolNames.Add(result.Value.SchoolName);
+                }
+                
+                if (!result.IsSuccess)
+                {
+                    return NotFound();
+                }
+            }
+        }
+
 
         return Page();
     }

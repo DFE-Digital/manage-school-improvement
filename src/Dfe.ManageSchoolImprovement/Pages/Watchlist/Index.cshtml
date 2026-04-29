@@ -1,10 +1,16 @@
 @page "/watchlist"
 
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.IndexModel
+
+@{
+    ViewData["Title"] = "Your school watchlist";
+}
+
 <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">Your school watchlist</h1>
     <p class="govuk-body">
         You can use your watchlist to save schools that are important to you and find them quickly.
-    </p>
+        </p>
 </div>
 <div class=govuk-grid-row>
     <table class="govuk-table" data-module="moj-sortable-table">
@@ -19,12 +25,12 @@
         </tr>
         </thead>
         <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-            <td class="govuk-table__cell" data-sort-value="My school">My school</td>
-        </tr>
-        <tr class="govuk-table__row">
-            <td class="govuk-table__cell" data-sort-value="Another school">Another school</td>
-        </tr>
+        @foreach (var name in Model.SchoolNames)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell" data-sort-value="My school">@name</td>
+            </tr> 
+        }
         </tbody>
     </table>
 </div>
