@@ -37,6 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddScoped<ISupportProjectQueryService, SupportProjectQueryService>();
             services.AddScoped<ISupportProjectAuditQueryService, SupportProjectAuditQueryService>();
+            services.AddScoped<IWatchlistQueryService, WatchlistQueryService>();
 
             return services;
         }
