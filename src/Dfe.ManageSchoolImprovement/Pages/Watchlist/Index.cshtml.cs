@@ -21,7 +21,8 @@ public class IndexModel(IWatchlistQueryService watchlistQueryService,
     
     public string? CurrentUser { get; set; }
     public Result<IEnumerable<int>>? WatchlistSupportProjectIds { get; set; }
-    public List<string> SchoolNames { get; set; } = [];
+    
+    public List<WatchlistViewModel> Watchlist { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
@@ -40,12 +41,18 @@ public class IndexModel(IWatchlistQueryService watchlistQueryService,
             
                 if (result.IsSuccess && result.Value != null)
                 {
-                    SchoolNames.Add(result.Value.SchoolName);
-                }
-                
-                if (!result.IsSuccess)
-                {
-                    return NotFound();
+                    Watchlist.Add(
+                        new WatchlistViewModel
+                        {
+                            SupportProjectId = result.Value.Id,
+                            User = CurrentUser,
+                            SchoolName = result.Value.SchoolName,
+                            DateAdded = result.Value.CreatedOn,
+                            AssignedTo = result.Value.AssignedDeliveryOfficerFullName,
+                            SupportingOrganisationName = result.Value.SupportOrganisationName,
+                            Status = result.Value.ProjectStatus
+                        }
+                        );
                 }
             }
         }

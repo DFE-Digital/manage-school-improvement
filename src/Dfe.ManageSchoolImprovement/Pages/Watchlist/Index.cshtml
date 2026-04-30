@@ -1,5 +1,6 @@
 @page "/watchlist"
 
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.IndexModel
 
 @{
@@ -10,7 +11,7 @@
     <h1 class="govuk-heading-xl">Your school watchlist</h1>
     <p class="govuk-body">
         You can use your watchlist to save schools that are important to you and find them quickly.
-        </p>
+    </p>
 </div>
 <div class=govuk-grid-row>
     <table class="govuk-table" data-module="moj-sortable-table">
@@ -22,14 +23,35 @@
             <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
                 School
             </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+                Date added to MSI
+            </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+                Assigned to
+            </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+                Supporting organisation
+            </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+                Status
+            </th>
         </tr>
         </thead>
         <tbody class="govuk-table__body">
-        @foreach (var name in Model.SchoolNames)
+        @foreach (var watchedSchool in Model.Watchlist)
         {
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell" data-sort-value="My school">@name</td>
-            </tr> 
+                <td class="govuk-table__cell" data-sort-value="@watchedSchool.SchoolName">@watchedSchool.SchoolName</td>
+                <td class="govuk-table__cell"
+                    data-sort-value="@watchedSchool.DateAdded">@watchedSchool.DateAdded.ToDateString()</td>
+                <td class="govuk-table__cell"
+                    data-sort-value="@watchedSchool.AssignedTo">@(watchedSchool.AssignedTo ?? "Not yet assigned")</td>
+                <td class="govuk-table__cell"
+                    data-sort-value="@watchedSchool.SupportingOrganisationName">@(watchedSchool.SupportingOrganisationName ?? "Not yet appointed")</td>
+                <td class="govuk-table__cell" data-sort-value="@watchedSchool.Status">
+                    <partial name="Shared/_ProjectStatus" model="watchedSchool.Status"/>
+                </td>
+            </tr>
         }
         </tbody>
     </table>
