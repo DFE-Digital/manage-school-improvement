@@ -12,7 +12,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator,
-        ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+        IApplicationSettingsResourceService applicationSettingsResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "HasSchoolReceivedFundingInLastTwoYears")]
         [Required]
@@ -34,7 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.FundingHistory
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
-            PreviousFundingChecksSpreadsheetLink = await sharePointResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
+            PreviousFundingChecksSpreadsheetLink = await applicationSettingsResourceService.GetPreviousFundingChecksSpreadsheetLink(cancellationToken) ?? string.Empty;
 
             HasSchoolReceivedFundingInLastTwoYears = SupportProject?.HasReceivedFundingInThelastTwoYears;
             

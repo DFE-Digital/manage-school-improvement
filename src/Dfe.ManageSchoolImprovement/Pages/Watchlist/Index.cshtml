@@ -16,7 +16,6 @@
 <div class=govuk-grid-row>
     @if (Model.Watchlist.Count > 0)
     {
-            <table class="govuk-table" data-module="moj-sortable-table">
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-visually-hidden">
             My watched schools
@@ -26,16 +25,16 @@
             <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
                 School
             </th>
-            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+            <th scope="col" class="govuk-table__header" aria-sort="none">
                 Date added to MSI
             </th>
-            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+            <th scope="col" class="govuk-table__header" aria-sort="none">
                 Assigned to
             </th>
-            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+            <th scope="col" class="govuk-table__header" aria-sort="none">
                 Supporting organisation
             </th>
-            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+            <th scope="col" class="govuk-table__header" aria-sort="none">
                 Status
             </th>
         </tr>
@@ -44,14 +43,18 @@
         @foreach (var watchedSchool in Model.Watchlist)
         {
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell" data-sort-value="@watchedSchool.SchoolName">@watchedSchool.SchoolName</td>
+                <td class="govuk-table__cell" data-sort-value="@watchedSchool.SchoolName">
+                    <a class="govuk-link" asp-page="@Links.TaskList.Index.Page"
+                       data-cy="school-name-@watchedSchool.SchoolName" asp-route-id="@watchedSchool.SupportProjectId"
+                       asp-route-returnpage="@Links.Watchlist.Index.Page">@watchedSchool.SchoolName</a>
+                </td>
                 <td class="govuk-table__cell"
-                    data-sort-value="@watchedSchool.DateAdded">@watchedSchool.DateAdded.ToDateString()</td>
+                    data-sort-value="@watchedSchool.DateAdded" data-cy="date-added-@watchedSchool.SchoolName">@watchedSchool.DateAdded.ToDateString()</td>
                 <td class="govuk-table__cell"
-                    data-sort-value="@watchedSchool.AssignedTo">@(watchedSchool.AssignedTo ?? "Not yet assigned")</td>
+                    data-sort-value="@watchedSchool.AssignedTo" data-cy="assigned-to-@watchedSchool.SchoolName">@(watchedSchool.AssignedTo ?? "Not yet assigned")</td>
                 <td class="govuk-table__cell"
                     data-sort-value="@watchedSchool.SupportingOrganisationName">@(watchedSchool.SupportingOrganisationName ?? "Not yet appointed")</td>
-                <td class="govuk-table__cell" data-sort-value="@watchedSchool.Status">
+                <td class="govuk-table__cell" data-sort-value="@watchedSchool.Status" data-cy="status-@watchedSchool.SchoolName">
                     <partial name="Shared/_ProjectStatus" model="watchedSchool.Status"/>
                 </td>
             </tr>
@@ -67,14 +70,14 @@
     <h2 class="govuk-heading-m">Helpful links (links open in a new tab</h2>
     <h3 class="govuk-heading-s">Targeted RISE reporting</h3>
     <ul class="govuk-list govuk-list--bullet">
-        <li><a href="">RISE delivery dashboard</a></li>
-        <li><a href="">RISE data tables</a></li>
-        <li><a href="">RISE monitoring report</a></li>
+        <li><a href="@Model.RiseDeliveryDashboardLink" rel="noreferrer noopener" target="_blank" data-testid="rise-delivery-dashboard-link">RISE delivery dashboard</a></li>
+        <li><a href="@Model.RiseDataTablesLink" rel="noreferrer noopener" target="_blank" data-testid="rise-data-tables-link">RISE data tables</a></li>
+        <li><a href="@Model.RiseMonitoringReportsLink" rel="noreferrer noopener" target="_blank" data-testid="ofsted-inspection-reports-link">RISE monitoring report</a></li>
     </ul>
     <h3 class="govuk-heading-s">Information from other services</h3>
     <ul class="govuk-list govuk-list--bullet">
-        <li><a href="">See inspection reports at Ofsted</a></li>
-        <li><a href="">Get information about schools</a></li>
-        <li><a href="">Find information about schools and trusts</a></li>
+        <li><a href="https://reports.ofsted.gov.uk/" rel="noreferrer noopener" target="_blank" data-testid="ofsted-inspection-reports-link">See inspection reports at Ofsted</a></li>
+        <li><a href="https://www.get-information-schools.service.gov.uk/" rel="noreferrer noopener" target="_blank" data-testid="gias-link">Get information about schools</a></li>
+        <li><a href="https://www.find-information-schools-trusts.education.gov.uk/" rel="noreferrer noopener" target="_blank" data-testid="fast-link">Find information about schools and trusts</a></li>
     </ul>
 </div>

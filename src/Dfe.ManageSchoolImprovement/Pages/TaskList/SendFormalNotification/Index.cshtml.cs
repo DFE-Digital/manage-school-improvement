@@ -14,7 +14,7 @@ public class SendFormalNotificationModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "use-enrolment-letter-template-to-draft-email")]
@@ -118,7 +118,7 @@ public class SendFormalNotificationModel(
     // Extracted method for loading enrolment letter template
     private async Task LoadEnrolmentLetterTemplateAsync(CancellationToken cancellationToken)
     {
-        EnrolmentLetterTemplate = await sharePointResourceService
+        EnrolmentLetterTemplate = await applicationSettingsResourceService
             .GetEnrolmentLetterTemplateLinkAsync(cancellationToken) ?? string.Empty;
     }
 

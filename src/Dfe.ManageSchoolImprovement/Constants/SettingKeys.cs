@@ -19,4 +19,11 @@ public static class SettingKeys
         public const string CheckSupportingOrganisationVendorAccountLink = "CheckSupportingOrganisationVendorAccountLink";
         public const string SFSOCommissioningFormLink = "SFSOCommissioningFormLink";
     }
+
+    public static class BIReports
+    {
+        public const string RISEDeliveryDashboard = "RISEDeliveryDashboard";
+        public const string RISEDataTables = "RISEDataTables";
+        public const string RISEMonitoringReports = "RISEMonitoringReports";
+    }
 }

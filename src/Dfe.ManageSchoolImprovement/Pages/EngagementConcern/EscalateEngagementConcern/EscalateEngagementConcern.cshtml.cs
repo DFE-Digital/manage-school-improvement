@@ -12,7 +12,7 @@ public class EscalateEngagementConcernModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator)
 {
     // Fixed: Initialize with empty string to avoid CS8618
@@ -134,7 +134,7 @@ public class EscalateEngagementConcernModel(
     // Extracted method for loading SOPU commissioning form
     private async Task LoadSOPUCommissioningFormAsync(CancellationToken cancellationToken)
     {
-        SOPUCommissioningForm = await sharePointResourceService
+        SOPUCommissioningForm = await applicationSettingsResourceService
             .GetSOPUCommissioningFormLinkAsync(cancellationToken) ?? string.Empty;
     }
 

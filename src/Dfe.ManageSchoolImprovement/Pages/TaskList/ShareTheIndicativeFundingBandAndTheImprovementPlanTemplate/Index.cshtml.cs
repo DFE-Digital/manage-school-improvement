@@ -16,7 +16,7 @@ public class IndexModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "date-templates-sent", BinderType = typeof(DateInputModelBinder))]
@@ -120,9 +120,9 @@ public class IndexModel(
     {
         // Sequential calls to avoid DbContext concurrency issues
         // Each call completes before the next one starts, preventing concurrent access to DbContext
-        AssessmentToolThreeLink = await sharePointResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken) ?? string.Empty;
-        AssessmentToolThreeGuidanceLink = await sharePointResourceService.GetTargetedInterventionGuidanceLinkAsync(cancellationToken) ?? string.Empty;
-        ImprovementPlanTemplateLink = await sharePointResourceService.GetImprovementPlanTemplateLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolThreeLink = await applicationSettingsResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolThreeGuidanceLink = await applicationSettingsResourceService.GetTargetedInterventionGuidanceLinkAsync(cancellationToken) ?? string.Empty;
+        ImprovementPlanTemplateLink = await applicationSettingsResourceService.GetImprovementPlanTemplateLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     // Extracted method for cleaner error handling

@@ -5,16 +5,16 @@ using Moq;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services;
 
-public class SharePointResourceServiceTests
+public class ApplicationSettingsResourceServiceTests
 {
     private readonly Mock<IApplicationSettingsService> _mockSettingsService;
-    private readonly SharePointResourceService _sharePointResourceService;
+    private readonly ApplicationSettingsResourceService _applicationSettingsResourceService;
     private readonly CancellationToken _cancellationToken;
 
-    public SharePointResourceServiceTests()
+    public ApplicationSettingsResourceServiceTests()
     {
         _mockSettingsService = new Mock<IApplicationSettingsService>();
-        _sharePointResourceService = new SharePointResourceService(_mockSettingsService.Object);
+        _applicationSettingsResourceService = new ApplicationSettingsResourceService(_mockSettingsService.Object);
         _cancellationToken = CancellationToken.None;
     }
 
@@ -24,8 +24,8 @@ public class SharePointResourceServiceTests
     public void Constructor_WithValidSettingsService_ShouldCreateInstance()
     {
         // Act & Assert
-        _sharePointResourceService.Should().NotBeNull();
-        _sharePointResourceService.Should().BeAssignableTo<ISharePointResourceService>();
+        _applicationSettingsResourceService.Should().NotBeNull();
+        _applicationSettingsResourceService.Should().BeAssignableTo<IApplicationSettingsResourceService>();
     }
 
     #endregion
@@ -41,7 +41,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolOneLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -56,7 +56,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolOneLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -72,7 +72,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolTwoLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolTwoLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -87,7 +87,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolTwoLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolTwoLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -102,7 +102,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -117,7 +117,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -132,7 +132,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolThreeLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolThreeLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -147,7 +147,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolThreeLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetAssessmentToolThreeLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -166,7 +166,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetImprovementPlanTemplateLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetImprovementPlanTemplateLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -181,7 +181,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetImprovementPlanTemplateLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetImprovementPlanTemplateLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -196,7 +196,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetEnrolmentLetterTemplateLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetEnrolmentLetterTemplateLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -211,7 +211,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetEnrolmentLetterTemplateLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetEnrolmentLetterTemplateLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -230,7 +230,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetConfirmFundingBandLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetConfirmFundingBandLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -245,7 +245,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetConfirmFundingBandLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetConfirmFundingBandLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -260,7 +260,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetFundingBandGuidanceLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetFundingBandGuidanceLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -275,7 +275,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetFundingBandGuidanceLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetFundingBandGuidanceLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -290,7 +290,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetTargetedInterventionGuidanceLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetTargetedInterventionGuidanceLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -305,7 +305,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetTargetedInterventionGuidanceLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetTargetedInterventionGuidanceLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -320,7 +320,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetIEBGuidanceLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetIEBGuidanceLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -335,7 +335,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetIEBGuidanceLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetIEBGuidanceLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -350,7 +350,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetSOPUCommissioningFormLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetSOPUCommissioningFormLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().Be(expectedLink);
@@ -365,7 +365,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync((string?)null);
 
         // Act
-        var result = await _sharePointResourceService.GetSOPUCommissioningFormLinkAsync(_cancellationToken);
+        var result = await _applicationSettingsResourceService.GetSOPUCommissioningFormLinkAsync(_cancellationToken);
 
         // Assert
         result.Should().BeNull();
@@ -384,7 +384,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetAssessmentToolOneLinkAsync();
+        var result = await _applicationSettingsResourceService.GetAssessmentToolOneLinkAsync();
 
         // Assert
         result.Should().Be(expectedLink);
@@ -400,7 +400,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetImprovementPlanTemplateLinkAsync();
+        var result = await _applicationSettingsResourceService.GetImprovementPlanTemplateLinkAsync();
 
         // Assert
         result.Should().Be(expectedLink);
@@ -416,7 +416,7 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act
-        var result = await _sharePointResourceService.GetConfirmFundingBandLinkAsync();
+        var result = await _applicationSettingsResourceService.GetConfirmFundingBandLinkAsync();
 
         // Assert
         result.Should().Be(expectedLink);
@@ -446,10 +446,10 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedValue);
 
         // Act
-        var method = typeof(SharePointResourceService).GetMethod(methodName);
+        var method = typeof(ApplicationSettingsResourceService).GetMethod(methodName);
         method.Should().NotBeNull($"Method {methodName} should exist");
 
-        var task = (Task<string?>)method!.Invoke(_sharePointResourceService, new object[] { _cancellationToken })!;
+        var task = (Task<string?>)method!.Invoke(_applicationSettingsResourceService, new object[] { _cancellationToken })!;
         var result = await task;
 
         // Assert
@@ -469,7 +469,7 @@ public class SharePointResourceServiceTests
             .ThrowsAsync(new InvalidOperationException("Test exception"));
 
         // Act & Assert
-        var act = async () => await _sharePointResourceService.GetAssessmentToolOneLinkAsync(_cancellationToken);
+        var act = async () => await _applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(_cancellationToken);
         await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("Test exception");
     }
 
@@ -481,7 +481,7 @@ public class SharePointResourceServiceTests
             .ThrowsAsync(new ArgumentException("Test argument exception"));
 
         // Act & Assert
-        var act = async () => await _sharePointResourceService.GetImprovementPlanTemplateLinkAsync(_cancellationToken);
+        var act = async () => await _applicationSettingsResourceService.GetImprovementPlanTemplateLinkAsync(_cancellationToken);
         await act.Should().ThrowAsync<ArgumentException>().WithMessage("Test argument exception");
     }
 
@@ -498,13 +498,13 @@ public class SharePointResourceServiceTests
             .ReturnsAsync(expectedLink);
 
         // Act & Assert
-        var methods = typeof(ISharePointResourceService).GetMethods()
+        var methods = typeof(IApplicationSettingsResourceService).GetMethods()
             .Where(m => m.ReturnType == typeof(Task<string?>))
             .ToList();
 
         foreach (var method in methods)
         {
-            var task = (Task<string?>)method.Invoke(_sharePointResourceService, new object[] { _cancellationToken })!;
+            var task = (Task<string?>)method.Invoke(_applicationSettingsResourceService, new object[] { _cancellationToken })!;
             var result = await task;
             result.Should().Be(expectedLink);
         }

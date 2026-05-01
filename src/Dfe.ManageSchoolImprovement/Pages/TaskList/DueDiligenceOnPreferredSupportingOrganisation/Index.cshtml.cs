@@ -11,7 +11,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Upd
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.DueDiligenceOnPreferredSupportingOrganisation;
 
 public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator,
-    ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    IApplicationSettingsResourceService applicationSettingsResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "check-organisation-has-capacity-and-willing-to-provide-support")]
     [Display(Name = "Check the organisation has capacity and is willing to provide support to this school")]
@@ -66,16 +66,16 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         }
 
         
-        CheckSupportingOrgVendorAccountLink = await sharePointResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
-        SfsoCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
+        CheckSupportingOrgVendorAccountLink = await applicationSettingsResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
+        SfsoCommissioningFormLink = await applicationSettingsResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
 
         return Page();
     }
 
     public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
     {
-        CheckSupportingOrgVendorAccountLink = await sharePointResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
-        SfsoCommissioningFormLink = await sharePointResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
+        CheckSupportingOrgVendorAccountLink = await applicationSettingsResourceService.GetCheckSupportingOrganisationVendorAccountLink(cancellationToken) ?? string.Empty;
+        SfsoCommissioningFormLink = await applicationSettingsResourceService.GetSFSOCommissioningFormLink(cancellationToken) ?? string.Empty;
 
         if (!ModelState.IsValid)
         {

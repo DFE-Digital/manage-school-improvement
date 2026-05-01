@@ -14,7 +14,7 @@ public class IndexModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "decision-date", BinderType = typeof(DateInputModelBinder))]
@@ -58,7 +58,7 @@ public class IndexModel(
             (HasSchoolMatchedWithSupportingOrganisation, RegionalDirectorDecisionDate, AssessmentToolOneLink) = (
                 SupportProject.InitialDiagnosisMatchingDecision,
                 SupportProject.RegionalDirectorDecisionDate,
-                await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty
+                await applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty
             );
             
             // Conditional assignment using switch expression
@@ -135,7 +135,7 @@ public class IndexModel(
     // Extracted method for cleaner error handling
     private async Task<IActionResult> HandleValidationErrorsAsync(int id, CancellationToken cancellationToken)
     {
-        AssessmentToolOneLink = await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolOneLink = await applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
         RadioButtonModels = RadioButtons;
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         ShowError = true;

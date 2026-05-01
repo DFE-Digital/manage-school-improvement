@@ -6,12 +6,12 @@ using Moq;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Extensions;
 
-public class SharePointResourceExtensionsTests
+public class ApplicationSettingsResourceExtensionsTests
 {
     private readonly Mock<IApplicationSettingsService> _mockSettingsService;
     private readonly CancellationToken _cancellationToken;
 
-    public SharePointResourceExtensionsTests()
+    public ApplicationSettingsResourceExtensionsTests()
     {
         _mockSettingsService = new Mock<IApplicationSettingsService>();
         _cancellationToken = CancellationToken.None;
@@ -433,7 +433,7 @@ public class SharePointResourceExtensionsTests
             .ReturnsAsync(expectedValue);
 
         // Act
-        var method = typeof(SharePointResourceExtensions).GetMethod(methodName);
+        var method = typeof(ApplicationSettingsResourceExtensions).GetMethod(methodName);
         method.Should().NotBeNull($"Method {methodName} should exist");
 
         var task = (Task<string?>)method!.Invoke(null, new object[] { _mockSettingsService.Object, _cancellationToken })!;

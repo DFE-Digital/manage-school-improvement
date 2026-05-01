@@ -14,7 +14,7 @@ public class IndexModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "saved-assessemnt-template-in-sharepoint-date", BinderType = typeof(DateInputModelBinder))]
@@ -54,7 +54,7 @@ public class IndexModel(
                 (SupportProject.SavedAssessmentTemplateInSharePointDate,
                     SupportProject.HasTalkToAdviserAboutFindings,
                     SupportProject.HasCompleteAssessmentTemplate,
-                    await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty);
+                    await applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty);
 
             TaskListStatus = TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProject);
             ProjectStatus = SupportProject.ProjectStatus;
@@ -66,7 +66,7 @@ public class IndexModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         // Early assignment of SharePoint link
-        AssessmentToolOneLink = await sharePointResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolOneLink = await applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
 
         // Early return pattern for validation
         if (!ModelState.IsValid)

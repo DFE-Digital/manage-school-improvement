@@ -12,7 +12,7 @@ public class RecordUseOfInterimExecutiveBoardModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     // Fixed: Initialize with empty string to avoid CS8618
@@ -102,7 +102,7 @@ public class RecordUseOfInterimExecutiveBoardModel(
     // Extracted method for loading IEB guidance link
     private async Task LoadIEBGuidanceLinkAsync(CancellationToken cancellationToken)
     {
-        IEBGuidanceLink = await sharePointResourceService
+        IEBGuidanceLink = await applicationSettingsResourceService
             .GetIEBGuidanceLinkAsync(cancellationToken) ?? string.Empty;
     }
 
