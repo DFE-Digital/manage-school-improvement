@@ -20,7 +20,7 @@ export default defineConfig({
       json: true,
     },
   },
-  e2e: {   
+    e2e: { 
     setupNodeEvents(on, config) {
 
       on("before:run", () => {
