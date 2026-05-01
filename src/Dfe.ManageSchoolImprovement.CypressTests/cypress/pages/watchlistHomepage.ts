@@ -57,6 +57,33 @@ class WatchlistHomepage {
 
 		return this;
 	}
+
+
+    public hasMessageWhenNoSchools(message: string) {
+        cy.get('[data-testid="no-schools-message"]').should('exist').should('have.text', message);
+        return this;
+    }
+
+    public clickFirstSchoolInList() {
+        cy.get('[data-testid="school-table"] tbody tr').first().click();
+        return this;
+    }
+
+    public removeFirstSchoolInList() {
+        cy.get('[data-testid="school-table"] tbody tr').first().within(() => {
+            cy.get('[data-testid="remove-school-button"]').click();
+        }
+        );
+
+        return this;
+    }
+
+    public sortByColumn(columnName: string) {
+        cy.get('[data-testid="school-table"] th').contains(columnName).click();
+
+        return this;
+    }
+
 }
 const watchlistHomepage = new WatchlistHomepage();
 

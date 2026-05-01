@@ -11,7 +11,7 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
 
     });
 
-    it("should be able to see the schools assigned to the user", () => {
+    it("should be able to find the schools list with details,assigned to the user", () => {
         Logger.log("User navigated to Task list");
         watchlistHomepage
            .hasSchoolList()
@@ -21,5 +21,43 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
 
         cy.executeAccessibilityTests()
     });
+
+    it("should show a message when there are no schools assigned to the user", () => {
+        Logger.log("User navigated to Task list");
+        watchlistHomepage
+           .hasSchoolList()
+           .hasMessageWhenNoSchools('Your watchlist is currently empty.')
+
+        cy.executeAccessibilityTests()
+    });
+   
+    it("should be able to navigate to the school when selected", () => {
+        Logger.log("User navigated to Task list");
+        watchlistHomepage
+           .hasSchoolList()
+           .clickFirstSchoolInList()
+
+        cy.executeAccessibilityTests()
+    });
+
+
+    it("should be able to navigate to the school when selected", () => {
+        Logger.log("User navigated to Task list");
+        watchlistHomepage
+           .hasSchoolList()
+           .removeFirstSchoolInList()
+
+        cy.executeAccessibilityTests()
+    });
+
+      it("should be able to sort the list, based on columns ", () => {
+        Logger.log("User navigated to Task list");
+        watchlistHomepage
+           .hasSchoolList()
+           .removeFirstSchoolInList()
+
+        cy.executeAccessibilityTests()
+    });  
+
 
 });    
