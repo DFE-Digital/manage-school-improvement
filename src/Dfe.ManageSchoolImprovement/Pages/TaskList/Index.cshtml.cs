@@ -61,9 +61,9 @@ public class IndexModel(
         TempData["ErrorPage"] = errorPage;
     }
 
-    public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, string? returnPage, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.SchoolList.Index.Page;
+        ReturnPage = returnPage ?? Links.SchoolList.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 

@@ -1,6 +1,6 @@
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 
-public interface ISharePointResourceService
+public interface IApplicationSettingsResourceService
 {
     Task<string?> GetAssessmentToolOneLinkAsync(CancellationToken cancellationToken = default);
     Task<string?> GetAssessmentToolTwoLinkAsync(CancellationToken cancellationToken = default);
@@ -16,4 +16,7 @@ public interface ISharePointResourceService
     Task<string?> GetPreviousFundingChecksSpreadsheetLink(CancellationToken cancellationToken = default);
     Task<string?> GetCheckSupportingOrganisationVendorAccountLink(CancellationToken cancellationToken = default);
     Task<string?> GetSFSOCommissioningFormLink(CancellationToken cancellationToken = default);
+    Task<string?> GetRISEDeliveryDashboardLinkAsync(CancellationToken cancellationToken = default);
+    Task<string?> GetRISEDataTablesLinkAsync(CancellationToken cancellationToken = default);
+    Task<string?> GetRISEMonitoringReportsLinkAsync(CancellationToken cancellationToken = default);
 }

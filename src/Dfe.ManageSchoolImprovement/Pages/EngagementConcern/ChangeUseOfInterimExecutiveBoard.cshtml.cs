@@ -13,7 +13,7 @@ public class ChangeUseOfInterimExecutiveBoardModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     // Fixed: Initialize with empty string to avoid CS8618
@@ -110,7 +110,7 @@ public class ChangeUseOfInterimExecutiveBoardModel(
     // Extracted method for loading IEB guidance link
     private async Task LoadIEBGuidanceLinkAsync(CancellationToken cancellationToken)
     {
-        IEBGuidanceLink = await sharePointResourceService
+        IEBGuidanceLink = await applicationSettingsResourceService
             .GetIEBGuidanceLinkAsync(cancellationToken) ?? string.Empty;
     }
 

@@ -3,7 +3,7 @@ using GovUK.Dfe.CoreLibs.ApplicationSettings.Interfaces;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Extensions;
 
-public static class SharePointResourceExtensions
+public static class ApplicationSettingsResourceExtensions
 {
     // Assessment Tools
     public static async Task<string?> GetAssessmentToolOneLinkAsync(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
@@ -49,4 +49,14 @@ public static class SharePointResourceExtensions
 
     public static async Task<string?> GetSFSOCommissioningFormLink(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
     => await service.GetSettingAsync(SettingKeys.SharePointResources.SFSOCommissioningFormLink, cancellationToken);
+    
+    // RISE data links
+    public static async Task<string?> GetRISEDeliveryDashboardLinkAsync(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
+        => await service.GetSettingAsync(SettingKeys.BIReports.RISEDeliveryDashboard, cancellationToken);
+    
+    public static async Task<string?> GetRISEDataTablesLinkAsync(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
+        => await service.GetSettingAsync(SettingKeys.BIReports.RISEDataTables, cancellationToken);
+    
+    public static async Task<string?> GetRISEMonitoringReportsLinkAsync(this IApplicationSettingsService service, CancellationToken cancellationToken = default)
+        => await service.GetSettingAsync(SettingKeys.BIReports.RISEMonitoringReports, cancellationToken);
 }

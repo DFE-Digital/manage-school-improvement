@@ -3,11 +3,11 @@ using GovUK.Dfe.CoreLibs.ApplicationSettings.Interfaces;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services;
 
-public class SharePointResourceService : ISharePointResourceService
+public class ApplicationSettingsResourceService : IApplicationSettingsResourceService
 {
     private readonly IApplicationSettingsService _settingsService;
 
-    public SharePointResourceService(IApplicationSettingsService settingsService)
+    public ApplicationSettingsResourceService(IApplicationSettingsService settingsService)
     {
         _settingsService = settingsService;
     }
@@ -52,4 +52,13 @@ public class SharePointResourceService : ISharePointResourceService
 
     public async Task<string?> GetSFSOCommissioningFormLink(CancellationToken cancellationToken = default)
     => await _settingsService.GetSFSOCommissioningFormLink(cancellationToken);
+    
+    public async Task<string?> GetRISEDeliveryDashboardLinkAsync(CancellationToken cancellationToken = default)
+        => await _settingsService.GetRISEDeliveryDashboardLinkAsync(cancellationToken);
+    
+    public async Task<string?> GetRISEDataTablesLinkAsync(CancellationToken cancellationToken = default)
+        => await _settingsService.GetRISEDataTablesLinkAsync(cancellationToken);
+    
+    public async Task<string?> GetRISEMonitoringReportsLinkAsync(CancellationToken cancellationToken = default)
+        => await _settingsService.GetRISEMonitoringReportsLinkAsync(cancellationToken);
 }

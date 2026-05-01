@@ -9,7 +9,7 @@ public class EscalationConfirmationModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IConfiguration configuration,
-    ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    IApplicationSettingsResourceService applicationSettingsResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
 
@@ -25,7 +25,7 @@ public class EscalationConfirmationModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        SOPUCommissioningForm = await sharePointResourceService.GetSOPUCommissioningFormLinkAsync(cancellationToken) ?? string.Empty;
+        SOPUCommissioningForm = await applicationSettingsResourceService.GetSOPUCommissioningFormLinkAsync(cancellationToken) ?? string.Empty;
 
         return Page();
     }

@@ -16,7 +16,7 @@ public class IndexModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    IApplicationSettingsResourceService applicationSettingsResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     private static readonly List<RadioButtonsLabelViewModel> _fundingBandOptions = CreateFundingBandOptions();
 
@@ -116,8 +116,8 @@ public class IndexModel(
     private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
     {
         // Safe - calls happen one after another
-        ConfirmFundingBandLink = await sharePointResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken) ?? string.Empty;
-        FundingBandGuidanceLink = await sharePointResourceService.GetFundingBandGuidanceLinkAsync(cancellationToken) ?? string.Empty;
+        ConfirmFundingBandLink = await applicationSettingsResourceService.GetAssessmentToolThreeLinkAsync(cancellationToken) ?? string.Empty;
+        FundingBandGuidanceLink = await applicationSettingsResourceService.GetFundingBandGuidanceLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     private void PopulateFormFields()

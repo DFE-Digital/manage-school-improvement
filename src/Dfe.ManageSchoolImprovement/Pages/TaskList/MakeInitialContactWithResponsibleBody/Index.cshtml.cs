@@ -14,7 +14,7 @@ public class MakeInitialContactWithResponsibleBodyModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "responsible-body-initial-contact-date", BinderType = typeof(DateInputModelBinder))]
@@ -94,7 +94,7 @@ public class MakeInitialContactWithResponsibleBodyModel(
     // Extracted method for loading guidance link
     private async Task LoadGuidanceLinkAsync(CancellationToken cancellationToken)
     {
-        TargetedInterventionGuidanceLink = await sharePointResourceService
+        TargetedInterventionGuidanceLink = await applicationSettingsResourceService
             .GetTargetedInterventionGuidanceLinkAsync(cancellationToken) ?? string.Empty;
     }
 

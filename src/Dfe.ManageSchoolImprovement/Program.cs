@@ -145,7 +145,7 @@ builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IGraphClientFactory, GraphClientFactory>();
 builder.Services.AddScoped<IGraphUserService, GraphUserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ISharePointResourceService, SharePointResourceService>();
+builder.Services.AddScoped<IApplicationSettingsResourceService, ApplicationSettingsResourceService>();
 
 builder.Services.AddSingleton<IAuthorizationHandler, HeaderRequirementHandler>();
 builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();

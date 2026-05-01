@@ -14,7 +14,7 @@ public class ChooseSupportOrganisationTypeModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    ISharePointResourceService sharePointResourceService)
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "SupportOrganisationType")]
@@ -171,8 +171,8 @@ public class ChooseSupportOrganisationTypeModel(
     // Extracted method for loading SharePoint links concurrently
     private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
     {
-        AssessmentToolTwoLink = await sharePointResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ?? string.Empty;
-        AssessmentToolTwoSharePointFolderLink = await sharePointResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolTwoLink = await applicationSettingsResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ?? string.Empty;
+        AssessmentToolTwoSharePointFolderLink = await applicationSettingsResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     // Extracted method for cleaner error handling
