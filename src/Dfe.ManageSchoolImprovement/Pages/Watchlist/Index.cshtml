@@ -14,7 +14,9 @@
     </p>
 </div>
 <div class=govuk-grid-row>
-    <table class="govuk-table" data-module="moj-sortable-table">
+    @if (Model.Watchlist.Count > 0)
+    {
+            <table class="govuk-table" data-module="moj-sortable-table">
         <caption class="govuk-table__caption govuk-visually-hidden">
             My watched schools
         </caption>
@@ -55,4 +57,23 @@
         }
         </tbody>
     </table>
+    }
+    else
+    {
+        <p class="govuk-body"><strong>Your watchlist is currently empty.</strong></p>
+    }
+
+    <h2 class="govuk-heading-m">Helpful links (links open in a new tab</h2>
+    <h3 class="govuk-heading-s">Targeted RISE reporting</h3>
+    <ul class="govuk-list govuk-list--bullet">
+        <li><a href="">RISE delivery dashboard</a></li>
+        <li><a href="">RISE data tables</a></li>
+        <li><a href="">RISE monitoring report</a></li>
+    </ul>
+    <h3 class="govuk-heading-s">Information from other services</h3>
+    <ul class="govuk-list govuk-list--bullet">
+        <li><a href="">See inspection reports at Ofsted</a></li>
+        <li><a href="">Get information about schools</a></li>
+        <li><a href="">Find information about schools and trusts</a></li>
+    </ul>
 </div>
