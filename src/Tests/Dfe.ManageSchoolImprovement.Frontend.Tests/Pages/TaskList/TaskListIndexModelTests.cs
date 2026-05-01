@@ -93,7 +93,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages.TaskList
                 .ReturnsAsync(mockProject);
 
             // Act
-            var result = await _indexModel.OnGetAsync(projectId, cancellationToken);
+            var result = await _indexModel.OnGetAsync(projectId, null, cancellationToken);
 
             // Assert
             Assert.Equal(TaskListStatus.NotStarted, _indexModel.InitialContactWithResponsibleBodyTaskListStatus);
