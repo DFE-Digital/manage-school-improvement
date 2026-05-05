@@ -169,7 +169,7 @@ var forwardOptions = new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All,
     RequireHeaderSymmetry = false
 };
-forwardOptions.KnownNetworks.Clear();
+forwardOptions.KnownIPNetworks.Clear();
 forwardOptions.KnownProxies.Clear();
 app.UseForwardedHeaders(forwardOptions);
 
@@ -211,5 +211,3 @@ app.UseEndpoints(endpoints =>
 app.UseHealthChecks("/health");
 
 await app.RunAsync();
-
-public abstract partial class Program { } // Make the Program class partial for testing

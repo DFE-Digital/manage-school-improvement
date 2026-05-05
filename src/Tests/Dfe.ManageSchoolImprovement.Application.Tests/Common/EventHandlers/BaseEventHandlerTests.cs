@@ -39,35 +39,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
         }
 
         [Fact]
-        public async Task Handle_LogsInformation_WhenEventIsHandledSuccessfully()
-        {
-            // Arrange
-            var testEvent = new TestEvent();
-
-            // Act
-            await _handler.Handle(testEvent, CancellationToken.None);
-
-            // Assert
-            _mockLogger.Verify(
-                x => x.Log(
-                    LogLevel.Information,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Handling event: TestEvent")),
-                    It.IsAny<Exception>(),
-                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
-                Times.Once);
-
-            _mockLogger.Verify(
-                x => x.Log(
-                    LogLevel.Information,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Event handled successfully: TestEvent")),
-                    It.IsAny<Exception>(),
-                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
-                Times.Once);
-        }
-
-        [Fact]
         public async Task Handle_LogsErrorAndRethrows_WhenExceptionOccurs()
         {
             // Arrange

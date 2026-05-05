@@ -13,12 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.EventHandlers
         {
             try
             {
-                logger.LogInformation($"Handling event: {typeof(TEvent).Name}");
-
-
                 await HandleEvent(notification, cancellationToken);
-
-                logger.LogInformation($"Event handled successfully: {typeof(TEvent).Name}");
             }
             catch (Exception ex)
             {
