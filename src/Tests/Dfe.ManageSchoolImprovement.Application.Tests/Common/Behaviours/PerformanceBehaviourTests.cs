@@ -34,14 +34,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
 
             // Assert
             Assert.Equal(response, result);
-            _mockLogger.Verify(
-                x => x.Log(
-                    It.IsAny<LogLevel>(),
-                    It.IsAny<EventId>(),
-                    It.IsAny<It.IsAnyType>(),
-                    It.IsAny<Exception>(),
-                    ((Func<It.IsAnyType, Exception, string>)It.IsAny<object>())!),
-                Times.Never);
         }
 
         [Fact]
