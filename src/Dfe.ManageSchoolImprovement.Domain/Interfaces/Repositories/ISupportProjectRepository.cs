@@ -18,7 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
 
         Task<SupportProject?> GetSupportProjectById(SupportProjectId id, CancellationToken cancellationToken);
         
-        Task<SupportProject?> GetSupportProjectSummaryById(SupportProjectId id, CancellationToken cancellationToken);
+        Task<(SupportProjectId Id, string SchoolName)?> GetSupportProjectSummaryById(SupportProjectId id, CancellationToken cancellationToken);
         
         Task<SupportProject?> GetSupportProjectByUrn(string urn, CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectTrusts(CancellationToken cancellationToken);

@@ -109,7 +109,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             var supportProjectId = new SupportProjectId(id);
             var supportProject = await supportProjectRepository.GetSupportProjectSummaryById(supportProjectId, cancellationToken);
 
-            var result = mapper.Map<SupportProjectSummaryDto?>(supportProject);
+            var result = new SupportProjectSummaryDto(supportProject.Value.Id.Value, supportProject.Value.SchoolName);
 
             return result == null ? Result<SupportProjectSummaryDto?>.Failure("") : Result<SupportProjectSummaryDto?>.Success(result);
         }

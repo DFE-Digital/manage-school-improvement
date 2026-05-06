@@ -219,9 +219,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .AsQueryable();
         }
         
-        public async Task<SupportProject?> GetSupportProjectSummaryById(SupportProjectId id, CancellationToken cancellationToken)
+        public async Task<(SupportProjectId Id, string SchoolName)?> GetSupportProjectSummaryById(
+            SupportProjectId id,
+            CancellationToken cancellationToken)
         {
-            return await DbSet().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await DbSet()
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => new ValueTuple<SupportProjectId, string>(
+                    x.Id,
+                    x.SchoolName
+                ))
+                .SingleOrDefaultAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
