@@ -3,7 +3,11 @@
 
 // Write your JavaScript code.
 
-import { initAll } from "govuk-frontend";
-initAll();
-import MOJFrontend from "@ministryofjustice/frontend/moj/all";
-MOJFrontend.initAll();
+import { initAll as govukFrontendInitAll } from 'govuk-frontend'
+
+import $ from 'jquery'
+import { initAll as MOJFrontendInitAll } from '@ministryofjustice/frontend'
+
+window.$ = $
+govukFrontendInitAll()
+MOJFrontendInitAll()
