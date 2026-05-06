@@ -112,6 +112,38 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             _mockRepository.Verify(
                 r => r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
         }
+        
+        [Fact]
+        public async Task GetSupportProjectSummaryById_ShouldReturnMappedDto_WhenProjectExists()
+        {
+            // Arrange
+            var project = GetSchoolProjects()[0];
+
+            _mockRepository
+                .Setup(r => r.GetSupportProjectSummaryById(
+                    It.IsAny<SupportProjectId>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync((project.Id, project.SchoolName));
+
+            // Act
+            var result = await _service.GetSupportProjectSummary(
+                1,
+                CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            Assert.IsType<SupportProjectSummaryDto>(result.Value);
+
+            Assert.Equal(project.Id.Value, result.Value!.Id);
+            Assert.Equal(project.SchoolName, result.Value.SchoolName);
+
+            _mockRepository.Verify(
+                r => r.GetSupportProjectSummaryById(
+                    It.IsAny<SupportProjectId>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
 
         [Fact]
         public async Task GetSupportProject_ShouldReturnFailure_WhenProjectNotFound()
