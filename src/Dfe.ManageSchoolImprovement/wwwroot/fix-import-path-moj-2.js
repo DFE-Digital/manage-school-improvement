@@ -11,9 +11,15 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     }
 
     // Modify the import path by removing the node_modules/ part
-    const result = data.replace(
+    let result = data.replace(
         '@import "node_modules/govuk-frontend/dist/govuk/objects/width-container";',
         '@import "govuk-frontend/dist/govuk/objects/width-container";'
+    );
+    
+    // Also handle @forward directives
+    result = result.replace(
+        '@forward "node_modules/govuk-frontend/dist/govuk/objects/width-container"',
+        '@forward "govuk-frontend/dist/govuk/objects/width-container"'
     );
 
     // Write the modified content back to the file

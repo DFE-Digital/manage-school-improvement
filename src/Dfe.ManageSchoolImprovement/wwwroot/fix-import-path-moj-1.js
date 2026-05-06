@@ -1,7 +1,7 @@
 ﻿const fs = require('fs');
 const path = require('path');
 
-const filePath = path.resolve('node_modules/@ministryofjustice/frontend/moj/all.scss');
+const filePath = path.resolve('node_modules/@ministryofjustice/frontend/moj/vendor/govuk-frontend/_base.scss');
 
 // Read the SCSS file
 fs.readFile(filePath, 'utf8', (err, data) => {
@@ -11,9 +11,15 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     }
 
     // Modify the import path by removing the node_modules/ part
-    const result = data.replace(
+    let result = data.replace(
         '@import "node_modules/govuk-frontend/dist/govuk/base";',
         '@import "govuk-frontend/dist/govuk/base";'
+    );
+    
+    // Also handle @forward directives
+    result = result.replace(
+        '@forward "node_modules/govuk-frontend/dist/govuk/base"',
+        '@forward "govuk-frontend/dist/govuk/base"'
     );
 
     // Write the modified content back to the file
