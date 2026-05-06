@@ -82,6 +82,10 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
             CreateMap<Domain.Entities.SupportProject.SupportProject, SupportProjectDto>()
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (int?)null)) // Map Id only if not null
                 .ReverseMap();
+            
+            CreateMap<Domain.Entities.SupportProject.SupportProject, SupportProjectSummaryDto>()
+                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (int?)null)) // Map Id only if not null
+                .ReverseMap();
         }
     }
 }
