@@ -1,16 +1,18 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+// @use "@ministryofjustice/frontend/moj/all" with (
+//   $moj-assets-path: "/node_modules/@ministryofjustice/frontend/moj/assets/"
+// );
 @import "inter-ui/inter.css";
 $govuk-font-family: "Inter", blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif;
 
 @import "govuk-frontend/dist/govuk";
-@import "@ministryofjustice/frontend/moj/all";
-@import 'dfe-frontend/packages/dfefrontend';
+
 @import "./css/attachment.scss";
 @import "./css/related-items.scss";
 @import "./css/summary-card.scss";
 @import "./css/cookie-banner.scss";
-
+@import "./sass/imports";
 .msi-autocomplete .govuk-input--error {
 	border: 2px solid #d4351c !important;
 }
@@ -152,4 +154,32 @@ ul .autocomplete__option {
 .govuk-header__link:focus .govuk-header__logotype{
 	content: url(~/src/images/department-for-education_black.png);
 	height: 30px;
+}
+
+[aria-sort] button,
+[aria-sort] button:hover {
+  display: inline-flex;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  color: #005ea5;
+  background-color: transparent;
+  box-shadow: 0 0 0 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  align-items: center;
+}
+
+[aria-sort] button:focus {
+  outline: none;
+  color: govuk-colour("black");
+  background-color: govuk-colour("yellow");
+  box-shadow:
+    0 -2px govuk-colour("yellow"),
+    0 4px govuk-colour("black");
 }
