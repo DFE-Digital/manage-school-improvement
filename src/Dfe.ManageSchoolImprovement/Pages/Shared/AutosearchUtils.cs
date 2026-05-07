@@ -6,12 +6,14 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 
 public static class AutosearchUtils
 {
+    private static readonly char[] BracketSplitSeparators = ['(', ')'];
+
     public static string[] SplitOnBrackets(string input)
     {
         // return array containing one empty string if input string is null or empty
         if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
 
-        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        return input.Split(BracketSplitSeparators, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
     }
 
     public static string HighlightSearchMatch(string input, string toReplace, EstablishmentSearchResponse school)
