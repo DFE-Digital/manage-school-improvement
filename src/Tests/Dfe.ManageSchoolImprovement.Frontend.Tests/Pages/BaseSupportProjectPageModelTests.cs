@@ -103,5 +103,58 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
             // Act & Assert
             Assert.True(_pageModel.IsReadOnly);
         }
+        
+        [Fact]
+        public async Task GetSupportProjectSummary_ReturnsPageResult_WhenProjectExists()
+        {
+            // Arrange
+            var projectId = 1;
+
+            var mockProject = new SupportProjectSummaryDto(
+                projectId,
+                "School A");
+
+            var result = Result<SupportProjectSummaryDto?>.Success(mockProject);
+
+            _mockQueryService
+                .Setup(s => s.GetSupportProjectSummary(projectId, _cancellationToken))
+                .ReturnsAsync(result);
+
+            // Act
+            var response = await _pageModel.GetSupportProjectSummary(
+                projectId,
+                _cancellationToken);
+
+            // Assert
+            Assert.IsType<PageResult>(response);
+
+            Assert.NotNull(_pageModel.SupportProjectSummary);
+
+            Assert.Equal(projectId, _pageModel.SupportProjectSummary!.Id);
+            Assert.Equal("School A", _pageModel.SupportProjectSummary.SchoolName);
+        }
+        
+        [Fact]
+        public async Task GetSupportProjectSummary_ReturnsNotFound_WhenProjectDoesNotExist()
+        {
+            // Arrange
+            var projectId = 1;
+
+            var result = Result<SupportProjectSummaryDto?>.Failure("");
+
+            _mockQueryService
+                .Setup(s => s.GetSupportProjectSummary(projectId, _cancellationToken))
+                .ReturnsAsync(result);
+
+            // Act
+            var response = await _pageModel.GetSupportProjectSummary(
+                projectId,
+                _cancellationToken);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(response);
+
+            Assert.Null(_pageModel.SupportProjectSummary);
+        }
     }
 }

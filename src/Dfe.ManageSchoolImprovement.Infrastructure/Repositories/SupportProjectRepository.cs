@@ -218,6 +218,25 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.EngagementConcerns)
                 .AsQueryable();
         }
+        
+        public async Task<(SupportProjectId Id, string SchoolName)?> GetSupportProjectSummaryById(
+            SupportProjectId id,
+            CancellationToken cancellationToken)
+        {
+            var result = await DbSet()
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.SchoolName
+                })
+                .SingleOrDefaultAsync(cancellationToken);
+
+            return result is null
+                ? null
+                : (result.Id, result.SchoolName);
+        }
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
         {

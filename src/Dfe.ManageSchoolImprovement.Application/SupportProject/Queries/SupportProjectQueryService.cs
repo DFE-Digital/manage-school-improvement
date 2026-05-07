@@ -103,6 +103,23 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
             return result == null ? Result<SupportProjectDto?>.Failure("") : Result<SupportProjectDto?>.Success(result);
         }
+        
+        public async Task<Result<SupportProjectSummaryDto?>> GetSupportProjectSummary(int id, CancellationToken cancellationToken)
+        {
+            var supportProjectId = new SupportProjectId(id);
+            var supportProject = await supportProjectRepository.GetSupportProjectSummaryById(supportProjectId, cancellationToken);
+
+            if (supportProject is null)
+            {
+                return Result<SupportProjectSummaryDto?>.Failure("");
+            }
+
+            var result = new SupportProjectSummaryDto(
+                supportProject.Value.Id.Value,
+                supportProject.Value.SchoolName);
+
+            return Result<SupportProjectSummaryDto?>.Success(result);
+        }
 
         public async Task<Result<IEnumerable<string>>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken)
         {
