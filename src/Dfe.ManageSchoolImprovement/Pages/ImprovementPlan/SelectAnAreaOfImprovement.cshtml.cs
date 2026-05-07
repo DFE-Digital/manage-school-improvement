@@ -30,7 +30,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             ReturnPage = returnPage ?? @Links.TaskList.Index.Page;
 
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectSummary(id, cancellationToken);
             SelectedAreaOfImprovement = selectedAreaOfImprovement;
             RadioButtons = RadioButtonModel;
             return Page();

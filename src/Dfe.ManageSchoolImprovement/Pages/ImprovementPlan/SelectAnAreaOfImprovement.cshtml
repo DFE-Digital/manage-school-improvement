@@ -7,7 +7,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProjectSummary.Id" class="govuk-back-link"
             data-cy="back-link">Back</a>
     </nav>
 }
@@ -19,7 +19,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProjectSummary.SchoolName</span>
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Select an area of improvement
         </h1>

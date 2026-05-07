@@ -12,6 +12,8 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
     protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
     protected readonly ErrorService _errorService = errorService;
     public SupportProjectViewModel? SupportProject { get; set; }
+    
+    public SupportProjectSummaryViewModel? SupportProjectSummary { get; set; }
 
     public bool IsReadOnly => SupportProject?.ProjectStatus != ProjectStatusValue.InProgress;
 
@@ -33,6 +35,24 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         }
 
         SupportProject = SupportProjectViewModel.Create(result.Value!);
+        return Page();
+    }
+    
+    public virtual async Task<IActionResult> GetSupportProjectSummary(int id, CancellationToken cancellationToken)
+    {
+        return await GetProjectSummary(id, cancellationToken);
+    }
+    protected async Task<IActionResult> GetProjectSummary(int id, CancellationToken cancellationToken)
+    {
+
+        var result = await _supportProjectQueryService.GetSupportProjectSummary(id, cancellationToken);
+
+        if (!result.IsSuccess)
+        {
+            return NotFound();
+        }
+
+        SupportProjectSummary = SupportProjectSummaryViewModel.Create(result.Value!);
         return Page();
     }
 }
