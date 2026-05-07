@@ -3,6 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupp
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             return new JsonResult(Array.Empty<object>());
         }
 
-        string[] searchSplit = SplitOnBrackets(searchQuery);
+        string[] searchSplit = AutosearchUtils.SplitOnBrackets(searchQuery);
         string term = (searchSplit.Length > 0 ? searchSplit[0] : string.Empty).Trim();
 
         if (string.IsNullOrWhiteSpace(term))
@@ -76,7 +77,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
             return new JsonResult(trusts.Select(s => new
             {
-                suggestion = HighlightSearchMatch($"{s.Name} ({s.Ukprn})", term, s),
+                suggestion = AutosearchUtils.HighlightSearchMatch($"{s.Name} ({s.Ukprn})", term, s),
                 value = $"{s.Name} ({s.Ukprn})"
             }));
         }
@@ -96,7 +97,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
         
         AutoCompleteSearchModel = new AutoCompleteSearchModel(SearchLabel, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
         
-        string[] splitSearch = SplitOnBrackets(SearchQuery);
+        string[] splitSearch = AutosearchUtils.SplitOnBrackets(SearchQuery);
         
         string expectedUkprn = splitSearch[splitSearch.Length - 1];
 
@@ -160,31 +161,5 @@ public class EnterSupportingOrganisationTrustDetailsModel(
 
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
             new { id, previousPage = Links.TaskList.EnterSupportingOrganisationTrustDetails.Page });
-    }
-
-    private static string[] SplitOnBrackets(string input)
-    {
-        // return array containing one empty string if input string is null or empty
-        if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
-
-        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-    }
-
-    private static string HighlightSearchMatch(string input, string toReplace, TrustSearchResponse trust)
-    {
-        if (trust == null || string.IsNullOrWhiteSpace(trust.Ukprn) || string.IsNullOrWhiteSpace(trust.Name))
-            return string.Empty;
-
-        if (string.IsNullOrWhiteSpace(toReplace))
-            return input;
-
-        int index = input.IndexOf(toReplace, StringComparison.InvariantCultureIgnoreCase);
-        if (index < 0)
-            return input;
-
-        string correctCaseSearchString = input.Substring(index, toReplace.Length);
-
-        return input.Replace(toReplace, $"<strong>{correctCaseSearchString}</strong>",
-            StringComparison.InvariantCultureIgnoreCase);
     }
 }
