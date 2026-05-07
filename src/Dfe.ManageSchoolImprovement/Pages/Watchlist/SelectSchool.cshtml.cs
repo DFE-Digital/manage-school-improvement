@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist;
 
-public class SelectSchoolModel(
+public class SelectSchoolModel(IWatchlistQueryService watchlistQueryService,
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService) : PageModel
 {
+    protected readonly IWatchlistQueryService _watchlistQueryService = watchlistQueryService;
     public string ReturnPage { get; set; }
 
     public AutoCompleteSearchModel AutoCompleteSearchModel { get; set; }
@@ -58,12 +59,21 @@ public class SelectSchoolModel(
         {
             var projectsResult = await supportProjectQueryService.GetAllSupportProjects(cancellationToken);
 
-            if (!projectsResult.IsSuccess || projectsResult.Value == null)
+            if (!projectsResult.IsSuccess || projectsResult == null)
             {
                 return new JsonResult(Array.Empty<object>());
             }
+            
+            var currentUser = User.Identity?.Name;
 
-            IEnumerable<SupportProjectDto> schools = projectsResult.Value;
+            var watchlistSupportProjectIds =
+                await _watchlistQueryService.GetAllSchoolsForUser(currentUser ?? string.Empty, cancellationToken);
+            
+            var filteredProjects = watchlistSupportProjectIds != null ? projectsResult.Value.Where(s => !watchlistSupportProjectIds.Value.Contains(s.Id)) : projectsResult.Value;
+            
+            IEnumerable<SupportProjectDto> schools = filteredProjects.Where(s =>
+                s.SchoolName.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                s.SchoolUrn.ToString().Contains(term, StringComparison.OrdinalIgnoreCase));
 
             return new JsonResult(schools.Select(s => new
             {
@@ -123,7 +133,7 @@ public class SelectSchoolModel(
 
             return RedirectToPage(Links.Watchlist.ConfirmSchool.Page, new { expectedSupportProjectId });
         }
-        
+
         return Page();
     }
 }
