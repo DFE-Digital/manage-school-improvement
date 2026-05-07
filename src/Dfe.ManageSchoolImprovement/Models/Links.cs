@@ -44,6 +44,9 @@ public static class Links
     public static class Watchlist
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/Watchlist/Index");
+        public static readonly LinkItem SelectSchool = AddLinkItem(backText: "Back", page: "/Watchlist/SelectSchool");
+        public static readonly LinkItem ConfirmSchool = AddLinkItem(backText: "Back", page: "/Watchlist/ConfirmSchool");
+
     }
 
     public static class Contacts

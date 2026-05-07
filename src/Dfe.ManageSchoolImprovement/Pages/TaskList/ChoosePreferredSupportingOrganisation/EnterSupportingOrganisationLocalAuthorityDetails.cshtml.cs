@@ -2,6 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupp
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
 using MediatR;
@@ -75,7 +76,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             return new JsonResult(Array.Empty<object>());
         }
 
-        string[] searchSplit = SplitOnBrackets(searchQuery);
+        string[] searchSplit = AutosearchUtils.SplitOnBrackets(searchQuery);
         string term = (searchSplit.Length > 0 ? searchSplit[0] : string.Empty).Trim();
 
         if (string.IsNullOrWhiteSpace(term))
@@ -89,7 +90,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
             return new JsonResult(trusts.Select(s => new
             {
-                suggestion = HighlightSearchMatch($"{s.Name} ({s.Code})", term, s),
+                suggestion = AutosearchUtils.HighlightSearchMatch($"{s.Name} ({s.Code})", term, s),
                 value = $"{s.Name} ({s.Code})"
             }));
         }
@@ -98,30 +99,6 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             // Fail safe for autocomplete - never surface a 500 from a suggestion call
             return new JsonResult(Array.Empty<object>());
         }
-    }
-    private static string[] SplitOnBrackets(string input)
-    {
-        // return array containing one empty string if input string is null or empty
-        if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
-
-        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-    }
-    private static string HighlightSearchMatch(string input, string toReplace, NameAndCodeDto localAuthority)
-    {
-        if (localAuthority == null || string.IsNullOrWhiteSpace(localAuthority.Code) || string.IsNullOrWhiteSpace(localAuthority.Name))
-            return string.Empty;
-
-        if (string.IsNullOrWhiteSpace(toReplace))
-            return input;
-
-        int index = input.IndexOf(toReplace, StringComparison.InvariantCultureIgnoreCase);
-        if (index < 0)
-            return input;
-
-        string correctCaseSearchString = input.Substring(index, toReplace.Length);
-
-        return input.Replace(toReplace, $"<strong>{correctCaseSearchString}</strong>",
-            StringComparison.InvariantCultureIgnoreCase);
     }
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
@@ -133,7 +110,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
 
         AutoCompleteSearchModel = new AutoCompleteSearchModel(null!, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
 
-        string[] splitSearch = SplitOnBrackets(SearchQuery);
+        string[] splitSearch = AutosearchUtils.SplitOnBrackets(SearchQuery);
 
         string expectedCode = splitSearch[splitSearch.Length - 1];
 

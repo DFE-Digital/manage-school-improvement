@@ -1,0 +1,83 @@
+@page "/watchlist/confirm-school"
+
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.ConfirmSchoolModel
+
+@{
+    ViewData["Title"] = "Confirm school details";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.Watchlist.Index.BackText</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">Add school to watchlist</span>
+        <h1 class="govuk-heading-l">Confirm school details</h1>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Name
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SelectedSchool?.SchoolName
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Date added
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SelectedSchool?.CreatedOn.ToDateString()
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Assigned to
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SelectedSchool?.AssignedDeliveryOfficerFullName
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Supporting organisation
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SelectedSchool?.SupportOrganisationName
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Status
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <partial name="_ProjectStatus" model="Model.SelectedSchool?.ProjectStatus"/>
+                </dd>
+            </div>
+        </dl>
+        <a asp-page="@Links.Watchlist.SelectSchool">Change school</a>
+        <form method="post" novalidate>
+            <div class="govuk-button-group govuk-!-margin-top-5">
+                <input type="hidden" asp-for="SelectedSchool"/>
+                <button class="govuk-button" type="submit" name="action" value="add-another" data-module="govuk-button"
+                        data-cy="save-and-add-another-button">
+                    Save and add another
+                </button>
+                <button class="govuk-button govuk-button--secondary" type="submit" name="action" value="finish"
+                        data-module="govuk-button" data-cy="save-and-finish-button">
+                    Save and complete
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
