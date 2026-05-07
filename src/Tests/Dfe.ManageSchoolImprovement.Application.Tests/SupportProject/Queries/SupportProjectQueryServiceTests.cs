@@ -114,6 +114,22 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         }
         
         [Fact]
+        public async Task GetSupportProject_ShouldReturnFailure_WhenProjectNotFound()
+        {
+            // Arrange
+            _mockRepository.Setup(r =>
+                    r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+
+            // Act
+            var result = await _service.GetSupportProject(1, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
+        
+        [Fact]
         public async Task GetSupportProjectSummaryById_ShouldReturnMappedDto_WhenProjectExists()
         {
             // Arrange
@@ -144,9 +160,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                     It.IsAny<CancellationToken>()),
                 Times.Once);
         }
-
+        
         [Fact]
-        public async Task GetSupportProject_ShouldReturnFailure_WhenProjectNotFound()
+        public async Task GetSupportProjectSummary_ShouldReturnFailure_WhenProjectNotFound()
         {
             // Arrange
             _mockRepository.Setup(r =>
@@ -154,12 +170,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
                 .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
 
             // Act
-            var result = await _service.GetSupportProject(1, CancellationToken.None);
+            var result = await _service.GetSupportProjectSummary(1, CancellationToken.None);
 
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Null(result.Value);
         }
+
+  
 
         [Fact]
         public async Task GetAllProjectLocalAuthorities_ShouldReturnSuccess_WhenDataExists()
