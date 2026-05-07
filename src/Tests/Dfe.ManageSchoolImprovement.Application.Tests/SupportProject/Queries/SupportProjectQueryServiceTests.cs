@@ -165,16 +165,28 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         public async Task GetSupportProjectSummary_ShouldReturnFailure_WhenProjectNotFound()
         {
             // Arrange
-            _mockRepository.Setup(r =>
-                    r.GetSupportProjectById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
-                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+            (SupportProjectId Id, string SchoolName)? project = null;
+
+            _mockRepository
+                .Setup(r => r.GetSupportProjectSummaryById(
+                    It.IsAny<SupportProjectId>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(project);
 
             // Act
-            var result = await _service.GetSupportProjectSummary(1, CancellationToken.None);
+            var result = await _service.GetSupportProjectSummary(
+                1,
+                CancellationToken.None);
 
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Null(result.Value);
+
+            _mockRepository.Verify(
+                r => r.GetSupportProjectSummaryById(
+                    It.IsAny<SupportProjectId>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
   
