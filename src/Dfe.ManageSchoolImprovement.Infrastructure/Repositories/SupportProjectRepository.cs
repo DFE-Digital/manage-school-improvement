@@ -223,14 +223,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             SupportProjectId id,
             CancellationToken cancellationToken)
         {
-            return await DbSet()
+            var result = await DbSet()
                 .AsNoTracking()
                 .Where(x => x.Id == id)
-                .Select(x => new ValueTuple<SupportProjectId, string>(
+                .Select(x => new
+                {
                     x.Id,
                     x.SchoolName
-                ))
+                })
                 .SingleOrDefaultAsync(cancellationToken);
+
+            return result is null
+                ? null
+                : (result.Id, result.SchoolName);
         }
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)

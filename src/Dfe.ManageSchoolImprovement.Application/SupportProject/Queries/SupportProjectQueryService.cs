@@ -109,9 +109,16 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             var supportProjectId = new SupportProjectId(id);
             var supportProject = await supportProjectRepository.GetSupportProjectSummaryById(supportProjectId, cancellationToken);
 
-            var result = new SupportProjectSummaryDto(supportProject.Value.Id.Value, supportProject.Value.SchoolName);
+            if (supportProject is null)
+            {
+                return Result<SupportProjectSummaryDto?>.Failure("");
+            }
 
-            return result == null ? Result<SupportProjectSummaryDto?>.Failure("") : Result<SupportProjectSummaryDto?>.Success(result);
+            var result = new SupportProjectSummaryDto(
+                supportProject.Value.Id.Value,
+                supportProject.Value.SchoolName);
+
+            return Result<SupportProjectSummaryDto?>.Success(result);
         }
 
         public async Task<Result<IEnumerable<string>>> GetAllProjectLocalAuthorities(CancellationToken cancellationToken)
