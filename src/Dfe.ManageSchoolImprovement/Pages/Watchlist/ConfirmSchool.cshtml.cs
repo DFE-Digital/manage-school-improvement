@@ -17,8 +17,10 @@ public class ConfirmSchoolModel(
 {
     public string ReturnPage { get; set; }
     
-    [BindProperty]
     public SupportProjectViewModel? SelectedSchool { get; set; }
+    
+    [BindProperty]
+    public int SelectedSchoolId { get; set; }
 
     public bool ShowError { get; set; }
 
@@ -29,6 +31,8 @@ public class ConfirmSchoolModel(
         
         var expectedSchool = await supportProjectQueryService.GetSupportProject(expectedSupportProjectId, cancellationToken);
         if (expectedSchool.Value != null) SelectedSchool = SupportProjectViewModel.Create(expectedSchool.Value);
+        
+        SelectedSchoolId = expectedSupportProjectId;
 
         return Page();
     }
@@ -44,9 +48,9 @@ public class ConfirmSchoolModel(
         }
         
         var currentUser = User.Identity?.Name;
-        var selectedSchoolId = new SupportProjectId(SelectedSchool.Id);
+        var selectedSchoolId = new SupportProjectId(SelectedSchoolId);
         
-        var request = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(selectedSchoolId!, currentUser!);
+        var request = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(selectedSchoolId, currentUser!);
         
         var result = await mediator.Send(request, cancellationToken);
         
