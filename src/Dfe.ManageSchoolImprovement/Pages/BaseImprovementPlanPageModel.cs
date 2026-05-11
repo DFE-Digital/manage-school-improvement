@@ -22,9 +22,9 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
 
     public virtual async Task<IActionResult> GetSupportProject(int id, CancellationToken cancellationToken)
     {
-        return await GetProjectWithImprovementPlan(id, cancellationToken);
+        return await GetProject(id, cancellationToken);
     }
-    protected async Task<IActionResult> GetProjectWithImprovementPlan(int id, CancellationToken cancellationToken)
+    protected async Task<IActionResult> GetProject(int id, CancellationToken cancellationToken)
     {
 
         var result = await _supportProjectQueryService.GetSupportProjectImprovementPlanAllData(id, cancellationToken);
@@ -40,7 +40,7 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
     
     public virtual async Task<IActionResult> GetSupportProjectImprovementPlanAndObjectives(int id, CancellationToken cancellationToken)
     {
-        return await GetProjectWithImprovementPlan(id, cancellationToken);
+        return await GetProjectWithImprovementPlanAndObjectives(id, cancellationToken);
     }
     protected async Task<IActionResult> GetProjectWithImprovementPlanAndObjectives(int id, CancellationToken cancellationToken)
     {
