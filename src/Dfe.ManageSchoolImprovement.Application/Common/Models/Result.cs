@@ -1,8 +1,6 @@
-using System.Collections;
-
 namespace Dfe.ManageSchoolImprovement.Application.Common.Models
 {
-    public class Result<T> : IEnumerable
+    public class Result<T>
     {
         public T? Value { get; }
         public bool IsSuccess { get; }
@@ -17,9 +15,5 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.Models
 
         public static Result<T> Success(T value) => new(value, true, null);
         public static Result<T> Failure(string error) => new(default!, false, error);
-        public IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
