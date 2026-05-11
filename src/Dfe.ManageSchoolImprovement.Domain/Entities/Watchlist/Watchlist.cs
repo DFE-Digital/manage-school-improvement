@@ -18,6 +18,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             User = user;
         }
 
+        public Watchlist(WatchlistId id, SupportProjectId supportProjectId, string user, int readableId)
+            : this(id, supportProjectId, user)
+        {
+            ReadableId = readableId;
+        }
+
         public WatchlistId Id { get; set; }
         public int ReadableId { get; }
         public SupportProjectId SupportProjectId { get; set; }

@@ -65,12 +65,16 @@
                             data-cy="status-@watchedSchool.SchoolName">
                             <partial name="Shared/_ProjectStatus" model="watchedSchool.Status"/>
                         </td>
+                        <td class="govuk-table__cell" data-cy="remove-link-@watchedSchool.SchoolName">
+                            <a class="govuk-link" asp-page="@Links.Watchlist.RemoveSchool.Page" 
+                               asp-route-watchlistidtoremove="@watchedSchool.WatchlistId"
+                               asp-route-readableidtoremove="@watchedSchool.ReadableId"
+                               asp-route-selectedschoolid="@watchedSchool.SupportProjectId">Remove</a>
+                        </td>
                     </tr>
                 }
                 </tbody>
             </table>
-            
-
         }
         else
         {
