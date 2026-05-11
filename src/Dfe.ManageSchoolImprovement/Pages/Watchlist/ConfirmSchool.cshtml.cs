@@ -50,7 +50,7 @@ public class ConfirmSchoolModel(
         var currentUser = User.Identity?.Name;
         var selectedSchoolId = new SupportProjectId(SelectedSchoolId);
         
-        var request = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(selectedSchoolId, currentUser!);
+        var request = new AddSchoolToWatchlistCommand(selectedSchoolId, currentUser!);
         
         var result = await mediator.Send(request, cancellationToken);
         

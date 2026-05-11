@@ -51,7 +51,7 @@ public class RemoveSchoolModel(
             return Page();
         }
 
-        var request = new RemoveSchoolFromWatchlist.RemoveSchoolFromWatchlistCommand(WatchlistIdToRemove);
+        var request = new RemoveSchoolFromWatchlistCommand(WatchlistIdToRemove);
 
         var result = await mediator.Send(request, cancellationToken);
         

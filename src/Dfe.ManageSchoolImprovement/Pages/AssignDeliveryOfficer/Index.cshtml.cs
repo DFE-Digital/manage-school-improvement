@@ -52,7 +52,7 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
             var request = new SetDeliveryOfficerCommand(supportProjectId, assignedDeliveryOfficer?.FullName!, assignedDeliveryOfficer?.EmailAddress!, initialDeliveryOfficerAssigned);
             await _mediator.Send(request);
             
-            var watchlistRequest = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(supportProjectId, assignedDeliveryOfficer?.EmailAddress!);
+            var watchlistRequest = new AddSchoolToWatchlistCommand(supportProjectId, assignedDeliveryOfficer?.EmailAddress!);
             await _mediator.Send(watchlistRequest);
             
             TempData["deliveryOfficerAssigned"] = true;

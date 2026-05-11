@@ -27,7 +27,7 @@ public class RemoveSchoolFromWatchlistTests
         var watchlistId = new WatchlistId(watchlistIdGuid);
         var supportProjectId = _fixture.Create<SupportProjectId>();
         var watchlistItem = new WatchlistEntity(watchlistId, supportProjectId, "user@test.gov.uk");
-        var command = new RemoveSchoolFromWatchlist.RemoveSchoolFromWatchlistCommand(watchlistIdGuid);
+        var command = new RemoveSchoolFromWatchlistCommand(watchlistIdGuid);
 
         _mockWatchlistRepository
             .Setup(repo => repo.GetAsync(It.IsAny<object[]>()))
@@ -51,7 +51,7 @@ public class RemoveSchoolFromWatchlistTests
     public async Task Handle_GetAsyncThrowsException_ExceptionPropagates()
     {
         var watchlistIdGuid = Guid.NewGuid();
-        var command = new RemoveSchoolFromWatchlist.RemoveSchoolFromWatchlistCommand(watchlistIdGuid);
+        var command = new RemoveSchoolFromWatchlistCommand(watchlistIdGuid);
 
         _mockWatchlistRepository
             .Setup(repo => repo.GetAsync(It.IsAny<object[]>()))
@@ -71,7 +71,7 @@ public class RemoveSchoolFromWatchlistTests
         var watchlistIdGuid = Guid.NewGuid();
         var watchlistId = new WatchlistId(watchlistIdGuid);
         var watchlistItem = new WatchlistEntity(watchlistId, _fixture.Create<SupportProjectId>(), "user");
-        var command = new RemoveSchoolFromWatchlist.RemoveSchoolFromWatchlistCommand(watchlistIdGuid);
+        var command = new RemoveSchoolFromWatchlistCommand(watchlistIdGuid);
 
         _mockWatchlistRepository
             .Setup(repo => repo.GetAsync(It.IsAny<object[]>()))

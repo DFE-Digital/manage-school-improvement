@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             var supportProjectId = _fixture.Create<SupportProjectId>();
             const string user = "test.user@education.gov.uk";
-            var command = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(supportProjectId, user);
+            var command = new AddSchoolToWatchlistCommand(supportProjectId, user);
 
             _mockWatchlistRepository
                 .Setup(repo => repo.AddAsync(It.IsAny<Domain.Entities.SupportProject.Watchlist>(), It.IsAny<CancellationToken>()))
@@ -47,7 +47,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         public async Task Handle_RepositoryThrowsException_ExceptionPropagates()
         {
             var supportProjectId = _fixture.Create<SupportProjectId>();
-            var command = new AddSchoolToWatchlist.AddSchoolToWatchlistCommand(supportProjectId, "user");
+            var command = new AddSchoolToWatchlistCommand(supportProjectId, "user");
 
             _mockWatchlistRepository
                 .Setup(repo => repo.AddAsync(It.IsAny<Domain.Entities.SupportProject.Watchlist>(), It.IsAny<CancellationToken>()))

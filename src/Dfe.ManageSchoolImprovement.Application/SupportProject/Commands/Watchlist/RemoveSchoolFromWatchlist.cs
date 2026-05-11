@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 
+public record RemoveSchoolFromWatchlistCommand(
+    Guid WatchlistId
+): IRequest<bool>;
+
 public class RemoveSchoolFromWatchlist
 {
-    public record RemoveSchoolFromWatchlistCommand(
-        Guid WatchlistId
-    ): IRequest<bool>;
-
     public class RemoveSchoolFromWatchlistCommandHandler(IWatchlistRepository watchlistRepository)
         : IRequestHandler<RemoveSchoolFromWatchlistCommand, bool>
     {
