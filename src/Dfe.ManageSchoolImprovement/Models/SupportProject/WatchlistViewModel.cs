@@ -4,6 +4,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 {
     public class WatchlistViewModel
     {
+        public Guid WatchlistId { get; set; }
+        public int ReadableId { get; set; }
         public int? SupportProjectId { get; set; }
         public string? User { get; set; }
         public string? SchoolName { get; set; }

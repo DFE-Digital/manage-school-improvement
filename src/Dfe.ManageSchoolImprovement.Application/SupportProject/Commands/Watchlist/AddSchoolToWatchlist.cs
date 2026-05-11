@@ -4,13 +4,13 @@ using MediatR;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 
+public record AddSchoolToWatchlistCommand(
+    SupportProjectId SupportProjectId,
+    string User
+): IRequest<bool>;
+
 public class AddSchoolToWatchlist
 {
-    public record AddSchoolToWatchlistCommand(
-        SupportProjectId SupportProjectId,
-        string User
-        ): IRequest<bool>;
-
     public class AddSchoolToWatchlistCommandHandler(IWatchlistRepository watchlistRepository)
     : IRequestHandler<AddSchoolToWatchlistCommand, bool>
     {

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -66,10 +67,12 @@ public class SelectSchoolModel(IWatchlistQueryService watchlistQueryService,
             
             var currentUser = User.Identity?.Name;
 
-            var watchlistSupportProjectIds =
+            var watchlistSupportProjects =
                 await _watchlistQueryService.GetAllSchoolsForUser(currentUser ?? string.Empty, cancellationToken);
             
-            var filteredProjects = watchlistSupportProjectIds != null ? projectsResult.Value.Where(s => !watchlistSupportProjectIds.Value.Contains(s.Id)) : projectsResult.Value;
+            var watchlistSupportProjectIds = watchlistSupportProjects.Value?.Select(s => s.SupportProjectId).ToList();
+            
+            var filteredProjects = watchlistSupportProjects != null ? projectsResult.Value.Where(s => !watchlistSupportProjectIds.Contains(new SupportProjectId(s.Id))) : projectsResult.Value;
             
             IEnumerable<SupportProjectDto> schools = filteredProjects.Where(s =>
                 s.SchoolName.Contains(term, StringComparison.OrdinalIgnoreCase) ||

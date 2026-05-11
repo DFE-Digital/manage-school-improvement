@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist;
 
-public class ConfirmSchoolModel(
+public class RemoveSchoolModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator) : PageModel
@@ -19,20 +19,24 @@ public class ConfirmSchoolModel(
     
     public SupportProjectViewModel? SelectedSchool { get; set; }
     
-    [BindProperty]
+    [BindProperty(SupportsGet = true)]
+    public Guid WatchlistIdToRemove { get; set; }
+    
+    [BindProperty(SupportsGet = true)]
+    public int ReadableIdToRemove { get; set; }
+    
+    [BindProperty(SupportsGet = true)]
     public int SelectedSchoolId { get; set; }
 
     public bool ShowError { get; set; }
 
 
-    public async Task<IActionResult> OnGetAsync(int expectedSupportProjectId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(Guid watchlistIdToRemove, CancellationToken cancellationToken)
     {
-        ReturnPage = @Links.Watchlist.SelectSchool.Page;
+        ReturnPage = @Links.Watchlist.Index.Page;
         
-        var expectedSchool = await supportProjectQueryService.GetSupportProject(expectedSupportProjectId, cancellationToken);
+        var expectedSchool = await supportProjectQueryService.GetSupportProject(SelectedSchoolId, cancellationToken);
         if (expectedSchool.Value != null) SelectedSchool = SupportProjectViewModel.Create(expectedSchool.Value);
-        
-        SelectedSchoolId = expectedSupportProjectId;
 
         return Page();
     }
@@ -46,12 +50,9 @@ public class ConfirmSchoolModel(
             errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
         }
-        
-        var currentUser = User.Identity?.Name;
-        var selectedSchoolId = new SupportProjectId(SelectedSchoolId);
-        
-        var request = new AddSchoolToWatchlistCommand(selectedSchoolId, currentUser!);
-        
+
+        var request = new RemoveSchoolFromWatchlistCommand(WatchlistIdToRemove);
+
         var result = await mediator.Send(request, cancellationToken);
         
         if (!result)
@@ -60,17 +61,6 @@ public class ConfirmSchoolModel(
             return Page();
         }
         
-        // Get the action from the button clicked  
-        var action = Request.Form["action"].ToString();
-
-        // Determine where to redirect based on button clicked  
-        if (action == "add-another")
-        {
-            return RedirectToPage(@Links.Watchlist.SelectSchool.Page);
-        }
-
         return RedirectToPage(@Links.Watchlist.Index.Page);
-        
-
     }
 }

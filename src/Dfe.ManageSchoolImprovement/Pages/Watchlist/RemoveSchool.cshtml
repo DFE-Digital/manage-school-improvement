@@ -1,0 +1,80 @@
+@page "/watchlist/remove-school/{readableIdToRemove:int}"
+
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.RemoveSchoolModel
+
+@{
+    ViewData["Title"] = "Remove school from watchlist";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.Watchlist.Index.BackText</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Remove school from watchlist</h1>
+        <p class="govuk-body">Confirm the details below to remove the school from your watchlist.
+            The school can still be found within the all schools list.</p>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Name
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SelectedSchool?.SchoolName
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Date added
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SelectedSchool?.CreatedOn.ToDateString()
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Assigned to
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(Model.SelectedSchool?.AssignedDeliveryOfficerFullName ?? "Not yet assigned")
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Supporting organisation
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(Model.SelectedSchool?.SupportOrganisationName ?? "Not yet appointed")
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Status
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <partial name="_ProjectStatus" model="Model.SelectedSchool?.ProjectStatus"/>
+                </dd>
+            </div>
+        </dl>
+        <form method="post" novalidate>
+            <div class="govuk-button-group govuk-!-margin-top-5">
+                <input type="hidden" name="school-id" value="@Model.WatchlistIdToRemove"/>
+                <button class="govuk-button govuk-button--warning" type="submit" name="action" data-module="govuk-button"
+                        data-cy="remove-from-watchlist-button">
+                    Remove from watchlist
+                </button>
+                <a class="govuk-link" asp-page="@Links.Watchlist.Index.Page">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
