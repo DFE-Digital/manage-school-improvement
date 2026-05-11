@@ -16,7 +16,7 @@ public class IndexModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator,
-    IApplicationSettingsResourceService applicationSettingsResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    IApplicationSettingsResourceService applicationSettingsResourceService) : BaseImprovementPlanPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     private static readonly List<RadioButtonsLabelViewModel> _fundingBandOptions = CreateFundingBandOptions();
 
@@ -63,7 +63,7 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetSupportProjectProgressReviews(id, cancellationToken);
         await LoadSharePointLinksAsync(cancellationToken);
         
         PopulateFormFields();
@@ -87,7 +87,7 @@ public class IndexModel(
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             ShowError = true;
 
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectProgressReviews(id, cancellationToken);
             return Page();
         }
 
@@ -105,7 +105,7 @@ public class IndexModel(
         if (!result)
         {
             _errorService.AddApiError();
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectImprovementPlanAndObjectives(id, cancellationToken);
             return Page();
         }
 

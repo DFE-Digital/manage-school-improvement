@@ -16,7 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
         IMediator mediator)
-        : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+        : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty]
         [Display(Name = "Mark this section as complete")]

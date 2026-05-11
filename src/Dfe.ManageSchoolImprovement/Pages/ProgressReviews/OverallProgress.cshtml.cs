@@ -15,7 +15,7 @@ public class OverallProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
-    : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; } = string.Empty;
 

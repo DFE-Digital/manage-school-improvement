@@ -14,7 +14,7 @@ public class DeleteReviewModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
-    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    : BaseImprovementPlanPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; } = string.Empty;
     public DateTime? ReviewDate { get; set; }
