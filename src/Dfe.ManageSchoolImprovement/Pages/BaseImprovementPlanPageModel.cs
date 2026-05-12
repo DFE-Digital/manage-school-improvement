@@ -53,7 +53,7 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
             return NotFound();
         }
 
-        SupportProject = CreateSupportProject(result.Value!);;
+        SupportProject = CreateSupportProject(result.Value!);
         return Page();
     }
     
