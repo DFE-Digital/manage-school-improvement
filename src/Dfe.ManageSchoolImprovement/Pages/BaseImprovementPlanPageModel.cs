@@ -76,18 +76,13 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
     
     public virtual async Task<IActionResult> GetSupportProjectSummary(int id, CancellationToken cancellationToken)
     {
-        return await GetProjectSummary(id, cancellationToken);
-    }
-    protected async Task<IActionResult> GetProjectSummary(int id, CancellationToken cancellationToken)
-    {
-
         var result = await _supportProjectQueryService.GetSupportProjectSummary(id, cancellationToken);
 
         if (!result.IsSuccess)
         {
             return NotFound();
         }
-
+        
         SupportProjectSummary = SupportProjectSummaryViewModel.Create(result.Value!);
         return Page();
     }
