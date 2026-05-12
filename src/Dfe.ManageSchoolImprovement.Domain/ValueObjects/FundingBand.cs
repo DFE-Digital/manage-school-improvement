@@ -13,6 +13,6 @@ public enum FundingBand
     [Display(Name = "Up to \u00A380,000", ShortName = "80000")]
     UpTo80000,
 
-    [Display(Name = "Up to \u00A3120,000", ShortName = "120000")]
+    [Display(Name = "Up to \u00A3100,000", ShortName = "100000")]
     UpTo120000
 }
