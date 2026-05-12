@@ -88,7 +88,7 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
         return Page();
     }
     
-    private SupportProjectViewModel CreateSupportProject(SupportProjectDto summary)
+    private static SupportProjectViewModel CreateSupportProject(SupportProjectDto summary)
     {
         return SupportProjectViewModel.Create(summary);
     }
