@@ -21,31 +21,25 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
     [TempData]
     public bool TaskUpdated { get; set; }
 
-    public virtual async Task<IActionResult> GetSupportProject(int id, CancellationToken cancellationToken)
+    public virtual async Task<IActionResult> GetSupportProject(
+        int id,
+        CancellationToken cancellationToken)
     {
-        return await GetProject(id, cancellationToken);
-    }
-    protected async Task<IActionResult> GetProject(int id, CancellationToken cancellationToken)
-    {
-
-        var result = await _supportProjectQueryService.GetSupportProjectImprovementPlanAllData(id, cancellationToken);
+        var result = await _supportProjectQueryService
+            .GetSupportProjectImprovementPlanAllData(id, cancellationToken);
 
         if (!result.IsSuccess)
         {
             return NotFound();
         }
 
-        SupportProject = CreateSupportProject(result.Value!);
+        SupportProject = SupportProjectViewModel.Create(result.Value!);
+
         return Page();
     }
     
     public virtual async Task<IActionResult> GetSupportProjectImprovementPlanAndObjectives(int id, CancellationToken cancellationToken)
     {
-        return await GetProjectWithImprovementPlanAndObjectives(id, cancellationToken);
-    }
-    protected async Task<IActionResult> GetProjectWithImprovementPlanAndObjectives(int id, CancellationToken cancellationToken)
-    {
-
         var result = await _supportProjectQueryService.GetSupportProjectImprovementPlanAndObjectives(id, cancellationToken);
 
         if (!result.IsSuccess)
@@ -56,14 +50,10 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
         SupportProject = CreateSupportProject(result.Value!);
         return Page();
     }
+   
     
     public virtual async Task<IActionResult> GetSupportProjectProgressReviews(int id, CancellationToken cancellationToken)
     {
-        return await GetProjectWithProgressReviews(id, cancellationToken);
-    }
-    protected async Task<IActionResult> GetProjectWithProgressReviews(int id, CancellationToken cancellationToken)
-    {
-
         var result = await _supportProjectQueryService.GetImprovementPlanProgressReviews(id, cancellationToken);
 
         if (!result.IsSuccess)
