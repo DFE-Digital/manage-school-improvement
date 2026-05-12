@@ -3,6 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupp
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -56,11 +57,11 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
 
     public async Task<IActionResult> OnGetSearch(string searchQuery)
     {
-        string[] searchSplit = SplitOnBrackets(searchQuery);
+        string[] searchSplit = AutosearchUtils.SplitOnBrackets(searchQuery);
 
         IEnumerable<EstablishmentSearchResponse> schools = await getEstablishment.SearchEstablishments(searchSplit[0].Trim());
 
-        return new JsonResult(schools.Select(s => new { suggestion = HighlightSearchMatch($"{s.Name} ({s.Urn})", searchSplit[0].Trim(), s), value = $"{s.Name} ({s.Urn})" }));
+        return new JsonResult(schools.Select(s => new { suggestion = AutosearchUtils.HighlightSearchMatch($"{s.Name} ({s.Urn})", searchSplit[0].Trim(), s), value = $"{s.Name} ({s.Urn})" }));
     }
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
@@ -72,7 +73,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
         
         AutoCompleteSearchModel = new AutoCompleteSearchModel(SearchLabel, SearchQuery, searchEndpoint, string.IsNullOrWhiteSpace(SearchQuery));
         
-        string[] splitSearch = SplitOnBrackets(SearchQuery);
+        string[] splitSearch = AutosearchUtils.SplitOnBrackets(SearchQuery);
         
         string expectedUrn = splitSearch[splitSearch.Length - 1];
 
@@ -136,31 +137,5 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
 
         return RedirectToPage(Links.TaskList.ConfirmSupportingOrganisationDetails.Page,
             new { id, previousPage = Links.TaskList.EnterSupportingOrganisationSchoolDetails.Page });
-    }
-
-    private static string[] SplitOnBrackets(string input)
-    {
-        // return array containing one empty string if input string is null or empty
-        if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
-
-        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-    }
-
-    private static string HighlightSearchMatch(string input, string toReplace, EstablishmentSearchResponse school)
-    {
-        if (school == null || string.IsNullOrWhiteSpace(school.Ukprn) || string.IsNullOrWhiteSpace(school.Name))
-            return string.Empty;
-
-        if (string.IsNullOrWhiteSpace(toReplace))
-            return input;
-
-        int index = input.IndexOf(toReplace, StringComparison.InvariantCultureIgnoreCase);
-        if (index < 0)
-            return input;
-
-        string correctCaseSearchString = input.Substring(index, toReplace.Length);
-
-        return input.Replace(toReplace, $"<strong>{correctCaseSearchString}</strong>",
-            StringComparison.InvariantCultureIgnoreCase);
     }
 }

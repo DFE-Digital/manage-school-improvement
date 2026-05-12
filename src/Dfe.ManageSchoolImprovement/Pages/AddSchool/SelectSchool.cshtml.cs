@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
+using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -29,11 +30,11 @@ public class SelectSchoolModel(IGetEstablishment getEstablishment, ErrorService 
 
     public async Task<IActionResult> OnGetSearch(string searchQuery)
     {
-        string[] searchSplit = SplitOnBrackets(searchQuery);
+        string[] searchSplit = AutosearchUtils.SplitOnBrackets(searchQuery);
 
         IEnumerable<EstablishmentSearchResponse> schools = await getEstablishment.SearchEstablishments(searchSplit[0].Trim());
 
-        return new JsonResult(schools.Select(s => new { suggestion = HighlightSearchMatch($"{s.Name} ({s.Urn})", searchSplit[0].Trim(), s), value = $"{s.Name} ({s.Urn})" }));
+        return new JsonResult(schools.Select(s => new { suggestion = AutosearchUtils.HighlightSearchMatch($"{s.Name} ({s.Urn})", searchSplit[0].Trim(), s), value = $"{s.Name} ({s.Urn})" }));
     }
 
     public async Task<IActionResult> OnPost()
@@ -46,7 +47,7 @@ public class SelectSchoolModel(IGetEstablishment getEstablishment, ErrorService 
             errorService.AddErrors(ModelState.Keys, ModelState);
             return Page();
         }
-        string[] splitSearch = SplitOnBrackets(SearchQuery);
+        string[] splitSearch = AutosearchUtils.SplitOnBrackets(SearchQuery);
         if (splitSearch.Length < 2)
         {
             ModelState.AddModelError(nameof(SearchQuery), "We could not find any schools matching your search criteria");
@@ -76,23 +77,5 @@ public class SelectSchoolModel(IGetEstablishment getEstablishment, ErrorService 
         }
 
         return RedirectToPage(Links.AddSchool.Summary.Page, new { expectedEstablishment.Urn });
-    }
-
-    private static string HighlightSearchMatch(string input, string toReplace, EstablishmentSearchResponse school)
-    {
-        if (school == null || string.IsNullOrWhiteSpace(school.Urn) || string.IsNullOrWhiteSpace(school.Name)) return string.Empty;
-
-        int index = input.IndexOf(toReplace, StringComparison.InvariantCultureIgnoreCase);
-        string correctCaseSearchString = input.Substring(index, toReplace.Length);
-
-        return input.Replace(toReplace, $"<strong>{correctCaseSearchString}</strong>", StringComparison.InvariantCultureIgnoreCase);
-    }
-
-    private static string[] SplitOnBrackets(string input)
-    {
-        // return array containing one empty string if input string is null or empty
-        if (string.IsNullOrWhiteSpace(input)) return new string[1] { string.Empty };
-
-        return input.Split(new[] { '(', ')' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
     }
 }

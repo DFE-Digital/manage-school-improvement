@@ -8,17 +8,20 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
     public class WatchlistRepository(RegionalImprovementForStandardsAndExcellenceContext dbContext)
         : Repository<Watchlist, RegionalImprovementForStandardsAndExcellenceContext>(dbContext), IWatchlistRepository
     {
-        public async Task<IEnumerable<int>> GetAllSchoolsForUser(string user, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Watchlist>> GetAllSchoolsForUser(string user, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(user))
             {
-                return Array.Empty<int>();
+                return Array.Empty<Watchlist>();
             }
 
             return await DbSet()
                 .AsNoTracking()
                 .Where(w => w.User == user)
-                .Select(w => w.SupportProjectId.Value)
+                .Select(w => new Watchlist(w.Id,
+                    w.SupportProjectId,
+                    w.User!,
+                    w.ReadableId))
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }

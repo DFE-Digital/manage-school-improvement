@@ -1,0 +1,37 @@
+@page "/watchlist/select-school"
+
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.SelectSchoolModel
+
+@{
+    ViewData["Title"] = "Select a school";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" class="govuk-back-link">@Links.Watchlist.Index.BackText</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <span class="govuk-caption-l">Add school to watchlist</span>
+        <h1 class="govuk-heading-l">Select a school</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <form method="post" novalidate>
+        <div class="govuk-form-group">
+            <partial name="_AutoComplete" model="@Model.AutoCompleteSearchModel"/>
+        </div>
+        <button class="govuk-button" id="save-and-return-button" data-module="govuk-button"
+                data-cy="select-common-submitbutton" type="submit">
+            Continue
+        </button>
+    </form>
+</div>

@@ -50,7 +50,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var result = await sut.GetAllSchoolsForUser(null!, CancellationToken.None);
 
             result.Should().BeEmpty();
-            result.Should().BeAssignableTo<IEnumerable<int>>();
+            result.Should().BeAssignableTo<IEnumerable<Watchlist>>();
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
         }
 
         [Fact]
-        public async Task GetAllSchoolsForUser_ReturnsSupportProjectIdsForThatUserOnly()
+        public async Task GetAllSchoolsForUser_ReturnsWatchlistsForThatUserOnly()
         {
             await using var context = CreateContext();
             var project1 = CreateSupportProject("School A", "900001");
@@ -100,13 +100,17 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             var sut = new WatchlistRepository(context);
 
-            var result = (await sut.GetAllSchoolsForUser(user, CancellationToken.None)).OrderBy(x => x).ToList();
+            var result = (await sut.GetAllSchoolsForUser(user, CancellationToken.None))
+                .OrderBy(w => w.SupportProjectId.Value)
+                .ToList();
 
-            result.Should().Equal(project1.Id!.Value, project2.Id!.Value);
+            result.Should().HaveCount(2);
+            result.Select(w => w.SupportProjectId).Should().Equal(project1.Id, project2.Id);
+            result.Should().OnlyContain(w => w.User == user);
         }
 
         [Fact]
-        public async Task GetAllSchoolsForUser_WhenSameSchoolWatchlistedTwice_ReturnsDistinctProjectIds()
+        public async Task GetAllSchoolsForUser_WhenSameSchoolWatchlistedTwice_ReturnsTwoWatchlistRowsWithSameSupportProject()
         {
             await using var context = CreateContext();
             var project = CreateSupportProject("School A", "900001");
@@ -121,9 +125,11 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             var sut = new WatchlistRepository(context);
 
-            var result = await sut.GetAllSchoolsForUser(user, CancellationToken.None);
+            var result = (await sut.GetAllSchoolsForUser(user, CancellationToken.None)).ToList();
 
-            result.Should().ContainSingle().Which.Should().Be(project.Id!.Value);
+            result.Should().HaveCount(2);
+            result.Should().OnlyContain(w => w.SupportProjectId == project.Id);
+            result.Select(w => w.Id).Should().OnlyHaveUniqueItems();
         }
 
         [Fact]
@@ -144,7 +150,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             var result = (await sut.GetAllSchoolsForUser("me@test.gov.uk", CancellationToken.None)).ToList();
 
-            result.Should().ContainSingle().Which.Should().Be(mine.Id!.Value);
+            result.Should().ContainSingle().Which.SupportProjectId.Should().Be(mine.Id);
         }
     }
 }

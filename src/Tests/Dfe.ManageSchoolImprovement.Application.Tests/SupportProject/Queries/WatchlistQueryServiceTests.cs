@@ -1,5 +1,7 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Moq;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries;
@@ -18,20 +20,25 @@ public class WatchlistQueryServiceTests
     }
 
     [Fact]
-    public async Task GetAllSchoolsForUser_ReturnsSuccessWithIds_WhenRepositoryReturnsIds()
+    public async Task GetAllSchoolsForUser_ReturnsSuccessWithWatchlists_WhenRepositoryReturnsWatchlists()
     {
         const string user = "user@education.gov.uk";
-        var ids = new[] { 10, 20, 30 };
+        var watchlists = new[]
+        {
+            new Watchlist(new WatchlistId(Guid.NewGuid()), new SupportProjectId(10), user),
+            new Watchlist(new WatchlistId(Guid.NewGuid()), new SupportProjectId(20), user),
+            new Watchlist(new WatchlistId(Guid.NewGuid()), new SupportProjectId(30), user),
+        };
 
         _mockWatchlistRepository
             .Setup(r => r.GetAllSchoolsForUser(user, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(ids);
+            .ReturnsAsync(watchlists);
 
         var result = await _service.GetAllSchoolsForUser(user, _cancellationToken);
 
         Assert.True(result.IsSuccess);
         Assert.Null(result.Error);
-        Assert.Equal(ids, result.Value);
+        Assert.Equal(watchlists, result.Value);
         _mockWatchlistRepository.Verify(
             r => r.GetAllSchoolsForUser(user, It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -40,7 +47,7 @@ public class WatchlistQueryServiceTests
     public async Task GetAllSchoolsForUser_ReturnsSuccessWithEmptySequence_WhenRepositoryReturnsNone()
     {
         const string user = "user@education.gov.uk";
-        var empty = Array.Empty<int>();
+        var empty = Array.Empty<Watchlist>();
 
         _mockWatchlistRepository
             .Setup(r => r.GetAllSchoolsForUser(user, It.IsAny<CancellationToken>()))
