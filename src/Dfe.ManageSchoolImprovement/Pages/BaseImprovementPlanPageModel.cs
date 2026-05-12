@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
@@ -34,7 +35,7 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
             return NotFound();
         }
 
-        SupportProject = SupportProjectViewModel.Create(result.Value!);
+        SupportProject = CreateSupportProject(result.Value!);
         return Page();
     }
     
@@ -52,7 +53,7 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
             return NotFound();
         }
 
-        SupportProject = SupportProjectViewModel.Create(result.Value!);
+        SupportProject = CreateSupportProject(result.Value!);;
         return Page();
     }
     
@@ -70,7 +71,7 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
             return NotFound();
         }
 
-        SupportProject = SupportProjectViewModel.Create(result.Value!);
+        SupportProject = CreateSupportProject(result.Value!);
         return Page();
     }
     
@@ -85,5 +86,10 @@ public class BaseImprovementPlanPageModel(ISupportProjectQueryService supportPro
         
         SupportProjectSummary = SupportProjectSummaryViewModel.Create(result.Value!);
         return Page();
+    }
+    
+    private SupportProjectViewModel CreateSupportProject(SupportProjectDto summary)
+    {
+        return SupportProjectViewModel.Create(summary);
     }
 }
