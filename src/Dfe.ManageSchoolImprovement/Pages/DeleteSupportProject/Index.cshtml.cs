@@ -1,4 +1,5 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -8,8 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.DeleteSupportProject
 {
-    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, IWatchlistQueryService watchlistQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
+        protected readonly IWatchlistQueryService _watchlistQueryService = watchlistQueryService;
+
         [BindProperty]
         public bool IsSchoolDeleted { get; private set; }
 
@@ -33,6 +36,16 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.DeleteSupportProject
                     _errorService.AddApiError();
                     return await base.GetSupportProject(id, cancellationToken);
                 }
+                
+                var watchlists = await _watchlistQueryService.GetAllWatchlistsForSchool(new SupportProjectId(id), cancellationToken);
+                
+                foreach (var item in watchlists.Value)
+                {
+                    var removefromWatchlistRequest = new RemoveSchoolFromWatchlistCommand(item.Id.Value);
+
+                    await mediator.Send(removefromWatchlistRequest, cancellationToken);
+                }
+                
                 return RedirectToPage(@Links.SchoolList.Index.Page);
             }
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });

@@ -72,4 +72,57 @@ public class WatchlistQueryServiceTests
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
             _service.GetAllSchoolsForUser(user, _cancellationToken));
     }
+
+    [Fact]
+    public async Task GetAllWatchlistsForSchool_ReturnsSuccessWithWatchlists_WhenRepositoryReturnsWatchlists()
+    {
+        var supportProjectId = new SupportProjectId(10);
+        var watchlists = new[]
+        {
+            new Watchlist(new WatchlistId(Guid.NewGuid()), supportProjectId, "user1@education.gov.uk"),
+            new Watchlist(new WatchlistId(Guid.NewGuid()), supportProjectId, "user2@education.gov.uk"),
+        };
+
+        _mockWatchlistRepository
+            .Setup(r => r.GetAllWatchlistsForSchool(supportProjectId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(watchlists);
+
+        var result = await _service.GetAllWatchlistsForSchool(supportProjectId, _cancellationToken);
+
+        Assert.True(result.IsSuccess);
+        Assert.Null(result.Error);
+        Assert.Equal(watchlists, result.Value);
+        _mockWatchlistRepository.Verify(
+            r => r.GetAllWatchlistsForSchool(supportProjectId, It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetAllWatchlistsForSchool_ReturnsSuccessWithEmptySequence_WhenRepositoryReturnsNone()
+    {
+        var supportProjectId = new SupportProjectId(99);
+        var empty = Array.Empty<Watchlist>();
+
+        _mockWatchlistRepository
+            .Setup(r => r.GetAllWatchlistsForSchool(supportProjectId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(empty);
+
+        var result = await _service.GetAllWatchlistsForSchool(supportProjectId, _cancellationToken);
+
+        Assert.True(result.IsSuccess);
+        Assert.NotNull(result.Value);
+        Assert.Empty(result.Value!);
+    }
+
+    [Fact]
+    public async Task GetAllWatchlistsForSchool_PropagatesException_WhenRepositoryThrows()
+    {
+        var supportProjectId = new SupportProjectId(5);
+
+        _mockWatchlistRepository
+            .Setup(r => r.GetAllWatchlistsForSchool(supportProjectId, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Database error"));
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            _service.GetAllWatchlistsForSchool(supportProjectId, _cancellationToken));
+    }
 }
