@@ -24,5 +24,10 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
         string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months);
         Task<Result<IEnumerable<KeyValuePair<string, string>>>> GetAllProjectStatuses(CancellationToken cancellationToken);
+
+        Task<Result<SupportProjectDto?>> GetSupportProjectImprovementPlanAllData(int id,
+            CancellationToken cancellationToken);
+        Task<Result<SupportProjectDto?>> GetSupportProjectImprovementPlanAndObjectives(int id, CancellationToken cancellationToken);
+        Task<Result<SupportProjectDto?>> GetImprovementPlanProgressReviews(int id, CancellationToken cancellationToken);
     }
 }

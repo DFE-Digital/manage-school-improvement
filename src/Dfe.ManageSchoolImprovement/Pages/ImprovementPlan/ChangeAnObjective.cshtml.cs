@@ -9,7 +9,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Imp
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 {
-    public class EditAnObjectiveModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class EditAnObjectiveModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty]
         public string? SelectedAreaOfImprovement { get; set; }

@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 public class ProgressSummaryModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService)
-    : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; } = string.Empty;
 

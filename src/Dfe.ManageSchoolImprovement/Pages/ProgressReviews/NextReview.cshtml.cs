@@ -13,7 +13,7 @@ public class NextReviewModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
     IMediator mediator)
-    : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    : BaseImprovementPlanPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; } = string.Empty;
 
@@ -37,7 +37,7 @@ public class NextReviewModel(
         ReturnPage = Links.ProgressReviews.Index.Page;
         ReviewId = reviewId;
 
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetSupportProjectProgressReviews(id, cancellationToken);
 
 
         // Get the improvement plan and review from the support project

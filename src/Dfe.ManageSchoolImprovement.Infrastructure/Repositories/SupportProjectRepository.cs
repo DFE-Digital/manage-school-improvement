@@ -237,6 +237,34 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 ? null
                 : (result.Id, result.SchoolName);
         }
+        
+        public async Task<SupportProject?> GetImprovementPlanAllDataBySupportProjectId(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanObjectives)
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanReviews)
+                .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+        
+        public async Task<SupportProject?> GetImprovementPlanObjectivesBySupportProjectId(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanObjectives)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+        
+        public async Task<SupportProject?> GetImprovementPlanProgressReviewsBySupportProjectId(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanReviews)
+                .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
         {
