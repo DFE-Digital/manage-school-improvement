@@ -1,5 +1,6 @@
 @page "/watchlist"
 
+@using Dfe.ManageSchoolImprovement.Utils
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.IndexModel
 
@@ -20,7 +21,7 @@
     <div class="govuk-grid-column-full">
         @if (Model.Watchlist.Count > 0)
         {
-            <table class="govuk-table">
+            <table class="govuk-table" data-module="moj-sortable-table">
                 <caption class="govuk-table__caption govuk-visually-hidden">
                     My watched schools
                 </caption>
@@ -37,6 +38,9 @@
                     </th>
                     <th scope="col" class="govuk-table__header" aria-sort="none">
                         Supporting organisation
+                    </th>
+                    <th scope="col" class="govuk-table__header" aria-sort="none">
+                        Milestone
                     </th>
                     <th scope="col" class="govuk-table__header" aria-sort="none">
                         Status
@@ -61,6 +65,8 @@
                             data-cy="assigned-to-@watchedSchool.SchoolName">@(watchedSchool.AssignedTo ?? "Not yet assigned")</td>
                         <td class="govuk-table__cell"
                             data-sort-value="@watchedSchool.SupportingOrganisationName">@(watchedSchool.SupportingOrganisationName ?? "Not yet appointed")</td>
+                        <td class="govuk-table__cell"
+                            data-sort-value="milestone">@(watchedSchool.CurrentDeliveryMilestone.HasValue ? watchedSchool.CurrentDeliveryMilestone.GetDisplayName() : "Milestone not yet reached")</td>
                         <td class="govuk-table__cell" data-sort-value="@watchedSchool.Status"
                             data-cy="status-@watchedSchool.SchoolName">
                             <partial name="Shared/_ProjectStatus" model="watchedSchool.Status"/>

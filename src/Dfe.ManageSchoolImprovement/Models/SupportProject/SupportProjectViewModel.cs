@@ -194,6 +194,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime? ProjectStatusChangedDate { get; set; }
         public string? ProjectStatusChangedBy { get; private set; }
         public string? ProjectStatusChangedDetails { get; private set; }
+        public Milestone? CurrentDeliveryMilestone { get; private set; }
 
         public bool IsReadOnly { get { return ProjectStatus != ProjectStatusValue.InProgress; } }
 
@@ -309,6 +310,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ProjectStatusChangedDate = supportProjectDto.ProjectStatusChangedDate,
                 ProjectStatusChangedBy = supportProjectDto.ProjectStatusChangedBy,
                 ProjectStatusChangedDetails = supportProjectDto.ProjectStatusChangedDetails,
+                CurrentDeliveryMilestone = supportProjectDto.CurrentDeliveryMilestone
             };
         }
     }

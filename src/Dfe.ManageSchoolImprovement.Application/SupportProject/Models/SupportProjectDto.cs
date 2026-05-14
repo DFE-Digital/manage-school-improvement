@@ -110,7 +110,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         ProjectStatusValue ProjectStatus = ProjectStatusValue.InProgress,
         DateTime? ProjectStatusChangedDate = null,
         string? ProjectStatusChangedBy  = null,
-        string? ProjectStatusChangedDetails = null
+        string? ProjectStatusChangedDetails = null,
+        Milestone? CurrentDeliveryMilestone = null
     )
     {
     }
