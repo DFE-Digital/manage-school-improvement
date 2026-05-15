@@ -10,7 +10,7 @@ public class ImprovementPlanTabModel(
     ISupportProjectQueryService supportProjectQueryService,
     IGetEstablishment getEstablishment,
     ErrorService errorService)
-    : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
+    : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; }
 
