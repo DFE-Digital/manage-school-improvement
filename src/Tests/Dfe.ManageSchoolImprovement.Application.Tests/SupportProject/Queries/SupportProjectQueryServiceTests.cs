@@ -341,7 +341,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.Null(result.Value);
             _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
         }
-
+        
         [Fact]
         public async Task GetAllProjectTrusts_ShouldReturnEmptyList_WhenNoTrustsExist()
         {
@@ -360,6 +360,60 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.Empty(result.Value);
             _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
         }
+        
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var supportingOrganisations = new List<string> { "Org A", "Org B", "Org C" };
+
+            _mockRepository.Setup(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(supportingOrganisations);
+
+            // Act
+            var result = await _service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(supportingOrganisations, result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()), Times.Once);
+        }
+        
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnEmptyList_WhenNoTrustsExist()
+        {
+            // Arrange
+            var emptySupportOrganisations = new List<string>();
+
+            _mockRepository.Setup(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(emptySupportOrganisations);
+
+            // Act
+            var result = await _service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            Assert.Empty(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()), Times.Once);
+        }
+        
 
         [Fact]
         public void AddAllSelectedMonths_WhenNoMonthsExistForYear_ShouldAddAllMonths()
