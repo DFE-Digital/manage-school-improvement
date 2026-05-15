@@ -41,13 +41,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
                         SchoolName = "School A",
                         SchoolUrn = "100001",
                         LocalAuthority = "Authority1",
-                        Region = "Region1"
+                        Region = "Region1",
+                        
                     },
                     trustDetails: new TrustDetails()
                     {
                         TrustName = "Trust A",
                         TrustReferenceNumber = "TR001"
                     }
+                    
                 ),
                 SupportProject.Create(
                     projectStatus: ProjectStatusValue.Paused,
@@ -100,7 +102,15 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             var school = Context.SupportProjects.Single(x => x.SchoolName == "School A");
             school.SetDeliveryOfficer("User1", "User1", true);
             school.SetAdviserDetails("Adviser@adviser.com", DateTime.Now, "Test Adviser");
-
+            school.SetChoosePreferredSupportOrganisation(new SupportingOrganisationDetails
+            {
+                DateSupportOrganisationChosen = DateTime.Now,
+                SupportOrganisationName = "test organisation",
+                SupportOrganisationContactName = "test organisation",
+                SupportOrganisationContactEmailAddress = "sa@sa.com",
+                SupportOrganisationContactPhone = "0114 111111",
+                DateSupportingOrganisationContactDetailsAdded = DateTime.Now
+            });
             school.CreatedOn = new DateTime(2025, 10, 1);
 
             Context.Update(school);
