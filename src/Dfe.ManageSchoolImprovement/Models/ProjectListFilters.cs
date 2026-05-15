@@ -118,7 +118,6 @@ public class ProjectListFilters
                              SelectedRegions.Length > 0 ||
                              SelectedLocalAuthorities.Length > 0 ||
                              SelectedTrusts.Length > 0 ||
-                             SelectedLocalAuthorities.Length > 0 ||
                              SelectedMonths.Length > 0 ||
                              SelectedYears.Length > 0;
 
