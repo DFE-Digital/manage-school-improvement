@@ -90,7 +90,7 @@ public class SendFormalNotificationModel(
         {
             AdviserCanBeSet = SupportProject?.AdviserCanBeSet;
         }
-
+        
         // Target-typed new expression (.NET 8)
         SetSendFormalNotificationCommand request = new(
             new SupportProjectId(id),
@@ -109,6 +109,11 @@ public class SendFormalNotificationModel(
             _errorService.AddApiError();
             await base.GetSupportProject(id, cancellationToken);
             return Page();
+        }
+        
+        if (DateOfFormalContact.HasValue && DateOfFormalContact.Value < DateTime.UtcNow)
+        {
+            await base.UpdateCurrentDeliveryMilestone(id, SupportProject!.CurrentDeliveryMilestone, Milestone.FormallyInformResponsibleBody, cancellationToken);
         }
 
         TaskUpdated = true;

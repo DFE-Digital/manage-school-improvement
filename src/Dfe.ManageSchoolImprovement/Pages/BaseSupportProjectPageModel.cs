@@ -58,20 +58,24 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         SupportProjectSummary = SupportProjectSummaryViewModel.Create(result.Value!);
         return Page();
     }
-
-    // when calling this pass in currentDeliveryMilestone from supportProject, and newDeliveryMilestone as relevant to task
-    public virtual async void UpdateCurrentDeliveryMilestone(int id, Milestone currentDeliveryMilestone, Milestone newDeliveryMilestone,
+    
+    public virtual async Task UpdateCurrentDeliveryMilestone(int id, Milestone? currentDeliveryMilestone, Milestone newDeliveryMilestone,
         CancellationToken cancellationToken)
     {
-        // if value of newDeliveryMilestone is greater than value of currentDeliveryMilestone, then update
-        var request = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), newDeliveryMilestone);
-        
-        var mediator = HttpContext.RequestServices.GetService(typeof(IMediator)) as IMediator;
-        var result = await mediator!.Send(request, cancellationToken);
-
-        if (!result)
+        var newMilestoneValue = (int)newDeliveryMilestone;
+        var currentMilestoneValue = (int?)currentDeliveryMilestone;
+        if (!currentMilestoneValue.HasValue || newMilestoneValue > currentMilestoneValue.Value)
         {
-            _errorService.AddApiError();
+            var request = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), newDeliveryMilestone);
+        
+            var mediator = HttpContext.RequestServices.GetService(typeof(IMediator)) as IMediator;
+            var result = await mediator!.Send(request, cancellationToken);
+
+            if (!result)
+            {
+                _errorService.AddApiError();
+            }
         }
     }
+    
 }

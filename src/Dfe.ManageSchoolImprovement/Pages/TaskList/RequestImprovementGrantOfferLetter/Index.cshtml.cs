@@ -70,6 +70,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
+            await base.GetSupportProject(id, cancellationToken);
+            
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -86,7 +88,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RequestImprovement
                 _errorService.AddApiError();
                 return await base.GetSupportProject(id, cancellationToken);
             }
-
+            
+            if (GrantTeamContactedDate.HasValue 
+                && GrantTeamContactedDate.Value < DateTime.UtcNow 
+                && SupportProject!.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
+            {
+                await base.UpdateCurrentDeliveryMilestone(id, SupportProject!.CurrentDeliveryMilestone, Milestone.ImprovementGrantOfferLetterRequested, cancellationToken);
+            }
             TaskUpdated = true;
             return RedirectToPage(@Links.TaskList.Index.Page, new { id });
         }

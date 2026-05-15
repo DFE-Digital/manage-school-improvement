@@ -83,6 +83,8 @@ public class IndexModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
+        await base.GetSupportProject(id, cancellationToken);
+
         // Collect validation errors using collection expression (.NET 8)
         var validationErrors = new List<string>();
 
@@ -126,6 +128,11 @@ public class IndexModel(
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
+        }
+        
+        if (RegionalDirectorDecisionDate.HasValue && RegionalDirectorDecisionDate.Value < DateTime.UtcNow)
+        {
+            await base.UpdateCurrentDeliveryMilestone(id, SupportProject!.CurrentDeliveryMilestone, Milestone.InitialDiagnosis, cancellationToken);
         }
 
         TaskUpdated = true;
