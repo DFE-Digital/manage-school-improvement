@@ -109,6 +109,22 @@
 
                 </ul>
             }
+            @if (Model.SelectedSupportingOrganisations.Length > 0)
+            {
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Trust</h3>
+
+                <ul class="moj-filter-tags">
+                    @{
+                        foreach (var trust in Model.SelectedSupportingOrganisations)
+                        {
+                            <li><a class="moj-filter__tag"
+                                   href="@Url.RouteUrl(ViewContext.RouteData.Values)?remove&selectedSupportingOrganisations=@trust"><span
+                                                                                                                       class="govuk-visually-hidden">Remove this filter</span> @trust.Stub()</a></li>
+                        }
+                    }
+
+                </ul>
+            }
             @if (Model.SelectedMonths.Length > 0)
             {
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Date</h3>
@@ -472,6 +488,40 @@
                                             <label class="govuk-label govuk-checkboxes__label"
                                                    for="filter-project-trust-@trust.Stub()">
                                                 @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(trust.ToLower())
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                         <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button"
+                                           id="accordion-trust-heading"
+                                           data-cy="select-projectlist-filter-supporting-organisation"
+                                           for="filter-trust-searches">
+                                        Supporting organisation
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-supporting-organisations-searches" placeholder="Type to filter supporting organisations..."
+                                       aria-labelledby="accordion-supporting-organisation-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var supportingOrganisations in Model.AvailableSupportingOrganisations)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-trust-@supportingOrganisations.Stub()"
+                                                   name="selectedSupportingOrganisations" type="checkbox"
+                                                   value="@supportingOrganisations"
+                                                   data-cy="select-projectlist-filter-supportingOrganisations-@supportingOrganisations"
+                                                   @(Model.SelectedSupportingOrganisations.Contains(supportingOrganisations) ? "checked" : null)/>
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-trust-@supportingOrganisations.Stub()">
+                                                @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(supportingOrganisations.ToLower())
                                             </label>
                                         </div>
                                     }

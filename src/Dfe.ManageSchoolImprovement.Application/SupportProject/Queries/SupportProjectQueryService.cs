@@ -79,6 +79,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
                     Regions = request.Regions,
                     LocalAuthorities = request.LocalAuthorities,
                     Trusts = request.Trusts,
+                    SupportingOrganisations = request.SupportingOrganisations,
                     Dates = dates,
                     States = request.States
                 },
@@ -148,6 +149,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         public async Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectTrusts(cancellationToken);
+            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
+        public async Task<Result<IEnumerable<string>>> GetAllProjectSupportingOrganisations(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectSupportingOrganisations(cancellationToken);
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
 

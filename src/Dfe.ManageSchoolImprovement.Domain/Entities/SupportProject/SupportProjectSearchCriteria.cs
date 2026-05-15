@@ -8,6 +8,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public IEnumerable<string>? Regions { get; init; }
         public IEnumerable<string>? LocalAuthorities { get; init; }
         public IEnumerable<string>? Trusts { get; init; }
+        
+        public IEnumerable<string>? SupportingOrganisations { get; init; }
         public IEnumerable<string>? Dates { get; init; }
         public IEnumerable<string>? States { get; init; }
     }

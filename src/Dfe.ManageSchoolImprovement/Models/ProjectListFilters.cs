@@ -13,6 +13,7 @@ public class ProjectListFilters
     public const string FilterRegions = nameof(FilterRegions);
     public const string FilterLocalAuthorities = nameof(FilterLocalAuthorities);
     public const string FilterTrusts = nameof(FilterTrusts);
+    public const string FilterSupportingOrganisations = nameof(FilterSupportingOrganisations);
     public const string FilterMonths = nameof(FilterMonths);
     public const string FilterYears = nameof(FilterYears);
 
@@ -24,6 +25,8 @@ public class ProjectListFilters
     public List<string> AvailableTrusts { get; set; } = new();
     public List<string> AvailableLocalAuthorities { get; set; } = new();
     public List<string> AvailableYears { get; set; } = new();
+    
+    public List<string> AvailableSupportingOrganisations { get; set; } = new();
 
     [BindProperty] public string? Title { get; set; }
 
@@ -38,6 +41,8 @@ public class ProjectListFilters
     [BindProperty] public string[] SelectedLocalAuthorities { get; set; } = Array.Empty<string>();
 
     [BindProperty] public string[] SelectedTrusts { get; set; } = Array.Empty<string>();
+    
+    [BindProperty] public string[] SelectedSupportingOrganisations { get; set; } = Array.Empty<string>();
 
     [BindProperty] public string[] SelectedYears { get; set; } = Array.Empty<string>();
 
@@ -113,6 +118,7 @@ public class ProjectListFilters
                              SelectedRegions.Length > 0 ||
                              SelectedLocalAuthorities.Length > 0 ||
                              SelectedTrusts.Length > 0 ||
+                             SelectedLocalAuthorities.Length > 0 ||
                              SelectedMonths.Length > 0 ||
                              SelectedYears.Length > 0;
 
@@ -127,6 +133,7 @@ public class ProjectListFilters
         SelectedRegions = Get(FilterRegions);
         SelectedLocalAuthorities = Get(FilterLocalAuthorities);
         SelectedTrusts = Get(FilterTrusts);
+        SelectedSupportingOrganisations = Get(FilterSupportingOrganisations);
         SelectedMonths = Get(FilterMonths);
         SelectedYears = Get(FilterYears);
 
@@ -148,6 +155,7 @@ public class ProjectListFilters
             SelectedRegions = Array.Empty<string>();
             SelectedLocalAuthorities = Array.Empty<string>();
             SelectedTrusts = Array.Empty<string>();
+            SelectedSupportingOrganisations = Array.Empty<string>();
             SelectedMonths = Array.Empty<string>();
             SelectedYears = Array.Empty<string>();
 
@@ -163,6 +171,7 @@ public class ProjectListFilters
             SelectedLocalAuthorities =
                 GetAndRemove(FilterLocalAuthorities, GetFromQuery(nameof(SelectedLocalAuthorities)), true);
             SelectedTrusts = GetAndRemove(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)), true);
+            SelectedSupportingOrganisations = GetAndRemove(FilterSupportingOrganisations, GetFromQuery(nameof(SelectedSupportingOrganisations)), true);
             SelectedMonths = GetAndRemove(FilterMonths, GetFromQuery(nameof(SelectedMonths)), true);
             SelectedYears = GetAndRemove(FilterYears, GetFromQuery(nameof(SelectedYears)), true);
 
@@ -177,7 +186,8 @@ public class ProjectListFilters
                                    query.ContainsKey(nameof(SelectedLocalAuthorities)) ||
                                    query.ContainsKey(nameof(SelectedMonths)) ||
                                    query.ContainsKey(nameof(SelectedYears)) ||
-                                   query.ContainsKey(nameof(SelectedTrusts));
+                                   query.ContainsKey(nameof(SelectedTrusts)) ||
+                                   query.ContainsKey(nameof(SelectedSupportingOrganisations));
 
         if (activeFilterChanges)
         {
@@ -190,6 +200,7 @@ public class ProjectListFilters
             SelectedMonths = Cache(FilterMonths, GetFromQuery(nameof(SelectedMonths)));
             SelectedYears = Cache(FilterYears, GetFromQuery(nameof(SelectedYears)));
             SelectedTrusts = Cache(FilterTrusts, GetFromQuery(nameof(SelectedTrusts)));
+            SelectedSupportingOrganisations = Cache(FilterSupportingOrganisations, GetFromQuery(nameof(SelectedSupportingOrganisations)));
         }
         else
         {
@@ -202,6 +213,7 @@ public class ProjectListFilters
             SelectedMonths = Get(FilterMonths, true);
             SelectedYears = Get(FilterYears, true);
             SelectedTrusts = Get(FilterTrusts, true);
+            SelectedSupportingOrganisations = Get(FilterSupportingOrganisations, true);
         }
 
         string[] GetFromQuery(string key)
@@ -256,6 +268,7 @@ public class ProjectListFilters
         Cache(FilterLocalAuthorities, default);
         Cache(FilterMonths, default);
         Cache(FilterTrusts, default);
+        Cache(FilterSupportingOrganisations, default);
         Cache(FilterYears, default);
     }
 
