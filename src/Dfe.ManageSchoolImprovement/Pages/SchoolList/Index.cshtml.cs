@@ -29,6 +29,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         Regions = Filters.SelectedRegions,
         LocalAuthorities = Filters.SelectedLocalAuthorities,
         Trusts = Filters.SelectedTrusts,
+        SupportingOrganisations = Filters.SelectedSupportingOrganisations,
         Months = Filters.SelectedMonths,
         Years = Filters.SelectedYears,
         PagePath = Pagination.PagePath,
@@ -94,6 +95,13 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService) 
         if (trustsResult.IsSuccess && trustsResult.Value != null)
         {
             Filters.AvailableTrusts = trustsResult.Value.ToList();
+        }
+        
+        var supportingOrganisationResult = await supportProjectQueryService.GetAllProjectSupportingOrganisations(cancellationToken);
+
+        if (supportingOrganisationResult.IsSuccess && supportingOrganisationResult.Value != null)
+        {
+            Filters.AvailableSupportingOrganisations = supportingOrganisationResult.Value.ToList();
         }
 
         var datesResult = await supportProjectQueryService.GetAllProjectYears(cancellationToken);

@@ -449,6 +449,21 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             trusts.Should().Contain("Trust B");
             trusts.Should().NotContain("Trust D"); // Soft deleted
         }
+        
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnDistinctOrganisations()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act
+            var supportingOrganisations = await service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            supportingOrganisations.Should().HaveCount(1); // Trust A, Trust B (School C has no trust, Trust D is soft deleted)
+            supportingOrganisations.Should().Contain("test organisation");
+         
+        }
 
         [Fact]
         public async Task GetSupportProjectById_WithValidId_ShouldReturnProject()

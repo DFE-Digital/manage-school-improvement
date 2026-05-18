@@ -19,7 +19,11 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         Task<Result<IEnumerable<string>>> GetAllProjectRegions(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectAssignedUsers(CancellationToken cancellationToken);
         Task<Result<IEnumerable<string>>> GetAllProjectAssignedAdvisers(CancellationToken cancellationToken);
+        
         Task<Result<IEnumerable<string>>> GetAllProjectTrusts(CancellationToken cancellationToken);
+        
+        Task<Result<IEnumerable<string>>> GetAllProjectSupportingOrganisations(CancellationToken cancellationToken);
+        
         Task<Result<IEnumerable<string>>> GetAllProjectYears(CancellationToken cancellationToken);
 
         string[] AddAllSelectedMonths(IEnumerable<string>? Years, IEnumerable<string>? Months);

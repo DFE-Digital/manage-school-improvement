@@ -30,6 +30,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
         
         Task<SupportProject?> GetSupportProjectByUrn(string urn, CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectTrusts(CancellationToken cancellationToken);
+        
+        Task<IEnumerable<string>> GetAllProjectSupportingOrganisations(CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllProjectYears(CancellationToken cancellationToken);
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllProjectStatuses(CancellationToken cancellationToken);
     }

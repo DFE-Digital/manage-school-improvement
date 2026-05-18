@@ -33,6 +33,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Empty(projectListFilters.SelectedOfficers);
             Assert.Empty(projectListFilters.SelectedRegions);
             Assert.Empty(projectListFilters.SelectedLocalAuthorities);
+            Assert.Empty(projectListFilters.SelectedSupportingOrganisations);
             Assert.Empty(projectListFilters.SelectedMonths);
             Assert.Empty(projectListFilters.SelectedYears);
         }
@@ -111,6 +112,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Empty(projectListFilters.SelectedAdvisers);
             Assert.Empty(projectListFilters.SelectedRegions);
             Assert.Empty(projectListFilters.SelectedLocalAuthorities);
+            Assert.Empty(projectListFilters.SelectedSupportingOrganisations);
             Assert.Empty(projectListFilters.SelectedMonths);
             Assert.Empty(projectListFilters.SelectedYears);
         }
