@@ -4,10 +4,10 @@
 
 
 <p asp-gds-validation-for="SearchQuery"></p>
-<div id="query-hint" class="govuk-hint">
+<label id="query-hint" class="govuk-hint" for="SearchQuery">
     @Model.Label
-</div>
-<div class="@(Model.Error ? "msi-autocomplete" : "")" id="search"></div>
+</label>
+<div class="@(Model.Error ? "msi-autocomplete" : "") govuk-!-margin-top-4" id="search"></div>
 <input type="hidden" id="SearchQuery" name="SearchQuery" />
 
 <script type="application/javascript" asp-add-nonce>

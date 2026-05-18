@@ -6,6 +6,26 @@
 
 @{
     ViewData["Title"] = "Your school watchlist";
+    bool schoolAdded = (bool)(TempData["SchoolAdded"] ?? false);
+    bool schoolRemoved = (bool)(TempData["SchoolRemoved"] ?? false);
+}
+
+@if (schoolAdded || schoolRemoved)
+{
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+         aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
+         cy-data="task-updated-success-notification">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Success
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <h3 class="govuk-notification-banner__heading" id="contact-added">
+                @(schoolAdded ? "School added to watchlist" : "School removed from watchlist")
+            </h3>
+        </div>
+    </div>
 }
 
 <div class="govuk-grid-row">

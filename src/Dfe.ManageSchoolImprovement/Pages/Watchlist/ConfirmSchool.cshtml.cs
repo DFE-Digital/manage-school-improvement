@@ -69,6 +69,7 @@ public class ConfirmSchoolModel(
             return RedirectToPage(@Links.Watchlist.SelectSchool.Page);
         }
 
+        TempData["SchoolAdded"] = true;
         return RedirectToPage(@Links.Watchlist.Index.Page);
         
 

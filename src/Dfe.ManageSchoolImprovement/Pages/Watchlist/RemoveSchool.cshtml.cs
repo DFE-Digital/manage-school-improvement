@@ -61,6 +61,7 @@ public class RemoveSchoolModel(
             return Page();
         }
         
+        TempData["SchoolRemoved"] = true;
         return RedirectToPage(@Links.Watchlist.Index.Page);
     }
 }
