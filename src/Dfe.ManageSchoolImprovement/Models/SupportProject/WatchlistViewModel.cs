@@ -13,5 +13,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? AssignedTo { get; set; }
         public string? SupportingOrganisationName { get; set; }
         public ProjectStatusValue? Status { get; set; }
+        public Milestone? CurrentDeliveryMilestone { get; set; }
     }
 }

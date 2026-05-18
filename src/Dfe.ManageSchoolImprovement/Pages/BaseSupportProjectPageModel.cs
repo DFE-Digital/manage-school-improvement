@@ -1,13 +1,16 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages;
 
-public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : PageModel
+public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProjectQueryService,
+    ErrorService errorService) : PageModel
 {
     protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
     protected readonly ErrorService _errorService = errorService;
@@ -55,4 +58,24 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         SupportProjectSummary = SupportProjectSummaryViewModel.Create(result.Value!);
         return Page();
     }
+    
+    public virtual async Task UpdateCurrentDeliveryMilestone(int id, Milestone? currentDeliveryMilestone, Milestone newDeliveryMilestone,
+        CancellationToken cancellationToken)
+    {
+        var newMilestoneValue = (int)newDeliveryMilestone;
+        var currentMilestoneValue = (int?)currentDeliveryMilestone;
+        if (!currentMilestoneValue.HasValue || newMilestoneValue > currentMilestoneValue.Value)
+        {
+            var request = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), newDeliveryMilestone);
+        
+            var mediator = HttpContext.RequestServices.GetService(typeof(IMediator)) as IMediator;
+            var result = await mediator!.Send(request, cancellationToken);
+
+            if (!result)
+            {
+                _errorService.AddApiError();
+            }
+        }
+    }
+    
 }

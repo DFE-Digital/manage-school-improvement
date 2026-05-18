@@ -1,8 +1,10 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList;
@@ -60,6 +62,9 @@ public class IndexModel(
     {
         TempData["ErrorPage"] = errorPage;
     }
+
+    private const string ReviewProgress = "Review school's progress";
+    private const string MatchWithASupportingOrganisation = "Match with a supporting organisation";
 
     public async Task<IActionResult> OnGetAsync(int id, string? returnPage, CancellationToken cancellationToken)
     {
@@ -217,6 +222,83 @@ public class IndexModel(
                     TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
             }
         }
+
+        
+        if (SupportProject is { InitialDiagnosisMatchingDecision: ReviewProgress or MatchWithASupportingOrganisation, CurrentDeliveryMilestone: not Milestone.TermlyReviews or Milestone.ImplementationAndTermlyReviews })
+        {
+            await SetFinalMilestone(id, SupportProject.InitialDiagnosisMatchingDecision, cancellationToken);
+        }
+        
         return Page();
+    }
+
+    private static bool AllTasksComplete(params TaskListStatus[] taskStatuses) =>
+        taskStatuses.All(status => status == TaskListStatus.Complete);
+
+    private TaskListStatus[] ReviewProgressCommonTaskStatuses() =>
+    [
+        ConfirmEligibilityTaskListStatus,
+        FundingHistoryStatus,
+        InitialContactWithResponsibleBodyTaskListStatus,
+        CheckThePotentialAdviserConflictsOfInterestTaskListStatus,
+        SendFormalNotificationTaskListStatus,
+        RecordTheSchoolResponseTaskListStatus,
+        AllocateAdviserTaskListStatus,
+        SendIntroductoryEmailTaskListStatus,
+        ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus,
+        RecordVisitDateToVisitSchoolTaskListStatus,
+        CompleteAndSaveInitialDiagnosisTemplateTaskListStatus,
+        RecordSupportDecisionTaskListStatus,
+    ];
+
+    private TaskListStatus[] MatchingOrganisationMilestoneTaskStatuses() =>
+    [
+        ChosePreferredSupportingOrganisationTaskListStatus,
+        DueDiligenceOnPreferredSupportingOrganisationTaskListStatus,
+        SetRecordSupportingOrganisationAppointment,
+        SupportingOrganisationContactDetailsTaskListStatus,
+        RequestPlanningGrantOfferLetterTaskListStatus,
+        ConfirmPlanningGrantOfferLetterTaskListStatus,
+        ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus,
+        ReviewTheImprovementPlanTaskListStatus,
+        SendAgreedImprovementPlanForApprovalTaskListStatus,
+        RecordImprovementPlanDecisionTaskListStatus,
+        EnterImprovementPlanObjectivesTaskListStatus,
+        RequestImprovementGrantOfferLetterTaskListStatus,
+        ConfirmImprovementGrantOfferLetterTaskListStatus,
+    ];
+
+    private async Task SetFinalMilestone(int id, string? initialDiagnosisMatchingDecision, CancellationToken cancellationToken)
+    {
+        if (!AllTasksComplete(ReviewProgressCommonTaskStatuses()))
+        {
+            return;
+        }
+
+        var milestone = initialDiagnosisMatchingDecision switch
+        {
+            ReviewProgress => Milestone.TermlyReviews,
+            MatchWithASupportingOrganisation when AllTasksComplete(MatchingOrganisationMilestoneTaskStatuses())
+                => Milestone.ImplementationAndTermlyReviews,
+            _ => (Milestone?)null
+        };
+
+        if (milestone is null)
+        {
+            return;
+        }
+
+        await UpdateDeliveryMilestoneAsync(id, milestone.Value, cancellationToken);
+    }
+
+    private async Task UpdateDeliveryMilestoneAsync(int id, Milestone milestone, CancellationToken cancellationToken)
+    {
+        var request = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), milestone);
+        var mediator = HttpContext.RequestServices.GetService(typeof(IMediator)) as IMediator;
+        var result = await mediator!.Send(request, cancellationToken);
+        if (!result)
+        {
+            _errorService.AddApiError();
+        }
     }
 }

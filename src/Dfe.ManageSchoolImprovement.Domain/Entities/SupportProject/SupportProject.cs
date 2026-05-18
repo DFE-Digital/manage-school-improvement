@@ -222,6 +222,8 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public DateTime? ProjectStatusChangedDate { get; private set; }
     public string? ProjectStatusChangedBy { get; private set; }
     public string? ProjectStatusChangedDetails { get; private set; }
+    
+    public Milestone? CurrentDeliveryMilestone { get; private set; }
 
     #endregion
 
@@ -857,6 +859,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         ProjectStatusChangedDate = projectStatusChangedDate;
         ProjectStatusChangedBy = projectStatusChangedBy;
         ProjectStatusChangedDetails = projectStatusChangedDetails;
+    }
+
+    public void SetCurrentDeliveryMilestone(Milestone milestone)
+    {
+        CurrentDeliveryMilestone = milestone;
     }
 
     #endregion

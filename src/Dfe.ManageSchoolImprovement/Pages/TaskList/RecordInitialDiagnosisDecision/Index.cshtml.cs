@@ -83,6 +83,8 @@ public class IndexModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
+        await base.GetSupportProject(id, cancellationToken);
+
         // Collect validation errors using collection expression (.NET 8)
         var validationErrors = new List<string>();
 
@@ -126,6 +128,24 @@ public class IndexModel(
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
+        }
+        
+        if (RegionalDirectorDecisionDate.HasValue && RegionalDirectorDecisionDate.Value < DateTime.UtcNow)
+        {
+            // if school changes from review progress to match with a supporting organisation, update the delivery milestone if already set to termly reviews
+            if (HasSchoolMatchedWithSupportingOrganisation == "Match with a supporting organisation" &&
+                SupportProject!.CurrentDeliveryMilestone == Milestone.TermlyReviews)
+            {
+                var updateMilestoneRequest = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), Milestone.InitialDiagnosis);
+                
+                var updateMilestoneResult = await mediator.Send(updateMilestoneRequest, cancellationToken);
+
+                if (!updateMilestoneResult)
+                {
+                    _errorService.AddApiError();
+                }
+            }
+            await base.UpdateCurrentDeliveryMilestone(id, SupportProject!.CurrentDeliveryMilestone, Milestone.InitialDiagnosis, cancellationToken);
         }
 
         TaskUpdated = true;
