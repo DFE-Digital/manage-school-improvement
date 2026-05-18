@@ -1,6 +1,5 @@
 import watchlistHomepage from "cypress/pages/watchlistHomepage";
 import { Logger } from "cypress/common/logger";
-import { access } from "fs";
 
 describe("User lands in the watchlist homepage when loggedn in ", () => {
     beforeEach(() => {
