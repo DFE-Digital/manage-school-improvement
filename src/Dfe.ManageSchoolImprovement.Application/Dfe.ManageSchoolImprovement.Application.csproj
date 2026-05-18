@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="GovUK.Dfe.CoreLibs.AsyncProcessing" Version="1.0.8" />
     <PackageReference Include="GovUK.Dfe.CoreLibs.Caching" Version="1.0.10" />
     <PackageReference Include="GovUK.Dfe.CoreLibs.Contracts" Version="1.0.51" />
