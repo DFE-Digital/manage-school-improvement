@@ -1,5 +1,6 @@
 import watchlistHomepage from "cypress/pages/watchlistHomepage";
 import { Logger } from "cypress/common/logger";
+import { access } from "fs";
 
 describe("User lands in the watchlist homepage when loggedn in ", () => {
     beforeEach(() => {
@@ -20,15 +21,28 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
         cy.executeAccessibilityTests()
     });
 
-
-    it("should show only those schools which are assigned to the loggedin user", () => {
-        Logger.log("User friendly message show when there are no schools assigned to the user");
+       it("should be able to add a school to their watchlist", () => {
+        Logger.log("Add school to watchlist and validate the school is added to the list");
         watchlistHomepage
-            .hasAssignedToValue()
+            .clickAddSchoolToWatchlistButton()
 
+        cy.executeAccessibilityTests()
+
+        watchlistHomepage
+            .selectAndContinueAddSchoolToWatchlist('Plymouth Grove Primary School')
+            .confirmSchoolDetails()
+
+        cy.executeAccessibilityTests()
+
+        watchlistHomepage    
+            .clickSaveAndCompleteButton()
+            .successfullyAddedMessage()
+            .hasSchoolList()
+            .hasResultsWithDetails()
     });
 
-    it("should be able to find the schools list with details,assigned to the user", () => {
+
+    it("should be able to find the watchlist table with details and helpful links", () => {
         Logger.log("User navigated to Task list");
         watchlistHomepage
             .hasSchoolList()
@@ -50,11 +64,17 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
     });
 
 
-    it("should be able to navigate to the school when selected", () => {
+    it("should be able to remove the school from their watchlist", () => {
         Logger.log("User navigated to Task list");
         watchlistHomepage
             .hasSchoolList()
-            .removeFirstSchoolInList()
+            .clickRemoveLinkForSchool()
+
+        cy.executeAccessibilityTests()
+
+        watchlistHomepage    
+            .removeSchoolFromWatchlist()
+            .successfullyRemovedMessage()
 
         cy.executeAccessibilityTests()
     });
