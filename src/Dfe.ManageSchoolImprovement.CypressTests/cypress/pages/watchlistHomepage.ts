@@ -1,6 +1,3 @@
-import { contains } from "cypress/types/jquery";
-
-
 class WatchlistHomepage {
 
 
