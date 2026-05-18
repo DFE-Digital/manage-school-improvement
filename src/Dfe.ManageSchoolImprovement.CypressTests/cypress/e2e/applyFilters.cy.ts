@@ -263,4 +263,19 @@ describe("User search results by applying filters", () => {
 
         //  cy.executeAccessibilityTests()
     });
+
+    it("should filter projects by Supporting organisation", () => {
+        Logger.log("Supporting organisation Filters");
+        const supportingOrganisation = "Ashbury Meadow Primary School";
+
+        Logger.log(`Testing - filter projects by Supporting organisation: ${supportingOrganisation}`);
+        homePage
+            .selectFilter("Supporting organisation", supportingOrganisation)
+            .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
+
+        Logger.log(`Successfully filtered projects by Supporting organisation: ${supportingOrganisation}`);
+
+    });
 });
