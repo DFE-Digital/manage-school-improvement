@@ -48,7 +48,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
                 RadioButtons = RadioButtonModel;
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
 
-                return await base.GetSupportProject(id, cancellationToken);
+                return await base.GetSupportProjectSummary(id, cancellationToken);
             }
 
             return RedirectToPage(@Links.ImprovementPlan.AddAnObjective.Page, new { id, SelectedAreaOfImprovement });
