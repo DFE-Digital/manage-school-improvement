@@ -60,7 +60,8 @@ public class IndexModel(
                             DateAdded = supportProject.CreatedOn,
                             AssignedTo = supportProject.AssignedDeliveryOfficerFullName,
                             SupportingOrganisationName = supportProject.SupportOrganisationName,
-                            Status = supportProject.ProjectStatus
+                            Status = supportProject.ProjectStatus,
+                            CurrentDeliveryMilestone = supportProject.CurrentDeliveryMilestone
                         }
                     );
                 }

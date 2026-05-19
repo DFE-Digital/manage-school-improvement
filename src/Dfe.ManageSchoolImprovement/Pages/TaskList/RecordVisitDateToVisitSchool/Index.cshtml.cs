@@ -46,6 +46,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
 
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
+            await base.GetSupportProject(id, cancellationToken);
+            
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
@@ -61,6 +63,11 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordVisitDateToV
             {
                 _errorService.AddApiError();
                 return await base.GetSupportProject(id, cancellationToken);
+            }
+            
+            if (SchoolVisitDate.HasValue && SchoolVisitDate.Value < DateTime.UtcNow)
+            {
+                await base.UpdateCurrentDeliveryMilestone(id, SupportProject!.CurrentDeliveryMilestone, Milestone.FirstRiseMeeting, cancellationToken);
             }
 
             TaskUpdated = true;

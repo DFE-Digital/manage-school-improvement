@@ -65,7 +65,7 @@
                 </dd>
             </div>
         </dl>
-        <a asp-page="@Links.Watchlist.SelectSchool.Page">Change school</a>
+        <a asp-page="@Links.Watchlist.SelectSchool.Page" class="govuk-link">Change school</a>
         <form method="post" novalidate>
             <div class="govuk-button-group govuk-!-margin-top-5">
                 <input type="hidden" asp-for="SelectedSchoolId"/>
@@ -77,6 +77,7 @@
                         data-module="govuk-button" data-cy="save-and-finish-button">
                     Save and complete
                 </button>
+                <a asp-page="@Links.Watchlist.Index.Page" class="govuk-link">Cancel</a>
             </div>
         </form>
     </div>
