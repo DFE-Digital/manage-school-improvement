@@ -42,5 +42,19 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<IEnumerable<Watchlist>> GetAllWatchlistsForSchool(SupportProjectId supportProjectId,
+            CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .AsNoTracking()
+                .Where(w => w.SupportProjectId == supportProjectId)
+                .Select(w => new Watchlist(w.Id,
+                    w.SupportProjectId,
+                    w.User!,
+                    w.ReadableId))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -341,7 +341,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.Null(result.Value);
             _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
         }
-
+        
         [Fact]
         public async Task GetAllProjectTrusts_ShouldReturnEmptyList_WhenNoTrustsExist()
         {
@@ -360,6 +360,60 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.Empty(result.Value);
             _mockRepository.Verify(r => r.GetAllProjectTrusts(It.IsAny<CancellationToken>()), Times.Once);
         }
+        
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnSuccess_WhenDataExists()
+        {
+            // Arrange
+            var supportingOrganisations = new List<string> { "Org A", "Org B", "Org C" };
+
+            _mockRepository.Setup(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(supportingOrganisations);
+
+            // Act
+            var result = await _service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(supportingOrganisations, result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnFailure_WhenDataIsNull()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((IEnumerable<string>?)null);
+
+            // Act
+            var result = await _service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()), Times.Once);
+        }
+        
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnEmptyList_WhenNoTrustsExist()
+        {
+            // Arrange
+            var emptySupportOrganisations = new List<string>();
+
+            _mockRepository.Setup(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(emptySupportOrganisations);
+
+            // Act
+            var result = await _service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            Assert.Empty(result.Value);
+            _mockRepository.Verify(r => r.GetAllProjectSupportingOrganisations(It.IsAny<CancellationToken>()), Times.Once);
+        }
+        
 
         [Fact]
         public void AddAllSelectedMonths_WhenNoMonthsExistForYear_ShouldAddAllMonths()
@@ -565,5 +619,123 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
             Assert.False(result.IsSuccess);
             Assert.Null(result.Value);
         }
+
+        [Fact]
+        public async Task GetSupportProjectImprovementPlanAllData_ShouldReturnMappedDto_WhenProjectExists()
+        {
+            // Arrange
+            var project = GetSchoolProjects()[0];
+            var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects())[0];
+
+            _mockRepository.Setup(r =>
+                    r.GetImprovementPlanAllDataBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync(project);
+
+            _mockMapper.Setup(m => m.Map<SupportProjectDto?>(project)).Returns(supportProjectDto);
+
+            // Act
+            var result = await _service.GetSupportProjectImprovementPlanAllData(1, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            _mockRepository.Verify(
+                r => r.GetImprovementPlanAllDataBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetSupportProjectImprovementPlanAllData_ShouldReturnFailure_WhenProjectNotFound()
+        {
+            // Arrange
+            _mockRepository.Setup(r =>
+                    r.GetImprovementPlanAllDataBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+
+            // Act
+            var result = await _service.GetSupportProjectImprovementPlanAllData(1, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
+
+        [Fact]
+        public async Task GetSupportProjectImprovementPlanAndObjectives_ShouldReturnMappedDto_WhenProjectExists()
+        {
+            // Arrange
+            var project = GetSchoolProjects()[0];
+            var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects())[0];
+
+            _mockRepository.Setup(r =>
+                    r.GetImprovementPlanObjectivesBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync(project);
+
+            _mockMapper.Setup(m => m.Map<SupportProjectDto?>(project)).Returns(supportProjectDto);
+
+            // Act
+            var result = await _service.GetSupportProjectImprovementPlanAndObjectives(1, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            _mockRepository.Verify(
+                r => r.GetImprovementPlanObjectivesBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetSupportProjectImprovementPlanAndObjectives_ShouldReturnFailure_WhenProjectNotFound()
+        {
+            // Arrange
+            _mockRepository.Setup(r =>
+                    r.GetImprovementPlanObjectivesBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+
+            // Act
+            var result = await _service.GetSupportProjectImprovementPlanAndObjectives(1, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanProgressReviews_ShouldReturnMappedDto_WhenProjectExists()
+        {
+            // Arrange
+            var project = GetSchoolProjects()[0];
+            var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects())[0];
+
+            _mockRepository.Setup(r =>
+                    r.GetImprovementPlanProgressReviewsBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync(project);
+
+            _mockMapper.Setup(m => m.Map<SupportProjectDto?>(project)).Returns(supportProjectDto);
+
+            // Act
+            var result = await _service.GetImprovementPlanProgressReviews(1, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            _mockRepository.Verify(
+                r => r.GetImprovementPlanProgressReviewsBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanProgressReviews_ShouldReturnFailure_WhenProjectNotFound()
+        {
+            // Arrange
+            _mockRepository.Setup(r =>
+                    r.GetImprovementPlanProgressReviewsBySupportProjectId(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+
+            // Act
+            var result = await _service.GetImprovementPlanProgressReviews(1, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
     }
 }
+

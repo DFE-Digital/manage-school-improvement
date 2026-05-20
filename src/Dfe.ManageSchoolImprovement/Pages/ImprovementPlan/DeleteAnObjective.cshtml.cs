@@ -10,7 +10,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Imp
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 {
-    public class DeleteAnObjectiveModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class DeleteAnObjectiveModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
     {
         public string? SelectedAreaOfImprovement { get; set; }
         

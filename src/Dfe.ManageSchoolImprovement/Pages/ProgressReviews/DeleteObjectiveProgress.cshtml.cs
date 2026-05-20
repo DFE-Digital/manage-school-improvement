@@ -17,7 +17,7 @@ public class DeleteObjectiveProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     IMediator mediator,
     ErrorService errorService)
-    : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
 {
     [BindProperty]
     public string ReturnPage { get; set; } = string.Empty;

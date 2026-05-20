@@ -79,6 +79,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
                     Regions = request.Regions,
                     LocalAuthorities = request.LocalAuthorities,
                     Trusts = request.Trusts,
+                    SupportingOrganisations = request.SupportingOrganisations,
                     Dates = dates,
                     States = request.States
                 },
@@ -151,6 +152,12 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
             return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
         }
 
+        public async Task<Result<IEnumerable<string>>> GetAllProjectSupportingOrganisations(CancellationToken cancellationToken)
+        {
+            var result = await supportProjectRepository.GetAllProjectSupportingOrganisations(cancellationToken);
+            return result == null ? Result<IEnumerable<string>>.Failure("") : Result<IEnumerable<string>>.Success(result);
+        }
+
         public async Task<Result<IEnumerable<string>>> GetAllProjectYears(CancellationToken cancellationToken)
         {
             var result = await supportProjectRepository.GetAllProjectYears(cancellationToken);
@@ -163,6 +170,36 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
 
             return result == null ? Result<IEnumerable<KeyValuePair<string, string>>>.Failure("") : Result<IEnumerable<KeyValuePair<string, string>>>.Success(result);
+        }
+        
+        public async Task<Result<SupportProjectDto?>> GetSupportProjectImprovementPlanAllData(int id, CancellationToken cancellationToken)
+        {
+            var supportProjectId = new SupportProjectId(id);
+            var supportProject = await supportProjectRepository.GetImprovementPlanAllDataBySupportProjectId(supportProjectId, cancellationToken);
+
+            var result = mapper.Map<SupportProjectDto?>(supportProject);
+
+            return result == null ? Result<SupportProjectDto?>.Failure("") : Result<SupportProjectDto?>.Success(result);
+        }
+        
+        public async Task<Result<SupportProjectDto?>> GetSupportProjectImprovementPlanAndObjectives(int id, CancellationToken cancellationToken)
+        {
+            var supportProjectId = new SupportProjectId(id);
+            var supportProject = await supportProjectRepository.GetImprovementPlanObjectivesBySupportProjectId(supportProjectId, cancellationToken);
+
+            var result = mapper.Map<SupportProjectDto?>(supportProject);
+
+            return result == null ? Result<SupportProjectDto?>.Failure("") : Result<SupportProjectDto?>.Success(result);
+        }
+        
+        public async Task<Result<SupportProjectDto?>> GetImprovementPlanProgressReviews(int id, CancellationToken cancellationToken)
+        {
+            var supportProjectId = new SupportProjectId(id);
+            var supportProject = await supportProjectRepository.GetImprovementPlanProgressReviewsBySupportProjectId(supportProjectId, cancellationToken);
+
+            var result = mapper.Map<SupportProjectDto?>(supportProject);
+
+            return result == null ? Result<SupportProjectDto?>.Failure("") : Result<SupportProjectDto?>.Success(result);
         }
     }
 }

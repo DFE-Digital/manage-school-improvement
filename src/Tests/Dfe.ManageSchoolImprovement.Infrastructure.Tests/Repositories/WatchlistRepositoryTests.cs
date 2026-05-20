@@ -152,5 +152,70 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             result.Should().ContainSingle().Which.SupportProjectId.Should().Be(mine.Id);
         }
+
+        [Fact]
+        public async Task GetAllWatchlistsForSchool_WhenNoWatchlistsForThatSchool_ReturnsEmpty()
+        {
+            await using var context = CreateContext();
+            var schoolWithWatchlist = CreateSupportProject("School A", "900001");
+            var schoolWithoutWatchlist = CreateSupportProject("School B", "900002");
+            context.SupportProjects.AddRange(schoolWithWatchlist, schoolWithoutWatchlist);
+            await context.SaveChangesAsync();
+
+            context.Set<Watchlist>().Add(
+                new Watchlist(new WatchlistId(Guid.NewGuid()), schoolWithWatchlist.Id!, "user@test.gov.uk"));
+            await context.SaveChangesAsync();
+
+            var sut = new WatchlistRepository(context);
+
+            var result = await sut.GetAllWatchlistsForSchool(schoolWithoutWatchlist.Id!, CancellationToken.None);
+
+            result.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task GetAllWatchlistsForSchool_ReturnsWatchlistsForThatSchoolOnly()
+        {
+            await using var context = CreateContext();
+            var school = CreateSupportProject("School A", "900001");
+            context.SupportProjects.Add(school);
+            await context.SaveChangesAsync();
+
+            context.Set<Watchlist>().AddRange(
+                new Watchlist(new WatchlistId(Guid.NewGuid()), school.Id!, "user.one@test.gov.uk"),
+                new Watchlist(new WatchlistId(Guid.NewGuid()), school.Id!, "user.two@test.gov.uk"));
+            await context.SaveChangesAsync();
+
+            var sut = new WatchlistRepository(context);
+
+            var result = (await sut.GetAllWatchlistsForSchool(school.Id!, CancellationToken.None))
+                .OrderBy(w => w.User)
+                .ToList();
+
+            result.Should().HaveCount(2);
+            result.Should().OnlyContain(w => w.SupportProjectId == school.Id);
+            result.Select(w => w.User).Should().Equal("user.one@test.gov.uk", "user.two@test.gov.uk");
+        }
+
+        [Fact]
+        public async Task GetAllWatchlistsForSchool_DoesNotReturnWatchlistsForOtherSchools()
+        {
+            await using var context = CreateContext();
+            var schoolA = CreateSupportProject("School A", "900001");
+            var schoolB = CreateSupportProject("School B", "900002");
+            context.SupportProjects.AddRange(schoolA, schoolB);
+            await context.SaveChangesAsync();
+
+            context.Set<Watchlist>().AddRange(
+                new Watchlist(new WatchlistId(Guid.NewGuid()), schoolA.Id!, "watcher@test.gov.uk"),
+                new Watchlist(new WatchlistId(Guid.NewGuid()), schoolB.Id!, "watcher@test.gov.uk"));
+            await context.SaveChangesAsync();
+
+            var sut = new WatchlistRepository(context);
+
+            var result = (await sut.GetAllWatchlistsForSchool(schoolA.Id!, CancellationToken.None)).ToList();
+
+            result.Should().ContainSingle().Which.SupportProjectId.Should().Be(schoolA.Id);
+        }
     }
 }

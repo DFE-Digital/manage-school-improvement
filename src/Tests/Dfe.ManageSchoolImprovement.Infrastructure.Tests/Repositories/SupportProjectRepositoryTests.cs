@@ -449,6 +449,21 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             trusts.Should().Contain("Trust B");
             trusts.Should().NotContain("Trust D"); // Soft deleted
         }
+        
+        [Fact]
+        public async Task GetAllProjectSupportingOrganisations_ShouldReturnDistinctOrganisations()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act
+            var supportingOrganisations = await service.GetAllProjectSupportingOrganisations(CancellationToken.None);
+
+            // Assert
+            supportingOrganisations.Should().HaveCount(1); // Trust A, Trust B (School C has no trust, Trust D is soft deleted)
+            supportingOrganisations.Should().Contain("test organisation");
+         
+        }
 
         [Fact]
         public async Task GetSupportProjectById_WithValidId_ShouldReturnProject()
@@ -727,6 +742,113 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             // Check that soft deleted projects' years are not included
             yearsAsInts.Should().NotContain(2024); // Assuming School D (soft deleted) was created in 2024
         }
+
+        [Fact]
+        public async Task GetImprovementPlanAllDataBySupportProjectId_WithValidId_ShouldReturnProjectWithAllImprovementPlanData()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var existingProject = fixture.Context.SupportProjects.First(x => x.SchoolName == "School A");
+
+            // Act
+            var result = await service.GetImprovementPlanAllDataBySupportProjectId(existingProject.Id!, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.SchoolName.Should().Be("School A");
+            result.ImprovementPlans.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanAllDataBySupportProjectId_WithInvalidId_ShouldReturnNull()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var nonExistentId = new Domain.ValueObjects.SupportProjectId(999);
+
+            // Act
+            var result = await service.GetImprovementPlanAllDataBySupportProjectId(nonExistentId, CancellationToken.None);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanObjectivesBySupportProjectId_WithValidId_ShouldReturnProjectWithObjectives()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var existingProject = fixture.Context.SupportProjects.First(x => x.SchoolName == "School A");
+
+            // Act
+            var result = await service.GetImprovementPlanObjectivesBySupportProjectId(existingProject.Id!, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.SchoolName.Should().Be("School A");
+            result.ImprovementPlans.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanObjectivesBySupportProjectId_WithInvalidId_ShouldReturnNull()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var nonExistentId = new Domain.ValueObjects.SupportProjectId(999);
+
+            // Act
+            var result = await service.GetImprovementPlanObjectivesBySupportProjectId(nonExistentId, CancellationToken.None);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanProgressReviewsBySupportProjectId_WithValidId_ShouldReturnProjectWithReviews()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var existingProject = fixture.Context.SupportProjects.First(x => x.SchoolName == "School A");
+
+            // Act
+            var result = await service.GetImprovementPlanProgressReviewsBySupportProjectId(existingProject.Id!, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.SchoolName.Should().Be("School A");
+        }
+
+        [Fact]
+        public async Task GetImprovementPlanProgressReviewsBySupportProjectId_WithInvalidId_ShouldReturnNull()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var nonExistentId = new Domain.ValueObjects.SupportProjectId(999);
+
+            // Act
+            var result = await service.GetImprovementPlanProgressReviewsBySupportProjectId(nonExistentId, CancellationToken.None);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetAllProjectStatuses_ShouldReturnAllStatuses()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+
+            // Act
+            var statuses = await service.GetAllProjectStatuses(CancellationToken.None);
+
+            // Assert
+            statuses.Should().NotBeNull();
+            statuses.Should().NotBeEmpty();
+            // Should contain key-value pairs with status text and values
+            statuses.Should().HaveCountGreaterThanOrEqualTo(1);
+        }
+
     }
 
 }
+

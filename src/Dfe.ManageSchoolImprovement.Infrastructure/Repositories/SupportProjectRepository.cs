@@ -25,6 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             queryable = FilterByAssignedAdvisers(searchCriteria.AssignedAdvisers, queryable);
             queryable = FilterByLocalAuthority(searchCriteria.LocalAuthorities, queryable);
             queryable = FilterByTrusts(searchCriteria.Trusts, queryable);
+            queryable = FilterBySupportingOrganisations(searchCriteria.SupportingOrganisations, queryable);
             queryable = FilterByDate(searchCriteria.Dates, queryable);
             queryable = FilterByState(searchCriteria.States, queryable);
 
@@ -64,6 +65,18 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 var lowerCaseRegions = trusts.Select(trust => trust.ToLower());
                 queryable = queryable.Where(p =>
                     !string.IsNullOrEmpty(p.TrustName) && lowerCaseRegions.Contains(p.TrustName.ToLower()));
+            }
+
+            return queryable;
+        }
+        
+        private static IQueryable<SupportProject> FilterBySupportingOrganisations(IEnumerable<string>? trusts, IQueryable<SupportProject> queryable)
+        {
+            if (trusts != null && trusts.Any())
+            {
+                var lowerCaseRegions = trusts.Select(trust => trust.ToLower());
+                queryable = queryable.Where(p =>
+                    !string.IsNullOrEmpty(p.SupportOrganisationName) && lowerCaseRegions.Contains(p.SupportOrganisationName.ToLower()));
             }
 
             return queryable;
@@ -237,6 +250,34 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 ? null
                 : (result.Id, result.SchoolName);
         }
+        
+        public async Task<SupportProject?> GetImprovementPlanAllDataBySupportProjectId(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanObjectives)
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanReviews)
+                .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+        
+        public async Task<SupportProject?> GetImprovementPlanObjectivesBySupportProjectId(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanObjectives)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+        
+        public async Task<SupportProject?> GetImprovementPlanProgressReviewsBySupportProjectId(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet()
+                .Include(x => x.ImprovementPlans)
+                .ThenInclude(x => x.ImprovementPlanReviews)
+                .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
 
         public async Task<IEnumerable<string>> GetAllProjectAssignedUsers(CancellationToken cancellationToken)
         {
@@ -267,7 +308,16 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }
-
+        
+        public async Task<IEnumerable<string>> GetAllProjectSupportingOrganisations(CancellationToken cancellationToken)
+        {
+            return await DbSet().OrderByDescending(p => p.SupportOrganisationName)
+                .AsNoTracking()
+                .Select(p => p.SupportOrganisationName!)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+        }
         public async Task<IEnumerable<string>> GetAllProjectYears(CancellationToken cancellationToken)
         {
             var years = await DbSet()

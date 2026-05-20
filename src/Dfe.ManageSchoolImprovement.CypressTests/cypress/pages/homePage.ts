@@ -401,7 +401,11 @@ class HomePage {
         break;
       case 'current status':
         this.selectCurrentStatusFilter(filterValue);
+        break;
+      case 'supporting organisation':
+        this.selectSupportingOrganisationFilter(filterValue);
         break;  
+        
       default:
         throw new Error(`Filter type '${filterType}' is not supported.`);
     }
@@ -520,11 +524,30 @@ class HomePage {
           this.hasSelectedTrustFilter(filterValue);
         }
         break;
+      case 'supporting organisation':
+        if (filterValue) {
+          this.selectSupportingOrganisationFilter(filterValue);
+        }
+        break;
       default:
         throw new Error(`Filter type '${filterType}' is not supported for verification.`);
     }
     return this;
   }
+
+  public selectSupportingOrganisationFilter(supportingOrganisation: string): this {
+    cy.getByCyData('select-projectlist-filter-supporting-organisation')
+      .should("exist")
+      .click();
+    cy.get('.govuk-checkboxes')
+      .contains(supportingOrganisation)
+      .closest('.govuk-checkboxes__item')
+      .find('input[type="checkbox"]')
+      .check();
+
+    return this;
+  } 
+
 }
 const homePage = new HomePage();
 
