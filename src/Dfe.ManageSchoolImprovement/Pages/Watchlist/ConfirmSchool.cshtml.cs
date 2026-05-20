@@ -1,6 +1,9 @@
+using System.Net;
+using Dfe.ManageSchoolImprovement.Application.Common.Exceptions;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Frontend.Authorization;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -13,7 +16,10 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist;
 public class ConfirmSchoolModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : PageModel
+    IMediator mediator,
+    IHostEnvironment environment,
+    IHttpContextAccessor httpContextAccessor,
+    IConfiguration configuration) : PageModel
 {
     public string ReturnPage { get; set; }
     
@@ -21,6 +27,8 @@ public class ConfirmSchoolModel(
     
     [BindProperty]
     public int SelectedSchoolId { get; set; }
+    
+    private string CurrentUser { get; set; } = string.Empty;
 
     public bool ShowError { get; set; }
 
@@ -47,10 +55,18 @@ public class ConfirmSchoolModel(
             return Page();
         }
         
-        var currentUser = User.Identity?.Name;
+        if ((environment.IsDevelopment() || environment.IsEnvironment("Test")) && HeaderRequirementHandler.ClientSecretHeaderValid(environment, httpContextAccessor, configuration))
+        {
+            CurrentUser = "Cypress";
+        }
+        else
+        {
+            CurrentUser = User.Identity?.Name;
+        }
+        
         var selectedSchoolId = new SupportProjectId(SelectedSchoolId);
         
-        var request = new AddSchoolToWatchlistCommand(selectedSchoolId, currentUser!);
+        var request = new AddSchoolToWatchlistCommand(selectedSchoolId, CurrentUser!);
         
         var result = await mediator.Send(request, cancellationToken);
         
