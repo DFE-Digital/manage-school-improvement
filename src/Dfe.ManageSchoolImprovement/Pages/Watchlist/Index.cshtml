@@ -78,7 +78,7 @@
                                asp-route-returnpage="@Links.Watchlist.Index.Page">@watchedSchool.SchoolName</a>
                         </td>
                         <td class="govuk-table__cell"
-                            data-sort-value="@watchedSchool.DateAdded"
+                            data-sort-value="@(watchedSchool.DateAdded?.ToString("yyyyMMdd"))"
                             data-cy="date-added-@watchedSchool.DateAdded">@watchedSchool.DateAdded.ToDateString()</td>
                         <td class="govuk-table__cell"
                             data-sort-value="@watchedSchool.AssignedTo"
