@@ -19,8 +19,15 @@ class WatchlistHomepage {
         });
 
         return this;
-
     }
+
+    public vefifyMilestoneForSchool(schoolName: string, milestone: string) {
+        cy.get('table.govuk-table tbody tr').should('exist').contains('td', schoolName).parent('tr').within(() => {
+            cy.get('td').eq(4).invoke('text').should('contain', milestone);
+        });
+        return this;
+    }
+
 
     public hasTitle(title: string) {
         cy.get('h1').contains(title).should('exist');
@@ -51,7 +58,7 @@ class WatchlistHomepage {
             'Date added',
             'Assigned to',
             'Supporting organisation',
-            //  'Milestone',
+            'Milestone',
             'Status'
         ];
 
@@ -142,7 +149,31 @@ class WatchlistHomepage {
     }
 
     public sortByColumn(columnName: string) {
-        cy.get('[data-testid="school-table"] th').contains(columnName).click();
+        cy.get('.govuk-table__header').contains(columnName).click();
+
+        if (columnName === 'School' || columnName === 'Assigned to' || columnName === 'Supporting organisation' || columnName === 'Milestone' || columnName === 'Status') {
+            cy.get('.govuk-table tbody tr td:first-child').then(($cells) => {
+                const schoolNames = [...$cells].map((cell) => (cell.textContent || '').trim());
+                const sortedNames = [...schoolNames].sort((a, b) => a.localeCompare(b));
+                expect(schoolNames).to.deep.equal(sortedNames);
+            });
+        }
+
+        else if (columnName === 'Date added to MSI') {
+            cy.get('.govuk-table tbody tr td:nth-child(2)').then(($cells) => {
+                const dateValues = [...$cells].map((cell) => {
+                    const rawDate = (cell.textContent || '').trim();
+                    const parsed = new Date(rawDate);
+                    const yyyy = parsed.getFullYear();
+                    const mm = String(parsed.getMonth() + 1).padStart(2, '0');
+                    const dd = String(parsed.getDate()).padStart(2, '0');
+                    return Number(`${yyyy}${mm}${dd}`);
+                });
+
+                const sortedDateValues = [...dateValues].sort((a, b) => a - b);
+                expect(dateValues).to.deep.equal(sortedDateValues);
+            });
+        }
 
         return this;
     }
@@ -157,17 +188,22 @@ class WatchlistHomepage {
     }
 
     public clickRemoveLinkForSchool(schoolName: string = 'Plymouth Grove Primary School') {
-        cy.getByCyData(`remove-link-${schoolName}`).should('exist').click();
+        cy.getByCyData(`remove-link-${schoolName}`).should('exist')
+        cy.contains('a', 'Remove').first().click();
+        cy.url().should('include', '/remove-school')
+
+        return this;
+    }
+
+    public hasCancelLink() {
+        cy.get('a').contains('Cancel').should('exist');
 
         return this;
     }
 
     public removeSchoolFromWatchlist(schoolName: string = 'Plymouth Grove Primary School') {
-        cy.get('h1').should('contain.text', 'Confirm the details below to remove the school from your watchlist.The school can still be found within the all schools list.');
-
-        cy.get('a').contains('Cancel').should('exist');
+        cy.get('h1').should('contain.text', 'Remove school from watchlist');
         cy.getByCyData('remove-from-watchlist-button').should('exist').click();
-
         cy.get('h1').should('contain.text', 'Your school watchlist');
         cy.url().should('include', '/watchlist')
 
