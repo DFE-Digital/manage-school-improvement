@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Frontend.Authorization;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
@@ -11,12 +12,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist;
 public class IndexModel(
     IWatchlistQueryService watchlistQueryService,
     ISupportProjectQueryService supportProjectQueryService,
-    ErrorService errorService,
-    IApplicationSettingsResourceService applicationSettingsResourceService) : PageModel
+    IApplicationSettingsResourceService applicationSettingsResourceService,
+    IHostEnvironment environment,
+    IHttpContextAccessor httpContextAccessor,
+    IConfiguration configuration) : PageModel
 {
     protected readonly IWatchlistQueryService _watchlistQueryService = watchlistQueryService;
     protected readonly ISupportProjectQueryService _supportProjectQueryService = supportProjectQueryService;
-    protected readonly ErrorService _errorService = errorService;
 
     public string ReturnPage { get; set; }
 
@@ -33,7 +35,14 @@ public class IndexModel(
     {
         ReturnPage = @Links.Watchlist.Index.Page;
 
-        CurrentUser = User.Identity?.Name;
+        if ((environment.IsDevelopment() || environment.IsEnvironment("Test")) && HeaderRequirementHandler.ClientSecretHeaderValid(environment, httpContextAccessor, configuration))
+        {
+            CurrentUser = "Cypress";
+        }
+        else
+        {
+            CurrentUser = User.Identity?.Name;
+        }
 
         WatchlistSupportProjects =
             await _watchlistQueryService.GetAllSchoolsForUser(CurrentUser ?? string.Empty, cancellationToken);
