@@ -20,7 +20,7 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
         cy.executeAccessibilityTests()
     });
 
-       it("should be able to add a school to their watchlist", () => {
+    it("should be able to add a school to their watchlist", () => {
         Logger.log("Add school to watchlist and validate the school is added to the list");
         watchlistHomepage
             .clickAddSchoolToWatchlistButton()
@@ -33,7 +33,7 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
 
         cy.executeAccessibilityTests()
 
-        watchlistHomepage    
+        watchlistHomepage
             .clickSaveAndCompleteButton()
             .successfullyAddedMessage()
             .hasSchoolList()
@@ -42,7 +42,7 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
 
 
     it("should be able to find the watchlist table with details and helpful links", () => {
-        Logger.log("User navigated to Task list");
+        Logger.log("User should see the watchlist table with columns and helpful links");
         watchlistHomepage
             .hasSchoolList()
             .hasSchoolTableWithColumns(['School', 'Date added to MSI', 'Assigned to', 'Supporting organisation', 'Milestone', 'Status'])
@@ -62,24 +62,17 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
         cy.executeAccessibilityTests()
     });
 
-
-    it("should be able to remove the school from their watchlist", () => {
-        Logger.log("User navigated to Task list");
+    it("should be able to check Milestone based on the all tasks completion", () => {
+        Logger.log("Milestone should be Termly reviews when all 12 tasks are completed for Record decision-Review school's progress");
         watchlistHomepage
             .hasSchoolList()
-            .clickRemoveLinkForSchool()
-
-        cy.executeAccessibilityTests()
-
-        watchlistHomepage    
-            .removeSchoolFromWatchlist()
-            .successfullyRemovedMessage()
+            .vefifyMilestoneForSchool('Plymouth Grove Primary School', 'Termly reviews')
 
         cy.executeAccessibilityTests()
     });
 
     it("should be able to sort the list, based on columns ", () => {
-        Logger.log("User navigated to Task list");
+        Logger.log("User sort the results based on column");
         watchlistHomepage
             .hasSchoolList()
             .sortByColumn('School')
@@ -88,6 +81,22 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
             .sortByColumn('Supporting organisation')
             .sortByColumn('Milestone')
             .sortByColumn('Status')
+
+        cy.executeAccessibilityTests()
+    });
+
+    it.only("should be able to remove the school from their watchlist", () => {
+        Logger.log("User removed the school from their Watchlist");
+        watchlistHomepage
+            .hasSchoolList()
+            .clickRemoveLinkForSchool()
+
+        cy.executeAccessibilityTests()
+
+        watchlistHomepage
+            .hasCancelLink()
+            .removeSchoolFromWatchlist()
+            .successfullyRemovedMessage()
 
         cy.executeAccessibilityTests()
     });
