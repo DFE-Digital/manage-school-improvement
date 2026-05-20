@@ -3,6 +3,29 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v3.0.0] - Q1 – Sprint4 (Part 1)- 2026-05-21
+
+### 📌 User Stories 
+
+- **274871** - New navigation bar(Watchlist)
+- **274853** - New Watchlist page and table - Implement assign school to user and school column only table (Step 1a)
+- **278872** - Investigate issue with MOJ javascript imports and make watchlist table sortable
+- **274855** - New Watchlist page and table - Implement remaining columns (Step 1b)
+- **274866** -  "Add school to Watchlist" journey
+- **274873** - "Remove" school from Watchlist
+- **279013** - Remove "soft deleted" schools from Watchlist table
+- **230724** - Change available funding bands in "Share indicative funding band and the improvement plan template" and "Review the improvement plan and confirm the funding band" tasks
+- **274436** - Add "Milestone" column to Watchlist feature
+- **277627** - Add "Supporting Organisation" Filter to "All schools" page
+- **278881** - Fix sonar cube issue
+- **278880** - .net 10 upgrade
+
+### 🐛 Bug Fixes
+
+- **279561** - Applying fix to slow MSI pages
+
+--
+
 ## 📅 [v2.1.1] - Q1 – Sprint2 (Part 3)- 2026-04-27
 
 ### 🐛 Bug Fixes
