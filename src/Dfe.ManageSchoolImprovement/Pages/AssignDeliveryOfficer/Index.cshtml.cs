@@ -12,7 +12,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AssignDeliveryOfficer;
 
 
-public class IndexModel(IUserRepository userRepository, ISupportProjectQueryService supportProjectQueryService, IMediator _mediator) : PageModel
+public class IndexModel(IUserRepository userRepository, 
+   ISupportProjectQueryService supportProjectQueryService, 
+   IWatchlistQueryService watchlistQueryService, 
+   IMediator _mediator) : PageModel
 {
    public string SchoolName { get; private set; }
    public int Id { get; set; }
@@ -52,9 +55,17 @@ public class IndexModel(IUserRepository userRepository, ISupportProjectQueryServ
             var request = new SetDeliveryOfficerCommand(supportProjectId, assignedDeliveryOfficer?.FullName!, assignedDeliveryOfficer?.EmailAddress!, initialDeliveryOfficerAssigned);
             await _mediator.Send(request);
             
-            var watchlistRequest = new AddSchoolToWatchlistCommand(supportProjectId, assignedDeliveryOfficer?.EmailAddress!);
-            await _mediator.Send(watchlistRequest);
+            var watchlistSupportProjects =
+               await watchlistQueryService.GetAllSchoolsForUser(assignedDeliveryOfficer?.EmailAddress!, cancellationToken);
             
+            if (watchlistSupportProjects.Value == null || watchlistSupportProjects.Value.All(s => s.SupportProjectId != supportProjectId))
+            {
+
+               var watchlistRequest =
+                  new AddSchoolToWatchlistCommand(supportProjectId, assignedDeliveryOfficer?.EmailAddress!);
+               await _mediator.Send(watchlistRequest);
+            }
+
             TempData["deliveryOfficerAssigned"] = true;
          }
 

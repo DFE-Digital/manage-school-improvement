@@ -79,16 +79,16 @@
                         </td>
                         <td class="govuk-table__cell"
                             data-sort-value="@watchedSchool.DateAdded"
-                            data-cy="date-added-@watchedSchool.SchoolName">@watchedSchool.DateAdded.ToDateString()</td>
+                            data-cy="date-added-@watchedSchool.DateAdded">@watchedSchool.DateAdded.ToDateString()</td>
                         <td class="govuk-table__cell"
                             data-sort-value="@watchedSchool.AssignedTo"
                             data-cy="assigned-to-@watchedSchool.SchoolName">@(watchedSchool.AssignedTo ?? "Not yet assigned")</td>
                         <td class="govuk-table__cell"
                             data-sort-value="@watchedSchool.SupportingOrganisationName">@(watchedSchool.SupportingOrganisationName ?? "Not yet appointed")</td>
                         <td class="govuk-table__cell"
-                            data-sort-value="milestone">@(watchedSchool.CurrentDeliveryMilestone.HasValue ? watchedSchool.CurrentDeliveryMilestone.GetDisplayName() : "Milestone not yet reached")</td>
+                            data-sort-value="@watchedSchool.CurrentDeliveryMilestone">@(watchedSchool.CurrentDeliveryMilestone.HasValue ? watchedSchool.CurrentDeliveryMilestone.GetDisplayName() : "Milestone not yet reached")</td>
                         <td class="govuk-table__cell" data-sort-value="@watchedSchool.Status"
-                            data-cy="status-@watchedSchool.SchoolName">
+                            data-cy="status-@watchedSchool.Status">
                             <partial name="Shared/_ProjectStatus" model="watchedSchool.Status"/>
                         </td>
                         <td class="govuk-table__cell" data-cy="remove-link-@watchedSchool.SchoolName">
