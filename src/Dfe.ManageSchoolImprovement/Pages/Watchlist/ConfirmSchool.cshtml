@@ -1,5 +1,6 @@
 @page "/watchlist/confirm-school"
 
+@using Dfe.ManageSchoolImprovement.Utils
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist.ConfirmSchoolModel
 
@@ -54,6 +55,14 @@
                 </dt>
                 <dd class="govuk-summary-list__value">
                     @(Model.SelectedSchool?.SupportOrganisationName ?? "Not yet appointed")
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Milestone
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(Model.SelectedSchool!.CurrentDeliveryMilestone.HasValue ? Model.SelectedSchool.CurrentDeliveryMilestone.GetDisplayName() : "Milestone not yet reached")
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
