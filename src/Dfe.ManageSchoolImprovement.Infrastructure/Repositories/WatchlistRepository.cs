@@ -21,7 +21,8 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Select(w => new Watchlist(w.Id,
                     w.SupportProjectId,
                     w.User!,
-                    w.ReadableId))
+                    w.ReadableId,
+                    w.CreatedOn))
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }

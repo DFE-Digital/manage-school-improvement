@@ -18,10 +18,11 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             User = user;
         }
 
-        public Watchlist(WatchlistId id, SupportProjectId supportProjectId, string user, int readableId)
+        public Watchlist(WatchlistId id, SupportProjectId supportProjectId, string user, int readableId, DateTime createdOn)
             : this(id, supportProjectId, user)
         {
             ReadableId = readableId;
+            CreatedOn = createdOn;
         }
 
         public WatchlistId Id { get; set; }

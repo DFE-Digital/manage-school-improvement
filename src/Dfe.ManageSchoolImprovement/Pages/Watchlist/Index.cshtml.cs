@@ -61,12 +61,16 @@ public class IndexModel(
                             AssignedTo = supportProject.AssignedDeliveryOfficerFullName,
                             SupportingOrganisationName = supportProject.SupportOrganisationName,
                             Status = supportProject.ProjectStatus,
-                            CurrentDeliveryMilestone = supportProject.CurrentDeliveryMilestone
+                            CurrentDeliveryMilestone = supportProject.CurrentDeliveryMilestone,
+                            DateAddedToWatchlist = school.CreatedOn
                         }
                     );
                 }
             }
         }
+        
+        // sort Watchlist by date added to watchlist ascending
+        Watchlist = new List<WatchlistViewModel>(Watchlist.OrderBy(w => w.DateAddedToWatchlist));
 
         RiseDeliveryDashboardLink =
             await applicationSettingsResourceService.GetRISEDeliveryDashboardLinkAsync(cancellationToken) ??
