@@ -42,7 +42,7 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
 
 
     it("should be able to find the watchlist table with details and helpful links", () => {
-        Logger.log("User should see the watchlist table with columns and helpful links");
+        Logger.log("User should see the watchlist table with details and helpful links");
         watchlistHomepage
             .hasSchoolList()
             .hasSchoolTableWithColumns(['School', 'Date added to MSI', 'Assigned to', 'Supporting organisation', 'Milestone', 'Status'])
@@ -85,7 +85,7 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
         cy.executeAccessibilityTests()
     });
 
-    it.only("should be able to remove the school from their watchlist", () => {
+    it("should be able to remove the school from their watchlist", () => {
         Logger.log("User removed the school from their Watchlist");
         watchlistHomepage
             .hasSchoolList()
