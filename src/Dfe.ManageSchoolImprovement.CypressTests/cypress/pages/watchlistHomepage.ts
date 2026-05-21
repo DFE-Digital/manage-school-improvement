@@ -85,7 +85,6 @@ class WatchlistHomepage {
     public clickSaveAndCompleteButton() {
         cy.getByCyData('save-and-finish-button').contains('Save and complete').click();
 
-
         return this;
     }
 
@@ -99,7 +98,6 @@ class WatchlistHomepage {
     }
 
     public hasResultsWithDetails() {
-
         cy.get('table.govuk-table tbody tr').should('have.length.greaterThan', 0);
 
         cy.get('table.govuk-table tbody tr').each(($row) => {
@@ -122,30 +120,31 @@ class WatchlistHomepage {
             cy.contains('a', 'Find information about schools and trusts').should('exist').click();
 
         });
+
         return this;
     }
 
-
     public hasMessageWhenNoSchools(message: string) {
         cy.get('body').then($body => {
-            if ($body.find('table[data-testid="school-table"]').length > 0) {
-                cy.log('Schools are assigned to the user');
+            if ($body.find('.govuk-table').length > 0) {
+                cy.log('Watchlist has existing records');
             } else {
                 cy.get('p').should('exist').should('contain.text', message);
             }
         });
+
         return this;
     }
 
     public hasAssignedToValue() {
-        cy.get('[data-testid="school-table"] tbody tr').each(($row) => {
+        cy.get('.govuk-table tbody tr').each(($row) => {
             cy.wrap($row).find('td').eq(2).invoke('text').then((text) => {
                 const trimmed = text.trim();
                 expect(trimmed).to.eq('TestFirstName TestLastName');
             });
         });
-        return this;
 
+        return this;
     }
 
     public sortByColumn(columnName: string) {
