@@ -99,7 +99,13 @@ public static class Links
         public static readonly LinkItem ConfirmSupportingOrganisationAddressDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/ConfirmSupportingOrganisationAddressDetails");
 
         public static readonly LinkItem DueDiligenceOnPreferredSupportingOrganisation = AddLinkItem(backText: "Back", page: "/TaskList/DueDiligenceOnPreferredSupportingOrganisation/Index");
+        
         public static readonly LinkItem RecordSupportingOrganisationAppointment = AddLinkItem(backText: "Back", page: "/TaskList/RecordSupportingOrganisationAppointment/Index");
+        public static readonly LinkItem RecordSupportingOrganisationAppointmentDetails = AddLinkItem(backText: "Back", page: "/TaskList/RecordSupportingOrganisationAppointment/RecordSupportingOrganisationAppointmentDetails");
+        public static readonly LinkItem RecordSupportingOrganisationApprovalNotGiven = AddLinkItem(backText: "Back", page: "/TaskList/RecordSupportingOrganisationAppointment/RecordSupportingOrganisationApprovalNotGiven");
+
+
+        
         public static readonly LinkItem ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate = AddLinkItem(backText: "Back", page: "/TaskList/ShareTheIndicativeFundingBandAndTheImprovementPlanTemplate/Index");
         public static readonly LinkItem RecordImprovementPlanDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordImprovementPlanDecision/Index");
         public static readonly LinkItem SendAgreedImprovementPlanForApproval = AddLinkItem(backText: "Back", page: "/TaskList/SendAgreedImprovementPlanForApproval/Index");

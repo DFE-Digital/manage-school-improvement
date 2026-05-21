@@ -1,0 +1,62 @@
+@page "/task-list/record-supporting-organisation-appointment-details/{id:int}"
+@model RecordSupportingOrganisationAppointmentDetailsModel
+@{
+    ViewData["Title"] = "Record supporting organisation appointment";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.RecordSupportingOrganisationAppointment.Page" asp-route-id="@Model.SupportProject?.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Record supporting organisation appointment
+        </h1>
+        <form method="post" novalidate>
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" aria-describedby="complete-at2-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        Has assessment tool 2 been completed?
+                    </legend>
+                    <div class="govuk-hint">
+                        You must download a <a class="govuk-link" href="@Model.AssessmentToolTwoLink">copy of the
+                            assessment tool (opens in new tab).</a>
+                        When complete <a class="govuk-link" href="@Model.AssessmentToolTwoSharePointFolderLink">upload
+                            it to the relevant region's assessment folder in SharePoint (opens in new tab).</a>
+                    </div>
+                    <govuk-checkbox-input label="Assessment tool 2 has been completed and uploaded"
+                                          id="assessment-tool-two-completed"
+                                          name="assessment-tool-two-completed"
+                                          asp-for="@Model.AssessmentToolTwoCompleted"
+                                          data-cy="assessment-too-two-completed-checkbox"/>
+                </fieldset>
+            </div>
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" role="group" aria-describedby="so-approved-date-hint">
+                    <govuk-date-input heading-label="false"
+                                      label="Enter date the regional director made this appointment"
+                                      id="appointment-date" name="appointment-date"
+                                      asp-for="@Model.RegionalDirectorAppointmentDate" hint="For example, 1 7 2024."/>
+                </fieldset>
+            </div>
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+                <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

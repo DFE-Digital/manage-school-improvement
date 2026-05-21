@@ -1,0 +1,49 @@
+@page "/task-list/record-supporting-organisation-approval-not-given/{id:int}"
+@model RecordSupportingOrganisationApprovalNotGivenModel
+@{
+    ViewData["Title"] = "Enter details about why approval was not given";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.RecordSupportingOrganisationAppointment.Page"
+           asp-route-id="@Model.SupportProject?.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
+        <form method="post" novalidate>
+            <div class="govuk-form-group govuk-character-count" data-module="govuk-character-count"
+                 data-maxlength="500">
+                <h1 class="govuk-label-wrapper" data-cy="page-heading">
+                    <label class="govuk-label govuk-label--l" for="supporting-organisation-approval-not-given">
+                        Enter details about why approval was not given</label>
+                </h1>
+
+                <textarea class="govuk-textarea govuk-js-character-count"
+                          id="supporting-organisation-approval-not-given"
+                          name="supporting-organisation-approval-not-given" rows="5"
+                          aria-describedby="supporting-organisation-approval-not-given"></textarea>
+                <div id="supporting-organisation-approval-not-given-info" class="govuk-hint govuk-character-count__message">
+                    You can enter up to 500 characters
+                </div>
+            </div>
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+                <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
