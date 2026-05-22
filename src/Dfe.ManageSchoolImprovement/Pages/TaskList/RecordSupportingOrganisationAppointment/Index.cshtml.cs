@@ -16,13 +16,17 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
         IDateValidationMessageProvider
     {
+        [Display(Name = "Enter date the regional director made this appointment")]
         public DateTime? RegionalDirectorAppointmentDate { get; set; }
 
         [BindProperty(Name = "HasConfirmedSupportingOrganisationAppointment")]
         [Display(Name = "Has a regional director approved the appointment of this supporting organisation?")]
         public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
 
+        [Display(Name = "Enter details about why approval was not given")]
         public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
+        
+        [Display(Name = "Has assessment tool 2 been completed?")]
         public bool? AssessmentToolTwoCompleted { get; set; }
 
         public TaskListStatus? TaskListStatus { get; set; }

@@ -17,8 +17,9 @@
     {
         summaryItems = SummaryListHelper.For<IndexModel>(
             m => m.HasConfirmedSupportingOrganisationAppointment!,
-            m => m.RegionalDirectorAppointmentDate!,
-            m => m.AssessmentToolTwoCompleted!
+            m => m.AssessmentToolTwoCompleted!,
+            m => m.RegionalDirectorAppointmentDate!
+            
         );
     }
 }
