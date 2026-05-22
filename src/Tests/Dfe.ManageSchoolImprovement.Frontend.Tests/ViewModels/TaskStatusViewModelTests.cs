@@ -341,25 +341,28 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, bool?, string?, TaskListStatus>
+        public static readonly TheoryData<DateTime?, bool?, string?, bool?, TaskListStatus>
             RecordSupportingDecisionTaskListStatusCases = new()
             {
-                { null, null, null, TaskListStatus.NotStarted },
-                { DateTime.Now, true, null, TaskListStatus.Complete },
-                { DateTime.Now, false, "Notes", TaskListStatus.InProgress }
+                { null, null, null, null, TaskListStatus.NotStarted },
+                { DateTime.Now, true, null, true, TaskListStatus.Complete },
+                { DateTime.Now, true, null, null, TaskListStatus.InProgress },
+                { DateTime.Now, false, "Notes", null, TaskListStatus.InProgress }
             };
 
         [Theory, MemberData(nameof(RecordSupportingDecisionTaskListStatusCases))]
         public void RecordSupportingOrganisationAppointmentTaskListStatusShouldReturnCorrectStatus(
             DateTime? regionalDirectorAppointmentDate, bool? hasConfirmedSupportingOrganisationAppointment,
-            string? disapprovingSupportingOrganisationAppointmentNotes, TaskListStatus expectedTaskListStatus)
+            string? disapprovingSupportingOrganisationAppointmentNotes, bool? assessmentToolTwoCompleted,
+            TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
                 RegionalDirectorAppointmentDate: regionalDirectorAppointmentDate,
                 HasConfirmedSupportingOrganisationAppointment: hasConfirmedSupportingOrganisationAppointment,
                 DisapprovingSupportingOrganisationAppointmentNotes:
-                disapprovingSupportingOrganisationAppointmentNotes));
+                disapprovingSupportingOrganisationAppointmentNotes,
+                AssessmentToolTwoCompleted: assessmentToolTwoCompleted));
 
             //Action 
             var taskListStatus =

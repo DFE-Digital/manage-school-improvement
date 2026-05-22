@@ -29,12 +29,14 @@ public class SetRecordSupportingOrganisationAppointmentTests
         var regionalDirectorAppointmentDate = DateTime.UtcNow;
         var hasConfirmedSupportingOrganisationAppointment = true;
         var disapprovingSupportingOrganisationAppointmentNotes = "Random Notes";
+        var assessmentToolTwoCompleted = true;
 
         var command = new SetRecordSupportingOrganisationAppointmentCommand(
             _mockSupportProject.Id,
             regionalDirectorAppointmentDate,
             hasConfirmedSupportingOrganisationAppointment,
-            disapprovingSupportingOrganisationAppointmentNotes
+            disapprovingSupportingOrganisationAppointmentNotes,
+            assessmentToolTwoCompleted
         );
         _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
         var handler = new SetRecordSupportingOrganisationAppointmentCommandHandler(_mockSupportProjectRepository.Object);
@@ -53,6 +55,7 @@ public class SetRecordSupportingOrganisationAppointmentTests
         // Arrange
         var command = new SetRecordSupportingOrganisationAppointmentCommand(
             _mockSupportProject.Id,
+            null,
             null,
             null,
             null
@@ -75,12 +78,14 @@ public class SetRecordSupportingOrganisationAppointmentTests
         var regionalDirectorAppointmentDate = DateTime.UtcNow;
         var hasConfirmedSupportingOrganisationAppointment = true;
         var disapprovingSupportingOrganisationAppointmentNotes = "Random Notes";
+        var assessmentToolTwoCompleted = true;
 
         var command = new SetRecordSupportingOrganisationAppointmentCommand(
             _mockSupportProject.Id,
             regionalDirectorAppointmentDate,
             hasConfirmedSupportingOrganisationAppointment,
-            disapprovingSupportingOrganisationAppointmentNotes
+            disapprovingSupportingOrganisationAppointmentNotes,
+            assessmentToolTwoCompleted
         );
 
         _mockSupportProjectRepository.Setup(repo => 
