@@ -9,13 +9,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOrganisationAppointment
 {
-    public class RecordSupportingOrganisationApprovalNotGivenModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
+    public class RecordSupportingOrganisationApprovalNotGivenModel(
+        ISupportProjectQueryService supportProjectQueryService,
+        ErrorService errorService,
+        IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
+        IDateValidationMessageProvider
     {
         [BindProperty(Name = "supporting-organisation-approval-not-given")]
         [Display(Name = "Provide some details about why approval was not given")]
         public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
 
         public bool ShowError { get; set; }
+        private const string DisapprovingSupportingOrganisationAppointmentNotesKey = "supporting-organisation-approval-not-given";
 
         public async Task<IActionResult> OnGet(int id, CancellationToken cancellationToken)
         {
@@ -23,28 +28,39 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
 
             if (SupportProject != null)
             {
-                DisapprovingSupportingOrganisationAppointmentNotes = SupportProject.DisapprovingSupportingOrganisationAppointmentNotes;
+                DisapprovingSupportingOrganisationAppointmentNotes =
+                    SupportProject.DisapprovingSupportingOrganisationAppointmentNotes;
             }
-            
+
             return Page();
         }
+
         public async Task<IActionResult> OnPost(int id, CancellationToken cancellationToken)
         {
             await base.GetSupportProject(id, cancellationToken);
 
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(DisapprovingSupportingOrganisationAppointmentNotes))
+            if (string.IsNullOrWhiteSpace(DisapprovingSupportingOrganisationAppointmentNotes))
             {
-                if (string.IsNullOrWhiteSpace(DisapprovingSupportingOrganisationAppointmentNotes))
-                {
-                    _errorService.AddError("textInput","Enter details");
-                }
+                ModelState.AddModelError(DisapprovingSupportingOrganisationAppointmentNotesKey, "Enter details");
+            }
 
+            if (DisapprovingSupportingOrganisationAppointmentNotes?.Length > 500)
+            {
+                ModelState.AddModelError(DisapprovingSupportingOrganisationAppointmentNotesKey, "Details must be 500 characters or less");
+            }
+
+            if (!ModelState.IsValid)
+            {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
                 return await base.GetSupportProject(id, cancellationToken);
             }
-
-            var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id), SupportProject?.RegionalDirectorAppointmentDate, SupportProject?.HasConfirmedSupportingOrganisationAppointment, DisapprovingSupportingOrganisationAppointmentNotes);
+            
+            var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id),
+                SupportProject?.RegionalDirectorAppointmentDate,
+                SupportProject?.HasConfirmedSupportingOrganisationAppointment,
+                DisapprovingSupportingOrganisationAppointmentNotes,
+                SupportProject?.AssessmentToolTwoCompleted);
 
             var result = await mediator.Send(request, cancellationToken);
 

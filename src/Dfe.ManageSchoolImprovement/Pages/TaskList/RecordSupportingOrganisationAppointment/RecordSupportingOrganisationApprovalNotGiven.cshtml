@@ -22,17 +22,32 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
         <form method="post" novalidate>
-            <div class="govuk-form-group govuk-character-count" data-module="govuk-character-count"
+            <div class="govuk-form-group govuk-character-count @(Model.ShowError ? "govuk-form-group--error govuk-js-character-count--error" : "")" data-module="govuk-character-count"
                  data-maxlength="500">
                 <h1 class="govuk-label-wrapper" data-cy="page-heading">
                     <label class="govuk-label govuk-label--l" for="supporting-organisation-approval-not-given">
                         Enter details about why approval was not given</label>
                 </h1>
-
-                <textarea class="govuk-textarea govuk-js-character-count"
+                @if (Model.ShowError)
+                {
+                    @if (Model.DisapprovingSupportingOrganisationAppointmentNotes == null)
+                    {
+                        <p id="eligibility-check-details-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Enter details
+                        </p>
+                    }
+                    else
+                    {
+                        <p id="character-count-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Details must be 500 characters or
+                            less
+                        </p>
+                    }
+                }                
+                <textarea class="govuk-textarea govuk-js-character-count @(Model.ShowError ? "govuk-form-group--error govuk-js-character-count--error" : "")"
                           id="supporting-organisation-approval-not-given"
                           name="supporting-organisation-approval-not-given" rows="5"
-                          aria-describedby="supporting-organisation-approval-not-given"></textarea>
+                          aria-describedby="supporting-organisation-approval-not-given">@Model.DisapprovingSupportingOrganisationAppointmentNotes</textarea>
                 <div id="supporting-organisation-approval-not-given-info" class="govuk-hint govuk-character-count__message">
                     You can enter up to 500 characters
                 </div>

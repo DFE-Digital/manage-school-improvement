@@ -24,7 +24,7 @@
             Record supporting organisation appointment
         </h1>
         <form method="post" novalidate>
-            <div class="govuk-form-group">
+            <div class="govuk-form-group @(Model.ShowCompleteAssessmentToolError ? "govuk-form-group--error" : "")">
                 <fieldset class="govuk-fieldset" aria-describedby="complete-at2-hint">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                         Has assessment tool 2 been completed?
@@ -38,6 +38,7 @@
                     <govuk-checkbox-input label="Assessment tool 2 has been completed and uploaded"
                                           id="assessment-tool-two-completed"
                                           name="assessment-tool-two-completed"
+                                          error-message="@Model.AssessmentToolTwoErrorMessage"
                                           asp-for="@Model.AssessmentToolTwoCompleted"
                                           data-cy="assessment-too-two-completed-checkbox"/>
                 </fieldset>

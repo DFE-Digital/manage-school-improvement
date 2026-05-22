@@ -407,11 +407,12 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     }
 
     public void SetRecordSupportingOrganisationAppointment(DateTime? regionalDirectorAppointmentDate,
-        bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes)
+        bool? hasConfirmedSupportingOrganisationAppointment, string? disapprovingSupportingOrganisationAppointmentNotes, bool? assessmentToolTwoCompleted)
     {
         RegionalDirectorAppointmentDate = regionalDirectorAppointmentDate;
         HasConfirmedSupportingOrganisationAppointment = hasConfirmedSupportingOrganisationAppointment;
         DisapprovingSupportingOrganisationAppointmentNotes = disapprovingSupportingOrganisationAppointmentNotes;
+        AssessmentToolTwoCompleted = assessmentToolTwoCompleted;
     }
 
     public void SetRecordImprovementPlanDecision(DateTime? regionalDirectorImprovementPlanDecisionDate,

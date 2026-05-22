@@ -8,23 +8,29 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
         SupportProjectId SupportProjectId,
         DateTime? RegionalDirectorAppointmentDate,
         bool? HasConfirmedSupportingOrganisationAppointment,
-        string? DisapprovingSupportingOrganisationAppointmentNotes
+        string? DisapprovingSupportingOrganisationAppointmentNotes,
+        bool? AssessmentToolTwoCompleted
     ) : IRequest<bool>;
 
-    public class SetRecordSupportingOrganisationAppointmentCommandHandler(ISupportProjectRepository supportProjectRepository)
+    public class SetRecordSupportingOrganisationAppointmentCommandHandler(
+        ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetRecordSupportingOrganisationAppointmentCommand, bool>
     {
         public async Task<bool> Handle(SetRecordSupportingOrganisationAppointmentCommand request,
             CancellationToken cancellationToken)
         {
-            var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
+            var supportProject =
+                await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
 
             if (supportProject is null)
             {
                 return false;
             }
 
-            supportProject.SetRecordSupportingOrganisationAppointment(request.RegionalDirectorAppointmentDate, request.HasConfirmedSupportingOrganisationAppointment, request.DisapprovingSupportingOrganisationAppointmentNotes);
+            supportProject.SetRecordSupportingOrganisationAppointment(request.RegionalDirectorAppointmentDate,
+                request.HasConfirmedSupportingOrganisationAppointment,
+                request.DisapprovingSupportingOrganisationAppointmentNotes,
+                request.AssessmentToolTwoCompleted);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

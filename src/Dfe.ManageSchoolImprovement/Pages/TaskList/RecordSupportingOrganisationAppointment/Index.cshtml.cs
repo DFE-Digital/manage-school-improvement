@@ -67,7 +67,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
 
             var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id),
                 SupportProject?.RegionalDirectorAppointmentDate, HasConfirmedSupportingOrganisationAppointment,
-                SupportProject?.DisapprovingSupportingOrganisationAppointmentNotes);
+                SupportProject?.DisapprovingSupportingOrganisationAppointmentNotes,
+                SupportProject?.AssessmentToolTwoCompleted);
 
             var result = await mediator.Send(request, cancellationToken);
 
