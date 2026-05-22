@@ -23,6 +23,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         public bool? HasConfirmedSupportingOrganisationAppointment { get; set; }
 
         public string? DisapprovingSupportingOrganisationAppointmentNotes { get; set; }
+        public bool? AssessmentToolTwoCompleted { get; set; }
 
         public TaskListStatus? TaskListStatus { get; set; }
         public ProjectStatusValue? ProjectStatus { get; set; }
@@ -43,6 +44,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                 RegionalDirectorAppointmentDate = SupportProject.RegionalDirectorAppointmentDate;
                 DisapprovingSupportingOrganisationAppointmentNotes =
                     SupportProject.DisapprovingSupportingOrganisationAppointmentNotes;
+                AssessmentToolTwoCompleted = SupportProject.AssessmentToolTwoCompleted;
 
                 TaskListStatus =
                     TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProject);

@@ -247,13 +247,16 @@ public static class TaskStatusViewModel
     {
         if (supportProject.RegionalDirectorAppointmentDate.HasValue
             && supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue
-            && supportProject.HasConfirmedSupportingOrganisationAppointment.Equals(true))
+            && supportProject.HasConfirmedSupportingOrganisationAppointment.Equals(true)
+            && supportProject.AssessmentToolTwoCompleted.Equals(true))
         {
             return TaskListStatus.Complete;
         }
 
         if (!supportProject.RegionalDirectorAppointmentDate.HasValue
-            && !supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue)
+            && !supportProject.HasConfirmedSupportingOrganisationAppointment.HasValue
+            && !supportProject.AssessmentToolTwoCompleted.Equals(true)
+            && string.IsNullOrEmpty(supportProject.DisapprovingSupportingOrganisationAppointmentNotes))
         {
             return TaskListStatus.NotStarted;
         }
