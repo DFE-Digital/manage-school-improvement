@@ -33,6 +33,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         public ProjectStatusValue? ProjectStatus { get; set; }
 
         public required IList<RadioButtonsLabelViewModel> RadioButtons { get; set; }
+        
+        
+        public string? ErrorMessage { get; set; }
 
         public bool ShowError { get; set; }
 
@@ -63,13 +66,24 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
         {
             await base.GetSupportProject(id, cancellationToken);
 
-            if (!ModelState.IsValid)
+            if (HasConfirmedSupportingOrganisationAppointment == null)
             {
                 RadioButtons = RadioButtonsModel;
-                _errorService.AddErrors(Request.Form.Keys, ModelState);
+                
+                ErrorMessage = "Select an option";
                 ShowError = true;
+                ModelState.AddModelError("HasConfirmedSupportingOrganisationAppointment", ErrorMessage);
+                _errorService.AddError("-hint", ErrorMessage);
                 return await base.GetSupportProject(id, cancellationToken);
             }
+            //
+            // if (!ModelState.IsValid)
+            // {
+            //     RadioButtons = RadioButtonsModel;
+            //     _errorService.AddErrors(Request.Form.Keys, ModelState);
+            //     ShowError = true;
+            //     return await base.GetSupportProject(id, cancellationToken);
+            // }
 
             var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id),
                 SupportProject?.RegionalDirectorAppointmentDate, HasConfirmedSupportingOrganisationAppointment,

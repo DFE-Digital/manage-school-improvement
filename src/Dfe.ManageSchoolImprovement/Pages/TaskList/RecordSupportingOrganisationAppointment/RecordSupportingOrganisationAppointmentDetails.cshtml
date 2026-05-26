@@ -7,7 +7,8 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.RecordSupportingOrganisationAppointment.Page" asp-route-id="@Model.SupportProject?.Id"
+        <a asp-page="@Links.TaskList.RecordSupportingOrganisationAppointment.Page"
+           asp-route-id="@Model.SupportProject?.Id"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -30,9 +31,13 @@
                         Has assessment tool 2 been completed?
                     </legend>
                     <div class="govuk-hint">
-                        You must download a <a class="govuk-link" href="@Model.AssessmentToolTwoLink">copy of the
+                        You must download a <a class="govuk-link" href="@Model.AssessmentToolTwoLink"
+                                               rel="noreferrer noopener"
+                                               target="_blank">copy of the
                             assessment tool (opens in new tab).</a>
-                        When complete <a class="govuk-link" href="@Model.AssessmentToolTwoSharePointFolderLink">upload
+                        When complete, <a class="govuk-link" href="@Model.AssessmentToolTwoSharePointFolderLink"
+                                          rel="noreferrer noopener"
+                                          target="_blank">upload
                             it to the relevant region's assessment folder in SharePoint (opens in new tab).</a>
                     </div>
                     <govuk-checkbox-input label="Assessment tool 2 has been completed and uploaded"

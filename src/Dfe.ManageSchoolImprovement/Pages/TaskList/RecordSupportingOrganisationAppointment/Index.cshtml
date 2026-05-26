@@ -67,12 +67,13 @@
                             hint="The regional director must give their approval to appoint a supporting organisation, which must be recorded within the assessment tool 2."
                             inline="true"
                             name="@nameof(Model.HasConfirmedSupportingOrganisationAppointment)" radio-buttons="@Model.RadioButtons"
+                            error-message="@Model.ErrorMessage"
                             asp-for="@Model.HasConfirmedSupportingOrganisationAppointment"/>
                     </fieldset>
                 </div>
                         <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
                                 data-cy="select-common-submitbutton">
-                            Save and continue
+                            Continue
                         </button>
                 
 
