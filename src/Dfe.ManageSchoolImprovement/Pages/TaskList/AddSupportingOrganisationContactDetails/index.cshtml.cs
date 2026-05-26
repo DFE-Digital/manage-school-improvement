@@ -163,7 +163,6 @@ public class IndexModel(
             SupportProject?.SupportOrganisationIdNumber,
             SupportProject?.SupportOrganisationType,
             SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             Name,
             EmailAddress,

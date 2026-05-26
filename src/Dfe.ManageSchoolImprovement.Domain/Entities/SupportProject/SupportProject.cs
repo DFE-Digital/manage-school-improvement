@@ -370,7 +370,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         SupportOrganisationName = details.SupportOrganisationName;
         SupportOrganisationIdNumber = details.SupportOrganisationIdNumber;
         SupportingOrganisationType = details.SupportOrganisationType;
-        AssessmentToolTwoCompleted = details.AssessmentToolTwoCompleted;
         SupportingOrganisationAddress = details.SupportOrganisationAddress;
         SupportingOrganisationContactName = details.SupportOrganisationContactName;
         SupportingOrganisationContactEmailAddress = details.SupportOrganisationContactEmailAddress;

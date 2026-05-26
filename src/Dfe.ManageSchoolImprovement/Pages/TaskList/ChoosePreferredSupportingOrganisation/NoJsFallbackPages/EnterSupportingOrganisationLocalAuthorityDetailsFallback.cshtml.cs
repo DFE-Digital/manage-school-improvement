@@ -92,7 +92,6 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
             LaCode,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted,
             null,
             null,
             null,

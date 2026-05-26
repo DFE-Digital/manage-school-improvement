@@ -77,7 +77,6 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
             CompaniesHouseNumber,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

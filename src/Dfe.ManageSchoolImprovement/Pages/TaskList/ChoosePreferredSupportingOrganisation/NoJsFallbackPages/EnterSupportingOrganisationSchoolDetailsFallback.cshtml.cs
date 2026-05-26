@@ -89,7 +89,6 @@ public class EnterSupportingOrganisationSchoolDetailsFallbackModel(
             URN,
             "School", // OrganisationType is "School" for this page
             DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

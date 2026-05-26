@@ -129,7 +129,6 @@ public class AddSupportingOrganisationAddressDetailsModel(
             SupportProject?.SupportOrganisationIdNumber,
             SupportProject?.SupportOrganisationType,
             SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

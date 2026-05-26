@@ -145,7 +145,6 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             expectedLocalAuthority.Code,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
             null,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
