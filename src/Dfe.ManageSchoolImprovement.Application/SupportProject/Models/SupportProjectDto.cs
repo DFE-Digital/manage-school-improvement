@@ -41,7 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? HasCompleteAssessmentTemplate = null,
         bool? GiveTheAdviserTheNoteOfVisitTemplate = null,
         DateTime? SchoolVisitDate = null,
-        DateTime? DateSupportOrganisationChosen = null,
+        DateTime? DatePreferredSupportOrganisationChosen = null,
         string? SupportOrganisationName = null,
         string SupportOrganisationIdNumber = "",
         string? SupportingOrganisationAddress = null,

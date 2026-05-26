@@ -23,7 +23,7 @@ public class ChooseSupportOrganisationSummaryModel(
         SupportOrganisationType = SupportProject?.SupportOrganisationType;
         SupportOrganisationName = SupportProject?.SupportOrganisationName;
         SupportOrganisationIdNumber = SupportProject?.SupportOrganisationIdNumber;
-        DateSupportOrganisationChosen = SupportProject?.DateSupportOrganisationChosen;
+        DateSupportOrganisationChosen = SupportProject?.DatePreferredSupportOrganisationChosen;
 
         return Page();
     }

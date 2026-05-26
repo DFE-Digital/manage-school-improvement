@@ -57,7 +57,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             LaCode = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         }
 
         var searchEndpoint =
@@ -144,8 +144,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
             expectedLocalAuthority.Name,
             expectedLocalAuthority.Code,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             null,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

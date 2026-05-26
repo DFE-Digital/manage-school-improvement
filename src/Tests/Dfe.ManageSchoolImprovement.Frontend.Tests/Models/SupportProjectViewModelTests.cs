@@ -39,7 +39,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 HasCompleteAssessmentTemplate: true,
                 GiveTheAdviserTheNoteOfVisitTemplate: true,
                 SchoolVisitDate: DateTime.Now,
-                DateSupportOrganisationChosen: DateTime.Now,
+                DatePreferredSupportOrganisationChosen: DateTime.Now,
                 SupportOrganisationName: "Support Org",
                 SupportOrganisationIdNumber: "SO123",
                 RegionalDirectorDecisionDate: DateTime.Now,
@@ -103,7 +103,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.AdviserVisitDate, viewModel.AdviserVisitDate);
             Assert.Equal(supportProjectDto.GiveTheAdviserTheNoteOfVisitTemplate, viewModel.GiveTheAdviserTheNoteOfVisitTemplate);
             Assert.Equal(supportProjectDto.SchoolVisitDate, viewModel.SchoolVisitDate);
-            Assert.Equal(supportProjectDto.DateSupportOrganisationChosen, viewModel.DateSupportOrganisationChosen);
+            Assert.Equal(supportProjectDto.DatePreferredSupportOrganisationChosen, viewModel.DatePreferredSupportOrganisationChosen);
             Assert.Equal(supportProjectDto.SupportOrganisationName, viewModel.SupportOrganisationName);
             Assert.Equal(supportProjectDto.SupportOrganisationIdNumber, viewModel.SupportOrganisationIdNumber);
             Assert.Equal(supportProjectDto.RegionalDirectorDecisionDate, viewModel.RegionalDirectorDecisionDate);

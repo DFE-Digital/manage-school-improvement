@@ -19,11 +19,6 @@ public class ChooseSupportOrganisationTypeModel(
 {
     [BindProperty(Name = "SupportOrganisationType")]
     public string? SupportOrganisationType { get; set; }
-
-    [BindProperty(Name = "complete-assessment-tool")]
-    [ModelBinder(BinderType = typeof(CheckboxInputModelBinder))]
-    [Display(Name = "Complete assessment tool 2: Selecting a supporting organisation")]
-    public bool? CompleteAssessmentTool { get; set; }
     
     [Display(Name = "Supporting organisation name")]
     public string? SupportOrganisationName { get; set; }
@@ -38,19 +33,14 @@ public class ChooseSupportOrganisationTypeModel(
     public DateTime? DateSupportOrganisationChosen { get; set; }
     public TaskListStatus? TaskListStatus { get; set; }
     public ProjectStatusValue? ProjectStatus { get; set; }
+    
+    public string AssessmentToolTwoLink { get; set; } = string.Empty;
 
     [BindProperty(Name = "js-enabled")]
     public bool JavaScriptEnabled { get; set; }
 
     public bool ShowError { get; set; }
-    public static string CompleteAssessmentToolError => "complete-assessment-tool";
-    public bool ShowCompleteAssessmentToolError => ModelState.ContainsKey(CompleteAssessmentToolError) &&
-                                              ModelState[CompleteAssessmentToolError].Errors.Count > 0;
-    public string AssessmentToolTwoLink { get; set; } = string.Empty;
-    public string AssessmentToolTwoSharePointFolderLink { get; set; } = string.Empty;
     public string? SupportOrganisationTypeErrorMessage { get; set; }
-    public string? AssessmentToolTwoErrorMessage { get; set; }
-
     public IList<RadioButtonsLabelViewModel> SupportOrganisationTypeOptions { get; set; } = CreateSupportOrganisationTypeOptions();
 
     // Expression-bodied interface implementations
@@ -66,7 +56,6 @@ public class ChooseSupportOrganisationTypeModel(
 
         if (SupportProject != null)
         {
-            CompleteAssessmentTool = SupportProject.AssessmentToolTwoCompleted;
             SupportOrganisationType = SupportProject.SupportOrganisationType;
             
             TaskListStatus = TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
@@ -74,13 +63,13 @@ public class ChooseSupportOrganisationTypeModel(
             SupportOrganisationName = SupportProject.SupportOrganisationName;
             SupportOrganisationIdNumber = SupportProject.SupportOrganisationIdNumber;
             SupportOrganisationAddress = SupportProject.SupportingOrganisationAddress;
-            DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
+            DateSupportOrganisationChosen = SupportProject.DatePreferredSupportOrganisationChosen;
         }
-
-
-
-        await LoadSharePointLinksAsync(cancellationToken);
-
+        
+        AssessmentToolTwoLink =
+            await applicationSettingsResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ??
+            string.Empty;
+        
         return Page();
     }
 
@@ -90,16 +79,6 @@ public class ChooseSupportOrganisationTypeModel(
         
         var jsEnabled = Request.Form["js-enabled"].ToString();
         JavaScriptEnabled = jsEnabled.Equals("true", StringComparison.OrdinalIgnoreCase);
-
-        // Load SharePoint links early for both success and error paths
-        await LoadSharePointLinksAsync(cancellationToken);
-        
-        if (CompleteAssessmentTool == null || CompleteAssessmentTool == false)
-        {
-            AssessmentToolTwoErrorMessage = "Confirm you have completed the assessment tool";
-            ModelState.AddModelError(CompleteAssessmentToolError, AssessmentToolTwoErrorMessage);
-            _errorService.AddError(CompleteAssessmentToolError, AssessmentToolTwoErrorMessage);
-        }
 
         if (SupportOrganisationType == null)
         {
@@ -119,8 +98,7 @@ public class ChooseSupportOrganisationTypeModel(
             SupportProject?.SupportOrganisationName,
             SupportProject?.SupportOrganisationIdNumber,
             SupportOrganisationType,
-            SupportProject?.DateSupportOrganisationChosen,
-            CompleteAssessmentTool,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
@@ -166,13 +144,6 @@ public class ChooseSupportOrganisationTypeModel(
         }
         
         return Links.TaskList.EnterSupportingOrganisationFederationEducationPartnershipDetails.Page;
-    }
-
-    // Extracted method for loading SharePoint links concurrently
-    private async Task LoadSharePointLinksAsync(CancellationToken cancellationToken)
-    {
-        AssessmentToolTwoLink = await applicationSettingsResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ?? string.Empty;
-        AssessmentToolTwoSharePointFolderLink = await applicationSettingsResourceService.GetAssessmentToolTwoSharePointFolderLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     // Extracted method for cleaner error handling

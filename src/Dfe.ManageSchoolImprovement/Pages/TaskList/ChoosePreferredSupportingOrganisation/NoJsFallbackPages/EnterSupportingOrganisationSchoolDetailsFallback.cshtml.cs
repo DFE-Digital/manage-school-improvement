@@ -45,7 +45,7 @@ public class EnterSupportingOrganisationSchoolDetailsFallbackModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             URN = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         }
 
         return Page();
@@ -89,7 +89,6 @@ public class EnterSupportingOrganisationSchoolDetailsFallbackModel(
             URN,
             "School", // OrganisationType is "School" for this page
             DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

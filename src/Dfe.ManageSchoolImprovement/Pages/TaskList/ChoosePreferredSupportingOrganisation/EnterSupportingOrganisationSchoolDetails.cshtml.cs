@@ -116,8 +116,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
             expectedSchool.Name,
             expectedSchool.Urn,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             address,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

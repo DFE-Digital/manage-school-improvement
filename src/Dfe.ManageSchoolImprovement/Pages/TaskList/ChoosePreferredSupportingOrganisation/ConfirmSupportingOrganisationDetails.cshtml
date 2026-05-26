@@ -2,7 +2,7 @@
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSupportingOrganisation.ConfirmSupportingOrganisationDetailsModel
 
 @{
-    ViewData["Title"] = "Confirm supporting organisation details";
+    ViewData["Title"] = "Confirm preferred supporting organisation details";
 }
 
 @section BeforeMain
@@ -40,7 +40,7 @@
 
         <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l">
-            Confirm supporting organisation details
+            Confirm preferred supporting organisation details
         </h1>
 
         <div class="govuk-summary-card">
@@ -102,7 +102,7 @@
 
         <form method="post" novalidate>
             <govuk-date-input heading-label="false"
-                              label="Enter date supporting organisation confirmed"
+                              label="Enter date preferred supporting organisation was identified"
                               id="date-support-organisation-confirmed"
                               name="date-support-organisation-confirmed"
                               asp-for="@Model.DateSupportOrganisationConfirmed"

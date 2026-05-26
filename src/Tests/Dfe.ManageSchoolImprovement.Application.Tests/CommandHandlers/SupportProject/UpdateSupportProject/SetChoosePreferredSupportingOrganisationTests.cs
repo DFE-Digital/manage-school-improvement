@@ -31,7 +31,6 @@ public class SetChoosePreferredSupportingOrganisationTests
             "1223a",
             "Trust",
             DateTime.Now,
-            true,
             "1 High Street, TownVille, TW1 1AA",
             "Joe Bloggs",
             "joebloggs@example.com",
@@ -56,7 +55,6 @@ public class SetChoosePreferredSupportingOrganisationTests
         var command = new SetChoosePreferredSupportingOrganisationCommand(
             _mockSupportProject.Id,
             null,
-           null,
            null,
            null,
            null,
@@ -87,7 +85,6 @@ public class SetChoosePreferredSupportingOrganisationTests
             "1223a",
             "Trust",
             DateTime.Now,
-            true,
             "1 High Street, TownVille, TW1 1AA",
             "Joe Bloggs",
             "joebloggs@example.com",

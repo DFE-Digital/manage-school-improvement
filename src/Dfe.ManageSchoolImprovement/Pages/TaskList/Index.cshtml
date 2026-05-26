@@ -338,7 +338,7 @@
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         @if (!string.IsNullOrEmpty(Model.SupportProject.SupportOrganisationName)
                              && !string.IsNullOrEmpty(Model.SupportProject.SupportOrganisationIdNumber)
-                             && Model.SupportProject.DateSupportOrganisationChosen.HasValue
+                             && Model.SupportProject.DatePreferredSupportOrganisationChosen.HasValue
                              && Model.SupportProject.ProjectStatus == ProjectStatusValue.InProgress)
                         {
                             <a class="govuk-link govuk-task-list__link"

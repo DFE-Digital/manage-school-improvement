@@ -259,7 +259,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                             Email = SupportProject.SupportingOrganisationContactEmailAddress ?? "",
                             Phone = SupportProject.SupportingOrganisationContactPhone ?? "",
                             Address = SupportProject.SupportingOrganisationContactAddress ?? "",
-                            LastModifiedOn = SupportProject.DateSupportOrganisationChosen,
+                            LastModifiedOn = SupportProject.DatePreferredSupportOrganisationChosen,
                             IsSupportingOrgMainContact = true
                         };
                     }
@@ -273,7 +273,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                         Email = SupportProject?.SupportingOrganisationContactEmailAddress ?? "",
                         Phone = SupportProject?.SupportingOrganisationContactPhone ?? "",
                         Address = SupportProject?.SupportingOrganisationContactAddress ?? "",
-                        LastModifiedOn = SupportProject?.DateSupportOrganisationChosen,
+                        LastModifiedOn = SupportProject?.DatePreferredSupportOrganisationChosen,
                         IsSupportingOrgMainContact = true
                     };
                 }
@@ -287,7 +287,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                     Email = SupportProject.SupportingOrganisationContactEmailAddress ?? "",
                     Phone = SupportProject.SupportingOrganisationContactPhone ?? "",
                     Address = SupportProject.SupportingOrganisationContactAddress ?? "",
-                    LastModifiedOn = SupportProject.DateSupportOrganisationChosen,
+                    LastModifiedOn = SupportProject.DatePreferredSupportOrganisationChosen,
                     IsSupportingOrgMainContact = true
                 };
             }
