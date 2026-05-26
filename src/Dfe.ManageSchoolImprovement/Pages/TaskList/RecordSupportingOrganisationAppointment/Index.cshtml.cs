@@ -76,14 +76,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
                 _errorService.AddError("-hint", ErrorMessage);
                 return await base.GetSupportProject(id, cancellationToken);
             }
-            //
-            // if (!ModelState.IsValid)
-            // {
-            //     RadioButtons = RadioButtonsModel;
-            //     _errorService.AddErrors(Request.Form.Keys, ModelState);
-            //     ShowError = true;
-            //     return await base.GetSupportProject(id, cancellationToken);
-            // }
 
             var request = new SetRecordSupportingOrganisationAppointmentCommand(new SupportProjectId(id),
                 SupportProject?.RegionalDirectorAppointmentDate, HasConfirmedSupportingOrganisationAppointment,
