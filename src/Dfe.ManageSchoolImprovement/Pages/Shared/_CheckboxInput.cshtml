@@ -7,14 +7,23 @@
                 @Model.Heading
             </legend>
         }
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p id="complete-assessment-tool-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
+            </p>
+        }
         <div class="govuk-checkboxes__item">
-            <input name="@Model.Name-hidden" type="hidden" value="false" />
-            <input class="govuk-checkboxes__input" id="@Model.Id" name="@Model.Name" type="checkbox" value="true" checked="@("true".Equals(Model.Value, StringComparison.OrdinalIgnoreCase))">
+            <input name="@Model.Name-hidden" type="hidden" value="false"/>
+            <input
+                class="govuk-checkboxes__input @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-checkbox--error" : "")"
+                id="@Model.Id" name="@Model.Name" type="checkbox" value="true"
+                checked="@("true".Equals(Model.Value, StringComparison.OrdinalIgnoreCase))">
             <label class="govuk-label govuk-checkboxes__label" for="@Model.Id">
                 @Model.Label
                 @if (!string.IsNullOrEmpty(Model.LabelHint))
                 {
-                    <br />
+                    <br/>
                     <span id="@Model.Id-hint" class="govuk-hint">
                         @Model.LabelHint
                     </span>

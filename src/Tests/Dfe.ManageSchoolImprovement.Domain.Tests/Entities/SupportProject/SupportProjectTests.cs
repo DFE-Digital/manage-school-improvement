@@ -343,12 +343,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? hasConfirmedSupportingOrganisationAppointment = false;
             DateTime? regionalDirectorAppointmentDate = DateTime.UtcNow;
             string? disapprovingSupportingOrganisationAppointmentNotes = "Notes only if choose no";
+            var assessmentToolTwoCompleted = true;
 
             // Act
             supportProject.SetRecordSupportingOrganisationAppointment(
                 regionalDirectorAppointmentDate,
                 hasConfirmedSupportingOrganisationAppointment,
-                disapprovingSupportingOrganisationAppointmentNotes);
+                disapprovingSupportingOrganisationAppointmentNotes,
+                assessmentToolTwoCompleted);
 
             // Assert
             supportProject.HasConfirmedSupportingOrganisationAppointment.Should().Be(hasConfirmedSupportingOrganisationAppointment);
@@ -366,12 +368,14 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             bool? hasConfirmedSupportingOrganisationAppointment = true;
             DateTime? regionalDirectorAppointmentDate = DateTime.UtcNow;
             string? disapprovingSupportingOrganisationAppointmentNotes = "Notes only if choose no";
+            var assessmentToolTwoCompleted = true;
 
             // Act
             supportProject.SetRecordSupportingOrganisationAppointment(
                 regionalDirectorAppointmentDate,
                 hasConfirmedSupportingOrganisationAppointment,
-                disapprovingSupportingOrganisationAppointmentNotes);
+                disapprovingSupportingOrganisationAppointmentNotes,
+                assessmentToolTwoCompleted);
 
             // Assert
             supportProject.HasConfirmedSupportingOrganisationAppointment.Should().Be(hasConfirmedSupportingOrganisationAppointment);

@@ -9,9 +9,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.TagHelpers;
 public class CheckboxInputTagHelper(IHtmlHelper htmlHelper) : InputTagHelperBase(htmlHelper)
 {
     protected override async Task<IHtmlContent> RenderContentAsync()
-   {
-      CheckboxInputViewModel model = new() { Heading = Heading, Id = Id, Name = Name, LabelHint = LabelHint, Label = Label, Value = For.Model?.ToString()!, HeadingStyle = HeadingStyle };
+    {
+        CheckboxInputViewModel model = new()
+        {
+            Heading = Heading, Id = Id, Name = Name, LabelHint = LabelHint, Label = Label,
+            Value = For.Model?.ToString()!, HeadingStyle = HeadingStyle, ErrorMessage = ErrorMessage,
+        };
 
-      return await _htmlHelper.PartialAsync("_CheckboxInput", model);
-   }
+        return await _htmlHelper.PartialAsync("_CheckboxInput", model);
+    }
 }
