@@ -360,7 +360,7 @@ public class SupportProjectAuditQueryServiceTests
     {
         // Arrange
         var supportProjectId = 1;
-        Expression<Func<Domain.Entities.SupportProject.SupportProject, DateTime?>> fieldSelector = sp => sp.DateSupportOrganisationChosen;
+        Expression<Func<Domain.Entities.SupportProject.SupportProject, DateTime?>> fieldSelector = sp => sp.DatePreferredSupportOrganisationChosen;
         var auditTrail = CreateFieldAuditTrail<DateTime?>();
 
         _mockAuditRepository.Setup(r => r.GetFieldAuditTrailAsync(

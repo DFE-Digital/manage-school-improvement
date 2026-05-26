@@ -280,7 +280,6 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 SupportOrganisationName = "name",
                 SupportOrganisationIdNumber = "1234a",
                 SupportOrganisationType = "Trust",
-                AssessmentToolTwoCompleted = true,
                 SupportOrganisationAddress = "2 Town Lane, Bristol BS1 2AB",
                 SupportOrganisationContactName = "Blobby McBlobface",
                 SupportOrganisationContactEmailAddress = "blobby@email.com",
@@ -294,10 +293,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 );
 
             // Assert
-            supportProject.DateSupportOrganisationChosen.Should().Be(supportOrganisationDetails.DateSupportOrganisationChosen);
+            supportProject.DatePreferredSupportOrganisationChosen.Should().Be(supportOrganisationDetails.DateSupportOrganisationChosen);
             supportProject.SupportOrganisationName.Should().Be(supportOrganisationDetails.SupportOrganisationName);
             supportProject.SupportOrganisationIdNumber.Should().Be(supportOrganisationDetails.SupportOrganisationIdNumber);
-            supportProject.AssessmentToolTwoCompleted.Should().Be(supportOrganisationDetails.AssessmentToolTwoCompleted);
             supportProject.SupportingOrganisationAddress.Should().Be(supportOrganisationDetails.SupportOrganisationAddress);
             supportProject.SupportingOrganisationContactName.Should().Be(supportOrganisationDetails.SupportOrganisationContactName);
             supportProject.SupportingOrganisationContactEmailAddress.Should()

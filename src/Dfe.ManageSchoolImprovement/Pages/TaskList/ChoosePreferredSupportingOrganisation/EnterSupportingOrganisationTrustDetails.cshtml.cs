@@ -140,8 +140,7 @@ public class EnterSupportingOrganisationTrustDetailsModel(
             expectedTrust.Name,
             expectedTrust.Ukprn,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             address,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

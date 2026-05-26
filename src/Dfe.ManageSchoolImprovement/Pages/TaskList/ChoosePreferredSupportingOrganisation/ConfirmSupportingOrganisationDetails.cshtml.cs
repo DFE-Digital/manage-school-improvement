@@ -41,7 +41,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
 
         return Page();
@@ -72,7 +72,6 @@ public class ConfirmSupportingOrganisationDetailsModel(
             SupportProject?.SupportOrganisationIdNumber,
             SupportProject?.SupportOrganisationType,
             DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted,
             SupportProject?.SupportingOrganisationAddress,
             null, // reset all contact details to null, so that if SO has changed they can be reconfirmed in the subsequent task
             null,

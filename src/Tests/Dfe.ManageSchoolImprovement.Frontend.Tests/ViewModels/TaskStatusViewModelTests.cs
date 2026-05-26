@@ -279,25 +279,24 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<DateTime?, string?, string, bool?, TaskListStatus>
+        public static readonly TheoryData<DateTime?, string?, string, TaskListStatus>
             ChoosePreferredSupportingOrganisationTaskListStatusCases = new()
             {
-                { null, null, "", null, TaskListStatus.NotStarted },
-                { DateTime.Now, "name", "12344f", true, TaskListStatus.Complete },
-                { DateTime.Now, null, "12345f", null, TaskListStatus.InProgress }
+                { null, null, "", TaskListStatus.NotStarted },
+                { DateTime.Now, "name", "12344f", TaskListStatus.Complete },
+                { DateTime.Now, null, "12345f", TaskListStatus.InProgress }
             };
 
         [Theory, MemberData(nameof(ChoosePreferredSupportingOrganisationTaskListStatusCases))]
         public void ChoosePreferredSupportingOrganisationShouldReturnCorrectStatus(
             DateTime? datePreferredSupportOrganisationChosen, string? supportOrganisationName,
-            string supportOrganisationId, bool? assessmentToolTwoCompleted, TaskListStatus expectedTaskListStatus)
+            string supportOrganisationId, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
-                DateSupportOrganisationChosen: datePreferredSupportOrganisationChosen,
+                DatePreferredSupportOrganisationChosen: datePreferredSupportOrganisationChosen,
                 SupportOrganisationName: supportOrganisationName,
-                SupportOrganisationIdNumber: supportOrganisationId,
-                AssessmentToolTwoCompleted: assessmentToolTwoCompleted));
+                SupportOrganisationIdNumber: supportOrganisationId));
 
             //Action 
             var taskListStatus =
