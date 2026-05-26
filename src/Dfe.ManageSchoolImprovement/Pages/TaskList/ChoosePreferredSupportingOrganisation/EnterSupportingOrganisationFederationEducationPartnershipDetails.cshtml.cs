@@ -78,7 +78,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
             OrganisationName,
             IdentifyingNumber,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            SupportProject?.DateSupportOrganisationChosen,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

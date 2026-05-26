@@ -294,7 +294,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 );
 
             // Assert
-            supportProject.DateSupportOrganisationChosen.Should().Be(supportOrganisationDetails.DateSupportOrganisationChosen);
+            supportProject.DatePreferredSupportOrganisationChosen.Should().Be(supportOrganisationDetails.DateSupportOrganisationChosen);
             supportProject.SupportOrganisationName.Should().Be(supportOrganisationDetails.SupportOrganisationName);
             supportProject.SupportOrganisationIdNumber.Should().Be(supportOrganisationDetails.SupportOrganisationIdNumber);
             supportProject.AssessmentToolTwoCompleted.Should().Be(supportOrganisationDetails.AssessmentToolTwoCompleted);

@@ -13,7 +13,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.ChoosePreferredSup
 public class ChooseSupportOrganisationTypeModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator)
+    IMediator mediator,
+    IApplicationSettingsResourceService applicationSettingsResourceService)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "SupportOrganisationType")]
@@ -32,6 +33,8 @@ public class ChooseSupportOrganisationTypeModel(
     public DateTime? DateSupportOrganisationChosen { get; set; }
     public TaskListStatus? TaskListStatus { get; set; }
     public ProjectStatusValue? ProjectStatus { get; set; }
+    
+    public string AssessmentToolTwoLink { get; set; } = string.Empty;
 
     [BindProperty(Name = "js-enabled")]
     public bool JavaScriptEnabled { get; set; }
@@ -60,8 +63,12 @@ public class ChooseSupportOrganisationTypeModel(
             SupportOrganisationName = SupportProject.SupportOrganisationName;
             SupportOrganisationIdNumber = SupportProject.SupportOrganisationIdNumber;
             SupportOrganisationAddress = SupportProject.SupportingOrganisationAddress;
-            DateSupportOrganisationChosen = SupportProject.DateSupportOrganisationChosen;
+            DateSupportOrganisationChosen = SupportProject.DatePreferredSupportOrganisationChosen;
         }
+        
+        AssessmentToolTwoLink =
+            await applicationSettingsResourceService.GetAssessmentToolTwoLinkAsync(cancellationToken) ??
+            string.Empty;
         
         return Page();
     }
@@ -91,7 +98,7 @@ public class ChooseSupportOrganisationTypeModel(
             SupportProject?.SupportOrganisationName,
             SupportProject?.SupportOrganisationIdNumber,
             SupportOrganisationType,
-            SupportProject?.DateSupportOrganisationChosen,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,

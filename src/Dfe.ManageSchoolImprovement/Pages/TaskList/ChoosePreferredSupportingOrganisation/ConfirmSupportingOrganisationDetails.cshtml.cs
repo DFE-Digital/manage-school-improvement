@@ -41,7 +41,7 @@ public class ConfirmSupportingOrganisationDetailsModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+        DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         OrganisationAddress = SupportProject?.SupportingOrganisationAddress;
 
         return Page();

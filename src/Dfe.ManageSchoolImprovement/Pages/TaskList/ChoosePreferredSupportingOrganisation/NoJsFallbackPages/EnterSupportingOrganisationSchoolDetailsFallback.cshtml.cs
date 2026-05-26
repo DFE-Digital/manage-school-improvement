@@ -45,7 +45,7 @@ public class EnterSupportingOrganisationSchoolDetailsFallbackModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             URN = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         }
 
         return Page();

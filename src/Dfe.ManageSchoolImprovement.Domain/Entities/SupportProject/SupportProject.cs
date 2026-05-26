@@ -106,7 +106,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public DateTime? SchoolVisitDate { get; private set; }
 
-    public DateTime? DateSupportOrganisationChosen { get; private set; }
+    public DateTime? DatePreferredSupportOrganisationChosen { get; private set; }
 
     public string? SupportOrganisationName { get; private set; }
 
@@ -366,7 +366,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
     public void SetChoosePreferredSupportOrganisation(SupportingOrganisationDetails details)
     {
-        DateSupportOrganisationChosen = details.DateSupportOrganisationChosen;
+        DatePreferredSupportOrganisationChosen = details.DateSupportOrganisationChosen;
         SupportOrganisationName = details.SupportOrganisationName;
         SupportOrganisationIdNumber = details.SupportOrganisationIdNumber;
         SupportingOrganisationType = details.SupportOrganisationType;

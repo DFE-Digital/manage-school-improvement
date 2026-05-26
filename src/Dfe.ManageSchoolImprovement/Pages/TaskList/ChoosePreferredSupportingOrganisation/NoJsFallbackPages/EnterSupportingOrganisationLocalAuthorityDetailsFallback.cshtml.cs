@@ -47,7 +47,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             LaCode = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         }
 
         return Page();

@@ -46,7 +46,7 @@ public class EnterSupportingOrganisationTrustDetailsFallbackModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             TrustUKPRN = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         }
 
         return Page();

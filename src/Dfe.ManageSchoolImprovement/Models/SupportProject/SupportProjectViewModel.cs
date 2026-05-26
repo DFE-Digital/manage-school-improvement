@@ -106,7 +106,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string? InitialDiagnosisMatchingDecision { get; set; }
         public string? InitialDiagnosisMatchingDecisionNotes { get; set; }
 
-        public DateTime? DateSupportOrganisationChosen { get; set; }
+        public DateTime? DatePreferredSupportOrganisationChosen { get; set; }
 
         public string? SupportOrganisationName { get; set; }
 
@@ -236,7 +236,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 AdviserVisitDate = supportProjectDto.AdviserVisitDate,
                 GiveTheAdviserTheNoteOfVisitTemplate = supportProjectDto.GiveTheAdviserTheNoteOfVisitTemplate,
                 SchoolVisitDate = supportProjectDto.SchoolVisitDate,
-                DateSupportOrganisationChosen = supportProjectDto.DateSupportOrganisationChosen,
+                DatePreferredSupportOrganisationChosen = supportProjectDto.DatePreferredSupportOrganisationChosen,
                 SupportOrganisationName = supportProjectDto.SupportOrganisationName,
                 SupportOrganisationIdNumber = supportProjectDto.SupportOrganisationIdNumber,
                 SupportingOrganisationAddress = supportProjectDto.SupportingOrganisationAddress,

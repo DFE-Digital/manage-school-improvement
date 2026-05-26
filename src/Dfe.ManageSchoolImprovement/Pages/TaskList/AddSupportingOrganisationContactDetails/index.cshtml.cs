@@ -162,7 +162,7 @@ public class IndexModel(
             SupportProject?.SupportOrganisationName,
             SupportProject?.SupportOrganisationIdNumber,
             SupportProject?.SupportOrganisationType,
-            SupportProject?.DateSupportOrganisationChosen,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             SupportProject?.SupportingOrganisationAddress,
             Name,
             EmailAddress,
