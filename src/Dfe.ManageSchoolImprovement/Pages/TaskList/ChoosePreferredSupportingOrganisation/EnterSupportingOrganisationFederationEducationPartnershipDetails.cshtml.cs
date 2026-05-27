@@ -35,7 +35,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType,
         CancellationToken cancellationToken = default)
     {
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetBaseSupportProject(id, cancellationToken);
 
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
@@ -51,7 +51,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
         OrganisationName = OrganisationName?.Trim();
         IdentifyingNumber = IdentifyingNumber?.Trim();
 
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetBaseSupportProject(id, cancellationToken);
 
         // Validate entries
         if (OrganisationName == null || IdentifyingNumber == null)
@@ -91,7 +91,7 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
         if (!result)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            return await base.GetBaseSupportProject(id, cancellationToken);
         }
 
         TaskUpdated = true;
@@ -107,6 +107,6 @@ public class EnterSupportingOrganisationFederationEducationPartnershipDetailsMod
     {
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
+        return await base.GetBaseSupportProject(id, cancellationToken);
     }
 }
