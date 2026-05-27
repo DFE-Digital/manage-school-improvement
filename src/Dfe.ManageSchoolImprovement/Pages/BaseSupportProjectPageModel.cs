@@ -41,6 +41,24 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         return Page();
     }
     
+    public virtual async Task<IActionResult> GetBaseSupportProject(int id, CancellationToken cancellationToken)
+    {
+        return await GetBaseProject(id, cancellationToken);
+    }
+    protected async Task<IActionResult> GetBaseProject(int id, CancellationToken cancellationToken)
+    {
+
+        var result = await _supportProjectQueryService.GetBaseSupportProject(id, cancellationToken);
+
+        if (!result.IsSuccess)
+        {
+            return NotFound();
+        }
+
+        SupportProject = SupportProjectViewModel.Create(result.Value!);
+        return Page();
+    }
+    
     public virtual async Task<IActionResult> GetSupportProjectSummary(int id, CancellationToken cancellationToken)
     {
         return await GetProjectSummary(id, cancellationToken);
@@ -58,6 +76,8 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         SupportProjectSummary = SupportProjectSummaryViewModel.Create(result.Value!);
         return Page();
     }
+    
+    
     
     public virtual async Task UpdateCurrentDeliveryMilestone(int id, Milestone? currentDeliveryMilestone, Milestone newDeliveryMilestone,
         CancellationToken cancellationToken)

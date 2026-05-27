@@ -15,5 +15,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public ProjectStatusValue? Status { get; set; }
         public Milestone? CurrentDeliveryMilestone { get; set; }
         public DateTime? DateAddedToWatchlist { get; set; }
+        public bool? ReviewProgressSchool { get; set; }
     }
 }

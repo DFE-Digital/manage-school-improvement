@@ -6,7 +6,6 @@ public class SupportingOrganisationDetails
     public string? SupportOrganisationName { get; set; }
     public string? SupportOrganisationIdNumber { get; set; }
     public string? SupportOrganisationType { get; set; }
-    public bool? AssessmentToolTwoCompleted { get; set; }
     public string? SupportOrganisationAddress { get; set; }
     public string? SupportOrganisationContactName { get; set; }
     public string? SupportOrganisationContactEmailAddress { get; set; }

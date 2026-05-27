@@ -210,6 +210,11 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
         {
             return await DefaultIncludes().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
+        
+        public async Task<SupportProject?> GetSupportProjectBaseById(SupportProjectId id, CancellationToken cancellationToken)
+        {
+            return await DbSet().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
 
         public async Task<SupportProject?> GetSupportProjectByUrn(string urn, CancellationToken cancellationToken)
         {

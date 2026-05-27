@@ -34,7 +34,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
 
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType, CancellationToken cancellationToken = default)
     {
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetBaseSupportProject(id, cancellationToken);
 
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
@@ -50,7 +50,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         OrganisationName = OrganisationName?.Trim();
         CompaniesHouseNumber = CompaniesHouseNumber?.Trim();
 
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetBaseSupportProject(id, cancellationToken);
 
         // Validate entries
         if (OrganisationName == null || CompaniesHouseNumber == null)
@@ -76,8 +76,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
             OrganisationName,
             CompaniesHouseNumber,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
-            SupportProject?.DateSupportOrganisationChosen,
-            SupportProject?.AssessmentToolTwoCompleted,
+            SupportProject?.DatePreferredSupportOrganisationChosen,
             SupportProject?.SupportingOrganisationAddress,
             SupportProject?.SupportingOrganisationContactName,
             SupportProject?.SupportingOrganisationContactEmailAddress,
@@ -90,7 +89,7 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
         if (!result)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            return await base.GetBaseSupportProject(id, cancellationToken);
         }
 
         TaskUpdated = true;
@@ -102,6 +101,6 @@ public class EnterSupportingOrganisationLocalAuthorityTradedServiceDetailsModel(
     {
         _errorService.AddErrors(Request.Form.Keys, ModelState);
         ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
+        return await base.GetBaseSupportProject(id, cancellationToken);
     }
 }

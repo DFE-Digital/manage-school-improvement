@@ -47,7 +47,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
         {
             OrganisationName = SupportProject?.SupportOrganisationName;
             LaCode = SupportProject?.SupportOrganisationIdNumber;
-            DateSupportOrganisationConfirmed = SupportProject?.DateSupportOrganisationChosen;
+            DateSupportOrganisationConfirmed = SupportProject?.DatePreferredSupportOrganisationChosen;
         }
 
         return Page();
@@ -92,7 +92,6 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsFallbackModel(
             LaCode,
             SupportProject?.SupportOrganisationType, // OrganisationType is maintained from the previous page
             DateSupportOrganisationConfirmed,
-            SupportProject?.AssessmentToolTwoCompleted,
             null,
             null,
             null,
