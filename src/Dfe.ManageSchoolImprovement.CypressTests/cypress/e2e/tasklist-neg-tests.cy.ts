@@ -196,7 +196,7 @@ describe("Tasklist negative tests", () => {
         taskListActions.enterText("organisation-name", 'Federation Name');
         taskListActions.enterText("identifying-number", "123456789");
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
-        taskListActions.hasHeader("Confirm supporting organisation details");
+        taskListActions.hasHeader("Confirm preferred supporting organisation details");
         taskListActions.selectButtonOrCheckbox("save-and-return-button");
         taskListActions.hasValidation("Enter a date", "date-support-organisation-confirmed-error-link");
 

@@ -25,6 +25,12 @@ class TaskListActions {
         return this;
     }
 
+    public selectCancelLink(): this {
+        cy.get('a').contains('Cancel').click();
+
+        return this;
+    }
+
     public checkCheckbox(id: string): this {
         cy.getById(id).check();
 
@@ -86,7 +92,7 @@ class TaskListActions {
     }
 
     public confirmSupportingOrganisationDetails(): this {
-        cy.title().should('eq', 'Confirm supporting organisation details - Manage school improvement');
+        cy.title().should('eq', 'Confirm preferred supporting organisation details - Manage school improvement');
         cy.get('.govuk-summary-card').should('exist');
         cy.get('.govuk-summary-card__actions a').contains('Change').should('exist');
         cy.get('.govuk-summary-card__content .govuk-summary-list__row').each(($row) => {
