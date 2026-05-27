@@ -72,7 +72,7 @@
                 {
                     var supportingOrganisationText = "Milestone not yet reached";
                     
-                    if (watchedSchool.SupportingOrganisationName != null)
+                    if (watchedSchool.SupportingOrganisationName != null && watchedSchool.ReviewProgressSchool == false)
                     {
                         supportingOrganisationText = watchedSchool.SupportingOrganisationName;
                     }
