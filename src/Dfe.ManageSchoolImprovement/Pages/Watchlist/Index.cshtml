@@ -70,6 +70,16 @@
                 <tbody class="govuk-table__body">
                 @foreach (var watchedSchool in Model.Watchlist)
                 {
+                    var supportingOrganisationText = "Milestone not yet reached";
+                    if (watchedSchool.SupportingOrganisationName != null)
+                    {
+                        supportingOrganisationText = watchedSchool.SupportingOrganisationName;
+                    }
+                    else if (watchedSchool.ReviewProgressSchool.HasValue && watchedSchool.ReviewProgressSchool.Value)
+                    {
+                        supportingOrganisationText = "Review progress school";
+                    }
+
                     <tr class="govuk-table__row">
                         <td class="govuk-table__cell" data-sort-value="@watchedSchool.SchoolName">
                             <a class="govuk-link" asp-page="@Links.TaskList.Index.Page"
@@ -86,13 +96,13 @@
                         <td class="govuk-table__cell"
                             data-sort-value="@watchedSchool.SupportingOrganisationName">@(watchedSchool.SupportingOrganisationName ?? "Not yet appointed")</td>
                         <td class="govuk-table__cell"
-                            data-sort-value="@watchedSchool.CurrentDeliveryMilestone">@(watchedSchool.CurrentDeliveryMilestone.HasValue ? watchedSchool.CurrentDeliveryMilestone.GetDisplayName() : "Milestone not yet reached")</td>
+                            data-sort-value="@watchedSchool.CurrentDeliveryMilestone">@supportingOrganisationText</td>
                         <td class="govuk-table__cell" data-sort-value="@watchedSchool.Status"
                             data-cy="status-@watchedSchool.Status">
                             <partial name="Shared/_ProjectStatus" model="watchedSchool.Status"/>
                         </td>
                         <td class="govuk-table__cell" data-cy="remove-link-@watchedSchool.SchoolName">
-                            <a class="govuk-link" asp-page="@Links.Watchlist.RemoveSchool.Page" 
+                            <a class="govuk-link" asp-page="@Links.Watchlist.RemoveSchool.Page"
                                asp-route-watchlistidtoremove="@watchedSchool.WatchlistId"
                                asp-route-readableidtoremove="@watchedSchool.ReadableId"
                                asp-route-selectedschoolid="@watchedSchool.SupportProjectId">Remove</a>
