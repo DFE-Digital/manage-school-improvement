@@ -9,6 +9,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
         Task<Result<IEnumerable<SupportProjectDto>>> GetAllSupportProjects(CancellationToken cancellationToken);
         Task<Result<SupportProjectDto?>> GetSupportProject(int id, CancellationToken cancellationToken);
         
+        Task<Result<SupportProjectDto?>> GetBaseSupportProject(int id, CancellationToken cancellationToken);
+        
         Task<Result<SupportProjectSummaryDto?>> GetSupportProjectSummary(int id, CancellationToken cancellationToken);
         
         Task<Result<PagedDataResponse<SupportProjectDto>?>> SearchForSupportProjects(

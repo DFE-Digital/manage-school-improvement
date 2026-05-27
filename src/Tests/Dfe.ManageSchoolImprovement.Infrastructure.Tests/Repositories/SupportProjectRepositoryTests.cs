@@ -499,6 +499,36 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
         }
         
         [Fact]
+        public async Task GetSupportProjectBaseById_WithValidId_ShouldReturnProject()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var existingProject = fixture.Context.SupportProjects.First(x => x.SchoolName == "School A");
+
+            // Act
+            var result = await service.GetSupportProjectBaseById(existingProject.Id!, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.SchoolName.Should().Be("School A");
+            result.SchoolUrn.Should().Be("100001");
+        }
+
+        [Fact]
+        public async Task GetSupportProjectBaseById_WithInvalidId_ShouldReturnNull()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var nonExistentId = new Domain.ValueObjects.SupportProjectId(999);
+
+            // Act
+            var result = await service.GetSupportProjectBaseById(nonExistentId, CancellationToken.None);
+
+            // Assert
+            result.Should().BeNull();
+        }
+        
+        [Fact]
         public async Task GetSupportProjectSummaryById_WithValidId_ShouldReturnProjectSummary()
         {
             // Arrange

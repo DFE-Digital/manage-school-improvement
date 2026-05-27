@@ -40,7 +40,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
     public async Task<IActionResult> OnGetAsync(int id, string? previousSupportOrganisationType,
         CancellationToken cancellationToken = default)
     {
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetBaseSupportProject(id, cancellationToken);
 
         if (SupportProject?.SupportOrganisationType == previousSupportOrganisationType)
         {
@@ -66,7 +66,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
-        await base.GetSupportProject(id, cancellationToken);
+        await base.GetBaseSupportProject(id, cancellationToken);
 
          var searchEndpoint =
             $"/task-list/enter-supporting-organisation-school-details/{id}?handler=Search&searchQuery=";
@@ -129,7 +129,7 @@ public class EnterSupportingOrganisationSchoolDetailsModel(
         if (!result)
         {
             _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            return await base.GetBaseSupportProject(id, cancellationToken);
         }
         
         TaskUpdated = true;
