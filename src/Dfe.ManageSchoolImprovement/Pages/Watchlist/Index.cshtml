@@ -71,11 +71,13 @@
                 @foreach (var watchedSchool in Model.Watchlist)
                 {
                     var supportingOrganisationText = "Milestone not yet reached";
+                    
                     if (watchedSchool.SupportingOrganisationName != null)
                     {
                         supportingOrganisationText = watchedSchool.SupportingOrganisationName;
                     }
-                    else if (watchedSchool.ReviewProgressSchool.HasValue && watchedSchool.ReviewProgressSchool.Value)
+                    
+                    if (watchedSchool.ReviewProgressSchool == true)
                     {
                         supportingOrganisationText = "Review progress school";
                     }
