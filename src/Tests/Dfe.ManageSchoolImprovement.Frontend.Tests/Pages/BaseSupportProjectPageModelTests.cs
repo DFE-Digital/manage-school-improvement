@@ -88,6 +88,40 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
         }
 
         [Fact]
+        public async Task GetBaseSupportProject_ReturnsPageResult_WhenProjectExists()
+        {
+            // Arrange
+            var projectId = 1;
+            var mockProject = new SupportProjectDto(projectId, DateTime.Now, DateTime.Now, "schoolName", "URN234",
+                "local Authority", "Region", ProjectStatus: ProjectStatusValue.InProgress);
+            var result = Result<SupportProjectDto?>.Success(mockProject);
+
+            _mockQueryService.Setup(s => s.GetBaseSupportProject(projectId, _cancellationToken)).ReturnsAsync(result);
+
+            // Act
+            var response = await _pageModel.GetBaseSupportProject(projectId, CancellationToken.None);
+
+            // Assert
+            Assert.IsType<PageResult>(response);
+            Assert.NotNull(_pageModel.SupportProject);
+        }
+
+        [Fact]
+        public async Task GetBaseSupportProject_ReturnsNotFound_WhenProjectDoesNotExist()
+        {
+            // Arrange
+            var projectId = 1;
+            var result = Result<SupportProjectDto?>.Failure("");
+            _mockQueryService.Setup(s => s.GetBaseSupportProject(projectId, _cancellationToken)).ReturnsAsync(result);
+
+            // Act
+            var response = await _pageModel.GetBaseSupportProject(projectId, _cancellationToken);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(response);
+        }
+
+        [Fact]
         public void IsReadOnly_ReturnsTrue_WhenSupportProjectIsNull()
         {
             // Arrange - SupportProject is null by default
