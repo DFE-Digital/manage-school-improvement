@@ -71,7 +71,8 @@ public class IndexModel(
                             SupportingOrganisationName = supportProject.SupportOrganisationName,
                             Status = supportProject.ProjectStatus,
                             CurrentDeliveryMilestone = supportProject.CurrentDeliveryMilestone,
-                            DateAddedToWatchlist = school.CreatedOn
+                            DateAddedToWatchlist = school.CreatedOn,
+                            ReviewProgressSchool = supportProject.InitialDiagnosisMatchingDecision == "Review school's progress"
                         }
                     );
                 }
