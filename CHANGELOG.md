@@ -10,6 +10,7 @@ Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here
 - **274871** - Changes to "Record supporting organisation appointment" task
 - **274853** - Content changes to "Choose Preferred Supporting Organisation" task and rename data field
 - **278872** - Additional value in Watchlist "Supporting Organisation" Column (Review Progress schools)
+- **282573** - Enter supporting organisation details - improve load times
 
 ## 📅 [v3.0.0] - Q1 – Sprint4 (Part 1)- 2026-05-21
 
