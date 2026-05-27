@@ -377,11 +377,8 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     //check validaton
     taskListActions.selectButtonOrCheckbox("continue-button");
-
-    taskListActions.hasValidation("Confirm you have completed the assessment tool", "complete-assessment-tool-error-link");
     taskListActions.hasValidation("Select the type of supporting organisation", "support-organisation-type-school-error-link");
 
-    taskListActions.selectButtonOrCheckbox("complete-assessment-tool");
     taskListActions.selectButtonOrCheckbox("support-organisation-type-school");
     taskListActions.selectButtonOrCheckbox("continue-button");
     supportingOrgType.withShortSOName('Ply');
@@ -425,15 +422,23 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Record supporting organisation appointment' task");
     taskList.selectTask("Record supporting organisation appointment");
-    taskListActions.hasHeader("Record supporting organisation appointment");
-    taskListActions.selectButtonOrCheckbox("no");
-    taskListActions.enterText("DisapprovingSupportingOrganisationAppointmentNotes", "details");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusInProgress("record-supporting-organisation-appointment-status");
-    taskList.selectTask("Record supporting organisation appointment");
+
+    cy.executeAccessibilityTests();
+
+    taskListActions.hasHeader("Has a regional director approved the appointment of the supporting organisation?");
     taskListActions.selectButtonOrCheckbox("yes");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskListActions.selectCancelLink();
+    taskList.hasTaskStatusInProgress("record-supporting-organisation-appointment-status");
+    taskList.selectTask("Record supporting organisation appointment");
+    taskListActions.hasHeader("Has a regional director approved the appointment of the supporting organisation?");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskListActions.hasHeader("Record supporting organisation appointment");
+    taskListActions.selectButtonOrCheckbox("assessment-tool-two-completed");
     taskListActions.enterDate("appointment-date", "01", "01", "2024");
+
+    cy.executeAccessibilityTests();
+
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-supporting-organisation-appointment-status");
