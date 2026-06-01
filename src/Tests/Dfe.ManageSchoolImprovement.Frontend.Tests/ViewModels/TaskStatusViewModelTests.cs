@@ -257,7 +257,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
                 { null, null, null, TaskListStatus.NotStarted },
                 { DateTime.Now, "Match with a supporting organisation", null, TaskListStatus.Complete },
                 { DateTime.Now, "Review school's progress", "Notes", TaskListStatus.Complete },
-                { DateTime.Now, "Unable to assess", "Notes", TaskListStatus.Complete },
+                { DateTime.Now, "Unable to assess", "Notes", TaskListStatus.InProgress },
                 { null, "Match with a supporting organisation", null, TaskListStatus.InProgress }
             };
 
