@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
     public class AddContactDetailModel(
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
-        IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+        IMediator mediator) : BaseContactsPageModel(supportProjectQueryService, errorService)
     {
         public string ReturnPage { get; set; } = null!;
         public bool ShowError { get; set; }
@@ -41,7 +41,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public async Task<IActionResult> OnGetAsync(int id, string organisationType, string organisationTypeSubCategory,
             string? organisationTypeSubCategoryOther, CancellationToken cancellationToken)
         {
-            await GetSupportProject(id, cancellationToken).ConfigureAwait(false);
+            await GetSupportProjectWithContacts(id, cancellationToken).ConfigureAwait(false);
 
             ReturnPage = Links.Contacts.AddContact.Page;
             OrganisationTypeSubCategory = organisationTypeSubCategory;
@@ -73,7 +73,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
-                return await base.GetSupportProject(id, cancellationToken);
+                return await base.GetSupportProjectWithContacts(id, cancellationToken);
             }
 
             var request = new CreateSupportProjectContactCommand(new SupportProjectId(id), Name,
@@ -85,7 +85,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (result == null)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
+                return await base.GetSupportProjectWithContacts(id, cancellationToken);
             }
 
             TempData["OrganisationType"] = null;

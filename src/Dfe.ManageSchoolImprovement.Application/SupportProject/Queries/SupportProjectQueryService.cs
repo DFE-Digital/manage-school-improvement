@@ -114,6 +114,16 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 
             return result == null ? Result<SupportProjectDto?>.Failure("") : Result<SupportProjectDto?>.Success(result);
         }
+
+        public async Task<Result<SupportProjectDto?>> GetSupportProjectWithContacts(int id, CancellationToken cancellationToken)
+        {
+            var supportProjectId = new SupportProjectId(id);
+            var supportProject = await supportProjectRepository.GetSupportProjectWithContactsById(supportProjectId, cancellationToken);
+
+            var result = mapper.Map<SupportProjectDto?>(supportProject);
+
+            return result == null ? Result<SupportProjectDto?>.Failure("") : Result<SupportProjectDto?>.Success(result);
+        }
         
         public async Task<Result<SupportProjectSummaryDto?>> GetSupportProjectSummary(int id, CancellationToken cancellationToken)
         {

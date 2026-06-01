@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
-    public class EditContactModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class EditContactModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseContactsPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "organisationTypeSubCategory")]
         public string? OrganisationTypeSubCategory { get; set; }
@@ -34,7 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public async Task<IActionResult> OnGetAsync(int id, Guid contactId, string organisationType, CancellationToken cancellationToken)
         {
             ProjectListFilters.ClearFiltersFrom(TempData);
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectWithContacts(id, cancellationToken);
             ContactId = contactId;
 
             OrganisationType = organisationType;
@@ -91,7 +91,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 SchoolRadioButtons = ContactsUtil.GetSchoolRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
                 SupportingOrganisationRadioButtons = ContactsUtil.GetSupportingOrganisationRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
                 GoverningBodyRadioButtons = ContactsUtil.GetGoverningBodyRadioButtons(OrganisationTypeSubCategoryOther, IsOtherCategoryValid);
-                await base.GetSupportProject(id, cancellationToken);
+                await base.GetSupportProjectWithContacts(id, cancellationToken);
                 return Page();
             }
 

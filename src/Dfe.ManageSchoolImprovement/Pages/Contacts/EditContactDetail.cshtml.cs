@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
     public class EditContactDetailModel(
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
-        IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+        IMediator mediator) : BaseContactsPageModel(supportProjectQueryService, errorService)
     {
         public string ReturnPage { get; set; }
         public bool ShowError { get; set; }
@@ -46,7 +46,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         {
             ReturnPage = Links.Contacts.EditContact.Page;
             ContactId = contactId;
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectWithContacts(id, cancellationToken);
 
             var contact = SupportProject!.Contacts!.FirstOrDefault(a => a.Id!.Value == contactId);
             if (contact != null)
@@ -87,7 +87,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             {
                 _errorService.AddErrors(Request.Form.Keys, ModelState);
                 ShowError = true;
-                return await base.GetSupportProject(id, cancellationToken);
+                return await base.GetSupportProjectWithContacts(id, cancellationToken);
             }
 
             var request = new UpdateSupportProjectContactCommand(new SupportProjectId(id),
@@ -99,7 +99,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
             if (result.Value != contactId)
             {
                 _errorService.AddApiError();
-                return await base.GetSupportProject(id, cancellationToken);
+                return await base.GetSupportProjectWithContacts(id, cancellationToken);
             }
 
             TempData["OrganisationType"] = null;
