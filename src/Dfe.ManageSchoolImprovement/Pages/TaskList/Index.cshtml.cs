@@ -53,10 +53,12 @@ public class IndexModel(
     public TaskListStatus EnterImprovementPlanObjectivesTaskListStatus { get; set; }
 
     public bool ProjectNotYetAssigned { get; set; }
-    
+
     public bool? AdviserCanBeSet { get; set; }
-    
+
     public bool? AdviserSet { get; set; }
+
+    public bool? ReviewProgressSchool { get; set; }
 
     public void SetErrorPage(string errorPage)
     {
@@ -77,14 +79,15 @@ public class IndexModel(
             var projectStatusPausedOrStopped = SupportProject.ProjectStatus != ProjectStatusValue.InProgress;
             ProjectNotYetAssigned = !SupportProject.InitialDeliveryOfficerAssigned;
             AdviserCanBeSet = SupportProject.AdviserCanBeSet;
+            ReviewProgressSchool = SupportProject.InitialDiagnosisMatchingDecision == ReviewProgress;
 
             AdviserSet = !string.IsNullOrWhiteSpace(SupportProject.AdviserFullName);
-            
+
             // phase one tasks
             ConfirmEligibilityTaskListStatus = projectStatusPausedOrStopped
                 ? TaskListStatus.CannotProgress
                 : TaskStatusViewModel.ConfirmEligibilityTaskListStatus(SupportProject);
-            
+
             if (projectStatusPausedOrStopped)
             {
                 FundingHistoryStatus = TaskListStatus.CannotProgress;
@@ -127,7 +130,7 @@ public class IndexModel(
                 AllocateAdviserTaskListStatus = TaskStatusViewModel.CheckAllocateAdviserTaskListStatus(SupportProject);
             }
 
-            if(projectStatusPausedOrStopped)
+            if (projectStatusPausedOrStopped)
             {
                 // Phase 2
                 SendIntroductoryEmailTaskListStatus = TaskListStatus.CannotProgress;
@@ -143,7 +146,8 @@ public class IndexModel(
                 // Phase 3
                 RequestPlanningGrantOfferLetterTaskListStatus = TaskListStatus.CannotProgress;
                 ConfirmPlanningGrantOfferLetterTaskListStatus = TaskListStatus.CannotProgress;
-                ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus = TaskListStatus.CannotProgress;
+                ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus =
+                    TaskListStatus.CannotProgress;
                 ReviewTheImprovementPlanTaskListStatus = TaskListStatus.CannotProgress;
                 SendAgreedImprovementPlanForApprovalTaskListStatus = TaskListStatus.CannotProgress;
                 RecordImprovementPlanDecisionTaskListStatus = TaskListStatus.CannotProgress;
@@ -168,7 +172,8 @@ public class IndexModel(
                 // Phase 3
                 RequestPlanningGrantOfferLetterTaskListStatus = TaskListStatus.CannotStartYet;
                 ConfirmPlanningGrantOfferLetterTaskListStatus = TaskListStatus.CannotStartYet;
-                ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus = TaskListStatus.CannotStartYet;
+                ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus =
+                    TaskListStatus.CannotStartYet;
                 ReviewTheImprovementPlanTaskListStatus = TaskListStatus.CannotStartYet;
                 SendAgreedImprovementPlanForApprovalTaskListStatus = TaskListStatus.CannotStartYet;
                 RecordImprovementPlanDecisionTaskListStatus = TaskListStatus.CannotStartYet;
@@ -176,7 +181,6 @@ public class IndexModel(
                 RequestImprovementGrantOfferLetterTaskListStatus = TaskListStatus.CannotStartYet;
                 ConfirmImprovementGrantOfferLetterTaskListStatus = TaskListStatus.CannotStartYet;
             }
-            // Phase two tasks
 
             else
             {
@@ -191,44 +195,70 @@ public class IndexModel(
                     TaskStatusViewModel.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus(SupportProject);
                 RecordSupportDecisionTaskListStatus =
                     TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
-                ChosePreferredSupportingOrganisationTaskListStatus =
-                    TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
-                DueDiligenceOnPreferredSupportingOrganisationTaskListStatus =
-                    TaskStatusViewModel.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(SupportProject);
-                SetRecordSupportingOrganisationAppointment =
-                    TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProject);
-                SupportingOrganisationContactDetailsTaskListStatus =
-                    TaskStatusViewModel.SupportingOrganisationContactDetailsTaskListStatus(SupportProject);
 
-                // Phase 3
-                RequestPlanningGrantOfferLetterTaskListStatus =
-                    TaskStatusViewModel.RequestPlanningGrantOfferLetterTaskListStatus(SupportProject);
-                ConfirmPlanningGrantOfferLetterTaskListStatus =
-                    TaskStatusViewModel.ConfirmPlanningGrantOfferLetterTaskListStatus(SupportProject);
-                ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus =
-                    TaskStatusViewModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(
-                        SupportProject);
-                ReviewTheImprovementPlanTaskListStatus =
-                    TaskStatusViewModel.ReviewTheImprovementPlanTaskListStatus(SupportProject);
-                SendAgreedImprovementPlanForApprovalTaskListStatus =
-                    TaskStatusViewModel.SendAgreedImprovementPlanForApprovalTaskListStatus(SupportProject);
-                RecordImprovementPlanDecisionTaskListStatus =
-                    TaskStatusViewModel.RecordImprovementPlanDecisionTaskListStatus(SupportProject);
-                EnterImprovementPlanObjectivesTaskListStatus =
-                    TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(SupportProject);
-                RequestImprovementGrantOfferLetterTaskListStatus =
-                    TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(SupportProject);
-                ConfirmImprovementGrantOfferLetterTaskListStatus =
-                    TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
+                if (ReviewProgressSchool == true)
+                {
+                    ChosePreferredSupportingOrganisationTaskListStatus = TaskListStatus.NotRequired;
+                    DueDiligenceOnPreferredSupportingOrganisationTaskListStatus = TaskListStatus.NotRequired;
+                    SetRecordSupportingOrganisationAppointment = TaskListStatus.NotRequired;
+                    SupportingOrganisationContactDetailsTaskListStatus = TaskListStatus.NotRequired;
+
+                    // Phase 3
+                    RequestPlanningGrantOfferLetterTaskListStatus = TaskListStatus.NotRequired;
+                    ConfirmPlanningGrantOfferLetterTaskListStatus = TaskListStatus.NotRequired;
+                    ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus = TaskListStatus.NotRequired;
+                    ReviewTheImprovementPlanTaskListStatus = TaskListStatus.NotRequired;
+                    SendAgreedImprovementPlanForApprovalTaskListStatus = TaskListStatus.NotRequired;
+                    RecordImprovementPlanDecisionTaskListStatus = TaskListStatus.NotRequired;
+                    EnterImprovementPlanObjectivesTaskListStatus = TaskListStatus.NotRequired;
+                    RequestImprovementGrantOfferLetterTaskListStatus = TaskListStatus.NotRequired;
+                    ConfirmImprovementGrantOfferLetterTaskListStatus = TaskListStatus.NotRequired;
+                }
+                else
+                {
+                    ChosePreferredSupportingOrganisationTaskListStatus =
+                        TaskStatusViewModel.ChoosePreferredSupportingOrganisationTaskListStatus(SupportProject);
+                    DueDiligenceOnPreferredSupportingOrganisationTaskListStatus =
+                        TaskStatusViewModel.DueDiligenceOnPreferredSupportingOrganisationTaskListStatus(SupportProject);
+                    SetRecordSupportingOrganisationAppointment =
+                        TaskStatusViewModel.SetRecordSupportingOrganisationAppointmentTaskListStatus(SupportProject);
+                    SupportingOrganisationContactDetailsTaskListStatus =
+                        TaskStatusViewModel.SupportingOrganisationContactDetailsTaskListStatus(SupportProject);
+
+                    // Phase 3
+                    RequestPlanningGrantOfferLetterTaskListStatus =
+                        TaskStatusViewModel.RequestPlanningGrantOfferLetterTaskListStatus(SupportProject);
+                    ConfirmPlanningGrantOfferLetterTaskListStatus =
+                        TaskStatusViewModel.ConfirmPlanningGrantOfferLetterTaskListStatus(SupportProject);
+                    ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus =
+                        TaskStatusViewModel.ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus(
+                            SupportProject);
+                    ReviewTheImprovementPlanTaskListStatus =
+                        TaskStatusViewModel.ReviewTheImprovementPlanTaskListStatus(SupportProject);
+                    SendAgreedImprovementPlanForApprovalTaskListStatus =
+                        TaskStatusViewModel.SendAgreedImprovementPlanForApprovalTaskListStatus(SupportProject);
+                    RecordImprovementPlanDecisionTaskListStatus =
+                        TaskStatusViewModel.RecordImprovementPlanDecisionTaskListStatus(SupportProject);
+                    EnterImprovementPlanObjectivesTaskListStatus =
+                        TaskStatusViewModel.EnterImprovementPlanObjectivesTaskListStatus(SupportProject);
+                    RequestImprovementGrantOfferLetterTaskListStatus =
+                        TaskStatusViewModel.RequestImprovementGrantOfferLetterTaskListStatus(SupportProject);
+                    ConfirmImprovementGrantOfferLetterTaskListStatus =
+                        TaskStatusViewModel.ConfirmImprovementGrantOfferLetterTaskListStatus(SupportProject);
+                }
             }
         }
 
-        
-        if (SupportProject is { InitialDiagnosisMatchingDecision: ReviewProgress or MatchWithASupportingOrganisation, CurrentDeliveryMilestone: not Milestone.TermlyReviews or Milestone.ImplementationAndTermlyReviews })
+
+        if (SupportProject is
+            {
+                InitialDiagnosisMatchingDecision: ReviewProgress or MatchWithASupportingOrganisation,
+                CurrentDeliveryMilestone: not Milestone.TermlyReviews or Milestone.ImplementationAndTermlyReviews
+            })
         {
             await SetFinalMilestone(id, SupportProject.InitialDiagnosisMatchingDecision, cancellationToken);
         }
-        
+
         return Page();
     }
 
@@ -268,7 +298,8 @@ public class IndexModel(
         ConfirmImprovementGrantOfferLetterTaskListStatus,
     ];
 
-    private async Task SetFinalMilestone(int id, string? initialDiagnosisMatchingDecision, CancellationToken cancellationToken)
+    private async Task SetFinalMilestone(int id, string? initialDiagnosisMatchingDecision,
+        CancellationToken cancellationToken)
     {
         if (!AllTasksComplete(ReviewProgressCommonTaskStatuses()))
         {

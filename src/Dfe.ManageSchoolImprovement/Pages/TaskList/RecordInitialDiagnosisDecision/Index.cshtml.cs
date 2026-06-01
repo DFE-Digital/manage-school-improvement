@@ -36,6 +36,8 @@ public class IndexModel(
 
     public TaskListStatus? TaskListStatus { get; set; }
     public ProjectStatusValue? ProjectStatus { get; set; }
+
+    public bool TaskIsComplete { get; set; }
     
     public required IList<RadioButtonsLabelViewModel> RadioButtonModels { get; set; }
     public bool ShowError { get; set; }
@@ -74,7 +76,8 @@ public class IndexModel(
             
             TaskListStatus = TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
             ProjectStatus = SupportProject.ProjectStatus;
-
+            
+            TaskIsComplete = SupportProject.InitialDiagnosisMatchingDecision is "Match with a supporting organisation" or "Unable to assess";
         }
 
         RadioButtonModels = RadioButtons;
