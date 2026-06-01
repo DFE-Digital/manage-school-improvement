@@ -77,7 +77,7 @@ public class IndexModel(
             TaskListStatus = TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
             ProjectStatus = SupportProject.ProjectStatus;
             
-            TaskIsComplete = SupportProject.InitialDiagnosisMatchingDecision is "Match with a supporting organisation" or "Unable to assess";
+            TaskIsComplete = SupportProject.InitialDiagnosisMatchingDecision is "Match with a supporting organisation" or "Review school's progress";
         }
 
         RadioButtonModels = RadioButtons;
