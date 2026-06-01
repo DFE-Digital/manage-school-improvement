@@ -206,7 +206,8 @@ public class IndexModel(
                     // Phase 3
                     RequestPlanningGrantOfferLetterTaskListStatus = TaskListStatus.NotRequired;
                     ConfirmPlanningGrantOfferLetterTaskListStatus = TaskListStatus.NotRequired;
-                    ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus = TaskListStatus.NotRequired;
+                    ShareTheIndicativeFundingBandAndTheImprovementPlanTemplateTaskListStatus =
+                        TaskListStatus.NotRequired;
                     ReviewTheImprovementPlanTaskListStatus = TaskListStatus.NotRequired;
                     SendAgreedImprovementPlanForApprovalTaskListStatus = TaskListStatus.NotRequired;
                     RecordImprovementPlanDecisionTaskListStatus = TaskListStatus.NotRequired;
