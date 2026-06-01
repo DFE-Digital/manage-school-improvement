@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
-    public class EditContactOrganisationModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class EditContactOrganisationModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseContactsPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "organisationType")]
         public string? OrganisationType { get; set; }
@@ -20,7 +20,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         public Guid ContactId { get; set; }
         public async Task<IActionResult> OnGetAsync(int id, Guid contactId, CancellationToken cancellationToken)
         {
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectWithContacts(id, cancellationToken);
             ContactId = contactId;
 
             if (TempData["OrganisationType"] != null)
@@ -73,7 +73,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 ErrorMessage = "Select an organisation type";
                 ShowError = true;
                 _errorService.AddError("-hint", ErrorMessage);
-                await base.GetSupportProject(id, cancellationToken);
+                await base.GetSupportProjectWithContacts(id, cancellationToken);
                 return Page();
             }
 

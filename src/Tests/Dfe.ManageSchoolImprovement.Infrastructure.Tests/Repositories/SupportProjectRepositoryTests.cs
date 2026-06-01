@@ -527,6 +527,37 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             // Assert
             result.Should().BeNull();
         }
+
+        [Fact]
+        public async Task GetSupportProjectWithContactsById_WithValidId_ShouldReturnProject()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var existingProject = fixture.Context.SupportProjects.First(x => x.SchoolName == "School A");
+
+            // Act
+            var result = await service.GetSupportProjectWithContactsById(existingProject.Id!, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.SchoolName.Should().Be("School A");
+            result.SchoolUrn.Should().Be("100001");
+            result.Contacts.Should().NotBeNull(); // Verify Contacts are included
+        }
+
+        [Fact]
+        public async Task GetSupportProjectWithContactsById_WithInvalidId_ShouldReturnNull()
+        {
+            // Arrange
+            var service = new SupportProjectRepository(fixture.Context);
+            var nonExistentId = new Domain.ValueObjects.SupportProjectId(999);
+
+            // Act
+            var result = await service.GetSupportProjectWithContactsById(nonExistentId, CancellationToken.None);
+
+            // Assert
+            result.Should().BeNull();
+        }
         
         [Fact]
         public async Task GetSupportProjectSummaryById_WithValidId_ShouldReturnProjectSummary()

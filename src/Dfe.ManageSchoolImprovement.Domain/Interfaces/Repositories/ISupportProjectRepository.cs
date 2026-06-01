@@ -19,6 +19,9 @@ namespace Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories
         Task<SupportProject?> GetSupportProjectById(SupportProjectId id, CancellationToken cancellationToken);
 
         Task<SupportProject?> GetSupportProjectBaseById(SupportProjectId id, CancellationToken cancellationToken);
+
+        // Returns the support project with only the Contacts navigation property included
+        Task<SupportProject?> GetSupportProjectWithContactsById(SupportProjectId id, CancellationToken cancellationToken);
         
         Task<(SupportProjectId Id, string SchoolName)?> GetSupportProjectSummaryById(SupportProjectId id, CancellationToken cancellationToken);
 

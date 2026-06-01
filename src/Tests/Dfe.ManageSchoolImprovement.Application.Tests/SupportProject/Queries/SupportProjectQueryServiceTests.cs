@@ -169,6 +169,45 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.SupportProject.Queries
         }
         
         [Fact]
+        public async Task GetSupportProjectWithContacts_ShouldReturnMappedDto_WhenProjectExists()
+        {
+            // Arrange
+            var project = GetSchoolProjects()[0];
+            var supportProjectDto = GetSupportProjectDtos(GetSchoolProjects())[0];
+
+            _mockRepository.Setup(r =>
+                    r.GetSupportProjectWithContactsById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync(project);
+
+            _mockMapper.Setup(m => m.Map<SupportProjectDto?>(project)).Returns(supportProjectDto);
+
+            // Act
+            var result = await _service.GetSupportProjectWithContacts(1, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Value);
+            _mockRepository.Verify(
+                r => r.GetSupportProjectWithContactsById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetSupportProjectWithContacts_ShouldReturnFailure_WhenProjectNotFound()
+        {
+            // Arrange
+            _mockRepository.Setup(r =>
+                    r.GetSupportProjectWithContactsById(It.IsAny<SupportProjectId>(), It.IsAny<CancellationToken>()))!
+                .ReturnsAsync((Domain.Entities.SupportProject.SupportProject?)null);
+
+            // Act
+            var result = await _service.GetSupportProjectWithContacts(1, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Value);
+        }
+        
+        [Fact]
         public async Task GetSupportProjectSummaryById_ShouldReturnMappedDto_WhenProjectExists()
         {
             // Arrange

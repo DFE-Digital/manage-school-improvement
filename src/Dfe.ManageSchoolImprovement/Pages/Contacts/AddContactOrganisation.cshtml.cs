@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 {
-    public class AddContactOrganisationModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class AddContactOrganisationModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService) : BaseContactsPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "organisationType")]
         public string? OrganisationType { get; set; }
@@ -19,7 +19,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
 
         public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
         {
-            await base.GetSupportProject(id, cancellationToken);
+            await base.GetSupportProjectWithContacts(id, cancellationToken);
 
             if (TempData["OrganisationType"] != null)
             {
@@ -63,7 +63,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
                 ErrorMessage = "Select an organisation type";
                 ShowError = true;
                 _errorService.AddError("-hint", ErrorMessage);
-                await base.GetSupportProject(id, cancellationToken);
+                await base.GetSupportProjectWithContacts(id, cancellationToken);
                 return Page();
             }
             RadioButtons = CreateOrganisationTypeOptions();
