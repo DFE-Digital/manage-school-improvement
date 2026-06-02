@@ -111,7 +111,7 @@ public class IndexModel(
         if (!RegionalDirectorDecisionDate.HasValue)
         {
             _errorService.AddError("decision-date", "Enter a date");
-            validationErrors.Add("RegionalDirectorDecisionDate");
+            validationErrors.Add("decision-date");
         }
 
         // Early return pattern for validation errors
