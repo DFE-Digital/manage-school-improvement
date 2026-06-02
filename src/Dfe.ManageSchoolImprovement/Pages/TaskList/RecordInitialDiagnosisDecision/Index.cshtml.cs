@@ -87,6 +87,8 @@ public class IndexModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        // add date validation
 
         // Collect validation errors using collection expression (.NET 8)
         var validationErrors = new List<string>();
@@ -104,6 +106,12 @@ public class IndexModel(
         {
             _errorService.AddError(nameof(UnableToAssessNotes), "Enter notes");
             validationErrors.Add("UnableToAssessNotes");
+        }
+
+        if (!RegionalDirectorDecisionDate.HasValue)
+        {
+            _errorService.AddError("decision-date", "Enter a date");
+            validationErrors.Add("RegionalDirectorDecisionDate");
         }
 
         // Early return pattern for validation errors
