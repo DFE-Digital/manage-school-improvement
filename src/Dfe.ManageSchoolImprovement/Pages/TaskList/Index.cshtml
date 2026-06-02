@@ -232,108 +232,109 @@
                         </div>
                     }
                     <div class="govuk-task-list__status" id="send-introductory-email-request-improvement-plan_status">
-                            <partial name="Shared/_TaskListStatus" model="@Model.SendIntroductoryEmailTaskListStatus"/>
-                        </div>
+                        <partial name="Shared/_TaskListStatus" model="@Model.SendIntroductoryEmailTaskListStatus"/>
+                    </div>
                     
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.ArrangeAdvisersFirstFaceToFaceVisit.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="adviser-school-visit"
-                           aria-describedby="adviser-school-visit_status">
+                    @if (Model.AdviserSet == true)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.ArrangeAdvisersFirstFaceToFaceVisit.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="adviser-school-visit"
+                               aria-describedby="adviser-school-visit_status">
+                                Arrange adviser's initial visit
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Arrange adviser's initial visit
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        Arrange adviser's initial visit
-                    </div>
-                }
-                <div class="govuk-task-list__status" id="adviser-school-visit_status">
+                        </div>
+                    }
+                    <div class="govuk-task-list__status" id="adviser-school-visit_status">
                         <partial name="Shared/_TaskListStatus"
                                  model="@Model.ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus"/>
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.RecordVisitDateToVisitSchool.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="record-school-visit-date"
-                           aria-describedby="record-school-visit-date_status">
+                    @if (Model.AdviserSet == true)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.RecordVisitDateToVisitSchool.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="record-school-visit-date"
+                               aria-describedby="record-school-visit-date_status">
+                                Record date of initial visit
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Record date of initial visit
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        Record date of initial visit
-                    </div>
-                }
-                <div class="govuk-task-list__status" id="record-school-visit-date_status">
+                        </div>
+                    }
+                    <div class="govuk-task-list__status" id="record-school-visit-date_status">
                         <partial name="Shared/_TaskListStatus"
                                  model="@Model.RecordVisitDateToVisitSchoolTaskListStatus"/>
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.CompleteAndSaveInitialDiagnosisAssessment.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="complate-save-assessment-template"
-                           aria-describedby="complate-save-assessment-template_status">
+                    @if (Model.AdviserSet == true)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.CompleteAndSaveInitialDiagnosisAssessment.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="complate-save-assessment-template"
+                               aria-describedby="complate-save-assessment-template_status">
+                                Complete and save the initial diagnosis assessment
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Complete and save the initial diagnosis assessment
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        Complete and save the initial diagnosis assessment
-                    </div>
-                }
-                <div class="govuk-task-list__status" id="complate-save-assessment-template_status">
+                        </div>
+                    }
+                    <div class="govuk-task-list__status" id="complate-save-assessment-template_status">
                         <partial name="Shared/_TaskListStatus"
                                  model="@Model.CompleteAndSaveInitialDiagnosisTemplateTaskListStatus"/>
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        <a class="govuk-link govuk-task-list__link"
-                           asp-page="@Links.TaskList.RecordInitialDiagnosisDecision.Page"
-                           asp-route-id="@Model.SupportProject.Id" data-cy="record-support-decision"
-                           aria-describedby="record-support-decision_status">
+                    @if (Model.AdviserSet == true)
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
+                            <a class="govuk-link govuk-task-list__link"
+                               asp-page="@Links.TaskList.RecordInitialDiagnosisDecision.Page"
+                               asp-route-id="@Model.SupportProject.Id" data-cy="record-support-decision"
+                               aria-describedby="record-support-decision_status">
+                                Record initial diagnosis decision
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                             Record initial diagnosis decision
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                        Record initial diagnosis decision
-                    </div>
-                }
-                <div class="govuk-task-list__status" id="record-support-decision_status">
+                        </div>
+                    }
+                    <div class="govuk-task-list__status" id="record-support-decision_status">
                         <partial name="Shared/_TaskListStatus" model="@Model.RecordSupportDecisionTaskListStatus"/>
                     </div>
                 </li>
             </ul>
         </div>
+        
         <h3 class="app-task-list__section govuk-!-margin-top-8">Find possible supporting organisation</h3>
         <div>
             <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         @if (!string.IsNullOrEmpty(Model.SupportProject.SupportOrganisationName)
@@ -374,7 +375,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -399,7 +400,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hintme" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -424,7 +425,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -455,7 +456,7 @@
         <div>
             <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -478,7 +479,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -506,7 +507,7 @@
         <div>
             <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -529,7 +530,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -552,7 +553,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -575,7 +576,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -598,7 +599,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         @if (Model.SupportProject.ImprovementPlans != null
@@ -643,7 +644,7 @@
         <div>
             <ul class="govuk-task-list">
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"
@@ -667,7 +668,7 @@
                     </div>
                 </li>
                 <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                @if (Model.AdviserSet == true)
+                @if (Model.AdviserSet == true && Model.ReviewProgressSchool == false)
                 {
                     <div class="govuk-task-list__name-and-hint" data-cy="task-name">
                         <a class="govuk-link govuk-task-list__link"

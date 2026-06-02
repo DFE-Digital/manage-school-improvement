@@ -7,4 +7,5 @@ public enum TaskListStatus
     Complete,
     CannotProgress,
     CannotStartYet,
+    NotRequired
 }
