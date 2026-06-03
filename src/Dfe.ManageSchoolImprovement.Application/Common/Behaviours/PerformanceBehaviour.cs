@@ -8,7 +8,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours
 {
     [ExcludeFromCodeCoverage]
     public class PerformanceBehaviour<TRequest, TResponse>(
-        ILogger<TRequest> logger,
+        ILogger<PerformanceBehaviour<TRequest, TResponse>> logger,
         IHttpContextAccessor httpContextAccessor)
         : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
