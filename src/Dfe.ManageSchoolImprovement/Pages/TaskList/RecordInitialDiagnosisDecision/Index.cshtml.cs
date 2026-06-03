@@ -36,6 +36,8 @@ public class IndexModel(
 
     public TaskListStatus? TaskListStatus { get; set; }
     public ProjectStatusValue? ProjectStatus { get; set; }
+
+    public bool TaskIsComplete { get; set; }
     
     public required IList<RadioButtonsLabelViewModel> RadioButtonModels { get; set; }
     public bool ShowError { get; set; }
@@ -74,7 +76,8 @@ public class IndexModel(
             
             TaskListStatus = TaskStatusViewModel.RecordInitialDiagnosisDecisionTaskListStatus(SupportProject);
             ProjectStatus = SupportProject.ProjectStatus;
-
+            
+            TaskIsComplete = SupportProject.InitialDiagnosisMatchingDecision is "Match with a supporting organisation" or "Review school's progress";
         }
 
         RadioButtonModels = RadioButtons;
@@ -84,6 +87,8 @@ public class IndexModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
+        
+        // add date validation
 
         // Collect validation errors using collection expression (.NET 8)
         var validationErrors = new List<string>();
@@ -101,6 +106,12 @@ public class IndexModel(
         {
             _errorService.AddError(nameof(UnableToAssessNotes), "Enter notes");
             validationErrors.Add("UnableToAssessNotes");
+        }
+
+        if (!RegionalDirectorDecisionDate.HasValue)
+        {
+            _errorService.AddError("decision-date", "Enter a date");
+            validationErrors.Add("decision-date");
         }
 
         // Early return pattern for validation errors

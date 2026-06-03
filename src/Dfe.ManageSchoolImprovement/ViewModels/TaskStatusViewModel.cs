@@ -183,7 +183,9 @@ public static class TaskStatusViewModel
     public static TaskListStatus RecordInitialDiagnosisDecisionTaskListStatus(SupportProjectViewModel supportProject)
     {
         if (supportProject.RegionalDirectorDecisionDate.HasValue
-            && !string.IsNullOrEmpty(supportProject.InitialDiagnosisMatchingDecision))
+            && !string.IsNullOrEmpty(supportProject.InitialDiagnosisMatchingDecision)
+            && (supportProject.InitialDiagnosisMatchingDecision.Equals("Match with a supporting organisation")
+            || supportProject.InitialDiagnosisMatchingDecision.Equals("Review school's progress")))
         {
             return TaskListStatus.Complete;
         }
