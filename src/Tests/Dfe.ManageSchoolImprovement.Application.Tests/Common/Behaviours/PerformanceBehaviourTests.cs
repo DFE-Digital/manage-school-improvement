@@ -9,14 +9,14 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
 {
     public class PerformanceBehaviourTests
     {
-        private readonly Mock<ILogger<TestRequest>> _mockLogger;
+        private readonly Mock<ILogger<PerformanceBehaviour<TestRequest, TestResponse>>> _mockLogger;
         private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
         private readonly PerformanceBehaviour<TestRequest, TestResponse> _performanceBehaviour;
         private readonly Mock<RequestHandlerDelegate<TestResponse>> _mockNext;
 
         public PerformanceBehaviourTests()
         {
-            _mockLogger = new Mock<ILogger<TestRequest>>();
+            _mockLogger = new Mock<ILogger<PerformanceBehaviour<TestRequest, TestResponse>>>();
             _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             _mockNext = new Mock<RequestHandlerDelegate<TestResponse>>();
             _performanceBehaviour = new PerformanceBehaviour<TestRequest, TestResponse>(_mockLogger.Object, _mockHttpContextAccessor.Object);

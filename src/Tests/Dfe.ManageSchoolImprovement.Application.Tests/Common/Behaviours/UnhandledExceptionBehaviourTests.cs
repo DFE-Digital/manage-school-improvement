@@ -7,13 +7,13 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
 {
     public class UnhandledExceptionBehaviourTests
     {
-        private readonly Mock<ILogger<TestRequest>> _mockLogger;
+        private readonly Mock<ILogger<UnhandledExceptionBehaviour<TestRequest, TestResponse>>> _mockLogger;
         private readonly UnhandledExceptionBehaviour<TestRequest, TestResponse> _unhandledExceptionBehaviour;
         private readonly Mock<RequestHandlerDelegate<TestResponse>> _mockNext;
 
         public UnhandledExceptionBehaviourTests()
         {
-            _mockLogger = new Mock<ILogger<TestRequest>>();
+            _mockLogger = new Mock<ILogger<UnhandledExceptionBehaviour<TestRequest, TestResponse>>>();
             _mockNext = new Mock<RequestHandlerDelegate<TestResponse>>();
             _unhandledExceptionBehaviour = new UnhandledExceptionBehaviour<TestRequest, TestResponse>(_mockLogger.Object);
         }
