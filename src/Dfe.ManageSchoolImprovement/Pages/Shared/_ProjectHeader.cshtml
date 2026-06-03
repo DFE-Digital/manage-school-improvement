@@ -14,6 +14,7 @@
     DateTime? projectStatusChangedDate = Model.ProjectStatusChangedDate;
     DateTime? dateSupportIsDueToEnd = Model.DateSupportIsDueToEnd;
     SupportProjectEligibilityStatus? eligibilityStatus = Model.SupportProjectEligibilityStatus;
+    string initialDiagnosisMatchingDecision = Model.InitialDiagnosisMatchingDecision;
 }
 
 <div class="govuk-grid-row">
@@ -197,6 +198,25 @@
                         Cannot allocate an adviser yet
                     </dd>
                 }
+
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Matching decision
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(initialDiagnosisMatchingDecision ?? "Initial diagnosis decision not yet recorded")
+                </dd>
+                @if (initialDiagnosisMatchingDecision == "Review school's progress" && @Model.ProjectStatus == ProjectStatusValue.InProgress)
+                        {
+                            <dd class="govuk-summary-list__actions">
+                    
+                              <a class="govuk-link govuk-!-padding-left-50"
+                                   asp-page="@Links.TaskList.RecordInitialDiagnosisDecision.Page"
+                                   asp-route-id="@Model.Id">Change</a>
+                            </dd>
+                        }
+               
 
             </div>
             <div class="govuk-summary-list__row">
