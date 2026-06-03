@@ -15,6 +15,10 @@
     DateTime? dateSupportIsDueToEnd = Model.DateSupportIsDueToEnd;
     SupportProjectEligibilityStatus? eligibilityStatus = Model.SupportProjectEligibilityStatus;
     string initialDiagnosisMatchingDecision = Model.InitialDiagnosisMatchingDecision;
+    if (initialDiagnosisMatchingDecision == "Review school's progress")
+    {
+        initialDiagnosisMatchingDecision = "Review progress";
+    }
 }
 
 <div class="govuk-grid-row">
@@ -207,7 +211,7 @@
                 <dd class="govuk-summary-list__value">
                     @(initialDiagnosisMatchingDecision ?? "Initial diagnosis decision not yet recorded")
                 </dd>
-                @if (initialDiagnosisMatchingDecision == "Review school's progress" && @Model.ProjectStatus == ProjectStatusValue.InProgress)
+                @if (initialDiagnosisMatchingDecision == "Review progress" && @Model.ProjectStatus == ProjectStatusValue.InProgress)
                         {
                             <dd class="govuk-summary-list__actions">
                     
