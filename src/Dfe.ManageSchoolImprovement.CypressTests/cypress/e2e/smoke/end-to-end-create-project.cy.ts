@@ -86,6 +86,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasDateAdded(dateAdded)
       .hasAssignedTo(assignedTo)
       .hasAdvisedBy(advisedBy)
+      .hasMatchingDecision("Initial diagnosis decision not yet recorded")
       .hasEngagementConcern('No')
       .hasChangeLinks()
       .hasNav()
@@ -350,17 +351,38 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Record initial diagnosis decision' task");
     taskList.selectTask("Record initial diagnosis decision");
+
+    cy.executeAccessibilityTests();
+
     taskListActions.hasHeader("Record initial diagnosis decision");
-    taskListActions.selectButtonOrCheckbox("review-school-progress");
-    taskListActions.enterText("NotMatchingNotes", "Review notes");
+    taskListActions.selectButtonOrCheckbox("unable-to-assess");
+    taskListActions.enterText("UnableToAssessNotes", "Unable to access notes");
+    taskListActions.enterDate("decision-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusInProgress("record-support-decision_status");
     taskList.selectTask("Record initial diagnosis decision");
-    taskListActions.enterDate("decision-date", "01", "01", "2024");
+
+    Logger.log("Select Record decision to 'Review school's progress'");
+    taskListActions.selectButtonOrCheckbox("review-school-progress");
+    taskListActions.enterText("NotMatchingNotes", "Review notes");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("record-support-decision_status");
+    taskList.hasTaskStatusNotRequired("choose-preferred-supporting-organisation-status");
+
+    Logger.log("Change Record decision to 'Match with a supporting organisation'");
+    // User could see Change link only when Record decison is 'Review school's progress' 
+    taskList.navigateToChangeMatchingDecision()
+
+    cy.executeAccessibilityTests();
+
+    taskListActions.selectButtonOrCheckbox("match-with-organisation");
+    taskListActions.enterDate("decision-date", "15", "05", "2025");
+    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
+    taskList.hasFilterSuccessNotification()
+      .hasTaskStatusCompleted("record-support-decision_status");
+
   });
 
   // Task 13: Choose preferred supporting organisation

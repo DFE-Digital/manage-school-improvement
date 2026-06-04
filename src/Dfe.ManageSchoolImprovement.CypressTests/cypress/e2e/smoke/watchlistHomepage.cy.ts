@@ -63,10 +63,10 @@ describe("User lands in the watchlist homepage when loggedn in ", () => {
     });
 
     it("should be able to check Milestone based on the all tasks completion", () => {
-        Logger.log("Milestone should be Termly reviews when all 12 tasks are completed for Record decision-Review school's progress");
+        Logger.log("Milestone should be Implementation and termly reviews when all 25 tasks are completed for Record decision-Match with a Supporting Organisations");
         watchlistHomepage
             .hasSchoolList()
-            .vefifyMilestoneForSchool('Plymouth Grove Primary School', 'Termly reviews')
+            .vefifyMilestoneForSchool('Plymouth Grove Primary School', 'Implementation and termly reviews')
 
         cy.executeAccessibilityTests()
     });
