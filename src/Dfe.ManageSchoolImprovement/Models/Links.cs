@@ -94,6 +94,8 @@ public static class Links
         public static readonly LinkItem ChooseSupportingOrganisationSummary = AddLinkItem(backText: "Back", page: "/TaskList/ChoosePreferredSupportingOrganisation/ChooseSupportingOrganisationSummary");
 
         public static readonly LinkItem RecordInitialDiagnosisDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordInitialDiagnosisDecision/Index");
+        public static readonly LinkItem MatchingDecision = AddLinkItem(backText: "Back", page: "/TaskList/RecordInitialDiagnosisDecision/MatchingDecision");
+
 
         public static readonly LinkItem ConfirmSupportingOrganisationContactDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/Index");
         public static readonly LinkItem ConfirmSupportingOrganisationAddressDetails = AddLinkItem(backText: "Back", page: "/TaskList/AddSupportingOrganisationContactDetails/ConfirmSupportingOrganisationAddressDetails");

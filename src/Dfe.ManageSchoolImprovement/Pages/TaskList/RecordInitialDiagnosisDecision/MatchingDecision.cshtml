@@ -1,0 +1,59 @@
+@page "/task-list/matching-decision/{id:int}"
+@using System.Linq.Expressions
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordInitialDiagnosisDecision.MatchingDecisionModel
+
+@{
+    ViewData["Title"] = "Matching decision";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
+           class="govuk-back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary"/>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProject?.SchoolName</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Matching decision
+        </h1>
+
+        <form method="post" novalidate>
+            <govuk-radiobuttons-input heading="Will the school be matched with a supporting organisation?"
+                                      heading-style="govuk-fieldset__legend govuk-fieldset__legend--m"
+                                      name="@nameof(Model.HasSchoolMatchedWithSupportingOrganisation)"
+                                      asp-for="@Model.HasSchoolMatchedWithSupportingOrganisation"
+                                      radio-buttons="@Model.RadioButtonModels"
+                                      has-error="@Model.ShowError"
+                                      error-message="@Model.ErrorMessage"/>
+
+            <govuk-date-input heading-label="false"
+                              label="Enter date the regional director made this decision"
+                              id="decision-date"
+                              name="decision-date"
+                              asp-for="@Model.RegionalDirectorDecisionDate"
+                              hint="For example, 1 7 2024."/>
+
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
+                        data-cy="select-common-submitbutton">
+                    Save and return
+                </button>
+                <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
+                   class="govuk-link" data-cy="cancel-link">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
