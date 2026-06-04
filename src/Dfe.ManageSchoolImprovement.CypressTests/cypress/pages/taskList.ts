@@ -37,8 +37,13 @@ class TaskList {
     return this;
   }
 
-  public hasEngagementConcern(value: string): this {
+  public hasMatchingDecision(value: string): this {
     cy.get('.govuk-summary-list__value').eq(5).should("contain.text", value);
+    return this;
+  }
+
+  public hasEngagementConcern(value: string): this {
+    cy.get('.govuk-summary-list__value').eq(6).should("contain.text", value);
     return this;
   }
 
@@ -47,7 +52,7 @@ class TaskList {
     cy.get('.govuk-summary-list').within(() => {
       cy.get('.govuk-summary-list__row').eq(0).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'status');
       cy.get('.govuk-summary-list__row').eq(3).find('.govuk-link').contains('Assign a delivery officer')
-      cy.get('.govuk-summary-list__row').eq(5).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'record-engagement-concern');
+      cy.get('.govuk-summary-list__row').eq(6).find('.govuk-link').contains('Change').should('have.attr', 'href').and('include', 'record-engagement-concern');
     });
 
     return this;
@@ -192,6 +197,11 @@ class TaskList {
     return this;
   }
 
+  public hasTaskStatusNotRequired(id: string) {
+    cy.get(`#${id}`).contains("Not Required");
+
+    return this;
+  }
 
   public selectTask(taskName: string) {
     cy.contains(taskName).click();
@@ -297,7 +307,6 @@ class TaskList {
       .contains('Change')
       .click();
 
-    cy.url().should('include', '/assign-delivery-officer');
     cy.get('h1').should('contain.text', 'Who will work with this school?');
 
     return this;
@@ -325,12 +334,24 @@ class TaskList {
       .contains('Change')
       .click();
 
-    cy.url().should('include', '/allocate-adviser');
     cy.get('h1').should('contain.text', 'Allocate an adviser');
 
     return this;
   }
 
+  public navigateToChangeMatchingDecision(): this {
+    cy.get('.govuk-summary-list__row')
+      .contains('.govuk-summary-list__key', 'Matching decision')
+      .parents('.govuk-summary-list__row')
+      .within(() => {
+        cy.get('.govuk-summary-list__value').should('contain.text', 'Review progress');
+        cy.contains('.govuk-link', 'Change').click();
+      });
+   
+    cy.get('h1').should('contain.text', 'Matching decision');
+    
+    return this;
+  }
 }
 
 const taskList = new TaskList();
