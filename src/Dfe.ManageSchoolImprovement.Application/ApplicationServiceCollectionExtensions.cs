@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using AutoMapper.Internal;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -31,7 +32,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
             });
 
-            services.AddAutoMapper(typeof(RiseProfile));
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.Internal().ForAllMaps((_, mapping) =>
+                {
+                    mapping.MaxDepth(64);
+                });
+            }, typeof(RiseProfile));
 
             services.AddBackgroundService();
 

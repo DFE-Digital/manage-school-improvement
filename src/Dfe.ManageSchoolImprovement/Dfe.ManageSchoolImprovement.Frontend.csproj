@@ -47,6 +47,7 @@
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
         <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
         <PackageReference Include="Azure.Identity" Version="1.17.0" />
+        <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rvv3-g6hj-g44x" />
     </ItemGroup>
     
     <ItemGroup>

@@ -17,8 +17,10 @@
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.14" />
 	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
 	  <PackageReference Include="coverlet.collector" Version="6.0.4">
+          
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rvv3-g6hj-g44x" />
 	  </PackageReference>
   </ItemGroup>
 
