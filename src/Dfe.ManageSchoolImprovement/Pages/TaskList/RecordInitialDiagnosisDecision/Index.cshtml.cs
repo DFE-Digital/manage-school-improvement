@@ -87,36 +87,29 @@ public class IndexModel(
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
-        
-        // add date validation
-
-        // Collect validation errors using collection expression (.NET 8)
-        var validationErrors = new List<string>();
-
-        if (!ModelState.IsValid)
-            validationErrors.Add("ModelState invalid");
 
         if (!IsNotMatchingNotesValid())
         {
-            _errorService.AddError(nameof(NotMatchingNotes), "Enter notes");
-            validationErrors.Add("NotMatchingNotes");
+            ModelState.AddModelError(nameof(NotMatchingNotes), "Enter notes");
         }
 
         if (!IsUnableToAssessNotesValid())
         {
-            _errorService.AddError(nameof(UnableToAssessNotes), "Enter notes");
-            validationErrors.Add("UnableToAssessNotes");
+            ModelState.AddModelError(nameof(UnableToAssessNotes), "Enter notes");
         }
 
         if (!RegionalDirectorDecisionDate.HasValue)
         {
-            _errorService.AddError("decision-date", "Enter a date");
-            validationErrors.Add("decision-date");
+            ModelState.AddModelError("decision-date", "Enter a date");
         }
 
-        // Early return pattern for validation errors
-        if (validationErrors.Count != 0)
-            return await HandleValidationErrorsAsync(id, cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            ShowError = true;
+            RadioButtonModels = RadioButtons;
+            return await base.GetSupportProject(id, cancellationToken);
+        }
 
         // Switch expression for notes selection
         var notesToPass = HasSchoolMatchedWithSupportingOrganisation switch
@@ -161,16 +154,6 @@ public class IndexModel(
 
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
-    }
-
-    // Extracted method for cleaner error handling
-    private async Task<IActionResult> HandleValidationErrorsAsync(int id, CancellationToken cancellationToken)
-    {
-        AssessmentToolOneLink = await applicationSettingsResourceService.GetAssessmentToolOneLinkAsync(cancellationToken) ?? string.Empty;
-        RadioButtonModels = RadioButtons;
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
     }
 
     // Property with computed value using collection expressions (.NET 8)
