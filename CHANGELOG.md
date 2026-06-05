@@ -11,7 +11,6 @@ Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here
 - **277049** - "Match with Supporting Organisation" only tasks are not available for "Review Progress" schools
 - **277050** - Add matching decision row to school summary
 - **279183** - Add change from Review Progress to Match with Supporting Organisation journey
-- **285094** - Script to fix milestone column in watchlist feature
 
 ### 🐛 Bug Fixes
 
