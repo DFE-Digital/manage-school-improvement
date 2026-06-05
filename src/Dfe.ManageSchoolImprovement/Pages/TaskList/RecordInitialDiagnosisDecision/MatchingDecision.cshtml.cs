@@ -13,8 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordInitialDiagn
 public class MatchingDecisionModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator,
-    IApplicationSettingsResourceService applicationSettingsResourceService)
+    IMediator mediator)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "decision-date", BinderType = typeof(DateInputModelBinder))]
@@ -30,7 +29,6 @@ public class MatchingDecisionModel(
     public bool ShowError { get; set; }
     public string? ErrorMessage { get; set; }
 
-    // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
         $"Date must include a {string.Join(" and ", missingParts)}";
 
@@ -54,21 +52,18 @@ public class MatchingDecisionModel(
     {
         await base.GetSupportProject(id, cancellationToken);
 
-        // Collect validation errors using collection expression (.NET 8)
-        var validationErrors = new List<string>();
-
-        if (!ModelState.IsValid)
-            validationErrors.Add("ModelState invalid");
-
         if (!RegionalDirectorDecisionDate.HasValue)
         {
-            _errorService.AddError("decision-date", "Enter a date");
-            validationErrors.Add("decision-date");
+            ModelState.AddModelError("decision-date", "Enter a date");
         }
-
-        // Early return pattern for validation errors
-        if (validationErrors.Count != 0)
-            return await HandleValidationErrorsAsync(id, cancellationToken);
+        
+        if (!ModelState.IsValid)
+        {
+            _errorService.AddErrors(Request.Form.Keys, ModelState);
+            ShowError = true;
+            RadioButtonModels = RadioButtons;
+            return await base.GetSupportProject(id, cancellationToken);
+        }
 
         var command = new SetRecordInitialDiagnosisDecisionCommand(
             new SupportProjectId(id),
@@ -107,26 +102,17 @@ public class MatchingDecisionModel(
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
     }
 
-    // Extracted method for cleaner error handling
-    private async Task<IActionResult> HandleValidationErrorsAsync(int id, CancellationToken cancellationToken)
-    {
-        RadioButtonModels = RadioButtons;
-        _errorService.AddErrors(Request.Form.Keys, ModelState);
-        ShowError = true;
-        return await base.GetSupportProject(id, cancellationToken);
-    }
-
     // Property with computed value using collection expressions (.NET 8)
     private IList<RadioButtonsLabelViewModel> RadioButtons =>
     [
         new() {
             Id = "match-with-organisation",
-            Name = "Match with a supporting organisation",
+            Name = "Yes, we will find a preferred supporting organisation",
             Value = "Match with a supporting organisation"
         },
         new() {
             Id = "review-school-progress",
-            Name = "Review school's progress",
+            Name = "No, we have decided to review progress",
             Value = "Review school's progress"
         }
     ];
