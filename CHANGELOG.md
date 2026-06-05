@@ -3,6 +3,20 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v4.0.0] - Q1 – Sprint5 (Part 1)- 2026-06-05
+
+### 📌 User Stories 
+
+- **282570** - Add contact page - improve page speed
+- **277049** - "Match with Supporting Organisation" only tasks are not available for "Review Progress" schools
+- **277050** - Add matching decision row to school summary
+- **279183** - Add change from Review Progress to Match with Supporting Organisation journey
+
+### 🐛 Bug Fixes
+
+- **285067** - Sonarcube - fix code smells
+- **285583** - Fixing vulnerabilities
+
 ## 📅 [v3.1.0] - Q1 – Sprint4 (Part 2)- 2026-05-28
 
 ### 📌 User Stories 
