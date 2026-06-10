@@ -22,7 +22,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         // Set the return page to the improvement plan tab
-        ReturnPage = Links.ImprovementPlan.ImprovementPlanTab.Page;
+        ReturnPage = Links.ImprovementPlan.RecordProgress.Page;
 
         await base.GetSupportProject(id, cancellationToken);
 

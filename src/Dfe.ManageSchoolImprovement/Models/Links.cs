@@ -168,7 +168,7 @@ public static class Links
         public static readonly LinkItem SelectAnAreaOfImprovement = AddLinkItem(backText: "Back", page: "/ImprovementPlan/SelectAnAreaOfImprovement");
         public static readonly LinkItem AddAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/AddAnObjective");
         public static readonly LinkItem ChangeAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/ChangeAnObjective");
-        public static readonly LinkItem ImprovementPlanTab = AddLinkItem(backText: "Back", page: "/ImprovementPlan/ImprovementPlanTab");
+        public static readonly LinkItem RecordProgress = AddLinkItem(backText: "Back", page: "/ImprovementPlan/RecordProgress");
         public static readonly LinkItem DeleteAnObjective = AddLinkItem(backText: "Back", page: "/ImprovementPlan/DeleteAnObjective");
     }
 
