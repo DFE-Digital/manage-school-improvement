@@ -42,10 +42,10 @@ describe("User select the school", () => {
         cy.executeAccessibilityTests()
     });
 
-    it("should be able to navigate to the Improvement plan tab", () => {
-        Logger.log("User navigates to the Improvement plan tab");
+    it("should be able to navigate to the Record progress tab", () => {
+        Logger.log("User navigates to the Record progress tab");
         taskList
-            .navigateToTab('Improvement plan');
+            .navigateToTab('Record progress');
         improvementPlan
             .improvementPlanPageLoads()
 

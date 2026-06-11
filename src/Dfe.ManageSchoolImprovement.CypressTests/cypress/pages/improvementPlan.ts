@@ -2,13 +2,13 @@ class ImprovementPlan {
 
     public improvementPlanPageLoads(): this {
         cy.get('body').should('be.visible');
-        cy.get('h2').should('contain.text', 'Improvement plan');
-        cy.url().should('contain', '/improvement-plan')
+        cy.get('h2').should('contain.text', 'Record progress');
+        cy.url().should('contain', '/record-progress')
         return this;
     }
 
-    public hasNoAdviserMessage(expectedMessage: string): this {
-        cy.get('.govuk-list > :nth-child(1)').should('contain.text', expectedMessage);
+    public hasSchoolsMatchedWithSOMessage(expectedMessage: string): this {
+        cy.get('h3').should('contain.text', expectedMessage);
         return this;
     }
 
@@ -48,14 +48,14 @@ class ImprovementPlan {
         return this;
     }
 
-    public hasNoObjectivesMessage(expectedMessage: string): this {
-        cy.get('.govuk-list > :nth-child(2)').should('contain.text', expectedMessage);
+    public hasReviewProgressSchoolsMessage(expectedMessage: string): this {
+        cy.get('h3').should('contain.text', expectedMessage);
         return this;
     }
 
     public hasRecordOrViewProgressButton(): this {
-        cy.url().should('include', '/improvement-plan');
-        cy.get('h2').should('contain.text', 'Improvement plan');
+        cy.url().should('include', '/record-progress');
+        cy.get('h2').should('contain.text', 'Record progress');
         cy.get('[data-cy="record-or-view-progress-button"]')
             .should('exist')
             .and('be.visible')
@@ -83,7 +83,7 @@ class ImprovementPlan {
     }
 
     public hasDeleteObjectiveLink(): this {
-        cy.url().should('include', '/improvement-plan');
+        cy.url().should('include','/record-progress');
         cy.contains('a.govuk-link', 'Delete')
             .should('exist');
         return this;
@@ -112,7 +112,7 @@ class ImprovementPlan {
             .clear()
             .type(text)
         cy.get('.govuk-button').click();
-        cy.get('h2').should('contain.text', 'Improvement plan');
+        cy.get('h2').should('contain.text', 'Record progress');
 
         return this;
     }
@@ -142,7 +142,7 @@ class ImprovementPlan {
         cy.get('h2')
             .should('contain.text', 'No progress reviews recorded');
         cy.get('a').contains('Add review').should('exist');
-        cy.get('a').contains('Return to improvement plan').should('exist');
+        cy.get('a').contains('Return to record progress').should('exist');
 
         return this;
     }
@@ -262,7 +262,7 @@ class ImprovementPlan {
     }
 
     public hasReturnToImprovementPlanLink(): this {
-        cy.get('a').contains('Return to improvement plan').should('exist');
+        cy.get('a').contains('Return to record progress').should('exist');
 
         return this;
     }
@@ -318,7 +318,7 @@ class ImprovementPlan {
     }
 
     public ifObjectiveExist(): this {
-        cy.url().should('include', '/improvement-plan');
+        cy.url().should('include', '/record-progress');
         cy.get('body').then($body => {
             if ($body.find('a.govuk-link:contains("Delete")').length > 0) {
                 this.deleteObjectiveSuccessfully();
