@@ -142,7 +142,7 @@ class ImprovementPlan {
         cy.get('h2')
             .should('contain.text', 'No progress reviews recorded');
         cy.get('a').contains('Add review').should('exist');
-        cy.get('a').contains('Return to record progress').should('exist');
+        cy.get('a').contains('Return to Improvement plan').should('exist');
 
         return this;
     }
@@ -262,7 +262,7 @@ class ImprovementPlan {
     }
 
     public hasReturnToImprovementPlanLink(): this {
-        cy.get('a').contains('Return to record progress').should('exist');
+        cy.get('a').contains('Return to Improvement Plan').should('exist');
 
         return this;
     }
