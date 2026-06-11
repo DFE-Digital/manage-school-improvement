@@ -72,8 +72,7 @@
         else if (reviewProgressSchool)
         {
             <p>Record progress on the improvement plan after each review.</p>
-            // link to the record progress page does not exist yet
-            <a asp-page="#" asp-route-id="@Model.SupportProject?.Id" role="button"
+            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">
                 @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record progress")
@@ -159,7 +158,7 @@
                                     <ul class="govuk-summary-card__actions">
                                         <li class="govuk-summary-card__action">
                                             <a class="govuk-link"
-                                               asp-page="@Links.ProgressReviews.RecordProgress.Page"
+                                               asp-page="@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page"
                                                asp-route-id="@Model.SupportProject?.Id"
                                                asp-route-reviewId="@Model.CurrentReview.ReadableId"
                                                asp-route-objectiveId="@objective.ObjectiveReadableId"

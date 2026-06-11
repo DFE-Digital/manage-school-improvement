@@ -213,7 +213,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public IEnumerable<ImprovementPlan> ImprovementPlans => _improvementPlans.AsReadOnly();
 
     private readonly List<ImprovementPlan> _improvementPlans = new();
+    
+    public IEnumerable<ProgressReview> ProgressReviews => _progressReviews.AsReadOnly();
 
+    private readonly List<ProgressReview> _progressReviews = new();
+    
     public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
 
     private readonly List<EngagementConcern> _engagementConcerns = new();

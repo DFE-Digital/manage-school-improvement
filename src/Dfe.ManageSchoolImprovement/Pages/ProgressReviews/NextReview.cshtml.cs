@@ -91,9 +91,7 @@ public class NextReviewModel(
         }
 
 
-
-
-
+        // add check for type of school, call appropriate command
         var result = await mediator.Send(new SetImprovementPlanNextReviewDateCommand(
             new SupportProjectId(id),
             new ImprovementPlanId(improvementPlan.Id),

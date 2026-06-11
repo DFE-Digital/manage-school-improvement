@@ -1,0 +1,36 @@
+using Dfe.ManageSchoolImprovement.Domain.Common;
+using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+
+namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
+{
+    public class ProgressReview : IEntity<ProgressReviewId>
+    {
+        public ProgressReview(ProgressReviewId id,
+            SupportProjectId supportProjectId,
+            DateTime reviewDate,
+            string reviewer,
+            int order)
+        {
+            Id = id;
+            SupportProjectId = supportProjectId;
+            ReviewDate = reviewDate;
+            Reviewer = reviewer;
+            Order = order;
+        }
+        
+        public ProgressReviewId Id { get; private set; }
+        public SupportProjectId SupportProjectId { get; private set; }
+        public int ReadableId { get; }
+        public DateTime? ReviewDate { get; set; }
+        public string? Reviewer { get; set; }
+        public DateTime? NextReviewDate { get; set; }
+        public string? NextSteps { get; set; }
+        public string? AdditionalDetails { get; set; }
+        public int Order { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; } = string.Empty;
+        public DateTime? LastModifiedOn { get; set; }
+        public string? LastModifiedBy { get; set; }
+    }
+}
+

@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
     AddImprovementPlanObjectiveProgress;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.MatchedSchoolsProgressReviews;
 
 public class RecordProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
@@ -165,7 +165,7 @@ public class RecordProgressModel(
         if (NextObjectiveId.HasValue && !returnToIndex)
         {
             // Redirect to the next objective
-            return RedirectToPage(Links.ProgressReviews.RecordProgress.Page,
+            return RedirectToPage(Links.ProgressReviews.MatchedSchoolsRecordProgress.Page,
                 new { id, reviewId, objectiveId = NextObjectiveId, enableSkip });
         }
 

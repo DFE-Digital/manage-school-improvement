@@ -101,6 +101,8 @@ public class AddReviewModel(
         }
 
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
+        
+        // add check for type of school, call appropriate command
         var result = await mediator.Send(
             new AddImprovementPlanReviewCommand(
                 new SupportProjectId(id),
