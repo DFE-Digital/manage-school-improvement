@@ -159,7 +159,7 @@ public class RecordProgressModel(
         }
 
         var returnToIndex = returnPage == Links.ProgressReviews.ProgressSummary.Page
-                            || returnPage == Links.ImprovementPlan.ImprovementPlanTab.Page;
+                            || returnPage == Links.ImprovementPlan.RecordProgress.Page;
 
         // Check if there are more objectives to review
         if (NextObjectiveId.HasValue && !returnToIndex)

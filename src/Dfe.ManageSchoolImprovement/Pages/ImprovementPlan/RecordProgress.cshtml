@@ -1,13 +1,16 @@
-@page "/improvement-plan/{id:int}"
+@page "/record-progress/{id:int}"
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model ImprovementPlanTabModel
 
 @{
-    ViewData["Title"] = "Improvement plan";
+    ViewData["Title"] = "Record progress";
 
     var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentReview?.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentReview.OverallProgressDetails;
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
+
+    var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
+    var reviewProgressSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Review school's progress";
 }
 
 @section BeforeMain {
@@ -37,46 +40,65 @@
 <partial name="_ProjectHeader" model="Model.SupportProject"/>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l">Improvement plan</h2>
-        @if (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null) ||
-             !Model.IsAdviserAllocated)
+        <h2 class="govuk-heading-l">Record progress</h2>
+        @if (matchedSchool && (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)) ||
+             !Model.IsAdviserAllocated
+             || (!matchedSchool && !reviewProgressSchool))
         {
+            <h3 class="govuk-heading-m">Schools matched with a supporting organisation</h3>
             <p>As you add the improvement plan objectives they will be listed on this page.</p>
             <p>You will only be able to record a progress review when:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>an adviser has been allocated</li>
                 <li>all objectives have been added and marked as complete</li>
             </ul>
+
+            <h3 class="govuk-heading-m">Review progress schools</h3>
+            <p>You will only be able to record a progress review when:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>an adviser has been allocated</li>
+                <li>the initial diagnosis decision is to review school's progress</li>
+            </ul>
         }
-        else
+        else if (matchedSchool)
         {
             <p>Record progress on the improvement plan objectives after each review.</p>
-            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject.Id" role="button"
+            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">
                 @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record or view progress")
             </a>
         }
+        else if (reviewProgressSchool)
+        {
+            <p>Record progress on the improvement plan after each review.</p>
+            // link to the record progress page does not exist yet
+            <a asp-page="#" asp-route-id="@Model.SupportProject?.Id" role="button"
+               draggable="false" class="govuk-button" data-module="govuk-button"
+               data-cy="record-or-view-progress-button">
+                @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record progress")
+            </a>
+        }
         @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded)
         {
             <partial name="_ObjectiveSection"
-                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.ImprovementPlanTab.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
         }
         else if (!Model.NoProgressReviewsRecorded)
         {
-            <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.CurrentReview.Title'>
+            <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.CurrentReview?.Title'>
                 <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
                     <div class='govuk-grid-row'>
                         <div class='govuk-grid-column-one-half'>
@@ -117,7 +139,7 @@
                                             <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
                                                asp-route-id="@Model.SupportProject?.Id"
                                                asp-route-objectiveProgressId="@objective.ReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                                               asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                                class="govuk-link"
                                                data-cy="change-objective-progress-link">
                                                 Change<span class="govuk-visually-hidden"> @objective.Title</span></a>
@@ -127,7 +149,7 @@
                                                asp-page="@Links.ProgressReviews.DeleteObjectiveProgress.Page"
                                                asp-route-id="@Model.SupportProject?.Id"
                                                asp-route-objectiveprogressid="@objective.ReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                                               asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                                data-cy="objective-summary-change-link">Delete</a>
                                         </li>
                                     </ul>
@@ -141,7 +163,7 @@
                                                asp-route-id="@Model.SupportProject?.Id"
                                                asp-route-reviewId="@Model.CurrentReview.ReadableId"
                                                asp-route-objectiveId="@objective.ObjectiveReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                                               asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                                data-cy="objective-summary-change-link">Record<span
                                                     class="govuk-visually-hidden"> @objective.Title</span></a>
                                         </li>
@@ -152,7 +174,7 @@
                                                    asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
                                                    asp-route-id="@Model.SupportProject?.Id"
                                                    asp-route-objectiveid="@objective.ObjectiveReadableId"
-                                                   asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                                                   asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                                    data-cy="objective-summary-change-link">Delete<span
                                                         class="govuk-visually-hidden"> @objective.Title</span></a>
                                             </li>
@@ -197,7 +219,7 @@
                                 <a asp-page="@Links.ProgressReviews.OverallProgress.Page"
                                    asp-route-id="@Model.SupportProject?.Id"
                                    asp-route-reviewid="@Model.CurrentReview.ReadableId"
-                                   asp-route-returnpage="@Links.ImprovementPlan.ImprovementPlanTab.Page"
+                                   asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                    class="govuk-link"
                                    data-cy="change-overall-progress-link">
                                     Change<span class="govuk-visually-hidden">Overall progress</span>

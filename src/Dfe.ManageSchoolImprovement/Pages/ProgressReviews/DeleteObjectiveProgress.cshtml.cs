@@ -43,7 +43,7 @@ public class DeleteObjectiveProgressModel(
     public async Task<IActionResult> OnGetAsync(int id, int objectiveProgressId, string? returnPage,
         CancellationToken cancellationToken)
     {
-        ReturnPage = returnPage ?? Links.ImprovementPlan.ImprovementPlanTab.Page;
+        ReturnPage = returnPage ?? Links.ImprovementPlan.RecordProgress.Page;
 
 
         await base.GetSupportProject(id, cancellationToken);
@@ -116,7 +116,7 @@ public class DeleteObjectiveProgressModel(
         TempData["reviewDeleted"] = true;
 
         var targetPage = string.IsNullOrEmpty(ReturnPage)
-            ? Links.ImprovementPlan.ImprovementPlanTab.Page
+            ? Links.ImprovementPlan.RecordProgress.Page
             : ReturnPage;
 
         if (Links.ProgressReviews.ProgressSummary.Page.Equals(targetPage, StringComparison.OrdinalIgnoreCase))
