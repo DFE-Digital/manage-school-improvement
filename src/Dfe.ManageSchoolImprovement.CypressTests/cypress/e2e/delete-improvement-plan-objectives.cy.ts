@@ -24,14 +24,14 @@ describe('Delete improvement plan objective', () => {
         cy.executeAccessibilityTests()
     });
 
-    it("should be able to delete improvement plan objectives from Improvement plan tab", () => {
-        Logger.log("delete objective details from Improvement plan tab");
+    it("should be able to delete improvement plan objectives from Record progress tab", () => {
+        Logger.log("delete objective details from Record progress tab");
         taskList.selectTask("Enter improvement plan objectives");
         taskListActions.addObjective();
         taskListActions.checkCheckbox("MarkAsComplete")
         taskListActions.clickButton('save');
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
 
         cy.executeAccessibilityTests();
 
@@ -44,7 +44,7 @@ describe('Delete improvement plan objective', () => {
 
     it("should be able to delete progress reviews when no review has been recorded- Progress not recorded", () => {
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
         improvementPlan
             .ifObjectiveExist()
 
@@ -57,7 +57,7 @@ describe('Delete improvement plan objective', () => {
 
         Logger.log("delete progress review");
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
 
         improvementPlan
             .clickRecordOrViewProgress()
@@ -73,7 +73,7 @@ describe('Delete improvement plan objective', () => {
 
     it.skip("should not be able to delete progress reviews when review has been recorded -Progress recorded", () => {
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
         improvementPlan
             .ifObjectiveExist()
 
@@ -86,7 +86,7 @@ describe('Delete improvement plan objective', () => {
 
         Logger.log("delete progress review");
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
 
         improvementPlan
             .clickRecordOrViewProgress()

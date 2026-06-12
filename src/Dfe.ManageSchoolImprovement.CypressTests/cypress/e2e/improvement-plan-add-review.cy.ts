@@ -3,7 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import improvementPlan from '../pages/improvementPlan';
 
-describe('User navigate to the Improvement Plan, and  Add progress review', () => {
+describe('User navigate to the Record progress, and  Add progress review', () => {
     beforeEach(() => {
         cy.login();
         homePage
@@ -13,14 +13,16 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
             .hasFilterSuccessNotification()
             .selectSchoolName("Plymouth Grove Primary School");
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
+        
+        cy.executeAccessibilityTests()    
 
     });
 
     it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => {
         improvementPlan
-            .hasNoAdviserMessage('an adviser has been allocated')
-            .hasNoObjectivesMessage('all objectives have been added');
+            .hasSchoolsMatchedWithSOMessage('Schools matched with a supporting organisation')
+            .hasReviewProgressSchoolsMessage('Review progress schools');
     })
 
     it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
@@ -33,7 +35,7 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         cy.executeAccessibilityTests()
     });
 
-    it('should allow change objectives from improvement plan tab', () => {
+    it('should allow change objectives from record progress tab', () => {
         Logger.log("change objective details");
         improvementPlan
             .hasChangeObjectiveLink()
@@ -50,6 +52,10 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
     it('should show initial state when no reviews exist', () => {
         improvementPlan
             .clickRecordOrViewProgress()
+
+        cy.executeAccessibilityTests()
+
+        improvementPlan
             .hasTitle('Progress reviews')
             .hasNoReviewsMessage()
 
@@ -61,6 +67,10 @@ describe('User navigate to the Improvement Plan, and  Add progress review', () =
         improvementPlan
             .clickRecordOrViewProgress()
             .clickAddReview()
+
+        cy.executeAccessibilityTests()
+        
+        improvementPlan
             .fillReviewDetails()
             .anotherReviewNeeded()
             .hasStatusTag('Progress not recorded')

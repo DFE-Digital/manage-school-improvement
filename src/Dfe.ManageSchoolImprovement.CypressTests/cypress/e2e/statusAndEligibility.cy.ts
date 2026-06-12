@@ -198,11 +198,11 @@ describe("User navigates to the Status and Eligibility Tab", () => {
 
     });
 
-    it("user should only View Progress of Improvement Plan when project status is Paused ", () => {
+    it("user should only View Progress of Record progress when project status is Paused ", () => {
         projectStatus
             .hasCurrentStatus('Paused')
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
 
         Logger.log("User could only see View Progress when project status is Paused");
         improvementPlan
@@ -291,11 +291,11 @@ describe("User navigates to the Status and Eligibility Tab", () => {
 
     });
 
-    it("user should not be able to record the Improvement plan if the project status is Stopped", () => {
+    it("user should not be able to record the Record progress if the project status is Stopped", () => {
         projectStatus
             .hasCurrentStatus('Stopped')
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
 
         Logger.log("User could only see View Progresswhen project status is Stopped");
         improvementPlan
