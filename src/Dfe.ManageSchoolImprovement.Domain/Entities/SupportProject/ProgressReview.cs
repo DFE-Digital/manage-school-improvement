@@ -21,8 +21,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public ProgressReviewId Id { get; private set; }
         public SupportProjectId SupportProjectId { get; private set; }
         public int ReadableId { get; }
-        public DateTime? ReviewDate { get; set; }
-        public string? Reviewer { get; set; }
+        public DateTime ReviewDate { get; set; }
+        public string Reviewer { get; set; } = string.Empty;
         public DateTime? NextReviewDate { get; set; }
         public string? NextSteps { get; set; }
         public string? AdditionalDetails { get; set; }

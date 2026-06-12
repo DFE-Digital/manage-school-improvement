@@ -46,6 +46,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<ImprovementPlanObjectiveProgress>(ConfigureImprovementPlanObjectiveProgress);
         modelBuilder.Entity<EngagementConcern>(ConfigureEngagementConcerns);
         modelBuilder.Entity<Watchlist>(ConfigureWatchlist);
+        modelBuilder.Entity<ProgressReview>(ConfigureProgressReview);
 
         // Configure ApplicationSettings using the extension method
         modelBuilder.ConfigureApplicationSettings(DefaultSchema);
@@ -92,6 +93,12 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
 
         supportProjectConfiguration
             .HasMany(a => a.EngagementConcerns)
+            .WithOne()
+            .HasForeignKey(SupportProjectForeignKeyName)
+            .IsRequired();
+        
+        supportProjectConfiguration
+            .HasMany(a => a.ProgressReviews)
             .WithOne()
             .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
@@ -241,6 +248,23 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .IsRequired();
         
         builder.HasIndex(e => new { e.User, e.SupportProjectId });
+    }
+    
+    private static void ConfigureProgressReview(EntityTypeBuilder<ProgressReview> builder)
+    {
+        builder.ToTable("ProgressReview", DefaultSchema, b => b.IsTemporal());
+        builder.HasKey(a => a.Id);
+        builder.Property(e => e.ReadableId).UseIdentityColumn();
+        builder.Property(e => e.Id)
+            .HasConversion(
+                v => v!.Value,
+                v => new ProgressReviewId(v));
+        builder.Property(e => e.SupportProjectId)
+            .HasConversion(
+                v => v!.Value,
+                v => new SupportProjectId(v));
+
+        builder.HasIndex(e => new { e.Id, e.SupportProjectId });
     }
 
 
