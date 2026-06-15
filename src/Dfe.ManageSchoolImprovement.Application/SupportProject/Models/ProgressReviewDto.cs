@@ -9,7 +9,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         DateTime reviewDate,
         DateTime? nextReviewDate,
         string reviewer,
-        int order
+        int order,
+        string title
     )
     {
     }

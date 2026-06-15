@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
@@ -831,7 +832,21 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateTime reviewDate)
     {
         var order = _progressReviews.Count + 1;
-        _progressReviews.Add(new ProgressReview(progressReviewId, supportProjectId, reviewDate, reviewer, order));
+        var title = $"{order.ToOrdinalWord()} Review";
+        
+        _progressReviews.Add(new ProgressReview(progressReviewId, supportProjectId, reviewDate, reviewer, order, title));
+    }
+    
+    public void SetProgressReviewNextReviewDate(ProgressReviewId progressReviewId, DateTime? nextReviewDate)
+    {
+        var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
+
+        if (review == null)
+        {
+            throw new KeyNotFoundException($"Progress review with id {progressReviewId} not found");
+        }
+
+        review.SetNextReviewDate(nextReviewDate);
     }
 
     public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,

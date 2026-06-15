@@ -11,6 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string Reviewer { get; set; } = string.Empty;
         public DateTime? NextReviewDate { get; private set; }
         public int Order { get; set; }
+        public string Title { get; set; }
 
         public static ProgressReviewViewModel Create(ProgressReviewDto dto)
         {
@@ -23,6 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Reviewer = dto.reviewer,
                 NextReviewDate = dto.nextReviewDate,
                 Order = dto.order,
+                Title = dto.title,
             };
         }
     }

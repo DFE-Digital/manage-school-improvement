@@ -9,13 +9,15 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             SupportProjectId supportProjectId,
             DateTime reviewDate,
             string reviewer,
-            int order)
+            int order,
+            string title)
         {
             Id = id;
             SupportProjectId = supportProjectId;
             ReviewDate = reviewDate;
             Reviewer = reviewer;
             Order = order;
+            Title = title;
         }
         
         public ProgressReviewId Id { get; private set; }
@@ -27,10 +29,16 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         public string? NextSteps { get; set; }
         public string? AdditionalDetails { get; set; }
         public int Order { get; set; }
+        public string Title { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? LastModifiedOn { get; set; }
         public string? LastModifiedBy { get; set; }
+
+        public void SetNextReviewDate(DateTime? nextReviewDate)
+        {
+            NextReviewDate = nextReviewDate;
+        }
     }
 }
 
