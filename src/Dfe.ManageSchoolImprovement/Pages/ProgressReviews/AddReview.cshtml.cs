@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ProgressReviews;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
@@ -36,6 +37,8 @@ public class AddReviewModel(
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
+    private const string MatchedSchool = "Match with supporting organisation";
+
     public async Task<IActionResult> OnGetAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
     {
         // Set the return page to the progress reviews index
@@ -54,7 +57,7 @@ public class AddReviewModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostAsync(int id, int? readableImprovementPlanId, CancellationToken cancellationToken)
     {
         CustomReviewerName = CustomReviewerName?.Trim();
         
@@ -103,21 +106,37 @@ public class AddReviewModel(
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
         
         // add check for type of school, call appropriate command
-        var result = await mediator.Send(
-            new AddImprovementPlanReviewCommand(
+
+        if (SupportProject?.InitialDiagnosisMatchingDecision == MatchedSchool)
+        {
+            var result = await mediator.Send(
+                new AddImprovementPlanReviewCommand(
+                    new SupportProjectId(id),
+                    new ImprovementPlanId(ImprovementPlanId),
+                    reviewer,
+                    ReviewDate!.Value), cancellationToken);
+            
+            // get latest version of the support project
+            await base.GetSupportProject(id, cancellationToken);
+
+            var review = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews)
+                .SingleOrDefault(x => x.Id == result.Value);
+            
+            return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = review.ReadableId });
+        }
+
+        var progressReviewResult = await mediator.Send(
+            new AddProgressReviewCommand(
                 new SupportProjectId(id),
-                new ImprovementPlanId(ImprovementPlanId),
                 reviewer,
                 ReviewDate!.Value), cancellationToken);
-
-        // get latest version of the support project
+        
         await base.GetSupportProject(id, cancellationToken);
+        
+        var progressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.Id == progressReviewResult.Value);
 
-        var review = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews)
-            .SingleOrDefault(x => x.Id == result.Value);
+        return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = progressReview.ReadableId });
 
-        // For now, redirect back to the progress reviews index
-        return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = review.ReadableId });
     }
 
     private void SetupRadioButtons()

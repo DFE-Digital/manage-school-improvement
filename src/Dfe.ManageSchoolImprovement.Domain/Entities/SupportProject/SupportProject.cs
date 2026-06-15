@@ -823,6 +823,16 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
         improvementPlan.SetDeleteReview(improvementPlanReviewId, deletedBy);
     }
+    
+    public void AddProgressReview(
+        ProgressReviewId progressReviewId,
+        SupportProjectId supportProjectId,
+        string reviewer,
+        DateTime reviewDate)
+    {
+        var order = _progressReviews.Count + 1;
+        _progressReviews.Add(new ProgressReview(progressReviewId, supportProjectId, reviewDate, reviewer, order));
+    }
 
     public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,
         bool? interimExecutiveBoardCreated,

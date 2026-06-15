@@ -26,6 +26,7 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
 
         await base.GetSupportProject(id, cancellationToken);
 
+        // add call to get record progress reviews and add to list
         ProgressReviews = SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews
             .OrderByDescending(x => x.Order).ToList() ?? [];
         SetCurrentProgressReview();

@@ -34,7 +34,7 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
             ConfigureSupportProject();
             ConfigureFundingHistory();
             ConfigureImprovementPlans();
-            ConfgureProgressReviews();
+            ConfigureProgressReviews();
             ConfigureEngagementConcerns();
         }
 
@@ -44,7 +44,7 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
                 .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
                 .ReverseMap();
         }
-        private void ConfgureProgressReviews()
+        private void ConfigureProgressReviews()
         {
             CreateMap<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto>()
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
@@ -55,6 +55,10 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
                .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
                .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => src.ImprovementPlanReviewId != null ? src.ImprovementPlanReviewId.Value : (Guid?)null))
                .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => src.ImprovementPlanObjectiveId != null ? src.ImprovementPlanObjectiveId.Value : (Guid?)null))
+               .ReverseMap();
+            
+            CreateMap<Domain.Entities.SupportProject.ProgressReview, ProgressReviewDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
                .ReverseMap();
         }
 

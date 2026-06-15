@@ -186,6 +186,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public bool? AssessmentToolTwoCompleted { get; set; }
 
         public IEnumerable<ImprovementPlanViewModel>? ImprovementPlans { get; set; }
+        public IEnumerable<ProgressReviewViewModel>? ProgressReviews { get; set; }
         public string? HeadteacherName { get; set; }
         public string? HeadteacherPreferredJobTitle { get; set; }
         public string? SchoolMainPhone { get; set; }
@@ -301,6 +302,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = supportProjectDto.ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody,
                 DateTemplatesAndIndicativeFundingBandSent = supportProjectDto.DateTemplatesAndIndicativeFundingBandSent,
                 ImprovementPlans = supportProjectDto.ImprovementPlans?.Select(x => ImprovementPlanViewModel.Create(x)) ?? new List<ImprovementPlanViewModel>(),
+                ProgressReviews = supportProjectDto.ProgressReviews?.Select(x => ProgressReviewViewModel.Create(x)) ?? new List<ProgressReviewViewModel>(),
 
                 EngagementConcerns = supportProjectDto.EngagementConcerns?.Select(x => EngagementConcernViewModel.Create(x)) ?? new List<EngagementConcernViewModel>(),
                 EngagementConcern = (supportProjectDto.EngagementConcerns != null && supportProjectDto.EngagementConcerns.Any()),

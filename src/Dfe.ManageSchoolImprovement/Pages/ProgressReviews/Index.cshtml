@@ -6,6 +6,8 @@
     ViewData["Title"] = "Progress reviews";
     
     bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
+    
+    var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
 }
 
 @section BeforeMain
@@ -53,16 +55,28 @@
             <div class="govuk-button-group">
                 @if (!Model.SupportProject!.IsReadOnly)
                 {
-                    <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
-                       asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
-                       role="button" draggable="false" class="govuk-button" data-module="govuk-button"
-                       data-cy="add-review-button">
-                        Add review
-                    </a>
+                    if (matchedSchool)
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a> 
+                    }
+                    else
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
+
                 }
                 <a asp-page="@Links.ImprovementPlan.RecordProgress.Page" asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link" data-cy="return-to-improvement-plan-link">
-                    Return to improvement plan
+                    Return to record progress
                 </a>
             </div>
         }
