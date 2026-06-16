@@ -46,21 +46,44 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
         }
         private void ConfigureProgressReviews()
         {
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => src.ImprovementPlanId != null ? src.ImprovementPlanId.Value : (Guid?)null))
-               .ReverseMap();
+            ConfigureImprovementPlanReviewMapping();
+            ConfigureImprovementPlanObjectiveProgressMapping();
+            ConfigureProgressReviewMapping();
+        }
 
-            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjectiveProgress, ImprovementPlanObjectiveProgressDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => src.ImprovementPlanReviewId != null ? src.ImprovementPlanReviewId.Value : (Guid?)null))
-               .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => src.ImprovementPlanObjectiveId != null ? src.ImprovementPlanObjectiveId.Value : (Guid?)null))
-               .ReverseMap();
-            
-            CreateMap<Domain.Entities.SupportProject.ProgressReview, ProgressReviewDto>()
-               .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
+        private void ConfigureImprovementPlanReviewMapping()
+        {
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlanReview, ImprovementPlanReviewDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => ToNullableGuid(src.Id)))
+               .ForCtorParam("improvementPlanId", opt => opt.MapFrom(src => ToNullableGuid(src.ImprovementPlanId)))
                .ReverseMap();
         }
+
+        private void ConfigureImprovementPlanObjectiveProgressMapping()
+        {
+            CreateMap<Domain.Entities.SupportProject.ImprovementPlanObjectiveProgress, ImprovementPlanObjectiveProgressDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => ToNullableGuid(src.Id)))
+               .ForCtorParam("improvementPlanReviewId", opt => opt.MapFrom(src => ToNullableGuid(src.ImprovementPlanReviewId)))
+               .ForCtorParam("improvementPlanObjectiveId", opt => opt.MapFrom(src => ToNullableGuid(src.ImprovementPlanObjectiveId)))
+               .ReverseMap();
+        }
+
+        private void ConfigureProgressReviewMapping()
+        {
+            CreateMap<Domain.Entities.SupportProject.ProgressReview, ProgressReviewDto>()
+               .ForCtorParam("id", opt => opt.MapFrom(src => ToNullableGuid(src.Id)))
+               .ReverseMap();
+        }
+
+        private static Guid? ToNullableGuid(ImprovementPlanReviewId? id) => id is null ? null : id.Value;
+
+        private static Guid? ToNullableGuid(ImprovementPlanId? id) => id is null ? null : id.Value;
+
+        private static Guid? ToNullableGuid(ImprovementPlanObjectiveProgressId? id) => id is null ? null : id.Value;
+
+        private static Guid? ToNullableGuid(ImprovementPlanObjectiveId? id) => id is null ? null : id.Value;
+
+        private static Guid? ToNullableGuid(ProgressReviewId? id) => id is null ? null : id.Value;
 
         private void ConfigureImprovementPlans()
         {

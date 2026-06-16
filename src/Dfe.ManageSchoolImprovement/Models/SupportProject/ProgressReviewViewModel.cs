@@ -18,7 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string ProgressStatusClass { get; set; } = string.Empty;
         public string ProgressStatus { get; set; } = string.Empty;
         public int Order { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         public static ProgressReviewViewModel Create(ProgressReviewDto dto)
         {

@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public DateTime ReviewDate { get; set; }
         public string Reviewer { get; set; } = string.Empty;
         public int Order { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         public string ProgressStatusClass { get; set; } = string.Empty;
         public string ProgressStatus { get; set; } = string.Empty;
         public DateTime? NextReviewDate { get; private set; }
