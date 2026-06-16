@@ -2295,5 +2295,242 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.EligibilityChangedDetails.Should().Be("Changed to not eligible.");
             mockRepository.VerifyAll();
         }
+
+        [Fact]
+        public void SetProgressReviewNextReviewDate_WithValidDate_SetsNextReviewDateOnCorrectReview()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+            var nextReviewDate = DateTime.UtcNow.AddDays(30);
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewNextReviewDate(progressReviewId, nextReviewDate);
+
+            // Assert
+            var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
+            review.NextReviewDate.Should().Be(nextReviewDate);
+        }
+
+        [Fact]
+        public void SetProgressReviewNextReviewDate_WithNullDate_SetsNextReviewDateToNull()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            supportProject.SetProgressReviewNextReviewDate(progressReviewId, DateTime.UtcNow.AddDays(30));
+
+            // Act
+            supportProject.SetProgressReviewNextReviewDate(progressReviewId, null);
+
+            // Assert
+            var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
+            review.NextReviewDate.Should().BeNull();
+        }
+
+        [Fact]
+        public void SetProgressReviewNextReviewDate_WithNonExistentProgressReview_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var nonExistentReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                supportProject.SetProgressReviewNextReviewDate(nonExistentReviewId, DateTime.UtcNow));
+
+            exception.Message.Should().Be($"Progress review with id {nonExistentReviewId} not found");
+        }
+
+        [Fact]
+        public void SetProgressReviewNextReviewDate_WithMultipleReviews_UpdatesCorrectReviewOnly()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+            var nextReviewDate = DateTime.UtcNow.AddDays(45);
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewNextReviewDate(secondReviewId, nextReviewDate);
+
+            // Assert
+            supportProject.ProgressReviews.Single(r => r.Id == firstReviewId).NextReviewDate.Should().BeNull();
+            supportProject.ProgressReviews.Single(r => r.Id == secondReviewId).NextReviewDate.Should().Be(nextReviewDate);
+        }
+
+        [Fact]
+        public void SetProgressReviewNextReviewDate_CalledMultipleTimes_UpdatesEachTime()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+            var firstDate = DateTime.UtcNow.AddDays(30);
+            var secondDate = DateTime.UtcNow.AddDays(60);
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewNextReviewDate(progressReviewId, firstDate);
+            supportProject.SetProgressReviewNextReviewDate(progressReviewId, secondDate);
+
+            // Assert
+            supportProject.ProgressReviews.Single(r => r.Id == progressReviewId).NextReviewDate.Should().Be(secondDate);
+        }
+
+        [Fact]
+        public void SetProgressReviewDetails_WithValidParameters_UpdatesNextStepsAndAdditionalDetails()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+            var nextSteps = "Complete the next phase of improvement";
+            var additionalDetails = "Focus on mathematics outcomes";
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, additionalDetails);
+
+            // Assert
+            var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
+            review.NextSteps.Should().Be(nextSteps);
+            review.AdditionalDetails.Should().Be(additionalDetails);
+        }
+
+        [Fact]
+        public void SetProgressReviewDetails_WithNullAdditionalDetails_SetsAdditionalDetailsToNull()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+            var nextSteps = "Complete the next phase of improvement";
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, null);
+
+            // Assert
+            var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
+            review.NextSteps.Should().Be(nextSteps);
+            review.AdditionalDetails.Should().BeNull();
+        }
+
+        [Fact]
+        public void SetProgressReviewDetails_WithNonExistentProgressReview_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var nonExistentReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                supportProject.SetProgressReviewDetails(nonExistentReviewId, "Next steps", "Additional details"));
+
+            exception.Message.Should().Be($"Progress review with id {nonExistentReviewId} not found");
+        }
+
+        [Theory]
+        [InlineData("", "")]
+        [InlineData("", "Some details")]
+        [InlineData("Next steps", "")]
+        public void SetProgressReviewDetails_WithEmptyStrings_UpdatesProperties(string nextSteps, string additionalDetails)
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, additionalDetails);
+
+            // Assert
+            var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
+            review.NextSteps.Should().Be(nextSteps);
+            review.AdditionalDetails.Should().Be(additionalDetails);
+        }
+
+        [Fact]
+        public void SetProgressReviewDetails_WithMultipleReviews_UpdatesCorrectReviewOnly()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+            var nextSteps = "Second review next steps";
+            var additionalDetails = "Second review additional details";
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewDetails(secondReviewId, nextSteps, additionalDetails);
+
+            // Assert
+            var firstReview = supportProject.ProgressReviews.Single(r => r.Id == firstReviewId);
+            var secondReview = supportProject.ProgressReviews.Single(r => r.Id == secondReviewId);
+
+            firstReview.NextSteps.Should().BeNull();
+            firstReview.AdditionalDetails.Should().BeNull();
+            secondReview.NextSteps.Should().Be(nextSteps);
+            secondReview.AdditionalDetails.Should().Be(additionalDetails);
+        }
+
+        [Fact]
+        public void SetProgressReviewDetails_CalledMultipleTimes_UpdatesEachTime()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.SetProgressReviewDetails(progressReviewId, "First steps", "First details");
+            supportProject.SetProgressReviewDetails(progressReviewId, "Second steps", "Second details");
+
+            // Assert
+            var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
+            review.NextSteps.Should().Be("Second steps");
+            review.AdditionalDetails.Should().Be("Second details");
+        }
     }
 }
