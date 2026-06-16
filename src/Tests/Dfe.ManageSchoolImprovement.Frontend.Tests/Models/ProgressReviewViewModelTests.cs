@@ -255,7 +255,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(string.Empty, viewModel.ProgressStatusClass);
             Assert.Equal(string.Empty, viewModel.ProgressStatus);
             Assert.Equal(0, viewModel.Order);
-            Assert.Null(viewModel.Title);
+            Assert.Equal(string.Empty, viewModel.Title);
         }
 
         [Theory]

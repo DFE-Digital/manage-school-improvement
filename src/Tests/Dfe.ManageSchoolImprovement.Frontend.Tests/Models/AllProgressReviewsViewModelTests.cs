@@ -198,7 +198,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(default(DateTime), viewModel.ReviewDate);
             Assert.Equal(string.Empty, viewModel.Reviewer);
             Assert.Equal(0, viewModel.Order);
-            Assert.Null(viewModel.Title);
+            Assert.Equal(string.Empty, viewModel.Title);
             Assert.Equal(string.Empty, viewModel.ProgressStatusClass);
             Assert.Equal(string.Empty, viewModel.ProgressStatus);
             Assert.Null(viewModel.NextReviewDate);
