@@ -848,6 +848,18 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
 
         review.SetNextReviewDate(nextReviewDate);
     }
+    
+    public void SetProgressReviewDetails(ProgressReviewId progressReviewId, string nextSteps, string? additionalDetails)
+    {
+        var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
+
+        if (review == null)
+        {
+            throw new KeyNotFoundException($"Progress review with id {progressReviewId} not found");
+        }
+
+        review.SetDetails(nextSteps, additionalDetails);
+    }
 
     public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,
         bool? interimExecutiveBoardCreated,

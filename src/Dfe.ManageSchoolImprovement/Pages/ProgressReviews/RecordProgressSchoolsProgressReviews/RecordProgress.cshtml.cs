@@ -7,6 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
     AddImprovementPlanObjectiveProgress;
 
@@ -27,7 +28,9 @@ public class RecordProgressModel(
     public string NextSteps { get; set; } = string.Empty;
 
     [BindProperty]
-    public string ProgressDetails { get; set; } = string.Empty;
+    public string AdditionalDetails { get; set; } = string.Empty;
+    
+    private ProgressReviewViewModel? ProgressReview { get; set; }
 
     public string? NextStepsErrorMessage { get; set; } = null;
 
@@ -38,29 +41,32 @@ public class RecordProgressModel(
 
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, int reviewId, int? objectiveId, string? returnPage,
-        bool? enableSkip, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int reviewId, string? returnPage,
+        CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        // using readableId here as they are pastd through the url
         ReviewId = reviewId;
+        
+        ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
+        
         SetupNextStepsRadioButtons();
 
         return Page();
     }
     
-    public async Task<IActionResult> OnPostAsync(int id, int reviewId, int? objectiveId, string? returnPage,
+    public async Task<IActionResult> OnPostAsync(int id, int reviewId, string? returnPage,
         bool? enableSkip, CancellationToken cancellationToken)
     {
         ReturnPage = returnPage ?? Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
+        ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
+        
         SetupNextStepsRadioButtons();
 
-        if (!ModelState.IsValid)
+        if (string.IsNullOrWhiteSpace(NextSteps))
         {
             if (ShowNextStepsError)
             {
@@ -72,27 +78,22 @@ public class RecordProgressModel(
             return Page();
         }
         
-        // call to new record progress command
-
-        // var result = await mediator.Send(new AddImprovementPlanObjectiveProgressCommand(
-        //     new SupportProjectId(id),
-        //     new ImprovementPlanId(ImprovementPlan.Id),
-        //     new ImprovementPlanReviewId(Review.Id),
-        //     new ImprovementPlanObjectiveId(Objective.Id),
-        //     NextSteps!, ProgressDetails), cancellationToken);
-        //
-        // if (result == null)
-        // {
-        //     _errorService.AddApiError();
-        //     return await base.GetSupportProject(id, cancellationToken);
-        // }
+        var result = await mediator.Send(new SetProgressReviewDetailsCommand(
+            new SupportProjectId(id),
+            new ProgressReviewId(ProgressReview.Id),
+            NextSteps,
+            AdditionalDetails), cancellationToken);
         
+        if (result == null)
+        {
+            _errorService.AddApiError();
+            return await base.GetSupportProject(id, cancellationToken);
+        }
 
-        // check if this is correct - I think there will only be one return route?
-        // if (returnPage is not null)
-        // {
-        //     return RedirectToPage(returnPage, new { id, reviewId });
-        // }
+        if (returnPage is not null)
+        {
+            return RedirectToPage(returnPage, new { id, reviewId });
+        }
         
         return RedirectToPage(Links.ProgressReviews.Index.Page, new { id, reviewId });
     }

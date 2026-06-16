@@ -8,6 +8,8 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         int supportProjectId,
         DateTime reviewDate,
         DateTime? nextReviewDate,
+        string? nextSteps,
+        string? additionalDetails,
         string reviewer,
         int order,
         string title

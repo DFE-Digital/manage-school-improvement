@@ -39,6 +39,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
         {
             NextReviewDate = nextReviewDate;
         }
+        
+        public void SetDetails(string nextSteps, string? additionalDetails)
+        {
+            NextSteps = nextSteps;
+            AdditionalDetails = additionalDetails;
+        }
     }
 }
 
