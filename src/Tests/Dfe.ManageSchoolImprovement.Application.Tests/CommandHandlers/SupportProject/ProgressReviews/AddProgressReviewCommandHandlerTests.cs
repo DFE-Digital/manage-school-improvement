@@ -240,7 +240,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             Assert.Equal(reviewer, addedReview.Reviewer);
             Assert.Equal(reviewDate, addedReview.ReviewDate);
             Assert.Equal(_mockSupportProject.Id, addedReview.SupportProjectId);
-            Assert.Equal("First Review", addedReview.Title);
+            Assert.Equal("First review", addedReview.Title);
             Assert.Equal(1, addedReview.Order);
         }
 
@@ -376,7 +376,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             Assert.NotNull(result2);
             Assert.NotEqual(result1.Value, result2.Value);
             Assert.Equal(2, _mockSupportProject.ProgressReviews.Count());
-            Assert.Equal("Second Review", _mockSupportProject.ProgressReviews.Last().Title);
+            Assert.Equal("Second review", _mockSupportProject.ProgressReviews.Last().Title);
         }
 
         #region Command Tests
