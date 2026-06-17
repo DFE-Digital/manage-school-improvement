@@ -832,7 +832,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DateTime reviewDate)
     {
         var order = _progressReviews.Count + 1;
-        var title = $"{order.ToOrdinalWord()} Review";
+        var title = $"{order.ToOrdinalWord()} review";
         
         _progressReviews.Add(new ProgressReview(progressReviewId, supportProjectId, reviewDate, reviewer, order, title));
     }

@@ -27,14 +27,11 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         ReturnPage = Links.ImprovementPlan.RecordProgress.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        // add call to get record progress reviews and add to list
-        // create a single list - will need a new model to do this
-        // order by review date descending
+        
         ImprovementPlanProgressReviews = SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews
             .OrderByDescending(x => x.Order).ToList() ?? [];
         
-        ReviewProgressProgressReviews = SupportProject?.ProgressReviews?.OrderByDescending(x => x.ReviewDate).ToList() ?? [];
+        ReviewProgressProgressReviews = SupportProject?.ProgressReviews?.OrderByDescending(x => x.Order).ToList() ?? [];
 
         foreach (var review in ReviewProgressProgressReviews)
         {
@@ -47,8 +44,6 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             var allProgressReview = AllProgressReviewsViewModel.Create(review, review.ProgressStatusClass, review.ProgressStatus);
             AllProgressReviews.Add(allProgressReview);
         }
-        
-        AllProgressReviews = AllProgressReviews.OrderByDescending(x => x.ReviewDate).ToList();
         
         SetCurrentProgressReview();
 

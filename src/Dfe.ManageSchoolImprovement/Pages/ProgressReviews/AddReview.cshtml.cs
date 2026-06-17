@@ -37,7 +37,7 @@ public class AddReviewModel(
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
-    private const string MatchedSchool = "Match with supporting organisation";
+    private const string MatchedSchool = "Match with a supporting organisation";
 
     public async Task<IActionResult> OnGetAsync(int id, int readableImprovementPlanId, CancellationToken cancellationToken)
     {
