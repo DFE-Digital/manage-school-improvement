@@ -104,6 +104,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         bool? ImprovementPlanAndExpenditurePlanWithIndicativeFundingBandSentToSupportingOrganisationAndSchoolsResponsibleBody = null,
         DateTime? DateTemplatesAndIndicativeFundingBandSent = null,
         IEnumerable<ImprovementPlanDto> ImprovementPlans = null!,
+        IEnumerable<ProgressReviewDto> ProgressReviews = null!,
         IEnumerable<EngagementConcernDto> EngagementConcerns = null!,
         string? SupportingOrganisationType = null,
         

@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Utils;
 
 namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 
@@ -213,7 +214,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public IEnumerable<ImprovementPlan> ImprovementPlans => _improvementPlans.AsReadOnly();
 
     private readonly List<ImprovementPlan> _improvementPlans = new();
+    
+    public IEnumerable<ProgressReview> ProgressReviews => _progressReviews.AsReadOnly();
 
+    private readonly List<ProgressReview> _progressReviews = new();
+    
     public IEnumerable<EngagementConcern> EngagementConcerns => _engagementConcerns.AsReadOnly();
 
     private readonly List<EngagementConcern> _engagementConcerns = new();
@@ -818,6 +823,42 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
 
         improvementPlan.SetDeleteReview(improvementPlanReviewId, deletedBy);
+    }
+    
+    public void AddProgressReview(
+        ProgressReviewId progressReviewId,
+        SupportProjectId supportProjectId,
+        string reviewer,
+        DateTime reviewDate)
+    {
+        var order = _progressReviews.Count + 1;
+        var title = $"{order.ToOrdinalWord()} review";
+        
+        _progressReviews.Add(new ProgressReview(progressReviewId, supportProjectId, reviewDate, reviewer, order, title));
+    }
+    
+    public void SetProgressReviewNextReviewDate(ProgressReviewId progressReviewId, DateTime? nextReviewDate)
+    {
+        var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
+
+        if (review == null)
+        {
+            throw new KeyNotFoundException($"Progress review with id {progressReviewId} not found");
+        }
+
+        review.SetNextReviewDate(nextReviewDate);
+    }
+    
+    public void SetProgressReviewDetails(ProgressReviewId progressReviewId, string nextSteps, string? additionalDetails)
+    {
+        var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
+
+        if (review == null)
+        {
+            throw new KeyNotFoundException($"Progress review with id {progressReviewId} not found");
+        }
+
+        review.SetDetails(nextSteps, additionalDetails);
     }
 
     public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,

@@ -6,6 +6,8 @@
     ViewData["Title"] = "Progress reviews";
     
     bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
+    
+    var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
 }
 
 @section BeforeMain
@@ -53,16 +55,28 @@
             <div class="govuk-button-group">
                 @if (!Model.SupportProject!.IsReadOnly)
                 {
-                    <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
-                       asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
-                       role="button" draggable="false" class="govuk-button" data-module="govuk-button"
-                       data-cy="add-review-button">
-                        Add review
-                    </a>
+                    if (matchedSchool)
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a> 
+                    }
+                    else
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
+
                 }
                 <a asp-page="@Links.ImprovementPlan.RecordProgress.Page" asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link" data-cy="return-to-improvement-plan-link">
-                    Return to improvement plan
+                    Return to record progress
                 </a>
             </div>
         }
@@ -99,7 +113,7 @@
             }
 
             <!-- Progress review cards -->
-            @foreach (var review in Model.ProgressReviews)
+            @foreach (var review in Model.AllProgressReviews)
             {
                 <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@review.Title'>
                     <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
@@ -125,14 +139,25 @@
                                 {
                                     if (!Model.SupportProject.IsReadOnly)
                                     {
-                                        <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
-                                           asp-route-id='@Model.SupportProject.Id'
-                                           asp-route-reviewId='@review.ReadableId'
-                                           asp-route-enableSkip='true'
-                                           class='govuk-link' data-cy='record-progress-link'>Record progress</a>
+                                        if (matchedSchool)
+                                        {
+                                            <a asp-page='@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page'
+                                               asp-route-id='@Model.SupportProject.Id'
+                                               asp-route-reviewId='@review.ReadableId'
+                                               asp-route-enableSkip='true'
+                                               class='govuk-link' data-cy='record-progress-matched-school-link'>Record progress</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-page='@Links.ProgressReviews.RecordProgressSchoolsRecordProgress.Page'
+                                               asp-route-id='@Model.SupportProject.Id'
+                                               asp-route-reviewId='@review.ReadableId'
+                                               class='govuk-link' data-cy='record-progress-link'>Record progress</a>
+                                        }
+                                        
                                     }
                                 }
-                                else
+                                else if (matchedSchool)
                                 {
                                     <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
                                        asp-route-id='@Model.SupportProject.Id' asp-route-reviewId='@review.ReadableId'
@@ -141,7 +166,8 @@
                             </div>
                         </div>
 
-                        @if (!Model.SupportProject.IsReadOnly)
+                        @* edit and delete for review progress schools to be added later *@
+                        @if (!Model.SupportProject.IsReadOnly && matchedSchool)
                         {
                             <p class='govuk-body govuk-!-margin-top-2'>
                                 <a asp-page='@Links.ProgressReviews.EditReview.Page'
@@ -159,16 +185,27 @@
             <div class="govuk-button-group">
                 @if (!Model.SupportProject.IsReadOnly)
                 {
-                    <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
-                       asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
-                       role="button" draggable="false" class="govuk-button" data-module="govuk-button"
-                       data-cy="add-review-button">
-                        Add review
-                    </a>
+                    @if (matchedSchool)
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
                 }
                 <a asp-page="@Links.ImprovementPlan.RecordProgress.Page" asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link" data-cy="return-to-improvement-plan-link">
-                    Return to improvement plan
+                    Return to record progress
                 </a>
             </div>
         }

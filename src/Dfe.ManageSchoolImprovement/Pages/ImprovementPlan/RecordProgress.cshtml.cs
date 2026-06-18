@@ -15,32 +15,47 @@ public class ImprovementPlanTabModel(
     public string ReturnPage { get; set; }
 
     public ImprovementPlanViewModel? ImprovementPlan { get; set; }
-    public ImprovementPlanReviewViewModel? CurrentReview { get; set; }
+
+    public List<ProgressReviewViewModel> ProgressReviews { get; set; } = [];
+
+    public AllProgressReviewsViewModel? CurrentReview { get; set; }
+
+    public ImprovementPlanReviewViewModel? CurrentImprovementPlanReview { get; set; }
     public bool IsAdviserAllocated { get; set; }
 
-    public bool NoObjectivesRecorded => ImprovementPlan?.ImprovementPlanObjectives == null || ImprovementPlan.ImprovementPlanObjectives.Count == 0;
+    public bool NoObjectivesRecorded => ImprovementPlan?.ImprovementPlanObjectives == null ||
+                                        ImprovementPlan.ImprovementPlanObjectives.Count == 0;
+
     public bool ObjectivesComplete => ImprovementPlan?.ObjectivesSectionComplete ?? false;
-    public bool CompletedReviews => ImprovementPlan != null && ImprovementPlan.ImprovementPlanReviews.Any(x => x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
+
+    public bool CompletedReviews => ImprovementPlan != null &&
+                                    ImprovementPlan.ImprovementPlanReviews.Any(x =>
+                                        x.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded);
 
     public List<ObjectiveProgressGroup> ObjectiveProgressGroups { get; set; } = [];
 
     public List<ImprovementPlanObjectiveViewModel> QualityOfEducationObjectives =>
-        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Quality of education").OrderBy(o => o.Order).ToList() ?? new();
+        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Quality of education")
+            .OrderBy(o => o.Order).ToList() ?? new();
 
     public List<ImprovementPlanObjectiveViewModel> LeadershipAndManagementObjectives =>
-        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Leadership and management").OrderBy(o => o.Order).ToList() ?? new();
+        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Leadership and management")
+            .OrderBy(o => o.Order).ToList() ?? new();
 
     public List<ImprovementPlanObjectiveViewModel> BehaviourAndAttitudesObjectives =>
-        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Behaviour and attitudes").OrderBy(o => o.Order).ToList() ?? new();
+        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Behaviour and attitudes")
+            .OrderBy(o => o.Order).ToList() ?? new();
 
     public List<ImprovementPlanObjectiveViewModel> AttendanceObjectives =>
-        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Attendance").OrderBy(o => o.Order).ToList() ?? new();
+        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Attendance")
+            .OrderBy(o => o.Order).ToList() ?? new();
 
     public List<ImprovementPlanObjectiveViewModel> PersonalDevelopmentObjectives =>
-        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Personal development").OrderBy(o => o.Order).ToList() ?? new();
+        ImprovementPlan?.ImprovementPlanObjectives?.Where(o => o.AreaOfImprovement == "Personal development")
+            .OrderBy(o => o.Order).ToList() ?? new();
 
-    public bool NoProgressReviewsRecorded =>
-        ImprovementPlan?.ImprovementPlanReviews == null || ImprovementPlan.ImprovementPlanReviews.Count == 0;
+    public bool NoProgressReviewsRecorded => CurrentReview == null;
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         ReturnPage = Links.SchoolList.Index.Page;
@@ -54,35 +69,56 @@ public class ImprovementPlanTabModel(
 
     private void LoadPageData()
     {
-        // Ensure SupportProject is not null before accessing ImprovementPlans
-        if (SupportProject?.ImprovementPlans != null)
+        if (SupportProject != null)
         {
-            ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
             IsAdviserAllocated = SupportProject.AdviserEmailAddress != null;
-            CurrentReview = ImprovementPlan?.ImprovementPlanReviews.OrderByDescending(x => x.Order).FirstOrDefault();
 
-            if (CurrentReview != null && ImprovementPlan?.ImprovementPlanObjectives != null)
+            if (SupportProject?.ImprovementPlans.Count() > 0)
             {
-                // Define areas with display order and any additional metadata
-                var areaConfigurations = new Dictionary<string, int>
-            {
-                { "Quality of education", 1 },
-                { "Leadership and management", 2 },
-                { "Behaviour and attitudes", 3 },
-                { "Attendance", 4 },
-                { "Personal development", 5 }
-            };
+                ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
+                
+                if (ImprovementPlan?.ImprovementPlanReviews.Count > 0)
+                {
+                    CurrentImprovementPlanReview = ImprovementPlan?.ImprovementPlanReviews
+                        .OrderByDescending(x => x.Order)
+                        .FirstOrDefault();
+                    CurrentReview = AllProgressReviewsViewModel.Create(CurrentImprovementPlanReview,
+                        CurrentImprovementPlanReview.ProgressStatusClass, CurrentImprovementPlanReview.ProgressStatus);
 
-                ObjectiveProgressGroups = ImprovementPlan.ImprovementPlanObjectives
-                    .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
-                    .GroupBy(o => o.AreaOfImprovement)
-                    .OrderBy(group => areaConfigurations[group.Key])
-                    .SelectMany(group => BuildObjectiveProgressGroups(group.OrderBy(o => o.Order).ToList(), CurrentReview.Id))
-                    .ToList();
+                    if (CurrentImprovementPlanReview != null && ImprovementPlan?.ImprovementPlanObjectives != null)
+                    {
+                        // Define areas with display order and any additional metadata
+                        var areaConfigurations = new Dictionary<string, int>
+                        {
+                            { "Quality of education", 1 },
+                            { "Leadership and management", 2 },
+                            { "Behaviour and attitudes", 3 },
+                            { "Attendance", 4 },
+                            { "Personal development", 5 }
+                        };
+
+                        ObjectiveProgressGroups = ImprovementPlan.ImprovementPlanObjectives
+                            .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
+                            .GroupBy(o => o.AreaOfImprovement)
+                            .OrderBy(group => areaConfigurations[group.Key])
+                            .SelectMany(group =>
+                                BuildObjectiveProgressGroups(group.OrderBy(o => o.Order).ToList(), CurrentReview.Id))
+                            .ToList();
+                    }
+                }
+            }
+            else if (SupportProject?.ProgressReviews.Count() > 0)
+            {
+                var currentProgressReview =
+                    SupportProject.ProgressReviews.OrderByDescending(x => x.Order).FirstOrDefault();
+                CurrentReview = AllProgressReviewsViewModel.Create(currentProgressReview,
+                    currentProgressReview.ProgressStatusClass, currentProgressReview.ProgressStatus);
             }
         }
     }
-    private List<ObjectiveProgressGroup> BuildObjectiveProgressGroups(List<ImprovementPlanObjectiveViewModel> improvementPlanObjectives, Guid reviewId)
+
+    private List<ObjectiveProgressGroup> BuildObjectiveProgressGroups(
+        List<ImprovementPlanObjectiveViewModel> improvementPlanObjectives, Guid reviewId)
     {
         return improvementPlanObjectives
             .GroupBy(obj => obj.AreaOfImprovement)
@@ -91,7 +127,7 @@ public class ImprovementPlanTabModel(
                 AreaOfImprovement = group.Key,
                 ObjectiveProgresses = group.OrderBy(obj => obj.Order).Select(obj =>
                 {
-                    var objectiveProgress = CurrentReview?.ImprovementPlanObjectiveProgresses?
+                    var objectiveProgress = CurrentImprovementPlanReview?.ImprovementPlanObjectiveProgresses?
                         .FirstOrDefault(op => op.ImprovementPlanObjectiveId == obj.Id);
 
                     return new ObjectiveProgressViewModel
