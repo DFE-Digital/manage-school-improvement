@@ -69,51 +69,57 @@ public class ImprovementPlanTabModel(
 
     private void LoadPageData()
     {
-        if (SupportProject != null)
+        if (SupportProject == null)
+            return;
+
+        IsAdviserAllocated = SupportProject.AdviserEmailAddress != null;
+
+        if (SupportProject.ImprovementPlans?.Count() > 0)
+            ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
+
+        if (ImprovementPlan?.ImprovementPlanReviews.Count > 0)
+            LoadCurrentReviewFromImprovementPlanReview();
+        else
+            LoadCurrentReviewFromProgressReviews();
+    }
+
+    private void LoadCurrentReviewFromImprovementPlanReview()
+    {
+        CurrentImprovementPlanReview = ImprovementPlan!.ImprovementPlanReviews
+            .OrderByDescending(x => x.Order)
+            .FirstOrDefault();
+        CurrentReview = AllProgressReviewsViewModel.Create(CurrentImprovementPlanReview!,
+            CurrentImprovementPlanReview!.ProgressStatusClass, CurrentImprovementPlanReview.ProgressStatus);
+
+        if (CurrentImprovementPlanReview == null || ImprovementPlan?.ImprovementPlanObjectives == null)
+            return;
+
+        var areaConfigurations = new Dictionary<string, int>
         {
-            IsAdviserAllocated = SupportProject.AdviserEmailAddress != null;
+            { "Quality of education", 1 },
+            { "Leadership and management", 2 },
+            { "Behaviour and attitudes", 3 },
+            { "Attendance", 4 },
+            { "Personal development", 5 }
+        };
 
-            if (SupportProject?.ImprovementPlans.Count() > 0)
-            {
-                ImprovementPlan = SupportProject.ImprovementPlans.FirstOrDefault();
-                
-                if (ImprovementPlan?.ImprovementPlanReviews.Count > 0)
-                {
-                    CurrentImprovementPlanReview = ImprovementPlan?.ImprovementPlanReviews
-                        .OrderByDescending(x => x.Order)
-                        .FirstOrDefault();
-                    CurrentReview = AllProgressReviewsViewModel.Create(CurrentImprovementPlanReview,
-                        CurrentImprovementPlanReview.ProgressStatusClass, CurrentImprovementPlanReview.ProgressStatus);
+        ObjectiveProgressGroups = ImprovementPlan.ImprovementPlanObjectives
+            .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
+            .GroupBy(o => o.AreaOfImprovement)
+            .OrderBy(group => areaConfigurations[group.Key])
+            .SelectMany(group =>
+                BuildObjectiveProgressGroups(group.OrderBy(o => o.Order).ToList(), CurrentReview.Id))
+            .ToList();
+    }
 
-                    if (CurrentImprovementPlanReview != null && ImprovementPlan?.ImprovementPlanObjectives != null)
-                    {
-                        // Define areas with display order and any additional metadata
-                        var areaConfigurations = new Dictionary<string, int>
-                        {
-                            { "Quality of education", 1 },
-                            { "Leadership and management", 2 },
-                            { "Behaviour and attitudes", 3 },
-                            { "Attendance", 4 },
-                            { "Personal development", 5 }
-                        };
-
-                        ObjectiveProgressGroups = ImprovementPlan.ImprovementPlanObjectives
-                            .Where(o => areaConfigurations.ContainsKey(o.AreaOfImprovement))
-                            .GroupBy(o => o.AreaOfImprovement)
-                            .OrderBy(group => areaConfigurations[group.Key])
-                            .SelectMany(group =>
-                                BuildObjectiveProgressGroups(group.OrderBy(o => o.Order).ToList(), CurrentReview.Id))
-                            .ToList();
-                    }
-                }
-            }
-            else if (SupportProject?.ProgressReviews.Count() > 0)
-            {
-                var currentProgressReview =
-                    SupportProject.ProgressReviews.OrderByDescending(x => x.Order).FirstOrDefault();
-                CurrentReview = AllProgressReviewsViewModel.Create(currentProgressReview,
-                    currentProgressReview.ProgressStatusClass, currentProgressReview.ProgressStatus);
-            }
+    private void LoadCurrentReviewFromProgressReviews()
+    {
+        if (SupportProject?.ProgressReviews?.Count() > 0)
+        {
+            var currentProgressReview =
+                SupportProject.ProgressReviews.OrderByDescending(x => x.Order).FirstOrDefault();
+            CurrentReview = AllProgressReviewsViewModel.Create(currentProgressReview!,
+                currentProgressReview!.ProgressStatusClass, currentProgressReview.ProgressStatus);
         }
     }
 
