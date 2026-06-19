@@ -48,7 +48,7 @@ public class NextReviewModel(
         await base.GetSupportProjectProgressReviews(id, cancellationToken);
 
         if (SupportProject != null &&
-            SupportProject.InitialDiagnosisMatchingDecision == "Match with supporting organisation")
+            SupportProject.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
         {
             // Get the improvement plan and review from the support project
             ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
@@ -84,7 +84,7 @@ public class NextReviewModel(
         }
 
         if (SupportProject != null &&
-            SupportProject.InitialDiagnosisMatchingDecision == "Match with supporting organisation")
+            SupportProject.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
         {
             // Get the improvement plan and review from the support project
             ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
@@ -130,7 +130,7 @@ public class NextReviewModel(
         }
 
 
-        if (SupportProject.InitialDiagnosisMatchingDecision == "Match with supporting organisation")
+        if (SupportProject.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
         {
             // add check for type of school, call appropriate command
             var result = await mediator.Send(new SetImprovementPlanNextReviewDateCommand(
