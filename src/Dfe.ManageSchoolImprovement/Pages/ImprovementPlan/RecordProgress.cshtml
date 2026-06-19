@@ -102,19 +102,26 @@
                     <div class='govuk-grid-row'>
                         <div class='govuk-grid-column-one-half'>
                             <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
-                                @Model.CurrentReview.Title
+                                @Model.CurrentReview?.Title
                             </h2>
                         </div>
                         <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
                             <strong
-                                class='govuk-tag @Model.CurrentReview.ProgressStatusClass'>@Model.CurrentReview.ProgressStatus</strong>
+                                class='govuk-tag @Model.CurrentReview?.ProgressStatusClass'>@Model.CurrentReview?.ProgressStatus</strong>
                         </div>
                     </div>
                     <div class='govuk-grid-row'>
                         <div class='govuk-grid-column-two-thirds'>
+                            <p class='govuk-body govuk-!-margin-bottom-5'>
+                                <strong>Reviewed on @Model.CurrentReview?.ReviewDate.ToDateString()</strong><br/>
+                                <strong>by</strong> @Model.CurrentReview?.Reviewer
+                            </p>
+                        </div>
+                    </div>
+                    <div class='govuk-grid-row'>
+                        <div class='govuk-grid-column-full'>
                             <p class='govuk-body govuk-!-margin-bottom-0'>
-                                <strong>Reviewed on @Model.CurrentReview.ReviewDate.ToDateString()</strong><br/>
-                                <strong>by</strong> @Model.CurrentReview.Reviewer
+                                <strong>Matching decision:</strong> @(matchedSchool ? "Match with a supporting organisation" : "Review progress school")
                             </p>
                         </div>
                     </div>
@@ -160,7 +167,7 @@
                                             <a class="govuk-link"
                                                asp-page="@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page"
                                                asp-route-id="@Model.SupportProject?.Id"
-                                               asp-route-reviewId="@Model.CurrentReview.ReadableId"
+                                               asp-route-reviewId="@Model.CurrentReview?.ReadableId"
                                                asp-route-objectiveId="@objective.ObjectiveReadableId"
                                                asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                                data-cy="objective-summary-change-link">Record<span
@@ -219,7 +226,7 @@
                                 <li class="govuk-summary-card__action">
                                     <a asp-page="@Links.ProgressReviews.OverallProgress.Page"
                                        asp-route-id="@Model.SupportProject?.Id"
-                                       asp-route-reviewid="@Model.CurrentReview.ReadableId"
+                                       asp-route-reviewid="@Model.CurrentReview?.ReadableId"
                                        asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
                                        class="govuk-link"
                                        data-cy="change-overall-progress-link">
