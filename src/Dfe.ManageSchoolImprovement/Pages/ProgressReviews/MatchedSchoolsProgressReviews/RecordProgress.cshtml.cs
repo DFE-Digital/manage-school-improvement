@@ -158,7 +158,7 @@ public class RecordProgressModel(
             return await base.GetSupportProject(id, cancellationToken);
         }
 
-        var returnToIndex = returnPage == Links.ProgressReviews.MatchedSchoolsProgressSummary.Page
+        var returnToIndex = returnPage == Links.ProgressReviews.ProgressSummary.Page
                             || returnPage == Links.ImprovementPlan.RecordProgress.Page;
 
         // Check if there are more objectives to review

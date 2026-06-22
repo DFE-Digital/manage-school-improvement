@@ -119,7 +119,7 @@ public class DeleteObjectiveProgressModel(
             ? Links.ImprovementPlan.RecordProgress.Page
             : ReturnPage;
 
-        if (Links.ProgressReviews.MatchedSchoolsProgressSummary.Page.Equals(targetPage, StringComparison.OrdinalIgnoreCase))
+        if (Links.ProgressReviews.ProgressSummary.Page.Equals(targetPage, StringComparison.OrdinalIgnoreCase))
         {
             return RedirectToPage(targetPage, new { id, reviewId = ImprovementPlanReview?.ReadableId });
         }

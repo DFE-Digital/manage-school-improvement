@@ -107,7 +107,7 @@ public class OverallProgressModel(
 
         }
 
-        return RedirectToPage(Links.ProgressReviews.MatchedSchoolsProgressSummary.Page, new { id, reviewId });
+        return RedirectToPage(Links.ProgressReviews.ProgressSummary.Page, new { id, reviewId });
     }
 
     private void SetupOverallProgressRadioButtons()

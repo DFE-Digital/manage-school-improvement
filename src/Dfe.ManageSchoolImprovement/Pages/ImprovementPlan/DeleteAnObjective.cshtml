@@ -9,7 +9,7 @@
     <nav aria-label="back navigation">
         @{
             // Check if the destination is the Summary page
-            var isSummaryPage = Model.ReturnPage == Links.ProgressReviews.MatchedSchoolsProgressSummary.Page;
+            var isSummaryPage = Model.ReturnPage == Links.ProgressReviews.ProgressSummary.Page;
         }
 
         <a asp-page="@Model.ReturnPage" 
@@ -60,7 +60,7 @@
                 <a class="govuk-link" 
                    asp-page="@Model.ReturnPage"
                    asp-route-id="@Model.SupportProject?.Id"
-                   asp-route-reviewId="@(Model.ReturnPage == Links.ProgressReviews.MatchedSchoolsProgressSummary.Page ? Model.ReviewId : null)"
+                   asp-route-reviewId="@(Model.ReturnPage == Links.ProgressReviews.ProgressSummary.Page ? Model.ReviewId : null)"
                    data-cy="objective-summary-change-link">
                     Cancel
                 </a>
