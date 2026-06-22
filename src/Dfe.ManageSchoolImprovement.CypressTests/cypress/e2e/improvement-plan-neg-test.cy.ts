@@ -3,7 +3,7 @@ import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import improvementPlan from '../pages/improvementPlan';
 
-describe('User navigate to the Improvement Plan, and  navigate to Add Review page', () => {
+describe('User navigate to the Record Progress, and  navigate to Add Review page', () => {
     beforeEach(() => {
         cy.login();
         homePage
@@ -13,7 +13,7 @@ describe('User navigate to the Improvement Plan, and  navigate to Add Review pag
             .hasFilterSuccessNotification()
             .selectSchoolName("Plymouth Grove Primary School");
         taskList
-            .navigateToTab('Improvement plan')
+            .navigateToTab('Record progress')
 
         improvementPlan    
             .improvementPlanPageLoads()

@@ -176,7 +176,7 @@ public static class Links
     {
         public static readonly LinkItem Index = AddLinkItem(backText: "Back", page: "/ProgressReviews/Index");
         public static readonly LinkItem AddReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/AddReview");
-        public static readonly LinkItem EditReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/EditReview");
+        public static readonly LinkItem EditReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/EditReview");
         public static readonly LinkItem MatchedSchoolsRecordProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/RecordProgress");
         public static readonly LinkItem ChangeProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/ChangeProgress");
         public static readonly LinkItem ProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/ProgressSummary");
