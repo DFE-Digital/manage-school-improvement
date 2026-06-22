@@ -1,0 +1,90 @@
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
+
+@model (string Title, string ProgressStatusClass, string ProgressStatus, DateTime ReviewDate, string Reviewer, bool MatchedSchool, bool? IsReadOnly, int? SupportProjectId, int? ReviewId)
+
+@{
+    var bottomMarginClass = Model.SupportProjectId.HasValue ? "govuk-!-margin-bottom-5" : "";
+}
+
+<article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.Title'>
+    <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
+        <div class='govuk-grid-row'>
+            <div class='govuk-grid-column-one-half'>
+                <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
+                    @Model.Title
+                </h2>
+            </div>
+            <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
+                <strong class='govuk-tag @Model.ProgressStatusClass'>@Model.ProgressStatus</strong>
+            </div>
+        </div>
+        <div class='govuk-grid-row'>
+            <div class='govuk-grid-column-one-half'>
+                <p class='govuk-body govuk-!-margin-bottom-5'>
+                    <strong>Reviewed on @Model.ReviewDate.ToDateString()</strong><br/>
+                    <strong>by</strong> @Model.Reviewer
+                </p>
+            </div>
+        </div>
+        <div class='govuk-grid-row'>
+            <div class='govuk-grid-column-full'>
+                <p class='govuk-body @bottomMarginClass'>
+                    <strong>Matching
+                        decision:</strong> @(Model.MatchedSchool ? "Match with a supporting organisation" : "Review progress school")
+                </p>
+            </div>
+        </div>
+        @if (Model.SupportProjectId.HasValue && Model.ReviewId.HasValue)
+        {
+            <div class='govuk-grid-row'>
+                <div class='govuk-grid-column-one-half'>
+                    @if (Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
+                    {
+                        if (!Model.IsReadOnly.HasValue || Model.IsReadOnly == false)
+                        {
+                            if (Model.MatchedSchool)
+                            {
+                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                    <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                                       asp-route-id='@Model.SupportProjectId'
+                                       asp-route-reviewid='@Model.ReviewId' class='govuk-link'
+                                       data-cy='edit-review-details-link'>@(Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
+                                            ? "Edit or delete review"
+                                            : "Edit review details")</a> <br/>
+
+                                    <a asp-page='@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page'
+                                       asp-route-id='@Model.SupportProjectId'
+                                       asp-route-reviewId='@Model.ReviewId'
+                                       asp-route-enableSkip='true'
+                                       class='govuk-link' data-cy='record-progress-matched-school-link'>Record
+                                        progress</a>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class='govuk-body govuk-!-margin-bottom-0'>
+                                    <a asp-page='@Links.ProgressReviews.RecordProgressSchoolsRecordProgress.Page'
+                                       asp-route-id='@Model.SupportProjectId'
+                                       asp-route-reviewId='@Model.ReviewId'
+                                       class='govuk-link' data-cy='record-progress-link'>Record
+                                        progress</a>
+                                </p>
+                            }
+                        }
+                    }
+                    else if (Model.MatchedSchool)
+                    {
+                        <p class='govuk-body govuk-!-margin-bottom-0'>
+                            <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
+                               asp-route-id='@Model.SupportProjectId'
+                               asp-route-reviewId='@Model.ReviewId'
+                               class='govuk-link' data-cy='view-progress-review-link'>View progress
+                                review</a>
+                        </p>
+                    }
+                </div>
+            </div>
+        }
+    </section>
+</article>
