@@ -179,12 +179,13 @@ public static class Links
         public static readonly LinkItem EditReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/EditReview");
         public static readonly LinkItem MatchedSchoolsRecordProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/RecordProgress");
         public static readonly LinkItem ChangeProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/ChangeProgress");
-        public static readonly LinkItem ProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/ProgressSummary");
+        public static readonly LinkItem MatchedSchoolsProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/ProgressSummary");
         public static readonly LinkItem NextReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/NextReview");
         public static readonly LinkItem OverallProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/OverallProgress");
         public static readonly LinkItem DeleteObjectiveProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/DeleteObjectiveProgress");
         public static readonly LinkItem DeleteReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/DeleteReview");
         public static readonly LinkItem RecordProgressSchoolsRecordProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgressSchoolsProgressReviews/RecordProgress");
+        public static readonly LinkItem RecordProgressSchoolsProgressSummary = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgressSchoolsProgressReviews/ProgressSummary");
     }
 
     public static class ProjectStatusTab

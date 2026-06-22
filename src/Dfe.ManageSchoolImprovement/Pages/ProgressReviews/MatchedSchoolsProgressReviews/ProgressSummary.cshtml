@@ -1,6 +1,6 @@
 @page "/progress-reviews/{id:int}/progress-summary"
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
-@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.ProgressSummaryModel
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.MatchedSchoolsProgressReviews.ProgressSummaryModel
 @{
     ViewData["Title"] = "Progress summary";
 
@@ -93,7 +93,7 @@
                                                    asp-page="@Links.ProgressReviews.DeleteObjectiveProgress.Page"
                                                    asp-route-id="@Model.SupportProject?.Id"
                                                    asp-route-objectiveprogressid="@objective.ReadableId"
-                                                   asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                   asp-route-returnpage="@Links.ProgressReviews.MatchedSchoolsProgressSummary.Page"
                                                    data-cy="objective-summary-change-link">Delete</a>
                                             </li>
                                         </ul>
@@ -107,7 +107,7 @@
                                                    asp-route-id="@Model.SupportProject?.Id"
                                                    asp-route-reviewId="@Model.ReviewId"
                                                    asp-route-objectiveId="@objective.ObjectiveReadableId"
-                                                   asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                   asp-route-returnpage="@Links.ProgressReviews.MatchedSchoolsProgressSummary.Page"
                                                    data-cy="record-objective-progress-link-@objective.ObjectiveReadableId">Record<span
                                                                                                                                      class="govuk-visually-hidden"> @objective.Title</span></a>
                                             </li>
@@ -118,7 +118,7 @@
                                                        asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
                                                        asp-route-id="@Model.SupportProject?.Id"
                                                        asp-route-objectiveid="@objective.ObjectiveReadableId"
-                                                       asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page"
+                                                       asp-route-returnpage="@Links.ProgressReviews.MatchedSchoolsProgressSummary.Page"
                                                        asp-route-reviewid="@Model.ReviewId"
                                                        data-cy="objective-summary-change-link">Delete<span
                                                                                                          class="govuk-visually-hidden"> @objective.Title</span></a>
@@ -165,7 +165,7 @@
                         <li class="govuk-summary-card__action">
                             <a asp-page="@Links.ProgressReviews.OverallProgress.Page"
                                asp-route-id="@Model.SupportProject?.Id" asp-route-reviewid="@Model.Review.ReadableId"
-                               asp-route-returnpage="@Links.ProgressReviews.ProgressSummary.Page" class="govuk-link"
+                               asp-route-returnpage="@Links.ProgressReviews.MatchedSchoolsProgressSummary.Page" class="govuk-link"
                                data-cy="change-overall-progress-link">
                                 Change<span class="govuk-visually-hidden">Overall progress</span>
                             </a>

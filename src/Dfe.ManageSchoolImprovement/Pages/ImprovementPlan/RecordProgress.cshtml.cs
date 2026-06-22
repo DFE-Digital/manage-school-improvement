@@ -15,10 +15,10 @@ public class ImprovementPlanTabModel(
     public string ReturnPage { get; set; }
 
     public ImprovementPlanViewModel? ImprovementPlan { get; set; }
-
-    public List<ProgressReviewViewModel> ProgressReviews { get; set; } = [];
-
+    
     public AllProgressReviewsViewModel? CurrentReview { get; set; }
+    
+    public ProgressReviewViewModel? CurrentProgressReview { get; set; }
 
     public ImprovementPlanReviewViewModel? CurrentImprovementPlanReview { get; set; }
     public bool IsAdviserAllocated { get; set; }
@@ -62,6 +62,12 @@ public class ImprovementPlanTabModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
+        if (SupportProject?.ProgressReviews?.Count() > 0)
+        {
+            CurrentProgressReview =
+                SupportProject?.ProgressReviews?.OrderByDescending(x => x.Order).FirstOrDefault();
+        }
+        
         LoadPageData();
 
         return Page();
@@ -81,6 +87,8 @@ public class ImprovementPlanTabModel(
             LoadCurrentReviewFromImprovementPlanReview();
         else
             LoadCurrentReviewFromProgressReviews();
+
+            
     }
 
     private void LoadCurrentReviewFromImprovementPlanReview()
@@ -116,10 +124,9 @@ public class ImprovementPlanTabModel(
     {
         if (SupportProject?.ProgressReviews?.Count() > 0)
         {
-            var currentProgressReview =
-                SupportProject.ProgressReviews.OrderByDescending(x => x.Order).FirstOrDefault();
-            CurrentReview = AllProgressReviewsViewModel.Create(currentProgressReview!,
-                currentProgressReview!.ProgressStatusClass, currentProgressReview.ProgressStatus);
+
+            CurrentReview = AllProgressReviewsViewModel.Create(CurrentProgressReview!,
+                CurrentProgressReview!.ProgressStatusClass, CurrentProgressReview.ProgressStatus);
         }
     }
 

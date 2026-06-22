@@ -75,7 +75,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 
             TempData["objectiveDeleted"] = true;
             
-            if (ReturnPage == Links.ProgressReviews.ProgressSummary.Page)
+            if (ReturnPage == Links.ProgressReviews.MatchedSchoolsProgressSummary.Page)
             {
                 return RedirectToPage(ReturnPage, new { id, reviewId = ReviewId });
             }

@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.MatchedSchoolsProgressReviews;
 
 public class ProgressSummaryModel(
     ISupportProjectQueryService supportProjectQueryService,

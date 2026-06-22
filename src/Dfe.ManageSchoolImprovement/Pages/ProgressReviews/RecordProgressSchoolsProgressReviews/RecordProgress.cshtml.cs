@@ -95,7 +95,7 @@ public class RecordProgressModel(
             return RedirectToPage(returnPage, new { id, reviewId });
         }
         
-        return RedirectToPage(Links.ProgressReviews.Index.Page, new { id, reviewId });
+        return RedirectToPage(Links.ProgressReviews.RecordProgressSchoolsProgressSummary.Page, new { id, reviewId });
     }
 
 
