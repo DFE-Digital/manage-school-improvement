@@ -1,7 +1,7 @@
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 
-@model (string Title, string ProgressStatusClass, string ProgressStatus, DateTime ReviewDate, string Reviewer, bool MatchedSchool, bool? IsReadOnly, int? SupportProjectId, int? ReviewId)
+@model (string Title, string ProgressStatusClass, string ProgressStatus, DateTime ReviewDate, string Reviewer, string Type, bool? IsReadOnly, int? SupportProjectId, int? ReviewId)
 
 @{
     var bottomMarginClass = Model.SupportProjectId.HasValue ? "govuk-!-margin-bottom-5" : "";
@@ -31,7 +31,7 @@
             <div class='govuk-grid-column-full'>
                 <p class='govuk-body @bottomMarginClass'>
                     <strong>Matching
-                        decision:</strong> @(Model.MatchedSchool ? "Match with a supporting organisation" : "Review progress school")
+                        decision:</strong> @(Model.Type == "Matched" ? "Match with a supporting organisation" : "Review progress school")
                 </p>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     {
                         if (!Model.IsReadOnly.HasValue || Model.IsReadOnly == false)
                         {
-                            if (Model.MatchedSchool)
+                            if (Model.Type == "Matched")
                             {
                                 <p class="govuk-body govuk-!-margin-bottom-0">
                                     <a asp-page='@Links.ProgressReviews.EditReview.Page'
@@ -73,7 +73,7 @@
                             }
                         }
                     }
-                    else if (Model.MatchedSchool)
+                    else if (Model.Type == "Matched")
                     {
                         <p class='govuk-body govuk-!-margin-bottom-0'>
                             <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'

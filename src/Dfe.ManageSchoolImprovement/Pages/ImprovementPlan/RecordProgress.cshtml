@@ -97,20 +97,23 @@
         }
         else if (!Model.NoProgressReviewsRecorded)
         {
-            var reviewSummaryCardModel = (
-                Model.CurrentReview?.Title ?? string.Empty,
-                Model.CurrentReview?.ProgressStatusClass ?? string.Empty,
-                Model.CurrentReview?.ProgressStatus ?? string.Empty,
-                Model.CurrentReview?.ReviewDate ?? default,
-                Model.CurrentReview?.Reviewer ?? string.Empty,
-                matchedSchool,
-                IsReadOnly: (bool?)null,
-                SupportProjectId: (int?)null,
-                ReviewId: (int?)null
-            );
-            <partial name="_ReviewSummaryCard"
-                     model="reviewSummaryCardModel"/>
-
+            @if (Model.CurrentReview != null)
+            {
+                var reviewSummaryCardModel = (
+                    Model.CurrentReview.Title,
+                    Model.CurrentReview.ProgressStatusClass,
+                    Model.CurrentReview.ProgressStatus,
+                    Model.CurrentReview.ReviewDate,
+                    Model.CurrentReview.Reviewer,
+                    Model.CurrentReview.Type,
+                    IsReadOnly: (bool?)null,
+                    SupportProjectId: (int?)null,
+                    ReviewId: (int?)null
+                );
+                <partial name="_ReviewSummaryCard"
+                         model="reviewSummaryCardModel"/>
+            }
+            
             @if (reviewProgressSchool && Model.CurrentProgressReview != null)
             {
                 <partial name="_ReviewProgressSummaryCard" model="Model.CurrentProgressReview"/>

@@ -13,6 +13,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
         public string ProgressStatusClass { get; set; } = string.Empty;
         public string ProgressStatus { get; set; } = string.Empty;
         public DateTime? NextReviewDate { get; private set; }
+        
+        public string Type { get; set; } = string.Empty;
 
         public static AllProgressReviewsViewModel Create(ProgressReviewViewModel model, string progressStatusClass, string progressStatus)
         {
@@ -26,7 +28,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Title = model.Title,
                 ProgressStatusClass = progressStatusClass,
                 ProgressStatus = progressStatus,
-                NextReviewDate = model.NextReviewDate
+                NextReviewDate = model.NextReviewDate,
+                Type = "Review progress"
             };
         }
 
@@ -42,7 +45,8 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Title = model.Title,
                 ProgressStatusClass = progressStatusClass,
                 ProgressStatus = progressStatus,
-                NextReviewDate = model.NextReviewDate
+                NextReviewDate = model.NextReviewDate,
+                Type = "Matched"
             };
         }
     }

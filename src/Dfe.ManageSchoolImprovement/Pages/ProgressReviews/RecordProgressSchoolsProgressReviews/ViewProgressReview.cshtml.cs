@@ -15,8 +15,10 @@ public class ProgressSummaryModel(
 
     [BindProperty]
     public int ReviewId { get; set; }
+    
+    public ProgressReviewViewModel? CurrentReview { get; private set; }
 
-    public ProgressReviewViewModel? Review { get; private set; }
+    public AllProgressReviewsViewModel? Review { get; private set; }
     
 
     public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken, string? returnPage)
@@ -26,7 +28,11 @@ public class ProgressSummaryModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        Review = SupportProject?.ProgressReviews?.OrderByDescending(x => x.Order).FirstOrDefault();
+        CurrentReview = SupportProject?.ProgressReviews?.Single(x => x.ReadableId == ReviewId);
+        if (CurrentReview != null)
+        {
+            Review = AllProgressReviewsViewModel.Create(CurrentReview, CurrentReview.ProgressStatusClass, CurrentReview.ProgressStatus);
+        }
 
         return Page();
     }

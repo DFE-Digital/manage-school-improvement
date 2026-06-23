@@ -105,12 +105,12 @@ public class RecordProgressModel(
         {
             new() {
                 Id = "match-with-organisation",
-                Name = "Yes, we will find a preferred supporting organisation",
+                Name = "Match with a supporting organisation",
                 Value = "Match with a supporting organisation"
             },
             new() {
                 Id = "review-school-progress",
-                Name = "No, we have decided to review progress",
+                Name = "Continue to review progress",
                 Value = "Review school's progress"
             }
         };

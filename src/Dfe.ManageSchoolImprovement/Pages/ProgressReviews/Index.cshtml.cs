@@ -32,14 +32,14 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
             .OrderByDescending(x => x.Order).ToList() ?? [];
         
         ReviewProgressProgressReviews = SupportProject?.ProgressReviews?.OrderByDescending(x => x.Order).ToList() ?? [];
-
-        foreach (var review in ReviewProgressProgressReviews)
+        
+        foreach (var review in ImprovementPlanProgressReviews)
         {
             var allProgressReview = AllProgressReviewsViewModel.Create(review, review.ProgressStatusClass, review.ProgressStatus);
             AllProgressReviews.Add(allProgressReview);
         }
-        
-        foreach (var review in ImprovementPlanProgressReviews)
+
+        foreach (var review in ReviewProgressProgressReviews)
         {
             var allProgressReview = AllProgressReviewsViewModel.Create(review, review.ProgressStatusClass, review.ProgressStatus);
             AllProgressReviews.Add(allProgressReview);

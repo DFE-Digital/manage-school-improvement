@@ -26,14 +26,14 @@
                 Model.Review.ProgressStatus,
                 Model.Review.ReviewDate,
                 Model.Review.Reviewer,
-                MatchedSchool: false,
+                Model.Review.Type,
                 IsReadOnly: (bool?)null,
                 SupportProjectId: (int?)null,
                 ReviewId: (int?)null
             );
             <partial name="_ReviewSummaryCard" model="reviewSummaryCardModel" /> 
             
-            <partial name="_ReviewProgressSummaryCard" model="Model.Review" />
+            <partial name="_ReviewProgressSummaryCard" model="Model.CurrentReview" />
         }
         
         
