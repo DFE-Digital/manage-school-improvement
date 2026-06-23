@@ -186,6 +186,7 @@ public static class Links
         public static readonly LinkItem DeleteReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/MatchedSchoolsProgressReviews/DeleteReview");
         public static readonly LinkItem RecordProgressSchoolsRecordProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgressSchoolsProgressReviews/RecordProgress");
         public static readonly LinkItem ViewProgressReview = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgressSchoolsProgressReviews/ViewProgressReview");
+        public static readonly LinkItem EditProgress = AddLinkItem(backText: "Back", page: "/ProgressReviews/RecordProgressSchoolsProgressReviews/EditProgress");
     }
 
     public static class ProjectStatusTab

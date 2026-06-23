@@ -33,7 +33,7 @@
             );
             <partial name="_ReviewSummaryCard" model="reviewSummaryCardModel" /> 
             
-            <partial name="_ReviewProgressSummaryCard" model="Model.CurrentReview" />
+            <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page)" />
         }
         
         

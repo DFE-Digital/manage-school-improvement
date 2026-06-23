@@ -116,7 +116,7 @@
             
             @if (reviewProgressSchool && Model.CurrentProgressReview != null)
             {
-                <partial name="_ReviewProgressSummaryCard" model="Model.CurrentProgressReview"/>
+                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
             }
             else if (matchedSchool)
             {
