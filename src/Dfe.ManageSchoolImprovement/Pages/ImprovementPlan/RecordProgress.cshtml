@@ -1,4 +1,5 @@
 @page "/record-progress/{id:int}"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model ImprovementPlanTabModel
 
@@ -114,7 +115,9 @@
                          model="reviewSummaryCardModel"/>
             }
             
-            @if (reviewProgressSchool && Model.CurrentProgressReview != null)
+            @if (reviewProgressSchool && 
+                 Model.CurrentProgressReview != null && 
+                 Model.CurrentProgressReview.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
             {
                 <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
             }

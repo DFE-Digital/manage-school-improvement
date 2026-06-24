@@ -19,10 +19,10 @@
                 </li>
                 <li class="govuk-summary-card__action">
                     <a class="govuk-link"
-                       asp-page="@Links.ProgressReviews.DeleteObjectiveProgress.Page"
+                       asp-page="@Links.ProgressReviews.DeleteProgress.Page"
                        asp-route-id="@Model.Review.SupportProjectId"
-                       asp-route-reviewid="id of review"
-                       asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
+                       asp-route-reviewid="@Model.Review.ReadableId"
+                       asp-route-returnpage="@Model.ReturnPage"
                        data-cy="delete-progress-link">Delete</a>
                 </li>
             </ul> 
