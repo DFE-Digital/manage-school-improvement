@@ -6,6 +6,7 @@
     ViewData["Title"] = "Progress reviews";
 
     bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
+    bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
 
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
 }
@@ -18,7 +19,7 @@
     </nav>
 }
 
-@if (progressReviewDeleted)
+@if (progressReviewDeleted || reviewDeleted)
 {
     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
          aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -30,7 +31,7 @@
         </div>
         <div class="govuk-notification-banner__content">
             <h3 class="govuk-notification-banner__heading" id="contact-added">
-                Progress review deleted
+                @(progressReviewDeleted ? "Progress review" : "Review") deleted
             </h3>
         </div>
     </div>

@@ -1,4 +1,5 @@
 @page "/progress-reviews/{id:int}/view-progress-review"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressSchoolsProgressReviews.ProgressSummaryModel
 @{
     ViewData["Title"] = "Progress review";
@@ -33,7 +34,10 @@
             );
             <partial name="_ReviewSummaryCard" model="reviewSummaryCardModel" /> 
             
-            <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page)" />
+            @if (Model.Review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
+            {
+                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page)" />
+            }
         }
         
         

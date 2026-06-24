@@ -57,12 +57,14 @@ public class DeleteProgressModel(
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
+        
+        TempData["reviewDeleted"] = true;
 
-        if (returnPage is not null)
+        if (returnPage is not null && returnPage != Links.ProgressReviews.ViewProgressReview.Page)
         {
             return RedirectToPage(returnPage, new { id, reviewId });
         }
         
-        return RedirectToPage(Links.ImprovementPlan.Index.Page, new { id, reviewId });
+        return RedirectToPage(Links.ProgressReviews.Index.Page, new { id, reviewId });
     }
 }
