@@ -13,7 +13,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Imp
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressSchoolsProgressReviews;
 
-public class RecordProgressModel(
+public class EditProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     IMediator mediator,
     ErrorService errorService)
@@ -30,7 +30,7 @@ public class RecordProgressModel(
     [BindProperty]
     public string AdditionalDetails { get; set; } = string.Empty;
     
-    private ProgressReviewViewModel? ProgressReview { get; set; }
+    public ProgressReviewViewModel? ProgressReview { get; set; }
 
     public string? NextStepsErrorMessage { get; set; } = null;
 
@@ -50,6 +50,8 @@ public class RecordProgressModel(
         ReviewId = reviewId;
         
         ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
+        AdditionalDetails = ProgressReview?.AdditionalDetails ?? string.Empty;
+        NextSteps = ProgressReview?.NextSteps ?? string.Empty;
         
         SetupNextStepsRadioButtons();
 
@@ -63,6 +65,7 @@ public class RecordProgressModel(
 
         await base.GetSupportProject(id, cancellationToken);
         ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
+        
         
         SetupNextStepsRadioButtons();
 

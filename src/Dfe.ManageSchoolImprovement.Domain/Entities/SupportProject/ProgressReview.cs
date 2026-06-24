@@ -45,6 +45,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             NextSteps = nextSteps;
             AdditionalDetails = additionalDetails;
         }
+
+        public void DeleteProgress()
+        {
+            NextSteps = null;
+            AdditionalDetails = null;
+        }
     }
 }
 

@@ -1,0 +1,48 @@
+@page "/progress-reviews/review-progress-school/{id:int}/delete-progress"
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressSchoolsProgressReviews.DeleteProgressModel
+@{
+    ViewData["Title"] = "Are you sure you want to delete the recorded progress?";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject?.Id" asp-route-reviewId="@Model.ReviewId"
+            class="govuk-back-link" data-cy="back-link">Back</a>
+    </nav>
+}
+
+@if (Model.ShowError)
+{
+    <partial name="_ErrorSummary" />
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">Progress review</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Are you sure you want to delete the recorded progress?
+        </h1>
+        <p class="govuk-body">Your should only delete incorrect information.</p>
+        <p class="govuk-body">Only the service support team can restore deleted progress ratings.</p>
+
+        <form method="post" novalidate>
+            <input type="hidden" asp-for="@Model.ReviewId" />
+
+            <partial name="_ReviewProgressSummaryCard" model="(Model.ProgressReview, true, string.Empty)" />
+
+            <div class="govuk-button-group">
+
+                    <button class="govuk-button govuk-button--warning" type="submit" data-cy="save-button" data-module="govuk-button">
+                        Delete progress
+                    </button>
+                    <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject?.Id"
+                       asp-route-reviewid="@Model.ReviewId"
+                        class="govuk-link" data-cy="cancel-link">
+                        Cancel
+                    </a>
+                
+            </div>
+        </form>
+    </div>
+</div>

@@ -179,6 +179,114 @@ public class ProgressReviewTests
 
     #endregion
 
+    #region DeleteProgress Tests
+
+    [Fact]
+    public void DeleteProgress_WithExistingDetails_ClearsNextStepsAndAdditionalDetails()
+    {
+        // Arrange
+        var review = CreateReview();
+        review.SetDetails("Complete the next phase of improvement", "Focus on mathematics outcomes");
+
+        // Act
+        review.DeleteProgress();
+
+        // Assert
+        Assert.Null(review.NextSteps);
+        Assert.Null(review.AdditionalDetails);
+    }
+
+    [Fact]
+    public void DeleteProgress_WithNullAdditionalDetails_ClearsNextSteps()
+    {
+        // Arrange
+        var review = CreateReview();
+        review.SetDetails("Complete the next phase of improvement", null);
+
+        // Act
+        review.DeleteProgress();
+
+        // Assert
+        Assert.Null(review.NextSteps);
+        Assert.Null(review.AdditionalDetails);
+    }
+
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("", "Some details")]
+    [InlineData("Next steps", "")]
+    public void DeleteProgress_WithEmptyStrings_ClearsProperties(string nextSteps, string additionalDetails)
+    {
+        // Arrange
+        var review = CreateReview();
+        review.SetDetails(nextSteps, additionalDetails);
+
+        // Act
+        review.DeleteProgress();
+
+        // Assert
+        Assert.Null(review.NextSteps);
+        Assert.Null(review.AdditionalDetails);
+    }
+
+    [Fact]
+    public void DeleteProgress_WhenAlreadyNull_DoesNotThrow()
+    {
+        // Arrange
+        var review = CreateReview();
+
+        // Act
+        var exception = Record.Exception(() => review.DeleteProgress());
+
+        // Assert
+        Assert.Null(exception);
+        Assert.Null(review.NextSteps);
+        Assert.Null(review.AdditionalDetails);
+    }
+
+    [Fact]
+    public void DeleteProgress_CalledMultipleTimes_RemainsCleared()
+    {
+        // Arrange
+        var review = CreateReview();
+        review.SetDetails("First steps", "First details");
+
+        // Act
+        review.DeleteProgress();
+        review.DeleteProgress();
+
+        // Assert
+        Assert.Null(review.NextSteps);
+        Assert.Null(review.AdditionalDetails);
+    }
+
+    [Fact]
+    public void DeleteProgress_DoesNotAffectOtherProperties()
+    {
+        // Arrange
+        var review = CreateReview();
+        review.SetDetails("Next steps", "Additional details");
+        review.SetNextReviewDate(DateTime.UtcNow.AddDays(30));
+
+        var originalReviewer = review.Reviewer;
+        var originalReviewDate = review.ReviewDate;
+        var originalTitle = review.Title;
+        var originalOrder = review.Order;
+        var originalNextReviewDate = review.NextReviewDate;
+
+        // Act
+        review.DeleteProgress();
+
+        // Assert
+        Assert.Equal(originalReviewer, review.Reviewer);
+        Assert.Equal(originalReviewDate, review.ReviewDate);
+        Assert.Equal(originalTitle, review.Title);
+        Assert.Equal(originalOrder, review.Order);
+        Assert.Equal(originalNextReviewDate, review.NextReviewDate);
+    }
+
+    #endregion
+
     #region Property Tests
 
     [Fact]

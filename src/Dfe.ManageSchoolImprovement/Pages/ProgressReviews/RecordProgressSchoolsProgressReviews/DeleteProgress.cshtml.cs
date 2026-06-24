@@ -13,7 +13,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Imp
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressSchoolsProgressReviews;
 
-public class RecordProgressModel(
+public class DeleteProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
     IMediator mediator,
     ErrorService errorService)
@@ -22,22 +22,8 @@ public class RecordProgressModel(
     public string ReturnPage { get; set; } = string.Empty;
 
     [BindProperty] public int ReviewId { get; set; }
-
-    [BindProperty]
-    [Required(ErrorMessage = "Select next steps")]
-    public string NextSteps { get; set; } = string.Empty;
-
-    [BindProperty]
-    public string AdditionalDetails { get; set; } = string.Empty;
     
-    private ProgressReviewViewModel? ProgressReview { get; set; }
-
-    public string? NextStepsErrorMessage { get; set; } = null;
-
-    public bool ShowNextStepsError => ModelState.ContainsKey(nameof(NextSteps)) &&
-                                           ModelState[nameof(NextSteps)]?.Errors.Count > 0;
-
-    public IList<RadioButtonsLabelViewModel> NextStepsRadioButtons { get; set; } = [];
+    public ProgressReviewViewModel? ProgressReview { get; set; }
 
     public bool ShowError => _errorService.HasErrors();
 
@@ -51,8 +37,6 @@ public class RecordProgressModel(
         
         ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
         
-        SetupNextStepsRadioButtons();
-
         return Page();
     }
     
@@ -64,55 +48,23 @@ public class RecordProgressModel(
         await base.GetSupportProject(id, cancellationToken);
         ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
         
-        SetupNextStepsRadioButtons();
-
-        if (string.IsNullOrWhiteSpace(NextSteps))
-        {
-            if (ShowNextStepsError)
-            {
-                NextStepsErrorMessage = "Select next steps";
-                _errorService.AddError(NextStepsRadioButtons.First().Id, NextStepsErrorMessage);
-            }
-
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
-            return Page();
-        }
-        
-        var result = await mediator.Send(new SetProgressReviewDetailsCommand(
+        var result = await mediator.Send(new DeleteProgressCommand(
             new SupportProjectId(id),
-            new ProgressReviewId(ProgressReview.Id),
-            NextSteps,
-            AdditionalDetails), cancellationToken);
+            new ProgressReviewId(ProgressReview.Id)), cancellationToken);
         
         if (result == null)
         {
             _errorService.AddApiError();
             return await base.GetSupportProject(id, cancellationToken);
         }
+        
+        TempData["reviewDeleted"] = true;
 
-        if (returnPage is not null)
+        if (returnPage is not null && returnPage != Links.ProgressReviews.ViewProgressReview.Page)
         {
             return RedirectToPage(returnPage, new { id, reviewId });
         }
         
-        return RedirectToPage(Links.ProgressReviews.ViewProgressReview.Page, new { id, reviewId });
-    }
-
-
-    private void SetupNextStepsRadioButtons()
-    {
-        NextStepsRadioButtons = new List<RadioButtonsLabelViewModel>
-        {
-            new() {
-                Id = "match-with-organisation",
-                Name = "Match with a supporting organisation",
-                Value = "Match with a supporting organisation"
-            },
-            new() {
-                Id = "review-school-progress",
-                Name = "Continue to review progress",
-                Value = "Review school's progress"
-            }
-        };
+        return RedirectToPage(Links.ProgressReviews.Index.Page, new { id, reviewId });
     }
 }
