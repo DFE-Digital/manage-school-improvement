@@ -27,7 +27,7 @@
 
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ImprovementPlanId" />
-            <input type="hidden" asp-for="@Model.ImprovementPlanReviewId" />
+            <input type="hidden" asp-for="@Model.ReviewId" />
 
             <govuk-date-input heading-label="false" label="Enter the date of the review" id="ReviewDate"
                 name="ReviewDate" asp-for="@Model.ReviewDate" hint="For example, 27 3 2007."

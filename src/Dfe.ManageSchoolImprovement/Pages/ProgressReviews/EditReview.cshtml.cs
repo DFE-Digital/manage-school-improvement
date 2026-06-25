@@ -29,7 +29,7 @@ public class EditReviewModel(
     public string? CustomReviewerName { get; set; }
 
     [BindProperty]
-    public Guid ImprovementPlanReviewId { get; set; }
+    public Guid ReviewId { get; set; }
     
     public int ReviewReadableId { get; set; }
 
@@ -50,27 +50,54 @@ public class EditReviewModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
-
-        if (improvementPlanReview != null)
+        if (SupportProject != null && SupportProject.ImprovementPlans.Any())
         {
-            ImprovementPlanId = improvementPlanReview.ImprovementPlanId;
-            ImprovementPlanReviewId = improvementPlanReview.Id;
-            ReviewReadableId = reviewId;
-            ReviewDate = improvementPlanReview.ReviewDate;
-            ReviewStatus = improvementPlanReview.ProgressStatus;
+            var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
 
-            if (improvementPlanReview.Reviewer != SupportProject?.AdviserFullName &&
-                improvementPlanReview.Reviewer != SupportProject?.AssignedDeliveryOfficerFullName)
+            if (improvementPlanReview != null)
             {
-                CustomReviewerName = improvementPlanReview.Reviewer;
-                ReviewerSelection = "someone-else";
-            }
-            else
-            {
-                ReviewerSelection = improvementPlanReview.Reviewer;
+                ImprovementPlanId = improvementPlanReview.ImprovementPlanId;
+                ReviewId = improvementPlanReview.Id;
+                ReviewReadableId = reviewId;
+                ReviewDate = improvementPlanReview.ReviewDate;
+                ReviewStatus = improvementPlanReview.ProgressStatus;
+
+                if (improvementPlanReview.Reviewer != SupportProject?.AdviserFullName &&
+                    improvementPlanReview.Reviewer != SupportProject?.AssignedDeliveryOfficerFullName)
+                {
+                    CustomReviewerName = improvementPlanReview.Reviewer;
+                    ReviewerSelection = "someone-else";
+                }
+                else
+                {
+                    ReviewerSelection = improvementPlanReview.Reviewer;
+                }
             }
         }
+        else
+        {
+            var progressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == reviewId);
+
+            if (progressReview != null)
+            {
+                ReviewId = progressReview.Id;
+                ReviewReadableId = reviewId;
+                ReviewDate = progressReview.ReviewDate;
+                ReviewStatus = progressReview.ProgressStatus;
+                
+                if (progressReview.Reviewer != SupportProject?.AdviserFullName &&
+                    progressReview.Reviewer != SupportProject?.AssignedDeliveryOfficerFullName)
+                {
+                    CustomReviewerName = progressReview.Reviewer;
+                    ReviewerSelection = "someone-else";
+                }
+                else
+                {
+                    ReviewerSelection = progressReview.Reviewer;
+                }
+            }
+        }
+
 
         SetupRadioButtons();
 
@@ -82,13 +109,15 @@ public class EditReviewModel(
         CustomReviewerName = CustomReviewerName?.Trim();
         
         await base.GetSupportProject(id, cancellationToken);
+        
+        // need to do this for both types of review
         // Get the previous review for validation
         var reviews = SupportProject?.ImprovementPlans?
             .SingleOrDefault(x => x.Id == ImprovementPlanId)?
             .ImprovementPlanReviews.OrderByDescending(x => x.Order).ToList();
 
         // Find the current review being edited
-        var currentReviewIndex = reviews?.FindIndex(r => r.Id == ImprovementPlanReviewId) ?? -1;
+        var currentReviewIndex = reviews?.FindIndex(r => r.Id == ReviewId) ?? -1;
 
         // Get the previous review (next in the descending order list)
         var previousReview = currentReviewIndex >= 0 && currentReviewIndex < (reviews?.Count - 1)
@@ -131,10 +160,11 @@ public class EditReviewModel(
             return Page();
         }
 
+        // new editprogressreview command
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
         var result = await mediator.Send(new SetImprovementPlanReviewDetailsCommand(new SupportProjectId(id),
             new ImprovementPlanId(ImprovementPlanId),
-            new ImprovementPlanReviewId(ImprovementPlanReviewId),
+            new ImprovementPlanReviewId(ReviewId),
             reviewer ?? string.Empty, ReviewDate!.Value), cancellationToken);
 
         // get latest version of the support project
