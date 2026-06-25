@@ -74,7 +74,6 @@ public class RecordProgressModel(
                 _errorService.AddError(NextStepsRadioButtons.First().Id, NextStepsErrorMessage);
             }
 
-            _errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
         }
         
@@ -104,14 +103,14 @@ public class RecordProgressModel(
         NextStepsRadioButtons = new List<RadioButtonsLabelViewModel>
         {
             new() {
-                Id = "match-with-organisation",
-                Name = "Match with a supporting organisation",
-                Value = "Match with a supporting organisation"
-            },
-            new() {
                 Id = "review-school-progress",
                 Name = "Continue to review progress",
                 Value = "Review school's progress"
+            },
+            new() {
+                Id = "match-with-organisation",
+                Name = "Match with a supporting organisation",
+                Value = "Match with a supporting organisation"
             }
         };
     }
