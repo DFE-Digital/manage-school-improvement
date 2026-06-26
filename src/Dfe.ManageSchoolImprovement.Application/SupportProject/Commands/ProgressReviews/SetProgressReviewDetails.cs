@@ -2,18 +2,18 @@ using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using MediatR;
 
-namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
+namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ProgressReviews;
 
 public record SetProgressReviewDetailsCommand(
-    SupportProjectId SupportProjectId,
     ProgressReviewId ProgressReviewId,
-    string NextSteps,
-    string? AdditionalDetails
+    SupportProjectId SupportProjectId,
+    string Reviewer,
+    DateTime ReviewDate
 ) : IRequest<bool>;
 
 public class SetProgressReviewDetails
 {
-    public class SetProgressReviewDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
+    public class SetProgressReviewDetailsCommandCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetProgressReviewDetailsCommand, bool>
     {
         public async Task<bool> Handle(SetProgressReviewDetailsCommand request, CancellationToken cancellationToken)
@@ -24,8 +24,8 @@ public class SetProgressReviewDetails
             {
                 throw new KeyNotFoundException($"Support project with id {request.SupportProjectId} not found");
             }
-
-            supportProject.SetProgressReviewDetails(request.ProgressReviewId, request.NextSteps, request.AdditionalDetails);
+            
+            supportProject.SetProgressReviewDetails(request.ProgressReviewId, request.Reviewer, request.ReviewDate);
 
             await supportProjectRepository.UpdateAsync(supportProject, cancellationToken);
 

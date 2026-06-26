@@ -2414,7 +2414,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 DateTime.UtcNow);
 
             // Act
-            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, additionalDetails);
+            supportProject.SetProgressDetails(progressReviewId, nextSteps, additionalDetails);
 
             // Assert
             var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
@@ -2437,7 +2437,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 DateTime.UtcNow);
 
             // Act
-            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, null);
+            supportProject.SetProgressDetails(progressReviewId, nextSteps, null);
 
             // Assert
             var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
@@ -2454,7 +2454,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
 
             // Act & Assert
             var exception = Assert.Throws<KeyNotFoundException>(() =>
-                supportProject.SetProgressReviewDetails(nonExistentReviewId, "Next steps", "Additional details"));
+                supportProject.SetProgressDetails(nonExistentReviewId, "Next steps", "Additional details"));
 
             exception.Message.Should().Be($"Progress review with id {nonExistentReviewId} not found");
         }
@@ -2476,7 +2476,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 DateTime.UtcNow);
 
             // Act
-            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, additionalDetails);
+            supportProject.SetProgressDetails(progressReviewId, nextSteps, additionalDetails);
 
             // Assert
             var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
@@ -2498,7 +2498,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
 
             // Act
-            supportProject.SetProgressReviewDetails(secondReviewId, nextSteps, additionalDetails);
+            supportProject.SetProgressDetails(secondReviewId, nextSteps, additionalDetails);
 
             // Assert
             var firstReview = supportProject.ProgressReviews.Single(r => r.Id == firstReviewId);
@@ -2524,8 +2524,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 DateTime.UtcNow);
 
             // Act
-            supportProject.SetProgressReviewDetails(progressReviewId, "First steps", "First details");
-            supportProject.SetProgressReviewDetails(progressReviewId, "Second steps", "Second details");
+            supportProject.SetProgressDetails(progressReviewId, "First steps", "First details");
+            supportProject.SetProgressDetails(progressReviewId, "Second steps", "Second details");
 
             // Assert
             var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);
@@ -2548,7 +2548,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 "Test Reviewer",
                 DateTime.UtcNow);
 
-            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, additionalDetails);
+            supportProject.SetProgressDetails(progressReviewId, nextSteps, additionalDetails);
 
             // Act
             supportProject.DeleteProgress(progressReviewId);
@@ -2573,7 +2573,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 "Test Reviewer",
                 DateTime.UtcNow);
 
-            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, null);
+            supportProject.SetProgressDetails(progressReviewId, nextSteps, null);
 
             // Act
             supportProject.DeleteProgress(progressReviewId);
@@ -2614,7 +2614,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 "Test Reviewer",
                 DateTime.UtcNow);
 
-            supportProject.SetProgressReviewDetails(progressReviewId, nextSteps, additionalDetails);
+            supportProject.SetProgressDetails(progressReviewId, nextSteps, additionalDetails);
 
             // Act
             supportProject.DeleteProgress(progressReviewId);
@@ -2636,8 +2636,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
             supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
 
-            supportProject.SetProgressReviewDetails(firstReviewId, "First review next steps", "First review additional details");
-            supportProject.SetProgressReviewDetails(secondReviewId, "Second review next steps", "Second review additional details");
+            supportProject.SetProgressDetails(firstReviewId, "First review next steps", "First review additional details");
+            supportProject.SetProgressDetails(secondReviewId, "Second review next steps", "Second review additional details");
 
             // Act
             supportProject.DeleteProgress(firstReviewId);
@@ -2665,7 +2665,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 "Test Reviewer",
                 DateTime.UtcNow);
 
-            supportProject.SetProgressReviewDetails(progressReviewId, "First steps", "First details");
+            supportProject.SetProgressDetails(progressReviewId, "First steps", "First details");
 
             // Act
             supportProject.DeleteProgress(progressReviewId);
@@ -2714,7 +2714,7 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
                 "Test Reviewer",
                 DateTime.UtcNow);
 
-            supportProject.SetProgressReviewDetails(progressReviewId, "Next steps", "Additional details");
+            supportProject.SetProgressDetails(progressReviewId, "Next steps", "Additional details");
             supportProject.SetProgressReviewNextReviewDate(progressReviewId, nextReviewDate);
 
             var review = supportProject.ProgressReviews.Single(r => r.Id == progressReviewId);

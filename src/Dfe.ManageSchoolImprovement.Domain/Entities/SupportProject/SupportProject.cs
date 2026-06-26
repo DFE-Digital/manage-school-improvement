@@ -849,7 +849,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         review.SetNextReviewDate(nextReviewDate);
     }
     
-    public void SetProgressReviewDetails(ProgressReviewId progressReviewId, string nextSteps, string? additionalDetails)
+    public void SetProgressDetails(ProgressReviewId progressReviewId, string nextSteps, string? additionalDetails)
     {
         var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
 
@@ -871,6 +871,18 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         }
 
         review.DeleteProgress();
+    }
+
+    public void SetProgressReviewDetails(ProgressReviewId progressReviewId, string reviewer, DateTime reviewDate)
+    {
+        var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
+
+        if (review == null)
+        {
+            throw new KeyNotFoundException($"Progress review with id {progressReviewId} not found");
+        }
+
+        review.SetReviewDetails(reviewer, reviewDate);
     }
 
     public void SetInterimExecutiveBoardCreated(EngagementConcernId engagementConcernId,

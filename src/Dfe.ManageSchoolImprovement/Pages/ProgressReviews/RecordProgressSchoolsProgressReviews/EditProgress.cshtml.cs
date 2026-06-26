@@ -81,7 +81,7 @@ public class EditProgressModel(
             return Page();
         }
         
-        var result = await mediator.Send(new SetProgressReviewDetailsCommand(
+        var result = await mediator.Send(new SetProgressDetailsCommand(
             new SupportProjectId(id),
             new ProgressReviewId(ProgressReview.Id),
             NextSteps,
