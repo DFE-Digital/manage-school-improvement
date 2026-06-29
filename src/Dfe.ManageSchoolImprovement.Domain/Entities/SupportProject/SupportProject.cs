@@ -886,7 +886,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         
         var remainingReviews = _progressReviews.Where(r => r.SupportProjectId == supportProjectId).ToList();
         
-        if (remainingReviews.Any())
+        if (remainingReviews.Count > 0)
         {
             for (var i = 0; i < remainingReviews.Count; i++)
             {
