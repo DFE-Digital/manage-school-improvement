@@ -2735,5 +2735,183 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             review.NextSteps.Should().BeNull();
             review.AdditionalDetails.Should().BeNull();
         }
+
+        [Fact]
+        public void DeleteReview_WithValidParameters_RemovesReviewFromCollection()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.DeleteReview(progressReviewId, supportProject.Id!);
+
+            // Assert
+            supportProject.ProgressReviews.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void DeleteReview_WithNonExistentProgressReview_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var nonExistentReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            // Act & Assert
+            var exception = Assert.Throws<KeyNotFoundException>(() =>
+                supportProject.DeleteReview(nonExistentReviewId, supportProject.Id!));
+
+            exception.Message.Should().Be($"Progress review with id {nonExistentReviewId} not found");
+        }
+
+        [Fact]
+        public void DeleteReview_WithSingleReview_LeavesEmptyCollection()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var progressReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(
+                progressReviewId,
+                supportProject.Id!,
+                "Test Reviewer",
+                DateTime.UtcNow);
+
+            // Act
+            supportProject.DeleteReview(progressReviewId, supportProject.Id!);
+
+            // Assert
+            supportProject.ProgressReviews.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void DeleteReview_WithMultipleReviews_DeletesOnlyTargetReview()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
+
+            // Act
+            supportProject.DeleteReview(firstReviewId, supportProject.Id!);
+
+            // Assert
+            supportProject.ProgressReviews.Should().HaveCount(1);
+            supportProject.ProgressReviews.Should().NotContain(r => r.Id == firstReviewId);
+            supportProject.ProgressReviews.Should().ContainSingle(r => r.Id == secondReviewId);
+        }
+
+        [Fact]
+        public void DeleteReview_WhenDeletingFirstReview_ReordersRemainingReviews()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
+
+            // Act
+            supportProject.DeleteReview(firstReviewId, supportProject.Id!);
+
+            // Assert
+            var remainingReview = supportProject.ProgressReviews.Single(r => r.Id == secondReviewId);
+            remainingReview.Order.Should().Be(1);
+            remainingReview.Title.Should().Be("First review");
+        }
+
+        [Fact]
+        public void DeleteReview_WhenDeletingMiddleReview_ReordersRemainingReviews()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+            var thirdReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(thirdReviewId, supportProject.Id!, "Third Reviewer", DateTime.UtcNow);
+
+            // Act
+            supportProject.DeleteReview(secondReviewId, supportProject.Id!);
+
+            // Assert
+            supportProject.ProgressReviews.Should().HaveCount(2);
+
+            var firstReview = supportProject.ProgressReviews.Single(r => r.Id == firstReviewId);
+            firstReview.Order.Should().Be(1);
+            firstReview.Title.Should().Be("First review");
+
+            var thirdReview = supportProject.ProgressReviews.Single(r => r.Id == thirdReviewId);
+            thirdReview.Order.Should().Be(2);
+            thirdReview.Title.Should().Be("Second review");
+        }
+
+        [Fact]
+        public void DeleteReview_WhenDeletingLastReview_PreservesOrderOfRemainingReviews()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+            var thirdReviewId = new ProgressReviewId(Guid.NewGuid());
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(thirdReviewId, supportProject.Id!, "Third Reviewer", DateTime.UtcNow);
+
+            // Act
+            supportProject.DeleteReview(thirdReviewId, supportProject.Id!);
+
+            // Assert
+            supportProject.ProgressReviews.Should().HaveCount(2);
+
+            var firstReview = supportProject.ProgressReviews.Single(r => r.Id == firstReviewId);
+            firstReview.Order.Should().Be(1);
+            firstReview.Title.Should().Be("First review");
+
+            var secondReview = supportProject.ProgressReviews.Single(r => r.Id == secondReviewId);
+            secondReview.Order.Should().Be(2);
+            secondReview.Title.Should().Be("Second review");
+        }
+
+        [Fact]
+        public void DeleteReview_PreservesOtherPropertiesOnRemainingReviews()
+        {
+            // Arrange
+            var supportProject = CreateSupportProject();
+            var firstReviewId = new ProgressReviewId(Guid.NewGuid());
+            var secondReviewId = new ProgressReviewId(Guid.NewGuid());
+            var reviewDate = DateTime.UtcNow.AddDays(-14);
+            var nextReviewDate = DateTime.UtcNow.AddDays(30);
+
+            supportProject.AddProgressReview(firstReviewId, supportProject.Id!, "First Reviewer", DateTime.UtcNow);
+            supportProject.AddProgressReview(secondReviewId, supportProject.Id!, "Second Reviewer", reviewDate);
+
+            supportProject.SetProgressDetails(secondReviewId, "Next steps", "Additional details");
+            supportProject.SetProgressReviewNextReviewDate(secondReviewId, nextReviewDate);
+
+            // Act
+            supportProject.DeleteReview(firstReviewId, supportProject.Id!);
+
+            // Assert
+            var remainingReview = supportProject.ProgressReviews.Single(r => r.Id == secondReviewId);
+            remainingReview.Reviewer.Should().Be("Second Reviewer");
+            remainingReview.ReviewDate.Should().Be(reviewDate);
+            remainingReview.NextSteps.Should().Be("Next steps");
+            remainingReview.AdditionalDetails.Should().Be("Additional details");
+            remainingReview.NextReviewDate.Should().Be(nextReviewDate);
+        }
     }
 }
