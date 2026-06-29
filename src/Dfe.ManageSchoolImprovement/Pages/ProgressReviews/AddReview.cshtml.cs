@@ -104,8 +104,6 @@ public class AddReviewModel(
         }
 
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
-        
-        // add check for type of school, call appropriate command
 
         if (SupportProject?.InitialDiagnosisMatchingDecision == MatchedSchool)
         {

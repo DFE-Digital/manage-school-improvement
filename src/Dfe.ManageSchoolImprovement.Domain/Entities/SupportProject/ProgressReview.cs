@@ -51,6 +51,12 @@ namespace Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject
             NextSteps = null;
             AdditionalDetails = null;
         }
+        
+        public void SetReviewDetails(string reviewer, DateTime reviewDate)
+        {
+            Reviewer = reviewer;
+            ReviewDate = reviewDate;
+        }
     }
 }
 

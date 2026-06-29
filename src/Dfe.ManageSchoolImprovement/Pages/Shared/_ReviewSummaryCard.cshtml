@@ -39,43 +39,29 @@
         {
             <div class='govuk-grid-row'>
                 <div class='govuk-grid-column-one-half'>
-                    @* if matched school *@
                     @if (Model.Type == "Matched")
                     {
+                        if (!Model.IsReadOnly.HasValue || Model.IsReadOnly == false)
+                        {
+                            <p class="govuk-body govuk-!-margin-bottom-0">
+                                <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                                   asp-route-id='@Model.SupportProjectId'
+                                   asp-route-reviewid='@Model.ReviewId' class='govuk-link'
+                                   data-cy='edit-review-details-link'>@(Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
+                                        ? "Edit or delete review"
+                                        : "Edit review details")</a> <br/>
 
-                            if (!Model.IsReadOnly.HasValue || Model.IsReadOnly == false)
-                            {
-                                <p class="govuk-body govuk-!-margin-bottom-0">
-                                    <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                                @if (Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
+                                {
+                                    <a asp-page='@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page'
                                        asp-route-id='@Model.SupportProjectId'
-                                       asp-route-reviewid='@Model.ReviewId' class='govuk-link'
-                                       data-cy='edit-review-details-link'>@(Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
-                                            ? "Edit or delete review"
-                                            : "Edit review details")</a> <br/>
-
-                                    @if (Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
-                                    {
-                                        <a asp-page='@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page'
-                                           asp-route-id='@Model.SupportProjectId'
-                                           asp-route-reviewId='@Model.ReviewId'
-                                           asp-route-enableSkip='true'
-                                           class='govuk-link' data-cy='record-progress-matched-school-link'>Record
-                                            progress</a>
-                                    }
-                                    else
-                                    {
-                                        <p class='govuk-body govuk-!-margin-bottom-0'>
-                                            <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
-                                               asp-route-id='@Model.SupportProjectId'
-                                               asp-route-reviewId='@Model.ReviewId'
-                                               class='govuk-link' data-cy='view-progress-summary-link'>View progress
-                                                review</a>
-                                        </p>
-                                    }
-                                </p>
-                            }
-                            else
-                            {
+                                       asp-route-reviewId='@Model.ReviewId'
+                                       asp-route-enableSkip='true'
+                                       class='govuk-link' data-cy='record-progress-matched-school-link'>Record
+                                        progress</a>
+                                }
+                                else
+                                {
                                 <p class='govuk-body govuk-!-margin-bottom-0'>
                                     <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
                                        asp-route-id='@Model.SupportProjectId'
@@ -84,20 +70,32 @@
                                         review</a>
                                 </p>
                             }
-                        
+                            </p>
+                        }
+                        else
+                        {
+                            <p class='govuk-body govuk-!-margin-bottom-0'>
+                                <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
+                                   asp-route-id='@Model.SupportProjectId'
+                                   asp-route-reviewId='@Model.ReviewId'
+                                   class='govuk-link' data-cy='view-progress-summary-link'>View progress
+                                    review</a>
+                            </p>
+                        }
                     }
                     else
                     {
-                        // coming in next ticket
-                        @* <p class='govuk-body govuk-!-margin-bottom-0'> *@
-                        @*     <a asp-page='#' *@
-                        @*        asp-route-id='@Model.SupportProjectId' *@
-                        @*        asp-route-reviewId='@Model.ReviewId' *@
-                        @*        class='govuk-link' data-cy='edit-delete-progress-link'>Edit or delete review</a> *@
-                        @* </p> *@
+                        <p class='govuk-body govuk-!-margin-bottom-0'>
+                            <a asp-page='@Links.ProgressReviews.EditReview.Page'
+                               asp-route-id='@Model.SupportProjectId'
+                               asp-route-reviewId='@Model.ReviewId'
+                               class='govuk-link'
+                               data-cy='edit-delete-progress-link'>@(Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
+                                    ? "Edit or delete review"
+                                    : "Edit review details")</a>
+                        </p>
                         @if (Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
                         {
-                            
                             <p class='govuk-body govuk-!-margin-bottom-0'>
                                 <a asp-page='@Links.ProgressReviews.RecordProgressSchoolsRecordProgress.Page'
                                    asp-route-id='@Model.SupportProjectId'
