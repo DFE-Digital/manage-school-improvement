@@ -1,3 +1,4 @@
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
@@ -20,12 +21,15 @@ public class DeleteReviewModel(
     public DateTime? ReviewDate { get; set; }
     
     [BindProperty]
-    public Guid ImprovementPlanReviewId { get; set; }
+    public Guid? ImprovementPlanReviewId { get; set; }
     
     public int ReviewReadableId { get; set; }
 
     [BindProperty]
     public Guid ImprovementPlanId { get; set; }
+    
+    [BindProperty]
+    public Guid? ProgressReviewId { get; set; }
     
     public string? ReviewStatus { get; set; }
     
@@ -44,20 +48,37 @@ public class DeleteReviewModel(
 
         await base.GetSupportProject(id, cancellationToken);
 
-        var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
-
-        if (improvementPlanReview != null)
+        if (SupportProject != null && SupportProject.ImprovementPlans.Any())
         {
-            ImprovementPlanId = improvementPlanReview.ImprovementPlanId;
-            ImprovementPlanReviewId = improvementPlanReview.Id;
-            ReviewDate = improvementPlanReview.ReviewDate;
-            ReviewStatus = improvementPlanReview.ProgressStatus;
-            ReviewStatusClass = improvementPlanReview.ProgressStatusClass;
-            ReviewTitle = improvementPlanReview.Title;
-            ReviewerName = improvementPlanReview.Reviewer;
-            ReviewReadableId = reviewId;
-        }
+            var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
 
+            if (improvementPlanReview != null)
+            {
+                ImprovementPlanId = improvementPlanReview.ImprovementPlanId;
+                ImprovementPlanReviewId = improvementPlanReview.Id;
+                ReviewDate = improvementPlanReview.ReviewDate;
+                ReviewStatus = improvementPlanReview.ProgressStatus;
+                ReviewStatusClass = improvementPlanReview.ProgressStatusClass;
+                ReviewTitle = improvementPlanReview.Title;
+                ReviewerName = improvementPlanReview.Reviewer;
+                ReviewReadableId = reviewId;
+            }
+        }
+        else
+        {
+            var progressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == reviewId);
+            
+            if (progressReview != null)
+            {
+                ProgressReviewId = progressReview.Id;
+                ReviewReadableId = reviewId;
+                ReviewDate = progressReview.ReviewDate;
+                ReviewStatus = progressReview.ProgressStatus;
+                ReviewStatusClass = progressReview.ProgressStatusClass;
+                ReviewerName = progressReview.Reviewer;
+            }
+        }
+        
         return Page();
     }
 
@@ -70,16 +91,29 @@ public class DeleteReviewModel(
             _errorService.AddErrors(Request.Form.Keys, ModelState);
             return Page();
         }
-        
-        var result = await mediator.Send(new DeleteImprovementPlanReview.DeleteImprovementPlanReviewCommand(new SupportProjectId(id),
-            new ImprovementPlanId(ImprovementPlanId),
-            new ImprovementPlanReviewId(ImprovementPlanReviewId),
-            User.Identity?.Name!), cancellationToken);
 
-        if (result == null)
+        if (ImprovementPlanReviewId != null)
         {
-            _errorService.AddApiError();
-            return await base.GetSupportProject(id, cancellationToken);
+            var result = await mediator.Send(new DeleteImprovementPlanReview.DeleteImprovementPlanReviewCommand(new SupportProjectId(id),
+                new ImprovementPlanId(ImprovementPlanId),
+                new ImprovementPlanReviewId(ImprovementPlanReviewId.Value),
+                User.Identity?.Name!), cancellationToken);
+
+            if (result == null)
+            {
+                _errorService.AddApiError();
+                return await base.GetSupportProject(id, cancellationToken);
+            }
+        }
+        else
+        {
+            var progressReviewResult = await mediator.Send(new DeleteReviewCommand(new SupportProjectId(id), new ProgressReviewId(ProgressReviewId.Value)), cancellationToken);
+            
+            if (progressReviewResult == null)
+            {
+                _errorService.AddApiError();
+                return await base.GetSupportProject(id, cancellationToken);
+            }
         }
         
         TempData["progressReviewDeleted"] = true;

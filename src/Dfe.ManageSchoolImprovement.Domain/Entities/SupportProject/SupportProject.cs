@@ -873,6 +873,33 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         review.DeleteProgress();
     }
 
+    public void DeleteReview(ProgressReviewId progressReviewId, SupportProjectId supportProjectId)
+    {
+        var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);
+
+        if (review == null)
+        {
+            throw new KeyNotFoundException($"Progress review with id {progressReviewId} not found");
+        }
+
+        _progressReviews.Remove(review);
+        
+        var remainingReviews = _progressReviews.Where(r => r.SupportProjectId == supportProjectId).ToList();
+        
+        if (remainingReviews.Any())
+        {
+            for (var i = 0; i < remainingReviews.Count; i++)
+            {
+                var order = i + 1;
+                remainingReviews[i].Order = order;
+                remainingReviews[i].Title = $"{order.ToOrdinalWord()} review";
+            }
+            
+            _progressReviews.RemoveAll(r => r.SupportProjectId == supportProjectId);
+            _progressReviews.AddRange(remainingReviews);
+        }
+    }
+
     public void SetProgressReviewDetails(ProgressReviewId progressReviewId, string reviewer, DateTime reviewDate)
     {
         var review = _progressReviews.SingleOrDefault(x => x.Id == progressReviewId);

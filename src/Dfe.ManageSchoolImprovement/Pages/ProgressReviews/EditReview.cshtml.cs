@@ -120,7 +120,7 @@ public class EditReviewModel(
             ModelState.AddModelError(nameof(ReviewDate), "Enter a date");
         }
 
-        if (SupportProject.ImprovementPlans.Any())
+        if (ImprovementPlanReviewId != null)
         {
             // Get the previous review for validation
             var reviews = SupportProject?.ImprovementPlans?
@@ -183,16 +183,16 @@ public class EditReviewModel(
 
         var reviewer = ReviewerSelection == "someone-else" ? CustomReviewerName : ReviewerSelection;
 
-        if (SupportProject.ImprovementPlans.Any())
+        if (ImprovementPlanReviewId != null)
         {
             await mediator.Send(new SetImprovementPlanReviewDetailsCommand(new SupportProjectId(id),
                 new ImprovementPlanId(ImprovementPlanId),
-                new ImprovementPlanReviewId((Guid)ImprovementPlanReviewId!),
+                new ImprovementPlanReviewId(ImprovementPlanReviewId.Value),
                 reviewer ?? string.Empty, ReviewDate!.Value), cancellationToken);
         }
         else
         {
-            await mediator.Send(new SetProgressReviewDetailsCommand(new ProgressReviewId((Guid)ProgressReviewId),
+            await mediator.Send(new SetProgressReviewDetailsCommand(new ProgressReviewId(ProgressReviewId.Value),
                 new SupportProjectId(id),
                 reviewer ?? string.Empty, ReviewDate!.Value), cancellationToken);
         }
