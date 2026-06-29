@@ -108,7 +108,7 @@ public class EditProgressModel(
             new() {
                 Id = "review-school-progress",
                 Name = "Continue to review progress",
-                Value = "Review school's progress"
+                Value = "Continue to review progress"
             },
             new() {
                 Id = "match-with-organisation",
