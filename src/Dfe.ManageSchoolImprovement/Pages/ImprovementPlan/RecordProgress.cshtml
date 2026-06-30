@@ -105,8 +105,7 @@
             <partial name="_ObjectiveSection"
                      model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
         }
-        @if (!Model.NoProgressReviewsRecorded
-                 || (matchingDecisionHasChanged && Model.ObjectivesComplete))
+        @if (!Model.NoProgressReviewsRecorded)
         {
             @if (Model.CurrentReview != null)
             {
