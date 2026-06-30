@@ -46,7 +46,9 @@
                             <p class="govuk-body govuk-!-margin-bottom-0">
                                 <a asp-page='@Links.ProgressReviews.EditReview.Page'
                                    asp-route-id='@Model.SupportProjectId'
-                                   asp-route-reviewid='@Model.ReviewId' class='govuk-link'
+                                   asp-route-reviewid='@Model.ReviewId'
+                                   asp-route-reviewType="matched"
+                                   class='govuk-link'
                                    data-cy='edit-review-details-link'>@(Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
                                         ? "Edit or delete review"
                                         : "Edit review details")</a> <br/>
@@ -89,6 +91,7 @@
                             <a asp-page='@Links.ProgressReviews.EditReview.Page'
                                asp-route-id='@Model.SupportProjectId'
                                asp-route-reviewId='@Model.ReviewId'
+                               asp-route-reviewType="reviewProgress"
                                class='govuk-link'
                                data-cy='edit-delete-progress-link'>@(Model.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
                                     ? "Edit or delete review"
