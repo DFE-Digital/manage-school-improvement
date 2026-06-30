@@ -47,14 +47,14 @@ public class EditReviewModel(
     public bool ShowReviewerSelectionError => ModelState.ContainsKey(nameof(ReviewerSelection)) && ModelState[nameof(ReviewerSelection)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int reviewId, string reviewType, CancellationToken cancellationToken)
     {
         // Set the return page to the progress reviews index
         ReturnPage = Links.ProgressReviews.Index.Page;
 
         await base.GetSupportProject(id, cancellationToken);
-
-        if (SupportProject != null && SupportProject.ImprovementPlans.Any())
+        
+        if (SupportProject != null && reviewType == "matched")
         {
             var improvementPlanReview = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews).SingleOrDefault(x => x.ReadableId == reviewId);
 
