@@ -12,6 +12,8 @@
 
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
     var reviewProgressSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Review school's progress";
+    var matchingDecisionHasChanged = Model.CurrentReview is { Type: "Review progress" }
+                           && matchedSchool;
 }
 
 @section BeforeMain {
@@ -42,7 +44,23 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">Record progress</h2>
-        @if (matchedSchool && (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)) ||
+        @if (matchingDecisionHasChanged && !Model.ObjectivesComplete)
+        {
+            <h3 class="govuk-heading-m">Schools matched with a supporting organisation</h3>
+            <p>As you add the improvement plan objectives they will be listed on this page.</p>
+            <p>You will only be able to record a progress review when:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>an adviser has been allocated</li>
+                <li>all objectives have been added and marked as complete</li>
+            </ul>
+            
+            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
+               draggable="false" class="govuk-button" data-module="govuk-button"
+               data-cy="view-progress-button">
+                View progress
+            </a>
+        }
+        else if (matchedSchool && (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)) ||
              !Model.IsAdviserAllocated
              || (!matchedSchool && !reviewProgressSchool))
         {
@@ -87,7 +105,7 @@
             <partial name="_ObjectiveSection"
                      model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
         }
-        else if (!Model.NoProgressReviewsRecorded)
+        @if (!Model.NoProgressReviewsRecorded)
         {
             @if (Model.CurrentReview != null)
             {
@@ -105,12 +123,13 @@
                 <partial name="_ReviewSummaryCard"
                          model="reviewSummaryCardModel"/>
             }
-            
-            @if (reviewProgressSchool && 
-                 Model.CurrentProgressReview != null && 
+
+            @if ((reviewProgressSchool || matchingDecisionHasChanged) &&
+                 Model.CurrentProgressReview != null &&
                  Model.CurrentProgressReview.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
             {
-                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
+                <partial name="_ReviewProgressSummaryCard"
+                         model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
             }
             else if (matchedSchool)
             {

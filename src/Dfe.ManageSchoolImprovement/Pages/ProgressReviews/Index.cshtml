@@ -7,8 +7,12 @@
 
     bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
+    
+    var improvementPlan = Model.SupportProject?.ImprovementPlans?.FirstOrDefault();
 
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
+    var matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
+                                     && matchedSchool && (bool)!improvementPlan.ObjectivesSectionComplete;
 }
 
 @section BeforeMain
@@ -83,7 +87,7 @@
         else
         {
             <!-- No more reviews needed section -->
-            if (!Model.SupportProject!.IsReadOnly)
+            if (!Model.SupportProject!.IsReadOnly && !matchingDecisionHasChanged)
             {
                 <div class="govuk-inset-text govuk-!-margin-bottom-6">
                     @if (Model.CurrentProgressReview?.NextReviewDate is null)
@@ -91,7 +95,9 @@
                         <h2 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h2>
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
-                               asp-route-reviewid="@Model.CurrentProgressReview?.ReadableId" class="govuk-link"
+                               asp-route-reviewid="@Model.CurrentProgressReview?.ReadableId"
+                               asp-route-reviewtype="@(matchingDecisionHasChanged ? "Matched" : Model.CurrentProgressReview?.Type)"
+                               class="govuk-link"
                                data-cy="add-next-review-date-link">Add next review date</a>
                         </p>
                     }
@@ -107,8 +113,6 @@
                                data-cy="next-review-date-change-link">Change next review date</a>
                         </p>
                     }
-
-
                 </div>
             }
 
@@ -128,7 +132,7 @@
             }
 
             <div class="govuk-button-group">
-                @if (!Model.SupportProject.IsReadOnly)
+                @if (!Model.SupportProject.IsReadOnly && !matchingDecisionHasChanged)
                 {
                     @if (matchedSchool)
                     {

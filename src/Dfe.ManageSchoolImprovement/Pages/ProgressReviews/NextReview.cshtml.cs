@@ -40,15 +40,14 @@ public class NextReviewModel(
     public bool ShowIsAnotherReviewNeededError => ModelState.ContainsKey(nameof(IsAnotherReviewNeeded)) && ModelState[nameof(IsAnotherReviewNeeded)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
 
-    public async Task<IActionResult> OnGetAsync(int id, int reviewId, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnGetAsync(int id, int reviewId, string reviewType, CancellationToken cancellationToken)
     {
         ReturnPage = Links.ProgressReviews.Index.Page;
         ReviewId = reviewId;
 
         await base.GetSupportProjectProgressReviews(id, cancellationToken);
 
-        if (SupportProject != null &&
-            SupportProject.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
+        if (SupportProject != null && reviewType == "Matched")
         {
             // Get the improvement plan and review from the support project
             ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
