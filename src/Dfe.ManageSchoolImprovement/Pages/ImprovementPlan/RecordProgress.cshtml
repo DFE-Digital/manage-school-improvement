@@ -61,22 +61,13 @@
                 <li>the initial diagnosis decision is to review school's progress</li>
             </ul>
         }
-        else if (matchedSchool)
+        else 
         {
             <p>Record progress on the improvement plan objectives after each review.</p>
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">
-                @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record or view progress")
-            </a>
-        }
-        else if (reviewProgressSchool)
-        {
-            <p>Record progress on the improvement plan after each review.</p>
-            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
-               draggable="false" class="govuk-button" data-module="govuk-button"
-               data-cy="record-or-view-progress-button">
-                @(Model.SupportProject!.IsReadOnly ? "View progress" : (Model.NoProgressReviewsRecorded ? "Record progress" : "Record or view progress"))
+                @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record progress")
             </a>
         }
         @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded)
