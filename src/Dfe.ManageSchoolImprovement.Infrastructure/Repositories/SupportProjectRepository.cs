@@ -241,6 +241,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .ThenInclude(x => x.ImprovementPlanReviews)
                 .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
                 .Include(x => x.EngagementConcerns)
+                .Include(x => x.ProgressReviews)
                 .AsQueryable();
         }
         
@@ -271,6 +272,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.ImprovementPlans)
                 .ThenInclude(x => x.ImprovementPlanReviews)
                 .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .Include(x => x.ProgressReviews)
                 .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
         
@@ -288,6 +290,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
                 .Include(x => x.ImprovementPlans)
                 .ThenInclude(x => x.ImprovementPlanReviews)
                 .ThenInclude(x => x.ImprovementPlanObjectiveProgresses)
+                .Include(x => x.ProgressReviews)
                 .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 

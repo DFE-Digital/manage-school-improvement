@@ -1,0 +1,52 @@
+@page "/progress-reviews/{id:int}/view-progress-review"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
+@model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgressSchoolsProgressReviews.ProgressSummaryModel
+@{
+    ViewData["Title"] = "Progress review";
+}
+
+@section BeforeMain
+{
+    <nav aria-label="back navigation">
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject?.Id" class="govuk-back-link"
+           data-cy="back-link">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l" data-cy="school-name">Progress review</span>
+        <h1 class="govuk-heading-l" data-cy="page-heading">
+            Progress review
+        </h1>
+        @if (Model.Review != null)
+        {
+            var reviewSummaryCardModel = (
+                Model.Review.Title,
+                Model.Review.ProgressStatusClass,
+                Model.Review.ProgressStatus,
+                Model.Review.ReviewDate,
+                Model.Review.Reviewer,
+                Model.Review.Type,
+                IsReadOnly: (bool?)null,
+                SupportProjectId: (int?)null,
+                ReviewId: (int?)null
+            );
+            <partial name="_ReviewSummaryCard" model="reviewSummaryCardModel" /> 
+            
+            @if (Model.Review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
+            {
+                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page)" />
+            }
+        }
+        
+        
+        <div class="govuk-button-group govuk-!-margin-top-7">
+            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
+               draggable="false" class="govuk-button" data-module="govuk-button"
+               data-cy="return-to-progress-reviews-button">
+                Return to progress reviews
+            </a>
+        </div>
+    </div>
+</div>

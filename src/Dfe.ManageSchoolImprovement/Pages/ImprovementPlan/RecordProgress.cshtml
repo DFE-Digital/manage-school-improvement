@@ -1,16 +1,19 @@
 @page "/record-progress/{id:int}"
+@using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 @model ImprovementPlanTabModel
 
 @{
     ViewData["Title"] = "Record progress";
 
-    var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentReview?.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentReview.OverallProgressDetails;
+    var currentReviewOverallProgressDetails = string.IsNullOrEmpty(Model.CurrentImprovementPlanReview?.OverallProgressDetails) ? "No details recorded yet" : Model.CurrentImprovementPlanReview.OverallProgressDetails;
     bool objectiveDeleted = (bool)(TempData["objectiveDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
 
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
     var reviewProgressSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Review school's progress";
+    var matchingDecisionHasChanged = Model.CurrentReview is { Type: "Review progress" }
+                           && matchedSchool;
 }
 
 @section BeforeMain {
@@ -41,7 +44,23 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">Record progress</h2>
-        @if (matchedSchool && (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)) ||
+        @if (matchingDecisionHasChanged && !Model.ObjectivesComplete)
+        {
+            <h3 class="govuk-heading-m">Schools matched with a supporting organisation</h3>
+            <p>As you add the improvement plan objectives they will be listed on this page.</p>
+            <p>You will only be able to record a progress review when:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>an adviser has been allocated</li>
+                <li>all objectives have been added and marked as complete</li>
+            </ul>
+            
+            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
+               draggable="false" class="govuk-button" data-module="govuk-button"
+               data-cy="view-progress-button">
+                View progress
+            </a>
+        }
+        else if (matchedSchool && (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)) ||
              !Model.IsAdviserAllocated
              || (!matchedSchool && !reviewProgressSchool))
         {
@@ -60,20 +79,10 @@
                 <li>the initial diagnosis decision is to review school's progress</li>
             </ul>
         }
-        else if (matchedSchool)
+        else 
         {
             <p>Record progress on the improvement plan objectives after each review.</p>
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
-               draggable="false" class="govuk-button" data-module="govuk-button"
-               data-cy="record-or-view-progress-button">
-                @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record or view progress")
-            </a>
-        }
-        else if (reviewProgressSchool)
-        {
-            <p>Record progress on the improvement plan after each review.</p>
-            // link to the record progress page does not exist yet
-            <a asp-page="#" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">
                 @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record progress")
@@ -96,109 +105,155 @@
             <partial name="_ObjectiveSection"
                      model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
         }
-        else if (!Model.NoProgressReviewsRecorded)
+        @if (!Model.NoProgressReviewsRecorded)
         {
-            <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.CurrentReview?.Title'>
-                <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
-                    <div class='govuk-grid-row'>
-                        <div class='govuk-grid-column-one-half'>
-                            <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
-                                @Model.CurrentReview.Title
-                            </h2>
-                        </div>
-                        <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
-                            <strong
-                                class='govuk-tag @Model.CurrentReview.ProgressStatusClass'>@Model.CurrentReview.ProgressStatus</strong>
-                        </div>
-                    </div>
-                    <div class='govuk-grid-row'>
-                        <div class='govuk-grid-column-two-thirds'>
-                            <p class='govuk-body govuk-!-margin-bottom-0'>
-                                <strong>Reviewed on @Model.CurrentReview.ReviewDate.ToDateString()</strong><br/>
-                                <strong>by</strong> @Model.CurrentReview.Reviewer
-                            </p>
-                        </div>
-                    </div>
-                </section>
-            </article>
-
-            @foreach (var group in Model.ObjectiveProgressGroups)
+            @if (Model.CurrentReview != null)
             {
-                <h2 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">@group.AreaOfImprovement</h2>
-                @foreach (var objective in group.ObjectiveProgresses)
+                var reviewSummaryCardModel = (
+                    Model.CurrentReview.Title,
+                    Model.CurrentReview.ProgressStatusClass,
+                    Model.CurrentReview.ProgressStatus,
+                    Model.CurrentReview.ReviewDate,
+                    Model.CurrentReview.Reviewer,
+                    Model.CurrentReview.Type,
+                    IsReadOnly: (bool?)null,
+                    SupportProjectId: (int?)null,
+                    ReviewId: (int?)null
+                );
+                <partial name="_ReviewSummaryCard"
+                         model="reviewSummaryCardModel"/>
+            }
+
+            @if ((reviewProgressSchool || matchingDecisionHasChanged) &&
+                 Model.CurrentProgressReview != null &&
+                 Model.CurrentProgressReview.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
+            {
+                <partial name="_ReviewProgressSummaryCard"
+                         model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
+            }
+            else if (matchedSchool)
+            {
+                @foreach (var group in Model.ObjectiveProgressGroups)
                 {
-                    <div class="govuk-summary-card govuk-!-margin-bottom-6">
-                        <div class="govuk-summary-card__title-wrapper">
-                            <h3 class="govuk-summary-card__title">@objective.Title</h3>
-                            @if (!Model.SupportProject!.IsReadOnly)
-                            {
-                                @if (objective.ReadableId != 0)
+                    <h2 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">@group.AreaOfImprovement</h2>
+                    @foreach (var objective in group.ObjectiveProgresses)
+                    {
+                        <div class="govuk-summary-card govuk-!-margin-bottom-6">
+                            <div class="govuk-summary-card__title-wrapper">
+                                <h3 class="govuk-summary-card__title">@objective.Title</h3>
+                                @if (!Model.SupportProject!.IsReadOnly)
                                 {
-                                    <ul class="govuk-summary-card__actions">
-                                        <li class="govuk-summary-card__action">
-                                            <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
-                                               asp-route-id="@Model.SupportProject?.Id"
-                                               asp-route-objectiveProgressId="@objective.ReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
-                                               class="govuk-link"
-                                               data-cy="change-objective-progress-link">
-                                                Change<span class="govuk-visually-hidden"> @objective.Title</span></a>
-                                        </li>
-                                        <li class="govuk-summary-card__action">
-                                            <a class="govuk-link"
-                                               asp-page="@Links.ProgressReviews.DeleteObjectiveProgress.Page"
-                                               asp-route-id="@Model.SupportProject?.Id"
-                                               asp-route-objectiveprogressid="@objective.ReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
-                                               data-cy="objective-summary-change-link">Delete</a>
-                                        </li>
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <ul class="govuk-summary-card__actions">
-                                        <li class="govuk-summary-card__action">
-                                            <a class="govuk-link"
-                                               asp-page="@Links.ProgressReviews.RecordProgress.Page"
-                                               asp-route-id="@Model.SupportProject?.Id"
-                                               asp-route-reviewId="@Model.CurrentReview.ReadableId"
-                                               asp-route-objectiveId="@objective.ObjectiveReadableId"
-                                               asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
-                                               data-cy="objective-summary-change-link">Record<span
-                                                    class="govuk-visually-hidden"> @objective.Title</span></a>
-                                        </li>
-                                        @if (!Model.CompletedReviews)
-                                        {
+                                    @if (objective.ReadableId != 0)
+                                    {
+                                        <ul class="govuk-summary-card__actions">
                                             <li class="govuk-summary-card__action">
-                                                <a class="govuk-link"
-                                                   asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
+                                                <a asp-page="@Links.ProgressReviews.ChangeProgress.Page"
                                                    asp-route-id="@Model.SupportProject?.Id"
-                                                   asp-route-objectiveid="@objective.ObjectiveReadableId"
+                                                   asp-route-objectiveProgressId="@objective.ReadableId"
                                                    asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
-                                                   data-cy="objective-summary-change-link">Delete<span
+                                                   class="govuk-link"
+                                                   data-cy="change-objective-progress-link">
+                                                    Change
+                                                    <span
                                                         class="govuk-visually-hidden"> @objective.Title</span></a>
                                             </li>
-                                        }
-                                    </ul>
+                                            <li class="govuk-summary-card__action">
+                                                <a class="govuk-link"
+                                                   asp-page="@Links.ProgressReviews.DeleteObjectiveProgress.Page"
+                                                   asp-route-id="@Model.SupportProject?.Id"
+                                                   asp-route-objectiveprogressid="@objective.ReadableId"
+                                                   asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
+                                                   data-cy="objective-summary-change-link">Delete</a>
+                                            </li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <ul class="govuk-summary-card__actions">
+                                            <li class="govuk-summary-card__action">
+                                                <a class="govuk-link"
+                                                   asp-page="@Links.ProgressReviews.MatchedSchoolsRecordProgress.Page"
+                                                   asp-route-id="@Model.SupportProject?.Id"
+                                                   asp-route-reviewId="@Model.CurrentReview?.ReadableId"
+                                                   asp-route-objectiveId="@objective.ObjectiveReadableId"
+                                                   asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
+                                                   data-cy="objective-summary-change-link">Record
+                                                    <span
+                                                        class="govuk-visually-hidden"> @objective.Title</span></a>
+                                            </li>
+                                            @if (!Model.CompletedReviews)
+                                            {
+                                                <li class="govuk-summary-card__action">
+                                                    <a class="govuk-link"
+                                                       asp-page="@Links.ImprovementPlan.DeleteAnObjective.Page"
+                                                       asp-route-id="@Model.SupportProject?.Id"
+                                                       asp-route-objectiveid="@objective.ObjectiveReadableId"
+                                                       asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
+                                                       data-cy="objective-summary-change-link">Delete
+                                                        <span
+                                                            class="govuk-visually-hidden"> @objective.Title</span></a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
                                 }
+                            </div>
+                            <div class="govuk-summary-card__content">
+                                <dl class="govuk-summary-list">
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Progress rating
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            <partial name="_ProgressRating" model=@objective.Progress/>
+                                        </dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">
+                                            Details
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            @objective.Details
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+                @if (Model.CurrentImprovementPlanReview != null)
+                {
+                    <h2 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">Overall progress</h2>
+
+                    <div class="govuk-summary-card govuk-!-margin-bottom-6">
+                        <div class="govuk-summary-card__title-wrapper">
+                            <h3 class="govuk-summary-card__title">Overall progress</h3>
+                            @if (!Model.SupportProject!.IsReadOnly)
+                            {
+                                <ul class="govuk-summary-card__actions">
+                                    <li class="govuk-summary-card__action">
+                                        <a asp-page="@Links.ProgressReviews.OverallProgress.Page"
+                                           asp-route-id="@Model.SupportProject?.Id"
+                                           asp-route-reviewid="@Model.CurrentReview?.ReadableId"
+                                           asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
+                                           class="govuk-link"
+                                           data-cy="change-overall-progress-link">
+                                            Change<span class="govuk-visually-hidden">Overall progress</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             }
                         </div>
                         <div class="govuk-summary-card__content">
                             <dl class="govuk-summary-list">
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key">
-                                        Progress rating
+                                        Next steps
                                     </dt>
                                     <dd class="govuk-summary-list__value">
-                                        <partial name="_ProgressRating" model=@objective.Progress/>
-                                    </dd>
-                                </div>
-                                <div class="govuk-summary-list__row">
-                                    <dt class="govuk-summary-list__key">
-                                        Details
-                                    </dt>
-                                    <dd class="govuk-summary-list__value">
-                                        @objective.Details
+                                        @currentReviewOverallProgressDetails
                                     </dd>
                                 </div>
                             </dl>
@@ -206,41 +261,6 @@
                     </div>
                 }
             }
-
-            <h2 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">Overall progress</h2>
-
-            <div class="govuk-summary-card govuk-!-margin-bottom-6">
-                <div class="govuk-summary-card__title-wrapper">
-                    <h3 class="govuk-summary-card__title">Overall progress</h3>
-                    @if (!Model.SupportProject!.IsReadOnly)
-                    {
-                        <ul class="govuk-summary-card__actions">
-                            <li class="govuk-summary-card__action">
-                                <a asp-page="@Links.ProgressReviews.OverallProgress.Page"
-                                   asp-route-id="@Model.SupportProject?.Id"
-                                   asp-route-reviewid="@Model.CurrentReview.ReadableId"
-                                   asp-route-returnpage="@Links.ImprovementPlan.RecordProgress.Page"
-                                   class="govuk-link"
-                                   data-cy="change-overall-progress-link">
-                                    Change<span class="govuk-visually-hidden">Overall progress</span>
-                                </a>
-                            </li>
-                        </ul>
-                    }
-                </div>
-                <div class="govuk-summary-card__content">
-                    <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">
-                                Next steps
-                            </dt>
-                            <dd class="govuk-summary-list__value">
-                                @currentReviewOverallProgressDetails
-                            </dd>
-                        </div>
-                    </dl>
-                </div>
-            </div>
         }
 
     </div>

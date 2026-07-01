@@ -4,19 +4,26 @@
 @model Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.IndexModel
 @{
     ViewData["Title"] = "Progress reviews";
-    
+
     bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
+    bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
+    
+    var improvementPlan = Model.SupportProject?.ImprovementPlans?.FirstOrDefault();
+
+    var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
+    var matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
+                                     && matchedSchool && (bool)!improvementPlan.ObjectivesSectionComplete;
 }
 
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject.Id" class="govuk-back-link"
+        <a asp-page="@Model.ReturnPage" asp-route-id="@Model.SupportProject?.Id" class="govuk-back-link"
            data-cy="back-link">Back</a>
     </nav>
 }
 
-@if (progressReviewDeleted)
+@if (progressReviewDeleted || reviewDeleted)
 {
     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
          aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
@@ -28,7 +35,7 @@
         </div>
         <div class="govuk-notification-banner__content">
             <h3 class="govuk-notification-banner__heading" id="contact-added">
-                Progress review deleted
+                @(progressReviewDeleted ? "Progress review" : "Review") deleted
             </h3>
         </div>
     </div>
@@ -53,23 +60,34 @@
             <div class="govuk-button-group">
                 @if (!Model.SupportProject!.IsReadOnly)
                 {
-                    <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
-                       asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
-                       role="button" draggable="false" class="govuk-button" data-module="govuk-button"
-                       data-cy="add-review-button">
-                        Add review
-                    </a>
+                    if (matchedSchool)
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
                 }
                 <a asp-page="@Links.ImprovementPlan.RecordProgress.Page" asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link" data-cy="return-to-improvement-plan-link">
-                    Return to improvement plan
+                    Return to record progress
                 </a>
             </div>
         }
         else
         {
             <!-- No more reviews needed section -->
-            if (!Model.SupportProject!.IsReadOnly)
+            if (!Model.SupportProject!.IsReadOnly && !matchingDecisionHasChanged)
             {
                 <div class="govuk-inset-text govuk-!-margin-bottom-6">
                     @if (Model.CurrentProgressReview?.NextReviewDate is null)
@@ -77,7 +95,9 @@
                         <h2 class="govuk-heading-s govuk-!-margin-bottom-2">No more reviews needed</h2>
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
-                               asp-route-reviewid="@Model.CurrentProgressReview.ReadableId" class="govuk-link"
+                               asp-route-reviewid="@Model.CurrentProgressReview?.ReadableId"
+                               asp-route-reviewtype="@(matchingDecisionHasChanged ? "Matched" : Model.CurrentProgressReview?.Type)"
+                               class="govuk-link"
                                data-cy="add-next-review-date-link">Add next review date</a>
                         </p>
                     }
@@ -93,82 +113,48 @@
                                data-cy="next-review-date-change-link">Change next review date</a>
                         </p>
                     }
-
-
                 </div>
             }
 
             <!-- Progress review cards -->
-            @foreach (var review in Model.ProgressReviews)
+            @foreach (var review in Model.AllProgressReviews)
             {
-                <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@review.Title'>
-                    <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
-                        <div class='govuk-grid-row'>
-                            <div class='govuk-grid-column-one-half'>
-                                <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
-                                    @review.Title
-                                </h2>
-                            </div>
-                            <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
-                                <strong class='govuk-tag @review.ProgressStatusClass'>@review.ProgressStatus</strong>
-                            </div>
-                        </div>
-                        <div class='govuk-grid-row'>
-                            <div class='govuk-grid-column-one-half'>
-                                <p class='govuk-body govuk-!-margin-bottom-0'>
-                                    <strong>Review date: @review.ReviewDate.ToDateString()</strong><br/>
-                                    <strong>by</strong> @review.Reviewer
-                                </p>
-                            </div>
-                            <div class='govuk-grid-column-one-half govuk-!-text-align-right govuk-body'>
-                                @if (review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded)
-                                {
-                                    if (!Model.SupportProject.IsReadOnly)
-                                    {
-                                        <a asp-page='@Links.ProgressReviews.RecordProgress.Page'
-                                           asp-route-id='@Model.SupportProject.Id'
-                                           asp-route-reviewId='@review.ReadableId'
-                                           asp-route-enableSkip='true'
-                                           class='govuk-link' data-cy='record-progress-link'>Record progress</a>
-                                    }
-                                }
-                                else
-                                {
-                                    <a asp-page='@Links.ProgressReviews.ProgressSummary.Page'
-                                       asp-route-id='@Model.SupportProject.Id' asp-route-reviewId='@review.ReadableId'
-                                       class='govuk-link' data-cy='view-progress-review-link'>View progress review</a>
-                                }
-                            </div>
-                        </div>
-
-                        @if (!Model.SupportProject.IsReadOnly)
-                        {
-                            <p class='govuk-body govuk-!-margin-top-2'>
-                                <a asp-page='@Links.ProgressReviews.EditReview.Page'
-                                   asp-route-id='@Model.SupportProject.Id'
-                                   asp-route-reviewid='@review.ReadableId' class='govuk-link'
-                                   data-cy='edit-review-details-link'>@(review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusNotRecorded
-                                        ? "Edit or delete review"
-                                        : "Edit review details")</a>
-                            </p>
-                        }
-                    </section>
-                </article>
+                <partial name="_ReviewSummaryCard"
+                         model="(review.Title, 
+                             review.ProgressStatusClass, 
+                             review.ProgressStatus, 
+                             review.ReviewDate, 
+                             review.Reviewer,
+                             review.Type,
+                             (bool?)Model.SupportProject.IsReadOnly, 
+                             (int?)Model.SupportProject.Id, 
+                             (int?)review.ReadableId)"/>
             }
 
             <div class="govuk-button-group">
-                @if (!Model.SupportProject.IsReadOnly)
+                @if (!Model.SupportProject.IsReadOnly && !matchingDecisionHasChanged)
                 {
-                    <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
-                       asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
-                       role="button" draggable="false" class="govuk-button" data-module="govuk-button"
-                       data-cy="add-review-button">
-                        Add review
-                    </a>
+                    @if (matchedSchool)
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
+                           role="button" draggable="false" class="govuk-button" data-module="govuk-button"
+                           data-cy="add-review-button">
+                            Add review
+                        </a>
+                    }
                 }
                 <a asp-page="@Links.ImprovementPlan.RecordProgress.Page" asp-route-id="@Model.SupportProject.Id"
                    class="govuk-link" data-cy="return-to-improvement-plan-link">
-                    Return to improvement plan
+                    Return to record progress
                 </a>
             </div>
         }

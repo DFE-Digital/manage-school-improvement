@@ -1,0 +1,52 @@
+@using GovUK.Dfe.CoreLibs.Utilities.Extensions
+@model (Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ProgressReviewViewModel Review, bool IsReadOnly, string ReturnPage)
+
+<div class="govuk-summary-card govuk-!-margin-bottom-6">
+    <div class="govuk-summary-card__title-wrapper">
+        <h3 class="govuk-summary-card__title">@Model.Review.ReviewDate.ToDateString()</h3>
+        
+        @if (!Model.IsReadOnly)
+        {
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a asp-page="@Links.ProgressReviews.EditProgress.Page"
+                       asp-route-id="@Model.Review.SupportProjectId"
+                       asp-route-reviewid="@Model.Review.ReadableId"
+                       asp-route-returnpage="@Model.ReturnPage"
+                       class="govuk-link"
+                       data-cy="change-progress-link">
+                        Change<span class="govuk-visually-hidden"> @Model.Review.ReviewDate.ToDateString()</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link"
+                       asp-page="@Links.ProgressReviews.DeleteProgress.Page"
+                       asp-route-id="@Model.Review.SupportProjectId"
+                       asp-route-reviewid="@Model.Review.ReadableId"
+                       asp-route-returnpage="@Model.ReturnPage"
+                       data-cy="delete-progress-link">Delete</a>
+                </li>
+            </ul> 
+        }
+    </div>
+    
+    <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Agreed next steps
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.Review.NextSteps
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Comments
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.Review.AdditionalDetails
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
