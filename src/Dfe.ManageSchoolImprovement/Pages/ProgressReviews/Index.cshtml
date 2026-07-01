@@ -11,8 +11,15 @@
     var improvementPlan = Model.SupportProject?.ImprovementPlans?.FirstOrDefault();
 
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
-    var matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
-                                     && matchedSchool && (bool)!improvementPlan.ObjectivesSectionComplete;
+    
+    var matchingDecisionHasChanged = false;
+
+    if (improvementPlan != null)
+    {
+        matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
+                                         && matchedSchool && (bool)!improvementPlan.ObjectivesSectionComplete;
+    }
+    
 }
 
 @section BeforeMain

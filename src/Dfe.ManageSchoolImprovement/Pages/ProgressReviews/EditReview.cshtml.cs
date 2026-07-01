@@ -41,6 +41,8 @@ public class EditReviewModel(
     public Guid ImprovementPlanId { get; set; }
     
     public string? ReviewStatus { get; set; }
+    
+    public string? ReviewType { get; set; }
 
     public IList<RadioButtonsLabelViewModel> ReviewerRadioButtons { get; set; } = [];
 
@@ -102,7 +104,7 @@ public class EditReviewModel(
             }
         }
 
-
+        ReviewType = reviewType;
         SetupRadioButtons();
 
         return Page();
