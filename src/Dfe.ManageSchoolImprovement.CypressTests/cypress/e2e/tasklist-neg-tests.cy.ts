@@ -2,7 +2,7 @@ import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
-import improvementPlan from "cypress/pages/improvementPlan";
+import recordProgress from "cypress/pages/recordProgress";
 import supportingOrgType from "cypress/pages/tasks/supportingOrgType";
 
 describe("Tasklist negative tests", () => {
@@ -102,7 +102,7 @@ describe("Tasklist negative tests", () => {
     it("should validate improvement plan objectives selection", () => {
         Logger.log("Validating improvement plan objectives selection");
         taskList.selectTask("Enter improvement plan objectives");
-        improvementPlan.selectAddAnotherObjective("Add another objective");
+        recordProgress.selectAddAnotherObjective("Add another objective");
         taskListActions.selectButtonOrCheckbox("save-and-continue-button");
         taskListActions.hasValidation("Select an area of improvement", "quality-of-education-error-link");
         taskListActions.selectButtonOrCheckbox("quality-of-education");

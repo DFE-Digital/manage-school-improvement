@@ -2,7 +2,7 @@ import projectStatus from "cypress/pages/projectStatus";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import { Logger } from "cypress/common/logger";
-import improvementPlan from "cypress/pages/improvementPlan";
+import recordProgress from "cypress/pages/recordProgress";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 
 describe("User navigates to the Status and Eligibility Tab", () => {
@@ -17,7 +17,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
             .selectFirstSchoolFromList()
         Logger.log("User navigates to the Status and Eligibility tab")
         taskList
-           .navigateToTab('Status and eligibility');
+            .navigateToTab('Status and eligibility');
 
         cy.executeAccessibilityTests()
     });
@@ -45,35 +45,35 @@ describe("User navigates to the Status and Eligibility Tab", () => {
             .hasCurrentStatus('In progress')
             .clickChangeStatusAndEligibilityButton()
             .clickContinueButton()
-        
-            cy.executeAccessibilityTests()
 
-        projectStatus    
+        cy.executeAccessibilityTests()
+
+        projectStatus
             .projectEligibleForIntervention('Yes')
             .enterDateSupportIsDueToEnd('01', '01', '2048')
-             .clickContinueButton()
+            .clickContinueButton()
 
-            cy.executeAccessibilityTests()
+        cy.executeAccessibilityTests()
 
-            projectStatus
-                .hasPageHeading('Confirm the change')
-                .clickContinueButton()
-                .hasValidation('Enter a date', 'status-eligibility-change-date-error-link')
-                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+        projectStatus
+            .hasPageHeading('Confirm the change')
+            .clickContinueButton()
+            .hasValidation('Enter a date', 'status-eligibility-change-date-error-link')
+            .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
 
             .clickContinueButton()
 
-               Logger.log("check validation message for details field");
-             
-            projectStatus   
-                .hasPageHeading('Enter details about the change')
-                .clickContinueButton()
-                .hasValidation('Enter details', 'change-details-error-link')
-                .enterDetails('change-details', 'The change is required')
-                .clickContinueButton()
-        
+        Logger.log("check validation message for details field");
+
         projectStatus
-           .hasCheckYourAnswersPageWithDetails()
+            .hasPageHeading('Enter details about the change')
+            .clickContinueButton()
+            .hasValidation('Enter details', 'change-details-error-link')
+            .enterDetails('change-details', 'The change is required')
+            .clickContinueButton()
+
+        projectStatus
+            .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
     });
@@ -87,27 +87,27 @@ describe("User navigates to the Status and Eligibility Tab", () => {
 
         cy.executeAccessibilityTests()
         Logger.log("update details for In progress status");
-       projectStatus    
+        projectStatus
             .projectEligibleForIntervention('Yes')
             .enterDateSupportIsDueToEnd('01', '01', '2048')
-             .clickContinueButton()
+            .clickContinueButton()
 
-            cy.executeAccessibilityTests()
+        cy.executeAccessibilityTests()
 
-            projectStatus
-                .hasPageHeading('Confirm the change')
-                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
-                .clickContinueButton()
-
-               Logger.log("check validation message for details field");
-             
-            projectStatus   
-                .hasPageHeading('Enter details about the change')
-                .enterDetails('change-details', 'The change is required')
-                .clickContinueButton()
-        
         projectStatus
-           .hasCheckYourAnswersPageWithDetails()
+            .hasPageHeading('Confirm the change')
+            .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+            .clickContinueButton()
+
+        Logger.log("check validation message for details field");
+
+        projectStatus
+            .hasPageHeading('Enter details about the change')
+            .enterDetails('change-details', 'The change is required')
+            .clickContinueButton()
+
+        projectStatus
+            .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
@@ -128,38 +128,38 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         Logger.log("update details for Paused status");
         projectStatus
             .clickContinueButton()
-          .projectEligibleForIntervention('Yes')
+            .projectEligibleForIntervention('Yes')
             .enterDateSupportIsDueToEnd('01', '01', '2048')
-             .clickContinueButton()
+            .clickContinueButton()
 
-            cy.executeAccessibilityTests()
+        cy.executeAccessibilityTests()
 
-            projectStatus
-                .hasPageHeading('Confirm the change')
-                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
-                .clickContinueButton()
-
-               Logger.log("check validation message for details field");
-             
-            projectStatus   
-                .hasPageHeading('Enter details about the change')
-                .enterDetails('change-details', 'The change is required')
-                .clickContinueButton()
-        
         projectStatus
-           .hasCheckYourAnswersPageWithDetails()
+            .hasPageHeading('Confirm the change')
+            .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+            .clickContinueButton()
+
+        Logger.log("check validation message for details field");
+
+        projectStatus
+            .hasPageHeading('Enter details about the change')
+            .enterDetails('change-details', 'The change is required')
+            .clickContinueButton()
+
+        projectStatus
+            .hasCheckYourAnswersPageWithDetails()
         cy.executeAccessibilityTests()
         projectStatus
             .clickSaveAndContinueButton()
             .getUpdatedStatusWithDetails('Paused')
             .getProjectStatusChangeHistory('Paused')
 
-        Logger.log("Important banner should display when status is Paused");    
+        Logger.log("Important banner should display when status is Paused");
         projectStatus
             .hasCurrentStatus('Paused')
             .bannerDisplayedForPausedOrStoppedStatus('Paused')
 
-        cy.executeAccessibilityTests()    
+        cy.executeAccessibilityTests()
 
     });
 
@@ -167,7 +167,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         Logger.log("cannot progress the task when the project status is Paused");
         projectStatus
             .hasCurrentStatus('Paused')
-        taskList.navigateToTab('Task list')    
+        taskList.navigateToTab('Task list')
 
         Logger.log("Phase 1 task cannot progress");
         taskList.hasTaskStatusCannotProgress("confirm_responsible_body_status");
@@ -205,7 +205,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
             .navigateToTab('Record progress')
 
         Logger.log("User could only see View Progress when project status is Paused");
-        improvementPlan
+        recordProgress
             .hasViewProgressButton()
 
         cy.executeAccessibilityTests()
@@ -224,24 +224,24 @@ describe("User navigates to the Status and Eligibility Tab", () => {
             .clickContinueButton()
             .projectEligibleForIntervention('No')
             .enterDateSupportIsDueToEnd('01', '01', '2048')
-             .clickContinueButton()
+            .clickContinueButton()
 
-            cy.executeAccessibilityTests()
+        cy.executeAccessibilityTests()
 
-            projectStatus
-                .hasPageHeading('Confirm the change')
-                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
-                .clickContinueButton()
-
-               Logger.log("check validation message for details field");
-             
-            projectStatus   
-                .hasPageHeading('Enter details about the change')
-                .enterDetails('change-details', 'The change is required')
-                .clickContinueButton()
-        
         projectStatus
-           .hasCheckYourAnswersPageWithDetails()
+            .hasPageHeading('Confirm the change')
+            .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+            .clickContinueButton()
+
+        Logger.log("check validation message for details field");
+
+        projectStatus
+            .hasPageHeading('Enter details about the change')
+            .enterDetails('change-details', 'The change is required')
+            .clickContinueButton()
+
+        projectStatus
+            .hasCheckYourAnswersPageWithDetails()
 
         cy.executeAccessibilityTests()
         projectStatus
@@ -260,7 +260,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         Logger.log("cannot progress the task when the project status is Stopped");
         projectStatus
             .hasCurrentStatus('Stopped')
-        taskList.navigateToTab('Task list')    
+        taskList.navigateToTab('Task list')
 
         Logger.log("Phase 1 task cannot progress");
         taskList.hasTaskStatusCannotProgress("confirm_responsible_body_status");
@@ -298,7 +298,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
             .navigateToTab('Record progress')
 
         Logger.log("User could only see View Progresswhen project status is Stopped");
-        improvementPlan
+        recordProgress
             .hasViewProgressButton()
 
         cy.executeAccessibilityTests()
@@ -314,28 +314,28 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
 
         projectStatus
-           .clickContinueButton()
-          .projectEligibleForIntervention('Yes')
+            .clickContinueButton()
+            .projectEligibleForIntervention('Yes')
             .enterDateSupportIsDueToEnd('01', '01', '2048')
-             .clickContinueButton()
+            .clickContinueButton()
 
-            cy.executeAccessibilityTests()
+        cy.executeAccessibilityTests()
 
-            projectStatus
-                .hasPageHeading('Confirm the change')
-                .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
-                .clickContinueButton()
-
-               Logger.log("check validation message for details field");
-             
-            projectStatus   
-                .hasPageHeading('Enter details about the change')
-                .enterDetails('change-details', 'The change is required')
-                .clickContinueButton()
-        
         projectStatus
-           .hasCheckYourAnswersPageWithDetails()
-           
+            .hasPageHeading('Confirm the change')
+            .enterDateProjectStatusOrEligibilityChange('01', '01', '2025')
+            .clickContinueButton()
+
+        Logger.log("check validation message for details field");
+
+        projectStatus
+            .hasPageHeading('Enter details about the change')
+            .enterDetails('change-details', 'The change is required')
+            .clickContinueButton()
+
+        projectStatus
+            .hasCheckYourAnswersPageWithDetails()
+
         cy.executeAccessibilityTests()
         Logger.log("save and return after updating In progress status and check saved details");
         projectStatus
