@@ -2,7 +2,7 @@ import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
 import taskListActions from "cypress/pages/tasks/taskListActions";
-import improvementPlan from '../pages/improvementPlan'
+import recordProgress from '../pages/recordProgress'
 
 describe('Delete improvement plan objective', () => {
     beforeEach(() => {
@@ -35,7 +35,7 @@ describe('Delete improvement plan objective', () => {
 
         cy.executeAccessibilityTests();
 
-        improvementPlan
+        recordProgress
             .hasDeleteObjectiveLink()
             .deleteObjectiveSuccessfully();
 
@@ -45,7 +45,7 @@ describe('Delete improvement plan objective', () => {
     it("should be able to delete progress reviews when no review has been recorded- Progress not recorded", () => {
         taskList
             .navigateToTab('Record progress')
-        improvementPlan
+        recordProgress
             .ifObjectiveExist()
 
         taskList
@@ -59,8 +59,8 @@ describe('Delete improvement plan objective', () => {
         taskList
             .navigateToTab('Record progress')
 
-        improvementPlan
-            .clickRecordOrViewProgress()
+        recordProgress
+            .clickRecordProgress()
             .clickAddReview()
             .fillReviewDetails()
             .anotherReviewNeeded()
@@ -74,7 +74,7 @@ describe('Delete improvement plan objective', () => {
     it.skip("should not be able to delete progress reviews when review has been recorded -Progress recorded", () => {
         taskList
             .navigateToTab('Record progress')
-        improvementPlan
+        recordProgress
             .ifObjectiveExist()
 
         taskList
@@ -88,8 +88,8 @@ describe('Delete improvement plan objective', () => {
         taskList
             .navigateToTab('Record progress')
 
-        improvementPlan
-            .clickRecordOrViewProgress()
+        recordProgress
+            .clickRecordProgress()
             .clickAddReview()
             .fillReviewDetails()
             .anotherReviewNeeded()
@@ -101,7 +101,7 @@ describe('Delete improvement plan objective', () => {
         cy.executeAccessibilityTests()
 
         Logger.log("progress review cannot be deleted once recorded");
-        improvementPlan
+        recordProgress
             .recordOverallProgress()
             .returnToProgressReviews()
             .hasEditReviewDetailsLink()

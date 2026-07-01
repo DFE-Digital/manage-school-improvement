@@ -1,9 +1,9 @@
 import { Logger } from "cypress/common/logger";
 import homePage from "cypress/pages/homePage";
 import taskList from "cypress/pages/taskList";
-import improvementPlan from '../pages/improvementPlan';
+import recordProgress from '../pages/recordProgress';
 
-describe('User navigate to the Record progress, and  Add progress review', () => {
+describe('Matching decision-Match with SO, User navigate to the Record progress to Add review and record progress', () => {
     beforeEach(() => {
         cy.login();
         homePage
@@ -14,21 +14,22 @@ describe('User navigate to the Record progress, and  Add progress review', () =>
             .selectSchoolName("Plymouth Grove Primary School");
         taskList
             .navigateToTab('Record progress')
-        
-        cy.executeAccessibilityTests()    
+
+        cy.executeAccessibilityTests()
 
     });
 
-    it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => {
-        improvementPlan
+    it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => { //seperate data needed for this test
+        recordProgress
             .hasSchoolsMatchedWithSOMessage('Schools matched with a supporting organisation')
             .hasReviewProgressSchoolsMessage('Review progress schools');
     })
 
     it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
         Logger.log("Record or View Progress button, with Change and Delete links for objectives is visible");
-        improvementPlan
-            .hasRecordOrViewProgressButton()
+        recordProgress
+            .hasMessage('Record progress on the improvement plan objectives after each review.')
+            .hasRecordProgressButton()
             .hasChangeObjectiveLink()
             .hasDeleteObjectiveLink()
 
@@ -37,51 +38,51 @@ describe('User navigate to the Record progress, and  Add progress review', () =>
 
     it('should allow change objectives from record progress tab', () => {
         Logger.log("change objective details");
-        improvementPlan
+        recordProgress
             .hasChangeObjectiveLink()
             .clickFirstChangeObjective()
 
         cy.executeAccessibilityTests()
 
-        improvementPlan
-          .updateObjectiveDetails('Updated objective details');
-    
+        recordProgress
+            .updateObjectiveDetails('Updated objective details');
+
         cy.executeAccessibilityTests()
     });
 
     it('should show initial state when no reviews exist', () => {
-        improvementPlan
-            .clickRecordOrViewProgress()
+        recordProgress
+            .clickRecordProgress()
 
         cy.executeAccessibilityTests()
 
-        improvementPlan
+        recordProgress
             .hasTitle('Progress reviews')
             .hasNoReviewsMessage()
 
         cy.executeAccessibilityTests()
     });
 
-    it('should be able to Add first review successfully', () => {
+    it('should be able to Add first review successfully when Matching decision is Match with a SO', () => {
         Logger.log("add First review");
-        improvementPlan
-            .clickRecordOrViewProgress()
+        recordProgress
+            .clickRecordProgress()
             .clickAddReview()
 
         cy.executeAccessibilityTests()
-        
-        improvementPlan
+
+        recordProgress
             .fillReviewDetails()
             .anotherReviewNeeded()
             .hasStatusTag('Progress not recorded')
-            .hasFirstReviewStatusAndLinks()
+            .hasFirstReviewStatusAndLinksForSO()
 
         cy.executeAccessibilityTests()
 
-        improvementPlan
+        recordProgress
             .hasAddReviewButton()
             .hasChangeNextReviewDateLink()
-            .hasReturnToImprovementPlanLink()
+            .hasReturnToRecordProgressLink()
 
         cy.executeAccessibilityTests()
 
@@ -89,18 +90,22 @@ describe('User navigate to the Record progress, and  Add progress review', () =>
 
     it('check validation on overall progress page', () => {
         Logger.log("check validation on overall progress page");
-        improvementPlan
+        recordProgress
             .clickChangeOverallProgressLink()
+
+        cy.executeAccessibilityTests()
+
+        recordProgress
             .validateOverallProgressPage();
 
         cy.executeAccessibilityTests()
     });
 
-    it.skip('should be able to Record the first review successfully', () => {
+    it.skip('should be able to Record the first review successfully for matching SO', () => { //skip due to a bug #243624
         Logger.log("record First review");
-  
-        improvementPlan
-            .clickRecordOrViewProgress()
+
+        recordProgress
+            .clickRecordProgress()
             .clickRecordProgressLink()
             .recordProgressForObjective()
             .recordOverallProgress()
@@ -108,5 +113,4 @@ describe('User navigate to the Record progress, and  Add progress review', () =>
 
         cy.executeAccessibilityTests()
     });
-
 });

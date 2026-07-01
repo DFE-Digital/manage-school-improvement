@@ -6,7 +6,7 @@ import contacts from "cypress/pages/contacts";
 import caseStudy from "cypress/pages/caseStudy";
 import engagementConcern from "cypress/pages/engagementConcern";
 import notes from "cypress/pages/notes";
-import improvementPlan from "cypress/pages/improvementPlan";
+import recordProgress from "cypress/pages/recordProgress";
 import projectStatus from "cypress/pages/projectStatus";
 
 describe("User select the school", () => {
@@ -46,8 +46,8 @@ describe("User select the school", () => {
         Logger.log("User navigates to the Record progress tab");
         taskList
             .navigateToTab('Record progress');
-        improvementPlan
-            .improvementPlanPageLoads()
+        recordProgress
+            .recordProgressPageLoads()
 
         cy.executeAccessibilityTests()
     });

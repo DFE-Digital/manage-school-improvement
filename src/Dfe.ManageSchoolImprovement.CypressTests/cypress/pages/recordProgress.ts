@@ -1,6 +1,6 @@
-class ImprovementPlan {
+class RecordProgress {
 
-    public improvementPlanPageLoads(): this {
+    public recordProgressPageLoads(): this {
         cy.get('body').should('be.visible');
         cy.get('h2').should('contain.text', 'Record progress');
         cy.url().should('contain', '/record-progress')
@@ -9,6 +9,12 @@ class ImprovementPlan {
 
     public hasSchoolsMatchedWithSOMessage(expectedMessage: string): this {
         cy.get('h3').should('contain.text', expectedMessage);
+        return this;
+    }
+
+    public hasMessage(expectedMessage: string): this {
+        cy.get('p').should('contain.text', expectedMessage);
+
         return this;
     }
 
@@ -42,8 +48,40 @@ class ImprovementPlan {
     }
 
     public clickRecordProgressLink(): this {
-        cy.getByCyData('record-progress-link').click()
+        cy.get('.moj-ticket-panel__content.moj-ticket-panel__content--blue')
+            .first()
+            .find('[data-cy="record-progress-link"]')
+            .click();
         cy.url().should('include', '/progress-reviews');
+
+        return this;
+    }
+
+    public selectNextSteps(id: string): this {
+        cy.get('h1').should('contain.text', 'Record progress');
+        cy.get('.govuk-radios__label').first().should('contain', "Continue to review progress")
+        cy.get('.govuk-radios__label').should('contain', "Match with a supporting organisation")
+        cy.get(`#${id}`).check();
+
+        return this;
+    }
+
+    public addAdditionalComments(id: string): this {
+        cy.get(`#${id}`)
+            .clear()
+            .type('Additional comments for the review');
+
+        return this;
+    }
+
+    public clickSaveButton(): this {
+        cy.get('body').then($body => {
+            if ($body.find('[data-cy="save-button"]').length > 0) {
+                cy.getByCyData('save-button').click();
+            } else {
+                cy.getByCyData('save-and-return-button').click();
+            }
+        });
 
         return this;
     }
@@ -53,19 +91,34 @@ class ImprovementPlan {
         return this;
     }
 
-    public hasRecordOrViewProgressButton(): this {
+    public hasObjectiveTitle(expectedTitle: string): this {
+        cy.get('h2').should('contain.text', expectedTitle);
+        return this;
+    }
+
+    public hasMatchingDecision(): this {
+        cy.get('.moj-ticket-panel__content').first().find('p').invoke('text').then((text) => {
+            (
+                text.includes('Matching decision: Matched with a supporting organisation') ||
+                text.includes('Matching decision: Review progress')
+            )
+        });
+        return this;
+    }
+
+    public hasRecordProgressButton(): this {
         cy.url().should('include', '/record-progress');
         cy.get('h2').should('contain.text', 'Record progress');
-        cy.get('[data-cy="record-or-view-progress-button"]')
+        cy.getByCyData('record-or-view-progress-button')
             .should('exist')
             .and('be.visible')
-            .and('contain.text', 'Record or view progress');
+            .and('contain.text', 'Record progress');
 
         return this;
     }
 
     public hasViewProgressButton(): this {
-        cy.getByCyData('record-or-view-progress-button').should('contain.text', 'View Progress');
+        cy.getByCyData('record-or-view-progress-button').should('contain.text', 'View progress');
 
         return this;
     }
@@ -83,7 +136,7 @@ class ImprovementPlan {
     }
 
     public hasDeleteObjectiveLink(): this {
-        cy.url().should('include','/record-progress');
+        cy.url().should('include', '/record-progress');
         cy.contains('a.govuk-link', 'Delete')
             .should('exist');
         return this;
@@ -98,7 +151,7 @@ class ImprovementPlan {
         return this;
     }
 
-    public clickFirstDeleteObjective (): this {
+    public clickFirstDeleteObjective(): this {
         cy.get('.govuk-grid-column-two-thirds > :nth-child(4)')
             .within(() => {
                 cy.contains('a.govuk-link', 'Delete').click()
@@ -117,8 +170,8 @@ class ImprovementPlan {
         return this;
     }
 
-    public clickRecordOrViewProgress(): this {
-        this.hasRecordOrViewProgressButton();
+    public clickRecordProgress(): this {
+        this.hasRecordProgressButton();
         cy.getByCyData('record-or-view-progress-button').click();
         cy.url().should('include', '/progress-reviews');
 
@@ -132,6 +185,11 @@ class ImprovementPlan {
         return this;
     }
 
+    public clickRecordProgressButton(): this {
+        cy.getByCyData('record-or-view-progress-button').click();
+        return this;
+    }
+
     public hasProgressReviewsPageLoaded(): this {
         cy.url().should('include', '/progress-reviews');
         cy.get('h1').should('contain.text', 'Progress reviews');
@@ -142,7 +200,7 @@ class ImprovementPlan {
         cy.get('h2')
             .should('contain.text', 'No progress reviews recorded');
         cy.get('a').contains('Add review').should('exist');
-        cy.get('a').contains('Return to Improvement plan').should('exist');
+        this.hasReturnToRecordProgressLink();
 
         return this;
     }
@@ -229,6 +287,65 @@ class ImprovementPlan {
         return this;
     }
 
+    public reviewSummaryCardVisible(): this {
+        cy.get('.moj-ticket-panel__content')
+            .first()
+            .should('exist')
+            .and('be.visible');
+
+        this.hasMatchingDecision();
+
+
+        return this;
+    }
+
+    public clickReturnToRecordProgress(): this {
+        cy.get('body').then($body => {
+            if ($body.find('[data-cy="return-to-progress-reviews-button"]').length > 0) {
+                cy.getByCyData('return-to-progress-reviews-button').click();
+            } else if ($body.find('[data-cy="return-to-improvement-plan-link"]').length > 0) {
+                cy.getByCyData('return-to-improvement-plan-link').click();
+            } else {
+                cy.contains('a', 'Return to record progress').click();
+            }
+        });
+
+        return this;
+    }
+
+    public hasSummaryCard(): this {
+        cy.get('govuk-summary-card.govuk-!-margin-bottom-6').should('exist');
+
+        return this;
+    }
+
+    public hasChangeLink(): this {
+        cy.get('[data-cy="change-objective-progress-link"], [data-cy="change-overall-progress-link"]')
+            .should('exist');
+
+        return this;
+    }
+
+    public hasDeleteLink(): this {
+        cy.getByCyData('objective-summary-change-link').should('exist');
+
+        return this;
+    }
+
+    public clickEditOrDeleteReviewLink(): this {
+        cy.get('a').contains('Edit or delete review').click();
+        cy.get('h1').should('contain.text', 'Edit progress review');
+        cy.getByCyData('delete-review-link').contains('Delete').click();
+        cy.get('h1').should('contain.text', 'Are you sure you want to delete this progress review?');
+        cy.url().should('include', '/delete-review');
+        cy.getByCyData('save-and-return-button').contains('Delete review')
+        cy.get('a').contains('Cancel').should('exist');
+
+        return this;
+    }
+
+
+
     public noDeleteButtonExist(): this {
         cy.get('[type = "button"]').should('not.contain.text', 'Delete review');
         return this;
@@ -249,7 +366,7 @@ class ImprovementPlan {
 
     public deleteReview(): this {
         cy.get('a').contains('Edit or delete review').click();
-        cy.get('h1').should('contain.text', 'Edit progress review');        
+        cy.get('h1').should('contain.text', 'Edit progress review');
         cy.getByCyData('delete-review-link').contains('Delete').click(); //button name should be Delete review
         cy.get('h1').should('contain.text', 'Are you sure you want to delete this progress review?');
 
@@ -261,8 +378,8 @@ class ImprovementPlan {
         return this;
     }
 
-    public hasReturnToImprovementPlanLink(): this {
-        cy.get('a').contains('Return to Improvement Plan').should('exist');
+    public hasReturnToRecordProgressLink(): this {
+        cy.get('a').contains('Return to record progress').should('exist');
 
         return this;
     }
@@ -275,7 +392,7 @@ class ImprovementPlan {
 
     public hasRecordObjectiveLink(): this {
         cy.getByCyData('record-objective-link').first().should('exist');
-        
+
         return this;
     }
 
@@ -292,11 +409,15 @@ class ImprovementPlan {
         return this;
     }
 
-    public hasFirstReviewStatusAndLinks(): this {
-        cy.get('.moj-ticket-panel__content').within(() => {
+    public hasFirstReviewStatusAndLinksForSO(): this {
+        cy.get('.moj-ticket-panel__content').first().within(() => {
             cy.get('.govuk-tag').first().should('contain.text', 'Progress not recorded');
             cy.get('a').contains('Edit or delete review').should('exist');
             cy.get('a').contains('Record progress').should('exist');
+            cy.root().invoke('text').then((text) => {
+                const normalizedText = text.replace(/\s+/g, ' ').trim();
+                expect(normalizedText).to.contain('Matching decision: Match with a supporting organisation');
+            });
         });
 
         return this;
@@ -337,6 +458,18 @@ class ImprovementPlan {
 
         return this;
     }
+
+    public hasStatusAndLinksForReviewProgress(): this {
+        cy.get('.moj-ticket-panel__content').first().within(() => {
+            cy.get('.govuk-tag').first().should('contain.text', 'Progress not recorded');
+            cy.get('a').contains('Edit or delete review').should('exist');
+            cy.get('a').contains('Record progress').should('exist');
+            cy.contains(/Matching\s+decision:\s+Review progress/).should('exist');
+        });
+
+        return this;
+    }
+
 }
-const improvementPlan = new ImprovementPlan();
-export default improvementPlan;
+const recordProgress = new RecordProgress();
+export default recordProgress;
