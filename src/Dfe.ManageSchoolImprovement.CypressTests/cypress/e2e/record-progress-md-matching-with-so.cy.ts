@@ -19,7 +19,7 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
 
     });
 
-    it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => {
+    it.skip('should display user friendly message if no adviser allocated and no objectives recorded', () => { //seperate data needed for this test
         recordProgress
             .hasSchoolsMatchedWithSOMessage('Schools matched with a supporting organisation')
             .hasReviewProgressSchoolsMessage('Review progress schools');
@@ -101,7 +101,7 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
         cy.executeAccessibilityTests()
     });
 
-    it.skip('should be able to Record the first review successfully for matching SO', () => {
+    it.skip('should be able to Record the first review successfully for matching SO', () => { //skip due to a bug #243624
         Logger.log("record First review");
 
         recordProgress
