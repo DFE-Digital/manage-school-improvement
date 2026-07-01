@@ -14,7 +14,7 @@ class RecordProgress {
 
     public hasMessage(expectedMessage: string): this {
         cy.get('p').should('contain.text', expectedMessage);
-        
+
         return this;
     }
 
@@ -57,11 +57,11 @@ class RecordProgress {
         return this;
     }
 
-    public selectNextSteps( id : string): this {
-       cy.get('h1').should('contain.text', 'Record progress');
-       cy.get('.govuk-radios__label').first().should('contain', "Continue to review progress")
-       cy.get('.govuk-radios__label').should('contain', "Match with a supporting organisation")
-       cy.get(`#${id}`).check();
+    public selectNextSteps(id: string): this {
+        cy.get('h1').should('contain.text', 'Record progress');
+        cy.get('.govuk-radios__label').first().should('contain', "Continue to review progress")
+        cy.get('.govuk-radios__label').should('contain', "Match with a supporting organisation")
+        cy.get(`#${id}`).check();
 
         return this;
     }
@@ -98,7 +98,7 @@ class RecordProgress {
 
     public hasMatchingDecision(): this {
         cy.get('.moj-ticket-panel__content').first().find('p').invoke('text').then((text) => {
-           (
+            (
                 text.includes('Matching decision: Matched with a supporting organisation') ||
                 text.includes('Matching decision: Review progress')
             )
@@ -136,7 +136,7 @@ class RecordProgress {
     }
 
     public hasDeleteObjectiveLink(): this {
-        cy.url().should('include','/record-progress');
+        cy.url().should('include', '/record-progress');
         cy.contains('a.govuk-link', 'Delete')
             .should('exist');
         return this;
@@ -151,7 +151,7 @@ class RecordProgress {
         return this;
     }
 
-    public clickFirstDeleteObjective (): this {
+    public clickFirstDeleteObjective(): this {
         cy.get('.govuk-grid-column-two-thirds > :nth-child(4)')
             .within(() => {
                 cy.contains('a.govuk-link', 'Delete').click()
@@ -186,8 +186,8 @@ class RecordProgress {
     }
 
     public clickRecordProgressButton(): this {
-    cy.getByCyData('record-or-view-progress-button').click();
-    return this;
+        cy.getByCyData('record-or-view-progress-button').click();
+        return this;
     }
 
     public hasProgressReviewsPageLoaded(): this {
@@ -293,8 +293,8 @@ class RecordProgress {
             .should('exist')
             .and('be.visible');
 
-         this.hasMatchingDecision();
-    
+        this.hasMatchingDecision();
+
 
         return this;
     }
@@ -314,7 +314,7 @@ class RecordProgress {
     }
 
     public hasSummaryCard(): this {
-        cy.get('.govuk-summary-card').should('exist');
+        cy.get('govuk-summary-card.govuk-!-margin-bottom-6').should('exist');
 
         return this;
     }
@@ -336,15 +336,15 @@ class RecordProgress {
         cy.get('a').contains('Edit or delete review').click();
         cy.get('h1').should('contain.text', 'Edit progress review');
         cy.getByCyData('delete-review-link').contains('Delete').click();
-        cy.get('h1').should('contain.text', 'Are you sure you want to delete this progress review?'); 
+        cy.get('h1').should('contain.text', 'Are you sure you want to delete this progress review?');
         cy.url().should('include', '/delete-review');
         cy.getByCyData('save-and-return-button').contains('Delete review')
         cy.get('a').contains('Cancel').should('exist');
-        
+
         return this;
     }
 
-    
+
 
     public noDeleteButtonExist(): this {
         cy.get('[type = "button"]').should('not.contain.text', 'Delete review');
@@ -366,7 +366,7 @@ class RecordProgress {
 
     public deleteReview(): this {
         cy.get('a').contains('Edit or delete review').click();
-        cy.get('h1').should('contain.text', 'Edit progress review');        
+        cy.get('h1').should('contain.text', 'Edit progress review');
         cy.getByCyData('delete-review-link').contains('Delete').click(); //button name should be Delete review
         cy.get('h1').should('contain.text', 'Are you sure you want to delete this progress review?');
 
@@ -392,7 +392,7 @@ class RecordProgress {
 
     public hasRecordObjectiveLink(): this {
         cy.getByCyData('record-objective-link').first().should('exist');
-        
+
         return this;
     }
 
