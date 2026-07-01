@@ -13,7 +13,7 @@
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
     var reviewProgressSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Review school's progress";
     var matchingDecisionHasChanged = Model.CurrentReview is { Type: "Review progress" }
-                           && matchedSchool;
+                                     && matchedSchool;
 }
 
 @section BeforeMain {
@@ -53,7 +53,7 @@
                 <li>an adviser has been allocated</li>
                 <li>all objectives have been added and marked as complete</li>
             </ul>
-            
+
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="view-progress-button">
@@ -61,8 +61,8 @@
             </a>
         }
         else if (matchedSchool && (Model.NoObjectivesRecorded || (!Model.ObjectivesComplete && Model.CurrentReview is null)) ||
-             !Model.IsAdviserAllocated
-             || (!matchedSchool && !reviewProgressSchool))
+                 !Model.IsAdviserAllocated
+                 || (!matchedSchool && !reviewProgressSchool))
         {
             <h3 class="govuk-heading-m">Schools matched with a supporting organisation</h3>
             <p>As you add the improvement plan objectives they will be listed on this page.</p>
@@ -79,9 +79,11 @@
                 <li>the initial diagnosis decision is to review school's progress</li>
             </ul>
         }
-        else 
+        else
         {
-            <p>Record progress on the improvement plan objectives after each review.</p>
+            var text = matchedSchool ? "Record progress on the improvement plan objectives after each review." : "Record progress on the improvement plan after each review.";
+            
+            <p>@text</p>
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">

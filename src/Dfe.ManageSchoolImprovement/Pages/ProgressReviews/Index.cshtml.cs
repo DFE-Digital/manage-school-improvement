@@ -18,6 +18,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
     public List<AllProgressReviewsViewModel> AllProgressReviews { get; set; } = [];
     
     public bool NoProgressReviewsRecorded => AllProgressReviews.Count == 0;
+    
+    public bool ObjectivesComplete { get; set; } = false;
 
     public AllProgressReviewsViewModel? CurrentProgressReview { get; private set; }
 
@@ -30,6 +32,8 @@ public class IndexModel(ISupportProjectQueryService supportProjectQueryService, 
         
         ImprovementPlanProgressReviews = SupportProject?.ImprovementPlans?.FirstOrDefault()?.ImprovementPlanReviews
             .OrderByDescending(x => x.Order).ToList() ?? [];
+        
+        ObjectivesComplete = SupportProject?.ImprovementPlans?.FirstOrDefault()?.ObjectivesSectionComplete ?? false;
         
         ReviewProgressProgressReviews = SupportProject?.ProgressReviews?.OrderByDescending(x => x.Order).ToList() ?? [];
         
