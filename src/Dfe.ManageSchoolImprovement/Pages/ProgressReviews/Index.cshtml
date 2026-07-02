@@ -10,9 +10,20 @@
     
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
 
-    var matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
-          && matchedSchool;
-}
+    var matchingDecisionHasChangedBeforeObjectives = Model.CurrentProgressReview is { Type: "Review progress" }
+                                                     && matchedSchool && !Model.ObjectivesComplete;
+    
+    var matchingDecisionHasChangedAfterObjectives = Model.CurrentProgressReview is { Type: "Review progress" } 
+                                                    && !matchedSchool && Model.ObjectivesComplete;
+    
+    var reviewType = "Matched";
+
+    if (matchingDecisionHasChangedBeforeObjectives || !matchedSchool)
+    {
+        reviewType = "Review progress";
+    }
+};
+
 
 @section BeforeMain
 {
@@ -86,7 +97,7 @@
         else
         {
             <!-- No more reviews needed section -->
-            if (!Model.SupportProject!.IsReadOnly && !matchingDecisionHasChanged)
+            if (!Model.SupportProject!.IsReadOnly && !matchingDecisionHasChangedBeforeObjectives)
             {
                 <div class="govuk-inset-text govuk-!-margin-bottom-6">
                     @if (Model.CurrentProgressReview?.NextReviewDate is null)
@@ -95,7 +106,7 @@
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
                                asp-route-reviewid="@Model.CurrentProgressReview?.ReadableId"
-                               asp-route-reviewtype="@(matchingDecisionHasChanged ? "Matched" : Model.CurrentProgressReview?.Type)"
+                               asp-route-reviewtype="@Model.CurrentProgressReview?.Type"
                                class="govuk-link"
                                data-cy="add-next-review-date-link">Add next review date</a>
                         </p>
@@ -108,7 +119,9 @@
                         </p>
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
-                               asp-route-reviewid="@Model.CurrentProgressReview.ReadableId" class="govuk-link"
+                               asp-route-reviewid="@Model.CurrentProgressReview.ReadableId"
+                               asp-route-reviewtype="@Model.CurrentProgressReview?.Type"
+                               class="govuk-link"
                                data-cy="next-review-date-change-link">Change next review date</a>
                         </p>
                     }
@@ -131,12 +144,13 @@
             }
 
             <div class="govuk-button-group">
-                @if (!Model.SupportProject.IsReadOnly && !matchingDecisionHasChanged)
+                @if (!Model.SupportProject.IsReadOnly && !matchingDecisionHasChangedBeforeObjectives)
                 {
                     @if (matchedSchool)
                     {
                         <a asp-page="@Links.ProgressReviews.AddReview.Page" asp-route-id="@Model.SupportProject.Id"
                            asp-route-readableimprovementplanid="@Model.SupportProject.ImprovementPlans!.First().ReadableId"
+                           asp-route-reviewtype="@reviewType"
                            role="button" draggable="false" class="govuk-button" data-module="govuk-button"
                            data-cy="add-review-button">
                             Add review

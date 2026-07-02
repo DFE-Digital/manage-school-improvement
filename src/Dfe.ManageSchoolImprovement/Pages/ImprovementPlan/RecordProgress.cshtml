@@ -84,7 +84,7 @@
         else
         {
             var text = matchedSchool ? "Record progress on the improvement plan objectives after each review." : "Record progress on the improvement plan after each review.";
-            
+
             <p>@text</p>
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
                role="button"
@@ -93,7 +93,7 @@
                 @(Model.SupportProject!.IsReadOnly ? "View progress" : "Record progress")
             </a>
         }
-        @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded)
+        @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded && !matchingDecisionHasChanged)
         {
             <partial name="_ObjectiveSection"
                      model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
@@ -114,6 +114,8 @@
         {
             @if (Model.CurrentReview != null)
             {
+                <h3 class="govuk-heading-m">Most recent review</h3>
+                
                 var reviewSummaryCardModel = (
                     Model.CurrentReview.Title,
                     Model.CurrentReview.ProgressStatusClass,
@@ -135,8 +137,26 @@
             {
                 <partial name="_ReviewProgressSummaryCard"
                          model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
+
+                @if (matchingDecisionHasChanged && Model.ObjectivesComplete)
+                {
+                    <partial name="_ObjectiveSection"
+                             model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+
+                    <partial name="_ObjectiveSection"
+                             model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+
+                    <partial name="_ObjectiveSection"
+                             model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+
+                    <partial name="_ObjectiveSection"
+                             model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+
+                    <partial name="_ObjectiveSection"
+                             model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                }
             }
-            else if (matchedSchool)
+            else if (matchedSchool && !matchingDecisionHasChanged)
             {
                 @foreach (var group in Model.ObjectiveProgressGroups)
                 {
