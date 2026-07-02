@@ -183,7 +183,11 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? CaseStudyDetails { get; private set; }
 
     public bool? CaseStudyCandidate { get; private set; }
-    
+
+    public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
+
+    private readonly List<FundingHistory> _fundingHistories = new();
+
     public bool? IncludeContactDetails { get; private set; }
 
     public bool? AttachSchoolImprovementPlan { get; private set; }
