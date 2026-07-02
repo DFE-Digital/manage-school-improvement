@@ -51,6 +51,7 @@
             <p>You will only be able to record a progress review when:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>an adviser has been allocated</li>
+                <li>the initial diagnosis decision is match to a supporting organisation</li>
                 <li>all objectives have been added and marked as complete</li>
             </ul>
 
@@ -69,6 +70,7 @@
             <p>You will only be able to record a progress review when:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>an adviser has been allocated</li>
+                <li>the initial diagnosis decision is match to a supporting organisation</li>
                 <li>all objectives have been added and marked as complete</li>
             </ul>
 
@@ -84,7 +86,8 @@
             var text = matchedSchool ? "Record progress on the improvement plan objectives after each review." : "Record progress on the improvement plan after each review.";
             
             <p>@text</p>
-            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
+            <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
+               role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">
                 @(Model.SupportProject!.IsReadOnly ? "View progress" : "Record progress")
