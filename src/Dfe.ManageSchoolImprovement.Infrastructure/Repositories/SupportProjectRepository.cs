@@ -234,7 +234,6 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Repositories
             return DbSet()
                 .Include(x => x.Notes)
                 .Include(x => x.Contacts)
-                .Include(x => x.FundingHistories)
                 .Include(x => x.ImprovementPlans)
                 .ThenInclude(x => x.ImprovementPlanObjectives)
                 .Include(x => x.ImprovementPlans)

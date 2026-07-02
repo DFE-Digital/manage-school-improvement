@@ -90,7 +90,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         IEnumerable<SupportProjectNote> Notes = null!,
         bool? HasReceivedFundingInThelastTwoYears = null,
         bool? FundingHistoryDetailsComplete = null,
-        IEnumerable<FundingHistoryDto> FundingHistories = null!,
         bool? CaseStudyCandidate = null,
         string? CaseStudyDetails = null,
         bool? IncludeContactDetails = null,

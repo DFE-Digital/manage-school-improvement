@@ -39,8 +39,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<SupportProject>(ConfigureSupportProject);
         modelBuilder.Entity<SupportProjectNote>(ConfigureSupportProjectNotes);
         modelBuilder.Entity<SupportProjectContact>(ConfigureSupportProjectContacts);
-        modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
         modelBuilder.Entity<ImprovementPlan>(ConfigureImprovementPlan);
+        modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
         modelBuilder.Entity<ImprovementPlanObjective>(ConfigureImprovementPlanObjective);
         modelBuilder.Entity<ImprovementPlanReview>(ConfigureImprovementPlanReview);
         modelBuilder.Entity<ImprovementPlanObjectiveProgress>(ConfigureImprovementPlanObjectiveProgress);

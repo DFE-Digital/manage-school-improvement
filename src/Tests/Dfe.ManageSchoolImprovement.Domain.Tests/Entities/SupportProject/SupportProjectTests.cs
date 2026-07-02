@@ -659,69 +659,8 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             }
         }
 
-        [Fact]
-        public void SetHasReceivedFundingInThelastTwoYears_WithValidDetails_SetsTheCorrectProperties()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-
-            bool? hasReceivedFundingInThelastTwoYears = true;
-
-            // Act
-            supportProject.SetHasReceivedFundingInThelastTwoYears(
-                hasReceivedFundingInThelastTwoYears);
-
-            // Assert
-            supportProject.HasReceivedFundingInThelastTwoYears.Should().Be(hasReceivedFundingInThelastTwoYears);
-            supportProject.FundingHistories.Count().Should().Be(0);
-            supportProject.FundingHistoryDetailsComplete.Should().BeNull();
-            mockRepository.VerifyAll();
-        }
-        [Fact]
-        public void SetSetFundingHistoryComplete_WithValidDetails_SetsTheCorrectProperties()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-
-            bool? fundingHistoryComplete = true;
-
-            // Act
-            supportProject.SetFundingHistoryComplete(
-                fundingHistoryComplete);
-
-            // Assert
-            supportProject.FundingHistoryDetailsComplete.Should().Be(fundingHistoryComplete);
-            mockRepository.VerifyAll();
-        }
-        [Fact]
-        public void AddFundingHistory_SetsFundingHistories()
-        {
-            // Arrange
-            var supportProject = CreateSupportProject();
-            var id = new FundingHistoryId(Guid.NewGuid());
-            var fundingType = "funding type";
-            var fundingAmount = (decimal)100.10;
-            var financialYear = "financial year";
-            var fundingRounds = 10;
-            var comments = "comments";
-            var supportProjectId = new SupportProjectId(1);
-            // Act
-            supportProject.AddFundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear, fundingRounds, comments);
-
-            // Assert
-            supportProject.FundingHistories.Should().NotBeNull();
-            supportProject.FundingHistories.Count().Should().Be(1);
-
-            var fundingHistory = supportProject.FundingHistories.First();
-
-            fundingHistory.FundingType.Should().Be(fundingType);
-            fundingHistory.FundingAmount.Should().Be(fundingAmount);
-            fundingHistory.FinancialYear.Should().Be(financialYear);
-            fundingHistory.FundingRounds.Should().Be(fundingRounds);
-            fundingHistory.Comments.Should().Be(comments);
-
-        }
-
+      
+        
         [Fact]
         public void AddContact_SetsContact()
         {

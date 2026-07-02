@@ -288,7 +288,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 Contacts = supportProjectDto.Contacts,
                 HasReceivedFundingInThelastTwoYears = supportProjectDto.HasReceivedFundingInThelastTwoYears,
                 FundingHistoryDetailsComplete = supportProjectDto.FundingHistoryDetailsComplete,
-                FundingHistories = supportProjectDto.FundingHistories?.Select(x => FundingHistoryViewModel.Create(x)) ?? new List<FundingHistoryViewModel>(),
                 CaseStudyCandidate = supportProjectDto.CaseStudyCandidate,
                 CaseStudyDetails = supportProjectDto.CaseStudyDetails,
                 IncludeContactDetails = supportProjectDto.IncludeContactDetails,
