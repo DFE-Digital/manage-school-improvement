@@ -36,6 +36,9 @@ public class NextReviewModel(
     private ImprovementPlanViewModel? ImprovementPlan { get; set; }
     private ImprovementPlanReviewViewModel? ImprovementPlanReview { get; set; }
     private ProgressReviewViewModel? ProgressReview { get; set; }
+    
+    [BindProperty]
+    public string ReviewType { get; set; } = string.Empty;
 
     public bool ShowIsAnotherReviewNeededError => ModelState.ContainsKey(nameof(IsAnotherReviewNeeded)) && ModelState[nameof(IsAnotherReviewNeeded)]?.Errors.Count > 0;
     public bool ShowError => _errorService.HasErrors();
@@ -44,6 +47,7 @@ public class NextReviewModel(
     {
         ReturnPage = Links.ProgressReviews.Index.Page;
         ReviewId = reviewId;
+        ReviewType = reviewType;
 
         await base.GetSupportProjectProgressReviews(id, cancellationToken);
 
@@ -82,8 +86,7 @@ public class NextReviewModel(
             ModelState.AddModelError(nameof(NextReviewDate), "Enter a date");
         }
 
-        if (SupportProject != null &&
-            SupportProject.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
+        if (SupportProject != null && ReviewType == "Matched")
         {
             // Get the improvement plan and review from the support project
             ImprovementPlan = SupportProject?.ImprovementPlans?.First(x => x.ImprovementPlanReviews.Any(x => x.ReadableId == ReviewId));
@@ -98,8 +101,7 @@ public class NextReviewModel(
             }
         }
 
-        if (SupportProject != null &&
-            SupportProject.InitialDiagnosisMatchingDecision == "Review school's progress")
+        if (SupportProject != null && ReviewType == "Review progress")
         {
             ProgressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.ReadableId == ReviewId);
             PreviouslyEnteredReviewDate = ProgressReview?.ReviewDate;
@@ -129,7 +131,7 @@ public class NextReviewModel(
         }
 
 
-        if (SupportProject.InitialDiagnosisMatchingDecision == "Match with a supporting organisation")
+        if (ReviewType == "Matched")
         {
             // add check for type of school, call appropriate command
             var result = await mediator.Send(new SetImprovementPlanNextReviewDateCommand(
@@ -145,7 +147,7 @@ public class NextReviewModel(
             }
         }
 
-        if (SupportProject.InitialDiagnosisMatchingDecision == "Review school's progress")
+        if (ReviewType == "Review progress")
         {
             var progressReviewResult = await mediator.Send(new SetProgressReviewNextReviewDateCommand(
                 new SupportProjectId(id),

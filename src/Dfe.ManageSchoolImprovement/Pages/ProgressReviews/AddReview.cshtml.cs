@@ -120,7 +120,7 @@ public class AddReviewModel(
             var review = SupportProject?.ImprovementPlans?.SelectMany(x => x.ImprovementPlanReviews)
                 .SingleOrDefault(x => x.Id == result.Value);
             
-            return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = review.ReadableId });
+            return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = review.ReadableId, reviewType = "Matched" });
         }
 
         var progressReviewResult = await mediator.Send(
@@ -133,7 +133,7 @@ public class AddReviewModel(
         
         var progressReview = SupportProject?.ProgressReviews?.SingleOrDefault(x => x.Id == progressReviewResult.Value);
 
-        return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = progressReview.ReadableId });
+        return RedirectToPage(Links.ProgressReviews.NextReview.Page, new { id, reviewId = progressReview.ReadableId, reviewType = "Review progress" });
 
     }
 
