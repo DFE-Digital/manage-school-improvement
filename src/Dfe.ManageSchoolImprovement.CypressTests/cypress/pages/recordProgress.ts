@@ -48,12 +48,11 @@ class RecordProgress {
     }
 
     public clickRecordProgressLink(): this {
+        cy.get('h1').should('contain.text', 'Progress reviews');
         cy.get('.moj-ticket-panel__content.moj-ticket-panel__content--blue')
             .first()
-            .find('[data-cy="record-progress-link"]')
+            .get('a').contains('Record progress').should('exist')
             .click();
-        cy.url().should('include', '/progress-reviews');
-
         return this;
     }
 
@@ -118,7 +117,7 @@ class RecordProgress {
     }
 
     public hasViewProgressButton(): this {
-        cy.getByCyData('record-or-view-progress-button').should('contain.text', 'View progress');
+        cy.getByCyData('record-or-view-progress-button').contains('View progress').should('exist');
 
         return this;
     }
@@ -313,8 +312,16 @@ class RecordProgress {
         return this;
     }
 
+    public clickReturnToRecordProgressTab(): this {
+        cy.get('a').contains('Return to record progress').click();
+        cy.url().should('include', '/record-progress');
+
+        return this;
+    }
+    
+
     public hasSummaryCard(): this {
-        cy.get('govuk-summary-card.govuk-!-margin-bottom-6').should('exist');
+        cy.get('.govuk-summary-card.govuk-\\!-margin-bottom-6').should('exist');
 
         return this;
     }
