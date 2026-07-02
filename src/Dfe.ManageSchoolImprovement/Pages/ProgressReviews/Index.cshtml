@@ -11,8 +11,16 @@
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
 
     var matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
-          && matchedSchool && Model.ObjectivesComplete;
-}
+          && matchedSchool && !Model.ObjectivesComplete;
+    
+    var reviewType = "Matched";
+
+    if (matchingDecisionHasChanged || !matchedSchool)
+    {
+        reviewType = "Review progress";
+    }
+};
+
 
 @section BeforeMain
 {
@@ -95,7 +103,7 @@
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
                                asp-route-reviewid="@Model.CurrentProgressReview?.ReadableId"
-                               asp-route-reviewtype="@(matchingDecisionHasChanged ? "Matched" : Model.CurrentProgressReview?.Type)"
+                               asp-route-reviewtype="@reviewType"
                                class="govuk-link"
                                data-cy="add-next-review-date-link">Add next review date</a>
                         </p>
@@ -108,7 +116,8 @@
                         </p>
                         <p class="govuk-body govuk-!-margin-bottom-2">
                             <a asp-page="@Links.ProgressReviews.NextReview.Page" asp-route-id="@Model.SupportProject.Id"
-                               asp-route-reviewid="@Model.CurrentProgressReview.ReadableId" class="govuk-link"
+                               asp-route-reviewid="@Model.CurrentProgressReview.ReadableId"
+                               class="govuk-link"
                                data-cy="next-review-date-change-link">Change next review date</a>
                         </p>
                     }
