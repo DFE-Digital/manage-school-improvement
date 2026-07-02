@@ -179,10 +179,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? SchoolIsNotEligibleNotes { get; private set; }
     
     public bool? EligibilityComplete { get; private set; }
-
-    public bool? HasReceivedFundingInThelastTwoYears { get; private set; }
-    public bool? FundingHistoryDetailsComplete { get; private set; }
-
+    
     public string? CaseStudyDetails { get; private set; }
 
     public bool? CaseStudyCandidate { get; private set; }
