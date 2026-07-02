@@ -32,7 +32,6 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
         private void ConfigureEntities()
         {
             ConfigureSupportProject();
-            ConfigureFundingHistory();
             ConfigureImprovementPlans();
             ConfigureProgressReviews();
             ConfigureEngagementConcerns();
@@ -97,12 +96,7 @@ namespace Dfe.ManageSchoolImprovement.Application.MappingProfiles
                .ReverseMap();
         }
 
-        private void ConfigureFundingHistory()
-        {
-            CreateMap<Domain.Entities.SupportProject.FundingHistory, FundingHistoryDto>()
-                           .ForCtorParam("id", opt => opt.MapFrom(src => src.Id != null ? src.Id.Value : (Guid?)null))
-                           .ReverseMap();
-        }
+    
 
         private void ConfigureSupportProject()
         {

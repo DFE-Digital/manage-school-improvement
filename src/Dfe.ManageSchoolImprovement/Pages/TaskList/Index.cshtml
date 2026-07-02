@@ -56,39 +56,6 @@
                         <partial name="Shared/_TaskListStatus" model="@Model.ConfirmEligibilityTaskListStatus"/>
                     </div>
                 </li>
-                <li class="govuk-task-list__item govuk-task-list__item--with-link">
-                    @if (Model.ProjectNotYetAssigned)
-                    {
-                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                            Enter the funding history
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                            @if (Model.SupportProject.HasReceivedFundingInThelastTwoYears == true && Model.SupportProject.ProjectStatus == ProjectStatusValue.InProgress)
-                            {
-                                <a class="govuk-link govuk-task-list__link"
-                                   asp-page="@Links.TaskList.FundingHistoryDetails.Page"
-                                   asp-route-id="@Model.SupportProject.Id" data-cy="funding_history"
-                                   aria-describedby="funding_history_status">
-                                    Enter the funding history
-                                </a>
-                            }
-                            else
-                            {
-                                <a class="govuk-link govuk-task-list__link" asp-page="@Links.TaskList.FundingHistory.Page"
-                                   asp-route-id="@Model.SupportProject.Id" data-cy="funding_history"
-                                   aria-describedby="funding_history_status">
-                                    Enter the funding history
-                                </a>
-                            }
-                        </div>
-                    }
-                    <div class="govuk-task-list__status" id="funding_history_status">
-                        <partial name="Shared/_TaskListStatus" model="@Model.FundingHistoryStatus"/>
-                    </div>
-                </li>
             </ul>
         </div>
         <h3 class="app-task-list__section govuk-!-margin-top-8">Begin the project</h3>

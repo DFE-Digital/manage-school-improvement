@@ -481,7 +481,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             result.SchoolUrn.Should().Be("100001");
             result.Notes.Should().NotBeNull(); // Verify includes are working
             result.Contacts.Should().NotBeNull();
-            result.FundingHistories.Should().NotBeNull();
+       
         }
 
         [Fact]

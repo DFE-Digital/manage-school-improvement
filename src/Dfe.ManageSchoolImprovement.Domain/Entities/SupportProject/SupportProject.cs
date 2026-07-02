@@ -186,11 +186,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? CaseStudyDetails { get; private set; }
 
     public bool? CaseStudyCandidate { get; private set; }
-
-    public IEnumerable<FundingHistory> FundingHistories => _fundingHistories.AsReadOnly();
-
-    private readonly List<FundingHistory> _fundingHistories = new();
-
+    
     public bool? IncludeContactDetails { get; private set; }
 
     public bool? AttachSchoolImprovementPlan { get; private set; }
@@ -526,52 +522,7 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         DeletedAt = DateTime.UtcNow;
         DeletedBy = deletedBy;
     }
-
-    public void SetHasReceivedFundingInThelastTwoYears(bool? hasReceivedFundingInThelastTwoYearsCommand)
-    {
-        HasReceivedFundingInThelastTwoYears = hasReceivedFundingInThelastTwoYearsCommand;
-
-        if (hasReceivedFundingInThelastTwoYearsCommand != true)
-        {
-            FundingHistoryDetailsComplete = null;
-            _fundingHistories.Clear();
-        }
-    }
-
-    public void AddFundingHistory(FundingHistoryId id,
-        SupportProjectId supportProjectId,
-        string fundingType,
-        decimal fundingAmount,
-        string financialYear,
-        int fundingRounds,
-        string comments)
-    {
-        _fundingHistories.Add(new FundingHistory(id, supportProjectId, fundingType, fundingAmount, financialYear,
-            fundingRounds, comments));
-    }
-
-    public void EditFundingHistory(FundingHistoryId id,
-        string fundingType,
-        decimal fundingAmount,
-        string financialYear,
-        int fundingRounds,
-        string comments)
-    {
-        var fundingHistory = _fundingHistories.SingleOrDefault(x => x.Id == id);
-        if (fundingHistory != null)
-        {
-            fundingHistory.SetValues(fundingType,
-                fundingAmount,
-                financialYear,
-                fundingRounds,
-                comments);
-        }
-    }
-
-    public void SetFundingHistoryComplete(bool? isComplete)
-    {
-        FundingHistoryDetailsComplete = isComplete;
-    }
+    
 
     public void SetCaseStudyDetails(bool? caseStudyCandidate, string? caseStudyDetails)
     {

@@ -49,7 +49,7 @@ public class IndexModel(
 
     public TaskListStatus RequestImprovementGrantOfferLetterTaskListStatus { get; set; }
     public TaskListStatus ConfirmImprovementGrantOfferLetterTaskListStatus { get; set; }
-    public TaskListStatus FundingHistoryStatus { get; set; }
+   
     public TaskListStatus EnterImprovementPlanObjectivesTaskListStatus { get; set; }
 
     public bool ProjectNotYetAssigned { get; set; }
@@ -90,7 +90,6 @@ public class IndexModel(
 
             if (projectStatusPausedOrStopped)
             {
-                FundingHistoryStatus = TaskListStatus.CannotProgress;
                 InitialContactWithResponsibleBodyTaskListStatus = TaskListStatus.CannotProgress;
                 CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskListStatus.CannotProgress;
                 SendFormalNotificationTaskListStatus = TaskListStatus.CannotProgress;
@@ -98,7 +97,6 @@ public class IndexModel(
             }
             else if (ProjectNotYetAssigned)
             {
-                FundingHistoryStatus = TaskListStatus.CannotStartYet;
                 InitialContactWithResponsibleBodyTaskListStatus = TaskListStatus.CannotStartYet;
                 CheckThePotentialAdviserConflictsOfInterestTaskListStatus = TaskListStatus.CannotStartYet;
                 SendFormalNotificationTaskListStatus = TaskListStatus.CannotStartYet;
@@ -106,7 +104,6 @@ public class IndexModel(
             }
             else
             {
-                FundingHistoryStatus = TaskStatusViewModel.FundingHistoryTaskListStatus(SupportProject);
                 InitialContactWithResponsibleBodyTaskListStatus =
                     TaskStatusViewModel.ContactedTheResponsibleBodyTaskStatus(SupportProject);
                 CheckThePotentialAdviserConflictsOfInterestTaskListStatus =
@@ -269,7 +266,6 @@ public class IndexModel(
     private TaskListStatus[] ReviewProgressCommonTaskStatuses() =>
     [
         ConfirmEligibilityTaskListStatus,
-        FundingHistoryStatus,
         InitialContactWithResponsibleBodyTaskListStatus,
         CheckThePotentialAdviserConflictsOfInterestTaskListStatus,
         SendFormalNotificationTaskListStatus,

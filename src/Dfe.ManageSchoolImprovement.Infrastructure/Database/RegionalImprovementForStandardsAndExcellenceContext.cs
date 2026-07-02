@@ -39,7 +39,6 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
         modelBuilder.Entity<SupportProject>(ConfigureSupportProject);
         modelBuilder.Entity<SupportProjectNote>(ConfigureSupportProjectNotes);
         modelBuilder.Entity<SupportProjectContact>(ConfigureSupportProjectContacts);
-        modelBuilder.Entity<FundingHistory>(ConfigureFundingHistory);
         modelBuilder.Entity<ImprovementPlan>(ConfigureImprovementPlan);
         modelBuilder.Entity<ImprovementPlanObjective>(ConfigureImprovementPlanObjective);
         modelBuilder.Entity<ImprovementPlanReview>(ConfigureImprovementPlanReview);
@@ -78,12 +77,7 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
             .WithOne()
             .HasForeignKey(SupportProjectForeignKeyName)
             .IsRequired();
-
-        supportProjectConfiguration
-            .HasMany(a => a.FundingHistories)
-            .WithOne()
-            .HasForeignKey(SupportProjectForeignKeyName)
-            .IsRequired();
+        
 
         supportProjectConfiguration
             .HasMany(a => a.ImprovementPlans)
@@ -117,17 +111,8 @@ public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOption
                 v => v!.Value,
                 v => new SupportProjectNoteId(v));
     }
-    private static void ConfigureFundingHistory(EntityTypeBuilder<FundingHistory> fundingHistoryConfiguration)
-    {
-        fundingHistoryConfiguration.ToTable("FundingHistories", DefaultSchema, b => b.IsTemporal());
-        fundingHistoryConfiguration.HasKey(a => a.Id);
-        fundingHistoryConfiguration.Property(e => e.ReadableId).UseIdentityColumn();
-        fundingHistoryConfiguration.Property(e => e.FundingAmount).HasColumnType("decimal(18,2)");
-        fundingHistoryConfiguration.Property(e => e.Id)
-            .HasConversion(
-                v => v!.Value,
-                v => new FundingHistoryId(v));
-    }
+
+    
 
     private static void ConfigureSupportProjectContacts(EntityTypeBuilder<SupportProjectContact> supportProjectContactsConfiguration)
     {
