@@ -87,7 +87,7 @@
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id" role="button"
                draggable="false" class="govuk-button" data-module="govuk-button"
                data-cy="record-or-view-progress-button">
-                @(Model.SupportProject!.IsReadOnly ? "View Progress" : "Record progress")
+                @(Model.SupportProject!.IsReadOnly ? "View progress" : "Record progress")
             </a>
         }
         @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded)
