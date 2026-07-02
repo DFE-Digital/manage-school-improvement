@@ -7,11 +7,11 @@
 
     bool progressReviewDeleted = (bool)(TempData["progressReviewDeleted"] ?? false);
     bool reviewDeleted = (bool)(TempData["reviewDeleted"] ?? false);
-
+    
     var matchedSchool = Model.SupportProject?.InitialDiagnosisMatchingDecision == "Match with a supporting organisation";
 
     var matchingDecisionHasChanged = Model.CurrentProgressReview is { Type: "Review progress" }
-          && matchedSchool && !Model.ObjectivesComplete;
+          && matchedSchool;
     
     var reviewType = "Matched";
 
