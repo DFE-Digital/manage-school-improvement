@@ -84,7 +84,7 @@
         else
         {
             var text = matchedSchool ? "Record progress on the improvement plan objectives after each review." : "Record progress on the improvement plan after each review.";
-            
+
             <p>@text</p>
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
                role="button"
@@ -114,6 +114,8 @@
         {
             @if (Model.CurrentReview != null)
             {
+                <h3 class="govuk-heading-m">Most recent review</h3>
+                
                 var reviewSummaryCardModel = (
                     Model.CurrentReview.Title,
                     Model.CurrentReview.ProgressStatusClass,
@@ -135,7 +137,7 @@
             {
                 <partial name="_ReviewProgressSummaryCard"
                          model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
-                
+
                 @if (matchingDecisionHasChanged && Model.ObjectivesComplete)
                 {
                     <partial name="_ObjectiveSection"
