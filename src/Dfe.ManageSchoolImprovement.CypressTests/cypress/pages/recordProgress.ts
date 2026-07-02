@@ -321,7 +321,7 @@ class RecordProgress {
     
 
     public hasSummaryCard(): this {
-        cy.get('.govuk-summary-card.govuk-\\!-margin-bottom-6').should('exist');
+        cy.get(String.raw`.govuk-summary-card.govuk-\!-margin-bottom-6`).should('exist');
 
         return this;
     }
