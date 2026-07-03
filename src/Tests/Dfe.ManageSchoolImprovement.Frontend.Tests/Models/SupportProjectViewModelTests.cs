@@ -32,7 +32,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
                 DateAdviserAllocated: DateTime.Now,
                 AdviserEmailAddress: "adviser@example.com",
                 IntroductoryEmailSentDate: DateTime.Now,
-                RemindAdviserToCopyRiseTeamWhenSentEmail: true,
                 AdviserVisitDate: DateTime.Now,
                 SavedAssessmentTemplateInSharePointDate: DateTime.Now,
                 HasTalkToAdviserAboutFindings: true,
@@ -93,7 +92,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Models
             Assert.Equal(supportProjectDto.ReviewAdvisersConflictOfInterestForm, viewModel.ReviewAdvisersConflictOfInterestForm);
             Assert.Equal(supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint, viewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint);
             Assert.Equal(supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate, viewModel.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate);
-            Assert.Equal(supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail, viewModel.RemindAdviserToCopyRiseTeamWhenSentEmail);
             Assert.Equal(supportProjectDto.IntroductoryEmailSentDate, viewModel.IntroductoryEmailSentDate);
             Assert.Equal(supportProjectDto.AdviserEmailAddress, viewModel.AdviserEmailAddress);
             Assert.Equal(supportProjectDto.DateAdviserAllocated, viewModel.DateAdviserAllocated);

@@ -225,7 +225,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
                 ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint,
                 DateConflictOfInterestDeclarationChecked = supportProjectDto.DateConflictOfInterestDeclarationChecked,
                 ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate = supportProjectDto.ResponsibleBodyResponseToTheConflictOfInterestRequestReceivedDate,
-                RemindAdviserToCopyRiseTeamWhenSentEmail = supportProjectDto.RemindAdviserToCopyRiseTeamWhenSentEmail,
                 IntroductoryEmailSentDate = supportProjectDto.IntroductoryEmailSentDate,
                 AdviserCanBeSet = supportProjectDto.AdviserCanBeSet,
                 AdviserEmailAddress = supportProjectDto.AdviserEmailAddress,

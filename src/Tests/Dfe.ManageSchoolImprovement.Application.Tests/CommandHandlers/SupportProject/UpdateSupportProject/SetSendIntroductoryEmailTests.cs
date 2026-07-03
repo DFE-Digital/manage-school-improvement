@@ -30,8 +30,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
-                introductoryEmailSentDate,
-                remindAdvisorToCopyRiseTeamWhenSentEmail
+                introductoryEmailSentDate
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetSendIntroductoryEmailCommandHandler(_mockSupportProjectRepository.Object);
@@ -50,7 +49,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
-                null,
                 null
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -73,8 +71,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
-                introductoryEmailSentDate,
-                remindAdvisorToCopyRiseTeamWhenSentEmail
+                introductoryEmailSentDate
             );
 
             _mockSupportProjectRepository.Setup(repo => 

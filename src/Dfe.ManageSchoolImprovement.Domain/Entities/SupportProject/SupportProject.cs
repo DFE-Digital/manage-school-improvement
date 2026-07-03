@@ -92,9 +92,6 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
     public string? AdviserEmailAddress { get; private set; }
     public string? AdviserFullName { get; private set; }
     public DateTime? IntroductoryEmailSentDate { get; private set; }
-
-    public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; private set; }
-
     public DateTime? AdviserVisitDate { get; private set; }
 
     public DateTime? SavedAssessmentTemplateInSharePointDate { get; private set; }
@@ -340,11 +337,9 @@ public class SupportProject : BaseAggregateRoot, IEntity<SupportProjectId>
         AdviserFullName = adviserFullName;
     }
 
-    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate,
-        bool? remindAdviserToCopyRiseTeamWhenSentEmail)
+    public void SetSendIntroductoryEmail(DateTime? introductoryEmailSentDate)
     {
         IntroductoryEmailSentDate = introductoryEmailSentDate;
-        RemindAdviserToCopyRiseTeamWhenSentEmail = remindAdviserToCopyRiseTeamWhenSentEmail;
     }
 
     public void SetAdviserVisitDate(DateTime? adviserVisitDate, bool? giveTheAdviserTheNoteOfVisitTemplate)

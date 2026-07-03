@@ -50,16 +50,13 @@ namespace Dfe.ManageSchoolImprovement.Domain.Tests.Entities.SupportProject
             // Arrange
             var supportProject = CreateSupportProject();
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var remindAdviserToCopyRiseTeamWhenSentEmail = true;
 
             // Act
             supportProject.SetSendIntroductoryEmail(
-                introductoryEmailSentDate,
-                remindAdviserToCopyRiseTeamWhenSentEmail);
+                introductoryEmailSentDate);
 
             // Assert
             supportProject.IntroductoryEmailSentDate.Should().Be(introductoryEmailSentDate);
-            supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.Should().Be(remindAdviserToCopyRiseTeamWhenSentEmail);
             mockRepository.VerifyAll();
         }
 

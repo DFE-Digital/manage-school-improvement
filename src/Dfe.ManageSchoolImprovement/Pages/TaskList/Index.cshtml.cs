@@ -183,7 +183,7 @@ public class IndexModel(
             {
                 // Phase 2
                 SendIntroductoryEmailTaskListStatus =
-                    TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(SupportProject);
+                    TaskStatusViewModel.AdviserMakeInitialContactTaskListStatus(SupportProject);
                 ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus =
                     TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(SupportProject);
                 RecordVisitDateToVisitSchoolTaskListStatus =
