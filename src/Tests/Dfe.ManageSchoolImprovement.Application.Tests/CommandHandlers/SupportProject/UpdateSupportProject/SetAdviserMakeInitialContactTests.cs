@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject
 {
-    public class SetSendIntroductoryEmailTests
+    public class SetAdviserMakeInitialContactTests
     {
         private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
         private readonly Domain.Entities.SupportProject.SupportProject _mockSupportProject;
         private readonly CancellationToken _cancellationToken;
 
-        public SetSendIntroductoryEmailTests()
+        public SetAdviserMakeInitialContactTests()
         {
 
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
@@ -26,7 +26,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var remindAdvisorToCopyRiseTeamWhenSentEmail = true;
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
@@ -67,7 +66,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var remindAdvisorToCopyRiseTeamWhenSentEmail = true;
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
