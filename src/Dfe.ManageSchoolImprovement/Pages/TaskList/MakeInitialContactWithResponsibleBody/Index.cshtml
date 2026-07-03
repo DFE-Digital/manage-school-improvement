@@ -14,7 +14,7 @@
 @section BeforeMain
 {
     <nav aria-label="back navigation">
-        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject.Id"
+        <a asp-page="@Links.TaskList.Index.Page" asp-route-id="@Model.SupportProject?.Id"
            class="govuk-back-link">Back</a>
     </nav>
 }
@@ -31,7 +31,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.SupportProject.SchoolName</span>
+        <span class="govuk-caption-l">@Model.SupportProject?.SchoolName</span>
         <h1 class="govuk-heading-l">
             Make initial contact with the responsible body
         </h1>
@@ -71,6 +71,21 @@
                     your collective knowledge.</p>
             </div>
         </details>
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    What to say when you notify the responsible body
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p>You should reassure the responsible body that RISE targeted intervention is a
+                    collaborative process.</p>
+                <p>Explain that the RISE team and adviser will work together with the
+                    responsible
+                    body and school and their experience, plans and views will be taken into
+                    account.</p>
+            </div>
+        </details>
         @if (Model.IsReadOnly)
 
         {
@@ -92,31 +107,6 @@
                             <label class="govuk-label govuk-checkboxes__label" for="initial-contact-responsible-body">
                                 Contact the responsible body
                             </label>
-                            <div id="initial-contact-responsible-body-hint" class="govuk-hint govuk-checkboxes__hint">
-                                There is
-                                <a class="govuk-link"
-                                   href="@Model.TargetedInterventionGuidanceLink"
-                                   rel="noreferrer noopener"
-                                   target="_blank">guidance on SharePoint (opens in new tab)</a>
-                                that contains links to a call script and answers to commonly asked questions that can
-                                help
-                                you.
-                                <details class="govuk-details govuk-!-margin-top-3 margin-bottom-minus-10">
-                                    <summary class="govuk-details__summary">
-                                        <span class="govuk-details__summary-text">
-                                            What to say when you notify the responsible body
-                                        </span>
-                                    </summary>
-                                    <div class="govuk-details__text">
-                                        <p>You should reassure the responsible body that RISE targeted intervention is a
-                                            collaborative process.</p>
-                                        <p>Explain that the RISE team and adviser will work together with the
-                                            responsible
-                                            body and school and their experience, plans and views will be taken into
-                                            account.</p>
-                                    </div>
-                                </details>
-                            </div>
                         </div>
                     </div>
                 </div>

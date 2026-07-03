@@ -13,8 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.MakeInitialContact
 public class MakeInitialContactWithResponsibleBodyModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator,
-    IApplicationSettingsResourceService applicationSettingsResourceService)
+    IMediator mediator)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "responsible-body-initial-contact-date", BinderType = typeof(DateInputModelBinder))]
@@ -31,7 +30,6 @@ public class MakeInitialContactWithResponsibleBodyModel(
     public ProjectStatusValue? ProjectStatus { get; set; }
     
     public bool ShowError { get; set; }
-    public string TargetedInterventionGuidanceLink { get; set; } = string.Empty;
 
     // Expression-bodied interface implementations
     string IDateValidationMessageProvider.SomeMissing(string displayName, IEnumerable<string> missingParts) =>
@@ -43,7 +41,6 @@ public class MakeInitialContactWithResponsibleBodyModel(
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken = default)
     {
         await base.GetSupportProject(id, cancellationToken);
-        await LoadGuidanceLinkAsync(cancellationToken);
 
         // Tuple deconstruction for property assignments
         (ResponsibleBodyInitialContactDate, InitialContactResponsibleBody) = (
@@ -59,9 +56,6 @@ public class MakeInitialContactWithResponsibleBodyModel(
 
     public async Task<IActionResult> OnPostAsync(int id, CancellationToken cancellationToken = default)
     {
-        // Load guidance link early for both success and error paths
-        await LoadGuidanceLinkAsync(cancellationToken);
-
         // Early return for validation errors
         if (!ResponsibleBodyInitialContactDate.HasValue)
         {
@@ -89,13 +83,6 @@ public class MakeInitialContactWithResponsibleBodyModel(
 
         TaskUpdated = true;
         return RedirectToPage(Links.TaskList.Index.Page, new { id });
-    }
-
-    // Extracted method for loading guidance link
-    private async Task LoadGuidanceLinkAsync(CancellationToken cancellationToken)
-    {
-        TargetedInterventionGuidanceLink = await applicationSettingsResourceService
-            .GetTargetedInterventionGuidanceLinkAsync(cancellationToken) ?? string.Empty;
     }
 
     // Extracted method for cleaner error handling
