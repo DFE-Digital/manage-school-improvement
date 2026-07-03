@@ -94,23 +94,19 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<bool?, DateTime?, TaskListStatus>
+        public static readonly TheoryData<DateTime?, TaskListStatus>
             AdviserMakeInitialContactTaskListStatusCases = new()
             {
-                { null, null, TaskListStatus.NotStarted },
-                { false, null, TaskListStatus.InProgress },
-                { false, null, TaskListStatus.InProgress },
-                { true, DateTime.Now, TaskListStatus.Complete }
+                { null, TaskListStatus.NotStarted },
+                { DateTime.Now, TaskListStatus.Complete }
             };
 
         [Theory, MemberData(nameof(AdviserMakeInitialContactTaskListStatusCases))]
-        public void AdviserMakeInitialContactTaskListStatusShouldReturnCorrectStatus(bool? hasShareEmailTemplateWithAdviser,
-            DateTime? introductoryEmailSentDate, TaskListStatus expectedTaskListStatus)
+        public void AdviserMakeInitialContactTaskListStatusShouldReturnCorrectStatus(DateTime? introductoryEmailSentDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
-                IntroductoryEmailSentDate: introductoryEmailSentDate,
-                HasShareEmailTemplateWithAdviser: hasShareEmailTemplateWithAdviser));
+                IntroductoryEmailSentDate: introductoryEmailSentDate));
 
             //Action 
             var taskListStatus = TaskStatusViewModel.AdviserMakeInitialContactTaskListStatus(supportProjectModel);
