@@ -22,7 +22,7 @@ public class IndexModel(
     public TaskListStatus SendFormalNotificationTaskListStatus { get; set; }
     public TaskListStatus RecordTheSchoolResponseTaskListStatus { get; set; }
     public TaskListStatus CheckThePotentialAdviserConflictsOfInterestTaskListStatus { get; set; }
-    public TaskListStatus SendIntroductoryEmailTaskListStatus { get; set; }
+    public TaskListStatus AdviserMakeInitialContactTaskListStatus { get; set; }
     public TaskListStatus AllocateAdviserTaskListStatus { get; set; }
 
     public TaskListStatus ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus { get; set; }
@@ -130,7 +130,7 @@ public class IndexModel(
             if (projectStatusPausedOrStopped)
             {
                 // Phase 2
-                SendIntroductoryEmailTaskListStatus = TaskListStatus.CannotProgress;
+                AdviserMakeInitialContactTaskListStatus = TaskListStatus.CannotProgress;
                 ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus = TaskListStatus.CannotProgress;
                 RecordVisitDateToVisitSchoolTaskListStatus = TaskListStatus.CannotProgress;
                 CompleteAndSaveInitialDiagnosisTemplateTaskListStatus = TaskListStatus.CannotProgress;
@@ -156,7 +156,7 @@ public class IndexModel(
             else if (AdviserSet != true)
             {
                 //phase 2
-                SendIntroductoryEmailTaskListStatus = TaskListStatus.CannotStartYet;
+                AdviserMakeInitialContactTaskListStatus = TaskListStatus.CannotStartYet;
                 ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus = TaskListStatus.CannotStartYet;
                 RecordVisitDateToVisitSchoolTaskListStatus = TaskListStatus.CannotStartYet;
                 CompleteAndSaveInitialDiagnosisTemplateTaskListStatus = TaskListStatus.CannotStartYet;
@@ -182,7 +182,7 @@ public class IndexModel(
             else
             {
                 // Phase 2
-                SendIntroductoryEmailTaskListStatus =
+                AdviserMakeInitialContactTaskListStatus =
                     TaskStatusViewModel.AdviserMakeInitialContactTaskListStatus(SupportProject);
                 ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus =
                     TaskStatusViewModel.AdviserVisitToSchoolTaskListStatus(SupportProject);
@@ -271,7 +271,7 @@ public class IndexModel(
         SendFormalNotificationTaskListStatus,
         RecordTheSchoolResponseTaskListStatus,
         AllocateAdviserTaskListStatus,
-        SendIntroductoryEmailTaskListStatus,
+        AdviserMakeInitialContactTaskListStatus,
         ArrangeAdvisersFirstFaceToFaceVisitTaskListStatus,
         RecordVisitDateToVisitSchoolTaskListStatus,
         CompleteAndSaveInitialDiagnosisTemplateTaskListStatus,

@@ -32,7 +32,7 @@
         <h1 class="govuk-heading-l" data-cy="page-heading">
             Adviser make initial contact
         </h1>
-        <p class="govuk-body" data-cy="instruction-to-adviser">The adviser should email the school to introduce
+        <p class="govuk-body" data-cy="instruction-to-adviser">The adviser should contact the school to introduce
             themselves to the school's responsible body.</p>
         @if (Model.IsReadOnly)
         {
@@ -41,7 +41,7 @@
         else
         {
             <form method="post" novalidate>
-                <govuk-date-input heading-label="false" label="Enter date the introductory email was sent"
+                <govuk-date-input heading-label="false" label="Enter date of adviser's initial contact with school"
                                   id="introductory-email-sent-date" name="introductory-email-sent-date"
                                   asp-for="@Model.IntroductoryEmailSentDate" hint="For example, 1 7 2024."/>
                 <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"

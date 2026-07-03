@@ -187,7 +187,7 @@
                                asp-page="@Links.TaskList.AdviserMakeInitialContactLinkItem.Page" asp-route-id="@Model.SupportProject.Id"
                                data-cy="send-introductory-email-request-improvement-plan"
                                aria-describedby="send-introductory-email-request-improvement-plan_status">
-                                Send introductory email
+                                Adviser make initial contact
                             </a>
                         </div>
                     }
@@ -195,11 +195,11 @@
                     else
                     {
                         <div class="govuk-task-list__name-and-hint" data-cy="task-name">
-                            Send introductory email
+                            Adviser make initial contact
                         </div>
                     }
                     <div class="govuk-task-list__status" id="send-introductory-email-request-improvement-plan_status">
-                        <partial name="Shared/_TaskListStatus" model="@Model.SendIntroductoryEmailTaskListStatus"/>
+                        <partial name="Shared/_TaskListStatus" model="@Model.AdviserMakeInitialContactTaskListStatus"/>
                     </div>
                     
                 </li>
