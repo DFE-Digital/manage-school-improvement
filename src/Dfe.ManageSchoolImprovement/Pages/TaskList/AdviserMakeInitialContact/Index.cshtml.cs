@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 
-namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEmail
+namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AdviserMakeInitialContact
 {
     public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
     {
@@ -16,10 +16,6 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
         [DateValidation(DateRangeValidationService.DateRange.PastOrToday)]
         [Display(Name = "Enter date the introductory email was sent")]
         public DateTime? IntroductoryEmailSentDate { get; set; }
-
-        [BindProperty(Name = "remind-adviser-to-copy-in-rise-team-on-email-sent")]
-        [Display(Name = "Remind the adviser to copy in the RISE team when they send the email")]
-        public bool? RemindAdviserToCopyRiseTeamWhenSentEmail { get; set; }
 
         public TaskListStatus? TaskListStatus { get; set; }
         public ProjectStatusValue? ProjectStatus { get; set; }
@@ -39,10 +35,9 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
 
             if (SupportProject != null)
             {
-                RemindAdviserToCopyRiseTeamWhenSentEmail = SupportProject.RemindAdviserToCopyRiseTeamWhenSentEmail;
                 IntroductoryEmailSentDate = SupportProject.IntroductoryEmailSentDate;
             
-                TaskListStatus = TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(SupportProject);
+                TaskListStatus = TaskStatusViewModel.AdviserMakeInitialContactTaskListStatus(SupportProject);
                 ProjectStatus = SupportProject.ProjectStatus; 
             }
             
@@ -58,7 +53,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendIntroductoryEm
                 return await base.GetSupportProject(id, cancellationToken);
             }
 
-            var request = new SetSendIntroductoryEmailCommand(new SupportProjectId(id), IntroductoryEmailSentDate, RemindAdviserToCopyRiseTeamWhenSentEmail);
+            var request = new SetSendIntroductoryEmailCommand(new SupportProjectId(id), IntroductoryEmailSentDate);
 
             var result = await mediator.Send(request, cancellationToken);
 

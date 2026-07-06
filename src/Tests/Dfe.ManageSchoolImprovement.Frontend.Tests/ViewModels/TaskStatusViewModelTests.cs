@@ -94,28 +94,22 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.ViewModels
             Assert.Equal(expectedTaskListStatus, taskListStatus);
         }
 
-        public static readonly TheoryData<bool?, bool?, DateTime?, TaskListStatus>
-            SendIntroductoryEmailTaskListStatusCases = new()
+        public static readonly TheoryData<DateTime?, TaskListStatus>
+            AdviserMakeInitialContactTaskListStatusCases = new()
             {
-                { null, null, null, TaskListStatus.NotStarted },
-                { false, false, null, TaskListStatus.InProgress },
-                { false, true, null, TaskListStatus.InProgress },
-                { true, true, DateTime.Now, TaskListStatus.Complete }
+                { null, TaskListStatus.NotStarted },
+                { DateTime.Now, TaskListStatus.Complete }
             };
 
-        [Theory, MemberData(nameof(SendIntroductoryEmailTaskListStatusCases))]
-        public void SendIntroductoryEmailTaskListStatusShouldReturnCorrectStatus(bool? hasShareEmailTemplateWithAdviser,
-            bool? remindAdviserToCopyRiseTeamWhenSentEmail,
-            DateTime? introductoryEmailSentDate, TaskListStatus expectedTaskListStatus)
+        [Theory, MemberData(nameof(AdviserMakeInitialContactTaskListStatusCases))]
+        public void AdviserMakeInitialContactTaskListStatusShouldReturnCorrectStatus(DateTime? introductoryEmailSentDate, TaskListStatus expectedTaskListStatus)
         {
             // Arrange
             var supportProjectModel = SupportProjectViewModel.Create(new SupportProjectDto(1, DateTime.Now, DateTime.Now,
-                IntroductoryEmailSentDate: introductoryEmailSentDate,
-                HasShareEmailTemplateWithAdviser: hasShareEmailTemplateWithAdviser,
-                RemindAdviserToCopyRiseTeamWhenSentEmail: remindAdviserToCopyRiseTeamWhenSentEmail));
+                IntroductoryEmailSentDate: introductoryEmailSentDate));
 
             //Action 
-            var taskListStatus = TaskStatusViewModel.SendIntroductoryEmailTaskListStatus(supportProjectModel);
+            var taskListStatus = TaskStatusViewModel.AdviserMakeInitialContactTaskListStatus(supportProjectModel);
 
             //Assert
             Assert.Equal(expectedTaskListStatus, taskListStatus);

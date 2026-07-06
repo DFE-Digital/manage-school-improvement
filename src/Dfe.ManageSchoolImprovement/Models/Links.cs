@@ -75,7 +75,7 @@ public static class Links
         public static readonly LinkItem CheckPotentialAdviserConflictsOfInterest = AddLinkItem(backText: "Back", page: "/TaskList/AdviserConflictOfInterest/AdviserConflictOfInterest");
         public static readonly LinkItem SendFormalNotification = AddLinkItem(backText: "Back", page: "/TaskList/SendFormalNotification/Index");
         public static readonly LinkItem AllocateAdviser = AddLinkItem(backText: "Back", page: "/TaskList/AllocateAdviser/AllocateAdviser");
-        public static readonly LinkItem SendIntroductoryEmail = AddLinkItem(backText: "Back", page: "/TaskList/SendIntroductoryEmail/Index");
+        public static readonly LinkItem AdviserMakeInitialContactLinkItem = AddLinkItem(backText: "Back", page: "/TaskList/AdviserMakeInitialContact/Index");
         public static readonly LinkItem ArrangeAdvisersFirstFaceToFaceVisit = AddLinkItem(backText: "Back", page: "/TaskList/ArrangeAdvisersFirstFaceToFaceVisit/ArrangeAdvisersFirstFaceToFaceVisit");
         public static readonly LinkItem CompleteAndSaveInitialDiagnosisAssessment = AddLinkItem(backText: "Back", page: "/TaskList/CompleteAndSaveInitialDiagnosisAssessment/Index");
         public static readonly LinkItem RecordVisitDateToVisitSchool = AddLinkItem(backText: "Back", page: "/TaskList/RecordVisitDateToVisitSchool/Index");

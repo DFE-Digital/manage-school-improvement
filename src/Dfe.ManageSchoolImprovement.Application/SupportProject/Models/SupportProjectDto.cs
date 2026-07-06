@@ -34,7 +34,6 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Models
         string? AdviserFullName = null,
         DateTime? IntroductoryEmailSentDate = null,
         bool? HasShareEmailTemplateWithAdviser = null,
-        bool? RemindAdviserToCopyRiseTeamWhenSentEmail = null,
         DateTime? AdviserVisitDate = null,
         DateTime? SavedAssessmentTemplateInSharePointDate = null,
         bool? HasTalkToAdviserAboutFindings = null,

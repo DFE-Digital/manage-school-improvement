@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportProject.UpdateSupportProject
 {
-    public class SetSendIntroductoryEmailTests
+    public class SetAdviserMakeInitialContactTests
     {
         private readonly Mock<ISupportProjectRepository> _mockSupportProjectRepository;
         private readonly Domain.Entities.SupportProject.SupportProject _mockSupportProject;
         private readonly CancellationToken _cancellationToken;
 
-        public SetSendIntroductoryEmailTests()
+        public SetAdviserMakeInitialContactTests()
         {
 
             _mockSupportProjectRepository = new Mock<ISupportProjectRepository>();
@@ -26,12 +26,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var remindAdvisorToCopyRiseTeamWhenSentEmail = true;
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
-                introductoryEmailSentDate,
-                remindAdvisorToCopyRiseTeamWhenSentEmail
+                introductoryEmailSentDate
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
             var handler = new SetSendIntroductoryEmailCommandHandler(_mockSupportProjectRepository.Object);
@@ -50,7 +48,6 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             // Arrange
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
-                null,
                 null
             );
             _mockSupportProjectRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Domain.Entities.SupportProject.SupportProject, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(_mockSupportProject);
@@ -69,12 +66,10 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
         {
             // Arrange
             var introductoryEmailSentDate = DateTime.UtcNow;
-            var remindAdvisorToCopyRiseTeamWhenSentEmail = true;
 
             var command = new SetSendIntroductoryEmailCommand(
                 _mockSupportProject.Id,
-                introductoryEmailSentDate,
-                remindAdvisorToCopyRiseTeamWhenSentEmail
+                introductoryEmailSentDate
             );
 
             _mockSupportProjectRepository.Setup(repo => 

@@ -97,16 +97,14 @@ public static class TaskStatusViewModel
         return TaskListStatus.InProgress;
     }
 
-    public static TaskListStatus SendIntroductoryEmailTaskListStatus(SupportProjectViewModel supportProject)
+    public static TaskListStatus AdviserMakeInitialContactTaskListStatus(SupportProjectViewModel supportProject)
     {
-        if (supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
-            && supportProject.IntroductoryEmailSentDate.HasValue)
+        if (supportProject.IntroductoryEmailSentDate.HasValue)
         {
             return TaskListStatus.Complete;
         }
 
-        if (!supportProject.RemindAdviserToCopyRiseTeamWhenSentEmail.HasValue
-            && !supportProject.IntroductoryEmailSentDate.HasValue)
+        if (!supportProject.IntroductoryEmailSentDate.HasValue)
         {
             return TaskListStatus.NotStarted;
         }
