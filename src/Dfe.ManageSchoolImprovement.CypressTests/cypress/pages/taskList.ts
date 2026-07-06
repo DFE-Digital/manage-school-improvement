@@ -73,13 +73,12 @@ class TaskList {
 
   public hasTasks(): this {
     cy.contains('Confirm starting eligibility');
-    cy.contains('Enter the funding history');
     cy.contains('Make initial contact with the responsible body');
     cy.contains('Check potential adviser conflicts of interest');
     cy.contains('Send the formal notification');
     cy.contains('Record the responsible body\'s response');
     cy.contains('Allocate an adviser');
-    cy.contains('Send introductory email');
+    cy.contains('Adviser make initial contact');
     cy.contains("Arrange adviser's initial visit");
     cy.contains('Record date of initial visit');
     cy.contains('Complete and save the initial diagnosis assessment');
@@ -105,7 +104,6 @@ class TaskList {
     const cannotStartYet = "Cannot start yet";
     
     cy.get("#confirm-eligibility-status").contains('Completed');
-    cy.get('#funding_history_status').contains(cannotStartYet);
     cy.get('#confirm_responsible_body_status').contains(cannotStartYet);
     cy.get('#record-school-response_status').contains(cannotStartYet);
     cy.get('#CheckPotentialAdviserConflictsOfInterest_status').contains(cannotStartYet);
