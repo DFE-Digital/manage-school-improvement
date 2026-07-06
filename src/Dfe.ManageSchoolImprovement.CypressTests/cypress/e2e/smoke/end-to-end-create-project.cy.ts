@@ -128,7 +128,6 @@ describe("Add a school which is eligible for improvement and complete it's tasks
   it('Should be able to complete other tasks only if user is assigned to the school', () => {
     homePage.selectSchoolName(schoolLong);
     taskList.hasProjectMustBeAssignedBanner();
-    taskList.hasTaskStatusCannotStartYet("funding_history_status");
     taskList.hasTaskStatusCannotStartYet("confirm_responsible_body_status");
 
     cy.executeAccessibilityTests();
@@ -136,37 +135,13 @@ describe("Add a school which is eligible for improvement and complete it's tasks
     Logger.log("Assigning user to school");
     taskList.assignUserToSchool();
     taskList.userAssignedSuccessMessage()
-    taskList.hasTaskStatusNotStarted("funding_history_status");
     taskList.hasTaskStatusNotStarted("confirm_responsible_body_status");
     taskList.hasTaskStatusNotStarted("confirm_responsible_body_status");
     taskList.hasTaskStatusCannotStartYet("AllocateAdviser_status");
     taskList.hasTaskStatusCannotStartYet("send-introductory-email-request-improvement-plan_status");
   });
 
-  // Task 2: Funding history
-  it("Should complete the 'Enter the funding history' task", () => {
-    homePage.selectSchoolName(schoolLong);
-
-    Logger.log("Selecting 'Funding history' task");
-    taskList.selectTask("Enter the funding history");
-
-    cy.executeAccessibilityTests();
-
-    taskListActions.hasHeader("Has the school received any funding in the last 2 financial years?");
-    taskListActions.selectNoAndContinue();
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusCompleted("funding_history_status");
-    taskList.selectTask("Enter the funding history");
-    taskListActions.selectYesAndContinue();
-    fundingHistory.enterFundingHistory();
-    fundingHistory.confirmFundingHistory();
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusCompleted("funding_history_status");
-
-    cy.executeAccessibilityTests();
-  });
-
-  // Task 3: Contact the responsible body
+  // Task 2: Contact the responsible body
   it("Should complete the 'Make initial contact with the responsible body' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -184,7 +159,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("confirm_responsible_body_status");
   });
 
-  // Task 4: Check potential adviser conflicts of interest
+  // Task 3: Check potential adviser conflicts of interest
   it("Should complete the 'Check potential adviser conflicts of interest' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -205,7 +180,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("CheckPotentialAdviserConflictsOfInterest_status");
   });
 
-  // Task 5: Send the formal notification
+  // Task 4: Send the formal notification
   it("Should complete the 'Send the formal notification' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -227,7 +202,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
   });
 
 
-  // Task 6: Record the responsible body's response to the conflict of interest request
+  // Task 5: Record the responsible body's response to the conflict of interest request
   it("Should complete the 'Record the responsible body's response to the conflict of interest request", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -248,7 +223,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("record-school-response_status");
   });
 
-  // Task 7: Allocate an adviser
+  // Task 6: Allocate an adviser
   it("Should complete the 'Allocate an adviser' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -265,28 +240,23 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("AllocateAdviser_status");
   });
 
-  // Task 8: Send introductory email
-  it("Should complete the 'Send introductory email' task", () => {
+  // Task 7: Adviser make initial contact
+  it("Should complete the 'Adviser make initial contact' task", () => {
     homePage.selectSchoolName(schoolLong);
 
-    Logger.log("Selecting 'Send introductory email' task");
-    taskList.selectTask("Send introductory email");
+    Logger.log("Selecting 'Adviser make initial contact' task");
+    taskList.selectTask("Adviser make initial contact");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Send introductory email");
-    taskListActions.selectButtonOrCheckbox("remind-adviser-to-copy-in-rise-team-on-email-sent");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
-    taskList.hasFilterSuccessNotification()
-      .hasTaskStatusInProgress("send-introductory-email-request-improvement-plan_status");
-    taskList.selectTask("Send introductory email");
+    taskListActions.hasHeader("Adviser make initial contact");
     taskListActions.enterDate("introductory-email-sent-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
       .hasTaskStatusCompleted("send-introductory-email-request-improvement-plan_status");
   });
 
-  // Task 9: Arrange adviser's initial visit
+  // Task 8: Arrange adviser's initial visit
   it("Should complete the 'Arrange adviser's initial visit' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -307,7 +277,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("adviser-school-visit_status");
   });
 
-  // Task 10: Record date of initial visit
+  // Task 9: Record date of initial visit
   it("Should complete the 'Record date of initial visit' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -323,7 +293,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("record-school-visit-date_status");
   });
 
-  // Task 11: Complete and save the initial diagnosis assessment
+  // Task 10: Complete and save the initial diagnosis assessment
   it("Should complete the 'Complete and save the initial diagnosis assessment' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -345,7 +315,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("complate-save-assessment-template_status");
   });
 
-  // Task 12: Record initial diagnosis decision
+  // Task 11: Record initial diagnosis decision
   it("Should complete the 'Record initial diagnosis decision' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -385,7 +355,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
   });
 
-  // Task 13: Choose preferred supporting organisation
+  // Task 12: Choose preferred supporting organisation
   it("Should complete the 'Choose preferred supporting organisation' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -414,7 +384,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("choose-preferred-supporting-organisation-status");
   });
 
-  // Task 14: Carry out due diligence on preferred supporting organisation
+  // Task 13: Carry out due diligence on preferred supporting organisation
   it("Should complete the 'Carry out due diligence on preferred supporting organisation' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -438,7 +408,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("due-diligence-on-preferred-supporting-organisation-status");
   });
 
-  // Task 15: Record supporting organisation appointment
+  // Task 14: Record supporting organisation appointment
   it("Should complete the 'Record supporting organisation appointment' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -468,7 +438,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
     cy.executeAccessibilityTests();
   });
 
-  // Task 16: Confirm supporting organisation contact details
+  // Task 15: Confirm supporting organisation contact details
   it("Should complete the 'Confirm supporting organisation contact details' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -509,7 +479,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
     taskListActions.hasSOSummeryList()
   });
 
-  // Task 17: Request planning grant offer letter
+  // Task 16: Request planning grant offer letter
   it("Should complete the 'Request planning grant offer letter' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -533,7 +503,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("request-planning-grant-offer-letter_status");
   });
 
-  // Task 18: Confirm planning grant offer letter sent
+  // Task 17: Confirm planning grant offer letter sent
   it("Should complete the 'Confirm planning grant offer letter sent' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -549,7 +519,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("confirm-planning-grant-offer-letter_status");
   });
 
-  // Task 19: Share indicative funding band and the improvement plan template
+  // Task 18: Share indicative funding band and the improvement plan template
   it("Should complete the 'Share indicative funding band and the improvement plan template' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -572,7 +542,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("share-the-improvement-plan-template_status");
   });
 
-  // Task 20: Review the improvement plan and confirm the funding band
+  // Task 19: Review the improvement plan and confirm the funding band
   it("Should complete the 'Review the improvement plan and confirm the funding band' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -596,7 +566,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("review-the-improvement-plan_status")
   });
 
-  // Task 21: Send the agreed improvement plan for approval
+  // Task 20: Send the agreed improvement plan for approval
   it("Should complete the 'Send the agreed improvement plan for approval' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -617,7 +587,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("send-agreed-improvement-plan_status");
   });
 
-  // Task 22: Record improvement plan decision
+  // Task 21: Record improvement plan decision
   it("Should complete the 'Record improvement plan decision' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -639,7 +609,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
     cy.executeAccessibilityTests();
   });
 
-  // Task 23: Enter improvement plan objectives //Not visible in Test environment
+  // Task 22: Enter improvement plan objectives //Not visible in Test environment
   it("Should complete the 'Enter improvement plan objectives' task", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -669,7 +639,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("enter-improvement-plan-objectives_status");
   });
 
-  // Task 24: Request improvement grant offer letter
+  // Task 23: Request improvement grant offer letter
   it("Should complete the final grant tasks", () => {
     homePage.selectSchoolName(schoolLong);
 
@@ -693,7 +663,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasTaskStatusCompleted("request-improvement-grant-offer-letter_status");
   });
 
-  // Task 25: Confirm improvement grant offer letter 
+  // Task 24: Confirm improvement grant offer letter 
   it("Should complete the 'Confirm improvement grant offer letter sent' task", () => {
     homePage.selectSchoolName(schoolLong);
 
