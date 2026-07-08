@@ -83,7 +83,7 @@
         }
         else
         {
-            var text = matchedSchool ? "Record progress on the improvement plan objectives after each review." : "Record progress on the improvement plan after each review.";
+            var text = matchedSchool ? "Record progress on the improvement plan objectives after each review." : "Record progress after each review.";
 
             <p>@text</p>
             <a asp-page="@Links.ProgressReviews.Index.Page" asp-route-id="@Model.SupportProject?.Id"
