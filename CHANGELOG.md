@@ -3,6 +3,23 @@
 Welcome to the ChangeLog (release notes) for **Manage School Improvement**. Here you'll find a summary of key changes, improvements, and fixes over time.
 ---
 
+## 📅 [v5.0.0] - Q2 – Sprint1 (Part 1)- 2026-07-13
+
+### 📌 User Stories 
+
+- **277054** - "Improvement Plan" ("Record progress") tab content changes
+- **279193** - "Add Review" journey - for Review Progress schools
+- **279198** - Update Review Summary Card on Progress Reviews page (both matching decisions)
+- **279295** - Record Progress tab changes and edit or delete recorded progress reviews - "Review Progress" schools
+- **279237** - Edit or delete scheduled progress reviews
+- **286584** - Remove the "Enter the funding history" task
+- **286587** - Remove hint text from "Make initial contact with the responsible body" task
+- **286591** - Amendments to the "Send introductory email" task
+- **288669** - "Record progress" tab when a school has changed from "Review Progress" to "Match with a Supporting Organisation" (Before objectives are set)
+- **288743** - "Record progress" tab when a school has changed from "Review Progress" to "Match with a Supporting Organisation" (After objectives are set)
+- **291274** - Review progress feature - content changes
+
+
 ## 📅 [v4.0.0] - Q1 – Sprint5 (Part 1)- 2026-06-05
 
 ### 📌 User Stories 
