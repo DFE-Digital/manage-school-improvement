@@ -13,7 +13,7 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
             .hasFilterSuccessNotification()
             .selectSchoolName("Plymouth Grove Primary School");
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         cy.executeAccessibilityTests()
 

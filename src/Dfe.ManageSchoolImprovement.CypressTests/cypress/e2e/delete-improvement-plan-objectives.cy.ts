@@ -31,7 +31,7 @@ describe('Delete improvement plan objective', () => {
         taskListActions.checkCheckbox("MarkAsComplete")
         taskListActions.clickButton('save');
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         cy.executeAccessibilityTests();
 
@@ -44,7 +44,7 @@ describe('Delete improvement plan objective', () => {
 
     it("should be able to delete progress reviews when no review has been recorded- Progress not recorded", () => {
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
         recordProgress
             .ifObjectiveExist()
 
@@ -57,7 +57,7 @@ describe('Delete improvement plan objective', () => {
 
         Logger.log("delete progress review");
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         recordProgress
             .clickRecordProgress()
@@ -73,7 +73,7 @@ describe('Delete improvement plan objective', () => {
 
     it.skip("should not be able to delete progress reviews when review has been recorded -Progress recorded", () => {
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
         recordProgress
             .ifObjectiveExist()
 
@@ -86,7 +86,7 @@ describe('Delete improvement plan objective', () => {
 
         Logger.log("delete progress review");
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         recordProgress
             .clickRecordProgress()

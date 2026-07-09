@@ -13,7 +13,7 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
             .hasFilterSuccessNotification()
             .selectSchoolName("Sunning Hill Primary School");
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         cy.executeAccessibilityTests()
 
@@ -22,6 +22,7 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
     it('should be able to Add first review successfully when Matching decision is Review progress', () => {
         Logger.log("add First review");
         recordProgress
+            .hasMessage('Record progress after each review.')
             .clickRecordProgressButton()
             .clickAddReview()
 
