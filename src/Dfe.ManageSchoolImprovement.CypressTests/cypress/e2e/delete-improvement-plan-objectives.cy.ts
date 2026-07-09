@@ -71,7 +71,7 @@ describe('Delete improvement plan objective', () => {
         cy.executeAccessibilityTests()
     });
 
-    it.skip("should not be able to delete progress reviews when review has been recorded -Progress recorded", () => {
+    it("should not be able to delete progress reviews when review has been recorded -Progress recorded", () => { //skipped due to bug #243624
         taskList
             .navigateToTab('Termly reviews')
         recordProgress

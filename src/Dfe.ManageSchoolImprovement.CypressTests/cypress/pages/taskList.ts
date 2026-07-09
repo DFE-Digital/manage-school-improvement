@@ -12,6 +12,15 @@ class TaskList {
     return this
   }
 
+  public pageLoads(): this {
+    cy.get("h1").should('be.visible')
+    cy.get(".govuk-summary-list").should("exist");
+    cy.get(".govuk-summary-list__row").should("have.length", 7);
+    cy.get(".govuk-summary-list__value").should("have.length", 7);
+
+    return this;
+  }
+
   public hasCurrentStatus(status: string): this {
     cy.get('.govuk-summary-list__value').eq(0).should("contain.text", status);
     return this;

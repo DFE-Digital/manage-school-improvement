@@ -25,6 +25,7 @@ describe("User select the school", () => {
     it("should be able to navigate to the Task list tab by default", () => {
         Logger.log("User navigated to Task list");
         taskList
+            .pageLoads()
             .hasTaskListHeading('Phase 1: Identifying')
             .hasTaskListHeading('Phase 2: Initial diagnosis and matching')
             .hasTaskListHeading('Phase 3: Diagnosis and planning')

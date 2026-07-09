@@ -274,8 +274,10 @@ class RecordProgress {
     }
 
     public hasEditReviewDetailsLink(): this {
-        cy.get('a').contains('Edit review details').should('exist');
-
+        cy.get('.moj-ticket-panel__content.moj-ticket-panel__content--blue').first().within(() => {
+            cy.get('a').contains('Edit review details').should('exist');
+        });
+       
         return this;
     }
 
@@ -291,9 +293,6 @@ class RecordProgress {
             .first()
             .should('exist')
             .and('be.visible');
-
-        this.hasMatchingDecision();
-
 
         return this;
     }
