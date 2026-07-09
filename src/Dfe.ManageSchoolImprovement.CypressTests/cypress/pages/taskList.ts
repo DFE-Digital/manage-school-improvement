@@ -61,7 +61,7 @@ class TaskList {
   public hasNav(): this {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
-    cy.contains("Record progress")
+    cy.contains("Termly reviews")
     cy.contains("Contacts")
     cy.contains("Case Study")
     cy.contains("Engagement concern")
@@ -134,7 +134,7 @@ class TaskList {
   public hasTabs(): this {
     cy.contains('Task list');
     cy.contains('About the school');
-    cy.contains('Record progress');
+    cy.contains('Termly reviews');
     cy.contains('Contacts');
     cy.contains('Case Study');
     cy.contains('Engagement concern');

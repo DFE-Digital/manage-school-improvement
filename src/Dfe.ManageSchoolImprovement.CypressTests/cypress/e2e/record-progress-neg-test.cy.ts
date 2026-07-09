@@ -13,7 +13,7 @@ describe('User navigate to the Record Progress, and  navigate to Add Review page
             .hasFilterSuccessNotification()
             .selectSchoolName("Plymouth Grove Primary School");
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         recordProgress
             .recordProgressPageLoads()
