@@ -3,7 +3,6 @@ import homePage from "cypress/pages/homePage";
 import whichSchoolNeedsHelp from "cypress/pages/whichSchoolNeedsHelp";
 import checkSchoolDetails from "cypress/pages/checkSchoolDetails";
 import taskList from "cypress/pages/taskList";
-import fundingHistory from "cypress/pages/tasks/fundingHistory";
 import taskListActions from "cypress/pages/tasks/taskListActions";
 import * as schoolData from "cypress/fixtures/school-data.json";
 import supportingOrgType from "cypress/pages/tasks/supportingOrgType";
