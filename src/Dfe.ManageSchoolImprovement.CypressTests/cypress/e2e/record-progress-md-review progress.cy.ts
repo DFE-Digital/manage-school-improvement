@@ -75,7 +75,6 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
             .hasStatusTag('Progress recorded')
             .reviewSummaryCardVisible()
             .hasMatchingDecision()
-            .hasEditReviewDetailsLink()
             .clickReturnToRecordProgress()
 
         cy.executeAccessibilityTests()
