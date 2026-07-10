@@ -73,8 +73,12 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
 
         recordProgress
             .fillReviewDetails()
+
+        cy.executeAccessibilityTests()    
+
+        recordProgress    
             .anotherReviewNeeded()
-            .hasStatusTag('Progress not recorded')
+            .hasStatusTagWIthDeleteOption('Progress not recorded')
             .hasFirstReviewStatusAndLinksForSO()
 
         cy.executeAccessibilityTests()
@@ -109,7 +113,7 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
             .clickRecordProgressLink()
             .recordProgressForObjective()
             .recordOverallProgress()
-            .hasStatusTag('Progress recorded');
+            .hasStatusTagWIthoutDeleteOption('Progress recorded');
 
         cy.executeAccessibilityTests()
     });

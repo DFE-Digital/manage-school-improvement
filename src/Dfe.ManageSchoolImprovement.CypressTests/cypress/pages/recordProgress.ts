@@ -429,9 +429,22 @@ class RecordProgress {
         return this;
     }
 
-    public hasStatusTag(status: string): this {
+    public hasStatusTagWIthDeleteOption(status: string): this {
         cy.get('.moj-ticket-panel__content').first().within(() => {
             cy.get('.govuk-tag').should('contain.text', status);
+            cy.get('a').contains('Edit or delete review').should('exist');
+            cy.get('a').contains('Record progress').should('exist');
+
+        });
+
+        return this;
+    }
+
+      public hasStatusTagWIthoutDeleteOption(status: string): this {
+        cy.get('.moj-ticket-panel__content').first().within(() => {
+            cy.get('.govuk-tag').should('contain.text', status);
+            cy.get('a').contains('Edit review details').should('exist');
+            cy.get('a').contains('View progress review').should('exist');
 
         });
 
