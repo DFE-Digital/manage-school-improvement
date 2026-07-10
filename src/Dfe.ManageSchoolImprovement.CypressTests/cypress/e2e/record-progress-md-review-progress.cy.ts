@@ -31,7 +31,7 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
         recordProgress
             .fillReviewDetails()
             .anotherReviewNeeded()
-            .hasStatusTag('Progress not recorded')
+            .hasStatusTagWIthDeleteOption('Progress not recorded')
             .hasStatusAndLinksForReviewProgress()
             .hasAddReviewButton()
             .hasChangeNextReviewDateLink()
@@ -49,7 +49,7 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
         cy.executeAccessibilityTests()
 
         recordProgress
-            .hasStatusTag('Progress not recorded')
+            .hasStatusTagWIthDeleteOption('Progress not recorded')
             .clickEditOrDeleteReviewLink()
 
         cy.executeAccessibilityTests()
@@ -72,14 +72,14 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
         cy.executeAccessibilityTests()
 
         recordProgress
-            .hasStatusTag('Progress recorded')
             .reviewSummaryCardVisible()
+            .hasMatchingDecision()
             .clickReturnToRecordProgress()
 
         cy.executeAccessibilityTests()
 
         recordProgress
-            .hasStatusTag('Progress recorded')
+            .hasStatusTagWIthoutDeleteOption('Progress recorded')
             .clickReturnToRecordProgressTab()
             .hasSummaryCard()
 

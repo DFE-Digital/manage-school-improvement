@@ -14,6 +14,11 @@
 		**/src/Dfe.ManageSchoolImprovement.CypressTests/tsconfig.json
 	</Property>
 
+	<!-- rule-level issue exclusions -->
+	<Property Name="sonar.issue.ignore.multicriteria">cypressTestAssertionRule</Property>
+	<Property Name="sonar.issue.ignore.multicriteria.cypressTestAssertionRule.ruleKey">javascript:S2699</Property>
+	<Property Name="sonar.issue.ignore.multicriteria.cypressTestAssertionRule.resourceKey">**/src/Dfe.ManageSchoolImprovement.CypressTests/cypress/**/*.cy.ts</Property>
+
 	<!-- coverage exclusions -->
 	<Property Name="sonar.coverage.exclusions">
 		**/Program.cs,

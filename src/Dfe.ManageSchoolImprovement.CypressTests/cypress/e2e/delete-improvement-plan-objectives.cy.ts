@@ -64,50 +64,10 @@ describe('Delete improvement plan objective', () => {
             .clickAddReview()
             .fillReviewDetails()
             .anotherReviewNeeded()
-            .hasStatusTag('Progress not recorded')
-            .hasEditOrDeleteReview()
+            .hasStatusTagWIthDeleteOption('Progress not recorded')
             .deleteReview()
 
         cy.executeAccessibilityTests()
     });
 
-    it.skip("should not be able to delete progress reviews when review has been recorded -Progress recorded", () => {
-        taskList
-            .navigateToTab('Termly reviews')
-        recordProgress
-            .ifObjectiveExist()
-
-        taskList
-            .navigateToTab('Task list')
-        taskList.selectTask("Enter improvement plan objectives");
-        taskListActions.addObjective();
-        taskListActions.checkCheckbox("MarkAsComplete")
-        taskListActions.clickButton('save');
-
-        Logger.log("delete progress review");
-        taskList
-            .navigateToTab('Termly reviews')
-
-        recordProgress
-            .clickRecordProgress()
-            .clickAddReview()
-            .fillReviewDetails()
-            .anotherReviewNeeded()
-            .hasStatusTag('Progress partly recorded')
-            .hasEditReviewDetailsLink()
-            .clickRecordProgressLink()
-            .recordProgressForObjective()
-
-        cy.executeAccessibilityTests()
-
-        Logger.log("progress review cannot be deleted once recorded");
-        recordProgress
-            .recordOverallProgress()
-            .returnToProgressReviews()
-            .hasEditReviewDetailsLink()
-            .clickEditReviewDetailsLink()
-            .noDeleteButtonExist()
-
-        cy.executeAccessibilityTests()
-    });
 });
