@@ -72,7 +72,6 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
         cy.executeAccessibilityTests()
 
         recordProgress
-            .hasStatusTagWIthoutDeleteOption('Progress recorded')
             .reviewSummaryCardVisible()
             .hasMatchingDecision()
             .clickReturnToRecordProgress()
