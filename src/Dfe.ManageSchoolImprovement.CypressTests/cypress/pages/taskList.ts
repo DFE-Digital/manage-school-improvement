@@ -12,6 +12,15 @@ class TaskList {
     return this
   }
 
+  public pageLoads(): this {
+    cy.get("h1").should('be.visible')
+    cy.get(".govuk-summary-list").should("exist");
+    cy.get(".govuk-summary-list__row").should("have.length", 7);
+    cy.get(".govuk-summary-list__value").should("have.length", 7);
+
+    return this;
+  }
+
   public hasCurrentStatus(status: string): this {
     cy.get('.govuk-summary-list__value').eq(0).should("contain.text", status);
     return this;
@@ -61,7 +70,7 @@ class TaskList {
   public hasNav(): this {
     cy.contains("Task list").first().should('have.attr', 'aria-current')
     cy.contains("About the school")
-    cy.contains("Record progress")
+    cy.contains("Termly reviews")
     cy.contains("Contacts")
     cy.contains("Case Study")
     cy.contains("Engagement concern")
@@ -134,7 +143,7 @@ class TaskList {
   public hasTabs(): this {
     cy.contains('Task list');
     cy.contains('About the school');
-    cy.contains('Record progress');
+    cy.contains('Termly reviews');
     cy.contains('Contacts');
     cy.contains('Case Study');
     cy.contains('Engagement concern');

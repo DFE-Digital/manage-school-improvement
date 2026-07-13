@@ -202,7 +202,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         projectStatus
             .hasCurrentStatus('Paused')
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         Logger.log("User could only see View Progress when project status is Paused");
         recordProgress
@@ -295,7 +295,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         projectStatus
             .hasCurrentStatus('Stopped')
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         Logger.log("User could only see View Progresswhen project status is Stopped");
         recordProgress

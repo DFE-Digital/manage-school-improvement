@@ -13,7 +13,7 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
             .hasFilterSuccessNotification()
             .selectSchoolName("Plymouth Grove Primary School");
         taskList
-            .navigateToTab('Record progress')
+            .navigateToTab('Termly reviews')
 
         cy.executeAccessibilityTests()
 
@@ -25,8 +25,8 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
             .hasReviewProgressSchoolsMessage('Review progress schools');
     })
 
-    it('should display Record or View Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
-        Logger.log("Record or View Progress button, with Change and Delete links for objectives is visible");
+    it('should display Record Progress button when Improvement task is COMPLETED and Adviser is assigned', () => {
+        Logger.log("Record Progress button, with Change and Delete links for objectives is visible");
         recordProgress
             .hasMessage('Record progress on the improvement plan objectives after each review.')
             .hasRecordProgressButton()
@@ -73,8 +73,12 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
 
         recordProgress
             .fillReviewDetails()
+
+        cy.executeAccessibilityTests()    
+
+        recordProgress    
             .anotherReviewNeeded()
-            .hasStatusTag('Progress not recorded')
+            .hasStatusTagWIthDeleteOption('Progress not recorded')
             .hasFirstReviewStatusAndLinksForSO()
 
         cy.executeAccessibilityTests()
@@ -109,7 +113,7 @@ describe('Matching decision-Match with SO, User navigate to the Record progress 
             .clickRecordProgressLink()
             .recordProgressForObjective()
             .recordOverallProgress()
-            .hasStatusTag('Progress recorded');
+            .hasStatusTagWIthoutDeleteOption('Progress recorded');
 
         cy.executeAccessibilityTests()
     });

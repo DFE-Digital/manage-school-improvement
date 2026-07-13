@@ -248,7 +248,7 @@ describe("User search results by applying filters", () => {
         //  cy.executeAccessibilityTests()
     });
 
-    it("should filter projects by Current status- In progress", () => {
+    it("should filter projects by Current status- Paused", () => {
         Logger.log("Project status filter");
         const currentStatus = "Paused";
 
