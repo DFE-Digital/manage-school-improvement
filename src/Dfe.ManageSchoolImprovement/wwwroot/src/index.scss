@@ -11,6 +11,50 @@ $govuk-font-family: "Inter", blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans
 @import "./css/summary-card.scss";
 @import "./css/cookie-banner.scss";
 
+/* ==========================================================================
+   #Home page wider screen
+   ========================================================================== */
+.govuk-extra-width-container {
+	max-width: 1200px;
+	margin-right: 15px;
+	margin-left: 15px
+}
+
+@supports(margin: max(calc(0px))) {
+	.govuk-extra-width-container {
+		margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
+		margin-left: max(15px, calc(15px + env(safe-area-inset-left)))
+	}
+}
+
+@media(min-width: 40.0625em) {
+	.govuk-extra-width-container {
+		margin-right: 30px;
+		margin-left: 30px
+	}
+
+	@supports(margin: max(calc(0px))) {
+		.govuk-extra-width-container {
+			margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
+			margin-left: max(30px, calc(15px + env(safe-area-inset-left)))
+		}
+	}
+}
+
+@media(min-width: 1260px) {
+	.govuk-extra-width-container {
+		margin-right: auto;
+		margin-left: auto
+	}
+
+	@supports(margin: max(calc(0px))) {
+		.govuk-extra-width-container {
+			margin-right: auto;
+			margin-left: auto
+		}
+	}
+}
+
 .msi-autocomplete .govuk-input--error {
 	border: 2px solid #d4351c !important;
 }
@@ -152,4 +196,17 @@ ul .autocomplete__option {
 .govuk-header__link:focus .govuk-header__logotype{
 	content: url(~/src/images/department-for-education_black.png);
 	height: 30px;
+}
+
+.govuk-footer .govuk-section-break--visible {
+	border-color: #1d70b8;
+}
+
+.govuk-footer .app-section-break--short {
+	max-width: 30rem;
+}
+
+.govuk-footer .app-footer__meta-break {
+	margin-top: 0;
+	margin-bottom: 45px;
 }
