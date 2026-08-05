@@ -63,7 +63,7 @@
     <script type="text/javascript" src="~/dist/accessible-autocomplete.min.js" asp-add-nonce></script>
 </head>
 
-<body class="govuk-template__body">
+<body class="govuk-template__body js-enabled govuk-frontend-supported">
 @if (enableGoogleAnalytics)
 {
     <!-- Google Tag Manager (noscript) -->
@@ -168,7 +168,10 @@
         @RenderBody()
     </main>
 </div>
-<footer class="govuk-footer" role="contentinfo">
+
+<partial name="_Footer" />
+
+@* <footer class="govuk-footer" role="contentinfo"> 
     <div class="govuk-width-container">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -263,7 +266,7 @@
             </div>
         </div>
     </div>
-</footer>
+</footer>*@
 <script src="~/dist/site.js" asp-add-nonce></script>
 @RenderSection("Scripts", required: false)
 <!-- Add this line -->
