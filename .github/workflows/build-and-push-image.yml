@@ -45,7 +45,7 @@ jobs:
     needs: [ set-env ]
     steps:
       - name: Validate Packages
-        uses: DFE-Digital/rsd-github-actions/.github/actions/validate-packages@v1
+        uses: DFE-Digital/rsd-github-actions/.github/actions/validate-packages@769212b22326c2c43b49739b883683f97098e2ea # v1
         with:
           environment: ${{ needs.set-env.outputs.environment }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -71,7 +71,7 @@ jobs:
           - stage: "initcontainer"
             tag-prefix: "init-"
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.2.1
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@8e72e403f05ff9da09668207eef1d79e1ce9d1a7 # v5.2.1
         with:
           build-target: ${{ matrix.stage }}
           build-args: CI=true
@@ -79,7 +79,7 @@ jobs:
           tag-prefix: ${{ matrix.tag-prefix }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.2.1
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@8e72e403f05ff9da09668207eef1d79e1ce9d1a7 # v5.2.1
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -101,7 +101,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.2.1
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@8e72e403f05ff9da09668207eef1d79e1ce9d1a7 # v5.2.1
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
