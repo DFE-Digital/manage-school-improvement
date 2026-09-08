@@ -79,6 +79,7 @@ module "azure_container_apps_hosting" {
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
 
   storage_account_public_access_enabled = local.storage_account_public_access_enabled
+  storage_account_ipv4_allow_list        = local.storage_account_ipv4_allow_list
 
   enable_monitoring_traces = local.enable_monitoring_traces
 }

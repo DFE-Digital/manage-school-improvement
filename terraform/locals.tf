@@ -70,6 +70,7 @@ locals {
   mssql_managed_identity_assign_role              = var.mssql_managed_identity_assign_role
   mssql_sku_name                                  = var.mssql_sku_name
   storage_account_public_access_enabled           = var.storage_account_public_access_enabled
+  storage_account_ipv4_allow_list                 = var.storage_account_ipv4_allow_list
   dns_alias_records                               = var.dns_alias_records
   monitor_http_availability_fqdn                  = var.monitor_http_availability_fqdn
   enable_monitoring_traces                        = var.enable_monitoring_traces
