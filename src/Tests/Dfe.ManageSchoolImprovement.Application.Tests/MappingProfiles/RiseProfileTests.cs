@@ -2,6 +2,7 @@
 using Dfe.ManageSchoolImprovement.Application.MappingProfiles;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Dfe.ManageSchoolImprovement.Application.Tests.MappingProfiles
 {
@@ -14,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.MappingProfiles
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<RiseProfile>();
-            });
+            }, NullLoggerFactory.Instance);
             _mapper = config.CreateMapper();
         }
 
