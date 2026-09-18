@@ -29,7 +29,7 @@
         <form method="post" novalidate>
             <input type="hidden" asp-for="@Model.ReviewId" />
 
-            <partial name="_ReviewProgressSummaryCard" model="(Model.ProgressReview, true, string.Empty)" />
+            <partial name="_ReviewProgressSummaryCard" model="(Model.ProgressReview, true, string.Empty, "h2")" />
 
             <div class="govuk-button-group">
 
