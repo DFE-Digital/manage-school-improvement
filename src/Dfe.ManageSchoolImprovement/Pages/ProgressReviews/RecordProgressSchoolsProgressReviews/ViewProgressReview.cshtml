@@ -30,13 +30,14 @@
                 Model.Review.Type,
                 IsReadOnly: (bool?)null,
                 SupportProjectId: (int?)null,
-                ReviewId: (int?)null
+                ReviewId: (int?)null,
+                HeadingLevel: "h2"
             );
             <partial name="_ReviewSummaryCard" model="reviewSummaryCardModel" /> 
             
             @if (Model.Review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
             {
-                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page)" />
+                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page, "h3")" />
             }
         }
         
