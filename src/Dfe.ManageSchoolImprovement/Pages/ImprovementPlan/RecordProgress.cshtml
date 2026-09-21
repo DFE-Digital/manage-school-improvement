@@ -137,7 +137,7 @@
                  Model.CurrentProgressReview.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
             {
                 <partial name="_ReviewProgressSummaryCard"
-                         model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page, "h4")"/>
+                         model='(Model.CurrentProgressReview, Model.IsReadOnly, Links.ImprovementPlan.RecordProgress.Page, "h4")'/>
 
                 @if (matchingDecisionHasChanged && Model.ObjectivesComplete)
                 {

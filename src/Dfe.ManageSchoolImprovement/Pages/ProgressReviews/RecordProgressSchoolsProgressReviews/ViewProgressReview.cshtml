@@ -37,7 +37,7 @@
             
             @if (Model.Review.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
             {
-                <partial name="_ReviewProgressSummaryCard" model="(Model.CurrentReview, Model.IsReadOnly, @Links.ProgressReviews.ViewProgressReview.Page, "h3")" />
+                <partial name="_ReviewProgressSummaryCard" model='(Model.CurrentReview, Model.IsReadOnly, Links.ProgressReviews.ViewProgressReview.Page, "h3")' />
             }
         }
         
