@@ -431,6 +431,11 @@ variable "mssql_firewall_ipv4_allow_list" {
   default = {}
 }
 
+variable "mssql_private_endpoint_subnet_cidr" {
+  description = "Specify a subnet prefix to use for the mssql private endpoint subnet"
+  type        = string
+}
+
 variable "mssql_server_public_access_enabled" {
   description = "Enable public internet access to your MSSQL instance. Be sure to specify 'mssql_firewall_ipv4_allow_list' to restrict inbound connections"
   type        = bool
@@ -453,6 +458,12 @@ variable "storage_account_ipv4_allow_list" {
   description = "A list of public IPv4 address to grant access to the Storage Account"
   type        = list(string)
   default     = []
+}
+
+variable "storage_subnet_cidr" {
+  description = "Specify a subnet prefix to use for the storage subnet"
+  type        = string
+  default     = ""
 }
 
 variable "enable_init_container" {
