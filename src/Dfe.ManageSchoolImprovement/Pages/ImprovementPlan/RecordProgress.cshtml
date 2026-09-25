@@ -96,19 +96,19 @@
         @if (!Model.NoObjectivesRecorded && Model.NoProgressReviewsRecorded && !matchingDecisionHasChanged)
         {
             <partial name="_ObjectiveSection"
-                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
             <partial name="_ObjectiveSection"
-                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                     model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
         }
         @if (!Model.NoProgressReviewsRecorded)
         {
@@ -125,7 +125,8 @@
                     Model.CurrentReview.Type,
                     IsReadOnly: (bool?)null,
                     SupportProjectId: (int?)null,
-                    ReviewId: (int?)null
+                    ReviewId: (int?)null,
+                    HeadingLevel: "h4"
                 );
                 <partial name="_ReviewSummaryCard"
                          model="reviewSummaryCardModel"/>
@@ -136,36 +137,36 @@
                  Model.CurrentProgressReview.ProgressStatus == ImprovementPlanReviewViewModel.ProgressStatusRecorded)
             {
                 <partial name="_ReviewProgressSummaryCard"
-                         model="(Model.CurrentProgressReview, Model.IsReadOnly, @Links.ImprovementPlan.RecordProgress.Page)"/>
+                         model='(Model.CurrentProgressReview, Model.IsReadOnly, Links.ImprovementPlan.RecordProgress.Page, "h4")'/>
 
                 @if (matchingDecisionHasChanged && Model.ObjectivesComplete)
                 {
                     <partial name="_ObjectiveSection"
-                             model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                             model='("Quality of education", Model.QualityOfEducationObjectives, Model.SupportProject!.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
                     <partial name="_ObjectiveSection"
-                             model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                             model='("Leadership and management", Model.LeadershipAndManagementObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
                     <partial name="_ObjectiveSection"
-                             model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                             model='("Behaviour and attitudes", Model.BehaviourAndAttitudesObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
                     <partial name="_ObjectiveSection"
-                             model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                             model='("Attendance", Model.AttendanceObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
 
                     <partial name="_ObjectiveSection"
-                             model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews)'/>
+                             model='("Personal development", Model.PersonalDevelopmentObjectives, Model.SupportProject.Id, Links.ImprovementPlan.RecordProgress.Page, Model.SupportProject.IsReadOnly, Model.CompletedReviews, "h3")'/>
                 }
             }
             else if (matchedSchool && !matchingDecisionHasChanged)
             {
                 @foreach (var group in Model.ObjectiveProgressGroups)
                 {
-                    <h2 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">@group.AreaOfImprovement</h2>
+                    <h3 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">@group.AreaOfImprovement</h3>
                     @foreach (var objective in group.ObjectiveProgresses)
                     {
                         <div class="govuk-summary-card govuk-!-margin-bottom-6">
                             <div class="govuk-summary-card__title-wrapper">
-                                <h3 class="govuk-summary-card__title">@objective.Title</h3>
+                                <h4 class="govuk-summary-card__title">@objective.Title</h4>
                                 @if (!Model.SupportProject!.IsReadOnly)
                                 {
                                     @if (objective.ReadableId != 0)
@@ -250,11 +251,11 @@
 
                 @if (Model.CurrentImprovementPlanReview != null)
                 {
-                    <h2 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">Overall progress</h2>
+                    <h3 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-6">Overall progress</h3>
 
                     <div class="govuk-summary-card govuk-!-margin-bottom-6">
                         <div class="govuk-summary-card__title-wrapper">
-                            <h3 class="govuk-summary-card__title">Overall progress</h3>
+                            <h4 class="govuk-summary-card__title">Overall progress</h4>
                             @if (!Model.SupportProject!.IsReadOnly)
                             {
                                 <ul class="govuk-summary-card__actions">
