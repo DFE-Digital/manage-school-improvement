@@ -91,7 +91,7 @@ class RecordProgress {
     }
 
     public hasObjectiveTitle(expectedTitle: string): this {
-        cy.get('h2').should('contain.text', expectedTitle);
+        cy.get('h2, h3, h4').should('contain.text', expectedTitle);
         return this;
     }
 

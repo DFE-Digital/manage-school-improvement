@@ -1,9 +1,24 @@
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
-@model (Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ProgressReviewViewModel Review, bool IsReadOnly, string ReturnPage)
+@model (Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ProgressReviewViewModel Review, bool IsReadOnly, string ReturnPage, string TitleHeadingLevel)
+
+@{
+    var headingLevel = string.IsNullOrWhiteSpace(Model.TitleHeadingLevel) ? "h3" : Model.TitleHeadingLevel;
+}
 
 <div class="govuk-summary-card govuk-!-margin-bottom-6">
     <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">@Model.Review.ReviewDate.ToDateString()</h3>
+        @if (headingLevel == "h4")
+        {
+            <h4 class="govuk-summary-card__title">@Model.Review.ReviewDate.ToDateString()</h4>
+        }
+        else if (headingLevel == "h2")
+        {
+            <h2 class="govuk-summary-card__title">@Model.Review.ReviewDate.ToDateString()</h2>
+        }
+        else
+        {
+            <h3 class="govuk-summary-card__title">@Model.Review.ReviewDate.ToDateString()</h3>
+        }
         
         @if (!Model.IsReadOnly)
         {
