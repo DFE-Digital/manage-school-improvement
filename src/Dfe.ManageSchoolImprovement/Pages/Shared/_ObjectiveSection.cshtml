@@ -1,10 +1,18 @@
-@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly, bool completedReviews)
+@model (string AreaTitle, List<Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject.ImprovementPlanObjectiveViewModel> Objectives, int SupportProjectId, string? ReturnPage, bool IsReadOnly, bool completedReviews, string TitleHeadingLevel)
 
 @if (Model.Objectives.Any())
 {
+    var headingLevel = string.IsNullOrWhiteSpace(Model.TitleHeadingLevel) ? "h2" : Model.TitleHeadingLevel;
     <div class="govuk-summary-card">
         <div class="govuk-summary-card__title-wrapper">
-            <h2 class="govuk-summary-card__title">@Model.AreaTitle</h2>
+            @if (headingLevel == "h3")
+            {
+                <h3 class="govuk-summary-card__title">@Model.AreaTitle</h3>
+            }
+            else
+            {
+                <h2 class="govuk-summary-card__title">@Model.AreaTitle</h2>
+            }
         </div>
         <div class="govuk-summary-card__content">
             <dl class="govuk-summary-list">

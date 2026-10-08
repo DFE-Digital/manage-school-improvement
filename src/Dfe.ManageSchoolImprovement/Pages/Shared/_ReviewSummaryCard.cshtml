@@ -1,19 +1,35 @@
 @using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject
 @using GovUK.Dfe.CoreLibs.Utilities.Extensions
 
-@model (string Title, string ProgressStatusClass, string ProgressStatus, DateTime ReviewDate, string Reviewer, string Type, bool? IsReadOnly, int? SupportProjectId, int? ReviewId)
+@model (string Title, string ProgressStatusClass, string ProgressStatus, DateTime ReviewDate, string Reviewer, string Type, bool? IsReadOnly, int? SupportProjectId, int? ReviewId, string HeadingLevel)
 
 @{
     var bottomMarginClass = Model.SupportProjectId.HasValue ? "govuk-!-margin-bottom-5" : "";
+    var headingLevel = string.IsNullOrWhiteSpace(Model.HeadingLevel) ? "h2" : Model.HeadingLevel;
 }
 
 <article class='moj-ticket-panel govuk-!-margin-bottom-6' aria-label='@Model.Title'>
     <section class='moj-ticket-panel__content moj-ticket-panel__content--blue'>
         <div class='govuk-grid-row'>
             <div class='govuk-grid-column-one-half'>
-                <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
-                    @Model.Title
-                </h2>
+                @if (headingLevel == "h4")
+                {
+                    <h4 class='govuk-heading-m govuk-!-margin-bottom-5'>
+                        @Model.Title
+                    </h4>
+                }
+                else if (headingLevel == "h3")
+                {
+                    <h3 class='govuk-heading-m govuk-!-margin-bottom-5'>
+                        @Model.Title
+                    </h3>
+                }
+                else
+                {
+                    <h2 class='govuk-heading-m govuk-!-margin-bottom-5'>
+                        @Model.Title
+                    </h2>
+                }
             </div>
             <div class='govuk-grid-column-one-half govuk-!-text-align-right'>
                 <strong class='govuk-tag @Model.ProgressStatusClass'>@Model.ProgressStatus</strong>
