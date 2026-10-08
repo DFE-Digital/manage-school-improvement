@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.19.1"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v2.11.2"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -58,6 +58,7 @@ module "azure_container_apps_hosting" {
   container_apps_allow_ips_inbound                = local.container_apps_allow_ips_inbound
 
   enable_mssql_database              = local.enable_mssql_database
+  mssql_private_endpoint_subnet_cidr = local.mssql_private_endpoint_subnet_cidr
   mssql_server_admin_password        = local.mssql_server_admin_password
   mssql_azuread_admin_username       = local.mssql_azuread_admin_username
   mssql_azuread_admin_object_id      = local.mssql_azuread_admin_object_id
@@ -79,6 +80,7 @@ module "azure_container_apps_hosting" {
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
 
   storage_account_public_access_enabled = local.storage_account_public_access_enabled
+  storage_subnet_cidr                   = local.storage_subnet_cidr
 
   enable_monitoring_traces = local.enable_monitoring_traces
 }
