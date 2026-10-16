@@ -163,7 +163,7 @@ class RecordProgress {
         cy.get('#ObjectiveDetails')
             .clear()
             .type(text)
-        cy.get('.govuk-button').click();
+        cy.get('[data-cy="save-and-return-button"]').click();
         cy.get('h2').should('contain.text', 'Record progress');
 
         return this;
