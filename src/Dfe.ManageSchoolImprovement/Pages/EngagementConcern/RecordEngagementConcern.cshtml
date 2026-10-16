@@ -31,7 +31,7 @@
                 data-module="govuk-character-count"
                 data-maxlength="200">
                 <label class="govuk-label govuk-label--m" for="engagement-concern-summary">
-                    Concern summary
+                    <h2 class="govuk-label govuk-label--m">Concern summary<h2>
                 </label>
                 <div id="engagement-concern-summary-hint" class="govuk-hint">
                     Enter a short summary of your concern
@@ -64,8 +64,8 @@
 
             <div
                 class="govuk-form-group @(Model.ShowRecordEngagementConcernDetailsError ? "govuk-form-group--error" : "")">
-                <label class="govuk-label govuk-label--m" for="engagement-concern-details">
-                    Concern details
+                <label for="engagement-concern-details">
+                    <h2 class="govuk-label govuk-label--m">Concern details</h2>
                 </label>
                 <div id="engagement-concern-details-hint" class="govuk-hint">
                     Enter details about your concern
@@ -85,7 +85,7 @@
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h1 class="govuk-fieldset__heading">Resolve concern</h1>
+                        <h2 class="govuk-fieldset__heading">Resolve concern</h2>
                     </legend>
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
