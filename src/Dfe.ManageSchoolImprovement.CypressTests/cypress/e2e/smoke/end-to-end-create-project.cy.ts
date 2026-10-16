@@ -62,8 +62,7 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasLocalAuthority(localAuthority)
       .hasSchoolType(schoolType)
       .hasFaithSchool(faithSchool)
-      .hasLastInspection(lastInspectionDate)
-      .hasPFI(pfi);
+      .hasLastInspection(lastInspectionDate);
 
     checkSchoolDetails.clickContinue();
      
@@ -151,7 +150,6 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     taskListActions.hasHeader("Make initial contact with the responsible body");
     taskListActions.selectButtonOrCheckbox("initial-contact-responsible-body");
-    taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskListActions.enterDate("responsible-body-initial-contact-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
