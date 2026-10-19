@@ -16,7 +16,7 @@
             <div class="moj-filter__selected-heading">
 
                 <div class="moj-filter__heading-title">
-                    <h2 class="govuk-heading-m">Selected filters</h2>
+                    <h3 class="govuk-heading-m">Selected filters</h3>
                     @if (!Model.IsVisible)
                     {
                         <p class="govuk-body">No filters selected.</p>
@@ -181,9 +181,11 @@
         <div class="moj-filter__options">
             <form method="get" class="form">
                 <div class="govuk-form-group">
-                    <label class="govuk-label govuk-label--m" for="Title">
-                        Find a school
-                    </label>
+                    <h3 class="govuk-heading-m">
+                        <label class="govuk-label govuk-label--m" for="Title">
+                            Find a school
+                        </label>
+                    </h3>
                     <span class="govuk-hint">You can filter by school name or URN (unique reference number).</span>
                     <div class="govuk-!-margin-top-2">
                         <input id="Title" name="Title" asp-for="Title" type="text" class="govuk-input"
@@ -195,12 +197,12 @@
                     <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
+                                <h3 class="govuk-accordion__section-heading">
                                     <label class="govuk-accordion__section-button" id="accordion-regions-heading"
                                            data-cy="select-projectlist-filter-region" for="filter-searches">
                                         Region
                                     </label>
-                                </h2>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
@@ -227,12 +229,12 @@
 
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
+                                <h3 class="govuk-accordion__section-heading">
                                     <label class="govuk-accordion__section-button" id="accordion-dates-heading"
                                            data-cy="select-projectlist-filter-date" for="filter-searches">
                                         Date school added to MSI
                                     </label>
-                                </h2>
+                                </h3>
                                 <div class="govuk-accordion__section-summary govuk-hint">
                                     You can filter by month after selecting a year
                                 </div>
@@ -308,12 +310,12 @@
 
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
+                                <h3 class="govuk-accordion__section-heading">
                                     <label class="govuk-accordion__section-button" id="accordion-status-heading"
                                            data-cy="select-projectlist-filter-status" for="filter-status">
                                         Current Status
                                     </label>
-                                </h2>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
@@ -341,15 +343,16 @@
 
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
-                                    <span class="govuk-accordion__section-button" id="accordion-officers-heading">
+                                <h3 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button" id="accordion-officers-heading" for="filter-officer-searches"
+                                           data-cy="select-projectlist-filter-officer">
                                         Assigned to
-                                    </span>
-                                </h2>
+                                    </label>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
-                                       id="filter-searches" placeholder="Type to filter officers...">
+                                       id="filter-officer-searches" placeholder="Type to filter officers..." aria-labelledby="accordion-officers-heading">
                                 <div class="govuk-checkboxes">
                                     @{
                                         <div class="govuk-checkboxes__item">
@@ -383,19 +386,20 @@
                         </div>
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button" id="accordion-advisers-heading"
-                                              data-cy="select-projectlist-filter-adviser">
+                                <h3 class="govuk-accordion__section-heading">
+                                        <label class="govuk-accordion__section-button" id="accordion-advisers-heading"
+                                              data-cy="select-projectlist-filter-adviser" for="filter-adviser-searches">
                                             Advised by
-                                        </span>
-                                </h2>
+                                        </label>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input
                                     type="text"
                                     class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
-                                    id="filter-searches"
-                                    placeholder="Type to filter advisers...">
+                                    id="filter-adviser-searches"
+                                    placeholder="Type to filter advisers..."
+                                    aria-labelledby="accordion-advisers-heading">
                                 <div class="govuk-checkboxes">
                                     @{
                                         <div class="govuk-checkboxes__item">
@@ -428,14 +432,14 @@
                         </div>
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
+                                <h3 class="govuk-accordion__section-heading">
                                     <label class="govuk-accordion__section-button"
                                            id="accordion-local-authorities-heading"
                                            data-cy="select-projectlist-filter-local-authority"
                                            for="filter-authority-searches">
                                         Local authority
                                     </label>
-                                </h2>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
@@ -462,14 +466,14 @@
                         </div>
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
+                                <h3 class="govuk-accordion__section-heading">
                                     <label class="govuk-accordion__section-button"
                                            id="accordion-trust-heading"
                                            data-cy="select-projectlist-filter-trust"
                                            for="filter-trust-searches">
                                         Trust
                                     </label>
-                                </h2>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
@@ -496,14 +500,14 @@
                         </div>
                          <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
+                                <h3 class="govuk-accordion__section-heading">
                                     <label class="govuk-accordion__section-button"
-                                           id="accordion-trust-heading"
+                                           id="accordion-supporting-organisation-heading"
                                            data-cy="select-projectlist-filter-supporting-organisation"
-                                           for="filter-trust-searches">
+                                           for="filter-supporting-organisations-searches">
                                         Supporting organisation
                                     </label>
-                                </h2>
+                                </h3>
                             </div>
                             <div class="govuk-accordion__section-content">
                                 <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
@@ -514,13 +518,13 @@
                                     {
                                         <div class="govuk-checkboxes__item">
                                             <input class="govuk-checkboxes__input"
-                                                   id="filter-project-trust-@supportingOrganisations.Stub()"
+                                                   id="filter-supporting-organisations-@supportingOrganisations.Stub()"
                                                    name="selectedSupportingOrganisations" type="checkbox"
                                                    value="@supportingOrganisations"
                                                    data-cy="select-projectlist-filter-supportingOrganisations-@supportingOrganisations"
                                                    @(Model.SelectedSupportingOrganisations.Contains(supportingOrganisations) ? "checked" : null)/>
                                             <label class="govuk-label govuk-checkboxes__label"
-                                                   for="filter-project-trust-@supportingOrganisations.Stub()">
+                                                   for="filter-supporting-organisations-@supportingOrganisations.Stub()">
                                                 @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(supportingOrganisations.ToLower())
                                             </label>
                                         </div>
