@@ -20,16 +20,20 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l" data-cy="school-name">@Model.SupportProjectSummary.SchoolName</span>
-        <h1 class="govuk-heading-l" data-cy="page-heading">
-            Select an area of improvement
-        </h1>
-        <p class="govuk-body">Add one objective at a time. The plan must include at least one objective for either Quality
-            of education, or Leadership and management.</p>
-
         <form method="post" novalidate>
-            <govuk-radiobuttons-input name="@nameof(Model.SelectedAreaOfImprovement)"
-                radio-buttons="@Model.RadioButtons" asp-for="@Model.SelectedAreaOfImprovement"
-                error-message="@Model.SelectedAreaOfImprovementErrorMessage" />
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-!-margin-0 govuk-!-padding-0">
+                    <h1 class="govuk-heading-l" data-cy="page-heading">
+                        Select an area of improvement
+                    </h1>
+                </legend>
+                <p class="govuk-body">Add one objective at a time. The plan must include at least one objective for either Quality
+                    of education, or Leadership and management.</p>
+
+                <govuk-radiobuttons-input name="@nameof(Model.SelectedAreaOfImprovement)"
+                    radio-buttons="@Model.RadioButtons" asp-for="@Model.SelectedAreaOfImprovement"
+                    error-message="@Model.SelectedAreaOfImprovementErrorMessage" />
+            </fieldset>
 
             <button class="govuk-button" type="submit" id="save-and-continue-button" data-module="govuk-button"
                 data-cy="save-and-continue-button">
