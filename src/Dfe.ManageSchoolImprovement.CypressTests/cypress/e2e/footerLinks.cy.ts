@@ -8,20 +8,18 @@ describe("Navigate through footer links", () => {
     it('user should be able to navigate to the footer links', () => {
         cy.get('.govuk-footer').should('be.visible');
 
-        Logger.log("Get help footer links");
-        cy.get('h2').should('contain', 'Get help');
-        cy.contains('a', 'Get help with a Regions Group system').should('be.visible')
-
-        Logger.log("Get feedback footer links");
-        cy.get('h2').should('contain', 'Give feedback');
-        cy.contains('a', 'Give feedback about a Regions Group system (opens in a new tab)').should('be.visible')
-        cy.contains('a', 'Suggest a change to a Regions Group system (opens in a new tab)').should('be.visible')
+        Logger.log("Unified Intake section");
+        cy.get('h2').should('contain', 'Problems and feedback');
+        cy.contains('a', 'Report a problem or give feedback').should('be.visible')
 
         Logger.log("Get accessibility and cookies link");
         cy.contains('a', 'Accessibility statement').should('be.visible').click()
         Logger.log("Acessibility statement link opened in another tab");
         
+        Logger.log("Cookies preferences opens in the same tab");
         cy.contains('a', 'Cookies').should('be.visible').click()
+        // Get cookies header to allow url chance to update in Cypress
+        cy.get('h1').should('contain', 'Cookie preferences')
         cy.url().then(href => {
             expect(href).includes('cookie')
         });

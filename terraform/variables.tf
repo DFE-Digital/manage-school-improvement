@@ -395,6 +395,12 @@ variable "enable_mssql_database" {
   type        = bool
 }
 
+variable "mssql_private_endpoint_subnet_cidr" {
+  description = "Specify a subnet prefix to use for the mssql_private_endpoint subnet"
+  type        = string
+  default     = ""
+}
+
 variable "mssql_server_admin_password" {
   description = "The local administrator password for the MSSQL server"
   type        = string
@@ -447,6 +453,12 @@ variable "storage_account_public_access_enabled" {
   description = "Should the Azure Storage Account have Public visibility?"
   type        = bool
   default     = true
+}
+
+variable "storage_subnet_cidr" {
+  description = "Specify a subnet prefix to use for the storage subnet"
+  type        = string
+  default     = ""
 }
 
 variable "enable_init_container" {
