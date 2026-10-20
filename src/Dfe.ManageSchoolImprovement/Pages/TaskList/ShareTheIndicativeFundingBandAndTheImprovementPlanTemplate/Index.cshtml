@@ -92,12 +92,21 @@
                     </div>
                 </div>
 
-                <govuk-radiobuttons-input heading="Choose indicative funding band"
-                                          heading-style="govuk-fieldset__legend--m"
-                                          error-message="@Model.FundingBandErrorMessage"
-                                          name="@nameof(Model.FundingBand)"
-                                          radio-buttons="@Model.FundingBandOptions()"
-                                          asp-for="@Model.FundingBand"/>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govukl-!-margin-0 govuk-!-padding-0">
+                        <h2 class="govuk-fieldset__legend--m">
+                            Choose indicative funding band
+                        </h2>
+                    </legend>
+                    <govuk-radiobuttons-input 
+                            heading-style="govuk-fieldset__legend--m"
+                            error-message="@Model.FundingBandErrorMessage"
+                            name="@nameof(Model.FundingBand)"
+                            radio-buttons="@Model.FundingBandOptions()"
+                            asp-for="@Model.FundingBand"/>
+
+                </fieldset>
+
 
                 <div class="govuk-form-group">
                     <div class="govuk-checkboxes">
