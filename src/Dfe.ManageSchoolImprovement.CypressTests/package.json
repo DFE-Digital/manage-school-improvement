@@ -28,7 +28,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@cypress/grep": "4.1.0",
+    "@cypress/grep": "4.1.1",
     "@types/node": "20.17.58",
     "@types/uuid": "10.0.0",
     "@typescript-eslint/eslint-plugin": "8.69.0",
