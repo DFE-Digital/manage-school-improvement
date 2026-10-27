@@ -226,6 +226,7 @@ No resources.
 | <a name="input_statuscake_contact_group_integrations"></a> [statuscake\_contact\_group\_integrations](#input\_statuscake\_contact\_group\_integrations) | List of Integration IDs to connect to your Contact Group | `list(string)` | `[]` | no |
 | <a name="input_statuscake_contact_group_name"></a> [statuscake\_contact\_group\_name](#input\_statuscake\_contact\_group\_name) | Name of the contact group in StatusCake | `string` | `""` | no |
 | <a name="input_statuscake_monitored_resource_addresses"></a> [statuscake\_monitored\_resource\_addresses](#input\_statuscake\_monitored\_resource\_addresses) | The URLs to perform TLS checks on | `list(string)` | `[]` | no |
+| <a name="input_storage_account_ipv4_allow_list"></a> [storage\_account\_ipv4\_allow\_list](#input\_storage\_account\_ipv4\_allow\_list) | A list of public IPv4 address to grant access to the Storage Account | `list(string)` | `[]` | no |
 | <a name="input_storage_account_public_access_enabled"></a> [storage\_account\_public\_access\_enabled](#input\_storage\_account\_public\_access\_enabled) | Should the Azure Storage Account have Public visibility? | `bool` | `true` | no |
 | <a name="input_storage_subnet_cidr"></a> [storage\_subnet\_cidr](#input\_storage\_subnet\_cidr) | Specify a subnet prefix to use for the storage subnet | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all resources | `map(string)` | n/a | yes |
