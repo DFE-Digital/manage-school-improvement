@@ -455,6 +455,12 @@ variable "storage_account_public_access_enabled" {
   default     = true
 }
 
+variable "storage_account_ipv4_allow_list" {
+  description = "A list of public IPv4 address to grant access to the Storage Account"
+  type        = list(string)
+  default     = []
+}
+
 variable "storage_subnet_cidr" {
   description = "Specify a subnet prefix to use for the storage subnet"
   type        = string
