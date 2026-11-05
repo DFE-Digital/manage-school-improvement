@@ -37,8 +37,7 @@ COPY ./src/Tests/${PROJECT_NAME}.Tests.Common/${PROJECT_NAME}.Tests.Common.cspro
 COPY ./src/Tests/${PROJECT_NAME}.Utils.Tests/${PROJECT_NAME}.Utils.Tests.csproj                                     ./src/Tests/${PROJECT_NAME}.Utils.Tests/
 
 # Mount GitHub Token and restore
-RUN --mount=type=secret,id=github_token dotnet nuget add source --username USERNAME --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DFE-Digital/index.json" && \
-    dotnet restore ${PROJECT_NAME}.sln
+RUN dotnet restore ${PROJECT_NAME}.sln
 ## END: Restore Packages
 
 COPY ./src/ /build/src/
@@ -51,6 +50,9 @@ RUN dotnet build ${PROJECT_NAME}.sln --no-restore -c Release && \
 
 # Copy entrypoint script
 COPY ./scripts/docker-entrypoint.sh /app/docker-entrypoint.sh
+
+# Ensure the script has Unix line endings (optional, only if you can install dos2unix)
+RUN tdnf install -y dos2unix && dos2unix /app/docker-entrypoint.sh
 
 # ==============================================
 # Entity Framework: Migration Builder
