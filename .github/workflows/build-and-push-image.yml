@@ -10,6 +10,8 @@ on:
         type: environment
         description: "Choose an environment to deploy to"
         required: true
+  permissions:
+    contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.inputs.environment }}
