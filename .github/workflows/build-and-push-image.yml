@@ -10,8 +10,6 @@ on:
         type: environment
         description: "Choose an environment to deploy to"
         required: true
-permissions:
-  contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.inputs.environment }}
@@ -122,6 +120,8 @@ jobs:
     name: Tag and release
     needs: [ set-env, deploy ]
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
