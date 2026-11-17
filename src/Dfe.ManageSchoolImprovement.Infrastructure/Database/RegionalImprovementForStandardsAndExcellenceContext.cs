@@ -1,17 +1,17 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database.Interceptors;
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
 using GovUK.Dfe.CoreLibs.ApplicationSettings.Extensions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Database;
 
-public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOptions<RegionalImprovementForStandardsAndExcellenceContext> options, IConfiguration configuration, IMediator mediator, IUserContextService userContextService) : DbContext(options)
+public class RegionalImprovementForStandardsAndExcellenceContext(DbContextOptions<RegionalImprovementForStandardsAndExcellenceContext> options, IConfiguration configuration, IAppMediator mediator, IUserContextService userContextService) : DbContext(options)
 {
     private readonly IConfiguration? _configuration = configuration;
     const string DefaultSchema = "RISE";

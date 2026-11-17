@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.DeleteSupportProject;
 
@@ -11,7 +11,7 @@ public record DeleteSupportProjectCommand(
 public class DeleteSupportProjectCommandHandler(ISupportProjectRepository supportProjectRepository)
     : IRequestHandler<DeleteSupportProjectCommand, bool>
 {
-    public async Task<bool> Handle(DeleteSupportProjectCommand request, CancellationToken cancellationToken)
+    public async ValueTask<bool> Handle(DeleteSupportProjectCommand request, CancellationToken cancellationToken)
     {
         // Find the support project by school URN
         var supportProject = await supportProjectRepository.GetSupportProjectByUrn(request.SchoolUrn, cancellationToken);

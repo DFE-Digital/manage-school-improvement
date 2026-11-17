@@ -1,4 +1,4 @@
-﻿using Dfe.ManageSchoolImprovement.Application.Common.EventHandlers;
+using Dfe.ManageSchoolImprovement.Application.Common.EventHandlers;
 using Dfe.ManageSchoolImprovement.Domain.Common;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
         public bool HandleEventCalled { get; private set; }
         public bool ShouldThrowException { get; set; }
 
-        protected override Task HandleEvent(TestEvent notification, CancellationToken cancellationToken)
+        protected override ValueTask HandleEvent(TestEvent notification, CancellationToken cancellationToken)
         {
             HandleEventCalled = true;
 
@@ -24,7 +24,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
                 throw new InvalidOperationException("Test exception");
             }
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
     public class BaseEventHandlerTests
@@ -46,9 +46,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.EventHandlers
             _handler.ShouldThrowException = true;
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                _handler.Handle(testEvent, CancellationToken.None)
-            );
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await _handler.Handle(testEvent, CancellationToken.None));
 
             Assert.Equal("Test exception", exception.Message);
 

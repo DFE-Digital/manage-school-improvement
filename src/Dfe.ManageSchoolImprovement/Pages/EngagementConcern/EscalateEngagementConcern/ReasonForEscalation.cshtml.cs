@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
@@ -11,7 +11,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 public class ReasonForEscalationModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator)
+    IAppMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator)
 {
     public string ReturnPage { get; set; }
 

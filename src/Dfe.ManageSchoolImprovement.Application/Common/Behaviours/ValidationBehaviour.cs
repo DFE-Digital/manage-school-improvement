@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using ValidationException = Dfe.ManageSchoolImprovement.Application.Common.Exceptions.ValidationException;
 
 namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours;
@@ -8,11 +8,11 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours;
 [ExcludeFromCodeCoverage]
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : notnull
+    where TRequest : IMessage
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
-        if (!validators.Any()) return await next();
+        if (!validators.Any()) return await next(request, cancellationToken);
 
         var context = new ValidationContext<TRequest>(request);
 
@@ -27,6 +27,6 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
 
         if (failures.Count > 0)
             throw new ValidationException(failures);
-        return await next();
+        return await next(request, cancellationToken);
     }
 }

@@ -2,7 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 public class NextReviewModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator)
+    IAppMediator mediator)
     : BaseImprovementPlanPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; } = string.Empty;

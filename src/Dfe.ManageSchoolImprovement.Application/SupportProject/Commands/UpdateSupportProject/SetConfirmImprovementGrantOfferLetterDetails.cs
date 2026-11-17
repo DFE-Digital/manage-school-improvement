@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -14,7 +14,7 @@ public class SetConfirmImprovementGrantOfferLetterDetails
     public class SetConfirmImprovementGrantOfferLetterDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetConfirmImprovementGrantOfferLetterDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetConfirmImprovementGrantOfferLetterDetailsCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(SetConfirmImprovementGrantOfferLetterDetailsCommand request, CancellationToken cancellationToken)
         {
 
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);

@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
 {
@@ -16,7 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
         ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetRecordSupportingOrganisationAppointmentCommand, bool>
     {
-        public async Task<bool> Handle(SetRecordSupportingOrganisationAppointmentCommand request,
+        public async ValueTask<bool> Handle(SetRecordSupportingOrganisationAppointmentCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject =

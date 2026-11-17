@@ -5,7 +5,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

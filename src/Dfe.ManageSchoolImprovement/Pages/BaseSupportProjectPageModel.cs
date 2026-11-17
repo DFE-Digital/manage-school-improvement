@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -88,7 +88,7 @@ public class BaseSupportProjectPageModel(ISupportProjectQueryService supportProj
         {
             var request = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), newDeliveryMilestone);
         
-            var mediator = HttpContext.RequestServices.GetService(typeof(IMediator)) as IMediator;
+            var mediator = HttpContext.RequestServices.GetService(typeof(IAppMediator)) as IAppMediator;
             var result = await mediator!.Send(request, cancellationToken);
 
             if (!result)

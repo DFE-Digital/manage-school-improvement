@@ -4,13 +4,13 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool;
 
-public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQueryService supportProjectQueryService, IMediator mediator) : PageModel
+public class SummaryModel(IGetEstablishment getEstablishment, ISupportProjectQueryService supportProjectQueryService, IAppMediator mediator) : PageModel
 {
     public string? ReturnPage { get; set; }
     public GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments.EstablishmentDto? Establishment { get; set; }

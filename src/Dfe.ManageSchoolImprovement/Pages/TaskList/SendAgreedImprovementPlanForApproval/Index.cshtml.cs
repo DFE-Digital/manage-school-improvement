@@ -5,12 +5,12 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.SendAgreedImprovementPlanForApproval
 {
-    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
+    public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IAppMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty(Name = "save-agreed-improvement-plan-in-sp")]
         [Display(Name = "Save agreed improvement plan in SharePoint")]

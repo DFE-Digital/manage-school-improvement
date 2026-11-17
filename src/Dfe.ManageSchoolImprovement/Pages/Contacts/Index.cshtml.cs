@@ -7,7 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Utils;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject.SetSchoolAddress;
@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
         IEstablishmentsClient establishmentsClient,
         IDateTimeProvider dateTimeProvider,
         ErrorService errorService,
-        IMediator mediator)
+        IAppMediator mediator)
         : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService)
     {
         public string ReturnPage { get; set; } = null!;

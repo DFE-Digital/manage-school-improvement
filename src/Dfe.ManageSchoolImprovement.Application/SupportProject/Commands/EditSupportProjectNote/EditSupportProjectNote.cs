@@ -1,7 +1,7 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EditSupportProjectNote;
 
@@ -17,7 +17,7 @@ public class EditSupportProjectNote
     public class EditSupportProjectNoteCommandHandler(ISupportProjectRepository supportProjectRepository,IDateTimeProvider _dateTimeProvider)
         : IRequestHandler<EditSupportProjectNoteCommand, SupportProjectNoteId>
     {
-        public async Task<SupportProjectNoteId> Handle(EditSupportProjectNoteCommand request, CancellationToken cancellationToken)
+        public async ValueTask<SupportProjectNoteId> Handle(EditSupportProjectNoteCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
             if (supportProject == null)

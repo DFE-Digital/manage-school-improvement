@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ProgressReviews;
 
@@ -16,7 +16,7 @@ public class SetProgressReviewDetails
     public class SetProgressReviewDetailsCommandCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetProgressReviewDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetProgressReviewDetailsCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(SetProgressReviewDetailsCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 

@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -18,7 +18,7 @@ public class SetDeliveryOfficer
     public class SetDeliveryOfficerCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetDeliveryOfficerCommand,bool>    {
 
-        public async Task<bool> Handle(SetDeliveryOfficerCommand request,
+        public async ValueTask<bool> Handle(SetDeliveryOfficerCommand request,
             CancellationToken cancellationToken)
         {
 

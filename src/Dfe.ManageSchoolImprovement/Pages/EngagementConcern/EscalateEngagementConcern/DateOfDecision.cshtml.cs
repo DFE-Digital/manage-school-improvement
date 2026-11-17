@@ -1,7 +1,7 @@
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 public class DateOfDecisionModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator), IDateValidationMessageProvider
+    IAppMediator mediator) : BaseEngagementConcernPageModel(supportProjectQueryService, errorService, mediator), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; }
 

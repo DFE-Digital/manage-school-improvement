@@ -1,6 +1,7 @@
-﻿using Dfe.ManageSchoolImprovement.Application.Common.Behaviours;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Behaviours;
+using Mediator;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Security.Claims;
@@ -11,15 +12,18 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
     {
         private readonly Mock<ILogger<PerformanceBehaviour<TestRequest, TestResponse>>> _mockLogger;
         private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
+        private readonly Mock<IConfiguration> _mockConfiguration;
         private readonly PerformanceBehaviour<TestRequest, TestResponse> _performanceBehaviour;
-        private readonly Mock<RequestHandlerDelegate<TestResponse>> _mockNext;
+        private readonly Mock<MessageHandlerDelegate<TestRequest, TestResponse>> _mockNext;
 
         public PerformanceBehaviourTests()
         {
             _mockLogger = new Mock<ILogger<PerformanceBehaviour<TestRequest, TestResponse>>>();
             _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
-            _mockNext = new Mock<RequestHandlerDelegate<TestResponse>>();
-            _performanceBehaviour = new PerformanceBehaviour<TestRequest, TestResponse>(_mockLogger.Object, _mockHttpContextAccessor.Object);
+            _mockConfiguration = new Mock<IConfiguration>();
+            _mockConfiguration.Setup(c => c.GetSection("Features:PerformanceLoggingEnabled").Value).Returns("true");
+            _mockNext = new Mock<MessageHandlerDelegate<TestRequest, TestResponse>>();
+            _performanceBehaviour = new PerformanceBehaviour<TestRequest, TestResponse>(_mockLogger.Object, _mockHttpContextAccessor.Object, _mockConfiguration.Object);
         }
 
         [Fact]
@@ -27,7 +31,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
         {
             // Arrange
             var response = new TestResponse();
-            _mockNext.Setup(n => n()).ReturnsAsync(response);
+            _mockNext.Setup(n => n(It.IsAny<TestRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(response);
 
             // Act
             var result = await _performanceBehaviour.Handle(new TestRequest(), _mockNext.Object, CancellationToken.None);
@@ -41,7 +45,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
         {
             // Arrange
             var response = new TestResponse();
-            _mockNext.Setup(n => n()).Returns(async () =>
+            _mockNext.Setup(n => n(It.IsAny<TestRequest>(), It.IsAny<CancellationToken>())).Returns(async () =>
             {
                 await Task.Delay(600); // Simulate long-running task
                 return response;
@@ -67,7 +71,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
         {
             // Arrange
             var response = new TestResponse();
-            _mockNext.Setup(n => n()).Returns(async () =>
+            _mockNext.Setup(n => n(It.IsAny<TestRequest>(), It.IsAny<CancellationToken>())).Returns(async () =>
             {
                 await Task.Delay(600); // Simulate long-running task
                 return response;
@@ -101,7 +105,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.Common.Behaviours
         {
             // Arrange
             var response = new TestResponse();
-            _mockNext.Setup(n => n()).Returns(async () =>
+            _mockNext.Setup(n => n(It.IsAny<TestRequest>(), It.IsAny<CancellationToken>())).Returns(async () =>
             {
                 await Task.Delay(600); // Simulate long-running task
                 return response;

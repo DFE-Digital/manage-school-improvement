@@ -5,7 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.
     SetImprovementPlanObjectivesComplete;
@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
     public class IndexModel(
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
-        IMediator mediator)
+        IAppMediator mediator)
         : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty]

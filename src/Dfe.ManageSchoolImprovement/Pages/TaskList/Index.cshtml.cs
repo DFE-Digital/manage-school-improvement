@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList;
@@ -322,7 +322,7 @@ public class IndexModel(
     private async Task UpdateDeliveryMilestoneAsync(int id, Milestone milestone, CancellationToken cancellationToken)
     {
         var request = new SetCurrentDeliveryMilestoneCommand(new SupportProjectId(id), milestone);
-        var mediator = HttpContext.RequestServices.GetService(typeof(IMediator)) as IMediator;
+        var mediator = HttpContext.RequestServices.GetService(typeof(IAppMediator)) as IAppMediator;
         var result = await mediator!.Send(request, cancellationToken);
         if (!result)
         {

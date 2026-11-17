@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +14,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Contacts
     public class AddContactDetailModel(
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
-        IMediator mediator) : BaseContactsPageModel(supportProjectQueryService, errorService)
+        IAppMediator mediator) : BaseContactsPageModel(supportProjectQueryService, errorService)
     {
         public string ReturnPage { get; set; } = null!;
         public bool ShowError { get; set; }

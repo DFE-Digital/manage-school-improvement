@@ -7,7 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Authorization;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,7 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.Watchlist;
 public class ConfirmSchoolModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator,
+    IAppMediator mediator,
     IHostEnvironment environment,
     IHttpContextAccessor httpContextAccessor,
     IConfiguration configuration) : PageModel

@@ -5,7 +5,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProjectStatus;
@@ -15,7 +15,7 @@ public class CheckYourAnswersModel(
     IGetEstablishment getEstablishment,
     ErrorService errorService,
     IUserRepository userRepository,
-    IMediator mediator)
+    IAppMediator mediator)
     : BaseSupportProjectEstablishmentPageModel(supportProjectQueryService, getEstablishment, errorService),
         IDateValidationMessageProvider
 {

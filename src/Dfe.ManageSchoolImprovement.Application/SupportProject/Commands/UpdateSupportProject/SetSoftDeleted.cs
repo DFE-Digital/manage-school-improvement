@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -15,7 +15,7 @@ public class SetSoftDeleted
     public class SetSoftDeletedCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetSoftDeletedCommand, bool>    {
 
-        public async Task<bool> Handle(SetSoftDeletedCommand request,
+        public async ValueTask<bool> Handle(SetSoftDeletedCommand request,
             CancellationToken cancellationToken)
         {
 

@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Pages;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
     {
         private readonly Mock<ISupportProjectQueryService> _mockQueryService;
         private readonly ErrorService _errorService;
-        private readonly Mock<IMediator> _mockMediator;
+        private readonly Mock<IAppMediator> _mockMediator;
         private readonly BaseSupportProjectPageModel _pageModel;
         private readonly CancellationToken _cancellationToken;
 
@@ -29,7 +29,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Pages
         {
             _mockQueryService = new Mock<ISupportProjectQueryService>();
             _errorService = new ErrorService();
-            _mockMediator = new Mock<IMediator>();
+            _mockMediator = new Mock<IAppMediator>();
             _pageModel = CreatePageModelWithMediator();
             _cancellationToken = CancellationToken.None;
         }

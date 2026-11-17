@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -15,7 +15,7 @@ public class SetInitialContactTheResponsibleBodyDetails
     public class SetInitialContactTheResponsibleBodyDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetInitialContactTheResponsibleBodyDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetInitialContactTheResponsibleBodyDetailsCommand request,
+        public async ValueTask<bool> Handle(SetInitialContactTheResponsibleBodyDetailsCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);

@@ -193,8 +193,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new CreateSupportProjectCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => 
-                handler.Handle(command, _cancellationToken));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
         }
 
         [Fact]

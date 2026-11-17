@@ -1,10 +1,10 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Dfe.ManageSchoolImprovement.Infrastructure.Repositories;
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
 using FluentAssertions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -25,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
             return new RegionalImprovementForStandardsAndExcellenceContext(
                 options,
                 Mock.Of<IConfiguration>(),
-                Mock.Of<IMediator>(),
+                Mock.Of<IAppMediator>(),
                 mockUserService);
         }
 

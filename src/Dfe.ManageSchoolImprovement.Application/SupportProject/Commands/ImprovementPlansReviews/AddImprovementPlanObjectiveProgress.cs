@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
 
@@ -18,7 +18,7 @@ public class AddImprovementPlanObjectiveProgress
     public class AddImprovementPlanObjectiveProgressCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<AddImprovementPlanObjectiveProgressCommand, ImprovementPlanObjectiveProgressId>
     {
-        public async Task<ImprovementPlanObjectiveProgressId> Handle(AddImprovementPlanObjectiveProgressCommand request, CancellationToken cancellationToken)
+        public async ValueTask<ImprovementPlanObjectiveProgressId> Handle(AddImprovementPlanObjectiveProgressCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 

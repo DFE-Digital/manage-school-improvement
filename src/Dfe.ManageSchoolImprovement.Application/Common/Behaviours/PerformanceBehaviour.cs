@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours
@@ -9,17 +10,24 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours
     [ExcludeFromCodeCoverage]
     public class PerformanceBehaviour<TRequest, TResponse>(
         ILogger<PerformanceBehaviour<TRequest, TResponse>> logger,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IConfiguration configuration)
         : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : notnull
+        where TRequest : IMessage
     {
         private readonly Stopwatch _timer = new();
+        private readonly bool _performanceLoggingEnabled = configuration.GetValue<bool>("Features:PerformanceLoggingEnabled");
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
         {
+            if (!_performanceLoggingEnabled)
+            {
+                return await next(request, cancellationToken);
+            }
+
             _timer.Start();
 
-            var response = await next();
+            var response = await next(request, cancellationToken);
 
             _timer.Stop();
 

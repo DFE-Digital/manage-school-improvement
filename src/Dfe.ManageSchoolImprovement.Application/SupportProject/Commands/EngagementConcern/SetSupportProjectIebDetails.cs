@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern;
 
@@ -17,7 +17,7 @@ public class SetSupportProjectIebDetails
     public class SetSupportProjectIebDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetSupportProjectIebDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetSupportProjectIebDetailsCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(SetSupportProjectIebDetailsCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken);
 

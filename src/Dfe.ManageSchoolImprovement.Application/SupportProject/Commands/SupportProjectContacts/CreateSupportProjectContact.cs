@@ -1,7 +1,7 @@
-﻿using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
+using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts
 {
@@ -20,7 +20,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
     public class CreateSupportProjectContactHandler(ISupportProjectRepository supportProjectRepository, IDateTimeProvider _dateTimeProvider)
         : IRequestHandler<CreateSupportProjectContactCommand, SupportProjectContactId>
     {
-        public async Task<SupportProjectContactId> Handle(CreateSupportProjectContactCommand request, CancellationToken cancellationToken)
+        public async ValueTask<SupportProjectContactId> Handle(CreateSupportProjectContactCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
 

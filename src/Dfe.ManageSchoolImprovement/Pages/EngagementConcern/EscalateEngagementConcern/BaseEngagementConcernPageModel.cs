@@ -1,8 +1,8 @@
-﻿using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
+using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.SetSupportProjectEngagementConcernEscalation;
 
@@ -10,12 +10,12 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateE
 {
     public abstract class BaseEngagementConcernPageModel : BaseSupportProjectPageModel
     {
-        protected readonly IMediator _mediator;
+        protected readonly IAppMediator _mediator;
 
         private protected BaseEngagementConcernPageModel(
            ISupportProjectQueryService supportProjectQueryService,
            ErrorService errorService,
-           IMediator mediator) : base(supportProjectQueryService, errorService)
+           IAppMediator mediator) : base(supportProjectQueryService, errorService)
         {
             _mediator = mediator;
         }

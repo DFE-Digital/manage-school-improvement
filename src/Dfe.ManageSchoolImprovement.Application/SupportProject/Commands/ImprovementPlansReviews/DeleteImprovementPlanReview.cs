@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews;
 
@@ -17,7 +17,7 @@ public class DeleteImprovementPlanReview
         ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<DeleteImprovementPlanReviewCommand, bool>
     {
-        public async Task<bool> Handle(DeleteImprovementPlanReviewCommand request,
+        public async ValueTask<bool> Handle(DeleteImprovementPlanReviewCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject =

@@ -55,8 +55,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
 
             var handler = new AddSchoolToWatchlist.AddSchoolToWatchlistCommandHandler(_mockWatchlistRepository.Object);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                handler.Handle(command, _cancellationToken));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
         }
     }
 }

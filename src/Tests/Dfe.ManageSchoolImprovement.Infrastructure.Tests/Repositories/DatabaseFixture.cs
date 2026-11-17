@@ -1,8 +1,8 @@
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Dfe.ManageSchoolImprovement.Infrastructure.Database;
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -25,7 +25,7 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Tests.Repositories
 
             // Initialize the context
             Context = new RegionalImprovementForStandardsAndExcellenceContext(options, Mock.Of<IConfiguration>(),
-                Mock.Of<IMediator>(), mockUserService);
+                Mock.Of<IAppMediator>(), mockUserService);
 
             // Seed data
             SeedData();

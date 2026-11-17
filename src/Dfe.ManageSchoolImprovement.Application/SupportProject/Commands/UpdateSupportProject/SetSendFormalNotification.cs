@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -19,7 +19,7 @@ public class SetSendFormalNotification
     public class SetSendFormalNotificationCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetSendFormalNotificationCommand, bool>
     {
-        public async Task<bool> Handle(SetSendFormalNotificationCommand request,
+        public async ValueTask<bool> Handle(SetSendFormalNotificationCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject =

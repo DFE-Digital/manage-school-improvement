@@ -2,7 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans.AddImprovementPlan;
@@ -10,7 +10,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Imp
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ImprovementPlan
 {
-    public class AddAnObjectiveModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator) : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
+    public class AddAnObjectiveModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IAppMediator mediator) : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
     {
         [BindProperty]
         public string? SelectedAreaOfImprovement { get; set; }
