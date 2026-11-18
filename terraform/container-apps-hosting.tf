@@ -58,6 +58,9 @@ module "azure_container_apps_hosting" {
   container_apps_allow_ips_inbound                = local.container_apps_allow_ips_inbound
 
   enable_mssql_database              = local.enable_mssql_database
+  enable_mssql_audit_logs            = local.enable_mssql_audit_logs
+  enable_mssql_security_audit_events = local.enable_mssql_security_audit_events
+  mssql_server_name_override         = local.mssql_server_name_override
   mssql_private_endpoint_subnet_cidr = local.mssql_private_endpoint_subnet_cidr
   mssql_server_admin_password        = local.mssql_server_admin_password
   mssql_azuread_admin_username       = local.mssql_azuread_admin_username

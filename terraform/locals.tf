@@ -61,6 +61,9 @@ locals {
   cdn_frontdoor_vdp_destination_hostname          = var.cdn_frontdoor_vdp_destination_hostname
   enable_container_app_file_share                 = var.enable_container_app_file_share
   enable_mssql_database                           = var.enable_mssql_database
+  enable_mssql_audit_logs                         = var.enable_mssql_audit_logs
+  enable_mssql_security_audit_events              = var.enable_mssql_security_audit_events
+  mssql_server_name_override                      = var.mssql_server_name_override
   mssql_private_endpoint_subnet_cidr              = var.mssql_private_endpoint_subnet_cidr
   mssql_server_admin_password                     = var.mssql_server_admin_password
   mssql_azuread_admin_username                    = var.mssql_azuread_admin_username
