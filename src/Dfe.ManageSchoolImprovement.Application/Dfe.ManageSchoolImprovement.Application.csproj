@@ -9,7 +9,7 @@
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rvv3-g6hj-g44x" />
     <PackageReference Include="GovUK.Dfe.CoreLibs.AsyncProcessing" Version="1.0.12" />
     <PackageReference Include="GovUK.Dfe.CoreLibs.Contracts" Version="1.0.51" />
-    <PackageReference Include="FluentValidation" Version="11.12.0" />
+    <PackageReference Include="FluentValidation" Version="12.2.0" />
   </ItemGroup>
 	<ItemGroup>
 		<InternalsVisibleTo Include="Dfe.ManageSchoolImprovement.Application.Tests" />
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.12.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
     <PackageReference Include="MediatR" Version="12.5.0" />
   </ItemGroup>
 

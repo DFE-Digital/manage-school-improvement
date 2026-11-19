@@ -8,7 +8,7 @@ public class UserRepository(IGraphUserService graphUserService, IHostEnvironment
 {
     public async Task<IEnumerable<User>> GetAllUsers()
     {
-        IEnumerable<Microsoft.Graph.User> users = await graphUserService.GetAllUsers();
+        IEnumerable<Microsoft.Graph.Models.User> users = await graphUserService.GetAllUsers();
 
         var result = users
            .Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper()}"));
@@ -24,7 +24,7 @@ public class UserRepository(IGraphUserService graphUserService, IHostEnvironment
 
     public async Task<IEnumerable<User>> GetAllRiseAdvisers()
     {
-        IEnumerable<Microsoft.Graph.User> users = await graphUserService.GetAllRiseAdvisers();
+        IEnumerable<Microsoft.Graph.Models.User> users = await graphUserService.GetAllRiseAdvisers();
 
         var result = users.Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper().Replace("-rise", string.Empty)}"));
 

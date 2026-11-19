@@ -1,8 +1,8 @@
-using System.Net.Http.Headers;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using Microsoft.Kiota.Abstractions.Authentication;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 
@@ -17,12 +17,24 @@ public class GraphClientFactory(IOptions<AzureAdOptions> azureAdOptions) : IGrap
             .WithAuthority(new Uri(_azureAdOptions.Authority))
             .Build();
 
-        DelegateAuthenticationProvider provider = new(async requestMessage =>
-        {
-            AuthenticationResult result = await app.AcquireTokenForClient(_azureAdOptions.Scopes).ExecuteAsync();
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
-        });
+        var authenticationProvider = new BaseBearerTokenAuthenticationProvider(
+            new ClientCredentialsTokenProvider(app, _azureAdOptions.Scopes));
 
-        return new GraphServiceClient($"{_azureAdOptions.ApiUrl}/V1.0/", provider);
+        return new GraphServiceClient(authenticationProvider, $"{_azureAdOptions.ApiUrl}/V1.0");
+    }
+
+    /// <summary>Acquires an app-only token with MSAL, exactly as the Graph v4 DelegateAuthenticationProvider did.</summary>
+    private sealed class ClientCredentialsTokenProvider(IConfidentialClientApplication app, IEnumerable<string> scopes)
+        : IAccessTokenProvider
+    {
+        public AllowedHostsValidator AllowedHostsValidator { get; } = new();
+
+        public async Task<string> GetAuthorizationTokenAsync(Uri uri,
+            Dictionary<string, object>? additionalAuthenticationContext = null,
+            CancellationToken cancellationToken = default)
+        {
+            AuthenticationResult result = await app.AcquireTokenForClient(scopes).ExecuteAsync(cancellationToken);
+            return result.AccessToken;
+        }
     }
 }
