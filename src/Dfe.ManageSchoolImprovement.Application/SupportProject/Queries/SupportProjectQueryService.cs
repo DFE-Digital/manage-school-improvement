@@ -1,4 +1,3 @@
-using AutoMapper;
 using Dfe.ManageSchoolImprovement.Application.Common.Models;
 using Dfe.ManageSchoolImprovement.Application.Factories;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
@@ -6,6 +5,7 @@ using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
+using MapsterMapper;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries
 {

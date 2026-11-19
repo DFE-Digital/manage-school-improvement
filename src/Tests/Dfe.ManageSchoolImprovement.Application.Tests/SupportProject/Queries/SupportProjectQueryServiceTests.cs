@@ -1,10 +1,10 @@
 ﻿using AutoFixture;
-using AutoMapper;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.Entities.SupportProject;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
+using MapsterMapper;
 using Moq;
 using System.Linq.Expressions;
 

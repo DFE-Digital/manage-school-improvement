@@ -1,8 +1,8 @@
-using AutoMapper;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using GovUK.Dfe.CoreLibs.Contracts.ExternalApplications.Models.Response;
+using MapsterMapper;
 using System.Linq.Expressions;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
@@ -131,7 +131,6 @@ public class SupportProjectAuditQueryService(
             var fieldAuditTrail = await supportProjectAuditRepository
                 .GetFieldAuditTrailAsync(supportProjectIdValue, fieldSelector, cancellationToken);
 
-            // Manual mapping instead of AutoMapper
             var result = fieldAuditTrail.Select(audit => new SupportProjectFieldAuditDto<T>(
                 audit.SupportProjectId.Value,
                 audit.FieldName,

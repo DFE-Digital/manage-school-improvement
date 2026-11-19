@@ -2,11 +2,12 @@ using Dfe.ManageSchoolImprovement.Application.Common.Behaviours;
 using Dfe.ManageSchoolImprovement.Application.MappingProfiles;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using FluentValidation;
+using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using AutoMapper.Internal;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -32,13 +33,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
             });
 
-            services.AddAutoMapper(cfg =>
-            {
-                cfg.Internal().ForAllMaps((_, mapping) =>
-                {
-                    mapping.MaxDepth(64);
-                });
-            }, typeof(RiseProfile));
+            var mappingConfig = new TypeAdapterConfig();
+            mappingConfig.Default.MaxDepth(64);
+            mappingConfig.Default.MapToConstructor(true);
+            new RiseProfile().Register(mappingConfig);
+
+            services.AddSingleton(mappingConfig);
+            services.AddScoped<IMapper, ServiceMapper>();
 
             services.AddBackgroundService();
 
