@@ -61,7 +61,7 @@ WORKDIR /build
 # Install dotnet-ef and create migration bundle
 RUN mkdir /sql && \
     dotnet new tool-manifest && \
-    dotnet tool install dotnet-ef --version 8.0.13 && \
+    dotnet tool install dotnet-ef --version 10.0.15 && \
     dotnet ef migrations bundle \
       -r linux-x64 \
       -p src/Dfe.ManageSchoolImprovement.Infrastructure \
