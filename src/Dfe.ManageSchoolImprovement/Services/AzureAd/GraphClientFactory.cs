@@ -10,17 +10,24 @@ public class GraphClientFactory(IOptions<AzureAdOptions> azureAdOptions) : IGrap
 {
     private readonly AzureAdOptions _azureAdOptions = azureAdOptions.Value;
 
-    public GraphServiceClient Create()
+    /// <summary>Test hook: lets tests replace MSAL's HTTP calls to Entra ID. Null in production.</summary>
+    internal IMsalHttpClientFactory? MsalHttpClientFactory { get; init; }
+
+    public GraphServiceClient Create() =>
+        new(new BaseBearerTokenAuthenticationProvider(CreateTokenProvider()), $"{_azureAdOptions.ApiUrl}/V1.0");
+
+    internal IAccessTokenProvider CreateTokenProvider()
     {
-        IConfidentialClientApplication app = ConfidentialClientApplicationBuilder.Create(_azureAdOptions.ClientId.ToString())
+        var builder = ConfidentialClientApplicationBuilder.Create(_azureAdOptions.ClientId.ToString())
             .WithClientSecret(_azureAdOptions.ClientSecret)
-            .WithAuthority(new Uri(_azureAdOptions.Authority))
-            .Build();
+            .WithAuthority(new Uri(_azureAdOptions.Authority));
 
-        var authenticationProvider = new BaseBearerTokenAuthenticationProvider(
-            new ClientCredentialsTokenProvider(app, _azureAdOptions.Scopes));
+        if (MsalHttpClientFactory is not null)
+        {
+            builder = builder.WithHttpClientFactory(MsalHttpClientFactory);
+        }
 
-        return new GraphServiceClient(authenticationProvider, $"{_azureAdOptions.ApiUrl}/V1.0");
+        return new ClientCredentialsTokenProvider(builder.Build(), _azureAdOptions.Scopes);
     }
 
     /// <summary>Acquires an app-only token with MSAL, exactly as the Graph v4 DelegateAuthenticationProvider did.</summary>
