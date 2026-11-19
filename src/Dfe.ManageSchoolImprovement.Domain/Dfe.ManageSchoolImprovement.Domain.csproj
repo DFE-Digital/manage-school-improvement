@@ -4,12 +4,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GovUK.Dfe.CoreLibs.Caching" Version="1.0.10" />
-    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="FluentValidation" Version="11.12.0" />
     <PackageReference Include="GovUK.Dfe.CoreLibs.Contracts" Version="1.0.51" />
-    <PackageReference Include="GovUK.Dfe.CoreLibs.Utilities" Version="1.0.16" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +15,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dfe.ManageSchoolImprovement.Utils\Dfe.ManageSchoolImprovement.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>
