@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.RecordSupportingOr
     public class IndexModel(
         ISupportProjectQueryService supportProjectQueryService,
         ErrorService errorService,
-        IMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
+        IAppMediator mediator) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
         IDateValidationMessageProvider
     {
         [Display(Name = "Enter date the regional director made this appointment")]

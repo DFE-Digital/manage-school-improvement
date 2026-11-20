@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours
@@ -7,15 +7,15 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.Behaviours
     [ExcludeFromCodeCoverage]
     public class UnhandledExceptionBehaviour<TRequest, TResponse>(
         ILogger<UnhandledExceptionBehaviour<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : notnull
+        where TRequest : IMessage
     {
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next,
             CancellationToken cancellationToken)
         {
 #pragma warning disable S2139
             try
             {
-                return await next();
+                return await next(request, cancellationToken);
             }
             catch (Exception ex)
             {

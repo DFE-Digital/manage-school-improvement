@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlansReviews.AddImprovementPlanReview;
 
@@ -13,7 +13,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews;
 public class AddReviewModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator)
+    IAppMediator mediator)
     : BaseImprovementPlanPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     public string ReturnPage { get; set; } = string.Empty;

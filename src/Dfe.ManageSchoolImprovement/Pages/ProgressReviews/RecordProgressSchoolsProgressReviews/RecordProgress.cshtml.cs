@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.ImprovementPlans;
@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.ProgressReviews.RecordProgr
 
 public class RecordProgressModel(
     ISupportProjectQueryService supportProjectQueryService,
-    IMediator mediator,
+    IAppMediator mediator,
     ErrorService errorService)
     : BaseImprovementPlanPageModel(supportProjectQueryService, errorService)
 {

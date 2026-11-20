@@ -3,7 +3,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Models;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern.EscalateEngagementConcern;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
@@ -15,14 +15,14 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
     {
         private readonly Mock<ISupportProjectQueryService> _mockSupportProjectQueryService;
         private readonly Mock<ErrorService> _mockErrorService;
-        private readonly Mock<IMediator> _mockMediator;
+        private readonly Mock<IAppMediator> _mockMediator;
         private readonly TestEngagementConcernPageModel _sut;
 
         public BaseEngagementConcernPageModelTests()
         {
             _mockSupportProjectQueryService = new Mock<ISupportProjectQueryService>();
             _mockErrorService = new Mock<ErrorService>();
-            _mockMediator = new Mock<IMediator>();
+            _mockMediator = new Mock<IAppMediator>();
             _sut = new TestEngagementConcernPageModel(
                 _mockSupportProjectQueryService.Object,
                 _mockErrorService.Object,
@@ -161,7 +161,7 @@ namespace Dfe.ManageSchoolImprovement.Tests.Pages.EngagementConcern.EscalateEnga
             public TestEngagementConcernPageModel(
                 ISupportProjectQueryService supportProjectQueryService,
                 ErrorService errorService,
-                IMediator mediator)
+                IAppMediator mediator)
                 : base(supportProjectQueryService, errorService, mediator)
             {
             }

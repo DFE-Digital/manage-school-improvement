@@ -1,11 +1,11 @@
 using Dfe.ManageSchoolImprovement.Application.Common.Behaviours;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Dfe.ManageSchoolImprovement.Application.MappingProfiles;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using AutoMapper.Internal;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -16,21 +16,20 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationDependencyGroup(
             this IServiceCollection services, IConfiguration config)
         {
-            var performanceLoggingEnabled = config.GetValue<bool>("Features:PerformanceLoggingEnabled");
+            services.AddValidatorsFromAssembly(typeof(ApplicationServiceCollectionExtensions).Assembly);
 
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-            services.AddMediatR(cfg =>
+            services.AddMediator(options =>
             {
-                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-
-                if (performanceLoggingEnabled)
-                {
-                    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
-                }
+                options.Assemblies = [typeof(ApplicationServiceCollectionExtensions)];
+                options.ServiceLifetime = ServiceLifetime.Scoped;
+                options.PipelineBehaviors = [
+                    typeof(UnhandledExceptionBehaviour<,>),
+                    typeof(ValidationBehaviour<,>),
+                    typeof(PerformanceBehaviour<,>)
+                ];
             });
+
+            services.AddScoped<IAppMediator, MediatorAppMediator>();
 
             services.AddAutoMapper(cfg =>
             {

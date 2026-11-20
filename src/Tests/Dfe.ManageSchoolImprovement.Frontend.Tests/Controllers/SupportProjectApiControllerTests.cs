@@ -2,7 +2,7 @@ using AutoFixture;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.DeleteSupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Controllers;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Controllers;
 
 public class SupportProjectApiControllerTests
 {
-    private readonly Mock<IMediator> _mockMediator;
+    private readonly Mock<IAppMediator> _mockMediator;
     private readonly Mock<IHostEnvironment> _mockEnvironment;
     private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
     private readonly Mock<IConfiguration> _mockConfiguration;
@@ -24,7 +24,7 @@ public class SupportProjectApiControllerTests
 
     public SupportProjectApiControllerTests()
     {
-        _mockMediator = new Mock<IMediator>();
+        _mockMediator = new Mock<IAppMediator>();
         _mockEnvironment = new Mock<IHostEnvironment>();
         _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
         _mockConfiguration = new Mock<IConfiguration>();

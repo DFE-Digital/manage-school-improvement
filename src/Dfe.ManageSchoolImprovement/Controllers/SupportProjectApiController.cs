@@ -2,7 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.Common.Exceptions;
 using Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.DeleteSupportProject;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Authorization;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -14,13 +14,13 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Controllers;
 [Authorize]
 public class SupportProjectApiController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IAppMediator _mediator;
     private readonly IHostEnvironment _environment;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IConfiguration _configuration;
 
     public SupportProjectApiController(
-        IMediator mediator,
+        IAppMediator mediator,
         IHostEnvironment environment,
         IHttpContextAccessor httpContextAccessor,
         IConfiguration configuration)

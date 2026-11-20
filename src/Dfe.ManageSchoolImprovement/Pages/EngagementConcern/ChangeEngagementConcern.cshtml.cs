@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.EngagementConcern.
     EditEngagementConcern;
@@ -17,7 +17,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Pages.EngagementConcern;
 public class ChangeEngagementConcernModel(
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator,
+    IAppMediator mediator,
     IDateTimeProvider dateTimeProvider) : BaseSupportProjectPageModel(supportProjectQueryService, errorService)
 {
     public string ReturnPage { get; set; } = string.Empty;

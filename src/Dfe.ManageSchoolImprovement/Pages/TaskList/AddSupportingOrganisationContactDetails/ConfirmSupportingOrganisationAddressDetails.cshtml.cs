@@ -7,7 +7,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models.SupportProject;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Utils;
 using GovUK.Dfe.PersonsApi.Client.Contracts;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.AddSupportingOrganisationContactDetails;
@@ -17,7 +17,7 @@ public class AddSupportingOrganisationAddressDetailsModel(
     IGetEstablishment getEstablishment,
     IGetTrust getTrust,
     ErrorService errorService,
-    IMediator mediator,
+    IAppMediator mediator,
     IDateTimeProvider dateTimeProvider) : BaseSupportProjectPageModel(supportProjectQueryService, errorService),
     IDateValidationMessageProvider
 {

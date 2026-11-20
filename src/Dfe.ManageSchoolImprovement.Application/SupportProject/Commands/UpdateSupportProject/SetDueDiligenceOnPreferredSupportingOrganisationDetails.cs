@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -18,7 +18,7 @@ public class SetDueDiligenceOnPreferredSupportingOrganisationDetails
     public class SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(SetDueDiligenceOnPreferredSupportingOrganisationDetailsCommand request, CancellationToken cancellationToken)
         {
 
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);

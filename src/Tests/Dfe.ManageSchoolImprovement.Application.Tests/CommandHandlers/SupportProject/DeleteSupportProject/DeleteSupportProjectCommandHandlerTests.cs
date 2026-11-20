@@ -83,6 +83,6 @@ public class DeleteSupportProjectCommandHandlerTests
             .ThrowsAsync(new Exception("Database error"));
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _handler.Handle(command, _cancellationToken));
+        await Assert.ThrowsAsync<Exception>(async () => await _handler.Handle(command, _cancellationToken));
     }
 } 

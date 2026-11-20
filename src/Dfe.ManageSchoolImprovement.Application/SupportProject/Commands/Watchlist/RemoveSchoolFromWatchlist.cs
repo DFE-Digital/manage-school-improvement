@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 
@@ -13,7 +13,7 @@ public class RemoveSchoolFromWatchlist
     public class RemoveSchoolFromWatchlistCommandHandler(IWatchlistRepository watchlistRepository)
         : IRequestHandler<RemoveSchoolFromWatchlistCommand, bool>
     {
-        public async Task<bool> Handle(RemoveSchoolFromWatchlistCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(RemoveSchoolFromWatchlistCommand request, CancellationToken cancellationToken)
         {
             var id = new WatchlistId(request.WatchlistId);
             var watchlistItem = await watchlistRepository.GetAsync(id, cancellationToken);

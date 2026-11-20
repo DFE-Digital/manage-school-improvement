@@ -1,10 +1,10 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Dfe.ManageSchoolImprovement.Infrastructure.Database.Interceptors
 {
-    public class DomainEventDispatcherInterceptor(IMediator mediator) : SaveChangesInterceptor
+    public class DomainEventDispatcherInterceptor(IAppMediator mediator) : SaveChangesInterceptor
     {
         public override async ValueTask<int> SavedChangesAsync(
             SaveChangesCompletedEventData eventData,

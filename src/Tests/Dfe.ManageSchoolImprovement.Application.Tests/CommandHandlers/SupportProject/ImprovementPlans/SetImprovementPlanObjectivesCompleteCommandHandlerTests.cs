@@ -127,8 +127,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new SetImprovementPlanObjectivesComplete.SetImprovementPlanObjectivesCompleteCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() => 
-                handler.Handle(command, _cancellationToken));
+            var exception = await Assert.ThrowsAsync<KeyNotFoundException>(async () => await handler.Handle(command, _cancellationToken));
             
             Assert.Equal($"Support project with id {nonExistentId} not found", exception.Message);
         }
@@ -150,8 +149,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new SetImprovementPlanObjectivesComplete.SetImprovementPlanObjectivesCompleteCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => 
-                handler.Handle(command, _cancellationToken));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
         }
 
         [Fact]
@@ -282,8 +280,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new SetImprovementPlanObjectivesComplete.SetImprovementPlanObjectivesCompleteCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => 
-                handler.Handle(command, _cancellationToken));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
         }
 
         [Fact]

@@ -1,5 +1,6 @@
 using Dfe.ManageSchoolImprovement.Infrastructure.Security;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -31,17 +32,20 @@ namespace Dfe.ManageSchoolImprovement.Infrastructure.Database
             var optionsBuilder = new DbContextOptionsBuilder<RegionalImprovementForStandardsAndExcellenceContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            services.AddMediatR(cfg =>
+            services.AddMediator(options =>
             {
-                cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceCollectionExtensions).Assembly);
+                options.Assemblies = [typeof(ApplicationServiceCollectionExtensions)];
+                options.ServiceLifetime = ServiceLifetime.Scoped;
             });
+
+            services.AddScoped<IAppMediator, MediatorAppMediator>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<IUserContextService, UserContextService>();
 
             var serviceProvider = services.BuildServiceProvider();
 
-            var mediator = serviceProvider.GetRequiredService<IMediator>();
+            var mediator = serviceProvider.GetRequiredService<IAppMediator>();
             var userContext = serviceProvider.GetRequiredService<IUserContextService>();
 
             return new RegionalImprovementForStandardsAndExcellenceContext(optionsBuilder.Options, configuration, mediator, userContext);

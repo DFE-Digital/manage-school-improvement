@@ -1,7 +1,7 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.CreateSupportProject
 {
@@ -18,7 +18,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Create
     public class CreateSupportProjectCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<CreateSupportProjectCommand, SupportProjectId>
     {
-        public async Task<SupportProjectId> Handle(CreateSupportProjectCommand request,
+        public async ValueTask<SupportProjectId> Handle(CreateSupportProjectCommand request,
             CancellationToken cancellationToken)
         {
             var schoolAddress = string.Join(", ", new[]

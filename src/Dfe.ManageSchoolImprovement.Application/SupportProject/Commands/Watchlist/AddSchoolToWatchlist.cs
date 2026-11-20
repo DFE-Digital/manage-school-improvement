@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Watchlist;
 
@@ -14,7 +14,7 @@ public class AddSchoolToWatchlist
     public class AddSchoolToWatchlistCommandHandler(IWatchlistRepository watchlistRepository)
     : IRequestHandler<AddSchoolToWatchlistCommand, bool>
     {
-        public async Task<bool> Handle(AddSchoolToWatchlistCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AddSchoolToWatchlistCommand request, CancellationToken cancellationToken)
         {
             var watchlistId = new WatchlistId(Guid.NewGuid());
 

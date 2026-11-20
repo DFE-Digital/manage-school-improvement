@@ -1,7 +1,7 @@
-﻿using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
+using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Utils;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.SupportProjectContacts
 {
@@ -21,7 +21,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Suppor
     public class UpdateSupportProjectContactHandler(ISupportProjectRepository supportProjectRepository, IDateTimeProvider _dateTimeProvider)
         : IRequestHandler<UpdateSupportProjectContactCommand, SupportProjectContactId>
     {
-        public async Task<SupportProjectContactId> Handle(UpdateSupportProjectContactCommand request, CancellationToken cancellationToken)
+        public async ValueTask<SupportProjectContactId> Handle(UpdateSupportProjectContactCommand request, CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.GetSupportProjectById(request.SupportProjectId, cancellationToken) ?? throw new ArgumentException($"Support project with id {request.SupportProjectId} not found");
 

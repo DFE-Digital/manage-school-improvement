@@ -2,7 +2,7 @@ using Dfe.ManageSchoolImprovement.Application.SupportProject.Queries;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
@@ -10,7 +10,7 @@ using static Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Upd
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.TaskList.DueDiligenceOnPreferredSupportingOrganisation;
 
-public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IMediator mediator,
+public class IndexModel(ISupportProjectQueryService supportProjectQueryService, ErrorService errorService, IAppMediator mediator,
     IApplicationSettingsResourceService applicationSettingsResourceService) : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "check-organisation-has-capacity-and-willing-to-provide-support")]

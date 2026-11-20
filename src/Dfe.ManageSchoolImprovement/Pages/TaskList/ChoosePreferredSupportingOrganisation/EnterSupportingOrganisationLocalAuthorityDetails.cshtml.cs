@@ -5,7 +5,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Dfe.ManageSchoolImprovement.Frontend.Pages.Shared;
 using Dfe.ManageSchoolImprovement.Frontend.Services;
 using GovUK.Dfe.CoreLibs.Contracts.Academies.Base;
-using MediatR;
+using Dfe.ManageSchoolImprovement.Application.Common.Mediation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,7 +15,7 @@ public class EnterSupportingOrganisationLocalAuthorityDetailsModel(
     IGetLocalAuthority getLocalAuthority,
     ISupportProjectQueryService supportProjectQueryService,
     ErrorService errorService,
-    IMediator mediator)
+    IAppMediator mediator)
     : BaseSupportProjectPageModel(supportProjectQueryService, errorService), IDateValidationMessageProvider
 {
     [BindProperty(Name = "organisation-name")]

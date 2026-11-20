@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject
 {
@@ -12,7 +12,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Update
     public class SetRecordVisitDateToVisitSchoolCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetRecordVisitDateToVisitSchoolCommand, bool>
     {
-        public async Task<bool> Handle(SetRecordVisitDateToVisitSchoolCommand request,
+        public async ValueTask<bool> Handle(SetRecordVisitDateToVisitSchoolCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);

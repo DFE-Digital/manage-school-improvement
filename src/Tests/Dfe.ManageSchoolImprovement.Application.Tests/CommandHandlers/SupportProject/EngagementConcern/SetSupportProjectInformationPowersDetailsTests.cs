@@ -173,8 +173,7 @@ public class SetSupportProjectInformationPowersDetailsTests
         var handler = new SetSupportProjectInformationPowersDetailsCommandHandler(_mockSupportProjectRepository.Object);
 
         // Act & Assert
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            handler.Handle(command, _cancellationToken));
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
 
         Assert.Contains($"Engagement concern with id {nonExistentEngagementConcernId} not found", exception.Message);
     }

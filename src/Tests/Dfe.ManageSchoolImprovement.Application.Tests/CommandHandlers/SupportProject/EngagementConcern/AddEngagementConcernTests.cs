@@ -111,8 +111,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Tests.CommandHandlers.SupportP
             var handler = new AddEngagementConcernCommandHandler(_mockSupportProjectRepository.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
-                handler.Handle(command, _cancellationToken));
+            var exception = await Assert.ThrowsAsync<KeyNotFoundException>(async () => await handler.Handle(command, _cancellationToken));
 
             Assert.Equal($"Support project with id {nonExistentId} not found", exception.Message);
         }

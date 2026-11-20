@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.UpdateSupportProject;
 
@@ -16,7 +16,7 @@ public class SetAdviserConflictOfInterestDetails
     public class SetAdviserConflictOfInterestDetailsHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<SetAdviserConflictOfInterestDetailsCommand, bool>
     {
-        public async Task<bool> Handle(SetAdviserConflictOfInterestDetailsCommand request,
+        public async ValueTask<bool> Handle(SetAdviserConflictOfInterestDetailsCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject =

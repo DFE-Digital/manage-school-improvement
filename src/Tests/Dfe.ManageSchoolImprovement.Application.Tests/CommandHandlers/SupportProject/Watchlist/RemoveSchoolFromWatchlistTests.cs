@@ -59,8 +59,7 @@ public class RemoveSchoolFromWatchlistTests
 
         var handler = new RemoveSchoolFromWatchlist.RemoveSchoolFromWatchlistCommandHandler(_mockWatchlistRepository.Object);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            handler.Handle(command, _cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
 
         _mockWatchlistRepository.Verify(repo => repo.RemoveAsync(It.IsAny<WatchlistEntity>(), It.IsAny<CancellationToken>()), Times.Never);
     }
@@ -83,7 +82,6 @@ public class RemoveSchoolFromWatchlistTests
 
         var handler = new RemoveSchoolFromWatchlist.RemoveSchoolFromWatchlistCommandHandler(_mockWatchlistRepository.Object);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            handler.Handle(command, _cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await handler.Handle(command, _cancellationToken));
     }
 }

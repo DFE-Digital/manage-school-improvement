@@ -1,5 +1,5 @@
 using Dfe.ManageSchoolImprovement.Domain.Common;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Dfe.ManageSchoolImprovement.Application.Common.EventHandlers
@@ -9,7 +9,7 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.EventHandlers
         : INotificationHandler<TEvent>
         where TEvent : IDomainEvent
     {
-        public virtual async Task Handle(TEvent notification, CancellationToken cancellationToken)
+        public virtual async ValueTask Handle(TEvent notification, CancellationToken cancellationToken)
         {
             try
             {
@@ -22,9 +22,9 @@ namespace Dfe.ManageSchoolImprovement.Application.Common.EventHandlers
             }
         }
 
-        protected virtual Task HandleEvent(TEvent notification, CancellationToken cancellationToken)
+        protected virtual ValueTask HandleEvent(TEvent notification, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 #pragma warning restore S2629, S2139

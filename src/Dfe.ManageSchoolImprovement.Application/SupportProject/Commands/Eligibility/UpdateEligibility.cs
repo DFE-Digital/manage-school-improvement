@@ -1,6 +1,6 @@
 using Dfe.ManageSchoolImprovement.Domain.Interfaces.Repositories;
 using Dfe.ManageSchoolImprovement.Domain.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligibility
 {
@@ -16,7 +16,7 @@ namespace Dfe.ManageSchoolImprovement.Application.SupportProject.Commands.Eligib
     public class UpdateEligibilityCommandHandler(ISupportProjectRepository supportProjectRepository)
         : IRequestHandler<UpdateEligibilityCommand, bool>
     {
-        public async Task<bool> Handle(UpdateEligibilityCommand request,
+        public async ValueTask<bool> Handle(UpdateEligibilityCommand request,
             CancellationToken cancellationToken)
         {
             var supportProject = await supportProjectRepository.FindAsync(x => x.Id == request.SupportProjectId, cancellationToken);
