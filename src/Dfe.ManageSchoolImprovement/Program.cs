@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Identity.Web;
 using System.Security.Claims;
+using Dfe.ManageSchoolImprovement.Frontend;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -135,9 +136,12 @@ builder.Services.Configure<ApplicationInsightsOptions>(config.GetSection("Applic
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ErrorService>();
 builder.Services.AddScoped<IDfeHttpClientFactory, DfeHttpClientFactory>();
-builder.Services.AddScoped<IGetEstablishment, EstablishmentService>();
-builder.Services.AddScoped<IGetTrust, TrustService>();
-builder.Services.AddScoped<IGetLocalAuthority, LocalAuthorityService>();
+//builder.Services.AddScoped<IGetEstablishment, EstablishmentService>();
+builder.Services.AddScoped<IGetEstablishment, MockEstablishmentService>();
+//builder.Services.AddScoped<IGetTrust, TrustService>();
+builder.Services.AddScoped<IGetTrust, MockTrustService>();
+//builder.Services.AddScoped<IGetLocalAuthority, LocalAuthorityService>();
+builder.Services.AddScoped<IGetLocalAuthority, MockLocalAuthorityService>();
 builder.Services.Decorate<IGetEstablishment, GetEstablishmentItemCacheDecorator>();
 builder.Services.Decorate<IGetLocalAuthority, GetLocalAuthoritiesCacheDecorator>();
 builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
@@ -157,9 +161,11 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 
 builder.Services.AddApplicationSettingsWithExistingContext<RegionalImprovementForStandardsAndExcellenceContext>(builder.Configuration);
+//builder.Services.AddPersonsApiClient<IEstablishmentsClient, EstablishmentsClient>(config);
+//builder.Services.AddPersonsApiClient<ITrustsClient, TrustsClient>(config);
 
-builder.Services.AddPersonsApiClient<IEstablishmentsClient, EstablishmentsClient>(config);
-builder.Services.AddPersonsApiClient<ITrustsClient, TrustsClient>(config);
+builder.Services.AddScoped<IEstablishmentsClient, MockEstablishmentsClient>();
+builder.Services.AddScoped<ITrustsClient, MockTrustsClient>();
 
 
 var app = builder.Build();
