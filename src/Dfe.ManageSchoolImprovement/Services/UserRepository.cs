@@ -11,7 +11,7 @@ public class UserRepository(IGraphUserService graphUserService, IHostEnvironment
         IEnumerable<Microsoft.Graph.Models.User> users = await graphUserService.GetAllUsers();
 
         var result = users
-           .Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper()}"));
+           .Select(u => new User(u.Id ?? string.Empty, u.Mail ?? string.Empty, $"{u.GivenName} {FormatSurname(u.Surname)}"));
 
         // add a test user in if in dev and test for cypress testing
         if (environment.IsStaging() || environment.IsEnvironment("Test") || environment.IsDevelopment())
@@ -26,7 +26,7 @@ public class UserRepository(IGraphUserService graphUserService, IHostEnvironment
     {
         IEnumerable<Microsoft.Graph.Models.User> users = await graphUserService.GetAllRiseAdvisers();
 
-        var result = users.Select(u => new User(u.Id, u.Mail, $"{u.GivenName} {u.Surname.ToFirstUpper().Replace("-rise", string.Empty)}"));
+        var result = users.Select(u => new User(u.Id ?? string.Empty, u.Mail ?? string.Empty, $"{u.GivenName} {FormatSurname(u.Surname).Replace("-rise", string.Empty)}"));
 
         // add a test user in if in dev and test for cypress testing
         if (environment.IsStaging() || environment.IsEnvironment("Test") || environment.IsDevelopment())
@@ -36,4 +36,8 @@ public class UserRepository(IGraphUserService graphUserService, IHostEnvironment
 
         return result;
     }
+
+    // Graph can return users without a surname; ToFirstUpper throws on null or empty input.
+    private static string FormatSurname(string? surname) =>
+        string.IsNullOrEmpty(surname) ? string.Empty : surname.ToFirstUpper();
 }

@@ -43,6 +43,28 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             Assert.Equal("Jane Smith", users.Last().FullName);
         }
 
+        [Theory]
+        [InlineData(nameof(UserRepository.GetAllUsers))]
+        [InlineData(nameof(UserRepository.GetAllRiseAdvisers))]
+        public async Task Users_without_mail_or_surname_are_still_returned(string method)
+        {
+            // Arrange: Graph omits mail and surname for some accounts (e.g. no mailbox).
+            var graphUsers = new List<Microsoft.Graph.Models.User> { new() { Id = "1", GivenName = "Ann" } };
+            _mockGraphUserService.Setup(service => service.GetAllUsers()).ReturnsAsync(graphUsers);
+            _mockGraphUserService.Setup(service => service.GetAllRiseAdvisers()).ReturnsAsync(graphUsers);
+
+            // Act
+            var users = method == nameof(UserRepository.GetAllUsers)
+                ? await _userRepository.GetAllUsers()
+                : await _userRepository.GetAllRiseAdvisers();
+
+            // Assert
+            var user = Assert.Single(users);
+            Assert.Equal("1", user.Id);
+            Assert.Equal(string.Empty, user.EmailAddress);
+            Assert.Equal("Ann ", user.FullName);
+        }
+
         [Fact]
         public async Task GetAllUsers_ReturnsEmptyList_WhenNoUsersReturned()
         {
