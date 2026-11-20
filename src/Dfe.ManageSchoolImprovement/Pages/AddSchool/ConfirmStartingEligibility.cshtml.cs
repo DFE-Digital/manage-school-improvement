@@ -8,7 +8,6 @@ using Dfe.ManageSchoolImprovement.Frontend.Services;
 using Dfe.ManageSchoolImprovement.Frontend.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Pages.AddSchool
 {

@@ -4,7 +4,7 @@ using Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 using Microsoft.Extensions.Options;
 using Microsoft.Graph;
 using Moq;
-using User = Microsoft.Graph.User;
+using User = Microsoft.Graph.Models.User;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services;
 

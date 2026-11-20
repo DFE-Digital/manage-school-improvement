@@ -1,4 +1,4 @@
-using User = Microsoft.Graph.User;
+using User = Microsoft.Graph.Models.User;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 
