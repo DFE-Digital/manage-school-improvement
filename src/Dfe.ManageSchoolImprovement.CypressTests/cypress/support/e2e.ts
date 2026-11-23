@@ -21,7 +21,7 @@ import { RuleObject } from "axe-core";
 import registerCypressGrep from '@cypress/grep';
 registerCypressGrep(); 
 
-Cypress.on('uncaught:exception', (err, runnable) => {
+Cypress.on('uncaught:exception', (err) => {
     if (err.message.includes('Invalid or unexpected token') || 
         err.message.includes('Cannot set properties of null (setting \'value\'') ||
         err.message.includes('Cannot set properties of null (setting \'onclick\'')) {

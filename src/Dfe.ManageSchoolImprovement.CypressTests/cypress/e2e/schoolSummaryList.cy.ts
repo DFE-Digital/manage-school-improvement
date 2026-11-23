@@ -5,11 +5,14 @@ import { Logger } from "cypress/common/logger";
 describe("User navigates to any Tab listed for school", () => {
     beforeEach(() => {
         cy.login();
+
         homePage
             .acceptCookies()
             .hasAddSchool()
-            .selectProjectFilter("Plymouth Grove Primary")
+            .selectFilter("Advised by", "TestFirstName TestSurname")
             .applyFilters()
+            .hasFilterSuccessNotification()
+            .resultCountNotZero()
             .selectFirstSchoolFromList()
 
         cy.executeAccessibilityTests()
@@ -38,7 +41,7 @@ describe("User navigates to any Tab listed for school", () => {
         cy.executeAccessibilityTests()
     });
 
-     it("should be able navigate to Allocate an adviser page", () => {
+    it("should be able navigate to Allocate an adviser page", () => {
         Logger.log("User navigates to Allocate an adviser page using Change link in the summery list");
 
         taskList

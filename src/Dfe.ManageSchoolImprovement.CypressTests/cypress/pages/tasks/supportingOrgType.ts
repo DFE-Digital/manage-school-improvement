@@ -10,14 +10,19 @@ class SupportingOrgType {
     return this;
   }
 
-    public withShortSOName(schoolShort: string): this {
-    cy.getById("SearchQuery").eq(0).type(schoolShort, {parseSpecialCharSequences: false });
+  public withShortSOName(schoolShort: string): this {
+    cy.get("#search input[id='SearchQuery']")
+      .should("be.visible")
+      .type(schoolShort, { parseSpecialCharSequences: false });
 
     return this;
   }
 
-    public withLongSOName(schoolLong: string): this {
-    cy.getById("SearchQuery__listbox").contains(schoolLong, { timeout: 5000 }).click();
+  public withLongSOName(schoolLong: string): this {
+    cy.get("#SearchQuery__listbox").should("be.visible");
+    cy.contains("#SearchQuery__listbox li", schoolLong)
+      .should("be.visible")
+      .click();
 
     return this;
   }

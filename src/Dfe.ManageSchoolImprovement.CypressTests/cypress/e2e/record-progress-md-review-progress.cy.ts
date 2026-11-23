@@ -45,6 +45,9 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
         Logger.log("Delete confirmation page should display on deleting the review");
         recordProgress
             .clickRecordProgressButton()
+            .clickAddReview()
+            .fillReviewDetails()
+            .anotherReviewNeeded()
 
         cy.executeAccessibilityTests()
 
@@ -60,6 +63,9 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
 
         recordProgress
             .clickRecordProgressButton()
+            .clickAddReview()
+            .fillReviewDetails()
+            .anotherReviewNeeded()
             .clickRecordProgressLink()
 
         cy.executeAccessibilityTests()
@@ -69,21 +75,24 @@ describe('Matching Decision-Review Progress: User navigate to the Record progres
             .addAdditionalComments('AdditionalDetails')
             .clickSaveButton()
 
-        cy.executeAccessibilityTests()
-
         recordProgress
             .reviewSummaryCardVisible()
             .hasMatchingDecision()
-            .clickReturnToRecordProgress()
 
         cy.executeAccessibilityTests()
 
         recordProgress
+            .clickReturnToRecordProgress()
+
+        recordProgress
             .hasStatusTagWIthoutDeleteOption('Progress recorded')
+
+        cy.executeAccessibilityTests()
+
+        recordProgress
             .clickReturnToRecordProgressTab()
             .hasSummaryCard()
 
         cy.executeAccessibilityTests()
     });
-
 });

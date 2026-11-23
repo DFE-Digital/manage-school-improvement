@@ -37,6 +37,7 @@ class WatchlistHomepage {
 
     public clickAddSchoolToWatchlistButton() {
         cy.get('a').contains('Add school to watchlist').should('exist').click();
+        cy.get('h1').should('contain.text', 'Select a school');
 
         return this;
     }
@@ -44,8 +45,13 @@ class WatchlistHomepage {
 
     public selectAndContinueAddSchoolToWatchlist(schoolName: string) {
         cy.get('h1').should('contain.text', 'Select a school');
-        cy.getById('SearchQuery').first().type(schoolName);
-        cy.getById("SearchQuery__listbox").contains(schoolName, { timeout: 5000 }).click({ force: true });
+        cy.get("#search input[id='SearchQuery']")
+            .should('be.visible')
+            .type(schoolName);
+        cy.get("#SearchQuery__listbox").should('be.visible');
+        cy.contains("#SearchQuery__listbox li", schoolName)
+            .should('be.visible')
+            .click();
         cy.getByCyData('select-common-submitbutton').should('exist').click();
 
         return this;
@@ -111,7 +117,7 @@ class WatchlistHomepage {
     public hasHelpfulLinks() {
         cy.get('h2').contains('Helpful links (links open in a new tab)');
 
-        cy.get('a').then($links => {
+        cy.get('a').then(() => {
             cy.contains('a', 'RISE delivery dashboard').should('exist');
             cy.contains('a', 'RISE data tables').should('exist');
             cy.contains('a', 'RISE monitoring report').should('exist');
@@ -138,9 +144,8 @@ class WatchlistHomepage {
 
     public hasAssignedToValue() {
         cy.get('.govuk-table tbody tr').each(($row) => {
-            cy.wrap($row).find('td').eq(2).invoke('text').then((text) => {
-                const trimmed = text.trim();
-                expect(trimmed).to.eq('TestFirstName TestLastName');
+            cy.wrap($row).find('td').eq(2).invoke('text').should((text) => {
+                expect(text.trim()).to.eq('TestFirstName TestLastName');
             });
         });
 
@@ -151,7 +156,7 @@ class WatchlistHomepage {
         cy.get('.govuk-table__header').contains(columnName).click();
 
         if (columnName === 'School' || columnName === 'Assigned to' || columnName === 'Supporting organisation' || columnName === 'Milestone' || columnName === 'Status') {
-            cy.get('.govuk-table tbody tr td:first-child').then(($cells) => {
+            cy.get('.govuk-table tbody tr td:first-child').should(($cells) => {
                 const schoolNames = [...$cells].map((cell) => (cell.textContent || '').trim());
                 const sortedNames = [...schoolNames].sort((a, b) => a.localeCompare(b));
                 expect(schoolNames).to.deep.equal(sortedNames);
@@ -159,7 +164,7 @@ class WatchlistHomepage {
         }
 
         else if (columnName === 'Date added to MSI') {
-            cy.get('.govuk-table tbody tr td:nth-child(2)').then(($cells) => {
+            cy.get('.govuk-table tbody tr td:nth-child(2)').should(($cells) => {
                 const dateValues = [...$cells].map((cell) => {
                     const rawDate = (cell.textContent || '').trim();
                     const parsed = new Date(rawDate);
@@ -200,7 +205,7 @@ class WatchlistHomepage {
         return this;
     }
 
-    public removeSchoolFromWatchlist(schoolName: string = 'Plymouth Grove Primary School') {
+    public removeSchoolFromWatchlist(_schoolName: string = 'Plymouth Grove Primary School') {
         cy.get('h1').should('contain.text', 'Remove school from watchlist');
         cy.getByCyData('remove-from-watchlist-button').should('exist').click();
         cy.get('h1').should('contain.text', 'Your school watchlist');

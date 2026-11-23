@@ -7,13 +7,18 @@ class WhichSchoolNeedsHelp {
   }
 
   public withShortSchoolName(schoolShort: string): this {
-    cy.getById("SearchQuery").eq(0).type(schoolShort, {parseSpecialCharSequences: false });
+    cy.get("#search input[id='SearchQuery']")
+      .should("be.visible")
+      .type(schoolShort, { parseSpecialCharSequences: false });
 
     return this;
   }
 
   public withLongSchoolName(schoolLong: string): this {
-    cy.getById("SearchQuery__listbox").contains(schoolLong, { timeout: 5000 }).click();
+    cy.get("#SearchQuery__listbox").should("be.visible");
+    cy.contains("#SearchQuery__listbox li", schoolLong)
+      .should("be.visible")
+      .click();
 
     return this;
   }

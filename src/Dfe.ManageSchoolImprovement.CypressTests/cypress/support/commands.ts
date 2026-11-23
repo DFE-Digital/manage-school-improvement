@@ -78,6 +78,9 @@ Cypress.Commands.add("executeAccessibilityTests", (ruleOverride?: RuleObject) =>
     if (ruleOverride) {
         ruleConfiguration = { ...ruleConfiguration, ...ruleOverride };
     }
+    cy.document().should((doc) => {
+        expect(doc.readyState).to.equal("complete");
+    });
     // Ensure that the axe dependency is available in the browser
     Logger.log("Injecting Axe and checking accessibility");
     cy.injectAxe();

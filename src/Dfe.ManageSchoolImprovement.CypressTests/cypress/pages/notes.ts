@@ -17,7 +17,8 @@ class Notes {
         return this;
     }
     public enterNote(note: string): this {
-        cy.get('[name="project-note-body"]').clear().type(note);
+        cy.get('[name="project-note-body"]').clear();
+        cy.get('[name="project-note-body"]').type(note);
 
         return this;
     }
@@ -33,8 +34,8 @@ class Notes {
                     cy.get('a').contains('Edit note').click();
                     cy.get('[name="project-note-body"]')
                         .should('be.visible')
-                        .clear()
-                        .type(newNote);
+                        .clear();
+                    cy.get('[name="project-note-body"]').type(newNote);
                     cy.get('[type="submit"]')
                         .contains('Save note')
                         .should('be.visible')

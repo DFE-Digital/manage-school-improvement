@@ -40,5 +40,5 @@
            name="@Model.Name"
            value="@Model.Value"
            type="text"
-    @(showHint ? $"aria-describedby=\"{Model.Id}-hint\"" : "")>
+           aria-describedby="@(showHint ? $"{Model.Id}-hint" : null)">
 </div>

@@ -49,10 +49,10 @@ class RecordProgress {
 
     public clickRecordProgressLink(): this {
         cy.get('h1').should('contain.text', 'Progress reviews');
-        cy.get('.moj-ticket-panel__content.moj-ticket-panel__content--blue')
-            .first()
-            .get('a').contains('Record progress').should('exist')
+        cy.contains('.moj-ticket-panel__content--blue a', 'Record progress')
+            .should('exist')
             .click();
+        cy.url().should('include', '/record-progress');
         return this;
     }
 
@@ -66,9 +66,8 @@ class RecordProgress {
     }
 
     public addAdditionalComments(id: string): this {
-        cy.get(`#${id}`)
-            .clear()
-            .type('Additional comments for the review');
+        cy.get(`#${id}`).clear();
+        cy.get(`#${id}`).type('Additional comments for the review');
 
         return this;
     }
@@ -96,11 +95,13 @@ class RecordProgress {
     }
 
     public hasMatchingDecision(): this {
-        cy.get('.moj-ticket-panel__content').first().find('p').invoke('text').then((text) => {
-            (
-                text.includes('Matching decision: Matched with a supporting organisation') ||
-                text.includes('Matching decision: Review progress')
-            )
+        cy.get('.moj-ticket-panel__content').first().find('p').invoke('text').should((text) => {
+            const normalizedText = text.replace(/\s+/g, ' ').trim();
+            expect(
+                normalizedText.includes('Matching decision: Matched with a supporting organisation') ||
+                normalizedText.includes('Matching decision: Review progress'),
+                `expected a matching decision in "${normalizedText}"`
+            ).to.equal(true);
         });
         return this;
     }
@@ -146,6 +147,7 @@ class RecordProgress {
             .within(() => {
                 cy.contains('a.govuk-link', 'Change').click()
             })
+        cy.url().should('include', '/change-an-objective');
 
         return this;
     }
@@ -155,14 +157,15 @@ class RecordProgress {
             .within(() => {
                 cy.contains('a.govuk-link', 'Delete').click()
             })
+        cy.get('h1').should('contain.text', 'Are you sure you want to delete this objective?');
+
         return this;
     }
 
     public updateObjectiveDetails(text: string): this {
         cy.url().should('include', '/change-an-objective');
-        cy.get('#ObjectiveDetails')
-            .clear()
-            .type(text)
+        cy.get('#ObjectiveDetails').clear();
+        cy.get('#ObjectiveDetails').type(text)
         cy.get('[data-cy="save-and-return-button"]').click();
         cy.get('h2').should('contain.text', 'Record progress');
 
@@ -186,6 +189,7 @@ class RecordProgress {
 
     public clickRecordProgressButton(): this {
         cy.getByCyData('record-or-view-progress-button').click();
+        cy.url().should('include', '/progress-reviews');
         return this;
     }
 
@@ -206,13 +210,17 @@ class RecordProgress {
 
     public clickAddReview(): this {
         cy.getByCyData('add-review-button').click();
+        cy.getByCyData('select-radio-adviser').should('exist');
 
         return this;
     }
     public enterDate(dateFieldId: string, day: string, month: string, year: string): this {
-        cy.getById(`${dateFieldId}-day`).clear().type(day);
-        cy.getById(`${dateFieldId}-month`).clear().type(month);
-        cy.getById(`${dateFieldId}-year`).clear().type(year);
+        cy.getById(`${dateFieldId}-day`).clear();
+        cy.getById(`${dateFieldId}-day`).type(day);
+        cy.getById(`${dateFieldId}-month`).clear();
+        cy.getById(`${dateFieldId}-month`).type(month);
+        cy.getById(`${dateFieldId}-year`).clear();
+        cy.getById(`${dateFieldId}-year`).type(year);
 
         return this;
     }
@@ -235,6 +243,7 @@ class RecordProgress {
         cy.getByCyData('select-radio-someone-else').check();
         cy.getById('CustomReviewerName').type('Richika Test');
         cy.get('[type="submit"]').contains('Save').click();
+        cy.url().should('include', '/next-review');
 
         return this;
     }
@@ -244,6 +253,8 @@ class RecordProgress {
         cy.getById('yes').check();
         this.enterDate('NextReviewDate', '12', '12', '2027');
         cy.get('[type="submit"]').contains('Save and return').click();
+        // Saving returns to the review list - anchor there before callers assert on it.
+        this.hasProgressReviewsPageLoaded();
 
         return this;
     }
@@ -274,10 +285,8 @@ class RecordProgress {
     }
 
     public hasEditReviewDetailsLink(): this {
-        cy.get('.moj-ticket-panel__content.moj-ticket-panel__content--blue').first().within(() => {
-            cy.get('a').contains('Edit review details').should('exist');
-        });
-       
+        cy.contains('.moj-ticket-panel__content--blue a', 'Edit review details').should('exist');
+
         return this;
     }
 
@@ -404,23 +413,42 @@ class RecordProgress {
 
     public recordProgressForObjective(): this {
         cy.url().should('include', '/record-progress')
-        do {
-            cy.get('.govuk-fieldset__legend.govuk-fieldset__legend--m').should('contain.text', 'Select progress rating')
-            cy.getByCyData('select-radio-red').check();
-            cy.getByCyData('progress-details-textarea').type('Test progress comments');
-            cy.getByCyData('skip-objective-link').should('exist');
-            cy.getByCyData('save-button').click();
-        } while (cy.url().should('not.include', '/overall-progress'));
+
+        const maxObjectives = 20;
+
+        const recordOne = (remaining: number): void => {
+            cy.url().then((url) => {
+                if (url.includes('/overall-progress')) {
+                    return;
+                }
+
+                if (remaining === 0) {
+                    throw new Error(
+                        `Still not on /overall-progress after ${maxObjectives} objectives (currently ${url})`
+                    );
+                }
+
+                cy.get('.govuk-fieldset__legend.govuk-fieldset__legend--m').should('contain.text', 'Select progress rating')
+                cy.getByCyData('select-radio-red').check();
+                cy.getByCyData('progress-details-textarea').type('Test progress comments');
+                cy.getByCyData('skip-objective-link').should('exist');
+                cy.getByCyData('save-button').click();
+
+                recordOne(remaining - 1);
+            });
+        };
+
+        recordOne(maxObjectives);
 
         return this;
     }
 
     public hasFirstReviewStatusAndLinksForSO(): this {
-        cy.get('.moj-ticket-panel__content').first().within(() => {
+        cy.contains('.moj-ticket-panel__content', 'Progress not recorded').first().within(() => {
             cy.get('.govuk-tag').first().should('contain.text', 'Progress not recorded');
-            cy.get('a').contains('Edit or delete review').should('exist');
-            cy.get('a').contains('Record progress').should('exist');
-            cy.root().invoke('text').then((text) => {
+            cy.contains('a', 'Edit or delete review').should('exist');
+            cy.contains('a', 'Record progress').should('exist');
+            cy.root().invoke('text').should((text) => {
                 const normalizedText = text.replace(/\s+/g, ' ').trim();
                 expect(normalizedText).to.contain('Matching decision: Match with a supporting organisation');
             });
@@ -430,21 +458,21 @@ class RecordProgress {
     }
 
     public hasStatusTagWIthDeleteOption(status: string): this {
-        cy.get('.moj-ticket-panel__content').first().within(() => {
+        cy.contains('.moj-ticket-panel__content', status).first().within(() => {
             cy.get('.govuk-tag').should('contain.text', status);
-            cy.get('a').contains('Edit or delete review').should('exist');
-            cy.get('a').contains('Record progress').should('exist');
+            cy.contains('a', 'Edit or delete review').should('exist');
+            cy.contains('a', 'Record progress').should('exist');
 
         });
 
         return this;
     }
 
-      public hasStatusTagWIthoutDeleteOption(status: string): this {
-        cy.get('.moj-ticket-panel__content').first().within(() => {
+    public hasStatusTagWIthoutDeleteOption(status: string): this {
+        cy.contains('.moj-ticket-panel__content', status).first().within(() => {
             cy.get('.govuk-tag').should('contain.text', status);
-            cy.get('a').contains('Edit review details').should('exist');
-            cy.get('a').contains('View progress review').should('exist');
+            cy.contains('a', 'Edit review details').should('exist');
+            cy.contains('a', 'View progress review').should('exist');
 
         });
 
@@ -479,10 +507,10 @@ class RecordProgress {
     }
 
     public hasStatusAndLinksForReviewProgress(): this {
-        cy.get('.moj-ticket-panel__content').first().within(() => {
+        cy.contains('.moj-ticket-panel__content', 'Progress not recorded').first().within(() => {
             cy.get('.govuk-tag').first().should('contain.text', 'Progress not recorded');
-            cy.get('a').contains('Edit or delete review').should('exist');
-            cy.get('a').contains('Record progress').should('exist');
+            cy.contains('a', 'Edit or delete review').should('exist');
+            cy.contains('a', 'Record progress').should('exist');
             cy.contains(/Matching\s+decision:\s+Review progress/).should('exist');
         });
 

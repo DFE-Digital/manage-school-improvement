@@ -1,6 +1,7 @@
 class HomePage {
   public AddSchool(): this {
     cy.contains("Add a school").click();
+    cy.url().should('include', '/select-school');
     //   cy.login({role: ProjectRecordCreator})
     return this;
   }
@@ -191,6 +192,7 @@ class HomePage {
 
   public selectSchoolName(schoolLong: string): this {
     cy.get('[data-cy^="trust-name-"]').contains(schoolLong).click();
+    cy.url().should('include', '/task-list/');
 
     return this;
   }
@@ -267,7 +269,7 @@ class HomePage {
     cy.get("[id^='region-']").each(($el, index) => {
       if (index < 10) {
         const regionText = $el.text();
-        expect(validRegions.some((r) => regionText.includes(r))).to.be.true;
+        expect(validRegions.some((r) => regionText.includes(r))).to.equal(true);
       }
     });
     return this;
@@ -423,7 +425,7 @@ class HomePage {
   public firstRecordInListShowsDetails(): this {
      cy.get('.govuk-table__cell').first().each(($row) => {
       const rowText = $row.text().replaceAll(/\s+/g, ' ').trim();
-      expect(rowText).to.not.be.empty;
+      expect(rowText).to.not.equal('');
       expect(rowText).to.include('In progress');
       expect(rowText).to.include('URN');
       expect(rowText).to.include('Region');

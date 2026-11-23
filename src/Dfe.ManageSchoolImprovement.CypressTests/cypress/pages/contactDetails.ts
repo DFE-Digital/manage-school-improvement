@@ -37,13 +37,15 @@ class ContactDetails {
     }
 
     public enterInvalidPhoneNumber(): this {
-        cy.getByName('phone').clear().type('23232323');
+        cy.getByName('phone').clear();
+        cy.getByName('phone').type('23232323');
 
         return this;
     }
 
     public editFullName(fullName: string): this {
-        cy.getByName('name').clear().type(fullName);
+        cy.getByName('name').clear();
+        cy.getByName('name').type(fullName);
         cy.getById('add-contact-button').contains('Save and return').click();
 
         return this;

@@ -1,5 +1,5 @@
 class OfstedReports {
-    public hasOfstedReport(value: string): this {
+    public hasOfstedReport(_value: string): this {
         cy.get('h2').should("be.visible");
 
         return this;
@@ -50,7 +50,7 @@ class OfstedReports {
                 .and('not.be.empty');
         }
 
-        cy.get('.govuk-summary-card__content').each(($el, index) => {
+        cy.get('.govuk-summary-card__content').each(($el) => {
             cy.wrap($el).within(() => {
                 cy.get('dd.govuk-summary-list__value').each($el => {
                     cy.wrap($el)

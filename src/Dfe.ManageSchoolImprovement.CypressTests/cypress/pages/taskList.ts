@@ -166,6 +166,7 @@ class TaskList {
   public navigateToTab(tabName: string): this {
     cy.get('.moj-sub-navigation__link')
       .contains(tabName).click();
+    cy.get('.moj-sub-navigation__link[aria-current="page"]').should('contain.text', tabName);
 
     return this;
   }
@@ -184,6 +185,8 @@ class TaskList {
 
   public hasTaskStatusInProgress(id: string) {
     cy.get(`#${id}`).contains("In Progress");
+
+    return this;
   }
 
   public hasTaskStatusCannotProgress(id: string) {
@@ -211,7 +214,8 @@ class TaskList {
   }
 
   public selectTask(taskName: string) {
-    cy.contains(taskName).click();
+    cy.contains('.govuk-task-list__name-and-hint', taskName).should('exist');
+    cy.contains('a.govuk-task-list__link', taskName).click();
 
     return this;
   }
@@ -228,41 +232,45 @@ class TaskList {
   }
 
   public assignUserToSchoolIfNotAssigned(): this {
-    if (cy.get('.govuk-summary-list__value').eq(3).contains('a')) {
-      Logger.log("Assigning user to school");
-      this.assignUserToSchool()
-      this.userAssignedSuccessMessage();
-    }
-    else {
-      Logger.log("User is already assigned to the school");
-    }
+    cy.get('.govuk-summary-list__value').eq(3).then(($value) => {
+      if ($value.find('a:contains("Assign a delivery officer")').length > 0) {
+        Logger.log("Assigning user to school");
+        this.assignUserToSchool();
+        this.userAssignedSuccessMessage();
+      }
+      else {
+        Logger.log("User is already assigned to the school");
+      }
+    });
 
     return this;
   }
 
   public allocateAdviserIfNotAllocated(): this {
-    if (cy.get('.govuk-summary-list__value').eq(4).contains('text', 'Cannot allocate an adviser yet')) {
-      Logger.log("Allocating adviser to school");
-      cy.get('.govuk-summary-list__row')
-        .contains('Advised by')
-        .parent()
-        .find('.govuk-link')
-        .contains('Change')
-        .click();
+    cy.get('.govuk-summary-list__value').eq(4).then(($value) => {
+      if ($value.text().includes('Cannot allocate an adviser yet')) {
+        Logger.log("Allocating adviser to school");
+        cy.get('.govuk-summary-list__row')
+          .contains('Advised by')
+          .parent()
+          .find('.govuk-link')
+          .contains('Change')
+          .click();
 
-      cy.url().should('include', '/allocate-adviser');
-      cy.get('h1').should('contain.text', 'Allocate adviser to school');
-      cy.getById('adviser').
-        should('exist');
-      cy.getById('adviser').click().type('TestFirstName TestSurname');
+        cy.url().should('include', '/allocate-adviser');
+        cy.get('h1').should('contain.text', 'Allocate an adviser');
+        cy.getById('adviser').
+          should('exist');
+        cy.getById('adviser').click();
+        cy.getById('adviser').type('TestFirstName TestSurname');
 
-      cy.getById('adviser').should('not.have.value', '');
-      cy.getByCyData('continue-Btn').click();
-    }
-    else {
-      Logger.log("Adviser is already allocated to the school");
-
-    }
+        cy.getById('adviser').should('not.have.value', '');
+        cy.getByCyData('continue-Btn').click();
+      }
+      else {
+        Logger.log("Adviser is already allocated to the school");
+      }
+    });
 
     return this;
   }
@@ -277,9 +285,9 @@ class TaskList {
 
     cy.url().should('include', '/assign-delivery-officer');
     cy.get('h1').should('contain.text', 'Who will work with this school?');
-    cy.getById('delivery-officer').should('exist');
-    cy.getById('delivery-officer').click().type('TestFirstName TestSurname');
-    cy.getById('delivery-officer').should('not.have.value', '');
+    cy.get('input#delivery-officer').should('be.visible').click();
+    cy.get('input#delivery-officer').type('TestFirstName TestSurname');
+    cy.get('input#delivery-officer').should('not.have.value', '');
     cy.getByCyData('continue-Btn').click();
 
     return this;
@@ -311,7 +319,7 @@ class TaskList {
       .contains('Assigned to')
       .parent()
       .find('.govuk-link')
-      .contains('Change')
+      .first()
       .click();
 
     cy.get('h1').should('contain.text', 'Who will work with this school?');
@@ -337,8 +345,13 @@ class TaskList {
     cy.get('.govuk-summary-list__row')
       .contains('Advised by')
       .parent()
+      .should('not.contain.text', 'Cannot allocate an adviser yet');
+
+    cy.get('.govuk-summary-list__row')
+      .contains('Advised by')
+      .parent()
       .find('.govuk-link')
-      .contains('Change')
+      .first()
       .click();
 
     cy.get('h1').should('contain.text', 'Allocate an adviser');
