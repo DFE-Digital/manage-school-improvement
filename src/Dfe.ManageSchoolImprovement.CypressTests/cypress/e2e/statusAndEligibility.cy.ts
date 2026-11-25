@@ -28,32 +28,6 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    // SKIPPED - this test cannot pass on any project this spec is able to run
-    // against, so it reports a permanent failure rather than telling us anything.
-    //
-    // 'No history shown' requires zero entries in the status history timeline. Every
-    // other test in this file changes the project status - Paused, then Stopped, then
-    // back to In progress - and each change writes a timeline entry. The premise is
-    // therefore destroyed by this file's own siblings: it can only hold on a project
-    // whose status has never been changed, i.e. the single run immediately after the
-    // smoke spec recreates the project, and never again afterwards.
-    //
-    // Its other assertion, hasCurrentStatus('In progress'), is already covered by the
-    // test immediately below, so no coverage is lost by taking this one out.
-    //
-    // To reinstate it, point it at a project this spec does not itself mutate, or give
-    // it a project created fresh per run - then it is a genuine check of the default
-    // status of a newly added school.
-    //
-    it.skip("newly added school should show the default status as In progress and no history shown ", () => {
-        Logger.log("Check the default status for newly added school");
-        projectStatus
-            .hasCurrentStatus('In progress')
-            .hasNoStatusHistory()
-    
-        cy.executeAccessibilityTests()
-    });
-
     it("user should not see an important banner when the project has In Progress status", () => {
         projectStatus
             .hasCurrentStatus('In progress')
