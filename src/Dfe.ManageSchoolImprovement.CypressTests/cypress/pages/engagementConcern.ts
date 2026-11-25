@@ -107,15 +107,19 @@ class EngagementConcern {
 
 
     public enterText(id: string, text: string): this {
-        cy.getById(id).clear().type(text);
+        cy.getById(id).clear();
+        cy.getById(id).type(text);
 
         return this;
     }
 
     public enterDate(dateFieldId: string, day: string, month: string, year: string): this {
-        cy.getById(`${dateFieldId}-day`).clear().type(day);
-        cy.getById(`${dateFieldId}-month`).clear().type(month);
-        cy.getById(`${dateFieldId}-year`).clear().type(year);
+        cy.getById(`${dateFieldId}-day`).clear();
+        cy.getById(`${dateFieldId}-day`).type(day);
+        cy.getById(`${dateFieldId}-month`).clear();
+        cy.getById(`${dateFieldId}-month`).type(month);
+        cy.getById(`${dateFieldId}-year`).clear();
+        cy.getById(`${dateFieldId}-year`).type(year);
 
         return this;
     }

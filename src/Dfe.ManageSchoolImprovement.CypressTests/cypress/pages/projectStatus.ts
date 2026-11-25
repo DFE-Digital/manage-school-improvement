@@ -12,29 +12,30 @@ class ProjectStatus {
     }
 
     public hasCurrentStatus(value: string): this {
-        cy.get('.govuk-summary-list__value').should('contain', value);
+        cy.contains('.govuk-summary-list__row', 'Current status')
+            .find('.govuk-summary-list__value')
+            .should('contain', value);
 
         return this;
     }
 
     public bannerDisplayedForPausedOrStoppedStatus(status: string): this {
-        if (status === 'Paused') {
-            cy.get('.govuk-notification-banner').should('contain', 'Project paused');
-            cy.get('.govuk-notification-banner').within(() => {
-                cy.get('a').contains('Change the project status and eligibility').should('exist');
-            });
-        } else if (status === 'Stopped') {
-            cy.get('.govuk-notification-banner').should('contain', 'Project stopped');
-            cy.get('.govuk-notification-banner').within(() => {
-                cy.get('a').contains('Change the project status and eligibility').should('exist');
-            });
+        if (status === 'Paused' || status === 'Stopped') {
+            const bannerText = status === 'Paused' ? 'Project paused' : 'Project stopped';
+
+            cy.contains('.govuk-notification-banner', bannerText)
+                .should('exist')
+                .within(() => {
+                    cy.contains('a', 'Change the project status and eligibility').should('exist');
+                });
         }
 
         return this;
     }
 
     public hasNoBannerForInProgressStatus(): this {
-        cy.get('.govuk-notification-banner').should('not.exist');
+        cy.contains('.govuk-notification-banner', 'Project paused').should('not.exist');
+        cy.contains('.govuk-notification-banner', 'Project stopped').should('not.exist');
 
         return this;
     }
@@ -46,6 +47,7 @@ class ProjectStatus {
     }
     public clickChangeStatusAndEligibilityButton(): this {
         cy.getByCyData('change-project-status-button').click();
+        cy.url().should('include', '/change-project-status');
 
         return this;
     }
@@ -109,15 +111,25 @@ class ProjectStatus {
     }
 
     public enterDate(dateFieldId: string, day: string, month: string, year: string): this {
-        cy.getById(`${dateFieldId}-day`).clear().type(day);
-        cy.getById(`${dateFieldId}-month`).clear().type(month);
-        cy.getById(`${dateFieldId}-year`).clear().type(year);
+        cy.getById(`${dateFieldId}-day`).clear();
+        cy.getById(`${dateFieldId}-day`).type(day);
+        cy.getById(`${dateFieldId}-month`).clear();
+        cy.getById(`${dateFieldId}-month`).type(month);
+        cy.getById(`${dateFieldId}-year`).clear();
+        cy.getById(`${dateFieldId}-year`).type(year);
 
         return this;
     }
 
     public enterDetails(id: string, details: string): this {
+        cy.getByName(id).clear();
         cy.getByName(id).type(details);
+
+        return this;
+    }
+
+    public clearDetails(id: string): this {
+        cy.getByName(id).clear();
 
         return this;
     }
@@ -162,7 +174,7 @@ class ProjectStatus {
     }
 
     public hasNoStatusHistory(): this {
-        cy.get('.moj-timeline').should('not.be.visible')
+        cy.get('.moj-timeline__item').should('not.exist');
 
         return this;
     }

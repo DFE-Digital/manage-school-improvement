@@ -87,6 +87,9 @@ class Contacts {
     }
 
     public clickContinue(): this {
+        cy.document().should((doc) => {
+            expect(doc.readyState).to.equal('complete');
+        });
         cy.get('[type="submit"]').contains('Continue').click();
 
         return this;
@@ -118,7 +121,7 @@ class Contacts {
     }
 
     public roleErrorMessage(errorMessage: string): this {
-        cy.url().should('include', '/add-contact');
+        cy.url().should('match', /\/add-contact\/\d+/);
         cy.getById('-hint-error-link').should('contain', errorMessage);
 
         return this;
@@ -134,6 +137,12 @@ class Contacts {
 
     public editContactPageVisible(): this {
         cy.get('h1').should('contain', 'Edit contact');
+
+        return this;
+    }
+
+    public onEditContactRoleStep(): this {
+        cy.url().should('match', /\/edit-contact\/\d+/);
 
         return this;
     }

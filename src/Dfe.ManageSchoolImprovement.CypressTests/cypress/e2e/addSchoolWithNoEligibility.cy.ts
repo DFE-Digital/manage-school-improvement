@@ -26,30 +26,37 @@ describe("User try to add a school which is not eligible for intervention", () =
         Logger.log("Navigating to add school page and add non eligible school");
         homePage.AddSchool();
 
+        whichSchoolNeedsHelp.hasHeader("Select school");
+
         cy.executeAccessibilityTests();
 
         whichSchoolNeedsHelp
-            .hasHeader("Select school")
             .withShortSchoolName(schoolShort)
             .withLongSchoolName(schoolLong)
             .clickContinue();
-
-        cy.executeAccessibilityTests();
 
         checkSchoolDetails
             .hasHeader("Check school details")
             .hasSchoolName(schoolLong)
             .hasURN(urn)
-            .hasLocalAuthority("Manchester")
-            .clickContinue();
+            .hasLocalAuthority("Manchester");
 
         cy.executeAccessibilityTests();
 
+        checkSchoolDetails.clickContinue();
+
         Logger.log("Selecting that the school is not eligible to start intervention");
         confirmStartingEligibility
-            .hasHeader("Is this school eligible to begin targeted intervention?")
+            .hasHeader("Is this school eligible to begin targeted intervention?");
+
+        cy.executeAccessibilityTests();
+
+        confirmStartingEligibility
             .selectEligibility(false)
             .clickContinue()
+
+        confirmStartingEligibility
+            .hasHeader("When did the school's eligibility change?");
 
         cy.executeAccessibilityTests();
     });
@@ -60,24 +67,28 @@ describe("User try to add a school which is not eligible for intervention", () =
             .eligibilityChangeDate("30/03/2026")
             .clickContinue()
 
+        confirmStartingEligibility
+            .hasHeader("Explain the reasons for the eligibility change");
+
         cy.executeAccessibilityTests();
 
         confirmStartingEligibility
-            .hasHeader("Explain the reasons for the eligibility change")
             .eligibilityChangeReason("The school has improved and is no longer eligible for intervention.")
             .clickContinue()
 
-        cy.executeAccessibilityTests();
-
-        confirmStartingEligibility
-            .checkYourAnswers()
-            .clickSaveAndComplete();
+        confirmStartingEligibility.checkYourAnswers();
 
         cy.executeAccessibilityTests();
+
+        confirmStartingEligibility.clickSaveAndComplete();
 
         Logger.log("School not eligible page should display with correct information");
         confirmStartingEligibility
             .schoolIsNotEligiblePage()
+
+        cy.executeAccessibilityTests();
+
+        confirmStartingEligibility
             .clickBackToProjectListButton()
 
         Logger.log("Not Eligible sholl should not display in the UI");
@@ -121,14 +132,14 @@ describe("User try to add a school which is not eligible for intervention", () =
             .eligibilityChangeDate("30/03/2026")
             .clickContinue()
 
+        confirmStartingEligibility
+            .hasHeader("Explain the reasons for the eligibility change");
+
         cy.executeAccessibilityTests();
 
         confirmStartingEligibility
-            .hasHeader("Explain the reasons for the eligibility change")
             .eligibilityChangeReason("The school has improved and is no longer eligible for intervention.")
             .clickContinue()
-
-        cy.executeAccessibilityTests();
 
         Logger.log("Changes date updated");
         confirmStartingEligibility

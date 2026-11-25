@@ -48,8 +48,8 @@ describe("User navigates to the Contacts Tab", () => {
             .clickAddContact()
             .selectOrganisation('organisation-type-school')
             .clickContinue()
+            .hasSchoolRolesVisible()
             .clickContinue()
-
             .roleErrorMessage(roleErrorMessage)
             .selectRoleandEnterDetails('other-job-title')
             .clickContinue()
@@ -159,6 +159,7 @@ describe("User navigates to the Contacts Tab", () => {
             .clickChangeButton()
             .editContactPageVisible()
             .clickContinue()
+            .onEditContactRoleStep()
             .clickContinue()
 
         contactDetails

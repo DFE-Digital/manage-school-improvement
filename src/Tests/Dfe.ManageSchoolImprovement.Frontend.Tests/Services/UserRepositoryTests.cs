@@ -22,7 +22,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllUsers_ReturnsMappedUsers()
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>
+            var graphUsers = new List<Microsoft.Graph.Models.User>
             {
                 new() { Id = "1", Mail = "John.Doe@education.gov.uk", GivenName = "John", Surname = "Doe" },
                 new() { Id = "2", Mail = "Jane.Smith@education.gov.uk", GivenName = "Jane", Surname = "Smith" }
@@ -43,11 +43,33 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
             Assert.Equal("Jane Smith", users.Last().FullName);
         }
 
+        [Theory]
+        [InlineData(nameof(UserRepository.GetAllUsers))]
+        [InlineData(nameof(UserRepository.GetAllRiseAdvisers))]
+        public async Task Users_without_mail_or_surname_are_still_returned(string method)
+        {
+            // Arrange: Graph omits mail and surname for some accounts (e.g. no mailbox).
+            var graphUsers = new List<Microsoft.Graph.Models.User> { new() { Id = "1", GivenName = "Ann" } };
+            _mockGraphUserService.Setup(service => service.GetAllUsers()).ReturnsAsync(graphUsers);
+            _mockGraphUserService.Setup(service => service.GetAllRiseAdvisers()).ReturnsAsync(graphUsers);
+
+            // Act
+            var users = method == nameof(UserRepository.GetAllUsers)
+                ? await _userRepository.GetAllUsers()
+                : await _userRepository.GetAllRiseAdvisers();
+
+            // Assert
+            var user = Assert.Single(users);
+            Assert.Equal("1", user.Id);
+            Assert.Equal(string.Empty, user.EmailAddress);
+            Assert.Equal("Ann ", user.FullName);
+        }
+
         [Fact]
         public async Task GetAllUsers_ReturnsEmptyList_WhenNoUsersReturned()
         {
             // Arrange
-            _mockGraphUserService.Setup(service => service.GetAllUsers()).ReturnsAsync(new List<Microsoft.Graph.User>());
+            _mockGraphUserService.Setup(service => service.GetAllUsers()).ReturnsAsync(new List<Microsoft.Graph.Models.User>());
 
             // Act
             var users = await _userRepository.GetAllUsers();
@@ -61,7 +83,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllUsers_CallsGraphUserServiceCorrectly()
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>();
+            var graphUsers = new List<Microsoft.Graph.Models.User>();
             _mockGraphUserService.Setup(service => service.GetAllUsers()).ReturnsAsync(graphUsers);
 
             // Act
@@ -75,7 +97,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllRiseAdvisers_ReturnsMappedUsers()
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>
+            var graphUsers = new List<Microsoft.Graph.Models.User>
             {
                 new() { Id = "1", Mail = "John.Doe@education.gov.uk", GivenName = "John", Surname = "Doe" },
                 new() { Id = "2", Mail = "Jane.Smith@education.gov.uk", GivenName = "Jane", Surname = "Wilson" }
@@ -100,7 +122,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllRiseAdvisers_RemovesRiseSuffixFromSurname()
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>
+            var graphUsers = new List<Microsoft.Graph.Models.User>
             {
                 new() { Id = "1", Mail = "John.Doe-rise@education.gov.uk", GivenName = "John", Surname = "doe-rise" },
                 new() { Id = "2", Mail = "Jane.Smith-rise@education.gov.uk", GivenName = "Jane", Surname = "smith-rise" }
@@ -121,7 +143,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllRiseAdvisers_HandlesCapitalizationCorrectly()
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>
+            var graphUsers = new List<Microsoft.Graph.Models.User>
             {
                 new() { Id = "1", Mail = "john.doe@education.gov.uk", GivenName = "john", Surname = "doe" },
                 new() { Id = "2", Mail = "jane.smith@education.gov.uk", GivenName = "jane", Surname = "smith-jones" }
@@ -142,7 +164,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllRiseAdvisers_ReturnsEmptyList_WhenNoUsersReturned()
         {
             // Arrange
-            _mockGraphUserService.Setup(service => service.GetAllRiseAdvisers()).ReturnsAsync(new List<Microsoft.Graph.User>());
+            _mockGraphUserService.Setup(service => service.GetAllRiseAdvisers()).ReturnsAsync(new List<Microsoft.Graph.Models.User>());
 
             // Act
             var users = await _userRepository.GetAllRiseAdvisers();
@@ -156,7 +178,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllRiseAdvisers_CallsGraphUserServiceCorrectly()
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>();
+            var graphUsers = new List<Microsoft.Graph.Models.User>();
             _mockGraphUserService.Setup(service => service.GetAllRiseAdvisers()).ReturnsAsync(graphUsers);
 
             // Act
@@ -197,7 +219,7 @@ namespace Dfe.ManageSchoolImprovement.Frontend.Tests.Services
         public async Task GetAllRiseAdvisers_HandlesDifferentNameCombinations(string givenName, string surname, string expectedFullName)
         {
             // Arrange
-            var graphUsers = new List<Microsoft.Graph.User>
+            var graphUsers = new List<Microsoft.Graph.Models.User>
             {
                 new() { Id = "1", Mail = "test@education.gov.uk", GivenName = givenName, Surname = surname }
             };

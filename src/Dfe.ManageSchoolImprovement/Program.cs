@@ -153,8 +153,14 @@ builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>()
 builder.Services.AddApplicationDependencyGroup(builder.Configuration);
 builder.Services.AddInfrastructureDependencyGroup(builder.Configuration);
 
-builder.Services.AddApplicationInsightsTelemetry();
-
+// Application Insights 3.x throws at start-up without a connection string (2.x silently ran without telemetry).
+// Register it only when one is configured, e.g. not in local development or tests.
+var appInsightsEnabled = !string.IsNullOrWhiteSpace(config["ApplicationInsights:ConnectionString"])
+    || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"));
+if (appInsightsEnabled)
+{
+    builder.Services.AddApplicationInsightsTelemetry();
+}
 
 builder.Services.AddApplicationSettingsWithExistingContext<RegionalImprovementForStandardsAndExcellenceContext>(builder.Configuration);
 
@@ -163,6 +169,11 @@ builder.Services.AddPersonsApiClient<ITrustsClient, TrustsClient>(config);
 
 
 var app = builder.Build();
+
+if (!appInsightsEnabled)
+{
+    app.Logger.LogWarning("Application Insights is not configured (no connection string); server telemetry is disabled.");
+}
 
 var forwardOptions = new ForwardedHeadersOptions
 {

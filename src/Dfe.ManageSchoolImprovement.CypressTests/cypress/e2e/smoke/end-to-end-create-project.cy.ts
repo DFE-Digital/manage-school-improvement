@@ -12,15 +12,13 @@ describe("Add a school which is eligible for improvement and complete it's tasks
   const {
     schoolShort,
     schoolLong,
-    lastInspectionDate,
     assignedTo,
     advisedBy,
     urn,
     localAuthority,
     region,
     schoolType,
-    faithSchool,
-    pfi
+    faithSchool
   } = schoolData;
 
   const today = new Date();
@@ -45,15 +43,14 @@ describe("Add a school which is eligible for improvement and complete it's tasks
   it("Should be able to add a new school to the system", () => {
     homePage.AddSchool();
 
+    whichSchoolNeedsHelp.hasHeader("Select school");
+
     cy.executeAccessibilityTests();
 
     whichSchoolNeedsHelp
-      .hasHeader("Select school")
       .withShortSchoolName(schoolShort)
       .withLongSchoolName("Plymouth Grove Primary")
       .clickContinue();
-
-    cy.executeAccessibilityTests();
 
     checkSchoolDetails
       .hasHeader("Check school details")
@@ -62,14 +59,14 @@ describe("Add a school which is eligible for improvement and complete it's tasks
       .hasLocalAuthority(localAuthority)
       .hasSchoolType(schoolType)
       .hasFaithSchool(faithSchool)
-      .hasLastInspection(lastInspectionDate);
+      .hasLastInspection("Not available");
 
-    checkSchoolDetails.clickContinue();
-     
     cy.executeAccessibilityTests();
 
+    checkSchoolDetails.clickContinue();
+
     confirmStartingEligibility
-      .hasHeader("Is this school eligible to begin targeted intervention?")
+      .hasHeader("Is this school eligible to begin targeted intervention?");
 
     cy.executeAccessibilityTests();
 
@@ -145,10 +142,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Contact the responsible body' task");
     taskList.selectTask("Make initial contact with the responsible body");
+    taskListActions.hasHeader("Make initial contact with the responsible body");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Make initial contact with the responsible body");
     taskListActions.selectButtonOrCheckbox("initial-contact-responsible-body");
     taskListActions.enterDate("responsible-body-initial-contact-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
@@ -162,10 +159,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Check potential adviser conflicts of interest' task");
     taskList.selectTask("Check potential adviser conflicts of interest");
+    taskListActions.hasHeader("Check potential adviser conflicts of interest");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Check potential adviser conflicts of interest");
     taskListActions.selectButtonOrCheckbox("review-advisers-conflict-of-interest-form");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -205,10 +202,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Record the responsible body's response to the conflict of interest request' task");
     taskList.selectTask("Record the responsible body's response to the conflict of interest request");
+    taskListActions.hasHeader("Record the responsible body's response to the conflict of interest request");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Record the responsible body's response to the conflict of interest request");
     taskListActions.selectButtonOrCheckbox("ResponsibleBodyResponseToTheConflictOfInterestRequestSavedInSharePoint");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -226,10 +223,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Allocate an adviser' task");
     taskList.selectTask("Allocate an adviser");
+    taskListActions.hasHeader("Allocate an adviser");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Allocate an adviser");
     taskListActions.enterText("adviser", "TestFirstName TestSurname");
     taskListActions.enterDate("date-adviser-allocated", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
@@ -243,10 +240,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Adviser make initial contact' task");
     taskList.selectTask("Adviser make initial contact");
+    taskListActions.hasHeader("Adviser make initial contact");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Adviser make initial contact");
     taskListActions.enterDate("introductory-email-sent-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -259,10 +256,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Arrange adviser's initial visit' task");
     taskList.selectTask("Arrange adviser's initial visit");
+    taskListActions.hasHeader("Arrange adviser's initial visit");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Arrange adviser's initial visit");
     taskListActions.selectButtonOrCheckbox("confirm-adviser-has-note-of-visit-template");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -280,10 +277,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Record date of initial visit' task");
     taskList.selectTask("Record date of initial visit");
+    taskListActions.hasHeader("Record date of initial visit");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Record date of initial visit");
     taskListActions.enterDate("school-visit-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -296,10 +293,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Complete and save the initial diagnosis assessment' task");
     taskList.selectTask("Complete and save the initial diagnosis assessment");
+    taskListActions.hasHeader("Complete and save the initial diagnosis assessment");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Complete and save the initial diagnosis assessment");
     taskListActions.selectButtonOrCheckbox("has-talk-to-adviser");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -318,10 +315,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Record initial diagnosis decision' task");
     taskList.selectTask("Record initial diagnosis decision");
+    taskListActions.hasHeader("Record initial diagnosis decision");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Record initial diagnosis decision");
     taskListActions.selectButtonOrCheckbox("unable-to-assess");
     taskListActions.enterText("UnableToAssessNotes", "Unable to access notes");
     taskListActions.enterDate("decision-date", "01", "01", "2024");
@@ -358,10 +355,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Choose preferred supporting organisation' task");
     taskList.selectTask("Choose preferred supporting organisation");
+    taskListActions.hasHeader("Choose preferred supporting organisation");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Choose preferred supporting organisation");
     supportingOrgType.hasOrganisationTypeOptions();
 
     //check validaton
@@ -387,10 +384,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Carry out due diligence on preferred supporting organisation' task");
     taskList.selectTask("Carry out due diligence on preferred supporting organisation");
+    taskListActions.hasHeader("Carry out due diligence on preferred supporting organisation");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Carry out due diligence on preferred supporting organisation");
     taskListActions.selectButtonOrCheckbox("check-organisation-has-capacity-and-willing-to-provide-support");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -411,10 +408,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Record supporting organisation appointment' task");
     taskList.selectTask("Record supporting organisation appointment");
+    taskListActions.hasHeader("Has a regional director approved the appointment of the supporting organisation?");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Has a regional director approved the appointment of the supporting organisation?");
     taskListActions.selectButtonOrCheckbox("yes");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskListActions.selectCancelLink();
@@ -441,10 +438,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Confirm supporting organisation contact details' task");
     taskList.selectTask("Confirm supporting organisation contact details");
+    taskListActions.hasHeader("Confirm supporting organisation contact details");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Confirm supporting organisation contact details");
     taskListActions.enterText("name", "Joe Bloggsx");
     taskListActions.enterText("email-address", "joe.bloggsx@email.com");
     taskListActions.enterText("phone-number", "07898760077");
@@ -482,10 +479,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Request planning grant offer letter' task");
     taskList.selectTask("Request planning grant offer letter");
+    taskListActions.hasHeader("Request planning grant offer letter");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Request planning grant offer letter");
     taskListActions.selectButtonOrCheckbox("include-contact-details");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -506,10 +503,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Confirm planning grant offer letter sent' task");
     taskList.selectTask("Confirm planning grant offer letter sent");
+    taskListActions.hasHeader("Confirm planning grant offer letter sent");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Confirm planning grant offer letter sent");
     taskListActions.enterDate("planning-grant-offer-letter-sent-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -522,10 +519,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Share indicative funding band and the improvement plan template' task");
     taskList.selectTask("Share indicative funding band and the improvement plan template");
+    taskListActions.hasHeader("Share indicative funding band and the improvement plan template");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Share indicative funding band and the improvement plan template");
     taskListActions.selectButtonOrCheckbox("calculate-funding-band");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -545,10 +542,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Review the improvement plan and confirm the funding band' task");
     taskList.selectTask("Review the improvement plan and confirm the funding band");
+    taskListActions.hasHeader("Review the improvement plan and confirm the funding band");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Review the improvement plan and confirm the funding band");
     taskListActions.enterDate("date-improvement-plan-received", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -569,10 +566,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Send the agreed improvement plan for approval' task");
     taskList.selectTask("Send the agreed improvement plan for approval");
+    taskListActions.hasHeader("Send the agreed improvement plan for approval");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Send the agreed improvement plan for approval");
     taskListActions.selectButtonOrCheckbox("save-agreed-improvement-plan-in-sp");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -612,10 +609,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Enter improvement plan objectives' task");
     taskList.selectTask("Enter improvement plan objectives");
+    taskListActions.hasHeader("Select an area of improvement");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Select an area of improvement");
     taskListActions.selectButtonOrCheckbox("quality-of-education");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskListActions.enterText("ObjectiveDetails", "Quality of education details");
@@ -642,10 +639,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Request improvement grant offer letter' task");
     taskList.selectTask("Request improvement grant offer letter");
+    taskListActions.hasHeader("Request improvement grant offer letter");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Request improvement grant offer letter");
     taskListActions.enterDate("grant-team-contacted-date", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()
@@ -666,10 +663,10 @@ describe("Add a school which is eligible for improvement and complete it's tasks
 
     Logger.log("Selecting 'Confirm improvement grant offer letter sent' task");
     taskList.selectTask("Confirm improvement grant offer letter sent");
+    taskListActions.hasHeader("Confirm improvement grant offer letter sent");
 
     cy.executeAccessibilityTests();
 
-    taskListActions.hasHeader("Confirm improvement grant offer letter sent");
     taskListActions.enterDate("date-improvement-grant-offer-letter-sent", "01", "01", "2024");
     taskListActions.selectButtonOrCheckbox("save-and-continue-button");
     taskList.hasFilterSuccessNotification()

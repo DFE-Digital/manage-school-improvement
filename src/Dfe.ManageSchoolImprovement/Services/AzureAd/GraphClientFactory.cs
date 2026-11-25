@@ -1,8 +1,8 @@
-using System.Net.Http.Headers;
 using Dfe.ManageSchoolImprovement.Frontend.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using Microsoft.Kiota.Abstractions.Authentication;
 
 namespace Dfe.ManageSchoolImprovement.Frontend.Services.AzureAd;
 
@@ -10,19 +10,38 @@ public class GraphClientFactory(IOptions<AzureAdOptions> azureAdOptions) : IGrap
 {
     private readonly AzureAdOptions _azureAdOptions = azureAdOptions.Value;
 
-    public GraphServiceClient Create()
+    /// <summary>Test hook: lets tests replace MSAL's HTTP calls to Entra ID. Null in production.</summary>
+    internal IMsalHttpClientFactory? MsalHttpClientFactory { get; init; }
+
+    public GraphServiceClient Create() =>
+        new(new BaseBearerTokenAuthenticationProvider(CreateTokenProvider()), $"{_azureAdOptions.ApiUrl}/V1.0");
+
+    internal IAccessTokenProvider CreateTokenProvider()
     {
-        IConfidentialClientApplication app = ConfidentialClientApplicationBuilder.Create(_azureAdOptions.ClientId.ToString())
+        var builder = ConfidentialClientApplicationBuilder.Create(_azureAdOptions.ClientId.ToString())
             .WithClientSecret(_azureAdOptions.ClientSecret)
-            .WithAuthority(new Uri(_azureAdOptions.Authority))
-            .Build();
+            .WithAuthority(new Uri(_azureAdOptions.Authority));
 
-        DelegateAuthenticationProvider provider = new(async requestMessage =>
+        if (MsalHttpClientFactory is not null)
         {
-            AuthenticationResult result = await app.AcquireTokenForClient(_azureAdOptions.Scopes).ExecuteAsync();
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
-        });
+            builder = builder.WithHttpClientFactory(MsalHttpClientFactory);
+        }
 
-        return new GraphServiceClient($"{_azureAdOptions.ApiUrl}/V1.0/", provider);
+        return new ClientCredentialsTokenProvider(builder.Build(), _azureAdOptions.Scopes);
+    }
+
+    /// <summary>Acquires an app-only token with MSAL, exactly as the Graph v4 DelegateAuthenticationProvider did.</summary>
+    private sealed class ClientCredentialsTokenProvider(IConfidentialClientApplication app, IEnumerable<string> scopes)
+        : IAccessTokenProvider
+    {
+        public AllowedHostsValidator AllowedHostsValidator { get; } = new();
+
+        public async Task<string> GetAuthorizationTokenAsync(Uri uri,
+            Dictionary<string, object>? additionalAuthenticationContext = null,
+            CancellationToken cancellationToken = default)
+        {
+            AuthenticationResult result = await app.AcquireTokenForClient(scopes).ExecuteAsync(cancellationToken);
+            return result.AccessToken;
+        }
     }
 }

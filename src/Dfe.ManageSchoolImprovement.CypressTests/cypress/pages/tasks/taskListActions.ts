@@ -124,19 +124,23 @@ class TaskListActions {
     }
 
     public hasDisplayedImportantBanner(infoText: string): this {
-        cy.get('.govuk-notification-banner__content').invoke('text').then((text) => {
-            const normalizedText = text.replaceAll(/\s+/g, ' ').trim();
-            expect(normalizedText).to.contain(infoText);
-        });
+        cy.get('.govuk-notification-banner__content')
+            .invoke('text')
+            .should((text) => {
+                const normalizedText = text.replaceAll(/\s+/g, ' ').trim();
+                expect(normalizedText).to.contain(infoText);
+            });
 
         return this;
     }
 
     public hasDisplayedImportantInfo(infoText: string): this {
-        cy.get('.govuk-inset-text').invoke('text').then((text) => {
-            const normalizedText = text.replaceAll(/\s+/g, ' ').trim();
-            expect(normalizedText).to.contain(infoText);
-        });
+        cy.get('.govuk-inset-text')
+            .invoke('text')
+            .should((text) => {
+                const normalizedText = text.replaceAll(/\s+/g, ' ').trim();
+                expect(normalizedText).to.contain(infoText);
+            });
 
         return this;
     }
@@ -159,6 +163,7 @@ class TaskListActions {
     }
 
     public addAndDeleteObjective(): this {
+        cy.url().should('include', '/task-list/improvement-plan/');
         cy.getByCyData('page-heading').invoke('text').then((headingText) => {
             if (headingText.trim() === 'Review objectives') {
                 this.deleteObjectiveSuccessfully();
@@ -173,7 +178,14 @@ class TaskListActions {
     }
 
     public addObjective(): this {
-        cy.url().should('include', '/improvement-plan/select-an-area-of-improvement');        
+        cy.url().should('include', '/task-list/improvement-plan/');
+        cy.url().then((url) => {
+            if (!url.includes('/improvement-plan/select-an-area-of-improvement')) {
+                cy.getByCyData('add-another-objective-button').click();
+            }
+        });
+
+        cy.url().should('include', '/improvement-plan/select-an-area-of-improvement');
         cy.getById('quality-of-education').click();
         cy.getById('save-and-continue-button').click();
         cy.getByCyData('objective-details-textarea').type('New objective details');
