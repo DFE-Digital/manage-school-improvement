@@ -28,7 +28,7 @@ describe("User navigates to the Status and Eligibility Tab", () => {
         cy.executeAccessibilityTests()
     });
 
-    // COMMENTED OUT - this test cannot pass on any project this spec is able to run
+    // SKIPPED - this test cannot pass on any project this spec is able to run
     // against, so it reports a permanent failure rather than telling us anything.
     //
     // 'No history shown' requires zero entries in the status history timeline. Every
@@ -45,14 +45,14 @@ describe("User navigates to the Status and Eligibility Tab", () => {
     // it a project created fresh per run - then it is a genuine check of the default
     // status of a newly added school.
     //
-    // it("newly added school should show the default status as In progress and no history shown ", () => {
-    //     Logger.log("Check the default status for newly added school");
-    //     projectStatus
-    //         .hasCurrentStatus('In progress')
-    //         .hasNoStatusHistory()
-    //
-    //     cy.executeAccessibilityTests()
-    // });
+    it.skip("newly added school should show the default status as In progress and no history shown ", () => {
+        Logger.log("Check the default status for newly added school");
+        projectStatus
+            .hasCurrentStatus('In progress')
+            .hasNoStatusHistory()
+    
+        cy.executeAccessibilityTests()
+    });
 
     it("user should not see an important banner when the project has In Progress status", () => {
         projectStatus
