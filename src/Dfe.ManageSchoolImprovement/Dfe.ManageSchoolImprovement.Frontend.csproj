@@ -46,7 +46,7 @@
         <PackageReference Include="Sentry.Serilog" Version="3.28.0" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
         <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
-        <PackageReference Include="Azure.Identity" Version="1.17.0" />
+        <PackageReference Include="Azure.Identity" Version="1.17.2" />
         <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rvv3-g6hj-g44x" />
     </ItemGroup>
     
